@@ -3,22 +3,25 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostListener,
+  inject,
   computed,
   input,
   signal,
 } from '@angular/core';
+import { Router } from '@angular/router';
 
 export type LmMenuItem = {
   label: string;
   checked?: boolean;
   external?: boolean;
+  redirectTo?: string;
 };
 
 const DEFAULT_MENU: LmMenuItem[] = [
   { label: 'Home' },
   { label: 'My trips', checked: true },
-  { label: 'Personal Data', checked: true },
-  { label: 'My elite status', external: true },
+  { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?tab=Personal%20Data' },
+  { label: 'My elite status', external: true, redirectTo: '/avianca-home?tab=My%20Trips' },
   { label: 'Book a flight with LM', external: true },
 ];
 
@@ -102,6 +105,7 @@ const DEFAULT_MENU: LmMenuItem[] = [
                   type="button"
                   role="menuitem"
                   *ngFor="let item of items(); trackBy: trackByLabel"
+                  (click)="redirectTo(item.redirectTo)"
                 >
                   <span class="lm-dd-label">{{ item.label }}</span>
 
@@ -277,6 +281,8 @@ export class MainHeaderComponent {
   // UI state
   open = signal(false);
 
+  private router = inject(Router);
+
   // Always returns a non-empty array if nothing is provided
   items = computed(() => {
     const v = this.menuItems();
@@ -302,5 +308,11 @@ export class MainHeaderComponent {
 
   trackByLabel(_: number, item: LmMenuItem) {
     return item.label;
+  }
+
+  public redirectTo(url?: string) {
+    if (url) {
+      this.router.navigateByUrl(url);
+    }
   }
 }
