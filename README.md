@@ -6,7 +6,7 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 
 ## 🚀 Features
 
-* ✨ Dynamic architecture driven by configuration (`siteConfig`)
+* ✨ Dynamic architecture driven by configuration (`siteConfig endpoint`)
 * 📄 Page composition via reusable components
 * 📍 Dynamic routing based on JSON config
 * 🎯 Visual components styled with Bootstrap 5
@@ -22,7 +22,7 @@ src/
 │   ├── site-config.ts           # Declarative site structure
 │   ├── dynamic-page.component.ts# Renders each page dynamically
 │   ├── component-map.ts         # Maps component names to Angular components
-│   ├── components/
+│   ├── fake-blocks-components/
 │   │   ├── header.component.ts
 │   │   ├── banner.component.ts
 │   │   ├── search.component.ts
