@@ -9,7 +9,7 @@ import {
   model,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DsDynamicBlocksComponent } from './dynamic-blocks.component';
+import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
 
 export type CmsTabContract = {
   id?: string;
@@ -58,6 +58,10 @@ export type CmsTabContract = {
       padding-top: .5rem;
       flex-wrap: wrap;
       background: #f7f7f7;
+      margin-right: auto;
+      margin-left: auto;
+      width: 1100px;
+      // width: calc(100% - 300px);
     }
 
     .ds-tab {
@@ -76,6 +80,10 @@ export type CmsTabContract = {
     .ds-tab-panel {
       padding: .5rem;
       background: #f7f7f7;
+      margin-right: auto;
+      margin-left: auto;
+      width: 1100px;
+      // width: calc(100% - 300px);
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush,
