@@ -45,11 +45,7 @@
                     "components": [
                       {
                         "component": "findBookings_uiplus",
-                        "span": 12,
-                        "config": {
-                          "checkinUrl": "",
-                          "mmbUlr": ""
-                        }
+                        "span": 12
                       }
                     ]
                   },

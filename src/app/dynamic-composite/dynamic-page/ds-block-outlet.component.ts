@@ -12,7 +12,7 @@ import { componentMap } from '../../component-map';
     </ng-container>
 
     <ng-template #missing>
-      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;">
+      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;width: 1100px;">
         Missing component: <b>{{ block()?.component }}</b>
       </div>
     </ng-template>

@@ -47,7 +47,6 @@ export type CmsTabContract = {
       [attr.id]="tabPanelId(tab.id)"
       [attr.aria-labelledby]="tabButtonId(tab.id)"
     >
-      <!-- Aquí va el render dinámico de los componentes del tab -->
       <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
     </section>
   `,
