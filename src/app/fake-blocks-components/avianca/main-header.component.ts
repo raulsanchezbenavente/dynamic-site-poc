@@ -10,18 +10,18 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 
-export type LmMenuItem = {
+export type HeaderMenuItem = {
   label: string;
   checked?: boolean;
   external?: boolean;
   redirectTo?: string;
 };
 
-const DEFAULT_MENU: LmMenuItem[] = [
+const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'Home' },
-  { label: 'My trips', checked: true },
   { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?tab=Personal%20Data' },
-  { label: 'My elite status', external: true, redirectTo: '/avianca-home?tab=My%20Trips' },
+  { label: 'My trips', checked: true , redirectTo: '/avianca-home?tab=My%20Trips' },
+  { label: 'My elite status', external: true },
   { label: 'Book a flight with LM', external: true },
 ];
 
@@ -276,7 +276,7 @@ export class MainHeaderComponent {
   userMiles = input<string>('600,700');
 
   // ✅ Items por defecto hardcoded pero overrideable desde JSON/inputs
-  menuItems = input<LmMenuItem[] | null | undefined>(DEFAULT_MENU);
+  menuItems = input<HeaderMenuItem[] | null | undefined>(DEFAULT_MENU);
 
   // UI state
   open = signal(false);
@@ -306,7 +306,7 @@ export class MainHeaderComponent {
     this.open.update(v => !v);
   }
 
-  trackByLabel(_: number, item: LmMenuItem) {
+  trackByLabel(_: number, item: HeaderMenuItem) {
     return item.label;
   }
 
