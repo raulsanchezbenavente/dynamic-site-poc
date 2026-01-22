@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
   selector: 'pb-payment-methods',

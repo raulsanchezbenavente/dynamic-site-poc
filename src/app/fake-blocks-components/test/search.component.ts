@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 declare const flatpickr: any;
 

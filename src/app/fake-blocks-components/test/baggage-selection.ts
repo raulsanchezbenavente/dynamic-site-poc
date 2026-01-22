@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
   selector: 'pb-baggage-selection',
@@ -44,7 +44,7 @@ import { BookingProgressService } from '../services/booking-progress/booking-pro
 export class BaggageSelectionComponent {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
-  
+
   public baggageOptions = [
     {
       id: 'cabin',

@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
   selector: 'pb-results',
@@ -37,7 +37,7 @@ import { BookingProgressService } from '../services/booking-progress/booking-pro
 export class ResultsComponent {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
-  
+
   public flights = [
     { origin: 'New York (JFK)', destination: 'London (LHR)', departure: '08:30', arrival: '20:15', duration: '7h 45m', class: 'Economy', price: '$499' },
     { origin: 'Madrid (MAD)', destination: 'Tokyo (NRT)', departure: '12:00', arrival: '06:20 +1', duration: '14h 20m', class: 'Business', price: '$1299' },
