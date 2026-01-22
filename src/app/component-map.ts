@@ -11,6 +11,8 @@ import { PaymentSuccessComponent } from './fake-blocks-components/payment-succes
 import { Type } from '@angular/core';
 import { ExplanationComponent } from './fake-blocks-components/explanation.component';
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
+import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card.component';
+import { MainHeaderComponent } from './fake-blocks-components/avianca/main-banner.component';
 
 export const componentMap: Record<string, Type<any>> = {
   login: CustomerLoginComponent,
@@ -25,5 +27,7 @@ export const componentMap: Record<string, Type<any>> = {
   'payment-success': PaymentSuccessComponent,
   'explanation': ExplanationComponent,
   tabs: DsTabsComponent,
+  loyaltyOverviewCard_uiplus: LoyaltyOverviewCardComponent,
+  CorporateMainHeaderBlock_uiplus: MainHeaderComponent
 };
 
