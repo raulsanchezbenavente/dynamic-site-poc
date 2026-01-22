@@ -18,7 +18,7 @@ export type HeaderMenuItem = {
 };
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
-  { label: 'Home' },
+  { label: 'Home', redirectTo: '/home' },
   { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?tab=Personal%20Data' },
   { label: 'My trips', checked: true , redirectTo: '/avianca-home?tab=My%20Trips' },
   { label: 'My elite status', external: true },
