@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
-import { componentMap } from '../component-map';
-import { SiteConfigService } from '../services/site-config/site-config.service';
+import { componentMap } from '../../component-map';
+import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { DsBlockOutletComponent } from './ds-block-outlet.component';
 
 type PageLayoutCol = {

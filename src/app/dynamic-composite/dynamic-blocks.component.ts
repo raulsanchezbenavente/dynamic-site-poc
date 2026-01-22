@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { componentMap } from '../../component-map';
+import { componentMap } from '../../../component-map';
 import { DsBlockOutletComponent } from '../ds-block-outlet.component';
 
 @Component({

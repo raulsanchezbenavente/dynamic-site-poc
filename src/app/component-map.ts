@@ -10,7 +10,7 @@ import { PaymentMethodsComponent } from './fake-blocks-components/payment-method
 import { PaymentSuccessComponent } from './fake-blocks-components/payment-success.component';
 import { Type } from '@angular/core';
 import { ExplanationComponent } from './fake-blocks-components/explanation.component';
-import { DsTabsComponent } from './dynamic-page/tabs/tabs.component';
+import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
 
 export const componentMap: Record<string, Type<any>> = {
   login: CustomerLoginComponent,

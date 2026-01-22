@@ -3,7 +3,7 @@ import { Router, RouterOutlet } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 import { ProgressAsynGuard } from './guards/progress-async.guard';
-import { DynamicPageComponent } from './dynamic-page/dynamic-page.component';
+import { DynamicPageComponent } from './dynamic-composite/dynamic-page/dynamic-page.component';
 import { SiteConfigService } from './services/site-config/site-config.service';
 
 @Component({
