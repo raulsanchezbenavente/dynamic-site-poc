@@ -67,7 +67,7 @@
           {
             "cols": [
               {
-                "component": "main-footer",
+                "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12
               }
             ]
