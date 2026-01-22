@@ -9,6 +9,10 @@ export class ProgressAsynGuard implements CanActivate {
         const path = route.routeConfig?.path;
         const token = localStorage.getItem('BOOKING_PROCESS');
 
+        if (path === 'home' || path === 'avianca-home') {
+            return true;
+        }
+
         if (!path || !token) {
             this.router.navigate(['/']);
             return false;
