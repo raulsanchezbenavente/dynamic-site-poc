@@ -1,0 +1,219 @@
+{
+  "pages": [
+    {
+      "path": "home",
+      "name": "Home",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "banner", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "tabs",
+                "span": 12,
+                "tabs": [
+                  {
+                    "name": "Personal Data",
+                    "title": "Personal Data",
+                    "secondaryText": "",
+                    "components": [
+                      {
+                        "component": "accountProfile_uiplus",
+                        "span": 12,
+                        "config": {}
+                      }
+                    ]
+                  },
+                  {
+                    "name": "My Trips",
+                    "title": "My trips",
+                    "secondaryText": "",
+                    "components": [
+                      {
+                        "component": "findBookings_uiplus",
+                        "span": 12,
+                        "config": {
+                          "checkinUrl": "",
+                          "mmbUlr": ""
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Elite status",
+                    "title": "Elite status",
+                    "secondaryText": "",
+                    "components": [
+                      {
+                        "component": "footer",
+                        "span": 12
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "search", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "login",
+      "name": "Login",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "login", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "results",
+      "name": "Flight Results",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "results", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "baggage-selection",
+      "name": "Baggage Selection",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "baggage-selection", "span": 8 },
+              { "component": "explanation", "span": 4 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "seatmap",
+      "name": "Seat Selection",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "seatmap", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "payment",
+      "name": "Payment",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "payment-methods", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "payment-success",
+      "name": "Booking Confirmed",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              { "component": "header", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "payment-success", "span": 12 }
+            ]
+          },
+          {
+            "cols": [
+              { "component": "footer", "span": 12 }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

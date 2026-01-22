@@ -1,0 +1,15 @@
+.page {
+    margin: 0;
+    padding: 0;
+}
+
+.row-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0;
+    margin-bottom: 0;
+}
+
+.col {
+    min-width: 0;
+}
