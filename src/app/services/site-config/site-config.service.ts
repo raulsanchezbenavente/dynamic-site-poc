@@ -13,9 +13,9 @@ export class SiteConfigService {
   load(): Observable<any> {
     return this.http.get<any>(
       document.location.port === '4200' ?
-        'http://localhost:3000/assets/site.json'
+        'http://localhost:3000/assets/config-site.json'
         :
-        '/assets/site.json').pipe(
+        '/assets/config-site.json').pipe(
       tap((site) => this._site$.next(site))
     );
   }
