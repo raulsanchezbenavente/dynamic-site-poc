@@ -7,12 +7,12 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              { "component": "CorporateMainHeaderBlock_uiplus", "span": 12 }
             ]
           },
           {
             "cols": [
-              { "component": "banner", "span": 12 }
+              { "component": "loyaltyOverviewCard_uiplus", "span": 12 }
             ]
           },
           {
