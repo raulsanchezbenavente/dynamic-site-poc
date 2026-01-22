@@ -13,10 +13,10 @@ export type LmTripCard = {
   arrivalTime: string;       // "05:25"
   arrivalCode: string;       // "BOG"
 
-  directText: string;        // "[ES] Direct"
+  directText: string;        // "Direct"
   durationText: string;      // "1h 5m"
   operatedByText: string;    // "Operado por Avianca"
-  ctaText: string;           // "[ES] Start check-in"
+  ctaText: string;           // "Start check-in"
 };
 
 @Component({
@@ -284,7 +284,7 @@ export type LmTripCard = {
   `],
 })
 export class FindBookingsComponent {
-  title = input<string>('[ES] Upcoming Trips');
+  title = input<string>('Upcoming Trips');
 
   trips = input<LmTripCard[]>([
     {
@@ -296,10 +296,10 @@ export class FindBookingsComponent {
       departureCode: 'MDE',
       arrivalTime: '05:25',
       arrivalCode: 'BOG',
-      directText: '[ES] Direct',
+      directText: 'Direct',
       durationText: '1h 5m',
       operatedByText: 'Operado por Avianca',
-      ctaText: '[ES] Start check-in',
+      ctaText: 'Start check-in',
     },
     {
       fromCity: 'Barcelona',
@@ -310,10 +310,10 @@ export class FindBookingsComponent {
       departureCode: 'BCN',
       arrivalTime: '17:45',
       arrivalCode: 'BOG',
-      directText: '[ES] Direct',
+      directText: 'Direct',
       durationText: '4h 55m',
       operatedByText: 'Operado por Avianca',
-      ctaText: '[ES] Start check-in',
+      ctaText: 'Start check-in',
     },
   ]);
 

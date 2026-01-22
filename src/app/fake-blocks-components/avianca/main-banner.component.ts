@@ -15,11 +15,11 @@ export type LmMenuItem = {
 };
 
 const DEFAULT_MENU: LmMenuItem[] = [
-  { label: '[ES] Home' },
-  { label: '[ES] My trips', checked: true },
-  { label: '[ES] Personal Data', checked: true },
-  { label: '[ES] My elite status', external: true },
-  { label: '[ES] Book a flight with LM', external: true },
+  { label: 'Home' },
+  { label: 'My trips', checked: true },
+  { label: 'Personal Data', checked: true },
+  { label: 'My elite status', external: true },
+  { label: 'Book a flight with LM', external: true },
 ];
 
 @Component({
@@ -131,7 +131,7 @@ const DEFAULT_MENU: LmMenuItem[] = [
                 <div class="lm-dd-sep" aria-hidden="true"></div>
 
                 <button class="lm-dd-item lm-dd-item--logout" type="button" role="menuitem">
-                  <span class="lm-dd-label">[ES] Log out</span>
+                  <span class="lm-dd-label">Log out</span>
                 </button>
               </div>
             </div>

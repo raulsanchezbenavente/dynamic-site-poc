@@ -216,39 +216,39 @@ type FooterColumn = {
   `],
 })
 export class MainFooterComponent {
-  followTitle = input<string>('[ES] Follow us!');
+  followTitle = input<string>('Follow us!');
 
   columns = input<FooterColumn[]>([
     {
-      title: '[ES] Descubre y compra',
+      title: 'Descubre y compra',
       links: [
-        { label: '[ES] Vuelos baratos' },
-        { label: '[ES] Reservas de hoteles', external: true },
-        { label: '[ES] Alquiler de autos', external: true },
+        { label: 'Vuelos baratos' },
+        { label: 'Reservas de hoteles', external: true },
+        { label: 'Alquiler de autos', external: true },
       ],
     },
     {
-      title: '[ES] Sobre nosotros',
+      title: 'Sobre nosotros',
       links: [
-        { label: '[ES] Somos avianca' },
-        { label: '[ES] Trabaja con nosotros', external: true },
-        { label: '[ES] Noticias corporativas' },
+        { label: 'Somos avianca' },
+        { label: 'Trabaja con nosotros', external: true },
+        { label: 'Noticias corporativas' },
       ],
     },
     {
-      title: '[ES] Nuestros portales',
+      title: 'Nuestros portales',
       links: [
-        { label: '[ES] Programa Lifemiles', external: true },
-        { label: '[ES] avianca empresas', external: true },
-        { label: '[ES] aviancadirect' },
+        { label: 'Programa Lifemiles', external: true },
+        { label: 'avianca empresas', external: true },
+        { label: 'aviancadirect' },
       ],
     },
     {
-      title: '[ES] Enlaces rápidos',
+      title: 'Enlaces rápidos',
       links: [
-        { label: '[ES] Información legal' },
-        { label: '[ES] Política de privacidad' },
-        { label: '[ES] Contrato de transporte' },
+        { label: 'Información legal' },
+        { label: 'Política de privacidad' },
+        { label: 'Contrato de transporte' },
       ],
     },
   ]);

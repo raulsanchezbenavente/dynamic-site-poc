@@ -30,7 +30,7 @@ type Section = {
             (click)="$event.preventDefault()"
           >
             <span class="mp-edit-ico" aria-hidden="true">✎</span>
-            <span>[ES] Edit</span>
+            <span>Edit</span>
           </a>
         </div>
 
@@ -151,37 +151,37 @@ type Section = {
   `],
 })
 export class AccountProfileComponent {
-  title = input<string>('[ES] My profile');
+  title = input<string>('My profile');
 
   subtitle = input<string>(
-    '[ES] Enter your details exactly as they appear on your official ID. This information will be used to create your profile and save your time during check-in.'
+    'Enter your details exactly as they appear on your official ID. This information will be used to create your profile and save your time during check-in.'
   );
 
   sections = input<Section[]>([
     {
-      title: '[ES] Personal information',
+      title: 'Personal information',
       editable: true,
       left: [
-        { label: '[ES] Gender', value: '[ES] Other' },
-        { label: '[ES] Date of birth', value: '18 de diciembre de 2005' },
-        { label: '[ES] Address', value: 'Cra 23 # 35' },
+        { label: 'Gender', value: 'Other' },
+        { label: 'Date of birth', value: '18 de diciembre de 2005' },
+        { label: 'Address', value: 'Cra 23 # 35' },
       ],
       right: [
-        { label: '[ES] Name / [ES] Last name', value: 'Javier Martinez' },
-        { label: '[ES] Country of residence', value: 'Colombia' },
+        { label: 'Name / Last name', value: 'Javier Martinez' },
+        { label: 'Country of residence', value: 'Colombia' },
       ],
     },
     {
-      title: '[ES] Contact information',
+      title: 'Contact information',
       editable: false,
-      left: [{ label: '[ES] Phone', value: '57 123456789012345' }],
-      right: [{ label: '[ES] Email', value: 'usuario.valido-1@dominio.co' }],
+      left: [{ label: 'Phone', value: '57 123456789012345' }],
+      right: [{ label: 'Email', value: 'usuario.valido-1@dominio.co' }],
     },
     {
-      title: '[ES] Emergency Contact',
+      title: 'Emergency Contact',
       editable: true,
-      left: [{ label: '[ES] Name', value: 'Juan Villalba' }],
-      right: [{ label: '[ES] Phone', value: '90 3102212336688' }],
+      left: [{ label: 'Name', value: 'Juan Villalba' }],
+      right: [{ label: 'Phone', value: '90 3102212336688' }],
     },
   ]);
 
