@@ -36,6 +36,7 @@ export class ProgressAsynGuard implements CanActivate {
             localStorage.removeItem('BOOKING_PROCESS');
             console.warn('Access denied or server error');
             this.router.navigate(['/']);
+            return true;
             return false;
         }
     }

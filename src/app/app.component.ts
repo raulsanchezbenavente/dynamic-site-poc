@@ -29,7 +29,7 @@ export class AppComponent {
 
       this.router.resetConfig([
         ...routes,
-        { path: '**', redirectTo: 'home' },
+        { path: '**', redirectTo: 'avianca-home' },
       ]);
     });
   }

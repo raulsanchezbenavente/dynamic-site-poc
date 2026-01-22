@@ -100,8 +100,8 @@ app.listen(port, () => {
 
 const path = require('path');
 
-app.get('/site', (req, res) => {
-    res.sendFile(path.join(__dirname, 'site.json'));
+app.get('/assets/site.json', (req, res) => {
+    res.sendFile(path.join(__dirname, '../src/assets/site.json'));
 });
 
 const browserPath = path.join(__dirname, '../dist/dynamic-site/browser');
