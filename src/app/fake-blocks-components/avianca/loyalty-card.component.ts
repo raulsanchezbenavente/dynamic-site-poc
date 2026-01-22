@@ -9,7 +9,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
     <section class="lm-wrap" role="region" aria-label="Account summary">
       <header class="lm-header">
         <div class="lm-title">
-          <span class="lm-locale">[{{ locale() }}]</span>
           <span class="lm-hello">Hello,</span>
           <span class="lm-name">{{ name() }}</span>
         </div>
@@ -22,7 +21,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
       <div class="lm-card">
         <div class="lm-cell lm-cell--main">
-          <div class="lm-label">[{{ locale() }}] Lifemiles number</div>
+          <div class="lm-label">Lifemiles number</div>
           <div class="lm-value-row">
             <div class="lm-value">{{ memberNumber() }}</div>
 
@@ -41,7 +40,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         <div class="lm-divider" aria-hidden="true"></div>
 
         <div class="lm-cell">
-          <div class="lm-label">[{{ locale() }}] Total miles</div>
+          <div class="lm-label">Total miles</div>
           <div class="lm-value-row">
             <span class="lm-badge" aria-hidden="true">lm</span>
             <div class="lm-value">{{ totalMiles() }}</div>
@@ -51,7 +50,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         <div class="lm-divider" aria-hidden="true"></div>
 
         <div class="lm-cell">
-          <div class="lm-label">[{{ locale() }}] Expiration date</div>
+          <div class="lm-label">Expiration date</div>
           <div class="lm-subvalue">{{ expirationDate() }}</div>
         </div>
       </div>
@@ -223,7 +222,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent {
-  locale = input<string>('ES');
   name = input<string>('Javier');
 
   memberNumber = input<string>('13440242314');
