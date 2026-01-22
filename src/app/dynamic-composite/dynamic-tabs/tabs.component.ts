@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
+import { Subject, takeUntil } from 'rxjs';
 
 export type CmsTabContract = {
   id?: string;
@@ -47,8 +48,7 @@ export type CmsTabContract = {
       [attr.id]="tabPanelId(tab.id)"
       [attr.aria-labelledby]="tabButtonId(tab.id)"
     >
-      <!-- tu renderer de components -->
-          <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
+      <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
     </section>
   `,
   styles: [`
@@ -82,7 +82,6 @@ export type CmsTabContract = {
       outline: none;
     }
 
-    /* subrayado (solo activo) */
     .ds-tab::after{
       content: "";
       position: absolute;
@@ -94,7 +93,6 @@ export type CmsTabContract = {
       border-radius: 2px 2px 0 0;
     }
 
-    /* activo */
     .ds-tab.is-active{
       color: #111;
       font-weight: 800;
@@ -104,7 +102,6 @@ export type CmsTabContract = {
       background: #18a33a;       /* verde */
     }
 
-    /* hover/focus */
     .ds-tab:hover{
       color: #111;
     }
@@ -115,7 +112,6 @@ export type CmsTabContract = {
       border-radius: 8px;
     }
 
-    /* panel: opcional (como lo tenías) */
     .ds-tab-panel{
       padding-top: 18px;
       background: transparent;
@@ -130,14 +126,11 @@ export type CmsTabContract = {
 export class DsTabsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-
-  // Tabs del contrato
+  private destroy$ = new Subject<void>();
   tabs = input<CmsTabContract[] | null | undefined>(undefined);
 
-  // Two-way signal (compatible con [(activeId)])
   activeId = model<string | undefined>(undefined);
 
-  // Normalizamos: id + name + components
   viewTabs = computed(() => {
     const raw = this.tabs();
     const arr = Array.isArray(raw) ? raw : [];
@@ -161,7 +154,6 @@ export class DsTabsComponent {
   });
 
   constructor() {
-    // 1) Si viene ?tab=... lo usamos para seleccionar
     effect(() => {
       const qpTab = this.route.snapshot.queryParamMap.get('tab') ?? undefined;
       const tabs = this.viewTabs();
@@ -172,7 +164,6 @@ export class DsTabsComponent {
       }
     });
 
-    // 2) Si no hay activeId válido, fijamos el primero
     effect(() => {
       const tabs = this.viewTabs();
       const current = this.activeId();
@@ -185,12 +176,32 @@ export class DsTabsComponent {
     });
   }
 
+  ngOnInit() {
+    this.route.queryParamMap
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        const qpTab = params.get('tab') ?? undefined;
+        const tabs = this.viewTabs(); // si esto es computed signal, úsalo como viewTabs()
+
+        if (!qpTab) return;
+        if (!tabs.length) return;
+
+        if (tabs.some(t => t.id === qpTab) && this.activeId() !== qpTab) {
+          this.activeId.set(qpTab);
+        }
+      });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   select(id: string): void {
     if (this.activeId() === id) return;
 
     this.activeId.set(id);
 
-    // Sync con URL: ?tab=<id> (sin recargar)
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { tab: id },
