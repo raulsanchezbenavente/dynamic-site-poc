@@ -47,38 +47,78 @@ export type CmsTabContract = {
       [attr.id]="tabPanelId(tab.id)"
       [attr.aria-labelledby]="tabButtonId(tab.id)"
     >
-      <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
+      <!-- tu renderer de components -->
+          <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
     </section>
   `,
   styles: [`
-    .ds-tabs {
+    .ds-tabs{
       display: flex;
-      gap: .5rem;
-      padding-top: .5rem;
-      flex-wrap: wrap;
-      background: #f7f7f7;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 48px;                 /* espacio entre tabs */
+      border-bottom: 1px solid #d9d9d9;
+      background: #fff;
+      padding: 0 8px;
       margin-right: auto;
       margin-left: auto;
       width: 1100px;
       // width: calc(100% - 300px);
     }
 
-    .ds-tab {
-      border: 1px solid transparent;
-      padding: .5rem .75rem;
-      border-radius: .5rem;
+    /* tab base */
+    .ds-tab{
+      position: relative;
+      border: 0;
+      background: transparent;
       cursor: pointer;
+
+      padding: 14px 10px 12px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #6a6a6a;
+
+      /* evita “highlight” feo */
+      outline: none;
     }
 
-    .ds-tab.is-active {
-      background: #fffcfc;
-      border-color: #ddd;
-      font-weight: 600;
+    /* subrayado (solo activo) */
+    .ds-tab::after{
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -1px;              /* que pise la línea gris */
+      height: 3px;
+      background: transparent;
+      border-radius: 2px 2px 0 0;
     }
 
-    .ds-tab-panel {
-      padding: .5rem;
-      background: #f7f7f7;
+    /* activo */
+    .ds-tab.is-active{
+      color: #111;
+      font-weight: 800;
+    }
+
+    .ds-tab.is-active::after{
+      background: #18a33a;       /* verde */
+    }
+
+    /* hover/focus */
+    .ds-tab:hover{
+      color: #111;
+    }
+
+    .ds-tab:focus-visible{
+      outline: 2px solid rgba(24,163,58,.35);
+      outline-offset: 4px;
+      border-radius: 8px;
+    }
+
+    /* panel: opcional (como lo tenías) */
+    .ds-tab-panel{
+      padding-top: 18px;
+      background: transparent;
       margin-right: auto;
       margin-left: auto;
       width: 1100px;

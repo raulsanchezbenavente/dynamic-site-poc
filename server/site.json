@@ -50,12 +50,23 @@
                     ]
                   },
                   {
+                    "name": "Account settings",
+                    "title": "Account settings",
+                    "secondaryText": "",
+                    "components": [
+                      {
+                        "component": "que miras?",
+                        "span": 12
+                      }
+                    ]
+                  },
+                  {
                     "name": "Elite status",
                     "title": "Elite status",
                     "secondaryText": "",
                     "components": [
                       {
-                        "component": "footer",
+                        "component": "que miras?",
                         "span": 12
                       }
                     ]
