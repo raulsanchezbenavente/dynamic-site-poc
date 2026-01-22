@@ -1,18 +1,24 @@
 {
   "pages": [
     {
-      "path": "home",
+      "path": "avianca-home",
       "name": "Home",
       "layout": {
         "rows": [
           {
             "cols": [
-              { "component": "CorporateMainHeaderBlock_uiplus", "span": 12 }
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "loyaltyOverviewCard_uiplus", "span": 12 }
+              {
+                "component": "loyaltyOverviewCard_uiplus",
+                "span": 12
+              }
             ]
           },
           {
@@ -28,8 +34,7 @@
                     "components": [
                       {
                         "component": "accountProfile_uiplus",
-                        "span": 12,
-                        "config": {}
+                        "span": 12
                       }
                     ]
                   },
@@ -65,12 +70,50 @@
           },
           {
             "cols": [
-              { "component": "search", "span": 12 }
+              {
+                "component": "main-footer",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "home",
+      "name": "Home",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "banner",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "search",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -83,17 +126,26 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "login", "span": 12 }
+              {
+                "component": "login",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -106,17 +158,26 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "results", "span": 12 }
+              {
+                "component": "results",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -129,18 +190,30 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "baggage-selection", "span": 8 },
-              { "component": "explanation", "span": 4 }
+              {
+                "component": "baggage-selection",
+                "span": 8
+              },
+              {
+                "component": "explanation",
+                "span": 4
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -153,17 +226,26 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "seatmap", "span": 12 }
+              {
+                "component": "seatmap",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -176,17 +258,26 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "payment-methods", "span": 12 }
+              {
+                "component": "payment-methods",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
@@ -199,17 +290,26 @@
         "rows": [
           {
             "cols": [
-              { "component": "header", "span": 12 }
+              {
+                "component": "header",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "payment-success", "span": 12 }
+              {
+                "component": "payment-success",
+                "span": 12
+              }
             ]
           },
           {
             "cols": [
-              { "component": "footer", "span": 12 }
+              {
+                "component": "footer",
+                "span": 12
+              }
             ]
           }
         ]
