@@ -87,8 +87,6 @@ app.get('/allowAccess/:step', (req, res) => {
     return res.json({ allowed: false, redirectTo: nextStep || 'home' });
 });
 
-
-
 // 🎯 4. Destroy the purchase process
 app.delete('/destroy/:token', (req, res) => {
     const token = req.params.token;
@@ -106,3 +104,10 @@ app.get('/site', (req, res) => {
     res.sendFile(path.join(__dirname, 'site.json'));
 });
 
+const browserPath = path.join(__dirname, '../dist/dynamic-site/browser');
+
+app.use(express.static(browserPath));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(browserPath, 'index.html'));
+});
