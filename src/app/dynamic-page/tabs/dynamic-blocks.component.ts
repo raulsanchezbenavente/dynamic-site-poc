@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { componentMap } from '../../component-map';
+import { DsBlockOutletComponent } from '../ds-block-outlet.component';
 
 @Component({
   selector: 'ds-dynamic-blocks',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DsBlockOutletComponent],
   template: `
     <ng-container *ngFor="let block of blocks(); trackBy: trackByKey">
-      <ng-container
-        *ngComponentOutlet="componentMap[block.component]; inputs: getInputs(block)">
-      </ng-container>
+      <ds-block-outlet [block]="block"></ds-block-outlet>
     </ng-container>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,

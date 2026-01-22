@@ -4,9 +4,7 @@
     <div class="row-grid">
       <ng-container *ngFor="let col of row.cols">
         <div class="col" [style.gridColumn]="'span ' + (col.span ?? 12)">
-          <ng-container
-            *ngComponentOutlet="componentMap[col.component]; inputs: getInputs(col)">
-          </ng-container>
+          <ds-block-outlet [block]="col"></ds-block-outlet>
         </div>
       </ng-container>
     </div>

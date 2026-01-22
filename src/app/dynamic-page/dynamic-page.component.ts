@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 
 import { componentMap } from '../component-map';
 import { SiteConfigService } from '../services/site-config/site-config.service';
+import { DsBlockOutletComponent } from './ds-block-outlet.component';
 
 type PageLayoutCol = {
   component: string;
@@ -20,7 +21,7 @@ type PageLayoutRow = { cols: PageLayoutCol[] };
 @Component({
   selector: 'dynamic-page',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DsBlockOutletComponent],
   templateUrl: './dynamic-page.component.html',
 })
 export class DynamicPageComponent implements OnInit {
