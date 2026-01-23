@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'loyalty-overview-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   template: `
     <section class="lm-wrap" role="region" aria-label="Account summary">
       <header class="lm-header">
@@ -21,7 +22,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
       <div class="lm-card">
         <div class="lm-cell lm-cell--main">
-          <div class="lm-label">Lifemiles number</div>
+          <div class="lm-label">{{ 'LOYALTY.TITLE' | translate  }}</div>
           <div class="lm-value-row">
             <div class="lm-value">{{ memberNumber() }}</div>
 
@@ -40,7 +41,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         <div class="lm-divider" aria-hidden="true"></div>
 
         <div class="lm-cell">
-          <div class="lm-label">Total miles</div>
+          <div class="lm-label">{{ 'LOYALTY.TOTAL_MILES' | translate  }}</div>
           <div class="lm-value-row">
             <span class="lm-badge" aria-hidden="true">lm</span>
             <div class="lm-value">{{ totalMiles() }}</div>
@@ -50,7 +51,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
         <div class="lm-divider" aria-hidden="true"></div>
 
         <div class="lm-cell">
-          <div class="lm-label">Expiration date</div>
+          <div class="lm-label">{{ 'LOYALTY.EXPIRATION' | translate  }}</div>
           <div class="lm-subvalue">{{ expirationDate() }}</div>
         </div>
       </div>
