@@ -29,10 +29,10 @@ const LANGS: Lang[] = [
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'Home', redirectTo: '/home' },
-  { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?tab=Personal%20Data' },
-  { label: 'My trips', checked: true , redirectTo: '/avianca-home?tab=My%20Trips' },
-  { label: 'My elite status', external: true },
-  { label: 'Book a flight with LM', external: true },
+  { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?activeTab=Personal%20Data' },
+  { label: 'My trips', checked: true, redirectTo: '/avianca-home?activeTab=My%20Trips' },
+  { label: 'My elite status', checked: true, redirectTo: '/avianca-home?activeTab=Elite%20status' },
+  { label: 'Book a flight with LM' },
 ];
 
 @Component({

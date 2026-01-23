@@ -155,7 +155,7 @@ export class DsTabsComponent {
 
   constructor() {
     effect(() => {
-      const qpTab = this.route.snapshot.queryParamMap.get('tab') ?? undefined;
+      const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
       const tabs = this.viewTabs();
       if (!tabs.length) return;
 
@@ -180,8 +180,8 @@ export class DsTabsComponent {
     this.route.queryParamMap
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
-        const qpTab = params.get('tab') ?? undefined;
-        const tabs = this.viewTabs(); // si esto es computed signal, úsalo como viewTabs()
+        const qpTab = params.get('activeTab') ?? undefined;
+        const tabs = this.viewTabs();
 
         if (!qpTab) return;
         if (!tabs.length) return;
@@ -204,7 +204,7 @@ export class DsTabsComponent {
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { tab: id },
+      queryParams: { activeTab: id },
       queryParamsHandling: 'merge',
     });
   }
