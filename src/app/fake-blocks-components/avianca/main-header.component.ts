@@ -53,7 +53,7 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
               aria-haspopup="menu"
             >
               <span class="lm-lang-ico" aria-hidden="true">🌐</span>
-              <span class="lm-lang-label">{{ activeLangLabel() }}</span>
+              <span class="lm-lang-label">{{ activeLangLabel() }}ASDF</span>
             </button>
 
             <div
@@ -417,6 +417,7 @@ export class MainHeaderComponent {
   setLang(lang: 'es' | 'en' | 'fr' | 'pt') {
     this.activeLang.set(lang);
     this.translate.use(lang);
+    this.langOpen.set(false);
   }
 
   trackByLang(_: number, l: Lang) {
@@ -425,6 +426,7 @@ export class MainHeaderComponent {
 
   toggleLangMenu(ev: MouseEvent) {
     ev.stopPropagation();
+    this.open.set(false);
     this.langOpen.update(v => !v);
   }
 
@@ -442,22 +444,22 @@ export class MainHeaderComponent {
     return Array.isArray(v) && v.length ? v : DEFAULT_MENU;
   });
 
-
-
   // Close on outside click + ESC
   @HostListener('document:click')
   onDocumentClick() {
     this.open.set(false);
+    this.langOpen.set(false);
   }
 
   @HostListener('document:keydown.escape')
   onEsc() {
     this.open.set(false);
+    this.langOpen.set(false);
   }
 
   toggleMenu(ev: MouseEvent) {
-    // ✅ prevents immediate close because of document:click
     ev.stopPropagation();
+    this.langOpen.set(false);
     this.open.update(v => !v);
   }
 
@@ -466,6 +468,7 @@ export class MainHeaderComponent {
   }
 
   public redirectTo(url?: string) {
+    this.open.set(false);
     if (url) {
       this.router.navigateByUrl(url);
     }
