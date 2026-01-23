@@ -1,0 +1,14 @@
+{
+  "LOYALTY": {
+    "TITLE": "Numéro LifeMiles",
+    "TOTAL_MILES": "Miles totaux",
+    "EXPIRATION": "Date d'expiration"
+  },
+  "HEADER": {
+    "LANGUAGE": "Langue",
+    "EN": "Anglais",
+    "ES": "Espagnol",
+    "FR": "Français",
+    "PT": "Portugais"
+  }
+}
