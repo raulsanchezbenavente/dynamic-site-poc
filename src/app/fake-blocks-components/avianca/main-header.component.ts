@@ -67,16 +67,16 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
                 type="button"
                 class="lm-lang-item"
                 role="menuitem"
-                [class.is-active]="activeLang() === 'en'"
-                (click)="setLang('en')"
-              >{{ 'HEADER.EN' | translate }}</button>
+                [class.is-active]="activeLang() === 'es'"
+                (click)="setLang('es')"
+              >{{ 'HEADER.ES' | translate }}</button>
               <button
                 type="button"
                 class="lm-lang-item"
                 role="menuitem"
-                [class.is-active]="activeLang() === 'es'"
-                (click)="setLang('es')"
-              >{{ 'HEADER.ES' | translate }}</button>
+                [class.is-active]="activeLang() === 'en'"
+                (click)="setLang('en')"
+              >{{ 'HEADER.EN' | translate }}</button>
               <button
                 type="button"
                 class="lm-lang-item"
