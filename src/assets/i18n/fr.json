@@ -1,5 +1,6 @@
 {
   "LOYALTY": {
+    "HELLO": "Bonjour",
     "TITLE": "Numéro LifeMiles",
     "TOTAL_MILES": "Miles totaux",
     "EXPIRATION": "Date d'expiration"

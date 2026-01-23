@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
     <section class="lm-wrap" role="region" aria-label="Account summary">
       <header class="lm-header">
         <div class="lm-title">
-          <span class="lm-hello">Hello,</span>
+          <span class="lm-hello">{{ 'LOYALTY.HELLO' | translate }},</span>
           <span class="lm-name">{{ name() }}</span>
         </div>
 
