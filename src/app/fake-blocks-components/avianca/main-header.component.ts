@@ -48,14 +48,14 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
             <button
               type="button"
               class="lm-lang-trigger"
+              [class.is-open]="langOpen()"
               (click)="toggleLangMenu($event)"
               [attr.aria-expanded]="langOpen()"
               aria-haspopup="menu"
             >
               <span class="lm-lang-ico" aria-hidden="true">🌐</span>
-              <span class="lm-lang-label">{{ activeLangLabel() }}ASDF</span>
+              <span class="lm-lang-label">{{ activeLangLabel() }}</span>
             </button>
-
             <div
               *ngIf="langOpen()"
               class="lm-lang-menu"
@@ -232,7 +232,7 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
     .lm-lang-trigger{
       border: 0;
       background: transparent;
-      color: #21c55d;             /* verde como la imagen */
+      color: #fff;              /* 🔹 blanco por defecto */
       cursor: pointer;
       display:inline-flex;
       align-items:center;
@@ -240,10 +240,15 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
       padding: 4px 10px;
       border-radius: 10px;
       font-weight: 700;
+      transition: color .15s ease, background .15s ease;
     }
 
     .lm-lang-trigger:hover{
       background: rgba(255,255,255,.08);
+    }
+
+    .lm-lang-trigger.is-open{
+      color: #21c55d;
     }
 
     .lm-lang-ico{
