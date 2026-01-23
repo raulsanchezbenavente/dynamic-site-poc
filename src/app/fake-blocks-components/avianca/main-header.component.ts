@@ -18,20 +18,20 @@ export type HeaderMenuItem = {
   redirectTo?: string;
 };
 
-type Lang = { code: 'es' | 'en' | 'fr' | 'pt'; label: string };
+type Lang = { code: 'en' | 'es' | 'fr' | 'pt'; label: string };
 
 const LANGS: Lang[] = [
-  { code: 'es', label: 'Español' },
-  { code: 'en', label: 'Inglés' },
-  { code: 'fr', label: 'Francés' },
-  { code: 'pt', label: 'Portugués' },
+  { code: 'en', label: 'HEADER.EN' },
+  { code: 'es', label: 'HEADER.ES' },
+  { code: 'fr', label: 'HEADER.FR' },
+  { code: 'pt', label: 'HEADER.PT' },
 ];
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'Home', redirectTo: '/home' },
   { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?activeTab=Personal%20Data' },
-  { label: 'My trips', checked: true, redirectTo: '/avianca-home?activeTab=My%20Trips' },
-  { label: 'My elite status', checked: true, redirectTo: '/avianca-home?activeTab=Elite%20status' },
+  { label: 'My trips', redirectTo: '/avianca-home?activeTab=My%20Trips' },
+  { label: 'My elite status', redirectTo: '/avianca-home?activeTab=Elite%20status' },
   { label: 'Book a flight with LM' },
 ];
 
@@ -67,16 +67,16 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
                 type="button"
                 class="lm-lang-item"
                 role="menuitem"
-                [class.is-active]="activeLang() === 'es'"
-                (click)="setLang('es')"
-              >{{ 'HEADER.ES' | translate }}</button>
+                [class.is-active]="activeLang() === 'en'"
+                (click)="setLang('en')"
+              >{{ 'HEADER.EN' | translate }}</button>
               <button
                 type="button"
                 class="lm-lang-item"
                 role="menuitem"
-                [class.is-active]="activeLang() === 'en'"
-                (click)="setLang('en')"
-              >{{ 'HEADER.EN' | translate }}</button>
+                [class.is-active]="activeLang() === 'es'"
+                (click)="setLang('es')"
+              >{{ 'HEADER.ES' | translate }}</button>
               <button
                 type="button"
                 class="lm-lang-item"
@@ -413,13 +413,14 @@ export class MainHeaderComponent {
 
   langOpen = signal(false);
   langs = LANGS;
-  activeLang = signal<'es' | 'en' | 'fr' | 'pt'>('es');
+  activeLang = signal<'en' | 'es' | 'fr' | 'pt'>('en');
   activeLangLabel = computed(() => {
     const code = this.activeLang();
-    return this.langs.find(l => l.code === code)?.label ?? 'Español';
+    const key = this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
+    return this.translate.instant(key);
   });
 
-  setLang(lang: 'es' | 'en' | 'fr' | 'pt') {
+  setLang(lang: 'en' | 'es' |'fr' | 'pt') {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);

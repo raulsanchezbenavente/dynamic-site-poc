@@ -26,7 +26,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
 
     provideTranslateService({
-      defaultLanguage: 'es',
+      defaultLanguage: 'en',
       loader: {
         provide: TranslateLoader,
         useClass: TranslateHttpLoader,
@@ -44,8 +44,8 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [TranslateService],
       useFactory: (ts: TranslateService) => () => {
-        ts.setDefaultLang('es');
-        return firstValueFrom(ts.use('es')); // <-- dispara GET /assets/i18n/es.json
+        ts.setDefaultLang('en');
+        return firstValueFrom(ts.use('en'));
       },
     },
   ]};
