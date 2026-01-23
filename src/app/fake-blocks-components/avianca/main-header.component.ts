@@ -9,6 +9,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 export type HeaderMenuItem = {
   label: string;
@@ -16,6 +17,15 @@ export type HeaderMenuItem = {
   external?: boolean;
   redirectTo?: string;
 };
+
+type Lang = { code: 'es' | 'en' | 'fr' | 'pt'; label: string };
+
+const LANGS: Lang[] = [
+  { code: 'es', label: 'Español' },
+  { code: 'en', label: 'Inglés' },
+  { code: 'fr', label: 'Francés' },
+  { code: 'pt', label: 'Portugués' },
+];
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'Home', redirectTo: '/home' },
@@ -28,25 +38,71 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
 @Component({
   selector: 'main-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
       <!-- Top black bar -->
-    <div class="lm-topbar" role="navigation" aria-label="Locale bar">
-      <div class="lm-topbar-inner">
-        <span class="lm-topbar-item">
-          <span class="lm-topbar-ico" aria-hidden="true">🌐</span>
-          <span>{{ language() }}</span>
-        </span>
+      <div class="lm-topbar" role="navigation" aria-label="Locale bar">
+        <div class="lm-topbar-inner">
+          <div class="lm-lang">
+            <button
+              type="button"
+              class="lm-lang-trigger"
+              (click)="toggleLangMenu($event)"
+              [attr.aria-expanded]="langOpen()"
+              aria-haspopup="menu"
+            >
+              <span class="lm-lang-ico" aria-hidden="true">🌐</span>
+              <span class="lm-lang-label">{{ activeLangLabel() }}</span>
+            </button>
 
-        <span class="lm-topbar-sep" aria-hidden="true">|</span>
+            <div
+              *ngIf="langOpen()"
+              class="lm-lang-menu"
+              role="menu"
+              aria-label="Language menu"
+              (click)="$event.stopPropagation()"
+            >
+              <button
+                type="button"
+                class="lm-lang-item"
+                role="menuitem"
+                [class.is-active]="activeLang() === 'en'"
+                (click)="setLang('en')"
+              >{{ 'HEADER.EN' | translate }}</button>
+              <button
+                type="button"
+                class="lm-lang-item"
+                role="menuitem"
+                [class.is-active]="activeLang() === 'es'"
+                (click)="setLang('es')"
+              >{{ 'HEADER.ES' | translate }}</button>
+              <button
+                type="button"
+                class="lm-lang-item"
+                role="menuitem"
+                [class.is-active]="activeLang() === 'fr'"
+                (click)="setLang('fr')"
+              >{{ 'HEADER.FR' | translate }}</button>
+              <button
+                type="button"
+                class="lm-lang-item"
+                role="menuitem"
+                [class.is-active]="activeLang() === 'pt'"
+                (click)="setLang('pt')"
+              >{{ 'HEADER.PT' | translate }}</button>
+            </div>
+          </div>
 
-        <span class="lm-topbar-item">
-          <span class="lm-topbar-ico" aria-hidden="true">💲</span>
-          <span>{{ market() }}</span>
-        </span>
+          <span class="lm-topbar-sep" aria-hidden="true">|</span>
+
+          <span class="lm-topbar-item-static">
+            <span class="lm-topbar-ico" aria-hidden="true">💲</span>
+            <span>{{ market() }}</span>
+          </span>
+        </div>
       </div>
-    </div>
+
 
     <header class="lm-header" role="banner">
       <div class="lm-inner" #root>
@@ -147,6 +203,7 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
   styles: [`
     :host { display:block; }
     /* Top black bar */
+    /* Topbar base (si ya la tienes, solo asegura estos) */
     .lm-topbar{
       background:#111;
       color:#fff;
@@ -159,22 +216,96 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
       display:flex;
       align-items:center;
       justify-content:flex-end;
-      gap: 10px;
+      gap: 12px;
     }
-    .lm-topbar-item{
+    .lm-topbar-sep{
+      opacity:.5;
+    }
+
+    /* Language trigger */
+    .lm-lang{
+      position: relative;
+      display:inline-flex;
+      align-items:center;
+    }
+
+    .lm-lang-trigger{
+      border: 0;
+      background: transparent;
+      color: #21c55d;             /* verde como la imagen */
+      cursor: pointer;
       display:inline-flex;
       align-items:center;
       gap: 8px;
-      opacity: .95;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .lm-lang-trigger:hover{
+      background: rgba(255,255,255,.08);
+    }
+
+    .lm-lang-ico{
+      font-size: 14px;
+      transform: translateY(-1px);
+    }
+
+    .lm-lang-label{
       white-space: nowrap;
     }
-    .lm-topbar-sep{
-      opacity: .5;
+
+    /* Dropdown menu */
+    .lm-lang-menu{
+      position:absolute;
+      left: 0;                     /* aparece bajo el trigger */
+      top: calc(100% + 10px);
+      width: 220px;
+      background: #fff;
+      color: #111;
+      border-radius: 18px;
+      box-shadow: 0 18px 35px rgba(0,0,0,.28);
+      border: 1px solid #eee;
+      padding: 10px 0;
+      z-index: 80;
+    }
+
+    /* Menu item */
+    .lm-lang-item{
+      width:100%;
+      border:0;
+      background: transparent;
+      cursor:pointer;
+      padding: 14px 18px;
+      text-align:left;
+
+      font-size: 18px;
+      font-weight: 500;
+      color:#111;
+    }
+
+    .lm-lang-item:hover{
+      background: #f6f6f6;
+    }
+
+    .lm-lang-item.is-active{
+      font-weight: 900;            /* activo en negrita como la imagen */
+    }
+
+    /* Market (igual que antes) */
+    .lm-topbar-item-static{
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+      white-space: nowrap;
+      opacity: .95;
+      color:#fff;
     }
     .lm-topbar-ico{
       font-size: 14px;
       opacity: .95;
     }
+
     .lm-header{ background:#fff; border-bottom:1px solid #eee; }
     .lm-inner{
       max-width:1240px; margin:0 auto; padding:14px 18px;
@@ -268,12 +399,34 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
   `],
 })
 export class MainHeaderComponent {
-  // configurable (y compatible con tu renderer por inputs)
   language = input<string>('Español');
   market = input<string>('Colombia (COP)');
 
   userName = input<string>('Jose');
   userMiles = input<string>('600,700');
+  private translate = inject(TranslateService);
+
+  langOpen = signal(false);
+  langs = LANGS;
+  activeLang = signal<'es' | 'en' | 'fr' | 'pt'>('es');
+  activeLangLabel = computed(() => {
+    const code = this.activeLang();
+    return this.langs.find(l => l.code === code)?.label ?? 'Español';
+  });
+
+  setLang(lang: 'es' | 'en' | 'fr' | 'pt') {
+    this.activeLang.set(lang);
+    this.translate.use(lang);
+  }
+
+  trackByLang(_: number, l: Lang) {
+    return l.code;
+  }
+
+  toggleLangMenu(ev: MouseEvent) {
+    ev.stopPropagation();
+    this.langOpen.update(v => !v);
+  }
 
   // ✅ Items por defecto hardcoded pero overrideable desde JSON/inputs
   menuItems = input<HeaderMenuItem[] | null | undefined>(DEFAULT_MENU);
@@ -288,6 +441,8 @@ export class MainHeaderComponent {
     const v = this.menuItems();
     return Array.isArray(v) && v.length ? v : DEFAULT_MENU;
   });
+
+
 
   // Close on outside click + ESC
   @HostListener('document:click')
