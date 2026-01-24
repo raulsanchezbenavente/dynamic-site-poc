@@ -9,7 +9,7 @@ export class ProgressAsynGuard implements CanActivate {
         'home',
         'avianca-home',
         'avianca-inicio',
-        'avianca-inicio-pt',
+        'avianca-casa',
         'avianca-accueil',
     ]);
 
