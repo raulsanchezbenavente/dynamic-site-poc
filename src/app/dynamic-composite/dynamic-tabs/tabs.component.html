@@ -10,7 +10,7 @@
     [attr.aria-controls]="tabPanelId(tab.tabId)"
     [attr.aria-selected]="tab.tabId === activeId()"
     [class.is-active]="tab.tabId === activeId()"
-    (click)="select(tab.tabId)"
+    (click)="select(tab)"
   >
     {{ tab.title }}
   </button>

@@ -56,8 +56,6 @@ export class DsTabsComponent {
     const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
     this.routerHelper.setCurrentTabId(this.tabsId()!, activeTab?.pageId!);
 
-    console.log(this.tabsId(), activeTab?.pageId!);
-
     if (!tabs.length) return undefined;
     return tabs.find(t => t.tabId === tabId) ?? tabs[0];
   });
@@ -67,9 +65,9 @@ export class DsTabsComponent {
       const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
       const tabs = this.viewTabs();
       if (!tabs.length) return;
-
-      if (qpTab && tabs.some(t => t.tabId === qpTab) && this.activeId() !== qpTab) {
-        this.activeId.set(qpTab);
+      const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
+      if (tab) {
+        this.activeId.set(tab.tabId);
       }
     });
 
@@ -99,8 +97,6 @@ export class DsTabsComponent {
           this.activeId.set(qpTab);
         }
       });
-    console.log(this.tabsId());
-    console.log(this.activeId());
   }
 
   ngOnDestroy() {
@@ -108,16 +104,14 @@ export class DsTabsComponent {
     this.destroy$.complete();
   }
 
-  select(id: string): void {
-    console.log('tabs');
-    console.log(this.tabs());
-    if (this.activeId() === id) return;
+  select(tab: CmsTabContract): void {
+    if (this.activeId() === tab.tabId) return;
 
-    this.activeId.set(id);
+    this.activeId.set(tab.tabId);
 
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { activeTab: id },
+      queryParams: { activeTab: tab.name },
       queryParamsHandling: 'merge',
     });
   }
