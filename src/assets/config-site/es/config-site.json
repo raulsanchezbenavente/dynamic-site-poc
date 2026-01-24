@@ -27,7 +27,7 @@
               {
                 "component": "tabs",
                 "span": 12,
-                "tabsId": 1,
+                "tabsId": 111,
                 "tabs": [
                   {
                     "pageId": 2,
