@@ -17,11 +17,13 @@
 </div>
 
 <section
+  *ngFor="let tab of viewTabs(); trackBy: trackById"
   class="ds-tab-panel"
   role="tabpanel"
-  *ngIf="activeTab() as tab"
   [attr.id]="tabPanelId(tab.tabId)"
   [attr.aria-labelledby]="tabButtonId(tab.tabId)"
+  [attr.aria-hidden]="tab.tabId !== activeId()"
+  [hidden]="tab.tabId !== activeId()"
 >
   <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
 </section>
