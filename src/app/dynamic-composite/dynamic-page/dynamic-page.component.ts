@@ -10,10 +10,8 @@ import { DsBlockOutletComponent } from './ds-block-outlet.component';
 type PageLayoutCol = {
   component: string;
   span?: number;
-
   tabs?: any[];
   config?: any;
-
   [key: string]: any;
 };
 type PageLayoutRow = { cols: PageLayoutCol[] };

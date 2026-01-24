@@ -11,6 +11,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
 import { Subject, takeUntil } from 'rxjs';
+import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 
 export type CmsTabContract = {
   id?: string;
@@ -18,6 +19,7 @@ export type CmsTabContract = {
   title?: string;
   secondaryText?: string;
   components?: any[];
+  pageId?: string;
 };
 
 @Component({
@@ -25,6 +27,7 @@ export type CmsTabContract = {
   standalone: true,
   imports: [CommonModule, DsDynamicBlocksComponent],
   template: `
+  {{tabsId()}}
     <div class="ds-tabs" role="tablist" aria-label="Tabs">
       <button
         type="button"
@@ -127,12 +130,15 @@ export class DsTabsComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private destroy$ = new Subject<void>();
-  tabs = input<CmsTabContract[] | null | undefined>(undefined);
+  public tabsId = input<string | null | undefined>(undefined);
+  public tabs = input<CmsTabContract[] | null | undefined>(undefined);
+  public readonly routerHelper = inject(RouterHelperService);
 
   activeId = model<string | undefined>(undefined);
 
   viewTabs = computed(() => {
     const raw = this.tabs();
+    console.log(raw)
     const arr = Array.isArray(raw) ? raw : [];
 
     return arr
@@ -140,16 +146,23 @@ export class DsTabsComponent {
         const id = String(t?.name ?? '').trim();
         const name = String(t?.name ?? '').trim();
         const title = String(t?.title ?? '').trim();
+        const pageId = String(t?.pageId ?? '').trim();
         const components = Array.isArray(t?.components) ? t.components : [];
         if (!id || !name) return null;
-        return { id, name, title, components };
+        return { id, name, title, pageId, components };
       })
-      .filter(Boolean) as Array<{ id: string; name: string; title: string; components: any[] }>;
+      .filter(Boolean) as Array<{ id: string; name: string; title: string; pageId: string; components: any[] }>;
   });
 
   activeTab = computed(() => {
     const tabs = this.viewTabs();
     const id = this.activeId();
+
+    const activeTab: CmsTabContract | undefined = tabs.find(t => t.name === id);
+    this.routerHelper.setCurrentTabId(this.tabsId()!, activeTab?.pageId!);
+
+    console.log(this.tabsId(), activeTab?.pageId!);
+
     if (!tabs.length) return undefined;
     return tabs.find(t => t.id === id) ?? tabs[0];
   });
@@ -177,7 +190,7 @@ export class DsTabsComponent {
     });
   }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.route.queryParamMap
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
@@ -191,6 +204,9 @@ export class DsTabsComponent {
           this.activeId.set(qpTab);
         }
       });
+      console.log(this.tabsId());
+      console.log(this.activeId());
+      // this.routerHelper.setCurrentTabId(this.tabsId()!, this.activeId()!);
   }
 
   ngOnDestroy() {
@@ -199,6 +215,8 @@ export class DsTabsComponent {
   }
 
   select(id: string): void {
+    console.log('tabs');
+    console.log(this.tabs())
     if (this.activeId() === id) return;
 
     this.activeId.set(id);

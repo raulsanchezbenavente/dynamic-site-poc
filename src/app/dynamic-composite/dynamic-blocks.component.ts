@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component';
-import { componentMap } from '../component-map';
+// import { componentMap } from '../component-map';
 
 @Component({
   selector: 'ds-dynamic-blocks',
@@ -17,7 +17,7 @@ import { componentMap } from '../component-map';
 export class DsDynamicBlocksComponent {
   blocks = input<any[] | null | undefined>(undefined);
 
-  componentMap = componentMap;
+  // componentMap = componentMap;
 
   getInputs(block: any): Record<string, any> {
     if (!block) return {};

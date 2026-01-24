@@ -433,12 +433,7 @@ export class MainHeaderComponent {
 
     console.log(this.router.config)
     setTimeout(() => {
-      this.siteConfig.loadSite(lang).subscribe(()=>{
-            console.log(this.router.config)
 
-        // this.router.navigateByUrl('/avianca-inicio?activeTab=Datos%20Personales2222');
-        // this.siteConfig.loadSite('en').subscribe();
-      });
     }, 1000);
   }
 
