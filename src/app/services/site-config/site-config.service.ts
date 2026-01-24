@@ -10,8 +10,8 @@ export class SiteConfigService {
 
   private http = inject(HttpClient);
 
-  private _siteSubject = new BehaviorSubject<any | null>(null);
-  site$ = this._siteSubject.asObservable();
+  private readonly _siteSubject = new BehaviorSubject<any | null>(null);
+  public readonly site$ = this._siteSubject.asObservable();
 
   // private _langSubject = new BehaviorSubject<AppLang>('en');
   // readonly lang$ = this._langSubject.asObservable();
