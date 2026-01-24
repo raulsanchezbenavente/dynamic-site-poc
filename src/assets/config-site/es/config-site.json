@@ -30,7 +30,7 @@
                 "tabsId": 111,
                 "tabs": [
                   {
-                    "pageId": 2,
+                    "pageId": 22,
                     "name": "Datos Personales",
                     "title": "Datos Personales",
                     "secondaryText": "",
@@ -42,7 +42,7 @@
                     ]
                   },
                   {
-                    "pageId": 3,
+                    "pageId": 33,
                     "name": "Mis Viajes",
                     "title": "Mis Viajes",
                     "secondaryText": "",
@@ -54,7 +54,7 @@
                     ]
                   },
                   {
-                    "pageId": 4,
+                    "pageId": 44,
                     "name": "Configuración de la cuenta",
                     "title": "Configuración de la cuenta",
                     "secondaryText": "",
@@ -66,7 +66,7 @@
                     ]
                   },
                   {
-                    "pageId": 5,
+                    "pageId": 55,
                     "name": "Estado Elite",
                     "title": "Estado Elite",
                     "secondaryText": "",
