@@ -8,9 +8,9 @@ import {
   input,
   model,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 import { CmsTabContract } from './models/cms-tab-contract.model';
 
@@ -63,13 +63,9 @@ export class DsTabsComponent {
   constructor() {
     effect(() => {
       const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
-      const tabs = this.viewTabs();
-      if (!tabs.length) return;
-      const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
-      if (tab) {
-        this.activeId.set(tab.tabId);
-      }
+      this.navigateToTab(qpTab);
     });
+
 
     effect(() => {
       const tabs = this.viewTabs();
@@ -84,27 +80,36 @@ export class DsTabsComponent {
   }
 
   public ngOnInit(): void {
-    this.route.queryParamMap
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params) => {
-        const qpTab = params.get('activeTab') ?? undefined;
-        const tabs = this.viewTabs();
-
-        if (!qpTab) return;
-        if (!tabs.length) return;
-
-        if (tabs.some(t => t.tabId === qpTab) && this.activeId() !== qpTab) {
-          this.activeId.set(qpTab);
-        }
+    this.router.events
+      .pipe(
+        filter((event): event is NavigationStart => event instanceof NavigationStart),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((event) => {
+        const activeTab: string | undefined = new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
+        this.navigateToTab(activeTab);
       });
   }
 
-  ngOnDestroy() {
+  private navigateToTab(qpTab: string | undefined): void {
+      const tabs = this.viewTabs();
+      if (!tabs.length) return;
+      const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
+
+      console.log(tab)
+
+      if (tab) {
+        this.activeId.set(tab.tabId);
+      }
+
+  }
+
+  public ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
   }
 
-  select(tab: CmsTabContract): void {
+  public select(tab: CmsTabContract): void {
     if (this.activeId() === tab.tabId) return;
 
     this.activeId.set(tab.tabId);
@@ -116,15 +121,15 @@ export class DsTabsComponent {
     });
   }
 
-  trackById(_: number, tab: { tabId: string }): string {
+  public trackById(_: number, tab: { tabId: string }): string {
     return tab.tabId;
   }
 
-  tabButtonId(tabId: string): string {
+  public tabButtonId(tabId: string): string {
     return `ds-tab-${tabId}`;
   }
 
-  tabPanelId(tabId: string): string {
+  public tabPanelId(tabId: string): string {
     return `ds-tabpanel-${tabId}`;
   }
 }
