@@ -7,7 +7,7 @@ import { ActivatedRoute, Route, Router } from '@angular/router';
 export class RouterHelperService {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
-  private tabId: string | null = null;
+  private tabsId: Record<string, string> = {};
 
   private getLeafRoute(route: ActivatedRoute): ActivatedRoute {
     let current = route;
@@ -28,20 +28,13 @@ export class RouterHelperService {
     );
   }
 
-  public setCurrentTabId(tabId: string): void {
-    this.tabId = tabId;
-    // const leaf = this.getLeafRoute(this.route);
-
-    // this.router.navigate([], {
-    //   relativeTo: leaf,
-    //   queryParams: { activeTab: tabId },
-    //   queryParamsHandling: 'merge',
-    //   replaceUrl: true,
-    // });
+  public setCurrentTabId(tabsId: string, tabId: string): void {
+    console.log('Setting tabId', tabId, 'for tabsId', tabsId);
+    this.tabsId[tabsId] = tabId;
   }
 
-  public getCurrentTabId(): string | undefined {
-    return this.tabId ?? undefined;
+  public getCurrentTabId(tabsId: string): string | undefined {
+    return this.tabsId ? this.tabsId[tabsId] : undefined;
   }
 
 }
