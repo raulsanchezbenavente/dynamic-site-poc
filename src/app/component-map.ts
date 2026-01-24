@@ -12,7 +12,7 @@ import { Type } from '@angular/core';
 import { ExplanationComponent } from './fake-blocks-components/test/explanation.component';
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card.component';
-import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header.component';
+import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header/main-header.component';
 import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile.component';
 import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings.component';
 import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer.component';
