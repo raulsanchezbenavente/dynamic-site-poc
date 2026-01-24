@@ -29,7 +29,6 @@ export class RouterHelperService {
   }
 
   public setCurrentTabId(tabsId: string, tabId: string): void {
-    console.log('Setting tabId', tabId, 'for tabsId', tabsId);
     this.tabsId[tabsId] = tabId;
   }
 
