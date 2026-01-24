@@ -15,6 +15,7 @@ type Section = {
   imports: [CommonModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
+    <input type="text">
     <section class="mp-wrap" role="region" aria-label="My profile">
       <h2 class="mp-title">{{ title() }}</h2>
       <p class="mp-subtitle">{{ subtitle() }}</p>

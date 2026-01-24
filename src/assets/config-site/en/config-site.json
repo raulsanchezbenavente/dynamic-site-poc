@@ -2,7 +2,7 @@
   "pages": [
     {
       "pageId": 1,
-      "path": "avianca-home",
+      "path": "en/avianca-home",
       "name": "Home",
       "layout": {
         "rows": [

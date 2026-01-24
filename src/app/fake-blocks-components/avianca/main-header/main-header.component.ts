@@ -31,9 +31,9 @@ const LANGS: Lang[] = [
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'Home', redirectTo: '/home' },
-  { label: 'Personal Data', checked: true, redirectTo: '/avianca-home?activeTab=Personal%20Data' },
-  { label: 'My trips', redirectTo: '/avianca-home?activeTab=My%20Trips' },
-  { label: 'My elite status', redirectTo: '/avianca-home?activeTab=Elite%20status' },
+  { label: 'Personal Data', checked: true, redirectTo: '/en/avianca-home?activeTab=Personal%20Data' },
+  { label: 'My trips', redirectTo: '/en/avianca-home?activeTab=My%20Trips' },
+  { label: 'My elite status', redirectTo: '/en/avianca-home?activeTab=Elite%20status' },
   { label: 'Book a flight with LM' },
 ];
 
@@ -69,7 +69,7 @@ export class MainHeaderComponent {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
-    this.location.replaceState('avianca-inicio?activeTab=Datos%20Personales');
+    this.location.replaceState('/es/avianca-inicio?activeTab=Datos%20Personales');
 
     console.log(this.router.config);
     setTimeout(() => {

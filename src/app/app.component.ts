@@ -39,7 +39,7 @@ export class AppComponent {
 
       this.router.resetConfig([
         ...routes,
-        { path: '**', redirectTo: 'avianca-home' },
+        { path: '**', redirectTo: 'en/avianca-home' },
       ]);
 
       console.log('Routes configuradas dinámicamente:', this.router.config);

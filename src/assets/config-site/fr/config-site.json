@@ -2,7 +2,7 @@
   "pages": [
     {
       "pageId": 1,
-      "path": "avianca-accueil",
+      "path": "fr/avianca-accueil",
       "name": "Accueil",
       "layout": {
         "rows": [

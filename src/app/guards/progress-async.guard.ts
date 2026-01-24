@@ -7,10 +7,10 @@ export class ProgressAsynGuard implements CanActivate {
 
     private readonly publicPaths = new Set([
         'home',
-        'avianca-home',
-        'avianca-inicio',
-        'avianca-casa',
-        'avianca-accueil',
+        'en/avianca-home',
+        'es/avianca-inicio',
+        'fr/avianca-accueil',
+        'pt/avianca-casa',
     ]);
 
     async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
