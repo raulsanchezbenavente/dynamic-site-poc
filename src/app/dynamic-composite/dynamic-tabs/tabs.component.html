@@ -1,0 +1,27 @@
+{{ tabsId() }}
+{{ activeId() }}
+<div class="ds-tabs" rol e="tablist" aria-label="Tabs">
+  <button
+    type="button"
+    class="ds-tab"
+    role="tab"
+    *ngFor="let tab of viewTabs(); trackBy: trackById"
+    [attr.id]="tabButtonId(tab.id)"
+    [attr.aria-controls]="tabPanelId(tab.id)"
+    [attr.aria-selected]="tab.id === activeId()"
+    [class.is-active]="tab.id === activeId()"
+    (click)="select(tab.id)"
+  >
+    {{ tab.title }}
+  </button>
+</div>
+
+<section
+  class="ds-tab-panel"
+  role="tabpanel"
+  *ngIf="activeTab() as tab"
+  [attr.id]="tabPanelId(tab.id)"
+  [attr.aria-labelledby]="tabButtonId(tab.id)"
+>
+  <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
+</section>

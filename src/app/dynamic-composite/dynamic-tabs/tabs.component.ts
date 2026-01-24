@@ -12,133 +12,28 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
 import { Subject, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
-
-export type CmsTabContract = {
-  id?: string;
-  name?: string;
-  title?: string;
-  secondaryText?: string;
-  components?: any[];
-  pageId?: string;
-};
+import { CmsTabContract } from './models/cms-tab-contract.model';
 
 @Component({
   selector: 'ds-tabs',
   standalone: true,
   imports: [CommonModule, DsDynamicBlocksComponent],
-  template: `
-  {{tabsId()}}
-    <div class="ds-tabs" role="tablist" aria-label="Tabs">
-      <button
-        type="button"
-        class="ds-tab"
-        role="tab"
-        *ngFor="let tab of viewTabs(); trackBy: trackById"
-        [attr.id]="tabButtonId(tab.id)"
-        [attr.aria-controls]="tabPanelId(tab.id)"
-        [attr.aria-selected]="tab.id === activeId()"
-        [class.is-active]="tab.id === activeId()"
-        (click)="select(tab.id)"
-      >
-        {{ tab.title }}
-      </button>
-    </div>
-
-    <section
-      class="ds-tab-panel"
-      role="tabpanel"
-      *ngIf="activeTab() as tab"
-      [attr.id]="tabPanelId(tab.id)"
-      [attr.aria-labelledby]="tabButtonId(tab.id)"
-    >
-      <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
-    </section>
-  `,
-  styles: [`
-    .ds-tabs{
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 48px;                 /* espacio entre tabs */
-      border-bottom: 1px solid #d9d9d9;
-      background: #fff;
-      padding: 0 8px;
-      margin-right: auto;
-      margin-left: auto;
-      width: 1100px;
-      // width: calc(100% - 300px);
-    }
-
-    /* tab base */
-    .ds-tab{
-      position: relative;
-      border: 0;
-      background: transparent;
-      cursor: pointer;
-
-      padding: 14px 10px 12px;
-      font-size: 16px;
-      font-weight: 500;
-      color: #6a6a6a;
-
-      /* evita “highlight” feo */
-      outline: none;
-    }
-
-    .ds-tab::after{
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -1px;              /* que pise la línea gris */
-      height: 3px;
-      background: transparent;
-      border-radius: 2px 2px 0 0;
-    }
-
-    .ds-tab.is-active{
-      color: #111;
-      font-weight: 800;
-    }
-
-    .ds-tab.is-active::after{
-      background: #18a33a;       /* verde */
-    }
-
-    .ds-tab:hover{
-      color: #111;
-    }
-
-    .ds-tab:focus-visible{
-      outline: 2px solid rgba(24,163,58,.35);
-      outline-offset: 4px;
-      border-radius: 8px;
-    }
-
-    .ds-tab-panel{
-      padding-top: 18px;
-      background: transparent;
-      margin-right: auto;
-      margin-left: auto;
-      width: 1100px;
-      // width: calc(100% - 300px);
-    }
-  `],
+  templateUrl: './tabs.component.html',
+  styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DsTabsComponent {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private destroy$ = new Subject<void>();
   public tabsId = input<string | null | undefined>(undefined);
   public tabs = input<CmsTabContract[] | null | undefined>(undefined);
-  public readonly routerHelper = inject(RouterHelperService);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
+  private readonly routerHelper = inject(RouterHelperService);
+  private readonly destroy$ = new Subject<void>();
 
-  activeId = model<string | undefined>(undefined);
+  public activeId = model<string | undefined>(undefined);
 
-  viewTabs = computed(() => {
+  public viewTabs = computed(() => {
     const raw = this.tabs();
-    console.log(raw)
     const arr = Array.isArray(raw) ? raw : [];
 
     return arr
@@ -154,7 +49,7 @@ export class DsTabsComponent {
       .filter(Boolean) as Array<{ id: string; name: string; title: string; pageId: string; components: any[] }>;
   });
 
-  activeTab = computed(() => {
+  public activeTab = computed(() => {
     const tabs = this.viewTabs();
     const id = this.activeId();
 
@@ -204,9 +99,8 @@ export class DsTabsComponent {
           this.activeId.set(qpTab);
         }
       });
-      console.log(this.tabsId());
-      console.log(this.activeId());
-      // this.routerHelper.setCurrentTabId(this.tabsId()!, this.activeId()!);
+    console.log(this.tabsId());
+    console.log(this.activeId());
   }
 
   ngOnDestroy() {
@@ -216,7 +110,7 @@ export class DsTabsComponent {
 
   select(id: string): void {
     console.log('tabs');
-    console.log(this.tabs())
+    console.log(this.tabs());
     if (this.activeId() === id) return;
 
     this.activeId.set(id);
