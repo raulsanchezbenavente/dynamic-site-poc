@@ -1,5 +1,5 @@
 export type CmsTabContract = {
-  id?: string;
+  tabId?: string;
   name?: string;
   title?: string;
   secondaryText?: string;

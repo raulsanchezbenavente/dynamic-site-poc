@@ -38,7 +38,7 @@ export class DsTabsComponent {
 
     return arr
       .map((t: any) => {
-        const id = String(t?.name ?? '').trim();
+        const id = String(t?.tabId ?? '').trim();
         const name = String(t?.name ?? '').trim();
         const title = String(t?.title ?? '').trim();
         const pageId = String(t?.pageId ?? '').trim();
@@ -53,7 +53,7 @@ export class DsTabsComponent {
     const tabs = this.viewTabs();
     const id = this.activeId();
 
-    const activeTab: CmsTabContract | undefined = tabs.find(t => t.name === id);
+    const activeTab: CmsTabContract | undefined = tabs.find(t => t.id === id);
     this.routerHelper.setCurrentTabId(this.tabsId()!, activeTab?.pageId!);
 
     console.log(this.tabsId(), activeTab?.pageId!);
