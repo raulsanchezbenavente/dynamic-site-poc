@@ -5,11 +5,19 @@ import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
 export class ProgressAsynGuard implements CanActivate {
     private router = inject(Router);
 
+    private readonly publicPaths = new Set([
+        'home',
+        'avianca-home',
+        'avianca-inicio',
+        'avianca-inicio-pt',
+        'avianca-accueil',
+    ]);
+
     async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
         const path = route.routeConfig?.path;
         const token = localStorage.getItem('BOOKING_PROCESS');
 
-        if (path === 'home' || path === 'avianca-home') {
+        if (path && this.publicPaths.has(path)) {
             return true;
         }
 
