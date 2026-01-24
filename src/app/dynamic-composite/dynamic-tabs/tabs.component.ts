@@ -38,28 +38,28 @@ export class DsTabsComponent {
 
     return arr
       .map((t: any) => {
-        const id = String(t?.tabId ?? '').trim();
+        const tabId = String(t?.tabId ?? '').trim();
         const name = String(t?.name ?? '').trim();
         const title = String(t?.title ?? '').trim();
         const pageId = String(t?.pageId ?? '').trim();
         const components = Array.isArray(t?.components) ? t.components : [];
-        if (!id || !name) return null;
-        return { id, name, title, pageId, components };
+        if (!tabId || !name) return null;
+        return { tabId, name, title, pageId, components };
       })
-      .filter(Boolean) as Array<{ id: string; name: string; title: string; pageId: string; components: any[] }>;
+      .filter(Boolean) as Array<{ tabId: string; name: string; title: string; pageId: string; components: any[] }>;
   });
 
   public activeTab = computed(() => {
     const tabs = this.viewTabs();
-    const id = this.activeId();
+    const tabId = this.activeId();
 
-    const activeTab: CmsTabContract | undefined = tabs.find(t => t.id === id);
+    const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
     this.routerHelper.setCurrentTabId(this.tabsId()!, activeTab?.pageId!);
 
     console.log(this.tabsId(), activeTab?.pageId!);
 
     if (!tabs.length) return undefined;
-    return tabs.find(t => t.id === id) ?? tabs[0];
+    return tabs.find(t => t.tabId === tabId) ?? tabs[0];
   });
 
   constructor() {
@@ -68,7 +68,7 @@ export class DsTabsComponent {
       const tabs = this.viewTabs();
       if (!tabs.length) return;
 
-      if (qpTab && tabs.some(t => t.id === qpTab) && this.activeId() !== qpTab) {
+      if (qpTab && tabs.some(t => t.tabId === qpTab) && this.activeId() !== qpTab) {
         this.activeId.set(qpTab);
       }
     });
@@ -79,8 +79,8 @@ export class DsTabsComponent {
 
       if (!tabs.length) return;
 
-      if (!current || !tabs.some(t => t.id === current)) {
-        this.activeId.set(tabs[0].id);
+      if (!current || !tabs.some(t => t.tabId === current)) {
+        this.activeId.set(tabs[0].tabId);
       }
     });
   }
@@ -95,7 +95,7 @@ export class DsTabsComponent {
         if (!qpTab) return;
         if (!tabs.length) return;
 
-        if (tabs.some(t => t.id === qpTab) && this.activeId() !== qpTab) {
+        if (tabs.some(t => t.tabId === qpTab) && this.activeId() !== qpTab) {
           this.activeId.set(qpTab);
         }
       });
@@ -122,8 +122,8 @@ export class DsTabsComponent {
     });
   }
 
-  trackById(_: number, tab: { id: string }): string {
-    return tab.id;
+  trackById(_: number, tab: { tabId: string }): string {
+    return tab.tabId;
   }
 
   tabButtonId(tabId: string): string {
