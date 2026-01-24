@@ -2,7 +2,7 @@
   "pages": [
     {
       "pageId": 1,
-      "path": "avianca-inicio",
+      "path": "avianca-casa",
       "name": "Inicio",
       "layout": {
         "rows": [
