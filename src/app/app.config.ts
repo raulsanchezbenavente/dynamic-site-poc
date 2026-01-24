@@ -8,11 +8,6 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 
-// export function httpLoaderFactory(http: HttpClient) {
-//   return new TranslateHttpLoader(http);
-// }
-
-
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -21,7 +16,7 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       multi: true,
       deps: [SiteConfigService],
-      useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.load()),
+      useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.loadSite('es')),
     },
     provideHttpClient(),
 

@@ -10,6 +10,8 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { Location } from '@angular/common';
 
 export type HeaderMenuItem = {
   label: string;
@@ -404,6 +406,9 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
   `],
 })
 export class MainHeaderComponent {
+  private readonly siteConfig = inject(SiteConfigService);
+  private readonly location = inject(Location);
+
   language = input<string>('Español');
   market = input<string>('Colombia (COP)');
 
@@ -424,6 +429,17 @@ export class MainHeaderComponent {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
+    this.location.replaceState('avianca-inicio?activeTab=Datos%20Personales');
+
+    console.log(this.router.config)
+    setTimeout(() => {
+      this.siteConfig.loadSite(lang).subscribe(()=>{
+            console.log(this.router.config)
+
+        // this.router.navigateByUrl('/avianca-inicio?activeTab=Datos%20Personales2222');
+        // this.siteConfig.loadSite('en').subscribe();
+      });
+    }, 1000);
   }
 
   trackByLang(_: number, l: Lang) {

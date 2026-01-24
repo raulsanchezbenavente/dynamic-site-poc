@@ -37,7 +37,7 @@ export type CmsTabContract = {
         [class.is-active]="tab.id === activeId()"
         (click)="select(tab.id)"
       >
-        {{ tab.name }}
+        {{ tab.title }}
       </button>
     </div>
 
@@ -137,13 +137,14 @@ export class DsTabsComponent {
 
     return arr
       .map((t: any) => {
-        const id = String(t?.id ?? t?.name ?? t?.title ?? '').trim();
-        const name = String(t?.title ?? t?.name ?? t?.id ?? '').trim();
+        const id = String(t?.name ?? '').trim();
+        const name = String(t?.name ?? '').trim();
+        const title = String(t?.title ?? '').trim();
         const components = Array.isArray(t?.components) ? t.components : [];
         if (!id || !name) return null;
-        return { id, name, components };
+        return { id, name, title, components };
       })
-      .filter(Boolean) as Array<{ id: string; name: string; components: any[] }>;
+      .filter(Boolean) as Array<{ id: string; name: string; title: string; components: any[] }>;
   });
 
   activeTab = computed(() => {

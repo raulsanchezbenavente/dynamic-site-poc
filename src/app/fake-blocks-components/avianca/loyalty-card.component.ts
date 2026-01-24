@@ -7,6 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, TranslateModule],
   template: `
+    <input type="text" value="" />
     <section class="lm-wrap" role="region" aria-label="Account summary">
       <header class="lm-header">
         <div class="lm-title">
