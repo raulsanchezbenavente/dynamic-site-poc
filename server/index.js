@@ -100,9 +100,9 @@ app.listen(port, () => {
 
 const path = require('path');
 
-app.get('/assets/config-site/:lang/config-site.json', (req, res) => {
+app.get('/assets/config-site/:lang', (req, res) => {
     const lang = req.params.lang;
-    res.sendFile(path.join(__dirname, `../src/assets/config-site/${lang}/config-site.json`));
+    res.sendFile(path.join(__dirname, `../src/assets/config-site/${lang}`));
 });
 
 const browserPath = path.join(__dirname, '../dist/dynamic-site/browser');
