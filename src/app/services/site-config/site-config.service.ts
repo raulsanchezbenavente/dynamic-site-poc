@@ -44,4 +44,60 @@ export class SiteConfigService {
   public get siteSnapshot(): any | null {
     return this._siteSubject.value;
   }
+
+  public getPagesByLang(lang: AppLang): any[] {
+    return this.configSitesByLanguage[lang] ?? [];
+  }
+
+  public getTabNamesByTabsId(
+    tabsId: string | number,
+    lang?: AppLang
+  ): Array<{ name: string; title?: string; secondaryText?: string }> {
+    const tabsIdStr = String(tabsId);
+    const pages = lang
+      ? (this.configSitesByLanguage[lang] ?? [])
+      : Object.values(this.configSitesByLanguage).flat();
+
+    const tabMap = new Map<string, { name: string; title?: string; secondaryText?: string }>();
+
+    for (const page of pages) {
+      if (String(page?.tabsId ?? '') === tabsIdStr) {
+        const pageTabs = Array.isArray(page?.tabs) ? page.tabs : [];
+        pageTabs.forEach((tab: any) => {
+          const name = tab?.name ? String(tab.name) : '';
+          if (!name) return;
+          if (!tabMap.has(name)) {
+            tabMap.set(name, {
+              name,
+              title: tab?.title ? String(tab.title) : undefined,
+              secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
+            });
+          }
+        });
+      }
+
+      const rows = page?.layout?.rows ?? page?.layout ?? [];
+      const cols = Array.isArray(rows)
+        ? rows.flatMap((row: any) => row?.cols ?? [])
+        : [];
+
+      for (const col of cols) {
+        if (String(col?.tabsId ?? '') !== tabsIdStr) continue;
+        const tabs = Array.isArray(col?.tabs) ? col.tabs : [];
+        tabs.forEach((tab: any) => {
+          const name = tab?.name ? String(tab.name) : '';
+          if (!name) return;
+          if (!tabMap.has(name)) {
+            tabMap.set(name, {
+              name,
+              title: tab?.title ? String(tab.title) : undefined,
+              secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
+            });
+          }
+        });
+      }
+    }
+
+    return Array.from(tabMap.values());
+  }
 }

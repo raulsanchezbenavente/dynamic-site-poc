@@ -1,5 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { AppLang } from '../site-config/models/langs.model';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +10,8 @@ export class RouterHelperService {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private tabsId: Record<string, string> = {};
+  private readonly languageChangeSubject = new Subject<AppLang>();
+  public readonly languageChange$ = this.languageChangeSubject.asObservable();
 
   private getLeafRoute(route: ActivatedRoute): ActivatedRoute {
     let current = route;
@@ -34,6 +38,10 @@ export class RouterHelperService {
 
   public getCurrentTabId(tabsId: string): string | undefined {
     return this.tabsId ? this.tabsId[tabsId] : undefined;
+  }
+
+  public changeLanguage(lang: AppLang): void {
+    this.languageChangeSubject.next(lang);
   }
 
 }

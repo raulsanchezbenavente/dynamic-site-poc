@@ -7,12 +7,15 @@ import {
   inject,
   input,
   model,
+  signal,
 } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 import { CmsTabContract } from './models/cms-tab-contract.model';
+import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { AppLang } from '../../services/site-config/models/langs.model';
 
 @Component({
   selector: 'ds-tabs',
@@ -28,7 +31,9 @@ export class DsTabsComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly siteConfig = inject(SiteConfigService);
   private readonly destroy$ = new Subject<void>();
+  private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
 
   public activeId = model<string | undefined>(undefined);
 
@@ -36,17 +41,32 @@ export class DsTabsComponent {
     const raw = this.tabs();
     const arr = Array.isArray(raw) ? raw : [];
 
-    return arr
+    const normalized = arr
       .map((t: any) => {
         const tabId = String(t?.tabId ?? '').trim();
         const name = String(t?.name ?? '').trim();
         const title = String(t?.title ?? '').trim();
+        const secondaryText = String(t?.secondaryText ?? '').trim();
         const pageId = String(t?.pageId ?? '').trim();
         const components = Array.isArray(t?.components) ? t.components : [];
         if (!tabId || !name) return null;
-        return { tabId, name, title, pageId, components };
+        return { tabId, name, title, secondaryText, pageId, components };
       })
-      .filter(Boolean) as Array<{ tabId: string; name: string; title: string; pageId: string; components: any[] }>;
+      .filter(Boolean) as Array<{ tabId: string; name: string; title: string; secondaryText?: string; pageId: string; components: any[] }>;
+
+    const overrides = this.tabsOverride();
+    if (!overrides.length) return normalized;
+
+    return normalized.map((tab, index) => {
+      const override = overrides[index];
+      if (!override) return tab;
+      return {
+        ...tab,
+        name: override.name ?? tab.name,
+        title: override.title ?? tab.title,
+        secondaryText: override.secondaryText ?? tab.secondaryText,
+      };
+    });
   });
 
   public activeTab = computed(() => {
@@ -66,13 +86,10 @@ export class DsTabsComponent {
       this.navigateToTab(qpTab);
     });
 
-
     effect(() => {
       const tabs = this.viewTabs();
       const current = this.activeId();
-
       if (!tabs.length) return;
-
       if (!current || !tabs.some(t => t.tabId === current)) {
         this.activeId.set(tabs[0].tabId);
       }
@@ -88,6 +105,16 @@ export class DsTabsComponent {
       .subscribe((event) => {
         const activeTab: string | undefined = new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
         this.navigateToTab(activeTab);
+      });
+
+      this.routerHelper.languageChange$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((lang: AppLang) => {
+        if(this.tabsId()) {
+          const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
+          this.tabsOverride.set(overrides);
+          console.log(overrides);
+        }
       });
   }
 

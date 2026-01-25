@@ -13,6 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
 import { Location } from '@angular/common';
 import { AppLang } from '../../../services/site-config/models/langs.model';
+import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
 
 export type HeaderMenuItem = {
   label: string;
@@ -49,6 +50,7 @@ const DEFAULT_MENU: HeaderMenuItem[] = [
 export class MainHeaderComponent {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly location = inject(Location);
+  private readonly routerHelper = inject(RouterHelperService);
 
   language = input<string>('Español');
   market = input<string>('Colombia (COP)');
@@ -70,13 +72,23 @@ export class MainHeaderComponent {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
-    this.location.replaceState('/es/avianca-inicio?activeTab=Datos%20Personales');
+    this.location.replaceState(this.buildLangUrl(lang));
+    console.log(this.siteConfig.getPagesByLang(lang));
+    this.routerHelper.changeLanguage(lang);
 
-    console.log(this.router.config);
+  }
 
-    setTimeout(() => {
-
-    }, 1000);
+  private buildLangUrl(lang: AppLang): string {
+    const [path, query] = this.router.url.split('?');
+    const segments = path.split('/').filter(Boolean);
+    if (segments.length > 0) {
+      segments[0] = lang;
+    } else {
+      const fallbackPath = this.siteConfig.getPagesByLang(lang)[0]?.path ?? 'home';
+      segments.push(lang, fallbackPath);
+    }
+    const newPath = `/${segments.join('/')}`;
+    return query ? `${newPath}?${query}` : newPath;
   }
 
   trackByLang(_: number, l: Lang) {
