@@ -12,6 +12,13 @@ export class RouterHelperService {
   private tabsId: Record<string, string> = {};
   private readonly languageChangeSubject = new Subject<AppLang>();
   public readonly languageChange$ = this.languageChangeSubject.asObservable();
+  private _language: AppLang = 'en';
+  public get language(): AppLang {
+    return this._language;
+  }
+  public set language(lang: AppLang) {
+    this._language = lang;
+  }
 
   public getLeafRoute(): ActivatedRoute {
     let current = this.route;

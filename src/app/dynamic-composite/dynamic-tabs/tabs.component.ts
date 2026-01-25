@@ -72,10 +72,8 @@ export class DsTabsComponent {
   });
 
   // public activeTab = computed(() => {
-  //   console.log('KAKAK)');
   //   const tabs = this.viewTabs();
   //   const tabId = this.activeId();
-
   //   const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
   //   if (!tabs.length) return undefined;
   //   return tabs.find(t => t.tabId === tabId) ?? tabs[0];
@@ -111,22 +109,21 @@ export class DsTabsComponent {
       this.routerHelper.languageChange$
         .pipe(takeUntil(this.destroy$))
         .subscribe((lang: AppLang) => {
-          console.log('PEPO', lang);
         if(this.tabsId()) {
-          console.log('FETCHING OVERRIDES FOR', this.tabsId()!, lang);
           const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
-          console.log(overrides);
-          console.log(this.routerHelper.getCurrentTabId(this.tabsId()!));
           this.tabsOverride.set(overrides);
-          // this.setActiveTabName(overrides);
-
+          this.setActiveTabName(
+            overrides.find(o => {
+              const currentTab = this.viewTabs().find(t => t.tabId === this.activeId());
+              return o.name === currentTab?.name;
+            })?.name
+          );
         }
       });
   }
 
   private navigateToTab(qpTab: string | undefined): void {
     const tabs = this.viewTabs();
-    console.log(tabs)
     if (!qpTab) {
       qpTab = tabs[0]?.name;
       requestAnimationFrame(() => {
@@ -151,6 +148,12 @@ export class DsTabsComponent {
     const url = new URL(window.location.href);
     url.searchParams.set('activeTab', tabName ?? '');
     window.history.pushState({}, '', url.toString());
+
+    // this.router.navigate([], {
+    //   queryParams: { activeTab: tabName ?? '' },
+    //   queryParamsHandling: 'merge',
+    //   replaceUrl: true,          // equivalente a replaceState en historial
+    // })
   }
 
   public trackById(_: number, tab: { tabId: string }): string {

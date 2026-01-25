@@ -77,25 +77,11 @@ export class MainHeaderComponent {
       const nextPath: string | undefined = this.siteConfig.getPathByPageId(pageId, lang);
       console.log(pageId, nextPath);
       if (nextPath) {
-        // const idTab = this.routerHelper.getCurrentTabId(tabsId);
         const query = this.router.url.split('?')[1];
         this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
         this.routerHelper.changeLanguage(lang);
       }
     }
-  }
-
-  private buildLangUrl(lang: AppLang): string {
-    const [path, query] = this.router.url.split('?');
-    const segments = path.split('/').filter(Boolean);
-    if (segments.length > 0) {
-      segments[0] = lang;
-    } else {
-      const fallbackPath = this.siteConfig.getPagesByLang(lang)[0]?.path ?? 'home';
-      segments.push(lang, fallbackPath);
-    }
-    const newPath = `/${segments.join('/')}`;
-    return query ? `${newPath}?${query}` : newPath;
   }
 
   trackByLang(_: number, l: Lang) {

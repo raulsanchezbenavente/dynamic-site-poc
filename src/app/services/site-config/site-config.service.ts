@@ -60,13 +60,13 @@ export class SiteConfigService {
   public getTabNamesByTabsId(
     tabsId: string | number,
     lang?: AppLang
-  ): Array<{ name: string; title?: string; secondaryText?: string }> {
+  ): Array<{ name: string; title?: string; secondaryText?: string; tabId?: string }> {
     const tabsIdStr = String(tabsId);
     const pages = lang
       ? (this.configSitesByLanguage[lang] ?? [])
       : Object.values(this.configSitesByLanguage).flat();
 
-    const tabMap = new Map<string, { name: string; title?: string; secondaryText?: string }>();
+    const tabMap = new Map<string, { name: string; title?: string; secondaryText?: string; tabId?: string }>();
 
     for (const page of pages) {
       if (String(page?.tabsId ?? '') === tabsIdStr) {
@@ -79,6 +79,7 @@ export class SiteConfigService {
               name,
               title: tab?.title ? String(tab.title) : undefined,
               secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
+              tabId: tab?.tabId ? String(tab.tabId) : undefined,
             });
           }
         });
@@ -100,6 +101,7 @@ export class SiteConfigService {
               name,
               title: tab?.title ? String(tab.title) : undefined,
               secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
+              tabId: tab?.tabId ? String(tab.tabId) : undefined,
             });
           }
         });
