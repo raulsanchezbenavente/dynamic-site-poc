@@ -23,34 +23,15 @@
         aria-label="Language menu"
         (click)="$event.stopPropagation()"
       >
-        <button
-          type="button"
-          class="lm-lang-item"
-          role="menuitem"
-          [class.is-active]="activeLang() === 'en'"
-          (click)="setLang('en')"
-        >{{ 'HEADER.EN' | translate }}</button>
-        <button
-          type="button"
-          class="lm-lang-item"
-          role="menuitem"
-          [class.is-active]="activeLang() === 'es'"
-          (click)="setLang('es')"
-        >{{ 'HEADER.ES' | translate }}</button>
-        <button
-          type="button"
-          class="lm-lang-item"
-          role="menuitem"
-          [class.is-active]="activeLang() === 'fr'"
-          (click)="setLang('fr')"
-        >{{ 'HEADER.FR' | translate }}</button>
-        <button
-          type="button"
-          class="lm-lang-item"
-          role="menuitem"
-          [class.is-active]="activeLang() === 'pt'"
-          (click)="setLang('pt')"
-        >{{ 'HEADER.PT' | translate }}</button>
+        @for (lang of langs; track trackByLang) {
+          <button
+            type="button"
+            class="lm-lang-item"
+            role="menuitem"
+            [class.is-active]="activeLang() === lang.code"
+            (click)="setLang(lang.code)"
+          >{{ lang.label | translate }}</button>
+        }
       </div>
     </div>
 
