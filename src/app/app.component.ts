@@ -41,8 +41,6 @@ export class AppComponent {
         ...routes,
         { path: '**', redirectTo: 'en/avianca-home' },
       ]);
-
-      console.log('Routes configuradas dinámicamente:', this.router.config);
     });
   }
 }

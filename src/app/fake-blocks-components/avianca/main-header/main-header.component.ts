@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
 import { Location } from '@angular/common';
+import { AppLang } from '../../../services/site-config/models/langs.model';
 
 export type HeaderMenuItem = {
   label: string;
@@ -20,7 +21,7 @@ export type HeaderMenuItem = {
   redirectTo?: string;
 };
 
-type Lang = { code: 'en' | 'es' | 'fr' | 'pt'; label: string };
+type Lang = { code: AppLang; label: string };
 
 const LANGS: Lang[] = [
   { code: 'en', label: 'HEADER.EN' },
@@ -58,20 +59,21 @@ export class MainHeaderComponent {
 
   langOpen = signal(false);
   langs = LANGS;
-  activeLang = signal<'en' | 'es' | 'fr' | 'pt'>('en');
+  activeLang = signal<AppLang>('en');
   activeLangLabel = computed(() => {
     const code = this.activeLang();
     const key = this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
     return this.translate.instant(key);
   });
 
-  setLang(lang: 'en' | 'es' |'fr' | 'pt') {
+  setLang(lang: AppLang) {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
     this.location.replaceState('/es/avianca-inicio?activeTab=Datos%20Personales');
 
     console.log(this.router.config);
+
     setTimeout(() => {
 
     }, 1000);

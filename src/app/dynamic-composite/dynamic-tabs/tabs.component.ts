@@ -92,16 +92,12 @@ export class DsTabsComponent {
   }
 
   private navigateToTab(qpTab: string | undefined): void {
-      const tabs = this.viewTabs();
-      if (!tabs.length) return;
-      const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
-
-      console.log(tab)
-
-      if (tab) {
-        this.activeId.set(tab.tabId);
-      }
-
+    const tabs = this.viewTabs();
+    if (!tabs.length) return;
+    const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
+    if (tab) {
+      this.activeId.set(tab.tabId);
+    }
   }
 
   public ngOnDestroy() {
