@@ -104,7 +104,7 @@
                 role="menuitem"
                 (click)="redirectTo(item.redirectTo)"
               >
-                <span class="lm-dd-label">{{ item.label }}</span>
+                <span class="lm-dd-label">{{ item.label | translate }}</span>
 
                 <span class="lm-dd-icon" *ngIf="item.checked" aria-hidden="true">
                   <svg viewBox="0 0 24 24">

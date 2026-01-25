@@ -32,11 +32,11 @@ const LANGS: Lang[] = [
 ];
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
-  { label: 'Home', redirectTo: '/home' },
-  { label: 'Personal Data', checked: true, redirectTo: '/en/avianca-home?activeTab=Personal%20Data' },
-  { label: 'My trips', redirectTo: '/en/avianca-home?activeTab=My%20Trips' },
-  { label: 'My elite status', redirectTo: '/en/avianca-home?activeTab=Elite%20status' },
-  { label: 'Book a flight with LM' },
+  { label: 'HEADER.MENU_HOME', redirectTo: '/home' },
+  { label: 'HEADER.MENU_PERSONAL_DATA', checked: true, redirectTo: '/en/avianca-home?activeTab=Personal%20Data' },
+  { label: 'HEADER.MENU_MY_TRIPS', redirectTo: '/en/avianca-home?activeTab=My%20Trips' },
+  { label: 'HEADER.MENU_MY_ELITE_STATUS', redirectTo: '/en/avianca-home?activeTab=Elite%20status' },
+  { label: 'HEADER.MENU_BOOK_LM' },
 ];
 
 @Component({

@@ -10,6 +10,11 @@
     "EN": "English",
     "ES": "Spanish",
     "FR": "French",
-    "PT": "Portuguese"
+    "PT": "Portuguese",
+    "MENU_HOME": "Home",
+    "MENU_PERSONAL_DATA": "Personal Data",
+    "MENU_MY_TRIPS": "My trips",
+    "MENU_MY_ELITE_STATUS": "My elite status",
+    "MENU_BOOK_LM": "Book a flight with LM"
   }
 }
