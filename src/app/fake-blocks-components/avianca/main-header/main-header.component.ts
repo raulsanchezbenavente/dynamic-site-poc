@@ -51,13 +51,13 @@ export class MainHeaderComponent {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly translate = inject(TranslateService);
 
   language = input<string>('Español');
   market = input<string>('Colombia (COP)');
 
-  userName = input<string>('Jose');
+  userName = input<string>('Perico');
   userMiles = input<string>('600,700');
-  private translate = inject(TranslateService);
 
   langOpen = signal(false);
   langs = LANGS;
@@ -72,10 +72,17 @@ export class MainHeaderComponent {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
-    this.location.replaceState(this.buildLangUrl(lang));
-    console.log(this.siteConfig.getPagesByLang(lang));
-    this.routerHelper.changeLanguage(lang);
-
+    const pageId: string | undefined= this.routerHelper.getCurrentPageId();
+    if (pageId) {
+      const nextPath: string | undefined = this.siteConfig.getPathByPageId(pageId, lang);
+      console.log(pageId, nextPath);
+      if (nextPath) {
+        // const idTab = this.routerHelper.getCurrentTabId(tabsId);
+        const query = this.router.url.split('?')[1];
+        this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
+        this.routerHelper.changeLanguage(lang);
+      }
+    }
   }
 
   private buildLangUrl(lang: AppLang): string {
@@ -101,10 +108,8 @@ export class MainHeaderComponent {
     this.langOpen.update(v => !v);
   }
 
-  // ✅ Items por defecto hardcoded pero overrideable desde JSON/inputs
   menuItems = input<HeaderMenuItem[] | null | undefined>(DEFAULT_MENU);
 
-  // UI state
   open = signal(false);
 
   private router = inject(Router);

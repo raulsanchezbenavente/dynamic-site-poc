@@ -13,8 +13,8 @@ export class RouterHelperService {
   private readonly languageChangeSubject = new Subject<AppLang>();
   public readonly languageChange$ = this.languageChangeSubject.asObservable();
 
-  private getLeafRoute(route: ActivatedRoute): ActivatedRoute {
-    let current = route;
+  public getLeafRoute(): ActivatedRoute {
+    let current = this.route;
     while (current.firstChild) {
       current = current.firstChild;
     }
@@ -22,7 +22,7 @@ export class RouterHelperService {
   }
 
   public getCurrentPageId(): string | undefined {
-    const leaf = this.getLeafRoute(this.route);
+    const leaf = this.getLeafRoute();
     return leaf.snapshot.data?.['pageId'];
   }
 

@@ -16,6 +16,7 @@ import { RouterHelperService } from '../../services/router-helper/router-helper.
 import { CmsTabContract } from './models/cms-tab-contract.model';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'ds-tabs',
@@ -34,6 +35,7 @@ export class DsTabsComponent {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
+  private readonly location = inject(Location);
 
   public activeId = model<string | undefined>(undefined);
 
@@ -69,16 +71,15 @@ export class DsTabsComponent {
     });
   });
 
-  public activeTab = computed(() => {
-    const tabs = this.viewTabs();
-    const tabId = this.activeId();
+  // public activeTab = computed(() => {
+  //   console.log('KAKAK)');
+  //   const tabs = this.viewTabs();
+  //   const tabId = this.activeId();
 
-    const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
-    this.routerHelper.setCurrentTabId(this.tabsId()!, activeTab?.pageId!);
-
-    if (!tabs.length) return undefined;
-    return tabs.find(t => t.tabId === tabId) ?? tabs[0];
-  });
+  //   const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
+  //   if (!tabs.length) return undefined;
+  //   return tabs.find(t => t.tabId === tabId) ?? tabs[0];
+  // });
 
   constructor() {
     effect(() => {
@@ -110,38 +111,46 @@ export class DsTabsComponent {
       this.routerHelper.languageChange$
         .pipe(takeUntil(this.destroy$))
         .subscribe((lang: AppLang) => {
+          console.log('PEPO', lang);
         if(this.tabsId()) {
+          console.log('FETCHING OVERRIDES FOR', this.tabsId()!, lang);
           const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
-          this.tabsOverride.set(overrides);
           console.log(overrides);
+          console.log(this.routerHelper.getCurrentTabId(this.tabsId()!));
+          this.tabsOverride.set(overrides);
+          // this.setActiveTabName(overrides);
+
         }
       });
   }
 
   private navigateToTab(qpTab: string | undefined): void {
     const tabs = this.viewTabs();
+    console.log(tabs)
+    if (!qpTab) {
+      qpTab = tabs[0]?.name;
+      requestAnimationFrame(() => {
+        this.setActiveTabName(tabs[0]?.name);
+      });
+    }
     if (!tabs.length) return;
     const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
     if (tab) {
       this.activeId.set(tab.tabId);
     }
-  }
-
-  public ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.routerHelper.setCurrentTabId(this.tabsId()!, tab?.pageId!);
   }
 
   public select(tab: CmsTabContract): void {
-    if (this.activeId() === tab.tabId) return;
-
+    if (this.activeId() === tab.tabId) return
     this.activeId.set(tab.tabId);
+    this.setActiveTabName(tab.name);
+  }
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { activeTab: tab.name },
-      queryParamsHandling: 'merge',
-    });
+  private setActiveTabName(tabName: string | undefined): void {
+    const url = new URL(window.location.href);
+    url.searchParams.set('activeTab', tabName ?? '');
+    window.history.pushState({}, '', url.toString());
   }
 
   public trackById(_: number, tab: { tabId: string }): string {
@@ -154,5 +163,10 @@ export class DsTabsComponent {
 
   public tabPanelId(tabId: string): string {
     return `ds-tabpanel-${tabId}`;
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

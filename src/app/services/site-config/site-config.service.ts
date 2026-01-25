@@ -49,6 +49,14 @@ export class SiteConfigService {
     return this.configSitesByLanguage[lang] ?? [];
   }
 
+  public getPathByPageId(pageId: string | number | undefined, lang: AppLang): string | undefined {
+    if (pageId === undefined || pageId === null) return undefined;
+    const pages = this.configSitesByLanguage[lang] ?? [];
+    const idStr = String(pageId);
+    const page = pages.find((p) => String(p?.pageId ?? '') === idStr);
+    return page?.path;
+  }
+
   public getTabNamesByTabsId(
     tabsId: string | number,
     lang?: AppLang
