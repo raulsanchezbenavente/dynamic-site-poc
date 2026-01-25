@@ -28,7 +28,8 @@ export type LmTripCard = {
     <section class="ut-wrap" role="region" aria-label="Upcoming trips">
       <h2 class="ut-title">{{ title() }}</h2>
 
-      <article class="ut-card" *ngFor="let t of trips(); trackBy: trackByTrip">
+      @for (t of trips(); track trackByTrip) {
+      <article class="ut-card">
         <div class="ut-head">
           <div class="ut-route">
             <span class="ut-plane-ico" aria-hidden="true">✈</span>
@@ -83,6 +84,7 @@ export type LmTripCard = {
           </button>
         </div>
       </article>
+      }
     </section>
   `,
   styles: [`

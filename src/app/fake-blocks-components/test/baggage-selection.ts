@@ -12,22 +12,23 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
       <h2 class="text-center text-primary mb-4">Select Your Baggage</h2>
 
       <div class="row justify-content-center g-4">
-        <div
-          class="col-md-4"
-          *ngFor="let bag of baggageOptions"
-          (click)="selectBaggage(bag)"
-        >
+        @for (bag of baggageOptions; track bag.id) {
           <div
-            class="card h-100 text-center p-3 shadow-sm"
-            [class.border-success]="selectedBaggage?.id === bag.id"
-            style="cursor: pointer;"
+            class="col-md-4"
+            (click)="selectBaggage(bag)"
           >
-            <div class="display-1 mb-2">{{ bag.icon }}</div>
-            <h5 class="card-title">{{ bag.label }}</h5>
-            <p class="card-text text-muted">{{ bag.description }}</p>
-            <p class="card-text text-success fw-bold">{{ bag.price }}</p>
+            <div
+              class="card h-100 text-center p-3 shadow-sm"
+              [class.border-success]="selectedBaggage?.id === bag.id"
+              style="cursor: pointer;"
+            >
+              <div class="display-1 mb-2">{{ bag.icon }}</div>
+              <h5 class="card-title">{{ bag.label }}</h5>
+              <p class="card-text text-muted">{{ bag.description }}</p>
+              <p class="card-text text-success fw-bold">{{ bag.price }}</p>
+            </div>
           </div>
-        </div>
+        }
       </div>
 
       <div class="text-center mt-4">

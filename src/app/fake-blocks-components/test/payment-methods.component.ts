@@ -12,50 +12,52 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
       <h2 class="text-primary mb-4">Select Your Payment Method</h2>
 
       <div class="row g-4">
-        <div class="col-12" *ngFor="let method of paymentMethods">
-          <button
-            class="btn w-100 py-3 d-flex align-items-center justify-content-between shadow-sm"
-            [ngClass]="method.class"
-            (click)="toggleSelected(method.label)">
-            <img width="50" src="{{method.icon}}"><span class="fs-4">{{ method.label }}</span>
-            <span class="badge" [ngClass]="selected === method.label ? 'bg-primary' : 'bg-light text-dark'">
-              {{ selected === method.label ? 'Selected' : 'Select' }}
-            </span>
-          </button>
+        @for (method of paymentMethods; track method.label) {
+          <div class="col-12">
+            <button
+              class="btn w-100 py-3 d-flex align-items-center justify-content-between shadow-sm"
+              [ngClass]="method.class"
+              (click)="toggleSelected(method.label)">
+              <img width="50" src="{{method.icon}}"><span class="fs-4">{{ method.label }}</span>
+              <span class="badge" [ngClass]="selected === method.label ? 'bg-primary' : 'bg-light text-dark'">
+                {{ selected === method.label ? 'Selected' : 'Select' }}
+              </span>
+            </button>
 
-          <div *ngIf="selected === method.label" class="mt-3 border rounded p-4 bg-light shadow-sm">
-            <h5 class="mb-3">Enter your {{ method.label }} details</h5>
+            <div *ngIf="selected === method.label" class="mt-3 border rounded p-4 bg-light shadow-sm">
+              <h5 class="mb-3">Enter your {{ method.label }} details</h5>
 
-            <form>
-              <div class="mb-3" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                <label class="form-label">Cardholder Name</label>
-                <input type="text" class="form-control" placeholder="John Doe">
-              </div>
-
-              <div class="mb-3" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                <label class="form-label">Card Number</label>
-                <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
-              </div>
-
-              <div class="row" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">Expiry Date</label>
-                  <input type="text" class="form-control" placeholder="MM/YY">
+              <form>
+                <div class="mb-3" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
+                  <label class="form-label">Cardholder Name</label>
+                  <input type="text" class="form-control" placeholder="John Doe">
                 </div>
-                <div class="col-md-6 mb-3">
-                  <label class="form-label">CVV</label>
-                  <input type="text" class="form-control" placeholder="123">
+
+                <div class="mb-3" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
+                  <label class="form-label">Card Number</label>
+                  <input type="text" class="form-control" placeholder="1234 5678 9012 3456">
                 </div>
-              </div>
 
-              <div *ngIf="method.label === 'PayPal' || method.label === 'Apple Pay'">
-                <p class="text-muted">You will be redirected to {{ method.label }} to complete your payment.</p>
-              </div>
+                <div class="row" *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">Expiry Date</label>
+                    <input type="text" class="form-control" placeholder="MM/YY">
+                  </div>
+                  <div class="col-md-6 mb-3">
+                    <label class="form-label">CVV</label>
+                    <input type="text" class="form-control" placeholder="123">
+                  </div>
+                </div>
 
-              <button type="button" (click)="goToResults()" class="btn btn-success w-100 mt-2">Fake Pay</button>
-            </form>
+                <div *ngIf="method.label === 'PayPal' || method.label === 'Apple Pay'">
+                  <p class="text-muted">You will be redirected to {{ method.label }} to complete your payment.</p>
+                </div>
+
+                <button type="button" (click)="goToResults()" class="btn btn-success w-100 mt-2">Fake Pay</button>
+              </form>
+            </div>
           </div>
-        </div>
+        }
       </div>
 
       <div class="mt-5 text-center">

@@ -20,7 +20,8 @@ type Section = {
       <h2 class="mp-title">{{ title() }}</h2>
       <p class="mp-subtitle">{{ subtitle() }}</p>
 
-      <div class="mp-section" *ngFor="let s of sections(); trackBy: trackByTitle">
+      @for (s of sections(); track trackByTitle) {
+      <div class="mp-section">
         <div class="mp-section-head">
           <h3 class="mp-section-title">{{ s.title }}</h3>
 
@@ -37,20 +38,25 @@ type Section = {
 
         <div class="mp-grid">
           <div class="mp-col">
-            <div class="mp-field" *ngFor="let f of s.left; trackBy: trackByField">
+            @for (f of s.left; track trackByField) {
+            <div class="mp-field">
               <div class="mp-label">{{ f.label }}</div>
               <div class="mp-value">{{ f.value }}</div>
             </div>
+            }
           </div>
 
           <div class="mp-col" *ngIf="s.right?.length">
-            <div class="mp-field" *ngFor="let f of s.right!; trackBy: trackByField">
+            @for (f of s.right!; track trackByField) {
+            <div class="mp-field">
               <div class="mp-label">{{ f.label }}</div>
               <div class="mp-value">{{ f.value }}</div>
             </div>
+            }
           </div>
         </div>
       </div>
+      }
     </section>
   `,
   styles: [`

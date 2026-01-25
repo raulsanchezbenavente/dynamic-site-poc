@@ -43,30 +43,33 @@ type FooterColumn = {
         </div>
 
         <div class="ft-grid">
-          <div class="ft-col" *ngFor="let col of columns(); trackBy: trackByTitle">
-            <h3 class="ft-col-title">{{ col.title }}</h3>
+          @for (col of columns(); track trackByTitle) {
+            <div class="ft-col">
+              <h3 class="ft-col-title">{{ col.title }}</h3>
 
-            <a
-              class="ft-link"
-              *ngFor="let link of col.links; trackBy: trackByLink"
-              [href]="link.href || '#'"
-              (click)="$event.preventDefault()"
-            >
-              <span class="ft-link-text">{{ link.label }}</span>
+              @for (link of col.links; track trackByLink) {
+                <a
+                  class="ft-link"
+                  [href]="link.href || '#'"
+                  (click)="$event.preventDefault()"
+                >
+                  <span class="ft-link-text">{{ link.label }}</span>
 
-              <span class="ft-ext" *ngIf="link.external" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M14 3h7v7" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M21 3l-9 9" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
-                    fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </a>
-          </div>
+                  <span class="ft-ext" *ngIf="link.external" aria-hidden="true">
+                    <svg viewBox="0 0 24 24">
+                      <path d="M14 3h7v7" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M21 3l-9 9" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                      <path d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
+                        fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </a>
+              }
+            </div>
+          }
         </div>
       </div>
     </footer>

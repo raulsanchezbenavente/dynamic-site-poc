@@ -10,27 +10,29 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
   template: `
     <div class="container my-5">
       <h2 class="mb-4 text-primary">Available Flights</h2>
-      <div *ngFor="let flight of flights" class="card mb-3 shadow-sm">
-        <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <div class="mb-3 mb-md-0 text-center text-md-start">
-            <h5 class="card-title mb-1">✈️ {{ flight.origin }} → {{ flight.destination }}</h5>
-            <p class="mb-0 text-muted">{{ flight.departure }} - {{ flight.arrival }} | ⏱ {{ flight.duration }}</p>
-          </div>
-          <div class="text-center">
-            <span class="badge me-2" [ngClass]="getClassBadge(flight.class)">
-              {{ flight.class }}
-            </span>
-            <span class="badge bg-secondary me-2">💺 Seat Included</span>
-            <span class="badge bg-light text-dark">🎒 Hand luggage</span>
-          </div>
-          <div class="text-center">
-            <div class="d-flex align-items-center gap-2">
-              <span class="fs-4 text-success fw-medium">💰{{ flight.price }}</span>
-              <button class="btn btn-outline-primary btn-sm" (click)="goToResults()">Select</button>
+      @for (flight of flights; track flight) {
+        <div class="card mb-3 shadow-sm">
+          <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="mb-3 mb-md-0 text-center text-md-start">
+              <h5 class="card-title mb-1">✈️ {{ flight.origin }} → {{ flight.destination }}</h5>
+              <p class="mb-0 text-muted">{{ flight.departure }} - {{ flight.arrival }} | ⏱ {{ flight.duration }}</p>
+            </div>
+            <div class="text-center">
+              <span class="badge me-2" [ngClass]="getClassBadge(flight.class)">
+                {{ flight.class }}
+              </span>
+              <span class="badge bg-secondary me-2">💺 Seat Included</span>
+              <span class="badge bg-light text-dark">🎒 Hand luggage</span>
+            </div>
+            <div class="text-center">
+              <div class="d-flex align-items-center gap-2">
+                <span class="fs-4 text-success fw-medium">💰{{ flight.price }}</span>
+                <button class="btn btn-outline-primary btn-sm" (click)="goToResults()">Select</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      }
     </div>
   `
 })

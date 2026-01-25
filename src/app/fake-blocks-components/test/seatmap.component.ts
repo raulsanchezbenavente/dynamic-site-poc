@@ -15,28 +15,30 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
         <!-- Header with seat letters -->
         <div class="d-flex align-items-center justify-content-center mb-2">
           <div class="seat-label seat-row-number"></div>
-          <ng-container *ngFor="let seat of seatColumns">
+          @for (seat of seatColumns; track seat) {
             <div class="seat-label" *ngIf="seat !== 'aisle'">{{ seat }}</div>
             <div class="seat-label" *ngIf="seat === 'aisle'" style="width: 20px;"></div>
-          </ng-container>
+          }
         </div>
 
         <!-- Rows -->
-        <div *ngFor="let row of seatRows" class="d-flex align-items-center justify-content-center mb-1">
-          <div class="seat-label seat-row-number">{{ row }}</div>
+        @for (row of seatRows; track row) {
+          <div class="d-flex align-items-center justify-content-center mb-1">
+            <div class="seat-label seat-row-number">{{ row }}</div>
 
-          <ng-container *ngFor="let seat of seatColumns">
-            <div *ngIf="seat === 'aisle'" style="width: 20px;"></div>
-            <div
-              *ngIf="seat !== 'aisle'"
-              class="seat-box me-1"
-              [class.selected]="selectedSeat === seat + row"
-              (click)="selectSeat(seat + row)"
-            >
-              {{ seat }}
-            </div>
-          </ng-container>
-        </div>
+            @for (seat of seatColumns; track seat) {
+              <div *ngIf="seat === 'aisle'" style="width: 20px;"></div>
+              <div
+                *ngIf="seat !== 'aisle'"
+                class="seat-box me-1"
+                [class.selected]="selectedSeat === seat + row"
+                (click)="selectSeat(seat + row)"
+              >
+                {{ seat }}
+              </div>
+            }
+          </div>
+        }
       </div>
 
       <div class="text-center mt-4">

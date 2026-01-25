@@ -97,37 +97,38 @@
           (click)="$event.stopPropagation()"
         >
           <div class="lm-dd-list">
-            <button
-              class="lm-dd-item"
-              type="button"
-              role="menuitem"
-              *ngFor="let item of items(); trackBy: trackByLabel"
-              (click)="redirectTo(item.redirectTo)"
-            >
-              <span class="lm-dd-label">{{ item.label }}</span>
+            @for (item of items(); track trackByLabel) {
+              <button
+                class="lm-dd-item"
+                type="button"
+                role="menuitem"
+                (click)="redirectTo(item.redirectTo)"
+              >
+                <span class="lm-dd-label">{{ item.label }}</span>
 
-              <span class="lm-dd-icon" *ngIf="item.checked" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5"
-                    fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
+                <span class="lm-dd-icon" *ngIf="item.checked" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M20 6L9 17l-5-5"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
 
-              <span class="lm-dd-icon" *ngIf="item.external" aria-hidden="true">
-                <svg viewBox="0 0 24 24">
-                  <path d="M14 3h7v7"
-                    fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M21 3l-9 9"
-                    fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
-                    fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </button>
+                <span class="lm-dd-icon" *ngIf="item.external" aria-hidden="true">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M14 3h7v7"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M21 3l-9 9"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
+                      fill="none" stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </button>
+            }
 
             <div class="lm-dd-sep" aria-hidden="true"></div>
 

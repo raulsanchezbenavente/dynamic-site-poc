@@ -8,9 +8,9 @@ import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component
   standalone: true,
   imports: [CommonModule, DsBlockOutletComponent],
   template: `
-    <ng-container *ngFor="let block of blocks(); trackBy: trackByKey">
+    @for (block of blocks(); track trackByKey) {
       <ds-block-outlet [block]="block"></ds-block-outlet>
-    </ng-container>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
