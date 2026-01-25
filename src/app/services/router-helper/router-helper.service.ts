@@ -20,6 +20,14 @@ export class RouterHelperService {
     this._language = lang;
   }
 
+  constructor() {
+    const segment = window.location.pathname.split('/').filter(Boolean)[0];
+    const lang = (segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt')
+      ? segment
+      : 'en';
+    this._language = lang;
+  }
+
   public getLeafRoute(): ActivatedRoute {
     let current = this.route;
     while (current.firstChild) {
@@ -48,6 +56,7 @@ export class RouterHelperService {
   }
 
   public changeLanguage(lang: AppLang): void {
+    this._language = lang;
     this.languageChangeSubject.next(lang);
   }
 

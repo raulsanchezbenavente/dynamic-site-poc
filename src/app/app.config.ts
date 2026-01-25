@@ -39,8 +39,13 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [TranslateService],
       useFactory: (ts: TranslateService) => () => {
-        ts.setDefaultLang('en');
-        return firstValueFrom(ts.use('en'));
+        const segment = window.location.pathname.split('/').filter(Boolean)[0];
+        const lang = (segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt')
+          ? segment
+          : 'en';
+
+        ts.setDefaultLang(lang);
+        return firstValueFrom(ts.use(lang));
       },
     },
   ]};

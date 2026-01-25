@@ -53,7 +53,7 @@ export class MainHeaderComponent {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly translate = inject(TranslateService);
 
-  language = input<string>('Español');
+  // language = input<string>('Español');
   market = input<string>('Colombia (COP)');
 
   userName = input<string>('Perico');
@@ -61,11 +61,12 @@ export class MainHeaderComponent {
 
   langOpen = signal(false);
   langs = LANGS;
-  activeLang = signal<AppLang>('en');
+  activeLang = signal<AppLang>(this.routerHelper.language );
   activeLangLabel = computed(() => {
-    const code = this.activeLang();
-    const key = this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
-    return this.translate.instant(key);
+      const code = this.activeLang();
+      console.log(code);
+      const key = this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
+      return this.translate.instant(key);
   });
 
   setLang(lang: AppLang) {
