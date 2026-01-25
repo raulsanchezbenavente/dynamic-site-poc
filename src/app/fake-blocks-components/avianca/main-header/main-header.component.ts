@@ -20,6 +20,9 @@ export type HeaderMenuItem = {
   checked?: boolean;
   external?: boolean;
   redirectTo?: string;
+  pageId?: string;
+  tabsId?: string;
+  tabId?: string;
 };
 
 type Lang = { code: AppLang; label: string };
@@ -32,10 +35,10 @@ const LANGS: Lang[] = [
 ];
 
 const DEFAULT_MENU: HeaderMenuItem[] = [
-  { label: 'HEADER.MENU_HOME', redirectTo: '/home' },
-  { label: 'HEADER.MENU_PERSONAL_DATA', checked: true, redirectTo: '/en/avianca-home?activeTab=Personal%20Data' },
-  { label: 'HEADER.MENU_MY_TRIPS', redirectTo: '/en/avianca-home?activeTab=My%20Trips' },
-  { label: 'HEADER.MENU_MY_ELITE_STATUS', redirectTo: '/en/avianca-home?activeTab=Elite%20status' },
+  { label: 'HEADER.MENU_HOME' },
+  { label: 'HEADER.MENU_PERSONAL_DATA', checked: true, pageId: '1', tabsId: '111', tabId: '22' },
+  { label: 'HEADER.MENU_MY_TRIPS', pageId: '1', tabsId: '11', tabId: '33' },
+  { label: 'HEADER.MENU_MY_ELITE_STATUS', pageId: '1', tabsId: '112', tabId: '55' },
   { label: 'HEADER.MENU_BOOK_LM' },
 ];
 
@@ -128,10 +131,26 @@ export class MainHeaderComponent {
     return item.label;
   }
 
-  public redirectTo(url?: string) {
+  public redirectTo(item: HeaderMenuItem) {
     this.open.set(false);
-    if (url) {
-      this.router.navigateByUrl(url);
+
+    if (item.redirectTo) {
+      this.router.navigateByUrl(item.redirectTo);
+    }
+
+    if (item.pageId) {
+      const getCurrentPageId = this.routerHelper.getCurrentPageId();
+      if (getCurrentPageId === item.pageId) {
+
+
+      } else {
+        const path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
+        this.router.navigateByUrl(path ?? '/');
+      // Navigate by pageId and tabs
+      // if
+      // let path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
+      // if (item.tabsId) {
+      }
     }
   }
 }
