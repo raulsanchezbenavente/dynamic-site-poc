@@ -224,7 +224,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent {
-  name = input<string>('Javier');
+  name = input<string>('Perico');
 
   memberNumber = input<string>('13440242314');
   totalMiles = input<string>('600,700');
