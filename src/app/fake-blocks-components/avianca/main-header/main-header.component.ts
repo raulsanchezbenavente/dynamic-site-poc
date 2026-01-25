@@ -62,11 +62,9 @@ export class MainHeaderComponent {
   langOpen = signal(false);
   langs = LANGS;
   activeLang = signal<AppLang>(this.routerHelper.language );
-  activeLangLabel = computed(() => {
-      const code = this.activeLang();
-      console.log(code);
-      const key = this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
-      return this.translate.instant(key);
+  activeLangLabelKey = computed(() => {
+    const code = this.activeLang();
+    return this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
   });
 
   setLang(lang: AppLang) {

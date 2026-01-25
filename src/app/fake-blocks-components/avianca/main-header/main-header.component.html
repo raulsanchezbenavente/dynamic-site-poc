@@ -14,7 +14,7 @@
         aria-haspopup="menu"
       >
         <span class="lm-lang-ico" aria-hidden="true">🌐</span>
-        <span class="lm-lang-label">{{ activeLangLabel() }}</span>
+        <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
       </button>
       <div
         *ngIf="langOpen()"
