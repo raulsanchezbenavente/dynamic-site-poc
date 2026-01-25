@@ -14,33 +14,8 @@ import { SiteConfigService } from '../../../services/site-config/site-config.ser
 import { Location } from '@angular/common';
 import { AppLang } from '../../../services/site-config/models/langs.model';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-
-export type HeaderMenuItem = {
-  label: string;
-  checked?: boolean;
-  external?: boolean;
-  redirectTo?: string;
-  pageId?: string;
-  tabsId?: string;
-  tabId?: string;
-};
-
-type Lang = { code: AppLang; label: string };
-
-const LANGS: Lang[] = [
-  { code: 'en', label: 'HEADER.EN' },
-  { code: 'es', label: 'HEADER.ES' },
-  { code: 'fr', label: 'HEADER.FR' },
-  { code: 'pt', label: 'HEADER.PT' },
-];
-
-const DEFAULT_MENU: HeaderMenuItem[] = [
-  { label: 'HEADER.MENU_HOME' },
-  { label: 'HEADER.MENU_PERSONAL_DATA', checked: true, pageId: '1', tabsId: '111', tabId: '22' },
-  { label: 'HEADER.MENU_MY_TRIPS', pageId: '1', tabsId: '11', tabId: '33' },
-  { label: 'HEADER.MENU_MY_ELITE_STATUS', pageId: '1', tabsId: '112', tabId: '55' },
-  { label: 'HEADER.MENU_BOOK_LM' },
-];
+import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
+import { HeaderMenuItem, Lang } from './models/main-header.models';
 
 @Component({
   selector: 'main-header',
