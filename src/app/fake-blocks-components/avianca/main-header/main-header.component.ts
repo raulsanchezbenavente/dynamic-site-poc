@@ -1,5 +1,5 @@
 import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, HostListener, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
@@ -66,32 +66,6 @@ export class MainHeaderComponent {
   public selectedMenuLabel = signal<string | null>(null);
 
   private router = inject(Router);
-
-  constructor() {
-    effect(() => {
-      if (this.selectedMenuLabel()) {
-        return;
-      }
-
-      const v = this.menuItems();
-      const list = Array.isArray(v) && v.length ? v : DEFAULT_MENU;
-      const checked = list.find((item) => item.checked);
-      if (checked?.label) {
-        this.selectedMenuLabel.set(checked.label);
-        return;
-      }
-
-      const currentPageId = this.routerHelper.getCurrentPageId();
-      if (!currentPageId) {
-        return;
-      }
-
-      const match = list.find((item) => item.pageId === currentPageId);
-      if (match?.label) {
-        this.selectedMenuLabel.set(match.label);
-      }
-    });
-  }
 
   // Always returns a non-empty array if nothing is provided
   public items = computed(() => {
