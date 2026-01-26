@@ -1,5 +1,5 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { AppLang } from './models/langs.model';
@@ -13,17 +13,18 @@ export class SiteConfigService {
 
   public loadSite(langs: AppLang[]): Observable<{ pages: any[] }> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
-    const requests = uniqueLangs.map((lang) =>
-      this.http.get<{ pages: any[] }>(this.getURlFromLangAndContext(lang))
-    );
+    const requests = uniqueLangs.map((lang) => this.http.get<{ pages: any[] }>(this.getURlFromLangAndContext(lang)));
 
     return forkJoin(requests).pipe(
       tap((sites) => {
-        this.configSitesByLanguage = uniqueLangs.reduce((acc, lang, idx) => {
-          const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
-          acc[lang] = pages;
-          return acc;
-        }, {} as Record<AppLang, any[]>);
+        this.configSitesByLanguage = uniqueLangs.reduce(
+          (acc, lang, idx) => {
+            const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
+            acc[lang] = pages;
+            return acc;
+          },
+          {} as Record<AppLang, any[]>
+        );
       }),
       map((sites) => ({
         pages: sites.flatMap((s) => (Array.isArray(s?.pages) ? s.pages : [])),
@@ -35,10 +36,9 @@ export class SiteConfigService {
   }
 
   private getURlFromLangAndContext(lang: AppLang): string {
-    return document.location.port === '4200' ?
-      'http://localhost:3000/assets/config-site/'+ lang
-      :
-      '/assets/config-site/'+ lang
+    return document.location.port === '4200'
+      ? 'http://localhost:3000/assets/config-site/' + lang
+      : '/assets/config-site/' + lang;
   }
 
   public get siteSnapshot(): any | null {
@@ -62,9 +62,7 @@ export class SiteConfigService {
     lang?: AppLang
   ): Array<{ name: string; title?: string; secondaryText?: string; tabId?: string }> {
     const tabsIdStr = String(tabsId);
-    const pages = lang
-      ? (this.configSitesByLanguage[lang] ?? [])
-      : Object.values(this.configSitesByLanguage).flat();
+    const pages = lang ? (this.configSitesByLanguage[lang] ?? []) : Object.values(this.configSitesByLanguage).flat();
 
     const tabMap = new Map<string, { name: string; title?: string; secondaryText?: string; tabId?: string }>();
 
@@ -86,9 +84,7 @@ export class SiteConfigService {
       }
 
       const rows = page?.layout?.rows ?? page?.layout ?? [];
-      const cols = Array.isArray(rows)
-        ? rows.flatMap((row: any) => row?.cols ?? [])
-        : [];
+      const cols = Array.isArray(rows) ? rows.flatMap((row: any) => row?.cols ?? []) : [];
 
       for (const col of cols) {
         if (String(col?.tabsId ?? '') !== tabsIdStr) continue;

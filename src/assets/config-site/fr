@@ -67,8 +67,8 @@
                   },
                   {
                     "tabId": "55",
-                    "name": "Statut Elite",
-                    "title": "Statut Elite",
+                    "name": "Mon statut élite",
+                    "title": "Mon statut élite",
                     "secondaryText": "",
                     "components": [
                       {

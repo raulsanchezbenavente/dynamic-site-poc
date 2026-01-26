@@ -1,5 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostListener,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
@@ -16,7 +25,7 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent {
+export class MainHeaderComponent implements OnInit {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
@@ -33,6 +42,33 @@ export class MainHeaderComponent {
     const code = this.activeLang();
     return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
   });
+
+  public ngOnInit(): void {
+    console.log('MainHeaderComponent initialized with language:', this.activeLang());
+    const qp = this.router.url.split('?')[1] ?? '';
+    const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
+    if (activeTab) {
+      const normalized = activeTab.trim().toLowerCase();
+      // console.log('Active tab from query param:', normalized);
+      const list = this.items();
+      // console.log('Menu items to check against:', list);
+      const match = list.find((item) => {
+        const keyMatch = item.label?.trim().toLowerCase() === normalized;
+        if (keyMatch) return true;
+        const translated = this.translate
+          .instant(item.label ?? '')
+          .trim()
+          .toLowerCase();
+        console.log(translated, '-', normalized);
+        return translated === normalized;
+      });
+      // console.log('Matched menu item for active tab:', match);
+      if (match?.label) {
+        console.log('Setting selected menu label to:', match?.label);
+        this.selectedMenuLabel.set(match?.label);
+      }
+    }
+  }
 
   public setLang(lang: AppLang): void {
     this.activeLang.set(lang);

@@ -31,8 +31,8 @@
                 "tabs": [
                   {
                     "tabId": "22",
-                    "name": "Personal Data",
-                    "title": "Personal Data",
+                    "name": "Personal data",
+                    "title": "Personal data",
                     "secondaryText": "",
                     "components": [
                       {
@@ -43,7 +43,7 @@
                   },
                   {
                     "tabId": "33",
-                    "name": "My Trips",
+                    "name": "My trips",
                     "title": "My trips",
                     "secondaryText": "",
                     "components": [
@@ -67,8 +67,8 @@
                   },
                   {
                     "tabId": "55",
-                    "name": "Elite status",
-                    "title": "Elite status",
+                    "name": "My elite status",
+                    "title": "My elite status",
                     "secondaryText": "",
                     "components": [
                       {
