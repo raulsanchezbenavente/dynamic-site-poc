@@ -44,7 +44,7 @@ type Section = {
                 aria-hidden="true"
                 >✎</span
               >
-              <span>{{ 'PROFILE.EDIT' | translate }}</span>
+              <span>{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span>
             </a>
           </div>
 
