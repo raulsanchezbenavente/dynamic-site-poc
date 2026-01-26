@@ -12,11 +12,13 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { filter, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
+
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
+
 import { CmsTabContract } from './models/cms-tab-contract.model';
 
 @Component({
@@ -36,6 +38,8 @@ export class DsTabsComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
+  private readonly _tabsSubject = new BehaviorSubject<any | null>(null);
+  public readonly tabs$ = this._tabsSubject.asObservable();
 
   public activeId = model<string | undefined>(undefined);
 
@@ -131,7 +135,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
       this.activeId.set(tab?.tabId);
       this.setActiveTabName(tab?.name);
-      this.select(tab!);
+      this.select(tab!, true);
     });
   }
 
@@ -150,10 +154,16 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     }
   }
 
-  public select(tab: CmsTabContract): void {
+  public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
     if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
     this.setActiveTabName(tab.name);
+    if (stopPropagation) return;
+    this._tabsSubject.next(tab);
+    const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
+      detail: { tab },
+    });
+    window.dispatchEvent(customEvent);
   }
 
   private setActiveTabName(tabName: string | undefined): void {

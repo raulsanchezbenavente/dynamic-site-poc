@@ -9,8 +9,9 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { Subject } from 'rxjs';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
 import { AppLang } from '../../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
@@ -30,6 +31,8 @@ export class MainHeaderComponent implements OnInit {
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly translate = inject(TranslateService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly destroy$ = new Subject<void>();
 
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
@@ -47,20 +50,32 @@ export class MainHeaderComponent implements OnInit {
     const qp = this.router.url.split('?')[1] ?? '';
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
     if (activeTab) {
-      const normalized = activeTab.trim().toLowerCase();
-      const list = this.items();
-      const match = list.find((item) => {
-        const keyMatch = item.label?.trim().toLowerCase() === normalized;
-        if (keyMatch) return true;
-        const translated = this.translate
-          .instant(item.label ?? '')
-          .trim()
-          .toLowerCase();
-        return translated === normalized;
-      });
-      if (match?.label) {
-        this.selectedMenuLabel.set(match?.label);
+      this.markMenuItemAsActive(activeTab);
+    }
+
+    window.addEventListener('activeChange', (event) => {
+      const customEvent = event as CustomEvent<{ tab: { name: string } }>;
+      const tabName = customEvent.detail?.tab?.name;
+      if (tabName) {
+        this.markMenuItemAsActive(tabName);
       }
+    });
+  }
+
+  public markMenuItemAsActive(activeTab: string): void {
+    const normalized = activeTab.trim().toLowerCase();
+    const list = this.items();
+    const match = list.find((item) => {
+      const keyMatch = item.label?.trim().toLowerCase() === normalized;
+      if (keyMatch) return true;
+      const translated = this.translate
+        .instant(item.label ?? '')
+        .trim()
+        .toLowerCase();
+      return translated === normalized;
+    });
+    if (match?.label) {
+      this.selectedMenuLabel.set(match?.label);
     }
   }
 
