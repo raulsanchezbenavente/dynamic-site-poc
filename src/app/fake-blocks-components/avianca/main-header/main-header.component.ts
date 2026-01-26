@@ -118,15 +118,11 @@ export class MainHeaderComponent {
       console.log('Current pageId:', currentPageId, 'Target pageId:', item.pageId);
       console.log(currentPageId === item.pageId)
       if (currentPageId === item.pageId) {
-console.log('Same page, do nothing');
-
+        console.log('Same page, do nothing');
+        this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
         const path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
         this.router.navigateByUrl(path ?? '/');
-      // Navigate by pageId and tabs
-      // if
-      // let path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
-      // if (item.tabsId) {
       }
     }
   }

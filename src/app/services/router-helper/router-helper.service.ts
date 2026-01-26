@@ -12,6 +12,10 @@ export class RouterHelperService {
   private tabsId: Record<string, string> = {};
   private readonly languageChangeSubject = new Subject<AppLang>();
   public readonly languageChange$ = this.languageChangeSubject.asObservable();
+
+  private readonly activeTabSubject = new Subject<string>();
+  public readonly activeTab$ = this.activeTabSubject.asObservable();
+
   private _language: AppLang = 'en';
   public get language(): AppLang {
     return this._language;
@@ -60,4 +64,7 @@ export class RouterHelperService {
     this.languageChangeSubject.next(lang);
   }
 
+  public changeActiveTab(tabId: string): void {
+    this.activeTabSubject.next(tabId);
+  }
 }

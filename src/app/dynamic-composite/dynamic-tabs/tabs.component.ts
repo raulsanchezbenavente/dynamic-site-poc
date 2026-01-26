@@ -120,6 +120,14 @@ export class DsTabsComponent {
           );
         }
       });
+
+      this.routerHelper.activeTab$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((tabId: string) => {
+          const tab: CmsTabContract | undefined = this.viewTabs().find(t => t.tabId === tabId);
+          this.activeId.set(tab?.tabId);
+          this.select(tab!);
+        });
   }
 
   private navigateToTab(qpTab: string | undefined): void {
@@ -139,6 +147,8 @@ export class DsTabsComponent {
   }
 
   public select(tab: CmsTabContract): void {
+    console.log(tab)
+
     if (this.activeId() === tab.tabId) return
     this.activeId.set(tab.tabId);
     this.setActiveTabName(tab.name);
