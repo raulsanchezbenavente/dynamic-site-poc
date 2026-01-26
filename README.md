@@ -57,6 +57,9 @@ npm install
 ## ▶️ Run the App
 
 ```bash
+cd server
+node index
+cd ..
 ng serve
 ```
 
