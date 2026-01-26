@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 export type LmTripCard = {
   fromCity: string;
@@ -22,23 +23,23 @@ export type LmTripCard = {
 @Component({
   selector: 'find-bookings',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <section class="ut-wrap" role="region" aria-label="Upcoming trips">
-      <h2 class="ut-title">{{ title() }}</h2>
+    <section class="ut-wrap" role="region" [attr.aria-label]="'TRIPS.ARIA_LABEL' | translate">
+      <h2 class="ut-title">{{ title() | translate }}</h2>
 
       @for (t of trips(); track trackByTrip) {
       <article class="ut-card">
         <div class="ut-head">
           <div class="ut-route">
             <span class="ut-plane-ico" aria-hidden="true">✈</span>
-            <span class="ut-route-text">{{ t.fromCity }} a {{ t.toCity }}</span>
+            <span class="ut-route-text">{{ t.fromCity }} {{ 'TRIPS.TO' | translate }} {{ t.toCity }}</span>
           </div>
 
           <div class="ut-status">
             <span class="ut-status-ico" aria-hidden="true">✓</span>
-            <span>{{ t.statusText }}</span>
+            <span>{{ t.statusText | translate }}</span>
           </div>
         </div>
 
@@ -52,7 +53,7 @@ export type LmTripCard = {
 
           <div class="ut-line">
             <div class="ut-line-top">
-              <span class="ut-direct">{{ t.directText }}</span>
+              <span class="ut-direct">{{ t.directText | translate }}</span>
               <span class="ut-dot-sep" aria-hidden="true">|</span>
               <span class="ut-duration">{{ t.durationText }}</span>
             </div>
@@ -66,7 +67,7 @@ export type LmTripCard = {
             </div>
 
             <div class="ut-operated">
-              {{ t.operatedByText }}
+              {{ t.operatedByText | translate }}
             </div>
           </div>
 
@@ -80,7 +81,7 @@ export type LmTripCard = {
 
         <div class="ut-cta">
           <button type="button" class="ut-btn" (click)="noop()">
-            {{ t.ctaText }}
+            {{ t.ctaText | translate }}
           </button>
         </div>
       </article>
@@ -286,36 +287,36 @@ export type LmTripCard = {
   `],
 })
 export class FindBookingsComponent {
-  title = input<string>('Upcoming Trips');
+  title = input<string>('TRIPS.TITLE');
 
   trips = input<LmTripCard[]>([
     {
       fromCity: 'Medellín',
       toCity: 'Bogotá',
       dateText: 'Viernes, 23 de enero de 2026',
-      statusText: 'Confirmado',
+      statusText: 'TRIPS.STATUS_CONFIRMED',
       departureTime: '04:20',
       departureCode: 'MDE',
       arrivalTime: '05:25',
       arrivalCode: 'BOG',
-      directText: 'Direct',
+      directText: 'TRIPS.DIRECT',
       durationText: '1h 5m',
-      operatedByText: 'Operado por Avianca',
-      ctaText: 'Start check-in',
+      operatedByText: 'TRIPS.OPERATED_BY_AVIANCA',
+      ctaText: 'TRIPS.CTA_CHECKIN',
     },
     {
       fromCity: 'Barcelona',
       toCity: 'Bogotá',
       dateText: 'Viernes, 23 de enero de 2026',
-      statusText: 'Confirmado',
+      statusText: 'TRIPS.STATUS_CONFIRMED',
       departureTime: '12:50',
       departureCode: 'BCN',
       arrivalTime: '17:45',
       arrivalCode: 'BOG',
-      directText: 'Direct',
+      directText: 'TRIPS.DIRECT',
       durationText: '4h 55m',
-      operatedByText: 'Operado por Avianca',
-      ctaText: 'Start check-in',
+      operatedByText: 'TRIPS.OPERATED_BY_AVIANCA',
+      ctaText: 'TRIPS.CTA_CHECKIN',
     },
   ]);
 

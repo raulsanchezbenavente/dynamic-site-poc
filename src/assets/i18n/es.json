@@ -60,5 +60,14 @@
     "FIELD_NAME": "Nombre",
     "VALUE_OTHER": "Otro",
     "VALUE_COUNTRY_CO": "Colombia"
+  },
+  "TRIPS": {
+    "ARIA_LABEL": "Próximos viajes",
+    "TITLE": "Próximos viajes",
+    "TO": "a",
+    "STATUS_CONFIRMED": "Confirmado",
+    "DIRECT": "Directo",
+    "OPERATED_BY_AVIANCA": "Operado por Avianca",
+    "CTA_CHECKIN": "Iniciar check-in"
   }
 }
