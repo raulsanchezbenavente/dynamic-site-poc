@@ -168,7 +168,7 @@ type Section = {
       .mp-edit {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 0;
         font-size: 13px;
         color: #0b7285;
         text-decoration: underline;
