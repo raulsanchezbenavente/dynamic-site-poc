@@ -22,5 +22,24 @@
     "MENU_MY_TRIPS": "My trips",
     "MENU_MY_ELITE_STATUS": "My elite status",
     "MENU_BOOK_LM": "Book a flight with LM"
+  },
+  "FOOTER": {
+    "FOLLOW_US": "Follow us!",
+    "DISCOVER_BUY": "Discover and buy",
+    "CHEAP_FLIGHTS": "Cheap flights",
+    "HOTEL_BOOKINGS": "Hotel bookings",
+    "CAR_RENTAL": "Car rental",
+    "ABOUT_US": "About us",
+    "WE_ARE_AVIANCA": "We are avianca",
+    "CAREERS": "Careers",
+    "CORP_NEWS": "Corporate news",
+    "PORTALS": "Our portals",
+    "LIFEMILES_PROGRAM": "LifeMiles program",
+    "AVIANCA_BUSINESS": "avianca business",
+    "AVIANCA_DIRECT": "aviancadirect",
+    "QUICK_LINKS": "Quick links",
+    "LEGAL_INFO": "Legal information",
+    "PRIVACY_POLICY": "Privacy policy",
+    "CARRIAGE_CONTRACT": "Contract of carriage"
   }
 }

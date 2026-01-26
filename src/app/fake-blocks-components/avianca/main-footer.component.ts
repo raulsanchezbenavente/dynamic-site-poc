@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 type FooterLink = {
   label: string;
@@ -15,7 +16,7 @@ type FooterColumn = {
 @Component({
   selector: 'main-footer',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <footer class="ft-wrap" role="contentinfo">
@@ -32,7 +33,7 @@ type FooterColumn = {
           </div>
 
           <div class="ft-follow">
-            <div class="ft-follow-title">{{ followTitle() }}</div>
+            <div class="ft-follow-title">{{ followTitle() | translate }}</div>
             <div class="ft-social" aria-label="Social links">
               <a class="ft-social-btn" href="#" aria-label="X" (click)="$event.preventDefault()">x</a>
               <a class="ft-social-btn" href="#" aria-label="Facebook" (click)="$event.preventDefault()">f</a>
@@ -45,7 +46,7 @@ type FooterColumn = {
         <div class="ft-grid">
           @for (col of columns(); track trackByTitle) {
             <div class="ft-col">
-              <h3 class="ft-col-title">{{ col.title }}</h3>
+              <h3 class="ft-col-title">{{ col.title | translate }}</h3>
 
               @for (link of col.links; track trackByLink) {
                 <a
@@ -53,7 +54,7 @@ type FooterColumn = {
                   [href]="link.href || '#'"
                   (click)="$event.preventDefault()"
                 >
-                  <span class="ft-link-text">{{ link.label }}</span>
+                  <span class="ft-link-text">{{ link.label | translate }}</span>
 
                   <span class="ft-ext" *ngIf="link.external" aria-hidden="true">
                     <svg viewBox="0 0 24 24">
@@ -219,39 +220,39 @@ type FooterColumn = {
   `],
 })
 export class MainFooterComponent {
-  followTitle = input<string>('Follow us!');
+  followTitle = input<string>('FOOTER.FOLLOW_US');
 
   columns = input<FooterColumn[]>([
     {
-      title: 'Descubre y compra',
+      title: 'FOOTER.DISCOVER_BUY',
       links: [
-        { label: 'Vuelos baratos' },
-        { label: 'Reservas de hoteles', external: true },
-        { label: 'Alquiler de autos', external: true },
+        { label: 'FOOTER.CHEAP_FLIGHTS' },
+        { label: 'FOOTER.HOTEL_BOOKINGS', external: true },
+        { label: 'FOOTER.CAR_RENTAL', external: true },
       ],
     },
     {
-      title: 'Sobre nosotros',
+      title: 'FOOTER.ABOUT_US',
       links: [
-        { label: 'Somos avianca' },
-        { label: 'Trabaja con nosotros', external: true },
-        { label: 'Noticias corporativas' },
+        { label: 'FOOTER.WE_ARE_AVIANCA' },
+        { label: 'FOOTER.CAREERS', external: true },
+        { label: 'FOOTER.CORP_NEWS' },
       ],
     },
     {
-      title: 'Nuestros portales',
+      title: 'FOOTER.PORTALS',
       links: [
-        { label: 'Programa Lifemiles', external: true },
-        { label: 'avianca empresas', external: true },
-        { label: 'aviancadirect' },
+        { label: 'FOOTER.LIFEMILES_PROGRAM', external: true },
+        { label: 'FOOTER.AVIANCA_BUSINESS', external: true },
+        { label: 'FOOTER.AVIANCA_DIRECT' },
       ],
     },
     {
-      title: 'Enlaces rápidos',
+      title: 'FOOTER.QUICK_LINKS',
       links: [
-        { label: 'Información legal' },
-        { label: 'Política de privacidad' },
-        { label: 'Contrato de transporte' },
+        { label: 'FOOTER.LEGAL_INFO' },
+        { label: 'FOOTER.PRIVACY_POLICY' },
+        { label: 'FOOTER.CARRIAGE_CONTRACT' },
       ],
     },
   ]);
