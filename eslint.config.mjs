@@ -4,6 +4,7 @@ import js from '@eslint/js';
 import path from 'node:path';
 import perfectionist from 'eslint-plugin-perfectionist';
 import eslintPluginImport from 'eslint-plugin-import';
+import tsParser from '@typescript-eslint/parser';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -37,6 +38,7 @@ export default [
     languageOptions: {
       ecmaVersion: 2021,
       sourceType: 'module',
+      parser: tsParser,
       parserOptions: {
         project: ['tsconfig.json', './tsconfig.spec.json'],
         createDefaultProgram: true,
