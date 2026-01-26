@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { Subject } from 'rxjs';
+
 import { AppLang } from '../site-config/models/langs.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RouterHelperService {
   private router = inject(Router);
@@ -26,9 +27,7 @@ export class RouterHelperService {
 
   constructor() {
     const segment = window.location.pathname.split('/').filter(Boolean)[0];
-    const lang = (segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt')
-      ? segment
-      : 'en';
+    const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
   }
 
@@ -46,9 +45,7 @@ export class RouterHelperService {
   }
 
   public findRouteByPageId(pageId: string): Route | undefined {
-    return this.router.config.find(
-      r => r.data?.['pageId'] === pageId
-    );
+    return this.router.config.find((r) => r.data?.['pageId'] === pageId);
   }
 
   public setCurrentTabId(tabsId: string, tabId: string): void {
