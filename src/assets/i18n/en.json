@@ -41,5 +41,24 @@
     "LEGAL_INFO": "Legal information",
     "PRIVACY_POLICY": "Privacy policy",
     "CARRIAGE_CONTRACT": "Contract of carriage"
+  },
+  "PROFILE": {
+    "ARIA_LABEL": "My profile",
+    "TITLE": "My profile",
+    "SUBTITLE": "Enter your details exactly as they appear on your official ID. This information will be used to create your profile and save your time during check-in.",
+    "EDIT": "Edit",
+    "SECTION_PERSONAL_INFO": "Personal information",
+    "SECTION_CONTACT_INFO": "Contact information",
+    "SECTION_EMERGENCY": "Emergency contact",
+    "FIELD_GENDER": "Gender",
+    "FIELD_DOB": "Date of birth",
+    "FIELD_ADDRESS": "Address",
+    "FIELD_NAME_LASTNAME": "Name / Last name",
+    "FIELD_COUNTRY_RESIDENCE": "Country of residence",
+    "FIELD_PHONE": "Phone",
+    "FIELD_EMAIL": "Email",
+    "FIELD_NAME": "Name",
+    "VALUE_OTHER": "Other",
+    "VALUE_COUNTRY_CO": "Colombia"
   }
 }

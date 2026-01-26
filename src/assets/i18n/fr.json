@@ -41,5 +41,24 @@
     "LEGAL_INFO": "Informations légales",
     "PRIVACY_POLICY": "Politique de confidentialité",
     "CARRIAGE_CONTRACT": "Contrat de transport"
+  },
+  "PROFILE": {
+    "ARIA_LABEL": "Mon profil",
+    "TITLE": "Mon profil",
+    "SUBTITLE": "Saisissez vos informations exactement comme elles figurent sur votre pièce d'identité officielle. Ces informations seront utilisées pour créer votre profil et vous faire gagner du temps lors de l'enregistrement.",
+    "EDIT": "Modifier",
+    "SECTION_PERSONAL_INFO": "Informations personnelles",
+    "SECTION_CONTACT_INFO": "Informations de contact",
+    "SECTION_EMERGENCY": "Contact d'urgence",
+    "FIELD_GENDER": "Genre",
+    "FIELD_DOB": "Date de naissance",
+    "FIELD_ADDRESS": "Adresse",
+    "FIELD_NAME_LASTNAME": "Prénom / Nom",
+    "FIELD_COUNTRY_RESIDENCE": "Pays de résidence",
+    "FIELD_PHONE": "Téléphone",
+    "FIELD_EMAIL": "E-mail",
+    "FIELD_NAME": "Nom",
+    "VALUE_OTHER": "Autre",
+    "VALUE_COUNTRY_CO": "Colombie"
   }
 }

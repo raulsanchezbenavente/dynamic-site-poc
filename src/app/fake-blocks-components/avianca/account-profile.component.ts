@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 type Field = { label: string; value: string };
 type Section = {
@@ -12,18 +13,18 @@ type Section = {
 @Component({
   selector: 'my-profile',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <input type="text">
-    <section class="mp-wrap" role="region" aria-label="My profile">
-      <h2 class="mp-title">{{ title() }}</h2>
-      <p class="mp-subtitle">{{ subtitle() }}</p>
+    <section class="mp-wrap" role="region" [attr.aria-label]="'PROFILE.ARIA_LABEL' | translate">
+      <h2 class="mp-title">{{ title() | translate }}</h2>
+      <p class="mp-subtitle">{{ subtitle() | translate }}</p>
 
       @for (s of sections(); track trackByTitle) {
       <div class="mp-section">
         <div class="mp-section-head">
-          <h3 class="mp-section-title">{{ s.title }}</h3>
+          <h3 class="mp-section-title">{{ s.title | translate }}</h3>
 
           <a
             *ngIf="s.editable"
@@ -32,7 +33,7 @@ type Section = {
             (click)="$event.preventDefault()"
           >
             <span class="mp-edit-ico" aria-hidden="true">✎</span>
-            <span>Edit</span>
+            <span>{{ 'PROFILE.EDIT' | translate }}</span>
           </a>
         </div>
 
@@ -40,8 +41,8 @@ type Section = {
           <div class="mp-col">
             @for (f of s.left; track trackByField) {
             <div class="mp-field">
-              <div class="mp-label">{{ f.label }}</div>
-              <div class="mp-value">{{ f.value }}</div>
+              <div class="mp-label">{{ f.label | translate }}</div>
+              <div class="mp-value">{{ f.value | translate }}</div>
             </div>
             }
           </div>
@@ -49,8 +50,8 @@ type Section = {
           <div class="mp-col" *ngIf="s.right?.length">
             @for (f of s.right!; track trackByField) {
             <div class="mp-field">
-              <div class="mp-label">{{ f.label }}</div>
-              <div class="mp-value">{{ f.value }}</div>
+              <div class="mp-label">{{ f.label | translate }}</div>
+              <div class="mp-value">{{ f.value | translate }}</div>
             </div>
             }
           </div>
@@ -158,37 +159,35 @@ type Section = {
   `],
 })
 export class AccountProfileComponent {
-  title = input<string>('My profile');
+  title = input<string>('PROFILE.TITLE');
 
-  subtitle = input<string>(
-    'Enter your details exactly as they appear on your official ID. This information will be used to create your profile and save your time during check-in.'
-  );
+  subtitle = input<string>('PROFILE.SUBTITLE');
 
   sections = input<Section[]>([
     {
-      title: 'Personal information',
+      title: 'PROFILE.SECTION_PERSONAL_INFO',
       editable: true,
       left: [
-        { label: 'Gender', value: 'Other' },
-        { label: 'Date of birth', value: '18 de diciembre de 2005' },
-        { label: 'Address', value: 'Cra 23 # 35' },
+        { label: 'PROFILE.FIELD_GENDER', value: 'PROFILE.VALUE_OTHER' },
+        { label: 'PROFILE.FIELD_DOB', value: '18 de diciembre de 2005' },
+        { label: 'PROFILE.FIELD_ADDRESS', value: 'Cra 23 # 35' },
       ],
       right: [
-        { label: 'Name / Last name', value: 'Javier Martinez' },
-        { label: 'Country of residence', value: 'Colombia' },
+        { label: 'PROFILE.FIELD_NAME_LASTNAME', value: 'Javier Martinez' },
+        { label: 'PROFILE.FIELD_COUNTRY_RESIDENCE', value: 'PROFILE.VALUE_COUNTRY_CO' },
       ],
     },
     {
-      title: 'Contact information',
+      title: 'PROFILE.SECTION_CONTACT_INFO',
       editable: false,
-      left: [{ label: 'Phone', value: '57 123456789012345' }],
-      right: [{ label: 'Email', value: 'usuario.valido-1@dominio.co' }],
+      left: [{ label: 'PROFILE.FIELD_PHONE', value: '57 123456789012345' }],
+      right: [{ label: 'PROFILE.FIELD_EMAIL', value: 'usuario.valido-1@dominio.co' }],
     },
     {
-      title: 'Emergency Contact',
+      title: 'PROFILE.SECTION_EMERGENCY',
       editable: true,
-      left: [{ label: 'Name', value: 'Juan Villalba' }],
-      right: [{ label: 'Phone', value: '90 3102212336688' }],
+      left: [{ label: 'PROFILE.FIELD_NAME', value: 'Juan Villalba' }],
+      right: [{ label: 'PROFILE.FIELD_PHONE', value: '90 3102212336688' }],
     },
   ]);
 
