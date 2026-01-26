@@ -12,7 +12,8 @@ import { componentMap } from '../../component-map';
     </ng-container>
 
     <ng-template #missing>
-      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;width: 1100px;">
+      <div
+        style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;width: 1100px;">
         Missing component: <b>{{ block()?.component }}</b>
       </div>
     </ng-template>
@@ -20,14 +21,14 @@ import { componentMap } from '../../component-map';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DsBlockOutletComponent {
-  block = input<any | null | undefined>(undefined);
+  public block = input<any | null | undefined>(undefined);
 
-  cmp = computed(() => {
+  public cmp = computed(() => {
     const b = this.block();
     return b?.component ? componentMap[b.component] : undefined;
   });
 
-  inputs = computed<Record<string, any>>(() => {
+  public inputs = computed<Record<string, any>>(() => {
     const b = this.block();
     if (!b) return {};
     const { component, span, ...rest } = b;

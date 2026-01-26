@@ -1,21 +1,12 @@
-import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  inject,
-  computed,
-  input,
-  signal,
-} from '@angular/core';
+import { CommonModule, Location } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, HostListener, inject, input, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
-import { Location } from '@angular/common';
-import { AppLang } from '../../../services/site-config/models/langs.model';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
+import { AppLang } from '../../../services/site-config/models/langs.model';
+import { SiteConfigService } from '../../../services/site-config/site-config.service';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
+import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
 @Component({
   selector: 'main-header',
@@ -97,7 +88,7 @@ export class MainHeaderComponent {
   public toggleMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.langOpen.set(false);
-    this.open.update(v => !v);
+    this.open.update((v) => !v);
   }
 
   public trackByLabel(_: number, item: HeaderMenuItem): string {
@@ -114,7 +105,7 @@ export class MainHeaderComponent {
     if (item.pageId) {
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
       console.log('Current pageId:', currentPageId, 'Target pageId:', item.pageId);
-      console.log(currentPageId === item.pageId)
+      console.log(currentPageId === item.pageId);
       if (currentPageId === item.pageId) {
         console.log('Same page, do nothing');
         this.routerHelper.changeActiveTab(item.tabId ?? '');

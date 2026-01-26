@@ -7,15 +7,17 @@ import {
   inject,
   input,
   model,
+  OnDestroy,
+  OnInit,
   signal,
 } from '@angular/core';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
-import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
-import { Subject, filter, takeUntil } from 'rxjs';
+import { filter, Subject, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
-import { CmsTabContract } from './models/cms-tab-contract.model';
-import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
+import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
+import { CmsTabContract } from './models/cms-tab-contract.model';
 
 @Component({
   selector: 'ds-tabs',
@@ -25,7 +27,7 @@ import { AppLang } from '../../services/site-config/models/langs.model';
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DsTabsComponent {
+export class DsTabsComponent implements OnInit, OnDestroy {
   public tabsId = input<string | null | undefined>(undefined);
   public tabs = input<CmsTabContract[] | null | undefined>(undefined);
   private readonly router = inject(Router);
@@ -52,7 +54,14 @@ export class DsTabsComponent {
         if (!tabId || !name) return null;
         return { tabId, name, title, secondaryText, pageId, components };
       })
-      .filter(Boolean) as Array<{ tabId: string; name: string; title: string; secondaryText?: string; pageId: string; components: any[] }>;
+      .filter(Boolean) as Array<{
+      tabId: string;
+      name: string;
+      title: string;
+      secondaryText?: string;
+      pageId: string;
+      components: any[];
+    }>;
 
     const overrides = this.tabsOverride();
     if (!overrides.length) return normalized;
@@ -87,7 +96,7 @@ export class DsTabsComponent {
       const tabs = this.viewTabs();
       const current = this.activeId();
       if (!tabs.length) return;
-      if (!current || !tabs.some(t => t.tabId === current)) {
+      if (!current || !tabs.some((t) => t.tabId === current)) {
         this.activeId.set(tabs[0].tabId);
       }
     });
@@ -100,32 +109,29 @@ export class DsTabsComponent {
         takeUntil(this.destroy$)
       )
       .subscribe((event) => {
-        const activeTab: string | undefined = new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
+        const activeTab: string | undefined =
+          new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
         this.navigateToTab(activeTab);
       });
 
-      this.routerHelper.languageChange$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((lang: AppLang) => {
-        if(this.tabsId()) {
-          const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
-          this.tabsOverride.set(overrides);
-          this.setActiveTabName(
-            overrides.find(o => {
-              const currentTab = this.viewTabs().find(t => t.tabId === this.activeId());
-              return o.name === currentTab?.name;
-            })?.name
-          );
-        }
-      });
+    this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      if (this.tabsId()) {
+        const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
+        this.tabsOverride.set(overrides);
+        this.setActiveTabName(
+          overrides.find((o) => {
+            const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
+            return o.name === currentTab?.name;
+          })?.name
+        );
+      }
+    });
 
-      this.routerHelper.activeTab$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((tabId: string) => {
-          const tab: CmsTabContract | undefined = this.viewTabs().find(t => t.tabId === tabId);
-          this.activeId.set(tab?.tabId);
-          this.select(tab!);
-        });
+    this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
+      const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
+      this.activeId.set(tab?.tabId);
+      this.select(tab!);
+    });
   }
 
   private navigateToTab(qpTab: string | undefined): void {
@@ -137,17 +143,19 @@ export class DsTabsComponent {
       });
     }
     if (!tabs.length) return;
-    const tab: CmsTabContract | undefined = tabs.find(t => t.name === qpTab);
-    if (tab) {
-      this.activeId.set(tab.tabId);
+    const tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
+    if (this.tabsId() && tab?.tabId && tab.pageId) {
+      if (tab) {
+        this.activeId.set(tab.tabId);
+      }
+      this.routerHelper.setCurrentTabId(this.tabsId()!, tab?.pageId);
     }
-    this.routerHelper.setCurrentTabId(this.tabsId()!, tab?.pageId!);
   }
 
   public select(tab: CmsTabContract): void {
-    console.log(tab)
+    console.log(tab);
 
-    if (this.activeId() === tab.tabId) return
+    if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
     this.setActiveTabName(tab.name);
   }
@@ -170,7 +178,7 @@ export class DsTabsComponent {
     return `ds-tabpanel-${tabId}`;
   }
 
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

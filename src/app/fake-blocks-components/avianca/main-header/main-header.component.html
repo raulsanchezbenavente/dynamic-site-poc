@@ -1,140 +1,221 @@
 <!-- Top black bar -->
-<div class="lm-topbar" role="navigation" aria-label="Locale bar">
-  <div class="lm-topbar-inner">
-    <div class="lm-lang">
-      <button
-        type="button"
-        class="lm-lang-trigger"
-        [class.is-open]="langOpen()"
-        (click)="toggleLangMenu($event)"
-        [attr.aria-expanded]="langOpen()"
-        aria-haspopup="menu"
-      >
-        <span class="lm-lang-ico" aria-hidden="true">🌐</span>
-        <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
-      </button>
-      <div
-        *ngIf="langOpen()"
-        class="lm-lang-menu"
-        role="menu"
-        aria-label="Language menu"
-        (click)="$event.stopPropagation()"
-      >
-        @for (lang of langs; track trackByLang) {
-          <button
-            type="button"
-            class="lm-lang-item"
-            role="menuitem"
-            [class.is-active]="activeLang() === lang.code"
-            (click)="setLang(lang.code)"
-          >{{ lang.label | translate }}</button>
-        }
-      </div>
+<div
+    class="lm-topbar"
+    role="navigation"
+    aria-label="Locale bar">
+    <div class="lm-topbar-inner">
+        <div class="lm-lang">
+            <button
+                type="button"
+                class="lm-lang-trigger"
+                [class.is-open]="langOpen()"
+                (click)="toggleLangMenu($event)"
+                [attr.aria-expanded]="langOpen()"
+                aria-haspopup="menu">
+                <span
+                    class="lm-lang-ico"
+                    aria-hidden="true"
+                    >🌐</span
+                >
+                <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
+            </button>
+            <div
+                *ngIf="langOpen()"
+                class="lm-lang-menu"
+                role="menu"
+                aria-label="Language menu"
+                (click)="$event.stopPropagation()">
+                @for (lang of langs; track trackByLang) {
+                    <button
+                        type="button"
+                        class="lm-lang-item"
+                        role="menuitem"
+                        [class.is-active]="activeLang() === lang.code"
+                        (click)="setLang(lang.code)">
+                        {{ lang.label | translate }}
+                    </button>
+                }
+            </div>
+        </div>
+
+        <span
+            class="lm-topbar-sep"
+            aria-hidden="true"
+            >|</span
+        >
+
+        <span class="lm-topbar-item-static">
+            <span
+                class="lm-topbar-ico"
+                aria-hidden="true"
+                >💲</span
+            >
+            <span>{{ market() }}</span>
+        </span>
     </div>
-
-    <span class="lm-topbar-sep" aria-hidden="true">|</span>
-
-    <span class="lm-topbar-item-static">
-      <span class="lm-topbar-ico" aria-hidden="true">💲</span>
-      <span>{{ market() }}</span>
-    </span>
-  </div>
 </div>
 
+<header
+    class="lm-header"
+    role="banner">
+    <div
+        class="lm-inner"
+        #root>
+        <!-- Left: logo + nav -->
+        <div class="lm-left">
+            <a
+                class="lm-logo"
+                href="#"
+                aria-label="Avianca">
+                <span class="lm-logo-text">avianca</span>
+                <svg
+                    class="lm-logo-mark"
+                    viewBox="0 0 64 32"
+                    aria-hidden="true">
+                    <path
+                        d="M4 22c10-10 22-14 34-10 6 2 13 6 22 12-14-2-24 0-30 3-8 4-14 3-26-5z"
+                        fill="currentColor" />
+                </svg>
+            </a>
 
-<header class="lm-header" role="banner">
-  <div class="lm-inner" #root>
-    <!-- Left: logo + nav -->
-    <div class="lm-left">
-      <a class="lm-logo" href="#" aria-label="Avianca">
-        <span class="lm-logo-text">avianca</span>
-        <svg class="lm-logo-mark" viewBox="0 0 64 32" aria-hidden="true">
-          <path
-            d="M4 22c10-10 22-14 34-10 6 2 13 6 22 12-14-2-24 0-30 3-8 4-14 3-26-5z"
-            fill="currentColor"
-          />
-        </svg>
-      </a>
-
-      <nav class="lm-nav" aria-label="Main navigation">
-        <a class="lm-link" href="#">{{ "HEADER.NAV_BOOK" | translate }}</a>
-        <a class="lm-link" href="#">{{ "HEADER.NAV_DEALS_DESTS" | translate }}</a>
-        <a class="lm-link" href="#">{{ "HEADER.NAV_MY_BOOKING" | translate }}</a>
-        <a class="lm-link lm-pill" href="#">{{ "HEADER.NAV_CHECKIN" | translate }}</a>
-        <a class="lm-link" href="#">{{ "HEADER.NAV_INFO_HELP" | translate }}</a>
-        <a class="lm-link" href="#">{{ "HEADER.NAV_LIFEMILES" | translate }}</a>
-      </nav>
-    </div>
-
-    <!-- Right: locale + user -->
-    <div class="lm-right">
-      <div class="lm-user-wrap">
-        <button
-          type="button"
-          class="lm-user"
-          (click)="toggleMenu($event)"
-          [attr.aria-expanded]="open()"
-          aria-haspopup="menu"
-        >
-          <span class="lm-lm-badge" aria-hidden="true">lm</span>
-
-          <span class="lm-user-text">
-            <span class="lm-user-name">{{ userName() }}</span>
-            <span class="lm-user-miles">{{ userMiles() }} mil...</span>
-          </span>
-
-          <span class="lm-caret" [class.is-open]="open()" aria-hidden="true">▾</span>
-        </button>
-
-        <div
-          class="lm-dropdown"
-          *ngIf="open()"
-          role="menu"
-          aria-label="User menu"
-          (click)="$event.stopPropagation()"
-        >
-          <div class="lm-dd-list">
-            @for (item of items(); track trackByLabel) {
-              <button
-                class="lm-dd-item"
-                type="button"
-                role="menuitem"
-                (click)="redirectTo(item)"
-              >
-                <span class="lm-dd-label">{{ item.label | translate }}</span>
-
-                <span class="lm-dd-icon" *ngIf="item.checked" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M20 6L9 17l-5-5"
-                      fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-
-                <span class="lm-dd-icon" *ngIf="item.external" aria-hidden="true">
-                  <svg viewBox="0 0 24 24">
-                    <path d="M14 3h7v7"
-                      fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M21 3l-9 9"
-                      fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
-                      fill="none" stroke="currentColor" stroke-width="2"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </span>
-              </button>
-            }
-
-            <div class="lm-dd-sep" aria-hidden="true"></div>
-
-            <button class="lm-dd-item lm-dd-item--logout" type="button" role="menuitem">
-              <span class="lm-dd-label">Log out</span>
-            </button>
-          </div>
+            <nav
+                class="lm-nav"
+                aria-label="Main navigation">
+                <a
+                    class="lm-link"
+                    href="#"
+                    >{{ 'HEADER.NAV_BOOK' | translate }}</a
+                >
+                <a
+                    class="lm-link"
+                    href="#"
+                    >{{ 'HEADER.NAV_DEALS_DESTS' | translate }}</a
+                >
+                <a
+                    class="lm-link"
+                    href="#"
+                    >{{ 'HEADER.NAV_MY_BOOKING' | translate }}</a
+                >
+                <a
+                    class="lm-link lm-pill"
+                    href="#"
+                    >{{ 'HEADER.NAV_CHECKIN' | translate }}</a
+                >
+                <a
+                    class="lm-link"
+                    href="#"
+                    >{{ 'HEADER.NAV_INFO_HELP' | translate }}</a
+                >
+                <a
+                    class="lm-link"
+                    href="#"
+                    >{{ 'HEADER.NAV_LIFEMILES' | translate }}</a
+                >
+            </nav>
         </div>
-      </div>
+
+        <!-- Right: locale + user -->
+        <div class="lm-right">
+            <div class="lm-user-wrap">
+                <button
+                    type="button"
+                    class="lm-user"
+                    (click)="toggleMenu($event)"
+                    [attr.aria-expanded]="open()"
+                    aria-haspopup="menu">
+                    <span
+                        class="lm-lm-badge"
+                        aria-hidden="true"
+                        >lm</span
+                    >
+
+                    <span class="lm-user-text">
+                        <span class="lm-user-name">{{ userName() }}</span>
+                        <span class="lm-user-miles">{{ userMiles() }} mil...</span>
+                    </span>
+
+                    <span
+                        class="lm-caret"
+                        [class.is-open]="open()"
+                        aria-hidden="true"
+                        >▾</span
+                    >
+                </button>
+
+                <div
+                    class="lm-dropdown"
+                    *ngIf="open()"
+                    role="menu"
+                    aria-label="User menu"
+                    (click)="$event.stopPropagation()">
+                    <div class="lm-dd-list">
+                        @for (item of items(); track trackByLabel) {
+                            <button
+                                class="lm-dd-item"
+                                type="button"
+                                role="menuitem"
+                                (click)="redirectTo(item)">
+                                <span class="lm-dd-label">{{ item.label | translate }}</span>
+
+                                <span
+                                    class="lm-dd-icon"
+                                    *ngIf="item.checked"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M20 6L9 17l-5-5"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+
+                                <span
+                                    class="lm-dd-icon"
+                                    *ngIf="item.external"
+                                    aria-hidden="true">
+                                    <svg viewBox="0 0 24 24">
+                                        <path
+                                            d="M14 3h7v7"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M21 3l-9 9"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                        <path
+                                            d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </span>
+                            </button>
+                        }
+
+                        <div
+                            class="lm-dd-sep"
+                            aria-hidden="true"></div>
+
+                        <button
+                            class="lm-dd-item lm-dd-item--logout"
+                            type="button"
+                            role="menuitem">
+                            <span class="lm-dd-label">Log out</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </header>

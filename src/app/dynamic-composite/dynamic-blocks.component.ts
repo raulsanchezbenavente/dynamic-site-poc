@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+
 import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component';
 // import { componentMap } from '../component-map';
 
@@ -15,18 +16,15 @@ import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DsDynamicBlocksComponent {
-  blocks = input<any[] | null | undefined>(undefined);
+  public blocks = input<any[] | null | undefined>(undefined);
 
-  // componentMap = componentMap;
-
-  getInputs(block: any): Record<string, any> {
+  public getInputs(block: any): Record<string, any> {
     if (!block) return {};
     const { component, span, ...inputs } = block;
     return inputs;
   }
 
-  trackByKey(index: number, block: any): string {
-    // si en tu contrato existe algún id, úsalo aquí
+  public trackByKey(index: number, block: any): string {
     return block?.id ?? block?.name ?? `${block?.component ?? 'cmp'}-${index}`;
   }
 }
