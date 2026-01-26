@@ -92,8 +92,10 @@ export class DsTabsComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
-      this.navigateToTab(qpTab);
+      requestAnimationFrame(() => {
+        const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
+        this.navigateToTab(qpTab);
+      });
     });
 
     effect(() => {
@@ -122,12 +124,11 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       if (this.tabsId()) {
         const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
         this.tabsOverride.set(overrides);
-        this.setActiveTabName(
-          overrides.find((o) => {
+        const pepo = overrides.find((o) => {
             const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
             return o.name === currentTab?.name;
           })?.name
-        );
+        this.setActiveTabName(pepo);
       }
     });
 
@@ -163,13 +164,13 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
       detail: { tab },
     });
-    window.dispatchEvent(customEvent);
+    globalThis.dispatchEvent(customEvent);
   }
 
   private setActiveTabName(tabName: string | undefined): void {
-    const url = new URL(window.location.href);
+    const url = new URL(globalThis.location.href);
     url.searchParams.set('activeTab', tabName ?? '');
-    window.history.pushState({}, '', url.toString());
+    globalThis.history.pushState({}, '', url.toString());
   }
 
   public trackById(_: number, tab: { tabId: string }): string {

@@ -55,7 +55,7 @@ export class MainHeaderComponent implements OnInit {
       this.markMenuItemAsActive(activeTab);
     }
 
-    window.addEventListener('activeChange', (event) => {
+    globalThis.addEventListener('activeChange', (event) => {
       const customEvent = event as CustomEvent<{ tab: { name: string } }>;
       const tabName = customEvent.detail?.tab?.name;
       if (tabName) {

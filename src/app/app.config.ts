@@ -1,12 +1,12 @@
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
-import { SiteConfigService } from './services/site-config/site-config.service';
-import { firstValueFrom } from 'rxjs';
 import { provideHttpClient } from '@angular/common/http';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { firstValueFrom } from 'rxjs';
+import { routes } from './app.routes';
+import { SiteConfigService } from './services/site-config/site-config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -39,7 +39,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [TranslateService],
       useFactory: (ts: TranslateService) => () => {
-        const segment = window.location.pathname.split('/').filter(Boolean)[0];
+        const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
         const lang = (segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt')
           ? segment
           : 'en';

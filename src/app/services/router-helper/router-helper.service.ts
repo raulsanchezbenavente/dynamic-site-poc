@@ -21,12 +21,13 @@ export class RouterHelperService {
   public get language(): AppLang {
     return this._language;
   }
+
   public set language(lang: AppLang) {
     this._language = lang;
   }
 
   constructor() {
-    const segment = window.location.pathname.split('/').filter(Boolean)[0];
+    const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
     const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
   }
