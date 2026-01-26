@@ -273,7 +273,7 @@ export class AccountProfileComponent {
         { label: 'PROFILE.FIELD_ADDRESS', value: 'Cra 23 # 35', type: 'text' },
       ],
       right: [
-        { label: 'PROFILE.FIELD_NAME_LASTNAME', value: 'Javier Martinez', type: 'text' },
+        { label: 'PROFILE.FIELD_NAME_LASTNAME', value: 'Perico Martinez', type: 'text' },
         {
           label: 'PROFILE.FIELD_COUNTRY_RESIDENCE',
           value: 'PROFILE.VALUE_COUNTRY_CO',
