@@ -16,7 +16,6 @@ import { RouterHelperService } from '../../services/router-helper/router-helper.
 import { CmsTabContract } from './models/cms-tab-contract.model';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'ds-tabs',
@@ -35,7 +34,6 @@ export class DsTabsComponent {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
-  private readonly location = inject(Location);
 
   public activeId = model<string | undefined>(undefined);
 
@@ -158,12 +156,6 @@ export class DsTabsComponent {
     const url = new URL(window.location.href);
     url.searchParams.set('activeTab', tabName ?? '');
     window.history.pushState({}, '', url.toString());
-
-    // this.router.navigate([], {
-    //   queryParams: { activeTab: tabName ?? '' },
-    //   queryParamsHandling: 'merge',
-    //   replaceUrl: true,          // equivalente a replaceState en historial
-    // })
   }
 
   public trackById(_: number, tab: { tabId: string }): string {
