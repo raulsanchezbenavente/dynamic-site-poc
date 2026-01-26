@@ -111,7 +111,6 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       .subscribe((event) => {
         const activeTab: string | undefined =
           new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
-
         this.navigateToTab(activeTab);
       });
 
@@ -131,6 +130,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
       const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
       this.activeId.set(tab?.tabId);
+      this.setActiveTabName(tab?.name);
       this.select(tab!);
     });
   }
