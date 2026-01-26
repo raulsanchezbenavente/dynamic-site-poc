@@ -111,6 +111,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       .subscribe((event) => {
         const activeTab: string | undefined =
           new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
+
         this.navigateToTab(activeTab);
       });
 
@@ -144,17 +145,12 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     }
     if (!tabs.length) return;
     const tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
-    if (this.tabsId() && tab?.tabId && tab.pageId) {
-      if (tab) {
-        this.activeId.set(tab.tabId);
-      }
-      this.routerHelper.setCurrentTabId(this.tabsId()!, tab?.pageId);
+    if (tab) {
+      this.activeId.set(tab.tabId);
     }
   }
 
   public select(tab: CmsTabContract): void {
-    console.log(tab);
-
     if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
     this.setActiveTabName(tab.name);

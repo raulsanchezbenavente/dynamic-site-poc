@@ -44,14 +44,11 @@ export class MainHeaderComponent implements OnInit {
   });
 
   public ngOnInit(): void {
-    console.log('MainHeaderComponent initialized with language:', this.activeLang());
     const qp = this.router.url.split('?')[1] ?? '';
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
     if (activeTab) {
       const normalized = activeTab.trim().toLowerCase();
-      // console.log('Active tab from query param:', normalized);
       const list = this.items();
-      // console.log('Menu items to check against:', list);
       const match = list.find((item) => {
         const keyMatch = item.label?.trim().toLowerCase() === normalized;
         if (keyMatch) return true;
@@ -59,12 +56,9 @@ export class MainHeaderComponent implements OnInit {
           .instant(item.label ?? '')
           .trim()
           .toLowerCase();
-        console.log(translated, '-', normalized);
         return translated === normalized;
       });
-      // console.log('Matched menu item for active tab:', match);
       if (match?.label) {
-        console.log('Setting selected menu label to:', match?.label);
         this.selectedMenuLabel.set(match?.label);
       }
     }
@@ -77,7 +71,6 @@ export class MainHeaderComponent implements OnInit {
     const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
       const nextPath: string | undefined = this.siteConfig.getPathByPageId(pageId, lang);
-      console.log(pageId, nextPath);
       if (nextPath) {
         const query = this.router.url.split('?')[1];
         this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
@@ -147,10 +140,7 @@ export class MainHeaderComponent implements OnInit {
 
     if (item.pageId) {
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
-      console.log('Current pageId:', currentPageId, 'Target pageId:', item.pageId);
-      console.log(currentPageId === item.pageId);
       if (currentPageId === item.pageId) {
-        console.log('Same page, do nothing');
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
         const path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());

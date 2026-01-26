@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, inject } from '@angular/core';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
@@ -14,9 +14,22 @@ declare const flatpickr: any;
         <h2 class="mb-4 text-primary">Find Your Flight</h2>
         <form class="row g-3 align-items-end">
           <div class="col-md-4">
-            <label for="from" class="form-label">From</label>
-            <select id="from" class="form-select" [(ngModel)]="from" name="from">
-              <option [ngValue]="null" disabled selected>Select origin</option>
+            <label
+              for="from"
+              class="form-label"
+              >From</label
+            >
+            <select
+              id="from"
+              class="form-select"
+              [(ngModel)]="from"
+              name="from">
+              <option
+                [ngValue]="null"
+                disabled
+                selected>
+                Select origin
+              </option>
               <option>New York (JFK)</option>
               <option>London (LHR)</option>
               <option>Paris (CDG)</option>
@@ -25,9 +38,22 @@ declare const flatpickr: any;
             </select>
           </div>
           <div class="col-md-4">
-            <label for="to" class="form-label">To</label>
-            <select id="to" class="form-select" [(ngModel)]="to" name="to">
-              <option [ngValue]="null" disabled selected>Select destination</option>
+            <label
+              for="to"
+              class="form-label"
+              >To</label
+            >
+            <select
+              id="to"
+              class="form-select"
+              [(ngModel)]="to"
+              name="to">
+              <option
+                [ngValue]="null"
+                disabled
+                selected>
+                Select destination
+              </option>
               <option>Rome (FCO)</option>
               <option>Berlin (BER)</option>
               <option>Los Angeles (LAX)</option>
@@ -36,26 +62,43 @@ declare const flatpickr: any;
             </select>
           </div>
           <div class="col-md-2">
-            <label for="departure" class="form-label">Departure</label>
-            <input type="text" class="form-control datepicker" id="departure" [(ngModel)]="departure" name="departure">
+            <label
+              for="departure"
+              class="form-label"
+              >Departure</label
+            >
+            <input
+              type="text"
+              class="form-control datepicker"
+              id="departure"
+              [(ngModel)]="departure"
+              name="departure" />
           </div>
           <div class="col-md-2">
-            <label for="return" class="form-label">Return</label>
-            <input type="text" class="form-control datepicker" id="return" [(ngModel)]="returnDate" name="returnDate">
+            <label
+              for="return"
+              class="form-label"
+              >Return</label
+            >
+            <input
+              type="text"
+              class="form-control datepicker"
+              id="return"
+              [(ngModel)]="returnDate"
+              name="returnDate" />
           </div>
           <div class="col-12 text-end">
             <button
               class="btn btn-primary btn-lg mt-3"
               [disabled]="!isFormValid()"
-              (click)="goToResults()"
-            >
+              (click)="goToResults()">
               Search Flights
             </button>
           </div>
         </form>
       </div>
     </div>
-  `
+  `,
 })
 export class SearchComponent implements AfterViewInit {
   private progress = inject(BookingProgressService);
@@ -71,7 +114,7 @@ export class SearchComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     flatpickr('.datepicker', {
-      dateFormat: 'Y-m-d'
+      dateFormat: 'Y-m-d',
     });
   }
 
