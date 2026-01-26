@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
-type Field = { label: string; value: string };
+type Field = {
+  label: string;
+  value: string;
+  type?: 'text' | 'select' | 'date' | 'email' | 'tel';
+  inputValue?: string;
+  options?: Array<{ label: string; value: string }>;
+};
 type Section = {
   title: string;
   editable?: boolean;
@@ -32,7 +38,7 @@ type Section = {
               *ngIf="s.editable"
               class="mp-edit"
               href="#"
-              (click)="$event.preventDefault()">
+              (click)="toggleEdit(s); $event.preventDefault()">
               <span
                 class="mp-edit-ico"
                 aria-hidden="true"
@@ -47,7 +53,27 @@ type Section = {
               @for (f of s.left; track trackByField) {
                 <div class="mp-field">
                   <div class="mp-label">{{ f.label | translate }}</div>
-                  <div class="mp-value">{{ f.value | translate }}</div>
+                  @if (isEditing(s)) {
+                    <div class="mp-control">
+                      @if (f.type === 'select') {
+                        <select class="mp-input" [value]="f.inputValue">
+                          @for (o of f.options ?? []; track o.value) {
+                            <option [value]="o.value">{{ o.label | translate }}</option>
+                          }
+                        </select>
+                      } @else if (f.type === 'date') {
+                        <input class="mp-input" type="date" [value]="f.inputValue ?? ''" />
+                      } @else if (f.type === 'email') {
+                        <input class="mp-input" type="email" [value]="f.inputValue ?? f.value" />
+                      } @else if (f.type === 'tel') {
+                        <input class="mp-input" type="tel" [value]="f.inputValue ?? f.value" />
+                      } @else {
+                        <input class="mp-input" type="text" [value]="f.inputValue ?? f.value" />
+                      }
+                    </div>
+                  } @else {
+                    <div class="mp-value">{{ f.value | translate }}</div>
+                  }
                 </div>
               }
             </div>
@@ -58,7 +84,27 @@ type Section = {
               @for (f of s.right!; track trackByField) {
                 <div class="mp-field">
                   <div class="mp-label">{{ f.label | translate }}</div>
-                  <div class="mp-value">{{ f.value | translate }}</div>
+                  @if (isEditing(s)) {
+                    <div class="mp-control">
+                      @if (f.type === 'select') {
+                        <select class="mp-input" [value]="f.inputValue">
+                          @for (o of f.options ?? []; track o.value) {
+                            <option [value]="o.value">{{ o.label | translate }}</option>
+                          }
+                        </select>
+                      } @else if (f.type === 'date') {
+                        <input class="mp-input" type="date" [value]="f.inputValue ?? ''" />
+                      } @else if (f.type === 'email') {
+                        <input class="mp-input" type="email" [value]="f.inputValue ?? f.value" />
+                      } @else if (f.type === 'tel') {
+                        <input class="mp-input" type="tel" [value]="f.inputValue ?? f.value" />
+                      } @else {
+                        <input class="mp-input" type="text" [value]="f.inputValue ?? f.value" />
+                      }
+                    </div>
+                  } @else {
+                    <div class="mp-value">{{ f.value | translate }}</div>
+                  }
                 </div>
               }
             </div>
@@ -162,6 +208,27 @@ type Section = {
         font-weight: 700;
       }
 
+      .mp-control {
+        padding-top: 2px;
+      }
+
+      .mp-input {
+        width: 100%;
+        height: 36px;
+        padding: 0 10px;
+        border-radius: 8px;
+        border: 1px solid #d7d7d7;
+        font-size: 14px;
+        color: #111;
+        background: #fff;
+      }
+
+      .mp-input:focus {
+        outline: none;
+        border-color: #0b7285;
+        box-shadow: 0 0 0 3px rgba(11, 114, 133, 0.14);
+      }
+
       @media (max-width: 900px) {
         .mp-grid {
           grid-template-columns: 1fr;
@@ -179,31 +246,60 @@ export class AccountProfileComponent {
 
   subtitle = input<string>('PROFILE.SUBTITLE');
 
+  private readonly editingSections = new Set<string>();
+
   sections = input<Section[]>([
     {
       title: 'PROFILE.SECTION_PERSONAL_INFO',
       editable: true,
       left: [
-        { label: 'PROFILE.FIELD_GENDER', value: 'PROFILE.VALUE_OTHER' },
-        { label: 'PROFILE.FIELD_DOB', value: '18 de diciembre de 2005' },
-        { label: 'PROFILE.FIELD_ADDRESS', value: 'Cra 23 # 35' },
+        {
+          label: 'PROFILE.FIELD_GENDER',
+          value: 'PROFILE.VALUE_OTHER',
+          type: 'select',
+          inputValue: 'other',
+          options: [
+            { label: 'PROFILE.VALUE_FEMALE', value: 'female' },
+            { label: 'PROFILE.VALUE_MALE', value: 'male' },
+            { label: 'PROFILE.VALUE_OTHER', value: 'other' },
+          ],
+        },
+        {
+          label: 'PROFILE.FIELD_DOB',
+          value: '18 de diciembre de 2005',
+          type: 'date',
+          inputValue: '2005-12-18',
+        },
+        { label: 'PROFILE.FIELD_ADDRESS', value: 'Cra 23 # 35', type: 'text' },
       ],
       right: [
-        { label: 'PROFILE.FIELD_NAME_LASTNAME', value: 'Javier Martinez' },
-        { label: 'PROFILE.FIELD_COUNTRY_RESIDENCE', value: 'PROFILE.VALUE_COUNTRY_CO' },
+        { label: 'PROFILE.FIELD_NAME_LASTNAME', value: 'Javier Martinez', type: 'text' },
+        {
+          label: 'PROFILE.FIELD_COUNTRY_RESIDENCE',
+          value: 'PROFILE.VALUE_COUNTRY_CO',
+          type: 'select',
+          inputValue: 'co',
+          options: [
+            { label: 'PROFILE.VALUE_COUNTRY_CO', value: 'co' },
+            { label: 'PROFILE.VALUE_COUNTRY_US', value: 'us' },
+            { label: 'PROFILE.VALUE_COUNTRY_ES', value: 'es' },
+          ],
+        },
       ],
     },
     {
       title: 'PROFILE.SECTION_CONTACT_INFO',
-      editable: false,
-      left: [{ label: 'PROFILE.FIELD_PHONE', value: '57 123456789012345' }],
-      right: [{ label: 'PROFILE.FIELD_EMAIL', value: 'usuario.valido-1@dominio.co' }],
+      editable: true,
+      left: [{ label: 'PROFILE.FIELD_PHONE', value: '57 123456789012345', type: 'tel' }],
+      right: [
+        { label: 'PROFILE.FIELD_EMAIL', value: 'usuario.valido-1@dominio.co', type: 'email' },
+      ],
     },
     {
       title: 'PROFILE.SECTION_EMERGENCY',
       editable: true,
-      left: [{ label: 'PROFILE.FIELD_NAME', value: 'Juan Villalba' }],
-      right: [{ label: 'PROFILE.FIELD_PHONE', value: '90 3102212336688' }],
+      left: [{ label: 'PROFILE.FIELD_NAME', value: 'Juan Villalba', type: 'text' }],
+      right: [{ label: 'PROFILE.FIELD_PHONE', value: '90 3102212336688', type: 'tel' }],
     },
   ]);
 
@@ -213,5 +309,22 @@ export class AccountProfileComponent {
 
   trackByField(_: number, f: Field) {
     return `${f.label}:${f.value}`;
+  }
+
+  toggleEdit(s: Section) {
+    if (!s.editable) {
+      return;
+    }
+
+    if (this.editingSections.has(s.title)) {
+      this.editingSections.delete(s.title);
+      return;
+    }
+
+    this.editingSections.add(s.title);
+  }
+
+  isEditing(s: Section) {
+    return this.editingSections.has(s.title);
   }
 }

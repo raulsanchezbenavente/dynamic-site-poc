@@ -59,8 +59,12 @@
     "FIELD_PHONE": "Phone",
     "FIELD_EMAIL": "Email",
     "FIELD_NAME": "Name",
+    "VALUE_FEMALE": "Female",
+    "VALUE_MALE": "Male",
     "VALUE_OTHER": "Other",
-    "VALUE_COUNTRY_CO": "Colombia"
+    "VALUE_COUNTRY_CO": "Colombia",
+    "VALUE_COUNTRY_US": "United States",
+    "VALUE_COUNTRY_ES": "Spain"
   },
   "TRIPS": {
     "ARIA_LABEL": "Upcoming trips",
