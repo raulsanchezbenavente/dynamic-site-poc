@@ -37,9 +37,7 @@ export class SiteConfigService {
   }
 
   private getURlFromLangAndContext(lang: AppLang): string {
-    return document.location.port === '4200'
-      ? 'http://localhost:3000/assets/config-site/' + lang
-      : '/assets/config-site/' + lang;
+    return '/assets/config-site/' + lang;
   }
 
   public get siteSnapshot(): any | null {
