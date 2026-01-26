@@ -31,25 +31,23 @@ export class MainHeaderComponent {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly translate = inject(TranslateService);
 
-  // language = input<string>('Español');
-  market = input<string>('Colombia (COP)');
+  public market = input<string>('Colombia (COP)');
+  public userName = input<string>('Perico');
+  public userMiles = input<string>('600,700');
 
-  userName = input<string>('Perico');
-  userMiles = input<string>('600,700');
-
-  langOpen = signal(false);
-  langs = LANGS;
-  activeLang = signal<AppLang>(this.routerHelper.language );
-  activeLangLabelKey = computed(() => {
+  public langOpen = signal(false);
+  public langs = LANGS;
+  public activeLang = signal<AppLang>(this.routerHelper.language);
+  public activeLangLabelKey = computed(() => {
     const code = this.activeLang();
-    return this.langs.find(l => l.code === code)?.label ?? 'HEADER.EN';
+    return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
   });
 
-  setLang(lang: AppLang) {
+  public setLang(lang: AppLang): void {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
-    const pageId: string | undefined= this.routerHelper.getCurrentPageId();
+    const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
       const nextPath: string | undefined = this.siteConfig.getPathByPageId(pageId, lang);
       console.log(pageId, nextPath);
@@ -61,52 +59,52 @@ export class MainHeaderComponent {
     }
   }
 
-  trackByLang(_: number, l: Lang) {
+  public trackByLang(_: number, l: Lang): AppLang {
     return l.code;
   }
 
-  toggleLangMenu(ev: MouseEvent) {
+  public toggleLangMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.open.set(false);
-    this.langOpen.update(v => !v);
+    this.langOpen.update((v) => !v);
   }
 
-  menuItems = input<HeaderMenuItem[] | null | undefined>(DEFAULT_MENU);
+  public menuItems = input<HeaderMenuItem[] | null | undefined>(DEFAULT_MENU);
 
-  open = signal(false);
+  public open = signal(false);
 
   private router = inject(Router);
 
   // Always returns a non-empty array if nothing is provided
-  items = computed(() => {
+  public items = computed(() => {
     const v = this.menuItems();
     return Array.isArray(v) && v.length ? v : DEFAULT_MENU;
   });
 
   // Close on outside click + ESC
   @HostListener('document:click')
-  onDocumentClick() {
+  public onDocumentClick(): void {
     this.open.set(false);
     this.langOpen.set(false);
   }
 
   @HostListener('document:keydown.escape')
-  onEsc() {
+  public onEsc(): void {
     this.open.set(false);
     this.langOpen.set(false);
   }
 
-  toggleMenu(ev: MouseEvent) {
+  public toggleMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.langOpen.set(false);
     this.open.update(v => !v);
   }
 
-  trackByLabel(_: number, item: HeaderMenuItem) {
+  public trackByLabel(_: number, item: HeaderMenuItem): string {
     return item.label;
   }
 
-  public redirectTo(item: HeaderMenuItem) {
+  public redirectTo(item: HeaderMenuItem): void {
     this.open.set(false);
 
     if (item.redirectTo) {
