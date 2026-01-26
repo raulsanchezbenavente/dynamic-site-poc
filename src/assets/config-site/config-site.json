@@ -1,7 +1,7 @@
 {
   "pages": [
     {
-      "pageId": 1,
+      "pageId": "1",
       "path": "avianca-inicio",
       "name": "Inicio",
       "layout": {
@@ -29,7 +29,7 @@
                 "span": 12,
                 "tabs": [
                   {
-                    "pageId": 2,
+                    "pageId": "2",
                     "name": "Dados Pessoais",
                     "title": "Dados Pessoais",
                     "secondaryText": "",
@@ -41,7 +41,7 @@
                     ]
                   },
                   {
-                    "pageId": 3,
+                    "pageId": "3",
                     "name": "Meus Viagens",
                     "title": "Meus Viagens",
                     "secondaryText": "",
@@ -53,7 +53,7 @@
                     ]
                   },
                   {
-                    "pageId": 4,
+                    "pageId": "4",
                     "name": "Configurações da conta",
                     "title": "Configurações da conta",
                     "secondaryText": "",
@@ -65,7 +65,7 @@
                     ]
                   },
                   {
-                    "pageId": 5,
+                    "pageId": "5",
                     "name": "Status Elite",
                     "title": "Status Elite",
                     "secondaryText": "",

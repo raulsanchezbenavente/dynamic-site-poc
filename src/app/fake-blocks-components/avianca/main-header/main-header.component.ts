@@ -114,9 +114,11 @@ export class MainHeaderComponent {
     }
 
     if (item.pageId) {
-      const getCurrentPageId = this.routerHelper.getCurrentPageId();
-      if (getCurrentPageId === item.pageId) {
-
+      const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
+      console.log('Current pageId:', currentPageId, 'Target pageId:', item.pageId);
+      console.log(currentPageId === item.pageId)
+      if (currentPageId === item.pageId) {
+console.log('Same page, do nothing');
 
       } else {
         const path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
