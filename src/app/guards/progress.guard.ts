@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
 
 @Injectable({ providedIn: 'root' })

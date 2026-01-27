@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
-import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { DynamicPageComponent } from './dynamic-composite/dynamic-page/dynamic-page.component';
+import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { SiteConfigService } from './services/site-config/site-config.service';
 
 @Component({

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 

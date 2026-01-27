@@ -8,8 +8,8 @@ import { Component } from '@angular/core';
       <div class="container text-center">
         <p class="mb-1">&copy; {{ currentYear }} AirBooking. All rights reserved.</p>
         <p class="mb-0 small">
-          <a href="#" class="text-white text-decoration-underline">Terms of Service</a> | 
-          <a href="#" class="text-white text-decoration-underline">Privacy Policy</a> | 
+          <a href="#" class="text-white text-decoration-underline">Terms of Service</a> |
+          <a href="#" class="text-white text-decoration-underline">Privacy Policy</a> |
           <a href="#" class="text-white text-decoration-underline">Contact Us</a>
         </p>
       </div>
