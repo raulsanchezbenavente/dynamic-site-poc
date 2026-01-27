@@ -7,6 +7,9 @@
     background: #111;
     color: #fff;
     font-size: 13px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 .lm-topbar-inner {
     max-width: 1240px;
