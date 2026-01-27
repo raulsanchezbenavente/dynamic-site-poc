@@ -10,8 +10,8 @@ import { Component } from '@angular/core';
       <h3 class="explanation__title">Need help?</h3>
 
       <p class="explanation__text">
-        Here you can review the available options and make your selection.
-        Take your time to compare details before continuing.
+        Here you can review the available options and make your selection. Take your time to compare details before
+        continuing.
       </p>
 
       <ul class="explanation__list">

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
@@ -11,13 +12,22 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
     <div class="container my-5">
       <h2 class="text-primary mb-4 text-center">Select Your Seat</h2>
 
-      <div class="plane-frame mx-auto p-3 bg-white rounded-5 shadow" style="max-width: 500px;">
+      <div
+        class="plane-frame mx-auto p-3 bg-white rounded-5 shadow"
+        style="max-width: 500px;">
         <!-- Header with seat letters -->
         <div class="d-flex align-items-center justify-content-center mb-2">
           <div class="seat-label seat-row-number"></div>
           @for (seat of seatColumns; track seat) {
-            <div class="seat-label" *ngIf="seat !== 'aisle'">{{ seat }}</div>
-            <div class="seat-label" *ngIf="seat === 'aisle'" style="width: 20px;"></div>
+            <div
+              class="seat-label"
+              *ngIf="seat !== 'aisle'">
+              {{ seat }}
+            </div>
+            <div
+              class="seat-label"
+              *ngIf="seat === 'aisle'"
+              style="width: 20px;"></div>
           }
         </div>
 
@@ -27,13 +37,14 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
             <div class="seat-label seat-row-number">{{ row }}</div>
 
             @for (seat of seatColumns; track seat) {
-              <div *ngIf="seat === 'aisle'" style="width: 20px;"></div>
+              <div
+                *ngIf="seat === 'aisle'"
+                style="width: 20px;"></div>
               <div
                 *ngIf="seat !== 'aisle'"
                 class="seat-box me-1"
                 [class.selected]="selectedSeat === seat + row"
-                (click)="selectSeat(seat + row)"
-              >
+                (click)="selectSeat(seat + row)">
                 {{ seat }}
               </div>
             }
@@ -42,54 +53,62 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
       </div>
 
       <div class="text-center mt-4">
-        <p *ngIf="selectedSeat" class="text-success mb-2">
+        <p
+          *ngIf="selectedSeat"
+          class="text-success mb-2">
           Selected Seat: <strong>{{ selectedSeat }}</strong>
         </p>
-        <button class="btn btn-primary btn-lg" (click)="goToResults()">Proceed to Payment</button>
+        <button
+          class="btn btn-primary btn-lg"
+          (click)="goToResults()">
+          Proceed to Payment
+        </button>
       </div>
     </div>
   `,
-  styles: [`
-    .plane-frame {
-      border: 4px solid #ccc;
-      border-radius: 40px;
-      background: #f8f9fa;
-    }
+  styles: [
+    `
+      .plane-frame {
+        border: 4px solid #ccc;
+        border-radius: 40px;
+        background: #f8f9fa;
+      }
 
-    .seat-label {
-      width: 35px;
-      text-align: center;
-      font-weight: bold;
-      color: #666;
-    }
+      .seat-label {
+        width: 35px;
+        text-align: center;
+        font-weight: bold;
+        color: #666;
+      }
 
-    .seat-row-number {
-      margin-right: 8px;
-    }
+      .seat-row-number {
+        margin-right: 8px;
+      }
 
-    .seat-box {
-      width: 35px;
-      height: 35px;
-      background-color: #e0e0e0;
-      border: 2px solid #666;
-      border-radius: 4px;
-      text-align: center;
-      line-height: 30px;
-      font-size: 14px;
-      cursor: pointer;
-      transition: 0.2s;
-    }
+      .seat-box {
+        width: 35px;
+        height: 35px;
+        background-color: #e0e0e0;
+        border: 2px solid #666;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 30px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
 
-    .seat-box:hover {
-      background-color: #d0d0d0;
-    }
+      .seat-box:hover {
+        background-color: #d0d0d0;
+      }
 
-    .seat-box.selected {
-      background-color: #198754;
-      color: white;
-      border-color: #145c32;
-    }
-  `]
+      .seat-box.selected {
+        background-color: #198754;
+        color: white;
+        border-color: #145c32;
+      }
+    `,
+  ],
 })
 export class SeatmapComponent {
   private progress = inject(BookingProgressService);

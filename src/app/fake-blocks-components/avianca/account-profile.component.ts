@@ -56,19 +56,33 @@ type Section = {
                   @if (isEditing(s)) {
                     <div class="mp-control">
                       @if (f.type === 'select') {
-                        <select class="mp-input" [value]="f.inputValue">
+                        <select
+                          class="mp-input"
+                          [value]="f.inputValue">
                           @for (o of f.options ?? []; track o.value) {
                             <option [value]="o.value">{{ o.label | translate }}</option>
                           }
                         </select>
                       } @else if (f.type === 'date') {
-                        <input class="mp-input" type="date" [value]="f.inputValue ?? ''" />
+                        <input
+                          class="mp-input"
+                          type="date"
+                          [value]="f.inputValue ?? ''" />
                       } @else if (f.type === 'email') {
-                        <input class="mp-input" type="email" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="email"
+                          [value]="f.inputValue ?? f.value" />
                       } @else if (f.type === 'tel') {
-                        <input class="mp-input" type="tel" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="tel"
+                          [value]="f.inputValue ?? f.value" />
                       } @else {
-                        <input class="mp-input" type="text" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="text"
+                          [value]="f.inputValue ?? f.value" />
                       }
                     </div>
                   } @else {
@@ -87,19 +101,33 @@ type Section = {
                   @if (isEditing(s)) {
                     <div class="mp-control">
                       @if (f.type === 'select') {
-                        <select class="mp-input" [value]="f.inputValue">
+                        <select
+                          class="mp-input"
+                          [value]="f.inputValue">
                           @for (o of f.options ?? []; track o.value) {
                             <option [value]="o.value">{{ o.label | translate }}</option>
                           }
                         </select>
                       } @else if (f.type === 'date') {
-                        <input class="mp-input" type="date" [value]="f.inputValue ?? ''" />
+                        <input
+                          class="mp-input"
+                          type="date"
+                          [value]="f.inputValue ?? ''" />
                       } @else if (f.type === 'email') {
-                        <input class="mp-input" type="email" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="email"
+                          [value]="f.inputValue ?? f.value" />
                       } @else if (f.type === 'tel') {
-                        <input class="mp-input" type="tel" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="tel"
+                          [value]="f.inputValue ?? f.value" />
                       } @else {
-                        <input class="mp-input" type="text" [value]="f.inputValue ?? f.value" />
+                        <input
+                          class="mp-input"
+                          type="text"
+                          [value]="f.inputValue ?? f.value" />
                       }
                     </div>
                   } @else {
@@ -242,13 +270,13 @@ type Section = {
   ],
 })
 export class AccountProfileComponent {
-  title = input<string>('PROFILE.TITLE');
+  public title = input<string>('PROFILE.TITLE');
 
-  subtitle = input<string>('PROFILE.SUBTITLE');
+  public subtitle = input<string>('PROFILE.SUBTITLE');
 
   private readonly editingSections = new Set<string>();
 
-  sections = input<Section[]>([
+  public sections = input<Section[]>([
     {
       title: 'PROFILE.SECTION_PERSONAL_INFO',
       editable: true,
@@ -291,9 +319,7 @@ export class AccountProfileComponent {
       title: 'PROFILE.SECTION_CONTACT_INFO',
       editable: true,
       left: [{ label: 'PROFILE.FIELD_PHONE', value: '57 123456789012345', type: 'tel' }],
-      right: [
-        { label: 'PROFILE.FIELD_EMAIL', value: 'usuario.valido-1@dominio.co', type: 'email' },
-      ],
+      right: [{ label: 'PROFILE.FIELD_EMAIL', value: 'usuario.valido-1@dominio.co', type: 'email' }],
     },
     {
       title: 'PROFILE.SECTION_EMERGENCY',
@@ -303,15 +329,15 @@ export class AccountProfileComponent {
     },
   ]);
 
-  trackByTitle(_: number, s: Section) {
+  public trackByTitle(_: number, s: Section): string {
     return s.title;
   }
 
-  trackByField(_: number, f: Field) {
+  public trackByField(_: number, f: Field): string {
     return `${f.label}:${f.value}`;
   }
 
-  toggleEdit(s: Section) {
+  public toggleEdit(s: Section): void {
     if (!s.editable) {
       return;
     }
@@ -324,7 +350,7 @@ export class AccountProfileComponent {
     this.editingSections.add(s.title);
   }
 
-  isEditing(s: Section) {
+  public isEditing(s: Section): boolean {
     return this.editingSections.has(s.title);
   }
 }

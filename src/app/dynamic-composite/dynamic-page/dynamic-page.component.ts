@@ -1,10 +1,11 @@
-import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 import { componentMap } from '../../component-map';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
+
 import { DsBlockOutletComponent } from './ds-block-outlet.component';
 
 type PageLayoutCol = {
@@ -30,7 +31,7 @@ export class DynamicPageComponent implements OnInit {
   private titleService = inject(Title);
   private siteSvc = inject(SiteConfigService);
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const path = this.route.snapshot.routeConfig?.path;
 
     this.siteSvc.site$.subscribe((site) => {
@@ -46,7 +47,7 @@ export class DynamicPageComponent implements OnInit {
     });
   }
 
-  getInputs(col: PageLayoutCol): Record<string, any> {
+  public getInputs(col: PageLayoutCol): Record<string, any> {
     const { component, span, ...inputs } = col;
     return inputs;
   }

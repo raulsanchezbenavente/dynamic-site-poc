@@ -254,13 +254,12 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent {
-  name = input<string>('Perico');
+  public name = input<string>('Perico');
 
-  memberNumber = input<string>('13440242314');
-  totalMiles = input<string>('600,700');
-  expirationDate = input<string>('31 de mayo de 2026');
-
-  async copy(text: string) {
+  public memberNumber = input<string>('13440242314');
+  public totalMiles = input<string>('600,700');
+  public expirationDate = input<string>('31 de mayo de 2026');
+  public async copy(text: string): Promise<void> {
     try {
       await navigator.clipboard.writeText(text);
     } catch {

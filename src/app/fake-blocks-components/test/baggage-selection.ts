@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
@@ -15,13 +16,11 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
         @for (bag of baggageOptions; track bag.id) {
           <div
             class="col-md-4"
-            (click)="selectBaggage(bag)"
-          >
+            (click)="selectBaggage(bag)">
             <div
               class="card h-100 text-center p-3 shadow-sm"
               [class.border-success]="selectedBaggage?.id === bag.id"
-              style="cursor: pointer;"
-            >
+              style="cursor: pointer;">
               <div class="display-1 mb-2">{{ bag.icon }}</div>
               <h5 class="card-title">{{ bag.label }}</h5>
               <p class="card-text text-muted">{{ bag.description }}</p>
@@ -32,15 +31,20 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
       </div>
 
       <div class="text-center mt-4">
-        <p *ngIf="selectedBaggage" class="text-success mb-2">
+        <p
+          *ngIf="selectedBaggage"
+          class="text-success mb-2">
           Selected: <strong>{{ selectedBaggage.label }}</strong>
         </p>
-        <a class="btn btn-primary btn-lg" (click)="goToResults()" [class.disabled]="!selectedBaggage">
+        <a
+          class="btn btn-primary btn-lg"
+          (click)="goToResults()"
+          [class.disabled]="!selectedBaggage">
           Continue
         </a>
       </div>
     </div>
-  `
+  `,
 })
 export class BaggageSelectionComponent {
   private progress = inject(BookingProgressService);
@@ -52,27 +56,27 @@ export class BaggageSelectionComponent {
       label: 'Cabin Bag',
       icon: '🧳',
       description: 'Small bag (up to 10kg), fits in overhead compartment.',
-      price: '$0 (included)'
+      price: '$0 (included)',
     },
     {
       id: 'medium',
       label: 'Medium Bag',
       icon: '🎒',
       description: 'Checked bag up to 20kg.',
-      price: '$25'
+      price: '$25',
     },
     {
       id: 'large',
       label: 'Large Bag',
       icon: '🧼',
       description: 'Extra large bag up to 32kg.',
-      price: '$40'
-    }
+      price: '$40',
+    },
   ];
 
   public selectedBaggage: any = null;
 
-  public selectBaggage(bag: any) {
+  public selectBaggage(bag: any): void {
     this.selectedBaggage = bag;
   }
 

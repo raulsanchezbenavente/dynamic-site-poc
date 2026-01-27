@@ -125,9 +125,9 @@ export class DsTabsComponent implements OnInit, OnDestroy {
         const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
         this.tabsOverride.set(overrides);
         const pepo = overrides.find((o) => {
-            const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
-            return o.name === currentTab?.name;
-          })?.name
+          const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
+          return o.name === currentTab?.name;
+        })?.name;
         this.setActiveTabName(pepo);
       }
     });

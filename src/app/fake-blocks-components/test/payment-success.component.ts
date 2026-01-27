@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
+
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
@@ -14,18 +15,20 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
           <span class="display-1 text-success">✔️</span>
         </div>
         <h2 class="text-success mb-3">Booking Confirmed!</h2>
-        <p class="lead mb-4">
-          Thank you for your purchase. Your flight has been successfully booked.
-        </p>
+        <p class="lead mb-4">Thank you for your purchase. Your flight has been successfully booked.</p>
         <p class="text-muted mb-4">
           A confirmation email with your itinerary and ticket details has been sent to your inbox.
         </p>
-        <a class="btn btn-primary btn-lg" (click)="goToHome()">Back to Home</a>
+        <a
+          class="btn btn-primary btn-lg"
+          (click)="goToHome()"
+          >Back to Home</a
+        >
       </div>
     </div>
-  `
+  `,
 })
-export class PaymentSuccessComponent {
+export class PaymentSuccessComponent implements OnInit {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
 
@@ -35,7 +38,7 @@ export class PaymentSuccessComponent {
     this.progress.markBookingProcessAsCompleted('payment-success');
   }
 
-  public goToHome() {
+  public goToHome(): void {
     this.router.navigate(['home']);
   }
 }

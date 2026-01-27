@@ -1,12 +1,13 @@
-
 <div class="page">
-  @for (row of rows; track row) {
-    <div class="row-grid">
-      @for (col of row.cols; track col) {
-        <div class="col" [style.gridColumn]="'span ' + (col.span ?? 12)">
-          <ds-block-outlet [block]="col"></ds-block-outlet>
+    @for (row of rows; track row) {
+        <div class="row-grid">
+            @for (col of row.cols; track col) {
+                <div
+                    class="col"
+                    [style.gridColumn]="'span ' + (col.span ?? 12)">
+                    <ds-block-outlet [block]="col"></ds-block-outlet>
+                </div>
+            }
         </div>
-      }
-    </div>
-  }
+    }
 </div>

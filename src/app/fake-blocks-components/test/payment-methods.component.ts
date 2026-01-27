@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
@@ -98,7 +99,7 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
 export class PaymentMethodsComponent {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
-  private getPaymentIconUrl = (method: string) => `https://upload.wikimedia.org/wikipedia/commons/${method}`;
+  private getPaymentIconUrl = (method: string): string => `https://upload.wikimedia.org/wikipedia/commons/${method}`;
 
   public selected: string | null = null;
   public paymentMethods = [
