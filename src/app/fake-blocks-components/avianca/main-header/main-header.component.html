@@ -55,9 +55,12 @@
                 aria-haspopup="menu">
                 <span
                     class="lm-market-flag"
-                    aria-hidden="true"
-                    >{{ selectedMarketFlag() }}</span
-                >
+                    aria-hidden="true">
+                    <img
+                        class="lm-market-flag-img"
+                        [src]="selectedMarketFlagUrl()"
+                        alt="" />
+                </span>
                 <span class="lm-market-label">{{ selectedMarketLabel() }}</span>
                 <span class="lm-market-currency">{{ selectedCurrency() }}</span>
             </button>
@@ -270,9 +273,12 @@
                     (click)="setMarket(item)">
                     <span
                         class="lm-market-flag"
-                        aria-hidden="true"
-                        >{{ item.flag }}</span
-                    >
+                        aria-hidden="true">
+                        <img
+                            class="lm-market-flag-img"
+                            [src]="item.flagUrl"
+                            alt="" />
+                    </span>
                     <span class="lm-market-name">{{ item.label }}</span>
                     <span class="lm-market-currency">{{ item.currency }}</span>
                 </button>

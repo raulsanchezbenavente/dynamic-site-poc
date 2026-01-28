@@ -42,34 +42,35 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public userMiles = input<string>('600,700');
 
   public marketOpen = signal(false);
-  public markets: Array<{ labelKey: string; currency: string; flag: string }> = [
-    { labelKey: 'HEADER.MARKET_ARGENTINA', currency: 'ARS', flag: '🇦🇷' },
-    { labelKey: 'HEADER.MARKET_BOLIVIA', currency: 'USD', flag: '🇧🇴' },
-    { labelKey: 'HEADER.MARKET_BRAZIL', currency: 'BRL', flag: '🇧🇷' },
-    { labelKey: 'HEADER.MARKET_CANADA', currency: 'USD', flag: '🇨🇦' },
-    { labelKey: 'HEADER.MARKET_CHILE', currency: 'USD', flag: '🇨🇱' },
-    { labelKey: 'HEADER.MARKET_COLOMBIA', currency: 'COP', flag: '🇨🇴' },
-    { labelKey: 'HEADER.MARKET_COSTA_RICA', currency: 'USD', flag: '🇨🇷' },
-    { labelKey: 'HEADER.MARKET_ECUADOR', currency: 'USD', flag: '🇪🇨' },
-    { labelKey: 'HEADER.MARKET_EL_SALVADOR', currency: 'USD', flag: '🇸🇻' },
-    { labelKey: 'HEADER.MARKET_SPAIN', currency: 'EUR', flag: '🇪🇸' },
-    { labelKey: 'HEADER.MARKET_UNITED_STATES', currency: 'USD', flag: '🇺🇸' },
-    { labelKey: 'HEADER.MARKET_GUATEMALA', currency: 'USD', flag: '🇬🇹' },
-    { labelKey: 'HEADER.MARKET_HONDURAS', currency: 'USD', flag: '🇭🇳' },
-    { labelKey: 'HEADER.MARKET_MEXICO', currency: 'USD', flag: '🇲🇽' },
-    { labelKey: 'HEADER.MARKET_NICARAGUA', currency: 'USD', flag: '🇳🇮' },
-    { labelKey: 'HEADER.MARKET_PANAMA', currency: 'USD', flag: '🇵🇦' },
-    { labelKey: 'HEADER.MARKET_PARAGUAY', currency: 'USD', flag: '🇵🇾' },
-    { labelKey: 'HEADER.MARKET_PERU', currency: 'USD', flag: '🇵🇪' },
-    { labelKey: 'HEADER.MARKET_UNITED_KINGDOM', currency: 'GBP', flag: '🇬🇧' },
-    { labelKey: 'HEADER.MARKET_DOMINICAN_REPUBLIC', currency: 'USD', flag: '🇩🇴' },
-    { labelKey: 'HEADER.MARKET_URUGUAY', currency: 'USD', flag: '🇺🇾' },
-    { labelKey: 'HEADER.MARKET_OTHER_COUNTRIES', currency: 'USD', flag: '🌎' },
+  public markets: Array<{ labelKey: string; currency: string; flagCode: string }> = [
+    { labelKey: 'HEADER.MARKET_ARGENTINA', currency: 'ARS', flagCode: '1f1e6-1f1f7' },
+    { labelKey: 'HEADER.MARKET_BOLIVIA', currency: 'USD', flagCode: '1f1e7-1f1f4' },
+    { labelKey: 'HEADER.MARKET_BRAZIL', currency: 'BRL', flagCode: '1f1e7-1f1f7' },
+    { labelKey: 'HEADER.MARKET_CANADA', currency: 'USD', flagCode: '1f1e8-1f1e6' },
+    { labelKey: 'HEADER.MARKET_CHILE', currency: 'USD', flagCode: '1f1e8-1f1f1' },
+    { labelKey: 'HEADER.MARKET_COLOMBIA', currency: 'COP', flagCode: '1f1e8-1f1f4' },
+    { labelKey: 'HEADER.MARKET_COSTA_RICA', currency: 'USD', flagCode: '1f1e8-1f1f7' },
+    { labelKey: 'HEADER.MARKET_ECUADOR', currency: 'USD', flagCode: '1f1ea-1f1e8' },
+    { labelKey: 'HEADER.MARKET_EL_SALVADOR', currency: 'USD', flagCode: '1f1f8-1f1fb' },
+    { labelKey: 'HEADER.MARKET_SPAIN', currency: 'EUR', flagCode: '1f1ea-1f1f8' },
+    { labelKey: 'HEADER.MARKET_UNITED_STATES', currency: 'USD', flagCode: '1f1fa-1f1f8' },
+    { labelKey: 'HEADER.MARKET_GUATEMALA', currency: 'USD', flagCode: '1f1ec-1f1f9' },
+    { labelKey: 'HEADER.MARKET_HONDURAS', currency: 'USD', flagCode: '1f1ed-1f1f3' },
+    { labelKey: 'HEADER.MARKET_MEXICO', currency: 'USD', flagCode: '1f1f2-1f1fd' },
+    { labelKey: 'HEADER.MARKET_NICARAGUA', currency: 'USD', flagCode: '1f1f3-1f1ee' },
+    { labelKey: 'HEADER.MARKET_PANAMA', currency: 'USD', flagCode: '1f1f5-1f1e6' },
+    { labelKey: 'HEADER.MARKET_PARAGUAY', currency: 'USD', flagCode: '1f1f5-1f1fe' },
+    { labelKey: 'HEADER.MARKET_PERU', currency: 'USD', flagCode: '1f1f5-1f1ea' },
+    { labelKey: 'HEADER.MARKET_UNITED_KINGDOM', currency: 'GBP', flagCode: '1f1ec-1f1e7' },
+    { labelKey: 'HEADER.MARKET_DOMINICAN_REPUBLIC', currency: 'USD', flagCode: '1f1e9-1f1f4' },
+    { labelKey: 'HEADER.MARKET_URUGUAY', currency: 'USD', flagCode: '1f1fa-1f1fe' },
+    { labelKey: 'HEADER.MARKET_OTHER_COUNTRIES', currency: 'USD', flagCode: '1f30e' },
   ];
   public selectedMarketKey = signal<string>('HEADER.MARKET_COLOMBIA');
   public selectedCurrency = signal<string>('COP');
-  public selectedMarketFlag = computed(() => {
-    return this.markets.find((m) => m.labelKey === this.selectedMarketKey())?.flag ?? '🌎';
+  public selectedMarketFlagUrl = computed(() => {
+    const code = this.markets.find((m) => m.labelKey === this.selectedMarketKey())?.flagCode ?? '1f30e';
+    return this.flagUrl(code);
   });
   public langTick = signal(0);
   public selectedMarketLabel = computed(() => {
@@ -93,6 +94,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     return this.markets.map((item) => ({
       ...item,
       label: this.translate.instant(item.labelKey),
+      flagUrl: this.flagUrl(item.flagCode),
     }));
   });
 
@@ -237,6 +239,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public setMarket(item: { labelKey: string; currency: string }): void {
     this.selectedMarketKey.set(item.labelKey);
     this.selectedCurrency.set(item.currency);
+  }
+
+  private flagUrl(code: string): string {
+    return `https://twemoji.maxcdn.com/v/latest/svg/${code}.svg`;
   }
 
   public trackByMarket(_: number, item: { labelKey: string }): string {

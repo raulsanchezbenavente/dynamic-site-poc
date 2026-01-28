@@ -149,6 +149,14 @@
 .lm-market-flag {
     font-size: 14px;
     transform: translateY(-1px);
+    display: inline-flex;
+    align-items: center;
+}
+
+.lm-market-flag-img {
+    width: 18px;
+    height: 18px;
+    display: block;
 }
 
 .lm-market-label {
