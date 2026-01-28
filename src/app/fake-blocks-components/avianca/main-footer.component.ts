@@ -76,11 +76,11 @@ type FooterColumn = {
         </div>
 
         <div class="ft-grid">
-          @for (col of columns(); track trackByTitle) {
+          @for (col of columns(); track trackByTitle($index, col)) {
             <div class="ft-col">
               <h3 class="ft-col-title">{{ col.title | translate }}</h3>
 
-              @for (link of col.links; track trackByLink) {
+              @for (link of col.links; track trackByLink($index, link)) {
                 <a
                   class="ft-link"
                   [href]="link.href || '#'"

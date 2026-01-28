@@ -2,7 +2,7 @@
     class="ds-tabs"
     role="tablist"
     aria-label="Tabs">
-    @for (tab of viewTabs(); track trackById) {
+    @for (tab of viewTabs(); track trackById($index, tab)) {
         <button
             type="button"
             class="ds-tab"
@@ -17,7 +17,7 @@
     }
 </div>
 
-@for (tab of viewTabs(); track trackById) {
+@for (tab of viewTabs(); track trackById($index, tab)) {
     <section
         class="ds-tab-panel"
         role="tabpanel"

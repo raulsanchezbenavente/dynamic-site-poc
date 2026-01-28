@@ -9,7 +9,7 @@ import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component
   standalone: true,
   imports: [CommonModule, DsBlockOutletComponent],
   template: `
-    @for (block of blocks(); track trackByKey) {
+    @for (block of blocks(); track trackByKey($index, block)) {
       <ds-block-outlet [block]="block"></ds-block-outlet>
     }
   `,

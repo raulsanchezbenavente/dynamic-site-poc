@@ -8,10 +8,10 @@
             <button
                 type="button"
                 class="lm-lang-trigger"
+                aria-haspopup="menu"
                 [class.is-open]="langOpen()"
-                (click)="toggleLangMenu($event)"
                 [attr.aria-expanded]="langOpen()"
-                aria-haspopup="menu">
+                (click)="toggleLangMenu($event)">
                 <span
                     class="lm-lang-ico"
                     aria-hidden="true"
@@ -25,7 +25,7 @@
                     role="menu"
                     aria-label="Language menu"
                     (click)="$event.stopPropagation()">
-                    @for (lang of langs; track trackByLang) {
+                    @for (lang of langs; track trackByLang($index, lang)) {
                         <button
                             type="button"
                             class="lm-lang-item"
@@ -49,17 +49,17 @@
             <button
                 type="button"
                 class="lm-market-trigger"
+                aria-haspopup="menu"
                 [class.is-open]="marketOpen()"
-                (click)="toggleMarketMenu($event)"
                 [attr.aria-expanded]="marketOpen()"
-                aria-haspopup="menu">
+                (click)="toggleMarketMenu($event)">
                 <span
                     class="lm-market-flag"
                     aria-hidden="true">
                     <img
                         class="lm-market-flag-img"
-                        [src]="selectedMarketFlagUrl()"
-                        alt="" />
+                        alt=""
+                        [src]="selectedMarketFlagUrl()" />
                 </span>
                 <span class="lm-market-label">{{ selectedMarketLabel() }}</span>
                 <span class="lm-market-currency">{{ selectedCurrency() }}</span>
@@ -72,8 +72,8 @@
     class="lm-header"
     role="banner">
     <div
-        class="lm-inner"
-        #root>
+        #root
+        class="lm-inner">
         <!-- Left: logo + nav -->
         <div class="lm-left">
             <a
@@ -133,9 +133,9 @@
                 <button
                     type="button"
                     class="lm-user"
-                    (click)="toggleMenu($event)"
+                    aria-haspopup="menu"
                     [attr.aria-expanded]="open()"
-                    aria-haspopup="menu">
+                    (click)="toggleMenu($event)">
                     <span
                         class="lm-lm-badge"
                         aria-hidden="true"
@@ -149,8 +149,8 @@
 
                     <span
                         class="lm-caret"
-                        [class.is-open]="open()"
                         aria-hidden="true"
+                        [class.is-open]="open()"
                         >▾</span
                     >
                 </button>
@@ -162,7 +162,7 @@
                         aria-label="User menu"
                         (click)="$event.stopPropagation()">
                         <div class="lm-dd-list">
-                            @for (item of items(); track trackByLabel) {
+                            @for (item of items(); track trackByLabel($index, item)) {
                                 <button
                                     class="lm-dd-item"
                                     type="button"
@@ -265,7 +265,7 @@
         <div class="lm-market-title">{{ marketTitleLabel() }}</div>
 
         <div class="lm-market-grid">
-            @for (item of marketView(); track trackByMarket) {
+            @for (item of marketView(); track trackByMarket($index, item)) {
                 <button
                     type="button"
                     class="lm-market-item"
@@ -276,8 +276,8 @@
                         aria-hidden="true">
                         <img
                             class="lm-market-flag-img"
-                            [src]="item.flagUrl"
-                            alt="" />
+                            alt=""
+                            [src]="item.flagUrl" />
                     </span>
                     <span class="lm-market-name">{{ item.label }}</span>
                     <span class="lm-market-currency">{{ item.currency }}</span>

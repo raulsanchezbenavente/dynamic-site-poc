@@ -32,7 +32,7 @@ export type LmTripCard = {
       [attr.aria-label]="'TRIPS.ARIA_LABEL' | translate">
       <h2 class="ut-title">{{ title() | translate }}</h2>
 
-      @for (t of trips(); track trackByTrip) {
+      @for (t of trips(); track trackByTrip($index, t)) {
         <article class="ut-card">
           <div class="ut-head">
             <div class="ut-route">
