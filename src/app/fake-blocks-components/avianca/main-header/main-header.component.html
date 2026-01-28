@@ -57,7 +57,7 @@
                     aria-hidden="true"
                     >{{ selectedMarketFlag() }}</span
                 >
-                <span class="lm-market-label">{{ selectedMarketKey() | translate }}</span>
+                <span class="lm-market-label">{{ selectedMarketLabel() }}</span>
                 <span class="lm-market-currency">{{ selectedCurrency() }}</span>
             </button>
         </div>
@@ -238,7 +238,7 @@
         class="lm-market-modal"
         role="dialog"
         aria-modal="true"
-        [attr.aria-label]="'HEADER.MARKET_TITLE' | translate"
+        [attr.aria-label]="marketTitleLabel()"
         (click)="$event.stopPropagation()">
         <div class="lm-market-modal-header">
             <div
@@ -249,16 +249,16 @@
             <button
                 type="button"
                 class="lm-market-close"
-                [attr.aria-label]="'HEADER.MARKET_CLOSE' | translate"
+                [attr.aria-label]="marketCloseLabel()"
                 (click)="closeMarketMenu()">
                 ✕
             </button>
         </div>
 
-        <div class="lm-market-title">{{ 'HEADER.MARKET_TITLE' | translate }}</div>
+        <div class="lm-market-title">{{ marketTitleLabel() }}</div>
 
         <div class="lm-market-grid">
-            @for (item of markets; track trackByMarket) {
+            @for (item of marketView(); track trackByMarket) {
                 <button
                     type="button"
                     class="lm-market-item"
@@ -269,7 +269,7 @@
                         aria-hidden="true"
                         >{{ item.flag }}</span
                     >
-                    <span class="lm-market-name">{{ item.labelKey | translate }}</span>
+                    <span class="lm-market-name">{{ item.label }}</span>
                     <span class="lm-market-currency">{{ item.currency }}</span>
                 </button>
             }
@@ -280,7 +280,7 @@
                 type="button"
                 class="lm-market-apply"
                 (click)="closeMarketMenu()">
-                {{ 'HEADER.MARKET_APPLY' | translate }}
+                {{ marketApplyLabel() }}
             </button>
         </div>
     </div>

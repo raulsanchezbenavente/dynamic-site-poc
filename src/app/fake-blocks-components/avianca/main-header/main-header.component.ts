@@ -105,9 +105,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   });
 
   public ngOnInit(): void {
-    this.translate.onLangChange
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.langTick.update((v) => v + 1));
+    this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.langTick.update((v) => v + 1));
 
     const marketMatch = /^(.*)\(([^)]+)\)/.exec(this.market());
     if (marketMatch) {
