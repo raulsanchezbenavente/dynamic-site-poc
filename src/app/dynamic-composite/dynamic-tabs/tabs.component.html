@@ -1,12 +1,19 @@
 <div
     class="ds-tabs"
     role="tablist"
-    aria-label="Tabs">
+    aria-label="Tabs"
+    #tabsRoot>
+    <span
+        class="ds-tab-indicator"
+        aria-hidden="true"
+        [style.width.px]="indicatorWidth()"
+        [style.transform]="indicatorTransform()"></span>
     @for (tab of viewTabs(); track trackById($index, tab)) {
         <button
             type="button"
             class="ds-tab"
             role="tab"
+            #tabButton
             [attr.id]="tabButtonId(tab.tabId)"
             [attr.aria-controls]="tabPanelId(tab.tabId)"
             [attr.aria-selected]="tab.tabId === activeId()"

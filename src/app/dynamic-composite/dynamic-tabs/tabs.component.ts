@@ -1,15 +1,21 @@
 import { CommonModule } from '@angular/common';
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
+  ElementRef,
+  HostListener,
   inject,
   input,
   model,
   OnDestroy,
   OnInit,
+  QueryList,
   signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -30,7 +36,7 @@ import { CmsTabContract } from './models/cms-tab-contract.model';
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DsTabsComponent implements OnInit, OnDestroy {
+export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   public tabsId = input<string | null | undefined>(undefined);
   public tabs = input<CmsTabContract[] | null | undefined>(undefined);
   private readonly router = inject(Router);
@@ -44,6 +50,15 @@ export class DsTabsComponent implements OnInit, OnDestroy {
   public readonly tabs$ = this._tabsSubject.asObservable();
 
   public activeId = model<string | undefined>(undefined);
+  public indicatorLeft = signal(0);
+  public indicatorWidth = signal(0);
+  public indicatorTransform = computed(() => `translateX(${this.indicatorLeft()}px)`);
+
+  @ViewChild('tabsRoot', { static: true })
+  private tabsRoot?: ElementRef<HTMLElement>;
+
+  @ViewChildren('tabButton')
+  private tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
     const raw = this.tabs();
@@ -109,6 +124,12 @@ export class DsTabsComponent implements OnInit, OnDestroy {
         this.setPageTitle(tabs[0]);
       }
     });
+
+    effect(() => {
+      this.activeId();
+      this.viewTabs();
+      queueMicrotask(() => this.updateIndicator());
+    });
   }
 
   public ngOnInit(): void {
@@ -145,6 +166,13 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       this.setPageTitle(tab);
       this.select(tab!, true);
     });
+  }
+
+  public ngAfterViewInit(): void {
+    this.tabButtons?.changes.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      this.updateIndicator();
+    });
+    queueMicrotask(() => this.updateIndicator());
   }
 
   private navigateToTab(qpTab: string | undefined): void {
@@ -204,5 +232,36 @@ export class DsTabsComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  @HostListener('window:resize')
+  public onResize(): void {
+    this.updateIndicator();
+  }
+
+  private updateIndicator(): void {
+    const rootEl = this.tabsRoot?.nativeElement;
+    if (!rootEl) return;
+
+    const active = this.activeId();
+    if (!active || !this.tabButtons?.length) {
+      this.indicatorWidth.set(0);
+      return;
+    }
+
+    const button = this.tabButtons.find(
+      (ref) => ref.nativeElement.getAttribute('id') === this.tabButtonId(active)
+    );
+
+    if (!button) {
+      this.indicatorWidth.set(0);
+      return;
+    }
+
+    const rootRect = rootEl.getBoundingClientRect();
+    const buttonRect = button.nativeElement.getBoundingClientRect();
+    const left = buttonRect.left - rootRect.left;
+    this.indicatorLeft.set(left);
+    this.indicatorWidth.set(buttonRect.width);
   }
 }

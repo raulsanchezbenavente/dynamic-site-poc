@@ -11,6 +11,7 @@
     width: 100%;
     max-width: 1100px;
     box-sizing: border-box;
+    position: relative;
 }
 
 /* tab base */
@@ -45,7 +46,21 @@
 }
 
 .ds-tab.is-active::after {
-    background: #18a33a; /* verde */
+    background: transparent;
+}
+
+.ds-tab-indicator {
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    height: 3px;
+    background: #18a33a;
+    border-radius: 2px 2px 0 0;
+    transition:
+        transform 0.25s ease,
+        width 0.25s ease;
+    will-change: transform, width;
+    pointer-events: none;
 }
 
 .ds-tab:hover {
