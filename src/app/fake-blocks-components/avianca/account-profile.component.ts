@@ -29,7 +29,7 @@ type Section = {
       <h2 class="mp-title">{{ title() | translate }}</h2>
       <p class="mp-subtitle">{{ subtitle() | translate }}</p>
 
-      @for (s of sections(); track trackByTitle) {
+      @for (s of sections(); track trackByTitle($index, s)) {
         <div class="mp-section">
           <div class="mp-section-head">
             <h3 class="mp-section-title">{{ s.title | translate }}</h3>
@@ -48,7 +48,7 @@ type Section = {
 
           <div class="mp-grid">
             <div class="mp-col">
-              @for (f of s.left; track trackByField) {
+              @for (f of s.left; track trackByField($index, f)) {
                 <div class="mp-field">
                   <div class="mp-label">{{ f.label | translate }}</div>
                   @if (isEditing(s)) {
@@ -92,7 +92,7 @@ type Section = {
 
             @if (s.right?.length) {
               <div class="mp-col">
-                @for (f of s.right!; track trackByField) {
+                @for (f of s.right!; track trackByField($index, f)) {
                   <div class="mp-field">
                     <div class="mp-label">{{ f.label | translate }}</div>
                     @if (isEditing(s)) {
