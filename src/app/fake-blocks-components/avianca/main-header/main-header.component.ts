@@ -40,6 +40,37 @@ export class MainHeaderComponent implements OnInit {
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
 
+  public marketOpen = signal(false);
+  public markets: Array<{ country: string; currency: string; flag: string }> = [
+    { country: 'Argentina', currency: 'ARS', flag: '🇦🇷' },
+    { country: 'Bolivia', currency: 'USD', flag: '🇧🇴' },
+    { country: 'Brasil', currency: 'BRL', flag: '🇧🇷' },
+    { country: 'Canadá', currency: 'USD', flag: '🇨🇦' },
+    { country: 'Chile', currency: 'USD', flag: '🇨🇱' },
+    { country: 'Colombia', currency: 'COP', flag: '🇨🇴' },
+    { country: 'Costa Rica', currency: 'USD', flag: '🇨🇷' },
+    { country: 'Ecuador', currency: 'USD', flag: '🇪🇨' },
+    { country: 'El Salvador', currency: 'USD', flag: '🇸🇻' },
+    { country: 'España', currency: 'EUR', flag: '🇪🇸' },
+    { country: 'Estados Unidos', currency: 'USD', flag: '🇺🇸' },
+    { country: 'Guatemala', currency: 'USD', flag: '🇬🇹' },
+    { country: 'Honduras', currency: 'USD', flag: '🇭🇳' },
+    { country: 'México', currency: 'USD', flag: '🇲🇽' },
+    { country: 'Nicaragua', currency: 'USD', flag: '🇳🇮' },
+    { country: 'Panamá', currency: 'USD', flag: '🇵🇦' },
+    { country: 'Paraguay', currency: 'USD', flag: '🇵🇾' },
+    { country: 'Perú', currency: 'USD', flag: '🇵🇪' },
+    { country: 'Reino Unido', currency: 'GBP', flag: '🇬🇧' },
+    { country: 'República Dominicana', currency: 'USD', flag: '🇩🇴' },
+    { country: 'Uruguay', currency: 'USD', flag: '🇺🇾' },
+    { country: 'Otros países', currency: 'USD', flag: '🌎' },
+  ];
+  public selectedMarket = signal<string>('Colombia');
+  public selectedCurrency = signal<string>('COP');
+  public selectedMarketFlag = computed(() => {
+    return this.markets.find((m) => m.country === this.selectedMarket())?.flag ?? '🌎';
+  });
+
   public langOpen = signal(false);
   public langs = LANGS;
   public activeLang = signal<AppLang>(this.routerHelper.language);
@@ -49,6 +80,11 @@ export class MainHeaderComponent implements OnInit {
   });
 
   public ngOnInit(): void {
+    const marketMatch = /^(.*)\(([^)]+)\)/.exec(this.market());
+    if (marketMatch) {
+      this.selectedMarket.set(marketMatch[1].trim());
+      this.selectedCurrency.set(marketMatch[2].trim());
+    }
     const qp = this.router.url.split('?')[1] ?? '';
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
     if (activeTab) {
@@ -103,6 +139,7 @@ export class MainHeaderComponent implements OnInit {
   public toggleLangMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.open.set(false);
+    this.marketOpen.set(false);
     this.langOpen.update((v) => !v);
   }
 
@@ -129,18 +166,41 @@ export class MainHeaderComponent implements OnInit {
   public onDocumentClick(): void {
     this.open.set(false);
     this.langOpen.set(false);
+    this.marketOpen.set(false);
   }
 
   @HostListener('document:keydown.escape')
   public onEsc(): void {
     this.open.set(false);
     this.langOpen.set(false);
+    this.marketOpen.set(false);
   }
 
   public toggleMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.langOpen.set(false);
+    this.marketOpen.set(false);
     this.open.update((v) => !v);
+  }
+
+  public toggleMarketMenu(ev: MouseEvent): void {
+    ev.stopPropagation();
+    this.langOpen.set(false);
+    this.open.set(false);
+    this.marketOpen.update((v) => !v);
+  }
+
+  public closeMarketMenu(): void {
+    this.marketOpen.set(false);
+  }
+
+  public setMarket(item: { country: string; currency: string }): void {
+    this.selectedMarket.set(item.country);
+    this.selectedCurrency.set(item.currency);
+  }
+
+  public trackByMarket(_: number, item: { country: string }): string {
+    return item.country;
   }
 
   public trackByLabel(_: number, item: HeaderMenuItem): string {

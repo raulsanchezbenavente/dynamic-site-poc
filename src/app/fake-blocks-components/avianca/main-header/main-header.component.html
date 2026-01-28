@@ -44,14 +44,23 @@
             >|</span
         >
 
-        <span class="lm-topbar-item-static">
-            <span
-                class="lm-topbar-ico"
-                aria-hidden="true"
-                >💲</span
-            >
-            <span>{{ market() }}</span>
-        </span>
+        <div class="lm-market">
+            <button
+                type="button"
+                class="lm-market-trigger"
+                [class.is-open]="marketOpen()"
+                (click)="toggleMarketMenu($event)"
+                [attr.aria-expanded]="marketOpen()"
+                aria-haspopup="menu">
+                <span
+                    class="lm-market-flag"
+                    aria-hidden="true"
+                    >{{ selectedMarketFlag() }}</span
+                >
+                <span class="lm-market-label">{{ selectedMarket() }}</span>
+                <span class="lm-market-currency">{{ selectedCurrency() }}</span>
+            </button>
+        </div>
     </div>
 </div>
 
@@ -219,3 +228,60 @@
         </div>
     </div>
 </header>
+
+@if (marketOpen()) {
+    <div
+        class="lm-market-backdrop"
+        (click)="closeMarketMenu()"></div>
+
+    <div
+        class="lm-market-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Selecciona un país"
+        (click)="$event.stopPropagation()">
+        <div class="lm-market-modal-header">
+            <div
+                class="lm-market-brand"
+                aria-hidden="true">
+                avianca
+            </div>
+            <button
+                type="button"
+                class="lm-market-close"
+                aria-label="Cerrar"
+                (click)="closeMarketMenu()">
+                ✕
+            </button>
+        </div>
+
+        <div class="lm-market-title">Selecciona un país</div>
+
+        <div class="lm-market-grid">
+            @for (item of markets; track trackByMarket) {
+                <button
+                    type="button"
+                    class="lm-market-item"
+                    [class.is-active]="item.country === selectedMarket()"
+                    (click)="setMarket(item)">
+                    <span
+                        class="lm-market-flag"
+                        aria-hidden="true"
+                        >{{ item.flag }}</span
+                    >
+                    <span class="lm-market-name">{{ item.country }}</span>
+                    <span class="lm-market-currency">{{ item.currency }}</span>
+                </button>
+            }
+        </div>
+
+        <div class="lm-market-actions">
+            <button
+                type="button"
+                class="lm-market-apply"
+                (click)="closeMarketMenu()">
+                Aplicar
+            </button>
+        </div>
+    </div>
+}
