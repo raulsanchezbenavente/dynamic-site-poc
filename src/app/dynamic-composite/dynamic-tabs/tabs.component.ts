@@ -11,6 +11,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
@@ -36,6 +37,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
+  private readonly title = inject(Title);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
   private readonly _tabsSubject = new BehaviorSubject<any | null>(null);
@@ -104,6 +106,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
       if (!tabs.length) return;
       if (!current || !tabs.some((t) => t.tabId === current)) {
         this.activeId.set(tabs[0].tabId);
+        this.setPageTitle(tabs[0]);
       }
     });
   }
@@ -130,12 +133,16 @@ export class DsTabsComponent implements OnInit, OnDestroy {
         })?.name;
         this.setActiveTabName(pepo);
       }
+
+      const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
+      this.setPageTitle(currentTab);
     });
 
     this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
       const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
       this.activeId.set(tab?.tabId);
       this.setActiveTabName(tab?.name);
+      this.setPageTitle(tab);
       this.select(tab!, true);
     });
   }
@@ -152,6 +159,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     const tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
     if (tab) {
       this.activeId.set(tab.tabId);
+      this.setPageTitle(tab);
     }
   }
 
@@ -159,6 +167,7 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
     this.setActiveTabName(tab.name);
+    this.setPageTitle(tab);
     if (stopPropagation) return;
     this._tabsSubject.next(tab);
     const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
@@ -171,6 +180,13 @@ export class DsTabsComponent implements OnInit, OnDestroy {
     const url = new URL(globalThis.location.href);
     url.searchParams.set('activeTab', tabName ?? '');
     globalThis.history.pushState({}, '', url.toString());
+  }
+
+  private setPageTitle(tab: CmsTabContract | undefined): void {
+    if (!tab) return;
+    const nextTitle = (tab.title ?? tab.name ?? '').trim();
+    if (!nextTitle) return;
+    this.title.setTitle(nextTitle);
   }
 
   public trackById(_: number, tab: { tabId: string }): string {
