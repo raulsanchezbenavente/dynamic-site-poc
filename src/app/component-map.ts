@@ -1,4 +1,5 @@
 import { Type } from '@angular/core';
+
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
 import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile.component';
 import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings.component';
@@ -28,12 +29,11 @@ export const componentMap: Record<string, Type<any>> = {
   seatmap: SeatmapComponent,
   'payment-methods': PaymentMethodsComponent,
   'payment-success': PaymentSuccessComponent,
-  'explanation': ExplanationComponent,
+  explanation: ExplanationComponent,
   tabs: DsTabsComponent,
   loyaltyOverviewCard_uiplus: LoyaltyOverviewCardComponent,
   CorporateMainHeaderBlock_uiplus: MainHeaderComponent,
-  accountProfile_uiplus:AccountProfileComponent,
+  accountProfile_uiplus: AccountProfileComponent,
   findBookings_uiplus: FindBookingsComponent,
   CorporateMainFooterBlock_uiplus: MainFooterComponent,
 };
-
