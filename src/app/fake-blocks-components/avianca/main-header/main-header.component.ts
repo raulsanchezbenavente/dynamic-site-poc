@@ -6,12 +6,13 @@ import {
   HostListener,
   inject,
   input,
+  OnDestroy,
   OnInit,
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
 import { AppLang } from '../../../services/site-config/models/langs.model';
@@ -28,7 +29,7 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent implements OnInit {
+export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
@@ -41,34 +42,58 @@ export class MainHeaderComponent implements OnInit {
   public userMiles = input<string>('600,700');
 
   public marketOpen = signal(false);
-  public markets: Array<{ country: string; currency: string; flag: string }> = [
-    { country: 'Argentina', currency: 'ARS', flag: '🇦🇷' },
-    { country: 'Bolivia', currency: 'USD', flag: '🇧🇴' },
-    { country: 'Brasil', currency: 'BRL', flag: '🇧🇷' },
-    { country: 'Canadá', currency: 'USD', flag: '🇨🇦' },
-    { country: 'Chile', currency: 'USD', flag: '🇨🇱' },
-    { country: 'Colombia', currency: 'COP', flag: '🇨🇴' },
-    { country: 'Costa Rica', currency: 'USD', flag: '🇨🇷' },
-    { country: 'Ecuador', currency: 'USD', flag: '🇪🇨' },
-    { country: 'El Salvador', currency: 'USD', flag: '🇸🇻' },
-    { country: 'España', currency: 'EUR', flag: '🇪🇸' },
-    { country: 'Estados Unidos', currency: 'USD', flag: '🇺🇸' },
-    { country: 'Guatemala', currency: 'USD', flag: '🇬🇹' },
-    { country: 'Honduras', currency: 'USD', flag: '🇭🇳' },
-    { country: 'México', currency: 'USD', flag: '🇲🇽' },
-    { country: 'Nicaragua', currency: 'USD', flag: '🇳🇮' },
-    { country: 'Panamá', currency: 'USD', flag: '🇵🇦' },
-    { country: 'Paraguay', currency: 'USD', flag: '🇵🇾' },
-    { country: 'Perú', currency: 'USD', flag: '🇵🇪' },
-    { country: 'Reino Unido', currency: 'GBP', flag: '🇬🇧' },
-    { country: 'República Dominicana', currency: 'USD', flag: '🇩🇴' },
-    { country: 'Uruguay', currency: 'USD', flag: '🇺🇾' },
-    { country: 'Otros países', currency: 'USD', flag: '🌎' },
+  public markets: Array<{ labelKey: string; currency: string; flag: string }> = [
+    { labelKey: 'HEADER.MARKET_ARGENTINA', currency: 'ARS', flag: '🇦🇷' },
+    { labelKey: 'HEADER.MARKET_BOLIVIA', currency: 'USD', flag: '🇧🇴' },
+    { labelKey: 'HEADER.MARKET_BRAZIL', currency: 'BRL', flag: '🇧🇷' },
+    { labelKey: 'HEADER.MARKET_CANADA', currency: 'USD', flag: '🇨🇦' },
+    { labelKey: 'HEADER.MARKET_CHILE', currency: 'USD', flag: '🇨🇱' },
+    { labelKey: 'HEADER.MARKET_COLOMBIA', currency: 'COP', flag: '🇨🇴' },
+    { labelKey: 'HEADER.MARKET_COSTA_RICA', currency: 'USD', flag: '🇨🇷' },
+    { labelKey: 'HEADER.MARKET_ECUADOR', currency: 'USD', flag: '🇪🇨' },
+    { labelKey: 'HEADER.MARKET_EL_SALVADOR', currency: 'USD', flag: '🇸🇻' },
+    { labelKey: 'HEADER.MARKET_SPAIN', currency: 'EUR', flag: '🇪🇸' },
+    { labelKey: 'HEADER.MARKET_UNITED_STATES', currency: 'USD', flag: '🇺🇸' },
+    { labelKey: 'HEADER.MARKET_GUATEMALA', currency: 'USD', flag: '🇬🇹' },
+    { labelKey: 'HEADER.MARKET_HONDURAS', currency: 'USD', flag: '🇭🇳' },
+    { labelKey: 'HEADER.MARKET_MEXICO', currency: 'USD', flag: '🇲🇽' },
+    { labelKey: 'HEADER.MARKET_NICARAGUA', currency: 'USD', flag: '🇳🇮' },
+    { labelKey: 'HEADER.MARKET_PANAMA', currency: 'USD', flag: '🇵🇦' },
+    { labelKey: 'HEADER.MARKET_PARAGUAY', currency: 'USD', flag: '🇵🇾' },
+    { labelKey: 'HEADER.MARKET_PERU', currency: 'USD', flag: '🇵🇪' },
+    { labelKey: 'HEADER.MARKET_UNITED_KINGDOM', currency: 'GBP', flag: '🇬🇧' },
+    { labelKey: 'HEADER.MARKET_DOMINICAN_REPUBLIC', currency: 'USD', flag: '🇩🇴' },
+    { labelKey: 'HEADER.MARKET_URUGUAY', currency: 'USD', flag: '🇺🇾' },
+    { labelKey: 'HEADER.MARKET_OTHER_COUNTRIES', currency: 'USD', flag: '🌎' },
   ];
-  public selectedMarket = signal<string>('Colombia');
+  public selectedMarketKey = signal<string>('HEADER.MARKET_COLOMBIA');
   public selectedCurrency = signal<string>('COP');
   public selectedMarketFlag = computed(() => {
-    return this.markets.find((m) => m.country === this.selectedMarket())?.flag ?? '🌎';
+    return this.markets.find((m) => m.labelKey === this.selectedMarketKey())?.flag ?? '🌎';
+  });
+  public langTick = signal(0);
+  public selectedMarketLabel = computed(() => {
+    this.langTick();
+    return this.translate.instant(this.selectedMarketKey());
+  });
+  public marketTitleLabel = computed(() => {
+    this.langTick();
+    return this.translate.instant('HEADER.MARKET_TITLE');
+  });
+  public marketApplyLabel = computed(() => {
+    this.langTick();
+    return this.translate.instant('HEADER.MARKET_APPLY');
+  });
+  public marketCloseLabel = computed(() => {
+    this.langTick();
+    return this.translate.instant('HEADER.MARKET_CLOSE');
+  });
+  public marketView = computed(() => {
+    this.langTick();
+    return this.markets.map((item) => ({
+      ...item,
+      label: this.translate.instant(item.labelKey),
+    }));
   });
 
   public langOpen = signal(false);
@@ -80,10 +105,22 @@ export class MainHeaderComponent implements OnInit {
   });
 
   public ngOnInit(): void {
+    this.translate.onLangChange
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.langTick.update((v) => v + 1));
+
     const marketMatch = /^(.*)\(([^)]+)\)/.exec(this.market());
     if (marketMatch) {
-      this.selectedMarket.set(marketMatch[1].trim());
-      this.selectedCurrency.set(marketMatch[2].trim());
+      const name = marketMatch[1].trim();
+      const currency = marketMatch[2].trim();
+      const match = this.markets.find((item) => {
+        const translated = this.translate.instant(item.labelKey).trim();
+        return translated.toLowerCase() === name.toLowerCase();
+      });
+      if (match) {
+        this.selectedMarketKey.set(match.labelKey);
+        this.selectedCurrency.set(currency);
+      }
     }
     const qp = this.router.url.split('?')[1] ?? '';
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
@@ -176,6 +213,11 @@ export class MainHeaderComponent implements OnInit {
     this.marketOpen.set(false);
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   public toggleMenu(ev: MouseEvent): void {
     ev.stopPropagation();
     this.langOpen.set(false);
@@ -194,13 +236,13 @@ export class MainHeaderComponent implements OnInit {
     this.marketOpen.set(false);
   }
 
-  public setMarket(item: { country: string; currency: string }): void {
-    this.selectedMarket.set(item.country);
+  public setMarket(item: { labelKey: string; currency: string }): void {
+    this.selectedMarketKey.set(item.labelKey);
     this.selectedCurrency.set(item.currency);
   }
 
-  public trackByMarket(_: number, item: { country: string }): string {
-    return item.country;
+  public trackByMarket(_: number, item: { labelKey: string }): string {
+    return item.labelKey;
   }
 
   public trackByLabel(_: number, item: HeaderMenuItem): string {
