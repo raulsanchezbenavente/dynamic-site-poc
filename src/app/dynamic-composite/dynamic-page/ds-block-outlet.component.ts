@@ -11,8 +11,7 @@ import { componentMap } from '../../component-map';
     @if (cmp(); as c) {
       <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
     } @else {
-      <div
-        style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;width: 1100px;">
+      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
         Missing component: <b>{{ block()?.component }}</b>
       </div>
     }
