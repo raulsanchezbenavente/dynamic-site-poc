@@ -39,12 +39,9 @@ type Section = {
                 class="mp-edit"
                 href="#"
                 (click)="toggleEdit(s); $event.preventDefault()">
-                <span
-                  class="mp-edit-ico"
-                  aria-hidden="true"
-                  >✎</span
+                <span class="mp-edit-label"
+                  >✎&nbsp;{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span
                 >
-                <span>{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span>
               </a>
             }
           </div>
@@ -200,19 +197,18 @@ type Section = {
         gap: 0;
         font-size: 13px;
         color: #0b7285;
-        text-decoration: underline;
+        text-decoration: none;
         font-weight: 700;
         white-space: nowrap;
       }
 
-      .mp-edit-ico {
-        width: 18px;
-        height: 18px;
+      .mp-edit:hover {
+        text-decoration: underline;
+      }
+
+      .mp-edit-label {
         display: inline-flex;
         align-items: center;
-        justify-content: center;
-        border-radius: 6px;
-        color: #0b7285;
       }
 
       .mp-grid {
