@@ -19,15 +19,15 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
         <div class="d-flex align-items-center justify-content-center mb-2">
           <div class="seat-label seat-row-number"></div>
           @for (seat of seatColumns; track seat) {
-            <div
-              class="seat-label"
-              *ngIf="seat !== 'aisle'">
-              {{ seat }}
-            </div>
-            <div
-              class="seat-label"
-              *ngIf="seat === 'aisle'"
-              style="width: 20px;"></div>
+            @if (seat !== 'aisle') {
+              <div class="seat-label">
+                {{ seat }}
+              </div>
+            } @else {
+              <div
+                class="seat-label"
+                style="width: 20px;"></div>
+            }
           }
         </div>
 
@@ -37,27 +37,27 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
             <div class="seat-label seat-row-number">{{ row }}</div>
 
             @for (seat of seatColumns; track seat) {
-              <div
-                *ngIf="seat === 'aisle'"
-                style="width: 20px;"></div>
-              <div
-                *ngIf="seat !== 'aisle'"
-                class="seat-box me-1"
-                [class.selected]="selectedSeat === seat + row"
-                (click)="selectSeat(seat + row)">
-                {{ seat }}
-              </div>
+              @if (seat === 'aisle') {
+                <div style="width: 20px;"></div>
+              } @else {
+                <div
+                  class="seat-box me-1"
+                  [class.selected]="selectedSeat === seat + row"
+                  (click)="selectSeat(seat + row)">
+                  {{ seat }}
+                </div>
+              }
             }
           </div>
         }
       </div>
 
       <div class="text-center mt-4">
-        <p
-          *ngIf="selectedSeat"
-          class="text-success mb-2">
-          Selected Seat: <strong>{{ selectedSeat }}</strong>
-        </p>
+        @if (selectedSeat) {
+          <p class="text-success mb-2">
+            Selected Seat: <strong>{{ selectedSeat }}</strong>
+          </p>
+        }
         <button
           class="btn btn-primary btn-lg"
           (click)="goToResults()">

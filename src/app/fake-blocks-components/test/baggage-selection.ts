@@ -31,11 +31,11 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
       </div>
 
       <div class="text-center mt-4">
-        <p
-          *ngIf="selectedBaggage"
-          class="text-success mb-2">
-          Selected: <strong>{{ selectedBaggage.label }}</strong>
-        </p>
+        @if (selectedBaggage) {
+          <p class="text-success mb-2">
+            Selected: <strong>{{ selectedBaggage.label }}</strong>
+          </p>
+        }
         <a
           class="btn btn-primary btn-lg"
           (click)="goToResults()"

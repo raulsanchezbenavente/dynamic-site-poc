@@ -19,23 +19,24 @@
                 >
                 <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
             </button>
-            <div
-                *ngIf="langOpen()"
-                class="lm-lang-menu"
-                role="menu"
-                aria-label="Language menu"
-                (click)="$event.stopPropagation()">
-                @for (lang of langs; track trackByLang) {
-                    <button
-                        type="button"
-                        class="lm-lang-item"
-                        role="menuitem"
-                        [class.is-active]="activeLang() === lang.code"
-                        (click)="setLang(lang.code)">
-                        {{ lang.label | translate }}
-                    </button>
-                }
-            </div>
+            @if (langOpen()) {
+                <div
+                    class="lm-lang-menu"
+                    role="menu"
+                    aria-label="Language menu"
+                    (click)="$event.stopPropagation()">
+                    @for (lang of langs; track trackByLang) {
+                        <button
+                            type="button"
+                            class="lm-lang-item"
+                            role="menuitem"
+                            [class.is-active]="activeLang() === lang.code"
+                            (click)="setLang(lang.code)">
+                            {{ lang.label | translate }}
+                        </button>
+                    }
+                </div>
+            }
         </div>
 
         <span
@@ -151,79 +152,82 @@
                     >
                 </button>
 
-                <div
-                    class="lm-dropdown"
-                    *ngIf="open()"
-                    role="menu"
-                    aria-label="User menu"
-                    (click)="$event.stopPropagation()">
-                    <div class="lm-dd-list">
-                        @for (item of items(); track trackByLabel) {
+                @if (open()) {
+                    <div
+                        class="lm-dropdown"
+                        role="menu"
+                        aria-label="User menu"
+                        (click)="$event.stopPropagation()">
+                        <div class="lm-dd-list">
+                            @for (item of items(); track trackByLabel) {
+                                <button
+                                    class="lm-dd-item"
+                                    type="button"
+                                    role="menuitem"
+                                    (click)="redirectTo(item)">
+                                    <span class="lm-dd-label">{{ item.label | translate }}</span>
+
+                                    @if (item.checked) {
+                                        <span
+                                            class="lm-dd-icon"
+                                            aria-hidden="true">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M20 6L9 17l-5-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                    }
+
+                                    @if (item.external) {
+                                        <span
+                                            class="lm-dd-icon"
+                                            aria-hidden="true">
+                                            <svg viewBox="0 0 24 24">
+                                                <path
+                                                    d="M14 3h7v7"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M21 3l-9 9"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                                <path
+                                                    d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round" />
+                                            </svg>
+                                        </span>
+                                    }
+                                </button>
+                            }
+
+                            <div
+                                class="lm-dd-sep"
+                                aria-hidden="true"></div>
+
                             <button
-                                class="lm-dd-item"
+                                class="lm-dd-item lm-dd-item--logout"
                                 type="button"
-                                role="menuitem"
-                                (click)="redirectTo(item)">
-                                <span class="lm-dd-label">{{ item.label | translate }}</span>
-
-                                <span
-                                    class="lm-dd-icon"
-                                    *ngIf="item.checked"
-                                    aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M20 6L9 17l-5-5"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-
-                                <span
-                                    class="lm-dd-icon"
-                                    *ngIf="item.external"
-                                    aria-hidden="true">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M14 3h7v7"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M21 3l-9 9"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                        <path
-                                            d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </span>
+                                role="menuitem">
+                                <span class="lm-dd-label">Log out</span>
                             </button>
-                        }
-
-                        <div
-                            class="lm-dd-sep"
-                            aria-hidden="true"></div>
-
-                        <button
-                            class="lm-dd-item lm-dd-item--logout"
-                            type="button"
-                            role="menuitem">
-                            <span class="lm-dd-label">Log out</span>
-                        </button>
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     </div>

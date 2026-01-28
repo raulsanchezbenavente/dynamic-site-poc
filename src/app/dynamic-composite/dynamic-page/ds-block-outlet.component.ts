@@ -8,16 +8,14 @@ import { componentMap } from '../../component-map';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <ng-container *ngIf="cmp() as c; else missing">
+    @if (cmp(); as c) {
       <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
-    </ng-container>
-
-    <ng-template #missing>
+    } @else {
       <div
         style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;width: 1100px;">
         Missing component: <b>{{ block()?.component }}</b>
       </div>
-    </ng-template>
+    }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

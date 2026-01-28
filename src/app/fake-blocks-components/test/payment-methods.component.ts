@@ -29,63 +29,61 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
               </span>
             </button>
 
-            <div
-              *ngIf="selected === method.label"
-              class="mt-3 border rounded p-4 bg-light shadow-sm">
-              <h5 class="mb-3">Enter your {{ method.label }} details</h5>
+            @if (selected === method.label) {
+              <div class="mt-3 border rounded p-4 bg-light shadow-sm">
+                <h5 class="mb-3">Enter your {{ method.label }} details</h5>
 
-              <form>
-                <div
-                  class="mb-3"
-                  *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                  <label class="form-label">Cardholder Name</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="John Doe" />
-                </div>
+                <form>
+                  @if (method.label !== 'PayPal' && method.label !== 'Apple Pay') {
+                    <div class="mb-3">
+                      <label class="form-label">Cardholder Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="John Doe" />
+                    </div>
 
-                <div
-                  class="mb-3"
-                  *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                  <label class="form-label">Card Number</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="1234 5678 9012 3456" />
-                </div>
+                    <div class="mb-3">
+                      <label class="form-label">Card Number</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="1234 5678 9012 3456" />
+                    </div>
 
-                <div
-                  class="row"
-                  *ngIf="method.label !== 'PayPal' && method.label !== 'Apple Pay'">
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">Expiry Date</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="MM/YY" />
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label class="form-label">CVV</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      placeholder="123" />
-                  </div>
-                </div>
+                    <div class="row">
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label">Expiry Date</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="MM/YY" />
+                      </div>
+                      <div class="col-md-6 mb-3">
+                        <label class="form-label">CVV</label>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="123" />
+                      </div>
+                    </div>
+                  }
 
-                <div *ngIf="method.label === 'PayPal' || method.label === 'Apple Pay'">
-                  <p class="text-muted">You will be redirected to {{ method.label }} to complete your payment.</p>
-                </div>
+                  @if (method.label === 'PayPal' || method.label === 'Apple Pay') {
+                    <div>
+                      <p class="text-muted">You will be redirected to {{ method.label }} to complete your payment.</p>
+                    </div>
+                  }
 
-                <button
-                  type="button"
-                  (click)="goToResults()"
-                  class="btn btn-success w-100 mt-2">
-                  Fake Pay
-                </button>
-              </form>
-            </div>
+                  <button
+                    type="button"
+                    (click)="goToResults()"
+                    class="btn btn-success w-100 mt-2">
+                    Fake Pay
+                  </button>
+                </form>
+              </div>
+            }
           </div>
         }
       </div>

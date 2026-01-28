@@ -87,34 +87,35 @@ type FooterColumn = {
                   (click)="$event.preventDefault()">
                   <span class="ft-link-text">{{ link.label | translate }}</span>
 
-                  <span
-                    class="ft-ext"
-                    *ngIf="link.external"
-                    aria-hidden="true">
-                    <svg viewBox="0 0 24 24">
-                      <path
-                        d="M14 3h7v7"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round" />
-                      <path
-                        d="M21 3l-9 9"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round" />
-                      <path
-                        d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round" />
-                    </svg>
-                  </span>
+                  @if (link.external) {
+                    <span
+                      class="ft-ext"
+                      aria-hidden="true">
+                      <svg viewBox="0 0 24 24">
+                        <path
+                          d="M14 3h7v7"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M21 3l-9 9"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                        <path
+                          d="M10 7H7a4 4 0 0 0-4 4v6a4 4 0 0 0 4 4h6a4 4 0 0 0 4-4v-3"
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  }
                 </a>
               }
             </div>

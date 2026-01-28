@@ -34,18 +34,19 @@ type Section = {
           <div class="mp-section-head">
             <h3 class="mp-section-title">{{ s.title | translate }}</h3>
 
-            <a
-              *ngIf="s.editable"
-              class="mp-edit"
-              href="#"
-              (click)="toggleEdit(s); $event.preventDefault()">
-              <span
-                class="mp-edit-ico"
-                aria-hidden="true"
-                >✎</span
-              >
-              <span>{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span>
-            </a>
+            @if (s.editable) {
+              <a
+                class="mp-edit"
+                href="#"
+                (click)="toggleEdit(s); $event.preventDefault()">
+                <span
+                  class="mp-edit-ico"
+                  aria-hidden="true"
+                  >✎</span
+                >
+                <span>{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span>
+              </a>
+            }
           </div>
 
           <div class="mp-grid">
@@ -92,50 +93,50 @@ type Section = {
               }
             </div>
 
-            <div
-              class="mp-col"
-              *ngIf="s.right?.length">
-              @for (f of s.right!; track trackByField) {
-                <div class="mp-field">
-                  <div class="mp-label">{{ f.label | translate }}</div>
-                  @if (isEditing(s)) {
-                    <div class="mp-control">
-                      @if (f.type === 'select') {
-                        <select
-                          class="mp-input"
-                          [value]="f.inputValue">
-                          @for (o of f.options ?? []; track o.value) {
-                            <option [value]="o.value">{{ o.label | translate }}</option>
-                          }
-                        </select>
-                      } @else if (f.type === 'date') {
-                        <input
-                          class="mp-input"
-                          type="date"
-                          [value]="f.inputValue ?? ''" />
-                      } @else if (f.type === 'email') {
-                        <input
-                          class="mp-input"
-                          type="email"
-                          [value]="f.inputValue ?? f.value" />
-                      } @else if (f.type === 'tel') {
-                        <input
-                          class="mp-input"
-                          type="tel"
-                          [value]="f.inputValue ?? f.value" />
-                      } @else {
-                        <input
-                          class="mp-input"
-                          type="text"
-                          [value]="f.inputValue ?? f.value" />
-                      }
-                    </div>
-                  } @else {
-                    <div class="mp-value">{{ f.value | translate }}</div>
-                  }
-                </div>
-              }
-            </div>
+            @if (s.right?.length) {
+              <div class="mp-col">
+                @for (f of s.right!; track trackByField) {
+                  <div class="mp-field">
+                    <div class="mp-label">{{ f.label | translate }}</div>
+                    @if (isEditing(s)) {
+                      <div class="mp-control">
+                        @if (f.type === 'select') {
+                          <select
+                            class="mp-input"
+                            [value]="f.inputValue">
+                            @for (o of f.options ?? []; track o.value) {
+                              <option [value]="o.value">{{ o.label | translate }}</option>
+                            }
+                          </select>
+                        } @else if (f.type === 'date') {
+                          <input
+                            class="mp-input"
+                            type="date"
+                            [value]="f.inputValue ?? ''" />
+                        } @else if (f.type === 'email') {
+                          <input
+                            class="mp-input"
+                            type="email"
+                            [value]="f.inputValue ?? f.value" />
+                        } @else if (f.type === 'tel') {
+                          <input
+                            class="mp-input"
+                            type="tel"
+                            [value]="f.inputValue ?? f.value" />
+                        } @else {
+                          <input
+                            class="mp-input"
+                            type="text"
+                            [value]="f.inputValue ?? f.value" />
+                        }
+                      </div>
+                    } @else {
+                      <div class="mp-value">{{ f.value | translate }}</div>
+                    }
+                  </div>
+                }
+              </div>
+            }
           </div>
         </div>
       }
