@@ -39,7 +39,7 @@ export class AppComponent {
 
       this.router.resetConfig([
         ...routes,
-        { path: '**', redirectTo: 'en/avianca-home' },
+        { path: '**', redirectTo: 'en/home' },
       ]);
     });
   }
