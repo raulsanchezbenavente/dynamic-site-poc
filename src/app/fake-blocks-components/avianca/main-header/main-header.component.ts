@@ -272,12 +272,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   private getStoredMarketKey(): string | null {
     if (typeof sessionStorage === 'undefined') return null;
-    return sessionStorage.getItem('avianca.market');
+    return sessionStorage.getItem('avianca.pos');
   }
 
   private persistMarketKey(marketKey: string): void {
     if (typeof sessionStorage === 'undefined') return;
-    sessionStorage.setItem('avianca.market', marketKey);
+    sessionStorage.setItem('avianca.pos', marketKey);
   }
 
   public trackByMarket(_: number, item: { labelKey: string }): string {
