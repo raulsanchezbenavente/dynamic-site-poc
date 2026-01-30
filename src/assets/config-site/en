@@ -1,6 +1,39 @@
 {
   "pages": [
     {
+      "pageId": "0",
+      "path": "en/home",
+      "name": "Home",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "SearchComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "pageId": "1",
       "path": "en/avianca-home",
       "name": "Home",
