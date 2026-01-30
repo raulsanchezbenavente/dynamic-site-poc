@@ -160,17 +160,123 @@ declare const flatpickr: any;
           </div>
         </div>
 
-        <div class="av-field av-field-compact">
+        <div class="av-field av-field-compact" [class.is-open]="passengersOpen">
           <span class="av-field-icon">👤</span>
-          <div class="av-field-body">
+          <button
+            type="button"
+            class="av-passenger-trigger"
+            (click)="togglePassengers()">
             <span class="av-label">Pasajeros</span>
-            <input
-              class="av-input av-input-center"
-              type="number"
-              min="1"
-              [(ngModel)]="passengers"
-              name="passengers" />
-          </div>
+            <span class="av-passenger-count">
+              {{ totalPassengers() }}
+              <span class="av-passenger-caret">▴</span>
+            </span>
+          </button>
+
+          @if (passengersOpen) {
+            <div class="av-passenger-dropdown" (click)="$event.stopPropagation()">
+              <div class="av-passenger-title">¿Quiénes vuelan?</div>
+
+              <div class="av-passenger-row">
+                <div class="av-passenger-info">
+                  <div class="av-passenger-label">Adultos</div>
+                  <div class="av-passenger-sub">Desde 15 años</div>
+                </div>
+                <div class="av-counter">
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    [disabled]="adults <= 1"
+                    (click)="decrement('adults')">
+                    −
+                  </button>
+                  <span class="av-counter-value">{{ adults }}</span>
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    (click)="increment('adults')">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="av-passenger-row">
+                <div class="av-passenger-info">
+                  <div class="av-passenger-label">Jóvenes</div>
+                  <div class="av-passenger-sub">De 12 a 14 años</div>
+                </div>
+                <div class="av-counter">
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    [disabled]="teens <= 0"
+                    (click)="decrement('teens')">
+                    −
+                  </button>
+                  <span class="av-counter-value">{{ teens }}</span>
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    (click)="increment('teens')">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="av-passenger-row">
+                <div class="av-passenger-info">
+                  <div class="av-passenger-label">Niños</div>
+                  <div class="av-passenger-sub">De 2 a 11 años</div>
+                </div>
+                <div class="av-counter">
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    [disabled]="kids <= 0"
+                    (click)="decrement('kids')">
+                    −
+                  </button>
+                  <span class="av-counter-value">{{ kids }}</span>
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    (click)="increment('kids')">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <div class="av-passenger-row">
+                <div class="av-passenger-info">
+                  <div class="av-passenger-label">Bebés</div>
+                  <div class="av-passenger-sub">Menores de 2 años</div>
+                </div>
+                <div class="av-counter">
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    [disabled]="infants <= 0"
+                    (click)="decrement('infants')">
+                    −
+                  </button>
+                  <span class="av-counter-value">{{ infants }}</span>
+                  <button
+                    type="button"
+                    class="av-counter-btn"
+                    (click)="increment('infants')">
+                    +
+                  </button>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="av-passenger-confirm"
+                (click)="confirmPassengers()">
+                Confirmar
+              </button>
+            </div>
+          }
         </div>
 
         <button
@@ -416,6 +522,123 @@ declare const flatpickr: any;
         max-width: 64px;
       }
 
+      .av-passenger-trigger {
+        border: 0;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        cursor: pointer;
+        font: inherit;
+        color: inherit;
+      }
+
+      .av-passenger-count {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .av-passenger-caret {
+        font-size: 14px;
+        transform: rotate(180deg);
+      }
+
+      .av-field.is-open .av-passenger-caret {
+        transform: rotate(0deg);
+      }
+
+      .av-passenger-dropdown {
+        position: absolute;
+        right: 0;
+        top: calc(100% + 12px);
+        width: 320px;
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 16px 36px rgba(15, 23, 42, 0.2);
+        border: 1px solid #e9e9e9;
+        padding: 20px;
+        z-index: 30;
+        display: grid;
+        gap: 16px;
+      }
+
+      .av-passenger-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #111;
+      }
+
+      .av-passenger-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .av-passenger-label {
+        font-weight: 700;
+        color: #111;
+      }
+
+      .av-passenger-sub {
+        color: #6a6a6a;
+        font-size: 13px;
+        margin-top: 2px;
+      }
+
+      .av-counter {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .av-counter-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        border: 2px solid #111;
+        background: #fff;
+        color: #111;
+        font-size: 18px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .av-counter-btn:disabled {
+        opacity: 0.35;
+        cursor: not-allowed;
+      }
+
+      .av-counter-value {
+        font-size: 18px;
+        font-weight: 700;
+        min-width: 16px;
+        text-align: center;
+      }
+
+      .av-passenger-confirm {
+        border: 0;
+        background: #111;
+        color: #fff;
+        font-weight: 700;
+        font-size: 16px;
+        padding: 12px 18px;
+        border-radius: 999px;
+        cursor: pointer;
+        width: 100%;
+        margin-top: 6px;
+      }
+
       .av-search-btn {
         border: 0;
         background: #111;
@@ -460,6 +683,13 @@ declare const flatpickr: any;
         .av-dropdown-list {
           grid-template-columns: 1fr;
         }
+
+        .av-passenger-dropdown {
+          position: relative;
+          top: 12px;
+          right: auto;
+          width: 100%;
+        }
       }
 
       @media (max-width: 700px) {
@@ -484,6 +714,11 @@ export class SearchComponent implements AfterViewInit {
   public tripType: 'round' | 'oneway' = 'round';
   public payWithCredits = false;
   public passengers = 1;
+  public passengersOpen = false;
+  public adults = 1;
+  public teens = 1;
+  public kids = 1;
+  public infants = 1;
   public from: string | null = null;
   public to: string | null = null;
   public fromQuery = '';
@@ -519,6 +754,7 @@ export class SearchComponent implements AfterViewInit {
     if (!this.host.nativeElement.contains(event.target as Node)) {
       this.fromOpen = false;
       this.toOpen = false;
+      this.passengersOpen = false;
     }
   }
 
@@ -556,6 +792,34 @@ export class SearchComponent implements AfterViewInit {
     this.to = value;
     this.toQuery = value;
     this.toOpen = false;
+  }
+
+  public togglePassengers(): void {
+    this.passengersOpen = !this.passengersOpen;
+    this.fromOpen = false;
+    this.toOpen = false;
+  }
+
+  public confirmPassengers(): void {
+    this.passengersOpen = false;
+  }
+
+  public increment(type: 'adults' | 'teens' | 'kids' | 'infants'): void {
+    if (type === 'adults') this.adults += 1;
+    if (type === 'teens') this.teens += 1;
+    if (type === 'kids') this.kids += 1;
+    if (type === 'infants') this.infants += 1;
+  }
+
+  public decrement(type: 'adults' | 'teens' | 'kids' | 'infants'): void {
+    if (type === 'adults' && this.adults > 1) this.adults -= 1;
+    if (type === 'teens' && this.teens > 0) this.teens -= 1;
+    if (type === 'kids' && this.kids > 0) this.kids -= 1;
+    if (type === 'infants' && this.infants > 0) this.infants -= 1;
+  }
+
+  public totalPassengers(): number {
+    return this.adults + this.teens + this.kids + this.infants;
   }
 
   public filteredFromOptions(): Array<{ city: string; country: string; code: string }> {
