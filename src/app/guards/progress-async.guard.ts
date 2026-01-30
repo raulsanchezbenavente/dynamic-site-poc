@@ -7,6 +7,10 @@ export class ProgressAsynGuard implements CanActivate {
 
     private readonly publicPaths = new Set([
         'home',
+        'en/home',
+        'es/inicio',
+        'fr/accueil',
+        'pt/casa',
         'en/avianca-home',
         'es/avianca-inicio',
         'fr/avianca-accueil',
