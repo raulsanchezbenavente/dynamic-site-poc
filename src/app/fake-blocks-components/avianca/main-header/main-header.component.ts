@@ -68,6 +68,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   ];
   public selectedMarketKey = signal<string>('HEADER.MARKET_COLOMBIA');
   public selectedCurrency = signal<string>('COP');
+  public pendingMarketKey = signal<string>('HEADER.MARKET_COLOMBIA');
+  public pendingCurrency = signal<string>('COP');
   public selectedMarketFlagUrl = computed(() => {
     const code = this.markets.find((m) => m.labelKey === this.selectedMarketKey())?.flagCode ?? '1f30e';
     return this.flagUrl(code);
@@ -109,19 +111,31 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.langTick.update((v) => v + 1));
 
-    const marketMatch = /^(.*)\(([^)]+)\)/.exec(this.market());
-    if (marketMatch) {
-      const name = marketMatch[1].trim();
-      const currency = marketMatch[2].trim();
-      const match = this.markets.find((item) => {
-        const translated = this.translate.instant(item.labelKey).trim();
-        return translated.toLowerCase() === name.toLowerCase();
-      });
-      if (match) {
-        this.selectedMarketKey.set(match.labelKey);
-        this.selectedCurrency.set(currency);
+    const storedMarketKey = this.getStoredMarketKey();
+    if (storedMarketKey) {
+      const storedMarket = this.markets.find((item) => item.labelKey === storedMarketKey);
+      if (storedMarket) {
+        this.selectedMarketKey.set(storedMarket.labelKey);
+        this.selectedCurrency.set(storedMarket.currency);
+      }
+    } else {
+      const marketMatch = /^(.*)\(([^)]+)\)/.exec(this.market());
+      if (marketMatch) {
+        const name = marketMatch[1].trim();
+        const currency = marketMatch[2].trim();
+        const match = this.markets.find((item) => {
+          const translated = this.translate.instant(item.labelKey).trim();
+          return translated.toLowerCase() === name.toLowerCase();
+        });
+        if (match) {
+          this.selectedMarketKey.set(match.labelKey);
+          this.selectedCurrency.set(currency);
+        }
       }
     }
+
+    this.pendingMarketKey.set(this.selectedMarketKey());
+    this.pendingCurrency.set(this.selectedCurrency());
     const qp = this.router.url.split('?')[1] ?? '';
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
     if (activeTab) {
@@ -229,6 +243,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     ev.stopPropagation();
     this.langOpen.set(false);
     this.open.set(false);
+    this.pendingMarketKey.set(this.selectedMarketKey());
+    this.pendingCurrency.set(this.selectedCurrency());
     this.marketOpen.update((v) => !v);
   }
 
@@ -237,12 +253,31 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   public setMarket(item: { labelKey: string; currency: string }): void {
-    this.selectedMarketKey.set(item.labelKey);
-    this.selectedCurrency.set(item.currency);
+    this.pendingMarketKey.set(item.labelKey);
+    this.pendingCurrency.set(item.currency);
+  }
+
+  public applyMarket(): void {
+    const nextKey = this.pendingMarketKey();
+    const nextCurrency = this.pendingCurrency();
+    this.selectedMarketKey.set(nextKey);
+    this.selectedCurrency.set(nextCurrency);
+    this.persistMarketKey(nextKey);
+    this.marketOpen.set(false);
   }
 
   private flagUrl(code: string): string {
     return `https://twemoji.maxcdn.com/v/latest/svg/${code}.svg`;
+  }
+
+  private getStoredMarketKey(): string | null {
+    if (typeof sessionStorage === 'undefined') return null;
+    return sessionStorage.getItem('avianca.market');
+  }
+
+  private persistMarketKey(marketKey: string): void {
+    if (typeof sessionStorage === 'undefined') return;
+    sessionStorage.setItem('avianca.market', marketKey);
   }
 
   public trackByMarket(_: number, item: { labelKey: string }): string {
