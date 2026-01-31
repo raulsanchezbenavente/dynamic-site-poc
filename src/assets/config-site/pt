@@ -43,8 +43,8 @@
     },
     {
       "pageId": "1",
-      "path": "pt/avianca-casa",
-      "name": "Casa",
+      "path": "pt/membros",
+      "name": "Membros",
       "layout": {
         "rows": [
           {

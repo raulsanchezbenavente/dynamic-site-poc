@@ -11,10 +11,10 @@ export class ProgressAsynGuard implements CanActivate {
         'es/inicio',
         'fr/accueil',
         'pt/casa',
-        'en/avianca-home',
-        'es/avianca-inicio',
-        'fr/avianca-accueil',
-        'pt/avianca-casa',
+        'en/members',
+        'es/miembros',
+        'fr/membres',
+        'pt/membresss',
     ]);
 
     async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {

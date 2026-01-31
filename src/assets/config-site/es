@@ -43,8 +43,8 @@
     },
     {
       "pageId": "1",
-      "path": "es/avianca-inicio",
-      "name": "Inicio",
+      "path": "es/miembros",
+      "name": "Miembros",
       "layout": {
         "rows": [
           {

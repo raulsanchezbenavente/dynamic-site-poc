@@ -43,8 +43,8 @@
     },
     {
       "pageId": "1",
-      "path": "fr/avianca-accueil",
-      "name": "Accueil",
+      "path": "fr/membres",
+      "name": "Membres",
       "layout": {
         "rows": [
           {

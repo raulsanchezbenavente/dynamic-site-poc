@@ -43,8 +43,8 @@
     },
     {
       "pageId": "1",
-      "path": "en/avianca-home",
-      "name": "Home",
+      "path": "en/members",
+      "name": "Members",
       "layout": {
         "rows": [
           {
