@@ -4,88 +4,96 @@ import { Component } from '@angular/core';
   selector: 'ads',
   standalone: true,
   template: `
-    <section class="ad-wrap">
-      <div class="ad-hero">
-        <div class="ad-hero-image">
-          <div class="ad-hero-badge">Acumula millas</div>
-          <div class="ad-hero-title">Hot destinations</div>
-          <div class="ad-hero-sub">Descubre el Caribe y más</div>
-        </div>
-        <div class="ad-hero-panel">
-          <div class="ad-hero-panel-title">¡Elige destinos con precios irresistibles!</div>
-          <div class="ad-hero-panel-copy">
-            Cartagena, Lima y Guayaquil te están esperando. ¡Compra hoy y vuela hasta junio de 2026!
+    <div class="ad-shell">
+      <section class="ad-wrap">
+        <div class="ad-hero">
+          <div class="ad-hero-image">
+            <div class="ad-hero-badge">Acumula millas</div>
+            <div class="ad-hero-title">Hot destinations</div>
+            <div class="ad-hero-sub">Descubre el Caribe y más</div>
           </div>
-          <button class="ad-hero-cta" type="button">Compra ya</button>
+          <div class="ad-hero-panel">
+            <div class="ad-hero-panel-title">¡Elige destinos con precios irresistibles!</div>
+            <div class="ad-hero-panel-copy">
+              Cartagena, Lima y Guayaquil te están esperando. ¡Compra hoy y vuela hasta junio de 2026!
+            </div>
+            <button class="ad-hero-cta" type="button">Compra ya</button>
+          </div>
         </div>
-      </div>
 
-      <div class="ad-section-title">
-        Ofertas desde <span class="ad-section-link">Madrid</span>
-        <span class="ad-section-caret">▾</span>
-      </div>
+        <div class="ad-section-title">
+          Ofertas desde <span class="ad-section-link">Madrid</span>
+          <span class="ad-section-caret">▾</span>
+        </div>
 
-      <div class="ad-cards">
-        <article class="ad-card">
-          <div class="ad-card-img ad-img-lima"></div>
-          <div class="ad-card-body">
-            <div class="ad-card-title">Lima</div>
-            <div class="ad-card-sub">Por trayecto desde</div>
-            <div class="ad-card-price">EUR 241</div>
-          </div>
-        </article>
-        <article class="ad-card">
-          <div class="ad-card-img ad-img-tampa"></div>
-          <div class="ad-card-body">
-            <div class="ad-card-title">Tampa</div>
-            <div class="ad-card-sub">Por trayecto desde</div>
-            <div class="ad-card-price">EUR 244</div>
-          </div>
-        </article>
-        <article class="ad-card">
-          <div class="ad-card-img ad-img-miami"></div>
-          <div class="ad-card-body">
-            <div class="ad-card-title">Miami</div>
-            <div class="ad-card-sub">Por trayecto desde</div>
-            <div class="ad-card-price">EUR 244</div>
-          </div>
-        </article>
-      </div>
+        <div class="ad-cards">
+          <article class="ad-card">
+            <div class="ad-card-img ad-img-lima"></div>
+            <div class="ad-card-body">
+              <div class="ad-card-title">Lima</div>
+              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-price">EUR 241</div>
+            </div>
+          </article>
+          <article class="ad-card">
+            <div class="ad-card-img ad-img-tampa"></div>
+            <div class="ad-card-body">
+              <div class="ad-card-title">Tampa</div>
+              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-price">EUR 244</div>
+            </div>
+          </article>
+          <article class="ad-card">
+            <div class="ad-card-img ad-img-miami"></div>
+            <div class="ad-card-body">
+              <div class="ad-card-title">Miami</div>
+              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-price">EUR 244</div>
+            </div>
+          </article>
+        </div>
 
-      <div class="ad-more">
-        <a href="#" class="ad-more-link">Descubrir más ofertas →</a>
-      </div>
+        <div class="ad-more">
+          <a href="#" class="ad-more-link">Descubrir más ofertas →</a>
+        </div>
 
-      <div class="ad-prep-title">Prepárate para viajar</div>
-      <div class="ad-info">
-        <div class="ad-info-card">
-          <div class="ad-info-icon">🧾</div>
-          <div class="ad-info-text">
-            <div class="ad-info-title">Check-in online</div>
-            <div class="ad-info-sub">Obtén tu pase de abordar y ahorra tiempo en el aeropuerto.</div>
+        <div class="ad-prep-title">Prepárate para viajar</div>
+        <div class="ad-info">
+          <div class="ad-info-card">
+            <div class="ad-info-icon">🧾</div>
+            <div class="ad-info-text">
+              <div class="ad-info-title">Check-in online</div>
+              <div class="ad-info-sub">Obtén tu pase de abordar y ahorra tiempo en el aeropuerto.</div>
+            </div>
+          </div>
+          <div class="ad-info-card">
+            <div class="ad-info-icon">📍</div>
+            <div class="ad-info-text">
+              <div class="ad-info-title">Centro de ayuda</div>
+              <div class="ad-info-sub">Busca y encuentra información útil para resolver tus preguntas.</div>
+            </div>
+          </div>
+          <div class="ad-info-card">
+            <div class="ad-info-icon">🛂</div>
+            <div class="ad-info-text">
+              <div class="ad-info-title">Requisitos para viajar</div>
+              <div class="ad-info-sub">Infórmate sobre visas, vacunas y demás documentos.</div>
+            </div>
           </div>
         </div>
-        <div class="ad-info-card">
-          <div class="ad-info-icon">📍</div>
-          <div class="ad-info-text">
-            <div class="ad-info-title">Centro de ayuda</div>
-            <div class="ad-info-sub">Busca y encuentra información útil para resolver tus preguntas.</div>
-          </div>
-        </div>
-        <div class="ad-info-card">
-          <div class="ad-info-icon">🛂</div>
-          <div class="ad-info-text">
-            <div class="ad-info-title">Requisitos para viajar</div>
-            <div class="ad-info-sub">Infórmate sobre visas, vacunas y demás documentos.</div>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   `,
   styles: [
     `
       :host {
         display: block;
+      }
+
+      .ad-shell {
+        padding-left: clamp(16px, 4vw, 40px);
+        padding-right: clamp(16px, 4vw, 40px);
+        box-sizing: border-box;
       }
 
       .ad-wrap {
@@ -96,8 +104,6 @@ import { Component } from '@angular/core';
         margin: 0 auto;
         width: 100%;
         box-sizing: border-box;
-        padding-left: clamp(16px, 4vw, 40px);
-        padding-right: clamp(16px, 4vw, 40px);
       }
 
       .ad-hero {

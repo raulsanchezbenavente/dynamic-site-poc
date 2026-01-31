@@ -300,6 +300,12 @@ declare const flatpickr: any;
         border-radius: 18px;
         padding: 18px;
         box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: clamp(16px, 4vw, 40px);
+        padding-right: clamp(16px, 4vw, 40px);
       }
 
       .av-search-top {
