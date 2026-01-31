@@ -7,72 +7,80 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, TranslateModule],
   template: `
-    <section
-      class="lm-wrap"
-      role="region"
-      aria-label="Account summary">
-      <header class="lm-header">
-        <div class="lm-title">
-          <span class="lm-hello">{{ 'LOYALTY.HELLO' | translate }},</span>
-          <span class="lm-name">{{ name() }}</span>
-        </div>
+    <div class="lm-shell">
+      <section
+        class="lm-wrap"
+        role="region"
+        aria-label="Account summary">
+        <header class="lm-header">
+          <div class="lm-title">
+            <span class="lm-hello">{{ 'LOYALTY.HELLO' | translate }},</span>
+            <span class="lm-name">{{ name() }}</span>
+          </div>
 
-        <div
-          class="lm-brand"
-          aria-label="LifeMiles">
-          <span class="lm-brand-mark">lm</span>
-          <span class="lm-brand-text">LifeMiles</span>
-        </div>
-      </header>
+          <div
+            class="lm-brand"
+            aria-label="LifeMiles">
+            <span class="lm-brand-mark">lm</span>
+            <span class="lm-brand-text">LifeMiles</span>
+          </div>
+        </header>
 
-      <div class="lm-card">
-        <div class="lm-cell lm-cell--main">
-          <div class="lm-label">{{ 'LOYALTY.TITLE' | translate }}</div>
-          <div class="lm-value-row">
-            <div class="lm-value">{{ memberNumber() }}</div>
+        <div class="lm-card">
+          <div class="lm-cell lm-cell--main">
+            <div class="lm-label">{{ 'LOYALTY.TITLE' | translate }}</div>
+            <div class="lm-value-row">
+              <div class="lm-value">{{ memberNumber() }}</div>
 
-            <button
-              type="button"
-              class="lm-copy"
-              (click)="copy(memberNumber())"
-              aria-label="Copy Lifemiles number"
-              title="Copy">
-              ⧉
-            </button>
+              <button
+                type="button"
+                class="lm-copy"
+                (click)="copy(memberNumber())"
+                aria-label="Copy Lifemiles number"
+                title="Copy">
+                ⧉
+              </button>
+            </div>
+          </div>
+
+          <div
+            class="lm-divider"
+            aria-hidden="true"></div>
+
+          <div class="lm-cell">
+            <div class="lm-label">{{ 'LOYALTY.TOTAL_MILES' | translate }}</div>
+            <div class="lm-value-row">
+              <span
+                class="lm-badge"
+                aria-hidden="true"
+                >lm</span
+              >
+              <div class="lm-value">{{ totalMiles() }}</div>
+            </div>
+          </div>
+
+          <div
+            class="lm-divider"
+            aria-hidden="true"></div>
+
+          <div class="lm-cell">
+            <div class="lm-label">{{ 'LOYALTY.EXPIRATION' | translate }}</div>
+            <div class="lm-subvalue">{{ expirationDate() }}</div>
           </div>
         </div>
-
-        <div
-          class="lm-divider"
-          aria-hidden="true"></div>
-
-        <div class="lm-cell">
-          <div class="lm-label">{{ 'LOYALTY.TOTAL_MILES' | translate }}</div>
-          <div class="lm-value-row">
-            <span
-              class="lm-badge"
-              aria-hidden="true"
-              >lm</span
-            >
-            <div class="lm-value">{{ totalMiles() }}</div>
-          </div>
-        </div>
-
-        <div
-          class="lm-divider"
-          aria-hidden="true"></div>
-
-        <div class="lm-cell">
-          <div class="lm-label">{{ 'LOYALTY.EXPIRATION' | translate }}</div>
-          <div class="lm-subvalue">{{ expirationDate() }}</div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   `,
   styles: [
     `
       :host {
         display: block;
+      }
+
+      .lm-shell {
+        padding-left: clamp(16px, 4vw, 40px);
+        padding-right: clamp(16px, 4vw, 40px);
+        box-sizing: border-box;
       }
 
       .lm-wrap {
