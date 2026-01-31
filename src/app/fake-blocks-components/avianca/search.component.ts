@@ -685,8 +685,14 @@ declare const flatpickr: any;
         }
 
         .av-dropdown {
-          position: relative;
-          top: 12px;
+          position: absolute;
+          top: calc(100% + 10px);
+          left: 0;
+          right: 0;
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
+          z-index: 40;
         }
 
         .av-dropdown-list {
@@ -702,6 +708,11 @@ declare const flatpickr: any;
       }
 
       @media (max-width: 700px) {
+        .av-card {
+          grid-template-columns: 1fr;
+          gap: 14px;
+        }
+
         .av-trip {
           width: 100%;
           justify-content: space-between;
@@ -710,6 +721,18 @@ declare const flatpickr: any;
         .av-right {
           width: 100%;
           justify-content: flex-start;
+        }
+
+        .av-dropdown {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: calc(100% + 8px);
+          width: 100%;
+          max-width: 100%;
+          max-height: min(50vh, 320px);
+          overflow: auto;
+          z-index: 60;
         }
       }
     `,
@@ -752,10 +775,6 @@ export class SearchComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     flatpickr('.av-date-input', {
       dateFormat: 'd/m/Y',
-    });
-    requestAnimationFrame(() => {
-      this.fromInput?.nativeElement.focus();
-      this.openFrom();
     });
   }
 
