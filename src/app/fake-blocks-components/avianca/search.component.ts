@@ -35,7 +35,8 @@ declare const flatpickr: any;
         <div class="av-actions">
           <button
             type="button"
-            class="av-pill">
+            class="av-pill"
+            (click)="goTo('miles')">
             {{ 'SEARCH.BUY_WITH_MILES' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
@@ -52,13 +53,15 @@ declare const flatpickr: any;
         <div class="av-right">
           <button
             type="button"
-            class="av-pill">
+            class="av-pill"
+            (click)="goTo('hotels')">
             {{ 'SEARCH.HOTELS' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
           <button
             type="button"
-            class="av-pill">
+            class="av-pill"
+            (click)="goTo('cars')">
             {{ 'SEARCH.CARS' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
@@ -894,5 +897,26 @@ export class SearchComponent implements AfterViewInit {
       departure: this.departure,
       returnDate: this.returnDate,
     });
+  }
+
+  public goTo(page: string): void {
+    let url = 'https://www.avianca.com/';
+    switch (page) {
+      case 'miles':
+        url =
+          'https://www.lifemiles.com/fly/find?&utm_source=avianca&utm_medium=referral&utm_campaign=Redirect_compra_avco';
+        break;
+      case 'hotels':
+        url =
+          'https://hotels.lifemiles.com/?utm_source=avianca&utm_medium=search-widget&utm_campaign=avianca-search-widget&utm_term=11-2025&utm_content=search-widget';
+        break;
+      case 'cars':
+        url = 'https://www.rentalcars.com/?affiliateCode=avianca695&adplat=cardlandingpage';
+        break;
+      default:
+        break;
+    }
+
+    globalThis.open(url, '_blank');
   }
 }
