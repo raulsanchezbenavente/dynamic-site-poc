@@ -292,6 +292,15 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.open.set(false);
     this.selectedMenuLabel.set(item.label);
 
+    const lang: string = this.activeLang();
+    const tabName:string | undefined = item.tabsId && item.tabId
+      ? this.siteConfig
+          .getTabNamesByTabsId(item.tabsId, lang  as AppLang)
+          .find((t) => String(t.tabId ?? '') === String(item.tabId))
+          ?.name
+      : undefined;
+    const tabParams = tabName ? { activeTab: tabName } : null;
+
     if (item.redirectTo) {
       this.router.navigateByUrl(item.redirectTo);
     }
@@ -299,10 +308,17 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     if (item.pageId) {
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
       if (currentPageId === item.pageId) {
+        if (tabParams) {
+          this.router.navigate([], { queryParams: tabParams, queryParamsHandling: 'merge' });
+        }
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
-        const path = this.siteConfig.getPathByPageId(item.pageId, this.activeLang());
-        this.router.navigateByUrl(path ?? '/');
+        const path = this.siteConfig.getPathByPageId(item.pageId, lang as AppLang);
+        if (tabParams) {
+          this.router.navigate([path ?? '/'], { queryParams: tabParams });
+        } else {
+          this.router.navigateByUrl(path ?? '/');
+        }
       }
     }
   }
