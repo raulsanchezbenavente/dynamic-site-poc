@@ -738,6 +738,41 @@ declare const flatpickr: any;
           overflow: auto;
           z-index: 60;
         }
+
+        .av-passenger-dropdown {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: calc(100% + 8px);
+          width: 100%;
+          padding: 16px;
+          box-sizing: border-box;
+          z-index: 60;
+        }
+
+        .av-passenger-title {
+          font-size: 16px;
+        }
+
+        .av-passenger-row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .av-counter {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .av-counter-btn {
+          width: 28px;
+          height: 28px;
+          font-size: 16px;
+        }
+
+        .av-counter-value {
+          font-size: 16px;
+        }
       }
     `,
   ],
