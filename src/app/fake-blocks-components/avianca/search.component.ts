@@ -16,6 +16,7 @@ declare const flatpickr: any;
             <input
               type="radio"
               name="tripType"
+              autocomplete="off"
               [(ngModel)]="tripType"
               value="round" />
             <span>{{ 'SEARCH.TRIP_ROUND' | translate }}</span>
@@ -24,6 +25,7 @@ declare const flatpickr: any;
             <input
               type="radio"
               name="tripType"
+              autocomplete="off"
               [(ngModel)]="tripType"
               value="oneway" />
             <span>{{ 'SEARCH.TRIP_ONEWAY' | translate }}</span>
