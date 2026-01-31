@@ -92,6 +92,12 @@ import { Component } from '@angular/core';
         display: grid;
         gap: 22px;
         padding: 8px 0 16px;
+        max-width: 1200px;
+        margin: 0 auto;
+        width: 100%;
+        box-sizing: border-box;
+        padding-left: clamp(16px, 4vw, 40px);
+        padding-right: clamp(16px, 4vw, 40px);
       }
 
       .ad-hero {
