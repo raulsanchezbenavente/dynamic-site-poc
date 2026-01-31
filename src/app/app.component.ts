@@ -23,6 +23,7 @@ export class AppComponent {
         path: page.path,
         component: DynamicPageComponent,
         data: {
+          path: page.path,
           components: page.layout?.rows ?? page.layout,
           pageId: page.pageId,
           pageName: page.name,

@@ -178,6 +178,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private navigateToTab(qpTab: string | undefined): void {
     const tabs = this.viewTabs();
     if (!qpTab) {
+      const snapshotPath = this.route.snapshot.data?.['path'];
+      const currentPath = globalThis.location.pathname;
+      if (snapshotPath !== currentPath) return;
+
       qpTab = tabs[0]?.name;
       requestAnimationFrame(() => {
         this.setActiveTabName(tabs[0]?.name);

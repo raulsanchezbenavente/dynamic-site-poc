@@ -314,7 +314,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
         const path = this.siteConfig.getPathByPageId(item.pageId, lang as AppLang);
-        if (tabParams) {
+        if (item.pageId && path) {
           this.router.navigate([path ?? '/'], { queryParams: tabParams });
         } else {
           this.router.navigateByUrl(path ?? '/');
