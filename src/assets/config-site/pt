@@ -2,7 +2,7 @@
   "pages": [
     {
       "pageId": "0",
-      "path": "pt/inicio",
+      "path": "pt/casa",
       "name": "Casa",
       "layout": {
         "rows": [
