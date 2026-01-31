@@ -296,6 +296,9 @@ declare const flatpickr: any;
     `
       :host {
         display: block;
+        padding-left: clamp(16px, 4vw, 40px);
+        padding-right: clamp(16px, 4vw, 40px);
+        box-sizing: border-box;
       }
 
       .av-search {
@@ -307,8 +310,6 @@ declare const flatpickr: any;
         margin: 0 auto;
         width: 100%;
         box-sizing: border-box;
-        padding-left: clamp(16px, 4vw, 40px);
-        padding-right: clamp(16px, 4vw, 40px);
       }
 
       .av-search-top {
