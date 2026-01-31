@@ -99,7 +99,7 @@ import { Component } from '@angular/core';
       .ad-wrap {
         display: grid;
         gap: 22px;
-        padding: 8px 0 16px;
+        padding: 16px 0 16px;
         max-width: 1200px;
         margin: 0 auto;
         width: 100%;
