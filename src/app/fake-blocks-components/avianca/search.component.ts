@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 declare const flatpickr: any;
 
 @Component({
   selector: 'search',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TranslateModule],
   template: `
     <div class="av-search">
       <div class="av-search-top">
@@ -17,7 +18,7 @@ declare const flatpickr: any;
               name="tripType"
               [(ngModel)]="tripType"
               value="round" />
-            <span>Ida y vuelta</span>
+            <span>{{ 'SEARCH.TRIP_ROUND' | translate }}</span>
           </label>
           <label class="av-radio">
             <input
@@ -25,7 +26,7 @@ declare const flatpickr: any;
               name="tripType"
               [(ngModel)]="tripType"
               value="oneway" />
-            <span>Solo ida</span>
+            <span>{{ 'SEARCH.TRIP_ONEWAY' | translate }}</span>
           </label>
         </div>
 
@@ -33,7 +34,7 @@ declare const flatpickr: any;
           <button
             type="button"
             class="av-pill">
-            Comprar con millas
+            {{ 'SEARCH.BUY_WITH_MILES' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
 
@@ -42,7 +43,7 @@ declare const flatpickr: any;
               type="checkbox"
               [(ngModel)]="payWithCredits"
               name="payWithCredits" />
-            <span>Pagar con <strong>avianca credits</strong></span>
+            <span>{{ 'SEARCH.PAY_WITH' | translate }} <strong>avianca credits</strong></span>
           </label>
         </div>
 
@@ -50,13 +51,13 @@ declare const flatpickr: any;
           <button
             type="button"
             class="av-pill">
-            Hoteles
+            {{ 'SEARCH.HOTELS' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
           <button
             type="button"
             class="av-pill">
-            Autos
+            {{ 'SEARCH.CARS' | translate }}
             <span class="av-pill-icon">↗</span>
           </button>
         </div>
@@ -66,7 +67,7 @@ declare const flatpickr: any;
         <div class="av-field" [class.is-open]="fromOpen">
           <span class="av-field-icon">✈️</span>
           <div class="av-field-body">
-            <span class="av-label">Origen</span>
+            <span class="av-label">{{ 'SEARCH.ORIGIN' | translate }}</span>
             <input
               id="from"
               class="av-input"
@@ -75,7 +76,7 @@ declare const flatpickr: any;
               (focus)="openFrom()"
               #fromInput
               name="from"
-              placeholder="Madrid (MAD)" />
+              [placeholder]="'SEARCH.ORIGIN_PLACEHOLDER' | translate" />
           </div>
 
           @if (fromOpen) {
@@ -101,7 +102,7 @@ declare const flatpickr: any;
         <div class="av-field" [class.is-open]="toOpen">
           <span class="av-field-icon">✈️</span>
           <div class="av-field-body">
-            <span class="av-label">Destino</span>
+            <span class="av-label">{{ 'SEARCH.DESTINATION' | translate }}</span>
             <input
               id="to"
               class="av-input"
@@ -109,7 +110,7 @@ declare const flatpickr: any;
               (ngModelChange)="onToInput($event)"
               (focus)="openTo()"
               name="to"
-              placeholder="Destino" />
+              [placeholder]="'SEARCH.DESTINATION_PLACEHOLDER' | translate" />
           </div>
 
           @if (toOpen) {
@@ -135,28 +136,28 @@ declare const flatpickr: any;
         <div class="av-field">
           <span class="av-field-icon">📅</span>
           <div class="av-field-body">
-            <span class="av-label">Ida</span>
+            <span class="av-label">{{ 'SEARCH.DEPARTURE' | translate }}</span>
             <input
               id="departure"
               class="av-input av-date-input"
               type="text"
               [(ngModel)]="departure"
               name="departure"
-              placeholder="03/02/2026" />
+              [placeholder]="'SEARCH.DEPARTURE_PLACEHOLDER' | translate" />
           </div>
         </div>
 
         <div class="av-field">
           <span class="av-field-icon">📅</span>
           <div class="av-field-body">
-            <span class="av-label">Vuelta</span>
+            <span class="av-label">{{ 'SEARCH.RETURN' | translate }}</span>
             <input
               id="return"
               class="av-input av-date-input"
               type="text"
               [(ngModel)]="returnDate"
               name="returnDate"
-              placeholder="06/02/2026" />
+              [placeholder]="'SEARCH.RETURN_PLACEHOLDER' | translate" />
           </div>
         </div>
 
@@ -166,7 +167,7 @@ declare const flatpickr: any;
             type="button"
             class="av-passenger-trigger"
             (click)="togglePassengers()">
-            <span class="av-label">Pasajeros</span>
+            <span class="av-label">{{ 'SEARCH.PASSENGERS' | translate }}</span>
             <span class="av-passenger-count">
               {{ totalPassengers() }}
               <span class="av-passenger-caret">▴</span>
@@ -175,12 +176,12 @@ declare const flatpickr: any;
 
           @if (passengersOpen) {
             <div class="av-passenger-dropdown" (click)="$event.stopPropagation()">
-              <div class="av-passenger-title">¿Quiénes vuelan?</div>
+              <div class="av-passenger-title">{{ 'SEARCH.WHO_FLY' | translate }}</div>
 
               <div class="av-passenger-row">
                 <div class="av-passenger-info">
-                  <div class="av-passenger-label">Adultos</div>
-                  <div class="av-passenger-sub">Desde 15 años</div>
+                  <div class="av-passenger-label">{{ 'SEARCH.ADULTS' | translate }}</div>
+                  <div class="av-passenger-sub">{{ 'SEARCH.ADULTS_SUB' | translate }}</div>
                 </div>
                 <div class="av-counter">
                   <button
@@ -202,8 +203,8 @@ declare const flatpickr: any;
 
               <div class="av-passenger-row">
                 <div class="av-passenger-info">
-                  <div class="av-passenger-label">Jóvenes</div>
-                  <div class="av-passenger-sub">De 12 a 14 años</div>
+                  <div class="av-passenger-label">{{ 'SEARCH.TEENS' | translate }}</div>
+                  <div class="av-passenger-sub">{{ 'SEARCH.TEENS_SUB' | translate }}</div>
                 </div>
                 <div class="av-counter">
                   <button
@@ -225,8 +226,8 @@ declare const flatpickr: any;
 
               <div class="av-passenger-row">
                 <div class="av-passenger-info">
-                  <div class="av-passenger-label">Niños</div>
-                  <div class="av-passenger-sub">De 2 a 11 años</div>
+                  <div class="av-passenger-label">{{ 'SEARCH.KIDS' | translate }}</div>
+                  <div class="av-passenger-sub">{{ 'SEARCH.KIDS_SUB' | translate }}</div>
                 </div>
                 <div class="av-counter">
                   <button
@@ -248,8 +249,8 @@ declare const flatpickr: any;
 
               <div class="av-passenger-row">
                 <div class="av-passenger-info">
-                  <div class="av-passenger-label">Bebés</div>
-                  <div class="av-passenger-sub">Menores de 2 años</div>
+                  <div class="av-passenger-label">{{ 'SEARCH.INFANTS' | translate }}</div>
+                  <div class="av-passenger-sub">{{ 'SEARCH.INFANTS_SUB' | translate }}</div>
                 </div>
                 <div class="av-counter">
                   <button
@@ -273,7 +274,7 @@ declare const flatpickr: any;
                 type="button"
                 class="av-passenger-confirm"
                 (click)="confirmPassengers()">
-                Confirmar
+                {{ 'SEARCH.CONFIRM' | translate }}
               </button>
             </div>
           }
@@ -284,7 +285,7 @@ declare const flatpickr: any;
           class="av-search-btn"
           [disabled]="!isFormValid()"
           (click)="goToResults()">
-          Buscar
+          {{ 'SEARCH.SEARCH' | translate }}
         </button>
       </div>
     </div>

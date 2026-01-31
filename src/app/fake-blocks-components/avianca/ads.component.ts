@@ -1,28 +1,30 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'ads',
   standalone: true,
+  imports: [TranslateModule],
   template: `
     <div class="ad-shell">
       <section class="ad-wrap">
         <div class="ad-hero">
           <div class="ad-hero-image">
-            <div class="ad-hero-badge">Acumula millas</div>
-            <div class="ad-hero-title">Hot destinations</div>
-            <div class="ad-hero-sub">Descubre el Caribe y más</div>
+            <div class="ad-hero-badge">{{ 'ADS.BADGE_EARN_MILES' | translate }}</div>
+            <div class="ad-hero-title">{{ 'ADS.HERO_TITLE' | translate }}</div>
+            <div class="ad-hero-sub">{{ 'ADS.HERO_SUBTITLE' | translate }}</div>
           </div>
           <div class="ad-hero-panel">
-            <div class="ad-hero-panel-title">¡Elige destinos con precios irresistibles!</div>
+            <div class="ad-hero-panel-title">{{ 'ADS.PANEL_TITLE' | translate }}</div>
             <div class="ad-hero-panel-copy">
-              Cartagena, Lima y Guayaquil te están esperando. ¡Compra hoy y vuela hasta junio de 2026!
+              {{ 'ADS.PANEL_COPY' | translate }}
             </div>
-            <button class="ad-hero-cta" type="button">Compra ya</button>
+            <button class="ad-hero-cta" type="button">{{ 'ADS.CTA_BUY_NOW' | translate }}</button>
           </div>
         </div>
 
         <div class="ad-section-title">
-          Ofertas desde <span class="ad-section-link">Madrid</span>
+          {{ 'ADS.OFFERS_FROM' | translate }} <span class="ad-section-link">Madrid</span>
           <span class="ad-section-caret">▾</span>
         </div>
 
@@ -31,7 +33,7 @@ import { Component } from '@angular/core';
             <div class="ad-card-img ad-img-lima"></div>
             <div class="ad-card-body">
               <div class="ad-card-title">Lima</div>
-              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-sub">{{ 'ADS.FARE_FROM' | translate }}</div>
               <div class="ad-card-price">EUR 241</div>
             </div>
           </article>
@@ -39,7 +41,7 @@ import { Component } from '@angular/core';
             <div class="ad-card-img ad-img-tampa"></div>
             <div class="ad-card-body">
               <div class="ad-card-title">Tampa</div>
-              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-sub">{{ 'ADS.FARE_FROM' | translate }}</div>
               <div class="ad-card-price">EUR 244</div>
             </div>
           </article>
@@ -47,37 +49,37 @@ import { Component } from '@angular/core';
             <div class="ad-card-img ad-img-miami"></div>
             <div class="ad-card-body">
               <div class="ad-card-title">Miami</div>
-              <div class="ad-card-sub">Por trayecto desde</div>
+              <div class="ad-card-sub">{{ 'ADS.FARE_FROM' | translate }}</div>
               <div class="ad-card-price">EUR 244</div>
             </div>
           </article>
         </div>
 
         <div class="ad-more">
-          <a href="#" class="ad-more-link">Descubrir más ofertas →</a>
+          <a href="#" class="ad-more-link">{{ 'ADS.MORE_OFFERS' | translate }}</a>
         </div>
 
-        <div class="ad-prep-title">Prepárate para viajar</div>
+        <div class="ad-prep-title">{{ 'ADS.PREPARE_TO_TRAVEL' | translate }}</div>
         <div class="ad-info">
           <div class="ad-info-card">
             <div class="ad-info-icon">🧾</div>
             <div class="ad-info-text">
-              <div class="ad-info-title">Check-in online</div>
-              <div class="ad-info-sub">Obtén tu pase de abordar y ahorra tiempo en el aeropuerto.</div>
+              <div class="ad-info-title">{{ 'ADS.INFO_CHECKIN_TITLE' | translate }}</div>
+              <div class="ad-info-sub">{{ 'ADS.INFO_CHECKIN_SUB' | translate }}</div>
             </div>
           </div>
           <div class="ad-info-card">
             <div class="ad-info-icon">📍</div>
             <div class="ad-info-text">
-              <div class="ad-info-title">Centro de ayuda</div>
-              <div class="ad-info-sub">Busca y encuentra información útil para resolver tus preguntas.</div>
+              <div class="ad-info-title">{{ 'ADS.INFO_HELP_TITLE' | translate }}</div>
+              <div class="ad-info-sub">{{ 'ADS.INFO_HELP_SUB' | translate }}</div>
             </div>
           </div>
           <div class="ad-info-card">
             <div class="ad-info-icon">🛂</div>
             <div class="ad-info-text">
-              <div class="ad-info-title">Requisitos para viajar</div>
-              <div class="ad-info-sub">Infórmate sobre visas, vacunas y demás documentos.</div>
+              <div class="ad-info-title">{{ 'ADS.INFO_REQUIREMENTS_TITLE' | translate }}</div>
+              <div class="ad-info-sub">{{ 'ADS.INFO_REQUIREMENTS_SUB' | translate }}</div>
             </div>
           </div>
         </div>
