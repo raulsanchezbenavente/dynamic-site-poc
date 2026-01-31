@@ -1,0 +1,133 @@
+<section
+  class="mp-wrap"
+  role="region"
+  [attr.aria-label]="'PROFILE.ARIA_LABEL' | translate">
+  <h2 class="mp-title">{{ title() | translate }}</h2>
+  <p class="mp-subtitle">{{ subtitle() | translate }}</p>
+
+  @for (s of sections(); track trackByTitle($index, s)) {
+    <div class="mp-section">
+      <div class="mp-section-head">
+        <h3 class="mp-section-title">{{ s.title | translate }}</h3>
+
+        @if (s.editable) {
+          @if (!isEditing(s)) {
+            <button
+              type="button"
+              class="mp-edit"
+              (click)="startEdit(s)">
+              <span class="mp-edit-label">✎&nbsp;{{ 'PROFILE.EDIT' | translate }}</span>
+            </button>
+          }
+        }
+      </div>
+
+      <div class="mp-grid">
+        <div class="mp-col">
+          @for (f of s.left; track trackByField($index, f)) {
+            <div class="mp-field">
+              <div class="mp-label">{{ f.label | translate }}</div>
+              @if (isEditing(s)) {
+                <div class="mp-control">
+                  @if (f.type === 'select') {
+                    <select
+                      class="mp-input"
+                      [value]="f.inputValue">
+                      @for (o of f.options ?? []; track o.value) {
+                        <option [value]="o.value">{{ o.label | translate }}</option>
+                      }
+                    </select>
+                  } @else if (f.type === 'date') {
+                    <input
+                      class="mp-input"
+                      type="date"
+                      [value]="f.inputValue ?? ''" />
+                  } @else if (f.type === 'email') {
+                    <input
+                      class="mp-input"
+                      type="email"
+                      [value]="f.inputValue ?? f.value" />
+                  } @else if (f.type === 'tel') {
+                    <input
+                      class="mp-input"
+                      type="tel"
+                      [value]="f.inputValue ?? f.value" />
+                  } @else {
+                    <input
+                      class="mp-input"
+                      type="text"
+                      [value]="f.inputValue ?? f.value" />
+                  }
+                </div>
+              } @else {
+                <div class="mp-value">{{ f.value | translate }}</div>
+              }
+            </div>
+          }
+        </div>
+
+        @if (s.right?.length) {
+          <div class="mp-col">
+            @for (f of s.right!; track trackByField($index, f)) {
+              <div class="mp-field">
+                <div class="mp-label">{{ f.label | translate }}</div>
+                @if (isEditing(s)) {
+                  <div class="mp-control">
+                    @if (f.type === 'select') {
+                      <select
+                        class="mp-input"
+                        [value]="f.inputValue">
+                        @for (o of f.options ?? []; track o.value) {
+                          <option [value]="o.value">{{ o.label | translate }}</option>
+                        }
+                      </select>
+                    } @else if (f.type === 'date') {
+                      <input
+                        class="mp-input"
+                        type="date"
+                        [value]="f.inputValue ?? ''" />
+                    } @else if (f.type === 'email') {
+                      <input
+                        class="mp-input"
+                        type="email"
+                        [value]="f.inputValue ?? f.value" />
+                    } @else if (f.type === 'tel') {
+                      <input
+                        class="mp-input"
+                        type="tel"
+                        [value]="f.inputValue ?? f.value" />
+                    } @else {
+                      <input
+                        class="mp-input"
+                        type="text"
+                        [value]="f.inputValue ?? f.value" />
+                    }
+                  </div>
+                } @else {
+                  <div class="mp-value">{{ f.value | translate }}</div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      @if (s.editable && isEditing(s)) {
+        <div class="mp-actions">
+          <button
+            type="button"
+            class="mp-action mp-action--primary"
+            (click)="saveSection(s)">
+            {{ 'PROFILE.SAVE' | translate }}
+          </button>
+          <button
+            type="button"
+            class="mp-action mp-action--ghost"
+            (click)="cancelSection(s)">
+            {{ 'PROFILE.CANCEL' | translate }}
+          </button>
+        </div>
+      }
+    </div>
+  }
+</section>

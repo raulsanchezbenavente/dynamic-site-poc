@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
-import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile.component';
+import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile/account-profile.component';
 import { AdsComponent } from './fake-blocks-components/avianca/ads.component';
 import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings.component';
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card.component';
