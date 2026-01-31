@@ -25,6 +25,14 @@
           {
             "cols": [
               {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12
               }
