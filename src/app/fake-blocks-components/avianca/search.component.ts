@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 declare const flatpickr: any;
 
@@ -88,8 +88,8 @@ declare const flatpickr: any;
                     class="av-option"
                     (click)="selectFrom(option)">
                     <span class="av-option-main">
-                      <span class="av-option-city">{{ option.city }}</span>
-                      <span class="av-option-country">({{ option.country }})</span>
+                      <span class="av-option-city">{{ option.cityKey | translate }}</span>
+                      <span class="av-option-country">({{ option.countryKey | translate }})</span>
                     </span>
                     <span class="av-option-code">{{ option.code }}</span>
                   </button>
@@ -122,8 +122,8 @@ declare const flatpickr: any;
                     class="av-option"
                     (click)="selectTo(option)">
                     <span class="av-option-main">
-                      <span class="av-option-city">{{ option.city }}</span>
-                      <span class="av-option-country">({{ option.country }})</span>
+                      <span class="av-option-city">{{ option.cityKey | translate }}</span>
+                      <span class="av-option-country">({{ option.countryKey | translate }})</span>
                     </span>
                     <span class="av-option-code">{{ option.code }}</span>
                   </button>
@@ -715,6 +715,7 @@ declare const flatpickr: any;
 })
 export class SearchComponent implements AfterViewInit {
   private readonly host = inject(ElementRef<HTMLElement>);
+  private readonly translate = inject(TranslateService);
   @ViewChild('fromInput', { static: false })
   private fromInput?: ElementRef<HTMLInputElement>;
 
@@ -734,16 +735,16 @@ export class SearchComponent implements AfterViewInit {
   public toOpen = false;
   public departure: string | null = null;
   public returnDate: string | null = null;
-  public airportOptions: Array<{ city: string; country: string; code: string }> = [
-    { city: 'Barcelona', country: 'España', code: 'BCN' },
-    { city: 'Baréin', country: 'Baréin', code: 'BAH' },
-    { city: 'Barrancabermeja', country: 'Colombia', code: 'EJA' },
-    { city: 'Barranquilla', country: 'Colombia', code: 'BAQ' },
-    { city: 'San Carlos de Bariloche', country: 'Argentina', code: 'BRC' },
-    { city: 'Santa Bárbara', country: 'Estados Unidos', code: 'SBA' },
-    { city: 'Wilkes Barre Scranton', country: 'Estados Unidos', code: 'AVP' },
-    { city: 'Madrid', country: 'España', code: 'MAD' },
-    { city: 'Bogotá', country: 'Colombia', code: 'BOG' },
+  public airportOptions: Array<{ cityKey: string; countryKey: string; code: string }> = [
+    { cityKey: 'SEARCH.CITY_BARCELONA', countryKey: 'SEARCH.COUNTRY_SPAIN', code: 'BCN' },
+    { cityKey: 'SEARCH.CITY_BAHRAIN', countryKey: 'SEARCH.COUNTRY_BAHRAIN', code: 'BAH' },
+    { cityKey: 'SEARCH.CITY_BARRANCABERMEJA', countryKey: 'SEARCH.COUNTRY_COLOMBIA', code: 'EJA' },
+    { cityKey: 'SEARCH.CITY_BARRANQUILLA', countryKey: 'SEARCH.COUNTRY_COLOMBIA', code: 'BAQ' },
+    { cityKey: 'SEARCH.CITY_BARILOCHE', countryKey: 'SEARCH.COUNTRY_ARGENTINA', code: 'BRC' },
+    { cityKey: 'SEARCH.CITY_SANTA_BARBARA', countryKey: 'SEARCH.COUNTRY_UNITED_STATES', code: 'SBA' },
+    { cityKey: 'SEARCH.CITY_WILKES_BARRE', countryKey: 'SEARCH.COUNTRY_UNITED_STATES', code: 'AVP' },
+    { cityKey: 'SEARCH.CITY_MADRID', countryKey: 'SEARCH.COUNTRY_SPAIN', code: 'MAD' },
+    { cityKey: 'SEARCH.CITY_BOGOTA', countryKey: 'SEARCH.COUNTRY_COLOMBIA', code: 'BOG' },
   ];
 
   public ngAfterViewInit(): void {
@@ -787,14 +788,14 @@ export class SearchComponent implements AfterViewInit {
     this.openTo();
   }
 
-  public selectFrom(option: { city: string; country: string; code: string }): void {
+  public selectFrom(option: { cityKey: string; countryKey: string; code: string }): void {
     const value = this.formatOption(option);
     this.from = value;
     this.fromQuery = value;
     this.fromOpen = false;
   }
 
-  public selectTo(option: { city: string; country: string; code: string }): void {
+  public selectTo(option: { cityKey: string; countryKey: string; code: string }): void {
     const value = this.formatOption(option);
     this.to = value;
     this.toQuery = value;
@@ -829,28 +830,32 @@ export class SearchComponent implements AfterViewInit {
     return this.adults + this.teens + this.kids + this.infants;
   }
 
-  public filteredFromOptions(): Array<{ city: string; country: string; code: string }> {
+  public filteredFromOptions(): Array<{ cityKey: string; countryKey: string; code: string }> {
     return this.filterOptions(this.fromQuery);
   }
 
-  public filteredToOptions(): Array<{ city: string; country: string; code: string }> {
+  public filteredToOptions(): Array<{ cityKey: string; countryKey: string; code: string }> {
     return this.filterOptions(this.toQuery);
   }
 
-  private filterOptions(query: string): Array<{ city: string; country: string; code: string }> {
+  private filterOptions(query: string): Array<{ cityKey: string; countryKey: string; code: string }> {
     const q = (query ?? '').trim().toLowerCase();
     if (!q) return this.airportOptions;
     return this.airportOptions.filter((item) => {
+      const city = this.translate.instant(item.cityKey).toLowerCase();
+      const country = this.translate.instant(item.countryKey).toLowerCase();
       return (
-        item.city.toLowerCase().includes(q) ||
-        item.country.toLowerCase().includes(q) ||
+        city.includes(q) ||
+        country.includes(q) ||
         item.code.toLowerCase().includes(q)
       );
     });
   }
 
-  private formatOption(option: { city: string; country: string; code: string }): string {
-    return `${option.city} (${option.country}) ${option.code}`;
+  private formatOption(option: { cityKey: string; countryKey: string; code: string }): string {
+    const city = this.translate.instant(option.cityKey);
+    const country = this.translate.instant(option.countryKey);
+    return `${city} (${country}) ${option.code}`;
   }
 
   public isFormValid(): boolean {
