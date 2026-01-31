@@ -140,6 +140,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     const activeTab = new URLSearchParams(qp).get('activeTab') ?? undefined;
     if (activeTab) {
       this.markMenuItemAsActive(activeTab);
+    } else {
+      const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
+      if (currentPageId) {
+        const match = this.items().find((item) => item.pageId === currentPageId);
+        if (match?.label) {
+          this.selectedMenuLabel.set(match.label);
+        }
+      }
     }
 
     globalThis.addEventListener('activeChange', (event) => {
