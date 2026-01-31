@@ -35,14 +35,14 @@ type Section = {
             <h3 class="mp-section-title">{{ s.title | translate }}</h3>
 
             @if (s.editable) {
-              <a
-                class="mp-edit"
-                href="#"
-                (click)="toggleEdit(s); $event.preventDefault()">
-                <span class="mp-edit-label"
-                  >✎&nbsp;{{ (isEditing(s) ? 'PROFILE.SAVE' : 'PROFILE.EDIT') | translate }}</span
-                >
-              </a>
+              @if (!isEditing(s)) {
+                <button
+                  type="button"
+                  class="mp-edit"
+                  (click)="startEdit(s)">
+                  <span class="mp-edit-label">✎&nbsp;{{ 'PROFILE.EDIT' | translate }}</span>
+                </button>
+              }
             }
           </div>
 
@@ -135,6 +135,23 @@ type Section = {
               </div>
             }
           </div>
+
+          @if (s.editable && isEditing(s)) {
+            <div class="mp-actions">
+              <button
+                type="button"
+                class="mp-action mp-action--primary"
+                (click)="saveSection(s)">
+                {{ 'PROFILE.SAVE' | translate }}
+              </button>
+              <button
+                type="button"
+                class="mp-action mp-action--ghost"
+                (click)="cancelSection(s)">
+                {{ 'PROFILE.CANCEL' | translate }}
+              </button>
+            </div>
+          }
         </div>
       }
     </section>
@@ -200,6 +217,10 @@ type Section = {
         text-decoration: none;
         font-weight: 700;
         white-space: nowrap;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        cursor: pointer;
       }
 
       .mp-edit:hover {
@@ -209,6 +230,37 @@ type Section = {
       .mp-edit-label {
         display: inline-flex;
         align-items: center;
+      }
+
+      .mp-actions {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .mp-action {
+        border-radius: 999px;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 10px 20px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        background: #111;
+        color: #fff;
+      }
+
+      .mp-action--primary {
+        background: #111;
+        color: #fff;
+        border-color: #111;
+      }
+
+      .mp-action--ghost {
+        background: transparent;
+        color: #111;
+        border-color: #111;
       }
 
       .mp-grid {
@@ -334,17 +386,28 @@ export class AccountProfileComponent {
     return `${f.label}:${f.value}`;
   }
 
-  public toggleEdit(s: Section): void {
+  public startEdit(s: Section): void {
     if (!s.editable) {
       return;
     }
 
-    if (this.editingSections.has(s.title)) {
-      this.editingSections.delete(s.title);
+    this.editingSections.add(s.title);
+  }
+
+  public saveSection(s: Section): void {
+    if (!s.editable) {
       return;
     }
 
-    this.editingSections.add(s.title);
+    this.editingSections.delete(s.title);
+  }
+
+  public cancelSection(s: Section): void {
+    if (!s.editable) {
+      return;
+    }
+
+    this.editingSections.delete(s.title);
   }
 
   public isEditing(s: Section): boolean {

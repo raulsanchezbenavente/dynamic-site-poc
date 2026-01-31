@@ -74,6 +74,7 @@
     "SUBTITLE": "Enter your details exactly as they appear on your official ID. This information will be used to create your profile and save your time during check-in.",
     "EDIT": "Edit",
     "SAVE": "Save",
+    "CANCEL": "Cancel",
     "SECTION_PERSONAL_INFO": "Personal information",
     "SECTION_CONTACT_INFO": "Contact information",
     "SECTION_EMERGENCY": "Emergency contact",
