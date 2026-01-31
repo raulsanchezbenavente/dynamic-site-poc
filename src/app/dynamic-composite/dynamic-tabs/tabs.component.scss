@@ -1,3 +1,9 @@
+.ds-tabs-shell {
+    padding-left: clamp(16px, 4vw, 40px);
+    padding-right: clamp(16px, 4vw, 40px);
+    box-sizing: border-box;
+}
+
 .ds-tabs {
     display: flex;
     justify-content: space-between;
@@ -5,7 +11,7 @@
     gap: 48px;
     border-bottom: 1px solid #d9d9d9;
     background: #fff;
-    padding: 0 16px;
+    padding: 0;
     margin-right: auto;
     margin-left: auto;
     width: 100%;
@@ -80,8 +86,8 @@
     margin-left: auto;
     width: 100%;
     max-width: 1100px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 0;
+    padding-right: 0;
     box-sizing: border-box;
 }
 
@@ -93,7 +99,7 @@
         overflow-y: hidden;
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
-        padding: 0 12px;
+        padding: 0;
     }
 
     .ds-tab {
@@ -106,7 +112,7 @@
 @media (max-width: 600px) {
     .ds-tabs {
         gap: 16px;
-        padding: 0 8px;
+        padding: 0;
     }
 
     .ds-tab {
@@ -115,7 +121,7 @@
     }
 
     .ds-tab-panel {
-        padding-left: 8px;
-        padding-right: 8px;
+        padding-left: 0;
+        padding-right: 0;
     }
 }
