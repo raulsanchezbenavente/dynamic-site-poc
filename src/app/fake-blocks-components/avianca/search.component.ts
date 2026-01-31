@@ -81,6 +81,10 @@ declare const flatpickr: any;
               (focus)="openFrom()"
               #fromInput
               name="from"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
               [placeholder]="'SEARCH.ORIGIN_PLACEHOLDER' | translate" />
           </div>
 
@@ -115,6 +119,10 @@ declare const flatpickr: any;
               (ngModelChange)="onToInput($event)"
               (focus)="openTo()"
               name="to"
+              autocomplete="off"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
               [placeholder]="'SEARCH.DESTINATION_PLACEHOLDER' | translate" />
           </div>
 
