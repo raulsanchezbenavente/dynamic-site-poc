@@ -7,7 +7,7 @@ import { FindBookingsComponent } from './fake-blocks-components/avianca/find-boo
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card.component';
 import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer.component';
 import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header/main-header.component';
-import { SearchComponent } from './fake-blocks-components/avianca/search.component';
+import { SearchComponent } from './fake-blocks-components/avianca/search/search.component';
 import { BaggageSelectionComponent } from './fake-blocks-components/test/baggage-selection';
 import { BannerComponent } from './fake-blocks-components/test/banner.component';
 import { CustomerLoginComponent } from './fake-blocks-components/test/customer-login';
