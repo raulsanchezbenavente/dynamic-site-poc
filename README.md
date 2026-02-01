@@ -10,6 +10,8 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON
 - 🎯 Visual components styled with Bootstrap 5
+- 🌍 i18n with per-language site configs (ngx-translate)
+- 🧭 Booking flow guard with local progress + API token
 - ✅ Full flow: search → results → baggage → seat → payment → confirmation
 
 ---
@@ -18,7 +20,11 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 
 ```
 server/
-└── index.js                     # Mock server for site config
+└── index.js                     # Booking flow API (token + steps)
+public/
+└── favicon.png                  # Static assets
+apache/
+└── .htaccess                    # Optional Apache config
 src/
 ├── app/
 │   ├── app.component.ts
@@ -28,7 +34,7 @@ src/
 │   ├── dynamic-composite/
 │   │   ├── dynamic-blocks.component.ts
 │   │   └── dynamic-page/
-│   │       ├── ds-block-outlet.component.ts
+│   │       ├── block-outlet.component.ts
 │   │       ├── dynamic-page.component.ts
 │   │       ├── dynamic-page.component.html
 │   │       └── models/
@@ -41,11 +47,13 @@ src/
 │   │       └── cms-tab-contract.model.ts
 │   ├── fake-blocks-components/
 │   │   ├── avianca/
+│   │   │   ├── account-profile/
+│   │   │   ├── ads/
+│   │   │   ├── find-bookings/
+│   │   │   ├── loyalty-card/
+│   │   │   ├── main-footer/
 │   │   │   ├── main-header/
-│   │   │   ├── account-profile.component.ts
-│   │   │   ├── find-bookings.component.ts
-│   │   │   ├── loyalty-card.component.ts
-│   │   │   └── main-footer.component.ts
+│   │   │   └── search/
 │   │   └── test/
 │   │       ├── banner.component.ts
 │   │       ├── search.component.ts
@@ -72,7 +80,7 @@ src/
 
 ## 🧪 Requirements
 
-- Node.js (v16+ recommended)
+- Node.js (v18+ recommended)
 - Angular CLI (`npm install -g @angular/cli`)
 
 ---
@@ -90,10 +98,11 @@ npm install
 ## ▶️ Run the App
 
 ```bash
-cd server
-node index
-cd ..
-ng serve
+# Terminal 1: API for booking flow
+node server/index.js
+
+# Terminal 2: Angular app
+npm start
 ```
 
 Then visit:
@@ -103,11 +112,11 @@ Then visit:
 
 ## 🧰 How it Works
 
-1. JSON files in `assets/config-site/` define the site's structure and routing.
+1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language.
 
-2. `DynamicPageComponent` reads that config and renders the corresponding blocks.
+2. `DynamicPageComponent` renders pages dynamically via `block-outlet`.
 
-3. Visual blocks are stateless and page logic is driven by config.
+3. Booking progress is tracked locally and validated against the API on port 3000.
 
 ---
 
