@@ -1,39 +1,39 @@
 <div class="ds-tabs-shell">
-    <div
-        class="ds-tabs"
-        role="tablist"
-        aria-label="Tabs"
-        #tabsRoot>
-        <span
-            class="ds-tab-indicator"
-            aria-hidden="true"
-            [style.width.px]="indicatorWidth()"
-            [style.transform]="indicatorTransform()"></span>
-        @for (tab of viewTabs(); track trackById($index, tab)) {
-            <button
-                type="button"
-                class="ds-tab"
-                role="tab"
-                #tabButton
-                [attr.id]="tabButtonId(tab.tabId)"
-                [attr.aria-controls]="tabPanelId(tab.tabId)"
-                [attr.aria-selected]="tab.tabId === activeId()"
-                [class.is-active]="tab.tabId === activeId()"
-                (click)="select(tab)">
-                {{ tab.title }}
-            </button>
-        }
-    </div>
-
+  <div
+    #tabsRoot
+    class="ds-tabs"
+    role="tablist"
+    aria-label="Tabs">
+    <span
+      class="ds-tab-indicator"
+      aria-hidden="true"
+      [style.width.px]="indicatorWidth()"
+      [style.transform]="indicatorTransform()"></span>
     @for (tab of viewTabs(); track trackById($index, tab)) {
-        <section
-            class="ds-tab-panel"
-            role="tabpanel"
-            [attr.id]="tabPanelId(tab.tabId)"
-            [attr.aria-labelledby]="tabButtonId(tab.tabId)"
-            [attr.aria-hidden]="tab.tabId !== activeId()"
-            [hidden]="tab.tabId !== activeId()">
-            <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
-        </section>
+      <button
+        #tabButton
+        type="button"
+        class="ds-tab"
+        role="tab"
+        [attr.id]="tabButtonId(tab.tabId)"
+        [attr.aria-controls]="tabPanelId(tab.tabId)"
+        [attr.aria-selected]="tab.tabId === activeId()"
+        [class.is-active]="tab.tabId === activeId()"
+        (click)="select(tab)">
+        {{ tab.title }}
+      </button>
     }
+  </div>
+
+  @for (tab of viewTabs(); track trackById($index, tab)) {
+    <section
+      class="ds-tab-panel"
+      role="tabpanel"
+      [attr.id]="tabPanelId(tab.tabId)"
+      [attr.aria-labelledby]="tabButtonId(tab.tabId)"
+      [attr.aria-hidden]="tab.tabId !== activeId()"
+      [hidden]="tab.tabId !== activeId()">
+      <ds-dynamic-blocks [blocks]="tab.components"></ds-dynamic-blocks>
+    </section>
+  }
 </div>

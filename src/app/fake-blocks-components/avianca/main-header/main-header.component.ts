@@ -301,12 +301,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.selectedMenuLabel.set(item.label);
 
     const lang: string = this.activeLang();
-    const tabName: string | undefined = item.tabsId && item.tabId
-      ? this.siteConfig
-          .getTabNamesByTabsId(item.tabsId, lang  as AppLang)
-          .find((t) => String(t.tabId ?? '') === String(item.tabId))
-          ?.name
-      : undefined;
+    const tabName: string | undefined =
+      item.tabsId && item.tabId
+        ? this.siteConfig
+            .getTabNamesByTabsId(item.tabsId, lang as AppLang)
+            .find((t) => String(t.tabId ?? '') === String(item.tabId))?.name
+        : undefined;
     const tabParams = tabName ? { activeTab: tabName } : null;
 
     if (item.redirectTo) {

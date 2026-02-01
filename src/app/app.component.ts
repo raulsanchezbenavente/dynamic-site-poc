@@ -28,9 +28,9 @@ export class AppComponent {
           pageId: page.pageId,
           pageName: page.name,
           tabsId: page.tabId ?? null,
-          tabNamesById: (page.layout?.rows?.flatMap((row: any) =>
-            row.cols?.flatMap((col: any) => col.tabs || []) || []
-          ) || []).reduce((acc: Record<string, string>, tab: any) => {
+          tabNamesById: (
+            page.layout?.rows?.flatMap((row: any) => row.cols?.flatMap((col: any) => col.tabs || []) || []) || []
+          ).reduce((acc: Record<string, string>, tab: any) => {
             if (tab && tab.pageId) acc[tab.pageId] = tab.name ?? '';
             return acc;
           }, {}),
@@ -38,10 +38,7 @@ export class AppComponent {
         ...(index > 0 && { canActivate: [ProgressAsynGuard] }),
       }));
 
-      this.router.resetConfig([
-        ...routes,
-        { path: '**', redirectTo: 'en/home' },
-      ]);
+      this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
     });
   }
 }

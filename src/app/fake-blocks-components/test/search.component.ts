@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
@@ -101,7 +101,7 @@ declare const flatpickr: any;
     </div>
   `,
 })
-export class SearchComponent implements AfterViewInit {
+export class SearchComponent implements AfterViewInit, OnInit {
   private progress = inject(BookingProgressService);
 
   public from: string | null = null;

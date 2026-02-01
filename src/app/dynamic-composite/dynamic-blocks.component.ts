@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component';
-// import { componentMap } from '../component-map';
 
 @Component({
   selector: 'ds-dynamic-blocks',

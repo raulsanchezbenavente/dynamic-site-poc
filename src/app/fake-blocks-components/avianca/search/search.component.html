@@ -6,8 +6,8 @@
           type="radio"
           name="tripType"
           autocomplete="off"
-          [(ngModel)]="tripType"
-          value="round" />
+          value="round"
+          [(ngModel)]="tripType" />
         <span>{{ 'SEARCH.TRIP_ROUND' | translate }}</span>
       </label>
       <label class="av-radio">
@@ -15,8 +15,8 @@
           type="radio"
           name="tripType"
           autocomplete="off"
-          [(ngModel)]="tripType"
-          value="oneway" />
+          value="oneway"
+          [(ngModel)]="tripType" />
         <span>{{ 'SEARCH.TRIP_ONEWAY' | translate }}</span>
       </label>
     </div>
@@ -33,8 +33,8 @@
       <label class="av-check">
         <input
           type="checkbox"
-          [(ngModel)]="payWithCredits"
-          name="payWithCredits" />
+          name="payWithCredits"
+          [(ngModel)]="payWithCredits" />
         <span>{{ 'SEARCH.PAY_WITH' | translate }} <strong>avianca credits</strong></span>
       </label>
     </div>
@@ -58,23 +58,25 @@
   </div>
 
   <div class="av-card">
-    <div class="av-field" [class.is-open]="fromOpen">
+    <div
+      class="av-field"
+      [class.is-open]="fromOpen">
       <span class="av-field-icon">✈️</span>
       <div class="av-field-body">
         <span class="av-label">{{ 'SEARCH.ORIGIN' | translate }}</span>
         <input
+          #fromInput
           id="from"
           class="av-input"
-          [(ngModel)]="fromQuery"
-          (ngModelChange)="onFromInput($event)"
-          (focus)="openFrom()"
-          #fromInput
           name="from"
           autocomplete="off"
           autocapitalize="off"
           autocorrect="off"
           spellcheck="false"
-          [placeholder]="'SEARCH.ORIGIN_PLACEHOLDER' | translate" />
+          [placeholder]="'SEARCH.ORIGIN_PLACEHOLDER' | translate"
+          [(ngModel)]="fromQuery"
+          (ngModelChange)="onFromInput($event)"
+          (focus)="openFrom()" />
       </div>
 
       @if (fromOpen) {
@@ -97,22 +99,24 @@
       }
     </div>
 
-    <div class="av-field" [class.is-open]="toOpen">
+    <div
+      class="av-field"
+      [class.is-open]="toOpen">
       <span class="av-field-icon">✈️</span>
       <div class="av-field-body">
         <span class="av-label">{{ 'SEARCH.DESTINATION' | translate }}</span>
         <input
           id="to"
           class="av-input"
-          [(ngModel)]="toQuery"
-          (ngModelChange)="onToInput($event)"
-          (focus)="openTo()"
           name="to"
           autocomplete="off"
           autocapitalize="off"
           autocorrect="off"
           spellcheck="false"
-          [placeholder]="'SEARCH.DESTINATION_PLACEHOLDER' | translate" />
+          [placeholder]="'SEARCH.DESTINATION_PLACEHOLDER' | translate"
+          [(ngModel)]="toQuery"
+          (ngModelChange)="onToInput($event)"
+          (focus)="openTo()" />
       </div>
 
       @if (toOpen) {
@@ -143,9 +147,9 @@
           id="departure"
           class="av-input av-date-input"
           type="text"
-          [(ngModel)]="departure"
           name="departure"
-          [placeholder]="'SEARCH.DEPARTURE_PLACEHOLDER' | translate" />
+          [placeholder]="'SEARCH.DEPARTURE_PLACEHOLDER' | translate"
+          [(ngModel)]="departure" />
       </div>
     </div>
 
@@ -157,13 +161,15 @@
           id="return"
           class="av-input av-date-input"
           type="text"
-          [(ngModel)]="returnDate"
           name="returnDate"
-          [placeholder]="'SEARCH.RETURN_PLACEHOLDER' | translate" />
+          [placeholder]="'SEARCH.RETURN_PLACEHOLDER' | translate"
+          [(ngModel)]="returnDate" />
       </div>
     </div>
 
-    <div class="av-field av-field-compact" [class.is-open]="passengersOpen">
+    <div
+      class="av-field av-field-compact"
+      [class.is-open]="passengersOpen">
       <span class="av-field-icon">👤</span>
       <button
         type="button"
@@ -177,7 +183,9 @@
       </button>
 
       @if (passengersOpen) {
-        <div class="av-passenger-dropdown" (click)="$event.stopPropagation()">
+        <div
+          class="av-passenger-dropdown"
+          (click)="$event.stopPropagation()">
           <div class="av-passenger-title">{{ 'SEARCH.WHO_FLY' | translate }}</div>
 
           <div class="av-passenger-row">

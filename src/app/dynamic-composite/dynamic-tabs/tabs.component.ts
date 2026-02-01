@@ -253,9 +253,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    const button = this.tabButtons.find(
-      (ref) => ref.nativeElement.getAttribute('id') === this.tabButtonId(active)
-    );
+    const button = this.tabButtons.find((ref) => ref.nativeElement.getAttribute('id') === this.tabButtonId(active));
 
     if (!button) {
       this.indicatorWidth.set(0);
