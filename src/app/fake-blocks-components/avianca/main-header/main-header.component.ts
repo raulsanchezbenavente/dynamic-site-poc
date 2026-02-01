@@ -301,7 +301,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.selectedMenuLabel.set(item.label);
 
     const lang: string = this.activeLang();
-    const tabName:string | undefined = item.tabsId && item.tabId
+    const tabName: string | undefined = item.tabsId && item.tabId
       ? this.siteConfig
           .getTabNamesByTabsId(item.tabsId, lang  as AppLang)
           .find((t) => String(t.tabId ?? '') === String(item.tabId))
@@ -311,13 +311,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
     if (item.redirectTo) {
       this.router.navigateByUrl(item.redirectTo);
+      return;
     }
 
     if (item.pageId) {
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
       if (currentPageId === item.pageId) {
         if (tabParams) {
-          this.router.navigate([], { queryParams: tabParams, queryParamsHandling: 'merge' });
+          // this.router.navigate([], { queryParams: tabParams, queryParamsHandling: 'merge' });
         }
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
