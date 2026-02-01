@@ -1,0 +1,83 @@
+<section
+  class="ut-wrap"
+  role="region"
+  [attr.aria-label]="'TRIPS.ARIA_LABEL' | translate">
+  <h2 class="ut-title">{{ title() | translate }}</h2>
+
+  @for (t of trips(); track trackByTrip($index, t)) {
+    <article class="ut-card">
+      <div class="ut-head">
+        <div class="ut-route">
+          <span
+            class="ut-plane-ico"
+            aria-hidden="true"
+            >✈</span
+          >
+          <span class="ut-route-text">{{ t.fromCity }} {{ 'TRIPS.TO' | translate }} {{ t.toCity }}</span>
+        </div>
+
+        <div class="ut-status">
+          <span
+            class="ut-status-ico"
+            aria-hidden="true"
+            >✓</span
+          >
+          <span>{{ t.statusText | translate }}</span>
+        </div>
+      </div>
+
+      <div class="ut-date">{{ t.dateText }}</div>
+
+      <div class="ut-mid">
+        <div class="ut-time">
+          <div class="ut-time-big">{{ t.departureTime }}</div>
+          <div class="ut-time-code">{{ t.departureCode }}</div>
+        </div>
+
+        <div class="ut-line">
+          <div class="ut-line-top">
+            <span class="ut-direct">{{ t.directText | translate }}</span>
+            <span
+              class="ut-dot-sep"
+              aria-hidden="true"
+              >|</span
+            >
+            <span class="ut-duration">{{ t.durationText }}</span>
+          </div>
+
+          <div
+            class="ut-dots"
+            aria-hidden="true">
+            <span class="ut-dot ut-dot--left"></span>
+            <span class="ut-dash"></span>
+            <span class="ut-plane">✈</span>
+            <span class="ut-dash"></span>
+            <span class="ut-dot ut-dot--right"></span>
+          </div>
+
+          <div class="ut-operated">
+            {{ t.operatedByText | translate }}
+          </div>
+        </div>
+
+        <div class="ut-time ut-time--right">
+          <div class="ut-time-big">{{ t.arrivalTime }}</div>
+          <div class="ut-time-code">{{ t.arrivalCode }}</div>
+        </div>
+      </div>
+
+      <div
+        class="ut-sep"
+        aria-hidden="true"></div>
+
+      <div class="ut-cta">
+        <button
+          type="button"
+          class="ut-btn"
+          (click)="noop()">
+          {{ t.ctaText | translate }}
+        </button>
+      </div>
+    </article>
+  }
+</section>

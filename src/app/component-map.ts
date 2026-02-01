@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
 import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile/account-profile.component';
-import { AdsComponent } from './fake-blocks-components/avianca/ads.component';
-import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings.component';
-import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card.component';
-import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer.component';
+import { AdsComponent } from './fake-blocks-components/avianca/ads/ads.component';
+import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings/find-bookings.component';
+import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card/loyalty-card.component';
+import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer/main-footer.component';
 import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header/main-header.component';
 import { SearchComponent } from './fake-blocks-components/avianca/search/search.component';
 import { BaggageSelectionComponent } from './fake-blocks-components/test/baggage-selection';
