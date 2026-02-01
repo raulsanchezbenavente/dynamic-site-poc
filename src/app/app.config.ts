@@ -16,7 +16,8 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       multi: true,
       deps: [SiteConfigService],
-      useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.loadSite(['en', 'es', 'fr', 'pt'])),
+      useFactory: (svc: SiteConfigService) => () =>
+        firstValueFrom(svc.loadSite(['en', 'es', 'fr', 'pt', 'config-site'])),
     },
     provideHttpClient(),
 

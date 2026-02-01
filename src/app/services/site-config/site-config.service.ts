@@ -12,7 +12,7 @@ export class SiteConfigService {
   public readonly site$ = this._siteSubject.asObservable();
   public configSitesByLanguage: Partial<Record<AppLang, any[]>> = {};
 
-  public loadSite(langs: AppLang[]): Observable<{ pages: any[] }> {
+  public loadSite(langs: AppLang[] | string[]): Observable<{ pages: any[] }> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
     const requests = uniqueLangs.map((lang) => this.http.get<{ pages: any[] }>(this.getURlFromLangAndContext(lang)));
 
@@ -24,7 +24,7 @@ export class SiteConfigService {
             acc[lang] = pages;
             return acc;
           },
-          {} as Record<AppLang, any[]>
+          {} as Record<AppLang | string, any[]>
         );
       }),
       map((sites) => ({
@@ -36,7 +36,7 @@ export class SiteConfigService {
     );
   }
 
-  private getURlFromLangAndContext(lang: AppLang): string {
+  private getURlFromLangAndContext(lang: AppLang | string): string {
     return '/assets/config-site/' + lang;
   }
 
