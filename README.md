@@ -8,7 +8,7 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 
 - ✨ Dynamic architecture driven by configuration (`site-config` endpoint)
 - 📄 Page composition via reusable blocks
-- 📍 Dynamic routing based on JSON
+- 📍 Dynamic routing based on JSON config site
 - 🎯 Visual components styled with Bootstrap 5
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Booking flow guard with local progress + API token
