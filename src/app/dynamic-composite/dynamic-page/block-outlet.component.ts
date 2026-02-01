@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { componentMap } from '../../component-map';
 
 @Component({
-  selector: 'ds-block-outlet',
+  selector: 'block-outlet',
   standalone: true,
   imports: [CommonModule],
   template: `
@@ -18,7 +18,7 @@ import { componentMap } from '../../component-map';
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DsBlockOutletComponent {
+export class BlockOutletComponent {
   public block = input<any | null | undefined>(undefined);
 
   public cmp = computed(() => {

@@ -1,10 +1,10 @@
-.ds-tabs-shell {
+.tabs-shell {
     padding-left: clamp(16px, 4vw, 40px);
     padding-right: clamp(16px, 4vw, 40px);
     box-sizing: border-box;
 }
 
-.ds-tabs {
+.tabs {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -21,7 +21,7 @@
 }
 
 /* tab base */
-.ds-tab {
+.tab {
     position: relative;
     border: 0;
     background: transparent;
@@ -35,7 +35,7 @@
     outline: none;
 }
 
-.ds-tab::after {
+.tab::after {
     content: '';
     position: absolute;
     left: 0;
@@ -46,16 +46,16 @@
     border-radius: 2px 2px 0 0;
 }
 
-.ds-tab.is-active {
+.tab.is-active {
     color: #111;
     font-weight: 800;
 }
 
-.ds-tab.is-active::after {
+.tab.is-active::after {
     background: transparent;
 }
 
-.ds-tab-indicator {
+.tab-indicator {
     position: absolute;
     left: 0;
     bottom: -1px;
@@ -69,17 +69,17 @@
     pointer-events: none;
 }
 
-.ds-tab:hover {
+.tab:hover {
     color: #111;
 }
 
-.ds-tab:focus-visible {
+.tab:focus-visible {
     outline: 2px solid rgba(24, 163, 58, 0.35);
     outline-offset: 4px;
     border-radius: 8px;
 }
 
-.ds-tab-panel {
+.tab-panel {
     padding-top: 18px;
     background: transparent;
     margin-right: auto;
@@ -92,7 +92,7 @@
 }
 
 @media (max-width: 900px) {
-    .ds-tabs {
+    .tabs {
         gap: 24px;
         justify-content: flex-start;
         overflow-x: auto;
@@ -102,7 +102,7 @@
         padding: 0;
     }
 
-    .ds-tab {
+    .tab {
         flex: 0 0 auto;
         font-size: 15px;
         padding: 12px 8px 10px;
@@ -110,17 +110,17 @@
 }
 
 @media (max-width: 600px) {
-    .ds-tabs {
+    .tabs {
         gap: 16px;
         padding: 0;
     }
 
-    .ds-tab {
+    .tab {
         font-size: 14px;
         padding: 10px 6px 8px;
     }
 
-    .ds-tab-panel {
+    .tab-panel {
         padding-left: 0;
         padding-right: 0;
     }

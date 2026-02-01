@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { DsBlockOutletComponent } from './dynamic-page/ds-block-outlet.component';
+import { BlockOutletComponent } from './dynamic-page/block-outlet.component';
 
 @Component({
-  selector: 'ds-dynamic-blocks',
+  selector: 'dynamic-blocks',
   standalone: true,
-  imports: [CommonModule, DsBlockOutletComponent],
+  imports: [CommonModule, BlockOutletComponent],
   template: `
     @for (block of blocks(); track trackByKey($index, block)) {
-      <ds-block-outlet [block]="block"></ds-block-outlet>
+      <block-outlet [block]="block"></block-outlet>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DsDynamicBlocksComponent {
+export class DynamicBlocksComponent {
   public blocks = input<any[] | null | undefined>(undefined);
 
   public getInputs(block: any): Record<string, any> {

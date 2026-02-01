@@ -24,14 +24,14 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
-import { DsDynamicBlocksComponent } from '../dynamic-blocks.component';
+import { DynamicBlocksComponent } from '../dynamic-blocks.component';
 
 import { CmsTabContract } from './models/cms-tab-contract.model';
 
 @Component({
-  selector: 'ds-tabs',
+  selector: 'tabs',
   standalone: true,
-  imports: [CommonModule, DsDynamicBlocksComponent],
+  imports: [CommonModule, DynamicBlocksComponent],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -226,11 +226,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public tabButtonId(tabId: string): string {
-    return `ds-tab-${tabId}`;
+    return `tab-${tabId}`;
   }
 
   public tabPanelId(tabId: string): string {
-    return `ds-tabpanel-${tabId}`;
+    return `tab-panel-${tabId}`;
   }
 
   public ngOnDestroy(): void {
