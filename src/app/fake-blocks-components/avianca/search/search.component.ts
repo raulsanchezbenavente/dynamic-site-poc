@@ -48,6 +48,7 @@ export class SearchComponent implements AfterViewInit {
   public ngAfterViewInit(): void {
     flatpickr('.av-date-input', {
       dateFormat: 'd/m/Y',
+      disableMobile: true,
     });
   }
 
