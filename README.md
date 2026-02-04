@@ -47,8 +47,10 @@ src/
 │   │       └── cms-tab-contract.model.ts
 │   ├── fake-blocks-components/
 │   │   ├── avianca/
+│   │   │   ├── account-settings/
 │   │   │   ├── account-profile/
 │   │   │   ├── ads/
+│   │   │   ├── elite-status/
 │   │   │   ├── find-bookings/
 │   │   │   ├── loyalty-card/
 │   │   │   ├── main-footer/
