@@ -98,6 +98,10 @@ export class AccountProfileComponent {
       return;
     }
 
+    if (this.isAnyEditing() && !this.isEditing(s)) {
+      return;
+    }
+
     this.editingSections.add(s.title);
   }
 
@@ -119,5 +123,9 @@ export class AccountProfileComponent {
 
   public isEditing(s: Section): boolean {
     return this.editingSections.has(s.title);
+  }
+
+  public isAnyEditing(): boolean {
+    return this.editingSections.size > 0;
   }
 }

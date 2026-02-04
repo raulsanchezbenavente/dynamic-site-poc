@@ -15,6 +15,7 @@
             <button
               type="button"
               class="mp-edit"
+              [disabled]="isAnyEditing()"
               (click)="startEdit(s)">
               <span class="mp-edit-label">✎&nbsp;{{ 'PROFILE.EDIT' | translate }}</span>
             </button>
