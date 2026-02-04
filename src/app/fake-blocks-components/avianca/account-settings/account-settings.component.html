@@ -1,0 +1,30 @@
+<section
+  class="as-wrap"
+  role="region"
+  [attr.aria-label]="title() | translate">
+  <header class="as-header">
+    <div>
+      <h2 class="as-title">{{ title() | translate }}</h2>
+      <p class="as-subtitle">{{ subtitle() | translate }}</p>
+    </div>
+  </header>
+
+  <div class="as-grid">
+    @for (item of items(); track trackByTitle($index, item)) {
+      <article class="as-card">
+        <div class="as-card-body">
+          <h3 class="as-card-title">{{ item.title | translate }}</h3>
+          <p class="as-card-desc">{{ item.description | translate }}</p>
+        </div>
+
+        @if (item.cta) {
+          <button
+            type="button"
+            class="as-cta">
+            {{ item.cta | translate }}
+          </button>
+        }
+      </article>
+    }
+  </div>
+</section>

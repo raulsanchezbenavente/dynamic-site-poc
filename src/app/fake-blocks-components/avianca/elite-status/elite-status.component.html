@@ -1,0 +1,52 @@
+<section
+  class="es-wrap"
+  role="region"
+  [attr.aria-label]="title() | translate">
+  <header class="es-header">
+    <div>
+      <h2 class="es-title">{{ title() | translate }}</h2>
+      <p class="es-subtitle">
+        <span class="es-label">{{ tierLabel() | translate }}</span>
+        <span class="es-tier">{{ tierName() }}</span>
+      </p>
+    </div>
+    <button
+      type="button"
+      class="es-cta">
+      {{ ctaLabel() | translate }}
+    </button>
+  </header>
+
+  <div class="es-cards">
+    <div class="es-card">
+      <div class="es-card-label">{{ milesToNextLabel() | translate }}</div>
+      <div class="es-card-value">{{ milesToNext() }}</div>
+    </div>
+    <div class="es-card">
+      <div class="es-card-label">{{ nextTierLabel() | translate }}</div>
+      <div class="es-card-value">{{ nextTier() }}</div>
+    </div>
+    <div class="es-card">
+      <div class="es-card-label">{{ expirationLabel() | translate }}</div>
+      <div class="es-card-value">{{ expirationDate() }}</div>
+    </div>
+  </div>
+
+  <div class="es-progress">
+    <div class="es-progress-bar">
+      <div
+        class="es-progress-fill"
+        [style.width.%]="progress()"></div>
+    </div>
+    <div class="es-progress-meta">{{ progress() }}%</div>
+  </div>
+
+  <div class="es-benefits">
+    <h3 class="es-benefits-title">{{ benefitsTitle() | translate }}</h3>
+    <ul class="es-benefits-list">
+      @for (b of benefits(); track trackByLabel($index, b)) {
+        <li class="es-benefit">{{ b.label | translate }}</li>
+      }
+    </ul>
+  </div>
+</section>

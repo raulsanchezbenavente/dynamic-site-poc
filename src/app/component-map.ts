@@ -2,7 +2,9 @@ import { Type } from '@angular/core';
 
 import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component';
 import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile/account-profile.component';
+import { AccountSettingsComponent } from './fake-blocks-components/avianca/account-settings/account-settings.component';
 import { AdsComponent } from './fake-blocks-components/avianca/ads/ads.component';
+import { EliteStatusComponent } from './fake-blocks-components/avianca/elite-status/elite-status.component';
 import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings/find-bookings.component';
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card/loyalty-card.component';
 import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer/main-footer.component';
@@ -37,7 +39,9 @@ export const componentMap: Record<string, Type<any>> = {
   loyaltyOverviewCard_uiplus: LoyaltyOverviewCardComponent,
   CorporateMainHeaderBlock_uiplus: MainHeaderComponent,
   accountProfile_uiplus: AccountProfileComponent,
+  accountSettings_uiplus: AccountSettingsComponent,
   findBookings_uiplus: FindBookingsComponent,
+  eliteStatus_uiplus: EliteStatusComponent,
   CorporateMainFooterBlock_uiplus: MainFooterComponent,
   SearchComponentBlock_uiplus: SearchComponent,
   AdsComponentBlock_uiplus: AdsComponent,

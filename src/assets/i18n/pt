@@ -93,6 +93,31 @@
     "VALUE_COUNTRY_US": "Estados Unidos",
     "VALUE_COUNTRY_ES": "Espanha"
   },
+  "ACCOUNT_SETTINGS": {
+    "TITLE": "Configurações da conta",
+    "SUBTITLE": "Gerencie sua segurança, comunicações e preferências em um só lugar.",
+    "SECURITY_TITLE": "Segurança e acesso",
+    "SECURITY_DESC": "Atualize a senha, verificação em duas etapas e dispositivos confiáveis.",
+    "COMMS_TITLE": "Preferências de comunicação",
+    "COMMS_DESC": "Escolha como e quando deseja receber novidades.",
+    "PREFS_TITLE": "Preferências de viagem",
+    "PREFS_DESC": "Salve preferências de assento, refeição e acessibilidade.",
+    "CTA_MANAGE": "Gerenciar",
+    "CTA_PREFERENCES": "Preferências",
+    "CTA_UPDATE": "Atualizar"
+  },
+  "ELITE_STATUS": {
+    "TITLE": "Meu status elite",
+    "CURRENT_TIER": "Nível atual",
+    "MILES_TO_NEXT": "Milhas para o próximo nível",
+    "NEXT_TIER": "Próximo nível",
+    "EXPIRATION": "Válido até",
+    "BENEFITS": "Seus benefícios",
+    "BENEFIT_PRIORITY": "Embarque e check-in prioritários",
+    "BENEFIT_UPGRADES": "Elegibilidade para upgrades e lista de espera",
+    "BENEFIT_BONUS": "Milhas bônus em cada voo",
+    "CTA_VIEW": "Ver detalhes"
+  },
   "TRIPS": {
     "ARIA_LABEL": "Próximas viagens",
     "TITLE": "Próximas viagens",

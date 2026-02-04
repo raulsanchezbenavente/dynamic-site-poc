@@ -59,7 +59,7 @@
                     "secondaryText": "",
                     "components": [
                       {
-                        "component": "que miras?",
+                        "component": "accountSettings_uiplus",
                         "span": 12
                       }
                     ]
@@ -71,7 +71,7 @@
                     "secondaryText": "",
                     "components": [
                       {
-                        "component": "que miras?",
+                        "component": "eliteStatus_uiplus",
                         "span": 12
                       }
                     ]
