@@ -229,6 +229,12 @@
   cursor: pointer;
 }
 
+.pay-action-btn:disabled,
+.pay-action-btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .pay-summary {
   display: grid;
   gap: 16px;

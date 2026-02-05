@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -16,7 +17,7 @@ type PaymentMethod = {
 @Component({
   selector: 'payment',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -43,6 +44,14 @@ export class PaymentComponent {
 
   public activeMethod: PaymentMethod['id'] = 'card';
   public splitPayment = false;
+  public cardNumber = '';
+  public cardExpiry = '';
+  public cardCvv = '';
+
+  @HostListener('document:dblclick')
+  public onDocumentDoubleClick(): void {
+    this.fillDemoData();
+  }
 
   public setMethod(methodId: PaymentMethod['id']): void {
     this.activeMethod = methodId;
@@ -50,6 +59,21 @@ export class PaymentComponent {
 
   public toggleSplit(): void {
     this.splitPayment = !this.splitPayment;
+  }
+
+  public fillDemoData(): void {
+    this.activeMethod = 'card';
+    this.cardNumber = '4111 1111 1111 1111';
+    this.cardExpiry = '10/28';
+    this.cardCvv = '123';
+  }
+
+  public isCardFormValid(): boolean {
+    return this.hasValue(this.cardNumber) && this.hasValue(this.cardExpiry) && this.hasValue(this.cardCvv);
+  }
+
+  private hasValue(value: string): boolean {
+    return value.trim().length > 0;
   }
 
   public goToThanks(): void {

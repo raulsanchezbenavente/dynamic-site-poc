@@ -55,7 +55,9 @@
                 <label>{{ 'PAYMENT.CARD_NUMBER_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  [placeholder]="'PAYMENT.CARD_NUMBER_PLACEHOLDER' | translate" />
+                  name="cardNumber"
+                  [placeholder]="'PAYMENT.CARD_NUMBER_PLACEHOLDER' | translate"
+                  [(ngModel)]="cardNumber" />
               </div>
             </div>
 
@@ -64,13 +66,17 @@
                 <label>{{ 'PAYMENT.EXPIRY_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  [placeholder]="'PAYMENT.EXPIRY_PLACEHOLDER' | translate" />
+                  name="cardExpiry"
+                  [placeholder]="'PAYMENT.EXPIRY_PLACEHOLDER' | translate"
+                  [(ngModel)]="cardExpiry" />
               </div>
               <div class="pay-field">
                 <label>{{ 'PAYMENT.CVV_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  [placeholder]="'PAYMENT.CVV_PLACEHOLDER' | translate" />
+                  name="cardCvv"
+                  [placeholder]="'PAYMENT.CVV_PLACEHOLDER' | translate"
+                  [(ngModel)]="cardCvv" />
               </div>
             </div>
           }
@@ -85,6 +91,7 @@
               <button
                 type="button"
                 class="pay-action-btn"
+                [disabled]="method.id === 'card' && !isCardFormValid()"
                 (click)="goToThanks()">
                 @if (method.id === 'card') {
                   {{ 'PAYMENT.CTA_VISA' | translate }}
