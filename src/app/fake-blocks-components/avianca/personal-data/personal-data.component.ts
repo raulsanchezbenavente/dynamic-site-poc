@@ -21,6 +21,7 @@ export class PersonalDataComponent {
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
   private translate = inject(TranslateService);
+  private lastTap = 0;
 
   public activeTab: 'adult' | 'holder' = 'adult';
   public adultName = '';
@@ -40,6 +41,16 @@ export class PersonalDataComponent {
   @HostListener('document:dblclick')
   public onDocumentDoubleClick(): void {
     this.fillDemoData();
+  }
+
+  @HostListener('document:touchend', ['$event'])
+  public onDocumentTouchEnd(event: TouchEvent): void {
+    const now = Date.now();
+    if (now - this.lastTap < 300) {
+      event.preventDefault();
+      this.fillDemoData();
+    }
+    this.lastTap = now;
   }
 
   public goNext(): void {

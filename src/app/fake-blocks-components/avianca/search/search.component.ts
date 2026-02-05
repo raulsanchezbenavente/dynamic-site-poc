@@ -22,6 +22,7 @@ export class SearchComponent implements AfterViewInit {
   private readonly router = inject(Router);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
+  private lastTap = 0;
   @ViewChild('fromInput', { static: false })
   private fromInput?: ElementRef<HTMLInputElement>;
 
@@ -72,6 +73,16 @@ export class SearchComponent implements AfterViewInit {
   @HostListener('document:dblclick')
   public onDocumentDoubleClick(): void {
     this.fillDemoData();
+  }
+
+  @HostListener('document:touchend', ['$event'])
+  public onDocumentTouchEnd(event: TouchEvent): void {
+    const now = Date.now();
+    if (now - this.lastTap < 300) {
+      event.preventDefault();
+      this.fillDemoData();
+    }
+    this.lastTap = now;
   }
 
   public openFrom(): void {

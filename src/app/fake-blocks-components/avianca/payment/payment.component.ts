@@ -26,6 +26,7 @@ export class PaymentComponent {
   private router = inject(Router);
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
+  private lastTap = 0;
   public methods: PaymentMethod[] = [
     {
       id: 'card',
@@ -51,6 +52,16 @@ export class PaymentComponent {
   @HostListener('document:dblclick')
   public onDocumentDoubleClick(): void {
     this.fillDemoData();
+  }
+
+  @HostListener('document:touchend', ['$event'])
+  public onDocumentTouchEnd(event: TouchEvent): void {
+    const now = Date.now();
+    if (now - this.lastTap < 300) {
+      event.preventDefault();
+      this.fillDemoData();
+    }
+    this.lastTap = now;
   }
 
   public setMethod(methodId: PaymentMethod['id']): void {
