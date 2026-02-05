@@ -8,7 +8,7 @@
           class="ex-card"
           role="button"
           tabindex="0"
-          (click)="openSeatModal()">
+          (click)="openModal(card.id)">
           <div class="ex-card-media">
             <img
               class="ex-card-img"
@@ -50,16 +50,20 @@
   </div>
 </section>
 
-@if (isSeatModalOpen) {
+@if (activeModal) {
   <div
     class="ex-modal"
     role="dialog"
     aria-modal="true"
-    (click)="closeSeatModal()">
+    (click)="closeModal()">
     <div
       class="ex-modal-content"
       (click)="$event.stopPropagation()">
-      <seat-selection (close)="closeSeatModal()"></seat-selection>
+      @if (activeModal === 'seat') {
+        <seat-selection (close)="closeModal()"></seat-selection>
+      } @else {
+        <baggage-selection (close)="closeModal()"></baggage-selection>
+      }
     </div>
   </div>
 }
