@@ -16,7 +16,7 @@ export class SeatSelectionComponent {
   public legs = ['MAD - BOG', 'BOG - AUC', 'AUC - BOG', 'BOG - MAD'];
   public activeLeg = this.legs[0];
 
-  public seatRows = Array.from({ length: 14 }, (_, index) => index + 8);
+  public seatRows = Array.from({ length: 30 }, (_, index) => index + 1);
   public seatColumns = ['A', 'B', 'C', 'aisle', 'D', 'E', 'F', 'G', 'aisle', 'J', 'K'];
 
   public selectedSeat: string | null = null;

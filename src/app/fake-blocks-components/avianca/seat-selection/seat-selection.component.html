@@ -38,8 +38,8 @@
 
       <div class="ss-map">
         <div class="ss-map-header">
-          <div class="ss-map-spacer"></div>
-          <div class="ss-map-labels">
+          <div class="ss-row ss-row--header">
+            <span class="ss-row-label"></span>
             @for (col of seatColumns; track col) {
               @if (col === 'aisle') {
                 <span class="ss-aisle"></span>
@@ -50,32 +50,34 @@
           </div>
         </div>
 
-        <div class="ss-map-grid">
-          @for (row of seatRows; track row) {
-            <div class="ss-row">
-              <span class="ss-row-label">{{ row }}</span>
-              @for (col of seatColumns; track col) {
-                @if (col === 'aisle') {
-                  <span class="ss-aisle"></span>
-                } @else {
-                  @if (isUnavailable(getSeatId(row, col))) {
-                    <span class="ss-seat ss-seat--unavailable">✕</span>
+        <div class="ss-map-scroll">
+          <div class="ss-map-grid">
+            @for (row of seatRows; track row) {
+              <div class="ss-row">
+                <span class="ss-row-label">{{ row }}</span>
+                @for (col of seatColumns; track col) {
+                  @if (col === 'aisle') {
+                    <span class="ss-aisle"></span>
                   } @else {
-                    <button
-                      type="button"
-                      class="ss-seat"
-                      [class.ss-seat--plus]="isPlus(getSeatId(row, col))"
-                      [class.ss-seat--exit]="isExit(getSeatId(row, col))"
-                      [class.ss-seat--selected]="selectedSeat === getSeatId(row, col)"
-                      [attr.aria-label]="'SEAT_SELECTION.SEAT_ARIA' | translate: { seat: getSeatId(row, col) }"
-                      (click)="selectSeat(getSeatId(row, col))">
-                      <span class="ss-seat-icon"></span>
-                    </button>
+                    @if (isUnavailable(getSeatId(row, col))) {
+                      <span class="ss-seat ss-seat--unavailable">✕</span>
+                    } @else {
+                      <button
+                        type="button"
+                        class="ss-seat"
+                        [class.ss-seat--plus]="isPlus(getSeatId(row, col))"
+                        [class.ss-seat--exit]="isExit(getSeatId(row, col))"
+                        [class.ss-seat--selected]="selectedSeat === getSeatId(row, col)"
+                        [attr.aria-label]="'SEAT_SELECTION.SEAT_ARIA' | translate: { seat: getSeatId(row, col) }"
+                        (click)="selectSeat(getSeatId(row, col))">
+                        <span class="ss-seat-icon"></span>
+                      </button>
+                    }
                   }
                 }
-              }
-            </div>
-          }
+              </div>
+            }
+          </div>
         </div>
       </div>
 

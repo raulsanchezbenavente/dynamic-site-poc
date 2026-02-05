@@ -31,25 +31,27 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
           }
         </div>
 
-        <!-- Rows -->
-        @for (row of seatRows; track row) {
-          <div class="d-flex align-items-center justify-content-center mb-1">
-            <div class="seat-label seat-row-number">{{ row }}</div>
+        <div class="seat-scroll">
+          <!-- Rows -->
+          @for (row of seatRows; track row) {
+            <div class="d-flex align-items-center justify-content-center mb-1">
+              <div class="seat-label seat-row-number">{{ row }}</div>
 
-            @for (seat of seatColumns; track seat) {
-              @if (seat === 'aisle') {
-                <div style="width: 20px;"></div>
-              } @else {
-                <div
-                  class="seat-box me-1"
-                  [class.selected]="selectedSeat === seat + row"
-                  (click)="selectSeat(seat + row)">
-                  {{ seat }}
-                </div>
+              @for (seat of seatColumns; track seat) {
+                @if (seat === 'aisle') {
+                  <div style="width: 20px;"></div>
+                } @else {
+                  <div
+                    class="seat-box me-1"
+                    [class.selected]="selectedSeat === seat + row"
+                    (click)="selectSeat(seat + row)">
+                    {{ seat }}
+                  </div>
+                }
               }
-            }
-          </div>
-        }
+            </div>
+          }
+        </div>
       </div>
 
       <div class="text-center mt-4">
@@ -106,6 +108,12 @@ import { BookingProgressService } from '../../services/booking-progress/booking-
         background-color: #198754;
         color: white;
         border-color: #145c32;
+      }
+
+      .seat-scroll {
+        max-height: 360px;
+        overflow-y: auto;
+        padding-right: 4px;
       }
     `,
   ],

@@ -105,28 +105,37 @@
   margin-bottom: 6px;
 }
 
-.ss-map-spacer {
-  width: 28px;
-}
-
-.ss-map-labels {
-  display: grid;
-  grid-template-columns: repeat(11, 1fr);
-  gap: 6px;
-  justify-items: center;
+.ss-map-scroll {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-gutter: stable;
 }
 
 .ss-col {
   font-weight: 700;
   font-size: 12px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .ss-row {
   display: grid;
-  grid-template-columns: 28px repeat(11, 1fr);
+  grid-template-columns: 28px 24px 24px 24px 12px 24px 24px 24px 24px 12px 24px 24px;
   gap: 6px;
   align-items: center;
   margin-bottom: 6px;
+}
+
+.ss-row--header {
+  margin-bottom: 8px;
+}
+
+.ss-row--header .ss-row-label {
+  opacity: 0;
 }
 
 .ss-row-label {
