@@ -148,6 +148,23 @@
     "FREQUENT_FLYER": "I have a lifemiles frequent flyer number or one from another partner airline (optional)",
     "CTA_CONTINUE": "Continue"
   },
+  "SEAT_SELECTION": {
+    "TITLE": "Seat selection",
+    "CLOSE": "Close",
+    "SEAT_SELECTED": "Seat {{ seat }} selected",
+    "NO_SEAT_SELECTED": "No seat selected",
+    "SEAT_ARIA": "Seat {{ seat }}",
+    "FLIGHT": "Flight {{ code }}",
+    "AIRCRAFT": "{{ model }}",
+    "LEGEND_PLUS": "Plus",
+    "LEGEND_EXIT": "Exit row",
+    "LEGEND_ECONOMY": "Economy",
+    "LEGEND_SELECTED": "Selected seat",
+    "LEGEND_UNAVAILABLE": "Seat unavailable",
+    "FROM_PRICE": "From {{ price }}",
+    "TOTAL_PRICE_LABEL": "Total price for all flights",
+    "NEXT_FLIGHT": "Next flight"
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Account settings",
     "SUBTITLE": "Manage your security, communications, and preferences in one place.",

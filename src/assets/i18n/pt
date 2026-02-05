@@ -148,6 +148,23 @@
     "FREQUENT_FLYER": "Tenho um número de viajante frequente lifemiles ou de outra companhia parceira (opcional)",
     "CTA_CONTINUE": "Continuar"
   },
+  "SEAT_SELECTION": {
+    "TITLE": "Seleção de assentos",
+    "CLOSE": "Fechar",
+    "SEAT_SELECTED": "Assento {{ seat }} selecionado",
+    "NO_SEAT_SELECTED": "Nenhum assento selecionado",
+    "SEAT_ARIA": "Assento {{ seat }}",
+    "FLIGHT": "Voo {{ code }}",
+    "AIRCRAFT": "{{ model }}",
+    "LEGEND_PLUS": "Plus",
+    "LEGEND_EXIT": "Saída de emergência",
+    "LEGEND_ECONOMY": "Economy",
+    "LEGEND_SELECTED": "Assento selecionado",
+    "LEGEND_UNAVAILABLE": "Assento indisponível",
+    "FROM_PRICE": "A partir de {{ price }}",
+    "TOTAL_PRICE_LABEL": "Preço total para todos os voos",
+    "NEXT_FLIGHT": "Próximo voo"
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Configurações da conta",
     "SUBTITLE": "Gerencie sua segurança, comunicações e preferências em um só lugar.",

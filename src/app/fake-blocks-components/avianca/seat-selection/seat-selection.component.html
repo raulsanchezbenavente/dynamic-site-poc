@@ -1,12 +1,12 @@
 <section class="ss-shell">
   <div class="ss-card">
     <header class="ss-header">
-      <h2 class="ss-title">Selección de asientos</h2>
+      <h2 class="ss-title">{{ 'SEAT_SELECTION.TITLE' | translate }}</h2>
       <button
         type="button"
         class="ss-close"
         (click)="close.emit()">
-        Cerrar
+        {{ 'SEAT_SELECTION.CLOSE' | translate }}
       </button>
     </header>
 
@@ -28,9 +28,9 @@
           <div class="ss-passenger-name">Raul Sanchez Ben...</div>
           <div class="ss-passenger-status">
             @if (selectedSeat) {
-              Asiento {{ selectedSeat }} seleccionado
+              {{ 'SEAT_SELECTION.SEAT_SELECTED' | translate: { seat: selectedSeat } }}
             } @else {
-              Sin asiento seleccionado
+              {{ 'SEAT_SELECTION.NO_SEAT_SELECTED' | translate }}
             }
           </div>
         </div>
@@ -67,7 +67,7 @@
                       [class.ss-seat--plus]="isPlus(getSeatId(row, col))"
                       [class.ss-seat--exit]="isExit(getSeatId(row, col))"
                       [class.ss-seat--selected]="selectedSeat === getSeatId(row, col)"
-                      [attr.aria-label]="'Asiento ' + getSeatId(row, col)"
+                      [attr.aria-label]="'SEAT_SELECTION.SEAT_ARIA' | translate: { seat: getSeatId(row, col) }"
                       (click)="selectSeat(getSeatId(row, col))">
                       <span class="ss-seat-icon"></span>
                     </button>
@@ -82,37 +82,38 @@
       <aside class="ss-info">
         <div class="ss-info-card">
           <div class="ss-info-title">Vuelo AV0047</div>
-          <div class="ss-info-sub">Boeing 787-8</div>
+          <div class="ss-info-title">{{ 'SEAT_SELECTION.FLIGHT' | translate: { code: 'AV0047' } }}</div>
+          <div class="ss-info-sub">{{ 'SEAT_SELECTION.AIRCRAFT' | translate: { model: 'Boeing 787-8' } }}</div>
 
           <div class="ss-legend">
             <div class="ss-legend-item">
               <span class="ss-legend-dot ss-legend-dot--plus"></span>
               <div>
-                <div class="ss-legend-name">Plus</div>
-                <div class="ss-legend-price">Desde € 0,00</div>
+                <div class="ss-legend-name">{{ 'SEAT_SELECTION.LEGEND_PLUS' | translate }}</div>
+                <div class="ss-legend-price">{{ 'SEAT_SELECTION.FROM_PRICE' | translate: { price: '€ 0,00' } }}</div>
               </div>
             </div>
             <div class="ss-legend-item">
               <span class="ss-legend-dot ss-legend-dot--exit"></span>
               <div>
-                <div class="ss-legend-name">Salida de emergencia</div>
-                <div class="ss-legend-price">Desde € 0,00</div>
+                <div class="ss-legend-name">{{ 'SEAT_SELECTION.LEGEND_EXIT' | translate }}</div>
+                <div class="ss-legend-price">{{ 'SEAT_SELECTION.FROM_PRICE' | translate: { price: '€ 0,00' } }}</div>
               </div>
             </div>
             <div class="ss-legend-item">
               <span class="ss-legend-dot ss-legend-dot--economy"></span>
               <div>
-                <div class="ss-legend-name">Economy</div>
-                <div class="ss-legend-price">Desde € 0,00</div>
+                <div class="ss-legend-name">{{ 'SEAT_SELECTION.LEGEND_ECONOMY' | translate }}</div>
+                <div class="ss-legend-price">{{ 'SEAT_SELECTION.FROM_PRICE' | translate: { price: '€ 0,00' } }}</div>
               </div>
             </div>
             <div class="ss-legend-item">
               <span class="ss-legend-dot ss-legend-dot--selected"></span>
-              <div class="ss-legend-name">Asiento seleccionado</div>
+              <div class="ss-legend-name">{{ 'SEAT_SELECTION.LEGEND_SELECTED' | translate }}</div>
             </div>
             <div class="ss-legend-item">
               <span class="ss-legend-dot ss-legend-dot--unavailable">✕</span>
-              <div class="ss-legend-name">Asiento no disponible</div>
+              <div class="ss-legend-name">{{ 'SEAT_SELECTION.LEGEND_UNAVAILABLE' | translate }}</div>
             </div>
           </div>
         </div>
@@ -121,13 +122,13 @@
 
     <footer class="ss-footer">
       <div class="ss-total">
-        <span>Precio total para todos los vuelos</span>
+        <span>{{ 'SEAT_SELECTION.TOTAL_PRICE_LABEL' | translate }}</span>
         <strong>€ 0,00</strong>
       </div>
       <button
         type="button"
         class="ss-next">
-        Siguiente vuelo
+        {{ 'SEAT_SELECTION.NEXT_FLIGHT' | translate }}
       </button>
     </footer>
   </div>
