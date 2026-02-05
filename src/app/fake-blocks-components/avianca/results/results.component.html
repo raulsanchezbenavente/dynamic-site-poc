@@ -73,8 +73,14 @@
 
   <div class="fr-results">
     @for (flight of flights; track flight.id) {
-      <article class="fr-card">
-        <div class="fr-card-main">
+      <article
+        class="fr-card"
+        [class.fr-card--open]="expandedFlightId === flight.id">
+        <div
+          class="fr-card-main"
+          role="button"
+          tabindex="0"
+          (click)="toggleFare(flight.id)">
           <div class="fr-time-block">
             <div class="fr-time">{{ flight.departure }}</div>
             <div class="fr-airport">{{ flight.origin }}</div>
@@ -117,6 +123,41 @@
             }
           </div>
         </div>
+
+        @if (expandedFlightId === flight.id) {
+          <div class="fr-fares">
+            @for (fare of fareOptions; track fare.key) {
+              <div
+                class="fr-fare"
+                [class.fr-fare--highlight]="fare.badge"
+                [style.--fare-accent]="fare.accent">
+                <div class="fr-fare-header">
+                  <div class="fr-fare-title">{{ fare.title }}</div>
+                  @if (fare.badge) {
+                    <span class="fr-fare-badge">{{ fare.badge }}</span>
+                  }
+                </div>
+
+                <ul class="fr-fare-list">
+                  @for (perk of fare.perks; track perk.text) {
+                    <li
+                      class="fr-fare-item"
+                      [class.is-muted]="perk.muted">
+                      {{ perk.text }}
+                    </li>
+                  }
+                </ul>
+
+                <button
+                  type="button"
+                  class="fr-fare-cta">
+                  € {{ fare.price }}
+                </button>
+                <div class="fr-fare-note">Precio por pasajero</div>
+              </div>
+            }
+          </div>
+        }
       </article>
     }
   </div>

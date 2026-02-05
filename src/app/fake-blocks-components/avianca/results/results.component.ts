@@ -26,6 +26,15 @@ type FlightResult = {
   badge?: string;
 };
 
+type FareOption = {
+  key: string;
+  title: string;
+  price: string;
+  accent: string;
+  badge?: string;
+  perks: Array<{ text: string; muted?: boolean }>;
+};
+
 @Component({
   selector: 'pb-results',
   standalone: true,
@@ -37,6 +46,8 @@ type FlightResult = {
 export class ResultsComponent {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
+
+  public expandedFlightId: string | null = null;
 
   public dateOptions: DateOption[] = [
     { day: 'RESULTS.DATE_OPTIONS.DATE_1', price: '510,35', date: '2026-02-05' },
@@ -86,11 +97,70 @@ export class ResultsComponent {
     },
   ];
 
+  public fareOptions: FareOption[] = [
+    {
+      key: 'light',
+      title: 'Light',
+      price: '595,35',
+      accent: '#ff2d2d',
+      perks: [
+        { text: '1 artículo personal (bolso)' },
+        { text: '1 equipaje de mano (10 kg)' },
+        { text: 'Acumula 3 LifeMiles por cada USD' },
+        { text: 'Menú a bordo' },
+        { text: 'Equipaje de bodega (23 kg) — desde € 90,00', muted: true },
+        { text: 'Check-in en aeropuerto', muted: true },
+        { text: 'Selección de asientos — desde € 34,51', muted: true },
+        { text: 'Cambios de vuelo', muted: true },
+        { text: 'Reembolsos', muted: true },
+      ],
+    },
+    {
+      key: 'classic',
+      title: 'Classic',
+      price: '642,35',
+      accent: '#b10087',
+      badge: 'MEJOR OPCIÓN',
+      perks: [
+        { text: '1 artículo personal (bolso)' },
+        { text: '1 equipaje de mano (10 kg)' },
+        { text: '1 equipaje de bodega (23 kg)' },
+        { text: 'Check-in en aeropuerto' },
+        { text: 'Asiento Economy incluido' },
+        { text: 'Acumula 6 LifeMiles por cada USD' },
+        { text: 'Menú a bordo' },
+        { text: 'Cambios de vuelo', muted: true },
+        { text: 'Reembolsos', muted: true },
+      ],
+    },
+    {
+      key: 'flex',
+      title: 'Flex',
+      price: '764,35',
+      accent: '#f36c00',
+      perks: [
+        { text: '1 artículo personal (bolso)' },
+        { text: '1 equipaje de mano (10 kg)' },
+        { text: '1 equipaje de bodega (23 kg)' },
+        { text: 'Check-in en aeropuerto' },
+        { text: 'Asiento Plus' },
+        { text: 'Acumula 8 LifeMiles por cada USD' },
+        { text: 'Menú a bordo' },
+        { text: 'Cambios de vuelo' },
+        { text: 'Reembolsos' },
+      ],
+    },
+  ];
+
   public selectDate(option: DateOption): void {
     this.dateOptions = this.dateOptions.map((d) => ({
       ...d,
       active: d.date === option.date,
     }));
+  }
+
+  public toggleFare(flightId: string): void {
+    this.expandedFlightId = this.expandedFlightId === flightId ? null : flightId;
   }
 
   public goToResults(): void {
