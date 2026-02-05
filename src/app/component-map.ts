@@ -9,6 +9,7 @@ import { FindBookingsComponent } from './fake-blocks-components/avianca/find-boo
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card/loyalty-card.component';
 import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer/main-footer.component';
 import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header/main-header.component';
+import { PersonalDataComponent } from './fake-blocks-components/avianca/personal-data/personal-data.component';
 import { ResultsComponent } from './fake-blocks-components/avianca/results/results.component';
 import { SearchComponent } from './fake-blocks-components/avianca/search/search.component';
 import { BaggageSelectionComponent } from './fake-blocks-components/test/baggage-selection';
@@ -41,6 +42,7 @@ export const componentMap: Record<string, Type<any>> = {
   CorporateMainHeaderBlock_uiplus: MainHeaderComponent,
   accountProfile_uiplus: AccountProfileComponent,
   accountSettings_uiplus: AccountSettingsComponent,
+  personalData_uiplus: PersonalDataComponent,
   findBookings_uiplus: FindBookingsComponent,
   eliteStatus_uiplus: EliteStatusComponent,
   CorporateMainFooterBlock_uiplus: MainFooterComponent,

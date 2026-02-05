@@ -75,6 +75,39 @@
       }
     },
     {
+      "pageId": "1-1",
+      "path": "fr/donnees-personnelles",
+      "name": "Données personnelles",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "personalData_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "pageId": "2",
       "path": "fr/membres",
       "name": "Membres",

@@ -1,0 +1,126 @@
+<section class="pd-shell">
+  <h2 class="pd-title">Datos personales</h2>
+
+  <label class="pd-toggle">
+    <input type="checkbox" />
+    <span
+      class="pd-toggle-slider"
+      aria-hidden="true"></span>
+    <span class="pd-toggle-label">Guardar información para próximas compras</span>
+  </label>
+
+  <div class="pd-card">
+    <div class="pd-tabs">
+      <button
+        type="button"
+        class="pd-tab is-active">
+        <span
+          class="pd-tab-icon"
+          aria-hidden="true"
+          >👤</span
+        >
+        <span>Adulto 1</span>
+        <span
+          class="pd-tab-alert"
+          aria-hidden="true"
+          >!</span
+        >
+      </button>
+      <button
+        type="button"
+        class="pd-tab">
+        <span
+          class="pd-tab-icon"
+          aria-hidden="true"
+          >💼</span
+        >
+        <span>Titular de la reserva</span>
+        <span
+          class="pd-tab-alert"
+          aria-hidden="true"
+          >!</span
+        >
+      </button>
+    </div>
+
+    <div class="pd-content">
+      <h3 class="pd-subtitle">Pasajero - Adulto 1</h3>
+      <p class="pd-help">
+        Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de
+        identidad.
+      </p>
+
+      <div class="pd-grid">
+        <div class="pd-field">
+          <label class="pd-label">Nombre</label>
+          <input
+            class="pd-input is-error"
+            placeholder="Nombre" />
+          <div class="pd-error">Por favor, ingresa tu primer nombre.</div>
+        </div>
+        <div class="pd-field">
+          <label class="pd-label">Apellido</label>
+          <input
+            class="pd-input is-error"
+            placeholder="Apellido" />
+          <div class="pd-error">Por favor, ingresa tu primer apellido.</div>
+        </div>
+        <div class="pd-field">
+          <label class="pd-label">Género</label>
+          <select class="pd-input is-error">
+            <option>Género</option>
+            <option>Femenino</option>
+            <option>Masculino</option>
+            <option>Otro</option>
+          </select>
+          <div class="pd-error">Este campo es requerido.</div>
+        </div>
+        <div class="pd-field">
+          <label class="pd-label">Nacionalidad</label>
+          <select class="pd-input is-error">
+            <option>Nacionalidad</option>
+            <option>Colombia</option>
+            <option>España</option>
+            <option>Estados Unidos</option>
+          </select>
+          <div class="pd-error">Se requiere nacionalidad</div>
+        </div>
+      </div>
+
+      <div class="pd-section">
+        <div class="pd-section-title">Ingresa tu fecha de nacimiento:</div>
+        <div class="pd-grid pd-grid--3">
+          <div class="pd-field">
+            <label class="pd-label">Día</label>
+            <input
+              class="pd-input is-error"
+              placeholder="Día" />
+            <div class="pd-error">Este campo es obligatorio</div>
+          </div>
+          <div class="pd-field">
+            <label class="pd-label">Mes</label>
+            <select class="pd-input is-error">
+              <option>Mes</option>
+              <option>Enero</option>
+              <option>Febrero</option>
+              <option>Marzo</option>
+            </select>
+            <div class="pd-error">Este campo es obligatorio</div>
+          </div>
+          <div class="pd-field">
+            <label class="pd-label">Año</label>
+            <input
+              class="pd-input is-error"
+              placeholder="Año" />
+            <div class="pd-error">Este campo es obligatorio</div>
+          </div>
+        </div>
+      </div>
+
+      <label class="pd-checkbox">
+        <input type="checkbox" />
+        <span>Tengo un número de viajero frecuente lifemiles o de otra aerolínea aliada (opcional)</span>
+      </label>
+    </div>
+  </div>
+</section>
