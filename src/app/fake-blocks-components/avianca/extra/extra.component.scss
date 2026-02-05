@@ -1,0 +1,128 @@
+:host {
+  display: block;
+}
+
+.ex-shell {
+  padding: 20px clamp(16px, 4vw, 40px) 32px;
+  box-sizing: border-box;
+}
+
+.ex-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.ex-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.ex-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.ex-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.ex-card-media {
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px;
+  min-height: 110px;
+}
+
+.ex-card-img {
+  max-width: 100%;
+  max-height: 120px;
+  object-fit: contain;
+}
+
+.ex-card-body {
+  padding: 14px 16px 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.ex-card-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #111827;
+}
+
+.ex-card-desc {
+  font-size: 12px;
+  color: #111827;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.ex-card-footer {
+  margin-top: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #111827;
+}
+
+.ex-card-from {
+  font-size: 12px;
+  color: #6b7280;
+  display: block;
+}
+
+.ex-card-amount {
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.ex-card-arrow {
+  font-size: 22px;
+  color: #e11d48;
+}
+
+.ex-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
+.ex-continue {
+  border: 0;
+  background: #111827;
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+@media (max-width: 1100px) {
+  .ex-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 860px) {
+  .ex-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .ex-grid {
+    grid-template-columns: 1fr;
+  }
+}

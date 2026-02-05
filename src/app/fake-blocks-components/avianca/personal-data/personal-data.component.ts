@@ -24,8 +24,8 @@ export class PersonalDataComponent {
 
   public goNext(): void {
     const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('2', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/members`);
+    const path = this.siteConfig.getPathByPageId('1-2', lang);
+    this.router.navigateByUrl(path ?? `/${lang}/${path}`);
   }
 
   public setTab(tab: 'adult' | 'holder'): void {

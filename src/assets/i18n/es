@@ -242,6 +242,44 @@
     "INFO_REQUIREMENTS_TITLE": "Requisitos para viajar",
     "INFO_REQUIREMENTS_SUB": "Infórmate sobre visas, vacunas y demás documentos."
   },
+  "EXTRAS": {
+    "TITLE": "Servicios adicionales",
+    "PRICE_FROM": "Desde",
+    "PRICE_FREE": "Gratis",
+    "CTA_CONTINUE": "Continuar",
+    "CARDS": {
+      "SEAT": {
+        "TITLE": "Elige tu asiento",
+        "DESC": "Vuela en tu asiento favorito y con mejor precio que en el aeropuerto.",
+        "ALT": "Asientos de avión"
+      },
+      "BAGGAGE": {
+        "TITLE": "Equipaje adicional",
+        "DESC": "¡No esperes al aeropuerto! Ahorra tiempo y dinero añadiéndolo ahora.",
+        "ALT": "Maletas"
+      },
+      "LOUNGE": {
+        "TITLE": "Avianca Lounges",
+        "DESC": "Espera tu vuelo con todas las comodidades.",
+        "ALT": "Sillón de lounge"
+      },
+      "SPORTS": {
+        "TITLE": "Equipaje deportivo",
+        "DESC": "¡Con nosotros puedes volar y llevar tu pasión a todas partes!",
+        "ALT": "Bolsa de golf"
+      },
+      "ASSIST": {
+        "TITLE": "Asistencia en viaje",
+        "DESC": "Cobertura médica, legal y de imprevistos, en tu próximo destino.",
+        "ALT": "Documento de asistencia"
+      },
+      "PRIORITY": {
+        "TITLE": "Abordaje prioritario",
+        "DESC": "Evita filas y sé de los primeros en subir al avión.",
+        "ALT": "Tarjeta de abordaje"
+      }
+    }
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Salida de Madrid a Arauca — Dom, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

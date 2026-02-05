@@ -23,6 +23,10 @@ export class ProgressAsynGuard implements CanActivate {
     'es/datos-personales',
     'fr/donnees-personnelles',
     'pt/dados-pessoais',
+    'en/extras',
+    'es/extras',
+    'fr/extras',
+    'pt/extras',
   ]);
 
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {

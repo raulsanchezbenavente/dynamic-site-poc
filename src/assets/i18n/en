@@ -242,6 +242,44 @@
     "INFO_REQUIREMENTS_TITLE": "Travel requirements",
     "INFO_REQUIREMENTS_SUB": "Learn about visas, vaccines, and other documents."
   },
+  "EXTRAS": {
+    "TITLE": "Additional services",
+    "PRICE_FROM": "From",
+    "PRICE_FREE": "Free",
+    "CTA_CONTINUE": "Continue",
+    "CARDS": {
+      "SEAT": {
+        "TITLE": "Choose your seat",
+        "DESC": "Fly in your favorite seat with a better price than at the airport.",
+        "ALT": "Airplane seats"
+      },
+      "BAGGAGE": {
+        "TITLE": "Additional baggage",
+        "DESC": "Skip the airport lines. Save time and money by adding it now.",
+        "ALT": "Suitcases"
+      },
+      "LOUNGE": {
+        "TITLE": "Avianca Lounges",
+        "DESC": "Wait for your flight with all the comforts.",
+        "ALT": "Lounge chair"
+      },
+      "SPORTS": {
+        "TITLE": "Sports equipment",
+        "DESC": "With us you can fly and take your passion everywhere!",
+        "ALT": "Golf bag"
+      },
+      "ASSIST": {
+        "TITLE": "Travel assistance",
+        "DESC": "Medical, legal, and unexpected coverage for your next destination.",
+        "ALT": "Insurance document"
+      },
+      "PRIORITY": {
+        "TITLE": "Priority boarding",
+        "DESC": "Skip the lines and be among the first to board the aircraft.",
+        "ALT": "Boarding pass"
+      }
+    }
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Departing Madrid to Arauca — Sun, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

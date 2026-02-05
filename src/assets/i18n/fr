@@ -242,6 +242,44 @@
     "INFO_REQUIREMENTS_TITLE": "Conditions de voyage",
     "INFO_REQUIREMENTS_SUB": "Renseignez-vous sur les visas, les vaccins et les autres documents."
   },
+  "EXTRAS": {
+    "TITLE": "Services additionnels",
+    "PRICE_FROM": "À partir de",
+    "PRICE_FREE": "Gratuit",
+    "CTA_CONTINUE": "Continuer",
+    "CARDS": {
+      "SEAT": {
+        "TITLE": "Choisissez votre siège",
+        "DESC": "Voyagez dans votre siège préféré à un meilleur prix qu’à l’aéroport.",
+        "ALT": "Sièges d’avion"
+      },
+      "BAGGAGE": {
+        "TITLE": "Bagage supplémentaire",
+        "DESC": "Ne faites pas la queue à l’aéroport. Gagnez du temps et de l’argent en l’ajoutant maintenant.",
+        "ALT": "Valises"
+      },
+      "LOUNGE": {
+        "TITLE": "Avianca Lounges",
+        "DESC": "Attendez votre vol avec tout le confort.",
+        "ALT": "Fauteuil de salon"
+      },
+      "SPORTS": {
+        "TITLE": "Équipement sportif",
+        "DESC": "Avec nous, vous pouvez voyager et emporter votre passion partout !",
+        "ALT": "Sac de golf"
+      },
+      "ASSIST": {
+        "TITLE": "Assistance voyage",
+        "DESC": "Couverture médicale, juridique et imprévus pour votre prochaine destination.",
+        "ALT": "Document d’assistance"
+      },
+      "PRIORITY": {
+        "TITLE": "Embarquement prioritaire",
+        "DESC": "Évitez les files et soyez parmi les premiers à embarquer.",
+        "ALT": "Carte d’embarquement"
+      }
+    }
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Départ de Madrid vers Arauca — Dim, 08 févr. 2026",
     "SUMMARY_DATES": "08 févr. – 11 févr.",
