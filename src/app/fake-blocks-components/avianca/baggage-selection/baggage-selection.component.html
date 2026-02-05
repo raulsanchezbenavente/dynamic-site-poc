@@ -93,7 +93,8 @@
       </label>
       <button
         type="button"
-        class="bs-footer-cta">
+        class="bs-footer-cta"
+        (click)="close.emit()">
         {{ 'BAGGAGE_SELECTION.CTA_SAVE' | translate }}
       </button>
     </footer>
