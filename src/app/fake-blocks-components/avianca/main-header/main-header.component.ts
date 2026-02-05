@@ -1,14 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostListener,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    HostListener,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -330,5 +330,15 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         }
       }
     }
+  }
+
+  public homePath(): string {
+    const lang = this.activeLang();
+    return this.siteConfig.getPathByPageId('0', lang) ?? '/';
+  }
+
+  public goHome(event: MouseEvent): void {
+    event.preventDefault();
+    this.router.navigateByUrl(this.homePath());
   }
 }

@@ -78,8 +78,9 @@
     <div class="lm-left">
       <a
         class="lm-logo"
-        href="#"
-        aria-label="Avianca">
+        [attr.href]="homePath()"
+        aria-label="Avianca"
+        (click)="goHome($event)">
         <span class="lm-logo-text">avianca</span>
         <svg
           class="lm-logo-mark"
