@@ -129,21 +129,21 @@
             @for (fare of fareOptions; track fare.key) {
               <div
                 class="fr-fare"
-                [class.fr-fare--highlight]="fare.badge"
+                [class.fr-fare--highlight]="fare.badgeKey"
                 [style.--fare-accent]="fare.accent">
                 <div class="fr-fare-header">
-                  <div class="fr-fare-title">{{ fare.title }}</div>
-                  @if (fare.badge) {
-                    <span class="fr-fare-badge">{{ fare.badge }}</span>
+                  <div class="fr-fare-title">{{ fare.titleKey | translate }}</div>
+                  @if (fare.badgeKey) {
+                    <span class="fr-fare-badge">{{ fare.badgeKey | translate }}</span>
                   }
                 </div>
 
                 <ul class="fr-fare-list">
-                  @for (perk of fare.perks; track perk.text) {
+                  @for (perk of fare.perks; track perk.textKey) {
                     <li
                       class="fr-fare-item"
                       [class.is-muted]="perk.muted">
-                      {{ perk.text }}
+                      {{ perk.textKey | translate: perk.params }}
                     </li>
                   }
                 </ul>
@@ -153,7 +153,7 @@
                   class="fr-fare-cta">
                   € {{ fare.price }}
                 </button>
-                <div class="fr-fare-note">Precio por pasajero</div>
+                <div class="fr-fare-note">{{ 'RESULTS.FARES.PRICE_NOTE' | translate }}</div>
               </div>
             }
           </div>

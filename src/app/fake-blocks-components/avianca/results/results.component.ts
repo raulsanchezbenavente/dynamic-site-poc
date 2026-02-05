@@ -28,11 +28,11 @@ type FlightResult = {
 
 type FareOption = {
   key: string;
-  title: string;
+  titleKey: string;
   price: string;
   accent: string;
-  badge?: string;
-  perks: Array<{ text: string; muted?: boolean }>;
+  badgeKey?: string;
+  perks: Array<{ textKey: string; params?: Record<string, string | number>; muted?: boolean }>;
 };
 
 @Component({
@@ -100,54 +100,62 @@ export class ResultsComponent {
   public fareOptions: FareOption[] = [
     {
       key: 'light',
-      title: 'Light',
+      titleKey: 'RESULTS.FARES.LIGHT.TITLE',
       price: '595,35',
       accent: '#ff2d2d',
       perks: [
-        { text: '1 artículo personal (bolso)' },
-        { text: '1 equipaje de mano (10 kg)' },
-        { text: 'Acumula 3 LifeMiles por cada USD' },
-        { text: 'Menú a bordo' },
-        { text: 'Equipaje de bodega (23 kg) — desde € 90,00', muted: true },
-        { text: 'Check-in en aeropuerto', muted: true },
-        { text: 'Selección de asientos — desde € 34,51', muted: true },
-        { text: 'Cambios de vuelo', muted: true },
-        { text: 'Reembolsos', muted: true },
+        { textKey: 'RESULTS.FARES.PERKS.PERSONAL_ITEM' },
+        { textKey: 'RESULTS.FARES.PERKS.CARRY_ON_10KG' },
+        { textKey: 'RESULTS.FARES.PERKS.EARN_MILES_3' },
+        { textKey: 'RESULTS.FARES.PERKS.MEAL_ONBOARD' },
+        {
+          textKey: 'RESULTS.FARES.PERKS.CHECKED_BAG_FROM',
+          params: { price: '€ 90,00' },
+          muted: true,
+        },
+        { textKey: 'RESULTS.FARES.PERKS.AIRPORT_CHECKIN', muted: true },
+        {
+          textKey: 'RESULTS.FARES.PERKS.SEAT_SELECTION_FROM',
+          params: { price: '€ 34,51' },
+          muted: true,
+        },
+        { textKey: 'RESULTS.FARES.PERKS.FLIGHT_CHANGES', muted: true },
+        { textKey: 'RESULTS.FARES.PERKS.REFUNDS', muted: true },
       ],
     },
     {
       key: 'classic',
-      title: 'Classic',
+      titleKey: 'RESULTS.FARES.CLASSIC.TITLE',
       price: '642,35',
       accent: '#b10087',
-      badge: 'MEJOR OPCIÓN',
+      badgeKey: 'RESULTS.FARES.BADGE_BEST_OPTION',
       perks: [
-        { text: '1 artículo personal (bolso)' },
-        { text: '1 equipaje de mano (10 kg)' },
-        { text: '1 equipaje de bodega (23 kg)' },
-        { text: 'Check-in en aeropuerto' },
-        { text: 'Asiento Economy incluido' },
-        { text: 'Acumula 6 LifeMiles por cada USD' },
-        { text: 'Menú a bordo' },
-        { text: 'Cambios de vuelo', muted: true },
-        { text: 'Reembolsos', muted: true },
+        { textKey: 'RESULTS.FARES.PERKS.PERSONAL_ITEM' },
+        { textKey: 'RESULTS.FARES.PERKS.CARRY_ON_10KG' },
+        { textKey: 'RESULTS.FARES.PERKS.CHECKED_BAG_23KG' },
+        { textKey: 'RESULTS.FARES.PERKS.AIRPORT_CHECKIN' },
+        { textKey: 'RESULTS.FARES.PERKS.ECONOMY_SEAT_INCLUDED' },
+        { textKey: 'RESULTS.FARES.PERKS.EARN_MILES_6' },
+        { textKey: 'RESULTS.FARES.PERKS.MEAL_ONBOARD' },
+        { textKey: 'RESULTS.FARES.PERKS.FLIGHT_CHANGES', muted: true },
+        { textKey: 'RESULTS.FARES.PERKS.REFUNDS', muted: true },
       ],
     },
     {
       key: 'flex',
-      title: 'Flex',
+      titleKey: 'RESULTS.FARES.FLEX.TITLE',
       price: '764,35',
       accent: '#f36c00',
       perks: [
-        { text: '1 artículo personal (bolso)' },
-        { text: '1 equipaje de mano (10 kg)' },
-        { text: '1 equipaje de bodega (23 kg)' },
-        { text: 'Check-in en aeropuerto' },
-        { text: 'Asiento Plus' },
-        { text: 'Acumula 8 LifeMiles por cada USD' },
-        { text: 'Menú a bordo' },
-        { text: 'Cambios de vuelo' },
-        { text: 'Reembolsos' },
+        { textKey: 'RESULTS.FARES.PERKS.PERSONAL_ITEM' },
+        { textKey: 'RESULTS.FARES.PERKS.CARRY_ON_10KG' },
+        { textKey: 'RESULTS.FARES.PERKS.CHECKED_BAG_23KG' },
+        { textKey: 'RESULTS.FARES.PERKS.AIRPORT_CHECKIN' },
+        { textKey: 'RESULTS.FARES.PERKS.SEAT_PLUS' },
+        { textKey: 'RESULTS.FARES.PERKS.EARN_MILES_8' },
+        { textKey: 'RESULTS.FARES.PERKS.MEAL_ONBOARD' },
+        { textKey: 'RESULTS.FARES.PERKS.FLIGHT_CHANGES' },
+        { textKey: 'RESULTS.FARES.PERKS.REFUNDS' },
       ],
     },
   ];

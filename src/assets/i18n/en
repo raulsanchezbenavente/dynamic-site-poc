@@ -210,6 +210,35 @@
       "AVIANCA": "Operated by Avianca"
     },
     "BADGE_BEST_PRICE": "Best price",
+    "FARES": {
+      "PRICE_NOTE": "Price per passenger",
+      "BADGE_BEST_OPTION": "Best option",
+      "LIGHT": {
+        "TITLE": "Light"
+      },
+      "CLASSIC": {
+        "TITLE": "Classic"
+      },
+      "FLEX": {
+        "TITLE": "Flex"
+      },
+      "PERKS": {
+        "PERSONAL_ITEM": "1 personal item (bag)",
+        "CARRY_ON_10KG": "1 carry-on bag (10 kg)",
+        "EARN_MILES_3": "Earn 3 LifeMiles per USD",
+        "EARN_MILES_6": "Earn 6 LifeMiles per USD",
+        "EARN_MILES_8": "Earn 8 LifeMiles per USD",
+        "MEAL_ONBOARD": "Onboard meal",
+        "CHECKED_BAG_FROM": "Checked bag (23 kg) — from {{ price }}",
+        "CHECKED_BAG_23KG": "Checked bag (23 kg)",
+        "AIRPORT_CHECKIN": "Airport check-in",
+        "SEAT_SELECTION_FROM": "Seat selection — from {{ price }}",
+        "ECONOMY_SEAT_INCLUDED": "Economy seat included",
+        "SEAT_PLUS": "Seat Plus",
+        "FLIGHT_CHANGES": "Flight changes",
+        "REFUNDS": "Refunds"
+      }
+    },
     "DATE_OPTIONS": {
       "DATE_1": "Thu, Feb 05",
       "DATE_2": "Fri, Feb 06",
