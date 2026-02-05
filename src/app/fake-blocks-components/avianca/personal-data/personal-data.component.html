@@ -22,11 +22,13 @@
           >👤</span
         >
         <span>{{ 'PERSONAL_DATA.TAB_ADULT' | translate }}</span>
-        <span
-          class="pd-tab-alert"
-          aria-hidden="true"
-          >!</span
-        >
+        @if (!isAdultFormValid()) {
+          <span
+            class="pd-tab-alert"
+            aria-hidden="true"
+            >!</span
+          >
+        }
       </button>
       <button
         type="button"
@@ -39,11 +41,13 @@
           >💼</span
         >
         <span>{{ 'PERSONAL_DATA.TAB_HOLDER' | translate }}</span>
-        <span
-          class="pd-tab-alert"
-          aria-hidden="true"
-          >!</span
-        >
+        @if (!isHolderFormValid()) {
+          <span
+            class="pd-tab-alert"
+            aria-hidden="true"
+            >!</span
+          >
+        }
       </button>
     </div>
 
