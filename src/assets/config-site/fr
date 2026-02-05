@@ -42,7 +42,7 @@
       }
     },
     {
-      "pageId": "11",
+      "pageId": "1",
       "path": "fr/résultats",
       "name": "Résultats",
       "layout": {
@@ -75,7 +75,7 @@
       }
     },
     {
-      "pageId": "1",
+      "pageId": "2",
       "path": "fr/membres",
       "name": "Membres",
       "layout": {
