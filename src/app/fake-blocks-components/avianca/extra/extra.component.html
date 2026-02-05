@@ -4,7 +4,11 @@
 
     <div class="ex-grid">
       @for (card of extras; track card.titleKey) {
-        <article class="ex-card">
+        <article
+          class="ex-card"
+          role="button"
+          tabindex="0"
+          (click)="openSeatModal()">
           <div class="ex-card-media">
             <img
               class="ex-card-img"
@@ -45,3 +49,17 @@
     </div>
   </div>
 </section>
+
+@if (isSeatModalOpen) {
+  <div
+    class="ex-modal"
+    role="dialog"
+    aria-modal="true"
+    (click)="closeSeatModal()">
+    <div
+      class="ex-modal-content"
+      (click)="$event.stopPropagation()">
+      <seat-selection (close)="closeSeatModal()"></seat-selection>
+    </div>
+  </div>
+}

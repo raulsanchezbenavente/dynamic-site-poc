@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
+
 type ExtraCard = {
   titleKey: string;
   descriptionKey: string;
@@ -15,12 +17,14 @@ type ExtraCard = {
 @Component({
   selector: 'extra',
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, SeatSelectionComponent],
   templateUrl: './extra.component.html',
   styleUrl: './extra.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExtraComponent {
+  public isSeatModalOpen = false;
+
   public extras: ExtraCard[] = [
     {
       titleKey: 'EXTRAS.CARDS.SEAT.TITLE',
@@ -71,4 +75,12 @@ export class ExtraComponent {
       imageAltKey: 'EXTRAS.CARDS.PRIORITY.ALT',
     },
   ];
+
+  public openSeatModal(): void {
+    this.isSeatModalOpen = true;
+  }
+
+  public closeSeatModal(): void {
+    this.isSeatModalOpen = false;
+  }
 }
