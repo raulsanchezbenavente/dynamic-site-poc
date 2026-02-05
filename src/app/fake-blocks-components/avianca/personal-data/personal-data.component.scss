@@ -197,6 +197,27 @@
   height: 18px;
 }
 
+.pd-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.pd-next {
+  border: 0;
+  background: #111;
+  color: #fff;
+  font-weight: 800;
+  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.pd-next:hover {
+  background: #000;
+}
+
 @media (max-width: 900px) {
   .pd-grid {
     grid-template-columns: 1fr;

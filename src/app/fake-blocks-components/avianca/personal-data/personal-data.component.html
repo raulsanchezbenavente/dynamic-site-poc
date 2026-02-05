@@ -1,25 +1,27 @@
 <section class="pd-shell">
-  <h2 class="pd-title">Datos personales</h2>
+  <h2 class="pd-title">{{ 'PERSONAL_DATA.TITLE' | translate }}</h2>
 
   <label class="pd-toggle">
     <input type="checkbox" />
     <span
       class="pd-toggle-slider"
       aria-hidden="true"></span>
-    <span class="pd-toggle-label">Guardar información para próximas compras</span>
+    <span class="pd-toggle-label">{{ 'PERSONAL_DATA.SAVE_INFO' | translate }}</span>
   </label>
 
   <div class="pd-card">
     <div class="pd-tabs">
       <button
         type="button"
-        class="pd-tab is-active">
+        class="pd-tab"
+        [class.is-active]="activeTab === 'adult'"
+        (click)="setTab('adult')">
         <span
           class="pd-tab-icon"
           aria-hidden="true"
           >👤</span
         >
-        <span>Adulto 1</span>
+        <span>{{ 'PERSONAL_DATA.TAB_ADULT' | translate }}</span>
         <span
           class="pd-tab-alert"
           aria-hidden="true"
@@ -28,13 +30,15 @@
       </button>
       <button
         type="button"
-        class="pd-tab">
+        class="pd-tab"
+        [class.is-active]="activeTab === 'holder'"
+        (click)="setTab('holder')">
         <span
           class="pd-tab-icon"
           aria-hidden="true"
           >💼</span
         >
-        <span>Titular de la reserva</span>
+        <span>{{ 'PERSONAL_DATA.TAB_HOLDER' | translate }}</span>
         <span
           class="pd-tab-alert"
           aria-hidden="true"
@@ -44,83 +48,150 @@
     </div>
 
     <div class="pd-content">
-      <h3 class="pd-subtitle">Pasajero - Adulto 1</h3>
-      <p class="pd-help">
-        Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de
-        identidad.
-      </p>
+      @if (activeTab === 'adult') {
+        <form>
+          <h3 class="pd-subtitle">{{ 'PERSONAL_DATA.ADULT_SUBTITLE' | translate }}</h3>
+          <p class="pd-help">{{ 'PERSONAL_DATA.ADULT_HELP' | translate }}</p>
 
-      <div class="pd-grid">
-        <div class="pd-field">
-          <label class="pd-label">Nombre</label>
-          <input
-            class="pd-input is-error"
-            placeholder="Nombre" />
-          <div class="pd-error">Por favor, ingresa tu primer nombre.</div>
-        </div>
-        <div class="pd-field">
-          <label class="pd-label">Apellido</label>
-          <input
-            class="pd-input is-error"
-            placeholder="Apellido" />
-          <div class="pd-error">Por favor, ingresa tu primer apellido.</div>
-        </div>
-        <div class="pd-field">
-          <label class="pd-label">Género</label>
-          <select class="pd-input is-error">
-            <option>Género</option>
-            <option>Femenino</option>
-            <option>Masculino</option>
-            <option>Otro</option>
-          </select>
-          <div class="pd-error">Este campo es requerido.</div>
-        </div>
-        <div class="pd-field">
-          <label class="pd-label">Nacionalidad</label>
-          <select class="pd-input is-error">
-            <option>Nacionalidad</option>
-            <option>Colombia</option>
-            <option>España</option>
-            <option>Estados Unidos</option>
-          </select>
-          <div class="pd-error">Se requiere nacionalidad</div>
-        </div>
-      </div>
+          <div class="pd-grid">
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_GENDER' | translate }}</label>
+              <select class="pd-input">
+                <option>{{ 'PERSONAL_DATA.OPTION_GENDER' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_FEMALE' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_MALE' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_OTHER' | translate }}</option>
+              </select>
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NATIONALITY' | translate }}</label>
+              <select class="pd-input">
+                <option>{{ 'PERSONAL_DATA.OPTION_NATIONALITY' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_CO' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_ES' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_US' | translate }}</option>
+              </select>
+            </div>
+          </div>
 
-      <div class="pd-section">
-        <div class="pd-section-title">Ingresa tu fecha de nacimiento:</div>
-        <div class="pd-grid pd-grid--3">
-          <div class="pd-field">
-            <label class="pd-label">Día</label>
-            <input
-              class="pd-input is-error"
-              placeholder="Día" />
-            <div class="pd-error">Este campo es obligatorio</div>
+          <div class="pd-section">
+            <div class="pd-section-title">{{ 'PERSONAL_DATA.SECTION_DOB' | translate }}</div>
+            <div class="pd-grid pd-grid--3">
+              <div class="pd-field">
+                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DAY' | translate }}</label>
+                <input
+                  class="pd-input"
+                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DAY' | translate" />
+              </div>
+              <div class="pd-field">
+                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_MONTH' | translate }}</label>
+                <select class="pd-input">
+                  <option>{{ 'PERSONAL_DATA.OPTION_MONTH' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_JAN' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_FEB' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_MAR' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_APR' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_MAY' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_JUN' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_JUL' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_AUG' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_SEP' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_OCT' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_NOV' | translate }}</option>
+                  <option>{{ 'PERSONAL_DATA.MONTH_DEC' | translate }}</option>
+                </select>
+              </div>
+              <div class="pd-field">
+                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_YEAR' | translate }}</label>
+                <input
+                  class="pd-input"
+                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_YEAR' | translate" />
+              </div>
+            </div>
           </div>
-          <div class="pd-field">
-            <label class="pd-label">Mes</label>
-            <select class="pd-input is-error">
-              <option>Mes</option>
-              <option>Enero</option>
-              <option>Febrero</option>
-              <option>Marzo</option>
-            </select>
-            <div class="pd-error">Este campo es obligatorio</div>
-          </div>
-          <div class="pd-field">
-            <label class="pd-label">Año</label>
-            <input
-              class="pd-input is-error"
-              placeholder="Año" />
-            <div class="pd-error">Este campo es obligatorio</div>
-          </div>
-        </div>
-      </div>
 
-      <label class="pd-checkbox">
-        <input type="checkbox" />
-        <span>Tengo un número de viajero frecuente lifemiles o de otra aerolínea aliada (opcional)</span>
-      </label>
+          <label class="pd-checkbox">
+            <input type="checkbox" />
+            <span>{{ 'PERSONAL_DATA.FREQUENT_FLYER' | translate }}</span>
+          </label>
+
+          <div class="pd-actions">
+            <button
+              type="button"
+              class="pd-next"
+              (click)="goNext()">
+              {{ 'PERSONAL_DATA.CTA_CONTINUE' | translate }}
+            </button>
+          </div>
+        </form>
+      } @else {
+        <form>
+          <h3 class="pd-subtitle">{{ 'PERSONAL_DATA.HOLDER_SUBTITLE' | translate }}</h3>
+          <p class="pd-help">{{ 'PERSONAL_DATA.HOLDER_HELP' | translate }}</p>
+
+          <div class="pd-grid">
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DOC_TYPE' | translate }}</label>
+              <select class="pd-input">
+                <option>{{ 'PERSONAL_DATA.OPTION_DOC' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_PASSPORT' | translate }}</option>
+                <option>{{ 'PERSONAL_DATA.OPTION_DNI' | translate }}</option>
+              </select>
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DOC_NUMBER' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DOC_NUMBER' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_EMAIL' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_EMAIL' | translate" />
+            </div>
+            <div class="pd-field">
+              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_PHONE' | translate }}</label>
+              <input
+                class="pd-input"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_PHONE' | translate" />
+            </div>
+          </div>
+
+          <div class="pd-actions">
+            <button
+              type="button"
+              class="pd-next"
+              (click)="goNext()">
+              {{ 'PERSONAL_DATA.CTA_CONTINUE' | translate }}
+            </button>
+          </div>
+        </form>
+      }
     </div>
   </div>
 </section>
