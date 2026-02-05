@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { BookingProgressService } from '../../../services/booking-progress/booking-progress.service';
+import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
+import { AppLang } from '../../../services/site-config/models/langs.model';
+import { SiteConfigService } from '../../../services/site-config/site-config.service';
 
 type DateOption = {
   day: string;
@@ -46,6 +49,8 @@ type FareOption = {
 export class ResultsComponent {
   private progress = inject(BookingProgressService);
   private router = inject(Router);
+  private routerHelper = inject(RouterHelperService);
+  private siteConfig = inject(SiteConfigService);
 
   public expandedFlightId: string | null = null;
 
@@ -169,6 +174,12 @@ export class ResultsComponent {
 
   public toggleFare(flightId: string): void {
     this.expandedFlightId = this.expandedFlightId === flightId ? null : flightId;
+  }
+
+  public selectFare(): void {
+    const lang = this.routerHelper.language as AppLang;
+    const path = this.siteConfig.getPathByPageId('1-1', lang);
+    this.router.navigateByUrl(path ?? `/${lang}/personal-data`);
   }
 
   public goToResults(): void {

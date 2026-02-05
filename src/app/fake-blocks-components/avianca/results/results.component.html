@@ -150,7 +150,8 @@
 
                 <button
                   type="button"
-                  class="fr-fare-cta">
+                  class="fr-fare-cta"
+                  (click)="selectFare(); $event.stopPropagation()">
                   € {{ fare.price }}
                 </button>
                 <div class="fr-fare-note">{{ 'RESULTS.FARES.PRICE_NOTE' | translate }}</div>
