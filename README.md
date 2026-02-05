@@ -11,7 +11,10 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 - 📍 Dynamic routing based on JSON config site
 - 🎯 Visual components styled with Bootstrap 5
 - 🌍 i18n with per-language site configs (ngx-translate)
+- 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Booking flow guard with local progress + API token
+- 🗓️ Selectable date carousel in results
+- 🗺️ Results page localized (EN/ES/FR/PT)
 - ✅ Full flow: search → results → baggage → seat → payment → confirmation
 
 ---
@@ -55,6 +58,7 @@ src/
 │   │   │   ├── loyalty-card/
 │   │   │   ├── main-footer/
 │   │   │   ├── main-header/
+│   │   │   ├── results/
 │   │   │   └── search/
 │   │   └── test/
 │   │       ├── banner.component.ts
@@ -114,7 +118,7 @@ Then visit:
 
 ## 🧰 How it Works
 
-1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language.
+1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
 
 2. `DynamicPageComponent` renders pages dynamically via `block-outlet`.
 
@@ -125,7 +129,7 @@ Then visit:
 ## 📄 Pages Overview
 
 - **Home / Search**: landing page with header, banner, and the flight search form.
-- **Results**: shows available flight options and fare cards.
+- **Results**: shows available flight options, fare cards, and a selectable date carousel (localized).
 - **Baggage**: lets the user select baggage allowances per passenger.
 - **Seatmap**: seat selection step with a visual layout.
 - **Payment**: captures payment method and traveler details.
