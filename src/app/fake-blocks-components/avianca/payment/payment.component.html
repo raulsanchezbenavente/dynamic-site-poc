@@ -1,7 +1,7 @@
 <section class="pay-shell">
   <div class="pay-grid">
     <div class="pay-main">
-      <h2 class="pay-title">Selecciona tu método de pago</h2>
+      <h2 class="pay-title">{{ 'PAYMENT.TITLE' | translate }}</h2>
 
       @for (method of methods; track method.id) {
         <div class="pay-card">
@@ -14,7 +14,7 @@
               class="pay-radio"
               [class.is-active]="activeMethod === method.id"></div>
             <div class="pay-method">
-              <span>{{ method.label }}</span>
+              <span>{{ method.label | translate }}</span>
               @if (method.logos?.length) {
                 <div class="pay-logos">
                   @for (logo of method.logos; track logo) {
@@ -43,41 +43,41 @@
                 (click)="toggleSplit()">
                 <span class="pay-switch-knob"></span>
               </button>
-              <div class="pay-toggle-text">Dividir el pago de tus vuelos en dos tarjetas diferentes</div>
+              <div class="pay-toggle-text">{{ 'PAYMENT.SPLIT_TOGGLE' | translate }}</div>
               <span class="pay-info">i</span>
             </div>
 
-            <div class="pay-section-title">Información de la tarjeta</div>
+            <div class="pay-section-title">{{ 'PAYMENT.CARD_INFO_TITLE' | translate }}</div>
 
             <div class="pay-field">
               <span class="pay-field-icon">💳</span>
               <div class="pay-field-body">
-                <label>Número de tarjeta</label>
+                <label>{{ 'PAYMENT.CARD_NUMBER_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  placeholder="Ingresa tu tarjeta crédito, débito o Avianca UATP" />
+                  [placeholder]="'PAYMENT.CARD_NUMBER_PLACEHOLDER' | translate" />
               </div>
             </div>
 
             <div class="pay-row">
               <div class="pay-field">
-                <label>MM/AA</label>
+                <label>{{ 'PAYMENT.EXPIRY_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  placeholder="Fecha de expiración" />
+                  [placeholder]="'PAYMENT.EXPIRY_PLACEHOLDER' | translate" />
               </div>
               <div class="pay-field">
-                <label>CVV</label>
+                <label>{{ 'PAYMENT.CVV_LABEL' | translate }}</label>
                 <input
                   type="text"
-                  placeholder="Código de seguridad" />
+                  [placeholder]="'PAYMENT.CVV_PLACEHOLDER' | translate" />
               </div>
             </div>
           }
 
           @if (activeMethod === method.id && method.id !== 'card') {
             <div class="pay-divider"></div>
-            <div class="pay-alt-info">Serás redirigido a {{ method.label }} para completar el pago.</div>
+            <div class="pay-alt-info">{{ 'PAYMENT.REDIRECT' | translate: { method: (method.label | translate) } }}</div>
           }
 
           @if (activeMethod === method.id) {
@@ -86,11 +86,11 @@
                 type="button"
                 class="pay-action-btn">
                 @if (method.id === 'card') {
-                  Pagar con Visa
+                  {{ 'PAYMENT.CTA_VISA' | translate }}
                 } @else if (method.id === 'paypal') {
-                  Ir a PayPal
+                  {{ 'PAYMENT.CTA_PAYPAL' | translate }}
                 } @else {
-                  Ir a Apple Pay
+                  {{ 'PAYMENT.CTA_APPLEPAY' | translate }}
                 }
               </button>
             </div>
@@ -101,37 +101,37 @@
 
     <aside class="pay-summary">
       <div class="pay-summary-card">
-        <h3>Resumen de compra</h3>
+        <h3>{{ 'PAYMENT.SUMMARY_TITLE' | translate }}</h3>
         <div class="pay-summary-row">
-          <span>Precio de tiquetes</span>
+          <span>{{ 'PAYMENT.SUMMARY_TICKETS' | translate }}</span>
           <strong>€1,542.00 EUR</strong>
         </div>
         <div class="pay-summary-row">
-          <span>Impuestos, tasas y cargos</span>
+          <span>{{ 'PAYMENT.SUMMARY_TAXES' | translate }}</span>
           <strong>€100.32 EUR</strong>
         </div>
         <div class="pay-summary-row">
-          <span>Precio de servicios</span>
+          <span>{{ 'PAYMENT.SUMMARY_SERVICES' | translate }}</span>
           <strong>€0.00 EUR</strong>
         </div>
         <div class="pay-summary-total">
           <div>
-            <div class="pay-total-label">Total</div>
-            <div class="pay-total-sub">Incluye impuestos, recargos y servicios.</div>
+            <div class="pay-total-label">{{ 'PAYMENT.SUMMARY_TOTAL' | translate }}</div>
+            <div class="pay-total-sub">{{ 'PAYMENT.SUMMARY_TOTAL_SUB' | translate }}</div>
           </div>
           <strong>€1,642.32 EUR</strong>
         </div>
       </div>
 
       <div class="pay-summary-card">
-        <h3>Tu selección</h3>
+        <h3>{{ 'PAYMENT.SELECTION_TITLE' | translate }}</h3>
         <div class="pay-flight">
-          <div class="pay-flight-title">Vuelo de salida | dom, 08 feb</div>
+          <div class="pay-flight-title">{{ 'PAYMENT.FLIGHT_OUT' | translate }}</div>
           <div class="pay-flight-row">
             <span>01:20</span>
             <div class="pay-flight-line">
               <span class="pay-flight-dot"></span>
-              <span>1 parada | BOG</span>
+              <span>{{ 'PAYMENT.FLIGHT_STOP' | translate }}</span>
               <span class="pay-flight-dot"></span>
             </div>
             <span>11:55</span>
@@ -141,31 +141,31 @@
             <span>10h 35m</span>
             <span>AUC</span>
           </div>
-          <div class="pay-fare-tag pay-fare-tag--flex">Flex</div>
+          <div class="pay-fare-tag pay-fare-tag--flex">{{ 'PAYMENT.FARE_FLEX' | translate }}</div>
           <div class="pay-flight-code">AV047, AV4832</div>
         </div>
 
         <div class="pay-flight">
-          <div class="pay-flight-title">Vuelo de regreso | mié, 11 feb</div>
+          <div class="pay-flight-title">{{ 'PAYMENT.FLIGHT_RETURN' | translate }}</div>
           <div class="pay-flight-row">
             <span>12:25</span>
             <div class="pay-flight-line">
               <span class="pay-flight-dot"></span>
-              <span>1 parada | BOG</span>
+              <span>{{ 'PAYMENT.FLIGHT_STOP' | translate }}</span>
               <span class="pay-flight-dot"></span>
             </div>
-            <span>08:50 <small>+1 Día</small></span>
+            <span>08:50 <small>{{ 'PAYMENT.NEXT_DAY' | translate }}</small></span>
           </div>
           <div class="pay-flight-row">
             <span>AUC</span>
             <span>20h 25m</span>
             <span>MAD</span>
           </div>
-          <div class="pay-fare-tag pay-fare-tag--classic">Classic</div>
+          <div class="pay-fare-tag pay-fare-tag--classic">{{ 'PAYMENT.FARE_CLASSIC' | translate }}</div>
           <div class="pay-flight-code">AV4831, AV182</div>
         </div>
 
-        <div class="pay-terms">Condiciones de compra</div>
+        <div class="pay-terms">{{ 'PAYMENT.TERMS' | translate }}</div>
       </div>
     </aside>
   </div>

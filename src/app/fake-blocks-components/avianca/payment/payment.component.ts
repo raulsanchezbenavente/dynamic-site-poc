@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 type PaymentMethod = {
   id: 'card' | 'paypal' | 'applepay';
@@ -10,7 +11,7 @@ type PaymentMethod = {
 @Component({
   selector: 'payment',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './payment.component.html',
   styleUrl: './payment.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,16 +20,16 @@ export class PaymentComponent {
   public methods: PaymentMethod[] = [
     {
       id: 'card',
-      label: 'Tarjeta de crédito y débito',
+      label: 'PAYMENT.METHOD_CARD',
       logos: ['VISA', 'MC', 'AMEX'],
     },
     {
       id: 'paypal',
-      label: 'PayPal',
+      label: 'PAYMENT.METHOD_PAYPAL',
     },
     {
       id: 'applepay',
-      label: 'Apple Pay',
+      label: 'PAYMENT.METHOD_APPLEPAY',
     },
   ];
 
