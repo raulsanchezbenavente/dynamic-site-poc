@@ -218,6 +218,12 @@
   background: #000;
 }
 
+.pd-next:disabled,
+.pd-next[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 900px) {
   .pd-grid {
     grid-template-columns: 1fr;
