@@ -9,13 +9,15 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 - ✨ Dynamic architecture driven by configuration (`site-config` endpoint)
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON config site
-- 🎯 Visual components styled with Bootstrap 5
+- 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Booking flow guard with local progress + API token
 - 🗓️ Selectable date carousel in results
 - 🗺️ Results page localized (EN/ES/FR/PT)
-- ✅ Full flow: search → results → baggage → seat → payment → confirmation
+- ✅ Full flow: search → results → personal data → extras → payment → thank you
+- 🧩 Extras with seat + baggage modals
+- ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 
 ---
 
@@ -59,7 +61,13 @@ src/
 │   │   │   ├── main-footer/
 │   │   │   ├── main-header/
 │   │   │   ├── results/
-│   │   │   └── search/
+│   │   │   ├── search/
+│   │   │   ├── personal-data/
+│   │   │   ├── extra/
+│   │   │   ├── seat-selection/
+│   │   │   ├── baggage-selection/
+│   │   │   ├── payment/
+│   │   │   └── thank-you/
 │   │   └── test/
 │   │       ├── banner.component.ts
 │   │       ├── search.component.ts
@@ -130,10 +138,10 @@ Then visit:
 
 - **Home / Search**: landing page with header, banner, and the flight search form.
 - **Results**: shows available flight options, fare cards, and a selectable date carousel (localized).
-- **Baggage**: lets the user select baggage allowances per passenger.
-- **Seatmap**: seat selection step with a visual layout.
+- **Personal data**: traveler and holder details with validation.
+- **Extras**: seat and baggage selection (modals).
 - **Payment**: captures payment method and traveler details.
-- **Confirmation**: displays booking summary and success state.
+- **Thank you**: confirmation state and CTA.
 
 ---
 
