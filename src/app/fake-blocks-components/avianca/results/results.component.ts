@@ -86,6 +86,13 @@ export class ResultsComponent {
     },
   ];
 
+  public selectDate(option: DateOption): void {
+    this.dateOptions = this.dateOptions.map((d) => ({
+      ...d,
+      active: d.date === option.date,
+    }));
+  }
+
   public goToResults(): void {
     // this.progress.completeStep('results');
     // this.router.navigate(['baggage-selection']);

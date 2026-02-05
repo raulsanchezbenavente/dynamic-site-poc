@@ -38,7 +38,9 @@
         <button
           type="button"
           class="fr-date"
-          [class.fr-date--active]="d.active">
+          [class.fr-date--active]="d.active"
+          [attr.aria-pressed]="d.active"
+          (click)="selectDate(d)">
           <div class="fr-date-day">{{ d.day | translate }}</div>
           <div class="fr-date-price">{{ 'RESULTS.DATE_PRICE' | translate: { price: d.price } }}</div>
         </button>
