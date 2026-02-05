@@ -69,6 +69,11 @@ export class SearchComponent implements AfterViewInit {
     }
   }
 
+  @HostListener('document:dblclick')
+  public onDocumentDoubleClick(): void {
+    this.fillDemoData();
+  }
+
   public openFrom(): void {
     this.fromOpen = true;
     this.toOpen = false;
@@ -89,6 +94,31 @@ export class SearchComponent implements AfterViewInit {
     this.toQuery = value;
     this.to = value;
     this.openTo();
+  }
+
+  public fillDemoData(): void {
+    const fromOption = this.airportOptions.find((item) => item.code === 'BOG') ?? this.airportOptions[0];
+    const toOption = this.airportOptions.find((item) => item.code === 'MAD') ?? this.airportOptions[1];
+    const today = new Date();
+    const departureDate = new Date(today);
+    departureDate.setDate(today.getDate() + 10);
+    const returnDate = new Date(today);
+    returnDate.setDate(today.getDate() + 20);
+
+    this.tripType = 'round';
+    this.adults = 1;
+    this.teens = 0;
+    this.kids = 0;
+    this.infants = 0;
+    this.from = this.formatOption(fromOption);
+    this.to = this.formatOption(toOption);
+    this.fromQuery = this.from;
+    this.toQuery = this.to;
+    this.departure = this.formatDate(departureDate);
+    this.returnDate = this.formatDate(returnDate);
+    this.fromOpen = false;
+    this.toOpen = false;
+    this.passengersOpen = false;
   }
 
   public selectFrom(option: { cityKey: string; countryKey: string; code: string }): void {
@@ -155,6 +185,13 @@ export class SearchComponent implements AfterViewInit {
     const city = this.translate.instant(option.cityKey);
     const country = this.translate.instant(option.countryKey);
     return `${city} (${country}) ${option.code}`;
+  }
+
+  private formatDate(date: Date): string {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   public isFormValid(): boolean {

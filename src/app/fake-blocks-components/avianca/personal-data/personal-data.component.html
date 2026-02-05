@@ -63,7 +63,9 @@
               <input
                 id="pd-adult-name"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
+                name="adultName"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate"
+                [(ngModel)]="adultName" />
             </div>
             <div class="pd-field">
               <label
@@ -74,7 +76,9 @@
               <input
                 id="pd-adult-lastname"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
+                name="adultLastName"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate"
+                [(ngModel)]="adultLastName" />
             </div>
             <div class="pd-field">
               <label
@@ -84,8 +88,14 @@
               >
               <select
                 id="pd-adult-gender"
-                class="pd-input">
-                <option>{{ 'PERSONAL_DATA.OPTION_GENDER' | translate }}</option>
+                class="pd-input"
+                name="adultGender"
+                [(ngModel)]="adultGender">
+                <option
+                  value=""
+                  disabled>
+                  {{ 'PERSONAL_DATA.OPTION_GENDER' | translate }}
+                </option>
                 <option>{{ 'PERSONAL_DATA.OPTION_FEMALE' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_MALE' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_OTHER' | translate }}</option>
@@ -99,15 +109,20 @@
               >
               <select
                 id="pd-adult-nationality"
-                class="pd-input">
-                <option>{{ 'PERSONAL_DATA.OPTION_NATIONALITY' | translate }}</option>
+                class="pd-input"
+                name="adultNationality"
+                [(ngModel)]="adultNationality">
+                <option
+                  value=""
+                  disabled>
+                  {{ 'PERSONAL_DATA.OPTION_NATIONALITY' | translate }}
+                </option>
                 <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_CO' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_ES' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_US' | translate }}</option>
               </select>
             </div>
           </div>
-
           <div class="pd-section">
             <div class="pd-section-title">{{ 'PERSONAL_DATA.SECTION_DOB' | translate }}</div>
             <div class="pd-grid pd-grid--3">
@@ -120,7 +135,9 @@
                 <input
                   id="pd-adult-day"
                   class="pd-input"
-                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DAY' | translate" />
+                  name="adultDay"
+                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DAY' | translate"
+                  [(ngModel)]="adultDay" />
               </div>
               <div class="pd-field">
                 <label
@@ -130,8 +147,14 @@
                 >
                 <select
                   id="pd-adult-month"
-                  class="pd-input">
-                  <option>{{ 'PERSONAL_DATA.OPTION_MONTH' | translate }}</option>
+                  class="pd-input"
+                  name="adultMonth"
+                  [(ngModel)]="adultMonth">
+                  <option
+                    value=""
+                    disabled>
+                    {{ 'PERSONAL_DATA.OPTION_MONTH' | translate }}
+                  </option>
                   <option>{{ 'PERSONAL_DATA.MONTH_JAN' | translate }}</option>
                   <option>{{ 'PERSONAL_DATA.MONTH_FEB' | translate }}</option>
                   <option>{{ 'PERSONAL_DATA.MONTH_MAR' | translate }}</option>
@@ -155,7 +178,9 @@
                 <input
                   id="pd-adult-year"
                   class="pd-input"
-                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_YEAR' | translate" />
+                  name="adultYear"
+                  [placeholder]="'PERSONAL_DATA.PLACEHOLDER_YEAR' | translate"
+                  [(ngModel)]="adultYear" />
               </div>
             </div>
           </div>
@@ -169,6 +194,7 @@
             <button
               type="button"
               class="pd-next"
+              [disabled]="!isAdultFormValid()"
               (click)="goNext()">
               {{ 'PERSONAL_DATA.CTA_CONTINUE' | translate }}
             </button>
@@ -189,7 +215,9 @@
               <input
                 id="pd-holder-name"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
+                name="holderName"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate"
+                [(ngModel)]="holderName" />
             </div>
             <div class="pd-field">
               <label
@@ -200,7 +228,9 @@
               <input
                 id="pd-holder-lastname"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
+                name="holderLastName"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate"
+                [(ngModel)]="holderLastName" />
             </div>
             <div class="pd-field">
               <label
@@ -210,8 +240,14 @@
               >
               <select
                 id="pd-holder-doc-type"
-                class="pd-input">
-                <option>{{ 'PERSONAL_DATA.OPTION_DOC' | translate }}</option>
+                class="pd-input"
+                name="holderDocType"
+                [(ngModel)]="holderDocType">
+                <option
+                  value=""
+                  disabled>
+                  {{ 'PERSONAL_DATA.OPTION_DOC' | translate }}
+                </option>
                 <option>{{ 'PERSONAL_DATA.OPTION_PASSPORT' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_DNI' | translate }}</option>
               </select>
@@ -225,7 +261,9 @@
               <input
                 id="pd-holder-doc-number"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DOC_NUMBER' | translate" />
+                name="holderDocNumber"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DOC_NUMBER' | translate"
+                [(ngModel)]="holderDocNumber" />
             </div>
             <div class="pd-field">
               <label
@@ -236,7 +274,9 @@
               <input
                 id="pd-holder-email"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_EMAIL' | translate" />
+                name="holderEmail"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_EMAIL' | translate"
+                [(ngModel)]="holderEmail" />
             </div>
             <div class="pd-field">
               <label
@@ -247,7 +287,9 @@
               <input
                 id="pd-holder-phone"
                 class="pd-input"
-                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_PHONE' | translate" />
+                name="holderPhone"
+                [placeholder]="'PERSONAL_DATA.PLACEHOLDER_PHONE' | translate"
+                [(ngModel)]="holderPhone" />
             </div>
           </div>
 
@@ -255,6 +297,7 @@
             <button
               type="button"
               class="pd-next"
+              [disabled]="!isHolderFormValid()"
               (click)="goNext()">
               {{ 'PERSONAL_DATA.CTA_CONTINUE' | translate }}
             </button>
