@@ -55,20 +55,36 @@
 
           <div class="pd-grid">
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-adult-name"
+                >{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label
+              >
               <input
+                id="pd-adult-name"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-adult-lastname"
+                >{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label
+              >
               <input
+                id="pd-adult-lastname"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_GENDER' | translate }}</label>
-              <select class="pd-input">
+              <label
+                class="pd-label"
+                for="pd-adult-gender"
+                >{{ 'PERSONAL_DATA.FIELD_GENDER' | translate }}</label
+              >
+              <select
+                id="pd-adult-gender"
+                class="pd-input">
                 <option>{{ 'PERSONAL_DATA.OPTION_GENDER' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_FEMALE' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_MALE' | translate }}</option>
@@ -76,8 +92,14 @@
               </select>
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NATIONALITY' | translate }}</label>
-              <select class="pd-input">
+              <label
+                class="pd-label"
+                for="pd-adult-nationality"
+                >{{ 'PERSONAL_DATA.FIELD_NATIONALITY' | translate }}</label
+              >
+              <select
+                id="pd-adult-nationality"
+                class="pd-input">
                 <option>{{ 'PERSONAL_DATA.OPTION_NATIONALITY' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_CO' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_COUNTRY_ES' | translate }}</option>
@@ -90,14 +112,25 @@
             <div class="pd-section-title">{{ 'PERSONAL_DATA.SECTION_DOB' | translate }}</div>
             <div class="pd-grid pd-grid--3">
               <div class="pd-field">
-                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DAY' | translate }}</label>
+                <label
+                  class="pd-label"
+                  for="pd-adult-day"
+                  >{{ 'PERSONAL_DATA.FIELD_DAY' | translate }}</label
+                >
                 <input
+                  id="pd-adult-day"
                   class="pd-input"
                   [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DAY' | translate" />
               </div>
               <div class="pd-field">
-                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_MONTH' | translate }}</label>
-                <select class="pd-input">
+                <label
+                  class="pd-label"
+                  for="pd-adult-month"
+                  >{{ 'PERSONAL_DATA.FIELD_MONTH' | translate }}</label
+                >
+                <select
+                  id="pd-adult-month"
+                  class="pd-input">
                   <option>{{ 'PERSONAL_DATA.OPTION_MONTH' | translate }}</option>
                   <option>{{ 'PERSONAL_DATA.MONTH_JAN' | translate }}</option>
                   <option>{{ 'PERSONAL_DATA.MONTH_FEB' | translate }}</option>
@@ -114,8 +147,13 @@
                 </select>
               </div>
               <div class="pd-field">
-                <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_YEAR' | translate }}</label>
+                <label
+                  class="pd-label"
+                  for="pd-adult-year"
+                  >{{ 'PERSONAL_DATA.FIELD_YEAR' | translate }}</label
+                >
                 <input
+                  id="pd-adult-year"
                   class="pd-input"
                   [placeholder]="'PERSONAL_DATA.PLACEHOLDER_YEAR' | translate" />
               </div>
@@ -143,40 +181,71 @@
 
           <div class="pd-grid">
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-holder-name"
+                >{{ 'PERSONAL_DATA.FIELD_NAME' | translate }}</label
+              >
               <input
+                id="pd-holder-name"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_NAME' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-holder-lastname"
+                >{{ 'PERSONAL_DATA.FIELD_LASTNAME' | translate }}</label
+              >
               <input
+                id="pd-holder-lastname"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_LASTNAME' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DOC_TYPE' | translate }}</label>
-              <select class="pd-input">
+              <label
+                class="pd-label"
+                for="pd-holder-doc-type"
+                >{{ 'PERSONAL_DATA.FIELD_DOC_TYPE' | translate }}</label
+              >
+              <select
+                id="pd-holder-doc-type"
+                class="pd-input">
                 <option>{{ 'PERSONAL_DATA.OPTION_DOC' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_PASSPORT' | translate }}</option>
                 <option>{{ 'PERSONAL_DATA.OPTION_DNI' | translate }}</option>
               </select>
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_DOC_NUMBER' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-holder-doc-number"
+                >{{ 'PERSONAL_DATA.FIELD_DOC_NUMBER' | translate }}</label
+              >
               <input
+                id="pd-holder-doc-number"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_DOC_NUMBER' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_EMAIL' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-holder-email"
+                >{{ 'PERSONAL_DATA.FIELD_EMAIL' | translate }}</label
+              >
               <input
+                id="pd-holder-email"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_EMAIL' | translate" />
             </div>
             <div class="pd-field">
-              <label class="pd-label">{{ 'PERSONAL_DATA.FIELD_PHONE' | translate }}</label>
+              <label
+                class="pd-label"
+                for="pd-holder-phone"
+                >{{ 'PERSONAL_DATA.FIELD_PHONE' | translate }}</label
+              >
               <input
+                id="pd-holder-phone"
                 class="pd-input"
                 [placeholder]="'PERSONAL_DATA.PLACEHOLDER_PHONE' | translate" />
             </div>
