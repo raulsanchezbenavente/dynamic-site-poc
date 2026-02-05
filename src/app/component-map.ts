@@ -9,6 +9,7 @@ import { FindBookingsComponent } from './fake-blocks-components/avianca/find-boo
 import { LoyaltyOverviewCardComponent } from './fake-blocks-components/avianca/loyalty-card/loyalty-card.component';
 import { MainFooterComponent } from './fake-blocks-components/avianca/main-footer/main-footer.component';
 import { MainHeaderComponent } from './fake-blocks-components/avianca/main-header/main-header.component';
+import { ResultsComponent } from './fake-blocks-components/avianca/results/results.component';
 import { SearchComponent } from './fake-blocks-components/avianca/search/search.component';
 import { BaggageSelectionComponent } from './fake-blocks-components/test/baggage-selection';
 import { BannerComponent } from './fake-blocks-components/test/banner.component';
@@ -18,7 +19,7 @@ import { FooterComponent } from './fake-blocks-components/test/footer.component'
 import { HeaderComponent } from './fake-blocks-components/test/header.component';
 import { PaymentMethodsComponent } from './fake-blocks-components/test/payment-methods.component';
 import { PaymentSuccessComponent } from './fake-blocks-components/test/payment-success.component';
-import { ResultsComponent } from './fake-blocks-components/test/results.component';
+import { ResultsComponent as ResultsComponentTest } from './fake-blocks-components/test/results.component';
 import { SearchComponent as SearchComponentTest } from './fake-blocks-components/test/search.component';
 import { SeatmapComponent } from './fake-blocks-components/test/seatmap.component';
 
@@ -28,7 +29,7 @@ export const componentMap: Record<string, Type<any>> = {
   banner: BannerComponent,
   search: SearchComponentTest,
   footer: FooterComponent,
-  results: ResultsComponent,
+  results: ResultsComponentTest,
   'baggage-selection': BaggageSelectionComponent,
   seatmap: SeatmapComponent,
   'payment-methods': PaymentMethodsComponent,
@@ -45,4 +46,5 @@ export const componentMap: Record<string, Type<any>> = {
   CorporateMainFooterBlock_uiplus: MainFooterComponent,
   SearchComponentBlock_uiplus: SearchComponent,
   AdsComponentBlock_uiplus: AdsComponent,
+  results_uiplus: ResultsComponent,
 };
