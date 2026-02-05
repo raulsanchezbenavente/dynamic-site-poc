@@ -1,0 +1,119 @@
+<section class="fr-shell">
+  <header class="fr-hero">
+    <div class="fr-route">
+      <span class="fr-route-icon">✈️</span>
+      <h2 class="fr-route-title">Salida de Madrid a Arauca — Dom, Feb 08, 2026</h2>
+    </div>
+
+    <div class="fr-summary">
+      <div class="fr-summary-item">
+        <span class="fr-summary-label">MAD</span>
+        <span class="fr-summary-sep">⇄</span>
+        <span class="fr-summary-label">AUC</span>
+      </div>
+      <div class="fr-summary-item">
+        <span class="fr-summary-label">08 Feb – 11 Feb</span>
+      </div>
+      <div class="fr-summary-item">
+        <span class="fr-summary-label">1 Adulto</span>
+      </div>
+      <button
+        type="button"
+        class="fr-summary-link">
+        Modificar
+      </button>
+    </div>
+  </header>
+
+  <div class="fr-dates">
+    <button
+      type="button"
+      class="fr-date-nav"
+      aria-label="Anterior">
+      ‹
+    </button>
+
+    <div class="fr-date-list">
+      @for (d of dateOptions; track d.date) {
+        <button
+          type="button"
+          class="fr-date"
+          [class.fr-date--active]="d.active">
+          <div class="fr-date-day">{{ d.day }}</div>
+          <div class="fr-date-price">Desde € {{ d.price }}</div>
+        </button>
+      }
+    </div>
+
+    <button
+      type="button"
+      class="fr-date-nav"
+      aria-label="Siguiente">
+      ›
+    </button>
+  </div>
+
+  <div class="fr-filters">
+    <div class="fr-filter">
+      <span class="fr-filter-icon">⏵</span>
+      <span class="fr-filter-label">Recomendado:</span>
+      <span class="fr-filter-chip">Mejor precio</span>
+    </div>
+
+    <div class="fr-alert">
+      <span class="fr-alert-icon">⟳</span>
+      <span class="fr-alert-text">
+        <strong>Reserva ahora.</strong> Es posible que los precios suban en los próximos días.
+      </span>
+      <span class="fr-alert-info">i</span>
+    </div>
+  </div>
+
+  <div class="fr-results">
+    @for (flight of flights; track flight.id) {
+      <article class="fr-card">
+        <div class="fr-card-main">
+          <div class="fr-time-block">
+            <div class="fr-time">{{ flight.departure }}</div>
+            <div class="fr-airport">{{ flight.origin }}</div>
+          </div>
+
+          <div class="fr-path">
+            <div class="fr-stops">{{ flight.stops }}</div>
+            <div class="fr-line">
+              <span class="fr-dot"></span>
+              <span class="fr-dash"></span>
+              <span class="fr-plane">✈</span>
+              <span class="fr-dash"></span>
+              <span class="fr-dot"></span>
+            </div>
+            <div class="fr-duration">{{ flight.duration }}</div>
+          </div>
+
+          <div class="fr-time-block fr-time-block--right">
+            <div class="fr-time">{{ flight.arrival }}</div>
+            <div class="fr-airport">{{ flight.destination }}</div>
+          </div>
+
+          <div class="fr-price">
+            <div class="fr-price-label">Desde</div>
+            <div class="fr-price-value">€ {{ flight.price }}</div>
+          </div>
+        </div>
+
+        <div class="fr-card-footer">
+          <div class="fr-operator">{{ flight.operatedBy }}</div>
+
+          <div class="fr-tags">
+            @if (flight.badge) {
+              <span class="fr-tag fr-tag--success">{{ flight.badge }}</span>
+            }
+            @if (flight.seatsLeft) {
+              <span class="fr-tag fr-tag--soft">Quedan {{ flight.seatsLeft }} asientos</span>
+            }
+          </div>
+        </div>
+      </article>
+    }
+  </div>
+</section>
