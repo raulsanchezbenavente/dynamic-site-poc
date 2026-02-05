@@ -186,5 +186,37 @@
     "INFO_HELP_SUB": "Trouvez des informations utiles pour répondre à vos questions.",
     "INFO_REQUIREMENTS_TITLE": "Conditions de voyage",
     "INFO_REQUIREMENTS_SUB": "Renseignez-vous sur les visas, les vaccins et les autres documents."
+  },
+  "RESULTS": {
+    "ROUTE_TITLE": "Départ de Madrid vers Arauca — Dim, 08 févr. 2026",
+    "SUMMARY_DATES": "08 févr. – 11 févr.",
+    "SUMMARY_PASSENGERS": "1 Adulte",
+    "SUMMARY_EDIT": "Modifier",
+    "NAV_PREV": "Précédent",
+    "NAV_NEXT": "Suivant",
+    "DATE_PRICE": "À partir de € {{ price }}",
+    "FILTER_RECOMMENDED": "Recommandé :",
+    "FILTER_BEST_PRICE": "Meilleur prix",
+    "ALERT_TITLE": "Réservez maintenant.",
+    "ALERT_TEXT": "Les prix peuvent augmenter dans les prochains jours.",
+    "PRICE_FROM": "À partir de",
+    "SEATS_LEFT": "{{ count }} sièges restants",
+    "STOPS": {
+      "ONE_STOP": "1 escale"
+    },
+    "OPERATED_BY": {
+      "AVIANCA_CLIC": "Opéré par Avianca et Clic For Avianca Express",
+      "AVIANCA_CLIC_AIR": "Opéré par Avianca et Clic Air S.A.",
+      "AVIANCA": "Opéré par Avianca"
+    },
+    "BADGE_BEST_PRICE": "Meilleur prix",
+    "DATE_OPTIONS": {
+      "DATE_1": "Jeu, 05 févr.",
+      "DATE_2": "Ven, 06 févr.",
+      "DATE_3": "Sam, 07 févr.",
+      "DATE_4": "Dim, 08 févr.",
+      "DATE_5": "Lun, 09 févr.",
+      "DATE_6": "Mar, 10 févr."
+    }
   }
 }

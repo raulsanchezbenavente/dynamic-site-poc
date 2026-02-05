@@ -2,7 +2,7 @@
   <header class="fr-hero">
     <div class="fr-route">
       <span class="fr-route-icon">✈️</span>
-      <h2 class="fr-route-title">Salida de Madrid a Arauca — Dom, Feb 08, 2026</h2>
+      <h2 class="fr-route-title">{{ 'RESULTS.ROUTE_TITLE' | translate }}</h2>
     </div>
 
     <div class="fr-summary">
@@ -12,15 +12,15 @@
         <span class="fr-summary-label">AUC</span>
       </div>
       <div class="fr-summary-item">
-        <span class="fr-summary-label">08 Feb – 11 Feb</span>
+        <span class="fr-summary-label">{{ 'RESULTS.SUMMARY_DATES' | translate }}</span>
       </div>
       <div class="fr-summary-item">
-        <span class="fr-summary-label">1 Adulto</span>
+        <span class="fr-summary-label">{{ 'RESULTS.SUMMARY_PASSENGERS' | translate }}</span>
       </div>
       <button
         type="button"
         class="fr-summary-link">
-        Modificar
+        {{ 'RESULTS.SUMMARY_EDIT' | translate }}
       </button>
     </div>
   </header>
@@ -29,7 +29,7 @@
     <button
       type="button"
       class="fr-date-nav"
-      aria-label="Anterior">
+      [attr.aria-label]="'RESULTS.NAV_PREV' | translate">
       ‹
     </button>
 
@@ -39,8 +39,8 @@
           type="button"
           class="fr-date"
           [class.fr-date--active]="d.active">
-          <div class="fr-date-day">{{ d.day }}</div>
-          <div class="fr-date-price">Desde € {{ d.price }}</div>
+          <div class="fr-date-day">{{ d.day | translate }}</div>
+          <div class="fr-date-price">{{ 'RESULTS.DATE_PRICE' | translate: { price: d.price } }}</div>
         </button>
       }
     </div>
@@ -48,7 +48,7 @@
     <button
       type="button"
       class="fr-date-nav"
-      aria-label="Siguiente">
+      [attr.aria-label]="'RESULTS.NAV_NEXT' | translate">
       ›
     </button>
   </div>
@@ -56,14 +56,14 @@
   <div class="fr-filters">
     <div class="fr-filter">
       <span class="fr-filter-icon">⏵</span>
-      <span class="fr-filter-label">Recomendado:</span>
-      <span class="fr-filter-chip">Mejor precio</span>
+      <span class="fr-filter-label">{{ 'RESULTS.FILTER_RECOMMENDED' | translate }}</span>
+      <span class="fr-filter-chip">{{ 'RESULTS.FILTER_BEST_PRICE' | translate }}</span>
     </div>
 
     <div class="fr-alert">
       <span class="fr-alert-icon">⟳</span>
       <span class="fr-alert-text">
-        <strong>Reserva ahora.</strong> Es posible que los precios suban en los próximos días.
+        <strong>{{ 'RESULTS.ALERT_TITLE' | translate }}</strong> {{ 'RESULTS.ALERT_TEXT' | translate }}
       </span>
       <span class="fr-alert-info">i</span>
     </div>
@@ -96,20 +96,22 @@
           </div>
 
           <div class="fr-price">
-            <div class="fr-price-label">Desde</div>
+            <div class="fr-price-label">{{ 'RESULTS.PRICE_FROM' | translate }}</div>
             <div class="fr-price-value">€ {{ flight.price }}</div>
           </div>
         </div>
 
         <div class="fr-card-footer">
-          <div class="fr-operator">{{ flight.operatedBy }}</div>
+          <div class="fr-operator">{{ flight.operatedBy | translate }}</div>
 
           <div class="fr-tags">
             @if (flight.badge) {
-              <span class="fr-tag fr-tag--success">{{ flight.badge }}</span>
+              <span class="fr-tag fr-tag--success">{{ flight.badge | translate }}</span>
             }
             @if (flight.seatsLeft) {
-              <span class="fr-tag fr-tag--soft">Quedan {{ flight.seatsLeft }} asientos</span>
+              <span class="fr-tag fr-tag--soft">{{
+                'RESULTS.SEATS_LEFT' | translate: { count: flight.seatsLeft }
+              }}</span>
             }
           </div>
         </div>

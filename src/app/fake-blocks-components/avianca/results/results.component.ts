@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { BookingProgressService } from '../../../services/booking-progress/booking-progress.service';
 
@@ -28,7 +29,7 @@ type FlightResult = {
 @Component({
   selector: 'pb-results',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './results.component.html',
   styleUrl: './results.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,12 +39,12 @@ export class ResultsComponent {
   private router = inject(Router);
 
   public dateOptions: DateOption[] = [
-    { day: 'Jue, Feb 05', price: '510,35', date: '2026-02-05' },
-    { day: 'Vie, Feb 06', price: '510,35', date: '2026-02-06' },
-    { day: 'Sáb, Feb 07', price: '470,35', date: '2026-02-07' },
-    { day: 'Dom, Feb 08', price: '440,35', date: '2026-02-08', active: true },
-    { day: 'Lun, Feb 09', price: '344,35', date: '2026-02-09' },
-    { day: 'Mar, Feb 10', price: '344,35', date: '2026-02-10' },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_1', price: '510,35', date: '2026-02-05' },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_2', price: '510,35', date: '2026-02-06' },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_3', price: '470,35', date: '2026-02-07' },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_4', price: '440,35', date: '2026-02-08', active: true },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_5', price: '344,35', date: '2026-02-09' },
+    { day: 'RESULTS.DATE_OPTIONS.DATE_6', price: '344,35', date: '2026-02-10' },
   ];
 
   public flights: FlightResult[] = [
@@ -54,8 +55,8 @@ export class ResultsComponent {
       departure: '01:20',
       arrival: '11:55',
       duration: '16h 35m',
-      stops: '1 Parada',
-      operatedBy: 'Operado por Avianca y Clic For Avianca Express',
+      stops: 'RESULTS.STOPS.ONE_STOP',
+      operatedBy: 'RESULTS.OPERATED_BY.AVIANCA_CLIC',
       price: '640,35',
       seatsLeft: 4,
     },
@@ -66,10 +67,10 @@ export class ResultsComponent {
       departure: '10:50',
       arrival: '20:15',
       duration: '15h 25m',
-      stops: '1 Parada',
-      operatedBy: 'Operado por Avianca y Clic Air S.A.',
+      stops: 'RESULTS.STOPS.ONE_STOP',
+      operatedBy: 'RESULTS.OPERATED_BY.AVIANCA_CLIC_AIR',
       price: '440,35',
-      badge: 'Mejor precio',
+      badge: 'RESULTS.BADGE_BEST_PRICE',
     },
     {
       id: 'm-a-1425',
@@ -78,8 +79,8 @@ export class ResultsComponent {
       departure: '14:25',
       arrival: '23:40',
       duration: '14h 15m',
-      stops: '1 Parada',
-      operatedBy: 'Operado por Avianca',
+      stops: 'RESULTS.STOPS.ONE_STOP',
+      operatedBy: 'RESULTS.OPERATED_BY.AVIANCA',
       price: '520,90',
       seatsLeft: 8,
     },
