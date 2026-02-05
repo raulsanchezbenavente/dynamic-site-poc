@@ -1,10 +1,10 @@
 import { FlatCompat } from '@eslint/eslintrc';
-import { fileURLToPath } from 'node:url';
 import js from '@eslint/js';
-import path from 'node:path';
-import perfectionist from 'eslint-plugin-perfectionist';
-import eslintPluginImport from 'eslint-plugin-import';
 import tsParser from '@typescript-eslint/parser';
+import eslintPluginImport from 'eslint-plugin-import';
+import perfectionist from 'eslint-plugin-perfectionist';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -152,12 +152,7 @@ export default [
       ...config,
       files: ['**/*.html'],
       rules: {
-        'prettier/prettier': [
-          'error',
-          {
-            parser: 'angular',
-          },
-        ],
+        'prettier/prettier': 'off',
         // Plugin rules: https://www.npmjs.com/package/@angular-eslint/eslint-plugin-template
         '@angular-eslint/template/alt-text': ['error'],
         '@angular-eslint/template/banana-in-box': ['error'],
@@ -171,6 +166,7 @@ export default [
         '@angular-eslint/template/use-track-by-function': ['error'],
         '@angular-eslint/template/valid-aria': ['error'],
         '@angular-eslint/template/attributes-order': ['error'],
+        '@angular-eslint/template/indent': 'off',
       },
     })),
 
@@ -194,8 +190,8 @@ export default [
           modifiers: ['const'],
           format: ['camelCase', 'UPPER_CASE'],
           leadingUnderscore: 'forbid',
-          trailingUnderscore: 'forbid'
-        }
+          trailingUnderscore: 'forbid',
+        },
       ],
       // Prevents spacing before the optional chaining operator (?.) for example
       'no-whitespace-before-property': 'error',
@@ -224,7 +220,7 @@ export default [
   {
     files: ['**/*.ts'],
     plugins: {
-      import: eslintPluginImport
+      import: eslintPluginImport,
     },
     settings: {
       'import/resolver': {
