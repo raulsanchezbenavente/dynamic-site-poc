@@ -165,6 +165,34 @@
     "TOTAL_PRICE_LABEL": "Prix total pour tous les vols",
     "NEXT_FLIGHT": "Vol suivant"
   },
+  "BAGGAGE_SELECTION": {
+    "TITLE": "Bagages supplémentaires",
+    "CLOSE": "Fermer",
+    "ALERT_TEXT": "N’oubliez pas que ce tarif inclut déjà 1 bagage en soute de 23 kg pour votre vol AUC - MAD. Si vous en avez besoin d’un autre, achetez-le maintenant et économisez.",
+    "PASSENGER_NAME": "Raul Sanchez Benavente",
+    "IMG_ALT": "Bagages",
+    "TOTAL_LABEL": "Total",
+    "TOTAL_ALL": "Total pour tous les vols",
+    "SAME_BAGGAGE": "Même bagage pour tous les vols",
+    "CTA_SAVE": "Enregistrer et continuer",
+    "PRICE_FIRST": "Prix de la première pièce",
+    "PRICE_PER": "Prix par pièce",
+    "BADGE_BEST_PRICE": "Meilleur prix qu’à l’aéroport",
+    "OPTIONS": {
+      "CABIN": {
+        "TITLE": "Bagage cabine",
+        "SUB": "Jusqu’à 10 kg · 55 x 35 x 25 cm"
+      },
+      "CHECKED": {
+        "TITLE": "Bagage en soute",
+        "SUB": "Jusqu’à 23 kg · max 158 cm linéaires"
+      },
+      "EXTRA": {
+        "TITLE": "Bagage supplémentaire",
+        "SUB": "Pièce supplémentaire jusqu’à 23 kg"
+      }
+    }
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Paramètres du compte",
     "SUBTITLE": "Gérez votre sécurité, vos communications et vos préférences au même endroit.",

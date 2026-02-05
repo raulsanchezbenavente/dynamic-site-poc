@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'baggage-selection',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './baggage-selection.component.html',
   styleUrl: './baggage-selection.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,28 +19,28 @@ export class BaggageSelectionComponent {
   public options = [
     {
       id: 'bag-cabin',
-      title: 'Maleta de cabina',
-      sub: 'Hasta 10 kg · 55 x 35 x 25 cm',
-      priceLabel: 'Precio de la primera pieza',
+      title: 'BAGGAGE_SELECTION.OPTIONS.CABIN.TITLE',
+      sub: 'BAGGAGE_SELECTION.OPTIONS.CABIN.SUB',
+      priceLabel: 'BAGGAGE_SELECTION.PRICE_FIRST',
       priceValue: 39.9,
-      badge: 'Mejor precio que en el aeropuerto',
+      badge: 'BAGGAGE_SELECTION.BADGE_BEST_PRICE',
       imageUrl: 'assets/illustrations/extras/baggage-cabin.svg',
       quantity: 0,
     },
     {
       id: 'bag-checked',
-      title: 'Maleta en bodega',
-      sub: 'Hasta 23 kg · máximo 158 cm lineales',
-      priceLabel: 'Precio de la primera pieza',
+      title: 'BAGGAGE_SELECTION.OPTIONS.CHECKED.TITLE',
+      sub: 'BAGGAGE_SELECTION.OPTIONS.CHECKED.SUB',
+      priceLabel: 'BAGGAGE_SELECTION.PRICE_FIRST',
       priceValue: 101.64,
       imageUrl: 'assets/illustrations/extras/baggage-checked.svg',
       quantity: 0,
     },
     {
       id: 'bag-extra',
-      title: 'Maleta adicional',
-      sub: 'Pieza extra hasta 23 kg',
-      priceLabel: 'Precio por pieza',
+      title: 'BAGGAGE_SELECTION.OPTIONS.EXTRA.TITLE',
+      sub: 'BAGGAGE_SELECTION.OPTIONS.EXTRA.SUB',
+      priceLabel: 'BAGGAGE_SELECTION.PRICE_PER',
       priceValue: 149.9,
       imageUrl: 'assets/illustrations/extras/baggage-extra.svg',
       quantity: 0,

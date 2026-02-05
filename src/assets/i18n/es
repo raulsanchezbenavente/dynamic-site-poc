@@ -165,6 +165,34 @@
     "TOTAL_PRICE_LABEL": "Precio total para todos los vuelos",
     "NEXT_FLIGHT": "Siguiente vuelo"
   },
+  "BAGGAGE_SELECTION": {
+    "TITLE": "Equipaje adicional",
+    "CLOSE": "Cerrar",
+    "ALERT_TEXT": "Recuerda que esta tarifa ya tiene 1 equipaje de bodega de 23Kg incluido para tu vuelo AUC - MAD. Si necesitas más equipaje, cómpralo ahora y ahorra.",
+    "PASSENGER_NAME": "Raul Sanchez Benavente",
+    "IMG_ALT": "Equipaje",
+    "TOTAL_LABEL": "Total",
+    "TOTAL_ALL": "Total para todos los vuelos",
+    "SAME_BAGGAGE": "Mismo equipaje para todos los vuelos",
+    "CTA_SAVE": "Guardar y continuar",
+    "PRICE_FIRST": "Precio de la primera pieza",
+    "PRICE_PER": "Precio por pieza",
+    "BADGE_BEST_PRICE": "Mejor precio que en el aeropuerto",
+    "OPTIONS": {
+      "CABIN": {
+        "TITLE": "Maleta de cabina",
+        "SUB": "Hasta 10 kg · 55 x 35 x 25 cm"
+      },
+      "CHECKED": {
+        "TITLE": "Maleta en bodega",
+        "SUB": "Hasta 23 kg · máximo 158 cm lineales"
+      },
+      "EXTRA": {
+        "TITLE": "Maleta adicional",
+        "SUB": "Pieza extra hasta 23 kg"
+      }
+    }
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Configuración de la cuenta",
     "SUBTITLE": "Administra tu seguridad, comunicaciones y preferencias en un solo lugar.",

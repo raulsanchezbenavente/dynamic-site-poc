@@ -165,6 +165,34 @@
     "TOTAL_PRICE_LABEL": "Total price for all flights",
     "NEXT_FLIGHT": "Next flight"
   },
+  "BAGGAGE_SELECTION": {
+    "TITLE": "Additional baggage",
+    "CLOSE": "Close",
+    "ALERT_TEXT": "Remember this fare already includes 1 checked bag of 23 kg for your AUC - MAD flight. If you need more, buy it now and save.",
+    "PASSENGER_NAME": "Raul Sanchez Benavente",
+    "IMG_ALT": "Baggage",
+    "TOTAL_LABEL": "Total",
+    "TOTAL_ALL": "Total for all flights",
+    "SAME_BAGGAGE": "Same baggage for all flights",
+    "CTA_SAVE": "Save and continue",
+    "PRICE_FIRST": "Price for first piece",
+    "PRICE_PER": "Price per piece",
+    "BADGE_BEST_PRICE": "Best price vs airport",
+    "OPTIONS": {
+      "CABIN": {
+        "TITLE": "Cabin bag",
+        "SUB": "Up to 10 kg · 55 x 35 x 25 cm"
+      },
+      "CHECKED": {
+        "TITLE": "Checked bag",
+        "SUB": "Up to 23 kg · max 158 linear cm"
+      },
+      "EXTRA": {
+        "TITLE": "Extra bag",
+        "SUB": "Extra piece up to 23 kg"
+      }
+    }
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Account settings",
     "SUBTITLE": "Manage your security, communications, and preferences in one place.",
