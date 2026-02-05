@@ -84,6 +84,8 @@
 .ss-passenger-name {
   font-weight: 700;
   font-size: 14px;
+  white-space: normal;
+  overflow: visible;
 }
 
 .ss-passenger-status {
@@ -108,14 +110,18 @@
 .ss-map-scroll {
   max-height: 360px;
   overflow-y: auto;
+  overflow-x: visible;
   padding-right: 4px;
+  padding-left: 2px;
+  padding-top: 2px;
+  padding-bottom: 6px;
   scrollbar-gutter: stable;
 }
 
 .ss-col {
   font-weight: 700;
   font-size: 12px;
-  width: 24px;
+  width: var(--ss-seat, 24px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -124,8 +130,10 @@
 
 .ss-row {
   display: grid;
-  grid-template-columns: 28px 24px 24px 24px 12px 24px 24px 24px 24px 12px 24px 24px;
-  gap: 6px;
+  grid-template-columns:
+    var(--ss-row-label, 28px) repeat(3, var(--ss-seat, 24px)) var(--ss-aisle, 12px) repeat(4, var(--ss-seat, 24px))
+    var(--ss-aisle, 12px) repeat(2, var(--ss-seat, 24px));
+  gap: var(--ss-gap, 6px);
   align-items: center;
   margin-bottom: 6px;
 }
@@ -146,8 +154,8 @@
 }
 
 .ss-seat {
-  width: 24px;
-  height: 24px;
+  width: var(--ss-seat, 24px);
+  height: var(--ss-seat, 24px);
   border-radius: 6px;
   border: 0;
   background: #4b5563;
@@ -176,8 +184,8 @@
 }
 
 .ss-seat--unavailable {
-  width: 24px;
-  height: 24px;
+  width: var(--ss-seat, 24px);
+  height: var(--ss-seat, 24px);
   border-radius: 6px;
   background: #e5e7eb;
   color: #9ca3af;
@@ -187,8 +195,8 @@
 }
 
 .ss-aisle {
-  width: 12px;
-  height: 24px;
+  width: var(--ss-aisle, 12px);
+  height: var(--ss-seat, 24px);
 }
 
 .ss-info {
@@ -291,5 +299,43 @@
   .ss-footer {
     flex-direction: column;
     align-items: flex-end;
+  }
+}
+
+@media (max-width: 720px) {
+  .ss-card {
+    padding: 14px;
+  }
+
+  .ss-body {
+    gap: 12px;
+  }
+
+  .ss-map {
+    --ss-seat: 20px;
+    --ss-aisle: 8px;
+    --ss-row-label: 22px;
+    --ss-gap: 4px;
+    overflow: visible;
+  }
+
+  .ss-col {
+    font-size: 12px;
+  }
+
+  .ss-row-label {
+    font-size: 12px;
+  }
+
+  .ss-map-scroll {
+    max-height: 280px;
+  }
+
+  .ss-footer {
+    align-items: stretch;
+  }
+
+  .ss-next {
+    width: 100%;
   }
 }
