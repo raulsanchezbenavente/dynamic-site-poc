@@ -1,7 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
+import { AppLang } from '../../../services/site-config/models/langs.model';
+import { SiteConfigService } from '../../../services/site-config/site-config.service';
 import { BaggageSelectionComponent } from '../baggage-selection/baggage-selection.component';
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
 
@@ -25,6 +29,10 @@ type ExtraCard = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExtraComponent {
+  private router = inject(Router);
+  private routerHelper = inject(RouterHelperService);
+  private siteConfig = inject(SiteConfigService);
+
   public activeModal: 'seat' | 'baggage' | null = null;
 
   public extras: ExtraCard[] = [
@@ -92,5 +100,11 @@ export class ExtraComponent {
 
   public closeModal(): void {
     this.activeModal = null;
+  }
+
+  public goToPayment(): void {
+    const lang = this.routerHelper.language as AppLang;
+    const path = this.siteConfig.getPathByPageId('1-3', lang);
+    this.router.navigateByUrl(path ?? `/${lang}/payment`);
   }
 }

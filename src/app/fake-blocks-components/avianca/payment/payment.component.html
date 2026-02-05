@@ -1,0 +1,172 @@
+<section class="pay-shell">
+  <div class="pay-grid">
+    <div class="pay-main">
+      <h2 class="pay-title">Selecciona tu método de pago</h2>
+
+      @for (method of methods; track method.id) {
+        <div class="pay-card">
+          <button
+            type="button"
+            class="pay-card-header"
+            [class.is-active]="activeMethod === method.id"
+            (click)="setMethod(method.id)">
+            <div
+              class="pay-radio"
+              [class.is-active]="activeMethod === method.id"></div>
+            <div class="pay-method">
+              <span>{{ method.label }}</span>
+              @if (method.logos?.length) {
+                <div class="pay-logos">
+                  @for (logo of method.logos; track logo) {
+                    <span class="pay-logo">{{ logo }}</span>
+                  }
+                </div>
+              }
+              @if (method.id === 'applepay') {
+                <span class="pay-logo pay-logo--apple"> Pay</span>
+              }
+              @if (method.id === 'paypal') {
+                <span class="pay-logo pay-logo--paypal">PayPal</span>
+              }
+            </div>
+          </button>
+
+          @if (activeMethod === 'card' && method.id === 'card') {
+            <div class="pay-divider"></div>
+
+            <div class="pay-toggle">
+              <button
+                type="button"
+                class="pay-switch"
+                [class.is-on]="splitPayment"
+                [attr.aria-pressed]="splitPayment"
+                (click)="toggleSplit()">
+                <span class="pay-switch-knob"></span>
+              </button>
+              <div class="pay-toggle-text">Dividir el pago de tus vuelos en dos tarjetas diferentes</div>
+              <span class="pay-info">i</span>
+            </div>
+
+            <div class="pay-section-title">Información de la tarjeta</div>
+
+            <div class="pay-field">
+              <span class="pay-field-icon">💳</span>
+              <div class="pay-field-body">
+                <label>Número de tarjeta</label>
+                <input
+                  type="text"
+                  placeholder="Ingresa tu tarjeta crédito, débito o Avianca UATP" />
+              </div>
+            </div>
+
+            <div class="pay-row">
+              <div class="pay-field">
+                <label>MM/AA</label>
+                <input
+                  type="text"
+                  placeholder="Fecha de expiración" />
+              </div>
+              <div class="pay-field">
+                <label>CVV</label>
+                <input
+                  type="text"
+                  placeholder="Código de seguridad" />
+              </div>
+            </div>
+          }
+
+          @if (activeMethod === method.id && method.id !== 'card') {
+            <div class="pay-divider"></div>
+            <div class="pay-alt-info">Serás redirigido a {{ method.label }} para completar el pago.</div>
+          }
+
+          @if (activeMethod === method.id) {
+            <div class="pay-actions">
+              <button
+                type="button"
+                class="pay-action-btn">
+                @if (method.id === 'card') {
+                  Pagar con Visa
+                } @else if (method.id === 'paypal') {
+                  Ir a PayPal
+                } @else {
+                  Ir a Apple Pay
+                }
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <aside class="pay-summary">
+      <div class="pay-summary-card">
+        <h3>Resumen de compra</h3>
+        <div class="pay-summary-row">
+          <span>Precio de tiquetes</span>
+          <strong>€1,542.00 EUR</strong>
+        </div>
+        <div class="pay-summary-row">
+          <span>Impuestos, tasas y cargos</span>
+          <strong>€100.32 EUR</strong>
+        </div>
+        <div class="pay-summary-row">
+          <span>Precio de servicios</span>
+          <strong>€0.00 EUR</strong>
+        </div>
+        <div class="pay-summary-total">
+          <div>
+            <div class="pay-total-label">Total</div>
+            <div class="pay-total-sub">Incluye impuestos, recargos y servicios.</div>
+          </div>
+          <strong>€1,642.32 EUR</strong>
+        </div>
+      </div>
+
+      <div class="pay-summary-card">
+        <h3>Tu selección</h3>
+        <div class="pay-flight">
+          <div class="pay-flight-title">Vuelo de salida | dom, 08 feb</div>
+          <div class="pay-flight-row">
+            <span>01:20</span>
+            <div class="pay-flight-line">
+              <span class="pay-flight-dot"></span>
+              <span>1 parada | BOG</span>
+              <span class="pay-flight-dot"></span>
+            </div>
+            <span>11:55</span>
+          </div>
+          <div class="pay-flight-row">
+            <span>MAD</span>
+            <span>10h 35m</span>
+            <span>AUC</span>
+          </div>
+          <div class="pay-fare-tag pay-fare-tag--flex">Flex</div>
+          <div class="pay-flight-code">AV047, AV4832</div>
+        </div>
+
+        <div class="pay-flight">
+          <div class="pay-flight-title">Vuelo de regreso | mié, 11 feb</div>
+          <div class="pay-flight-row">
+            <span>12:25</span>
+            <div class="pay-flight-line">
+              <span class="pay-flight-dot"></span>
+              <span>1 parada | BOG</span>
+              <span class="pay-flight-dot"></span>
+            </div>
+            <span>08:50 <small>+1 Día</small></span>
+          </div>
+          <div class="pay-flight-row">
+            <span>AUC</span>
+            <span>20h 25m</span>
+            <span>MAD</span>
+          </div>
+          <div class="pay-fare-tag pay-fare-tag--classic">Classic</div>
+          <div class="pay-flight-code">AV4831, AV182</div>
+        </div>
+
+        <div class="pay-terms">Condiciones de compra</div>
+      </div>
+    </aside>
+  </div>
+</section>
