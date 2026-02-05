@@ -225,6 +225,13 @@
     "FARE_CLASSIC": "Classic",
     "TERMS": "Purchase conditions"
   },
+  "THANK_YOU": {
+    "TITLE": "Thanks for your purchase!",
+    "SUBTITLE": "Your payment was processed successfully. We sent the details to your email.",
+    "ORDER_LABEL": "Booking code",
+    "EMAIL_LABEL": "Email",
+    "CTA_HOME": "Back to home"
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Account settings",
     "SUBTITLE": "Manage your security, communications, and preferences in one place.",

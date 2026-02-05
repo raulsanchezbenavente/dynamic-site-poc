@@ -179,7 +179,7 @@ export class ResultsComponent {
   public selectFare(): void {
     const lang = this.routerHelper.language as AppLang;
     const path = this.siteConfig.getPathByPageId('1-1', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/${path}`);
+    this.router.navigateByUrl(path ?? `/${lang}/personal-data`);
   }
 
   public goToResults(): void {

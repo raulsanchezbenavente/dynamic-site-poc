@@ -225,6 +225,13 @@
     "FARE_CLASSIC": "Classic",
     "TERMS": "Condições de compra"
   },
+  "THANK_YOU": {
+    "TITLE": "Obrigado pela sua compra!",
+    "SUBTITLE": "Seu pagamento foi processado com sucesso. Enviamos os detalhes para o seu e-mail.",
+    "ORDER_LABEL": "Código da reserva",
+    "EMAIL_LABEL": "E-mail",
+    "CTA_HOME": "Voltar para a home"
+  },
   "ACCOUNT_SETTINGS": {
     "TITLE": "Configurações da conta",
     "SUBTITLE": "Gerencie sua segurança, comunicações e preferências em um só lugar.",

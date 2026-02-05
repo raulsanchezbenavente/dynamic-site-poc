@@ -8,27 +8,21 @@ import { AppLang } from '../../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
 
 @Component({
-  selector: 'personal-data',
+  selector: 'thank-you',
   standalone: true,
   imports: [CommonModule, TranslateModule],
-  templateUrl: './personal-data.component.html',
-  styleUrl: './personal-data.component.scss',
+  templateUrl: './thank-you.component.html',
+  styleUrl: './thank-you.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PersonalDataComponent {
+export class ThankYouComponent {
   private router = inject(Router);
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
 
-  public activeTab: 'adult' | 'holder' = 'adult';
-
-  public goNext(): void {
+  public goHome(): void {
     const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('1-2', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/extras`);
-  }
-
-  public setTab(tab: 'adult' | 'holder'): void {
-    this.activeTab = tab;
+    const path = this.siteConfig.getPathByPageId('0', lang);
+    this.router.navigateByUrl(path ?? `/${lang}/home`);
   }
 }

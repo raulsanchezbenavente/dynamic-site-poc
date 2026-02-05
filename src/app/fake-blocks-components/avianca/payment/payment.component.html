@@ -84,7 +84,8 @@
             <div class="pay-actions">
               <button
                 type="button"
-                class="pay-action-btn">
+                class="pay-action-btn"
+                (click)="goToThanks()">
                 @if (method.id === 'card') {
                   {{ 'PAYMENT.CTA_VISA' | translate }}
                 } @else if (method.id === 'paypal') {

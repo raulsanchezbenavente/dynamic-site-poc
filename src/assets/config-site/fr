@@ -108,6 +108,105 @@
       }
     },
     {
+      "pageId": "1-2",
+      "path": "fr/extras",
+      "name": "Extras",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "extra_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-3",
+      "path": "fr/paiement",
+      "name": "Paiement",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "payment_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-4",
+      "path": "fr/merci",
+      "name": "Merci",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "thankYou_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "pageId": "2",
       "path": "fr/membres",
       "name": "Membres",

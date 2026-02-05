@@ -174,7 +174,7 @@ export class SearchComponent implements AfterViewInit {
 
     const lang = this.routerHelper.language as AppLang;
     const path = this.siteConfig.getPathByPageId('1', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/${path}`);
+    this.router.navigateByUrl(path ?? `/${lang}/results`);
   }
 
   public goTo(page: string): void {

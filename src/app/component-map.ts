@@ -14,6 +14,7 @@ import { PaymentComponent } from './fake-blocks-components/avianca/payment/payme
 import { PersonalDataComponent } from './fake-blocks-components/avianca/personal-data/personal-data.component';
 import { ResultsComponent } from './fake-blocks-components/avianca/results/results.component';
 import { SearchComponent } from './fake-blocks-components/avianca/search/search.component';
+import { ThankYouComponent } from './fake-blocks-components/avianca/thank-you/thank-you.component';
 import { BaggageSelectionComponent } from './fake-blocks-components/test/baggage-selection';
 import { BannerComponent } from './fake-blocks-components/test/banner.component';
 import { CustomerLoginComponent } from './fake-blocks-components/test/customer-login';
@@ -53,4 +54,5 @@ export const componentMap: Record<string, Type<any>> = {
   results_uiplus: ResultsComponent,
   extra_uiplus: ExtraComponent,
   payment_uiplus: PaymentComponent,
+  thankYou_uiplus: ThankYouComponent,
 };

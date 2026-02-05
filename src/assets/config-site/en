@@ -174,6 +174,39 @@
       }
     },
     {
+      "pageId": "1-4",
+      "path": "en/thanks",
+      "name": "Thank You",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "thankYou_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "pageId": "2",
       "path": "en/members",
       "name": "Members",
