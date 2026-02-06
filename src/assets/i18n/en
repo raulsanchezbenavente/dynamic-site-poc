@@ -381,7 +381,8 @@
     },
     "PASSENGERS": {
       "ALL": "Select all passengers",
-      "P1": "Camila López"
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
     },
     "INFO_TITLE": "Avianca Lounges",
     "INFO_NOTE": "Schedules may vary by city and availability:",

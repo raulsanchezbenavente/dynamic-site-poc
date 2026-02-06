@@ -381,7 +381,8 @@
     },
     "PASSENGERS": {
       "ALL": "Selecionar todos os passageiros",
-      "P1": "Camila López"
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
     },
     "INFO_TITLE": "Avianca Lounges",
     "INFO_NOTE": "Os horários podem variar conforme a cidade e disponibilidade:",
