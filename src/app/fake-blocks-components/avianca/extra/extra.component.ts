@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -28,7 +28,7 @@ type ExtraCard = {
   styleUrl: './extra.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExtraComponent {
+export class ExtraComponent implements OnDestroy {
   private router = inject(Router);
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
@@ -95,11 +95,24 @@ export class ExtraComponent {
   public openModal(cardId: ExtraCard['id']): void {
     if (cardId === 'seat' || cardId === 'baggage') {
       this.activeModal = cardId;
+      this.setBodyScrollLocked(true);
     }
   }
 
   public closeModal(): void {
     this.activeModal = null;
+    this.setBodyScrollLocked(false);
+  }
+
+  public ngOnDestroy(): void {
+    this.setBodyScrollLocked(false);
+  }
+
+  private setBodyScrollLocked(locked: boolean): void {
+    const body = globalThis.document?.body;
+    if (!body) return;
+    body.style.overflow = locked ? 'hidden' : '';
+    body.style.touchAction = locked ? 'none' : '';
   }
 
   public goToPayment(): void {
