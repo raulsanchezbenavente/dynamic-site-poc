@@ -17,12 +17,14 @@
       </span>
     </div>
 
-    <div class="al-tabs">
+    <div class="al-tabs" role="tablist">
       @for (tab of tabs; track tab.id) {
         <button
           type="button"
           class="al-tab"
+          role="tab"
           [class.is-active]="activeTabId === tab.id"
+          [attr.aria-selected]="activeTabId === tab.id"
           (click)="setTab(tab.id)">
           {{ tab.labelKey | translate }}
         </button>
@@ -44,7 +46,7 @@
                 [checked]="p.checked"
                 (change)="togglePassenger(p.id)" />
               <span class="al-passenger-label">{{ p.labelKey | translate }}</span>
-              <span class="al-passenger-price">{{ activeTab.price }}</span>
+              <span class="al-passenger-price">{{ formatPrice(activeTab.priceValue) }}</span>
             </label>
           }
         </div>
@@ -63,7 +65,7 @@
             </div>
             <div class="al-info-illustration">
               <img
-                src="assets/illustrations/extras/lounge.svg"
+                src="/assets/illustrations/extras/lounge.svg"
                 [alt]="'LOUNGE.IMG_ALT' | translate" />
             </div>
           </div>
@@ -94,12 +96,12 @@
     <footer class="al-footer">
       <div class="al-total">
         <span>{{ 'LOUNGE.TOTAL_LABEL' | translate }}</span>
-        <strong>€ 0,00</strong>
+        <strong>{{ formatPrice(total) }}</strong>
       </div>
       <label class="al-same">
         <input
           type="checkbox"
-          checked />
+          [(ngModel)]="sameChoice" />
         <span>{{ 'LOUNGE.SAME_CHOICE' | translate }}</span>
       </label>
       <button
