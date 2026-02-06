@@ -454,6 +454,32 @@
     "TOTAL_ALL": "Total para todos os voos",
     "CTA_SAVE": "Salvar e sair"
   },
+  "PRIORITY": {
+    "TITLE": "Embarque prioritário",
+    "CLOSE": "Fechar",
+    "IMG_ALT": "Embarque prioritário",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "PASSENGERS": {
+      "ALL": "Selecionar todos os passageiros",
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "INFO_TITLE": "Embarque prioritário",
+    "INFO_TEXT": "Adicione este serviço e embarque com conforto, sem pressa, garantindo espaço para a sua bagagem de mão.",
+    "NOTE": "Observação:",
+    "BENEFITS": {
+      "GROUPS": "Você será alocado no grupo A ou B, dependendo da aeronave.",
+      "CHECKIN": "Não se aplica à prioridade nos balcões de check‑in.",
+      "AVIANCA": "Serviço disponível em voos operados pela Avianca."
+    },
+    "TOTAL_ALL": "Total para todos os voos",
+    "SAME_FOR_ALL": "Mesma escolha para todos os voos",
+    "CTA_SAVE": "Salvar e sair"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Partida de Madrid para Arauca — Dom, 08 Fev 2026",
     "SUMMARY_DATES": "08 Fev – 11 Fev",

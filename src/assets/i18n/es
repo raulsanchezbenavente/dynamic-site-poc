@@ -454,6 +454,32 @@
     "TOTAL_ALL": "Total para todos los vuelos",
     "CTA_SAVE": "Guardar y salir"
   },
+  "PRIORITY": {
+    "TITLE": "Abordaje prioritario",
+    "CLOSE": "Cerrar",
+    "IMG_ALT": "Abordaje prioritario",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "PASSENGERS": {
+      "ALL": "Seleccionar todos los pasajeros",
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "INFO_TITLE": "Abordaje prioritario",
+    "INFO_TEXT": "Añade este servicio e ingresa cómodo y sin prisa al avión, asegurando el espacio para tu equipaje de mano.",
+    "NOTE": "Ten en cuenta que:",
+    "BENEFITS": {
+      "GROUPS": "Serás asignado en el grupo A o grupo B, dependiendo del avión.",
+      "CHECKIN": "No aplica para prioridad en los counters de check‑in.",
+      "AVIANCA": "Servicio disponible en vuelos operados por Avianca."
+    },
+    "TOTAL_ALL": "Total para todos los vuelos",
+    "SAME_FOR_ALL": "Misma elección para todos los vuelos",
+    "CTA_SAVE": "Guardar y salir"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Salida de Madrid a Arauca — Dom, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

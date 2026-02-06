@@ -454,6 +454,32 @@
     "TOTAL_ALL": "Total for all flights",
     "CTA_SAVE": "Save and exit"
   },
+  "PRIORITY": {
+    "TITLE": "Priority boarding",
+    "CLOSE": "Close",
+    "IMG_ALT": "Priority boarding",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "PASSENGERS": {
+      "ALL": "Select all passengers",
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "INFO_TITLE": "Priority boarding",
+    "INFO_TEXT": "Add this service to board comfortably and without rushing, ensuring space for your carry-on.",
+    "NOTE": "Please note:",
+    "BENEFITS": {
+      "GROUPS": "You will be assigned to group A or B depending on the aircraft.",
+      "CHECKIN": "Does not apply for priority at check‑in counters.",
+      "AVIANCA": "Service available on flights operated by Avianca."
+    },
+    "TOTAL_ALL": "Total for all flights",
+    "SAME_FOR_ALL": "Same choice for all flights",
+    "CTA_SAVE": "Save and exit"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Departing Madrid to Arauca — Sun, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

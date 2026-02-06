@@ -68,8 +68,10 @@
         <lounge-selection (close)="closeModal()"></lounge-selection>
       } @else if (activeModal === 'sports') {
         <sports-selection (close)="closeModal()"></sports-selection>
-      } @else {
+      } @else if (activeModal === 'assist') {
         <assist-selection (close)="closeModal()"></assist-selection>
+      } @else {
+        <priority-selection (close)="closeModal()"></priority-selection>
       }
     </div>
   </div>
