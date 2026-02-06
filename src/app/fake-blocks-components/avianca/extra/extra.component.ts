@@ -9,6 +9,7 @@ import { SiteConfigService } from '../../../services/site-config/site-config.ser
 import { BaggageSelectionComponent } from '../baggage-selection/baggage-selection.component';
 import { LoungeSelectionComponent } from '../lounge-selection/lounge-selection.component';
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
+import { SportsSelectionComponent } from '../sports-selection/sports-selection.component';
 
 type ExtraCard = {
   id: 'seat' | 'baggage' | 'lounge' | 'sports' | 'assist' | 'priority';
@@ -24,7 +25,14 @@ type ExtraCard = {
 @Component({
   selector: 'extra',
   standalone: true,
-  imports: [CommonModule, TranslateModule, SeatSelectionComponent, BaggageSelectionComponent, LoungeSelectionComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    SeatSelectionComponent,
+    BaggageSelectionComponent,
+    LoungeSelectionComponent,
+    SportsSelectionComponent,
+  ],
   templateUrl: './extra.component.html',
   styleUrl: './extra.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,7 +42,7 @@ export class ExtraComponent implements OnDestroy {
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
 
-  public activeModal: 'seat' | 'baggage' | 'lounge' | null = null;
+  public activeModal: 'seat' | 'baggage' | 'lounge' | 'sports' | null = null;
 
   public extras: ExtraCard[] = [
     {
@@ -94,7 +102,7 @@ export class ExtraComponent implements OnDestroy {
   ];
 
   public openModal(cardId: ExtraCard['id']): void {
-    if (cardId === 'seat' || cardId === 'baggage' || cardId === 'lounge') {
+    if (cardId === 'seat' || cardId === 'baggage' || cardId === 'lounge' || cardId === 'sports') {
       this.activeModal = cardId;
       this.setBodyScrollLocked(true);
     }

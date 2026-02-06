@@ -413,6 +413,28 @@
     "SAME_CHOICE": "Mesma escolha para todos os voos",
     "CTA_SAVE": "Salvar e sair"
   },
+  "SPORTS": {
+    "TITLE": "Equipamento esportivo",
+    "CLOSE": "Fechar",
+    "LEGS": {
+      "OUTBOUND": "MAD - AUA",
+      "RETURN": "AUA - MAD"
+    },
+    "PASSENGERS": {
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "ITEMS": {
+      "BIKE": "Bicicleta",
+      "GOLF": "Golfe",
+      "SURF": "Surf"
+    },
+    "PRICE_PER_PIECE": "Preço por peça",
+    "ITEM_TOTAL": "Total",
+    "TOTAL_ALL": "Total para todos os voos",
+    "SAME_FOR_ALL": "Mesmo equipamento esportivo para todos os voos",
+    "CTA_SAVE": "Salvar e continuar"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Partida de Madrid para Arauca — Dom, 08 Fev 2026",
     "SUMMARY_DATES": "08 Fev – 11 Fev",

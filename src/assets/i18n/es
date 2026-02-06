@@ -413,6 +413,28 @@
     "SAME_CHOICE": "Misma elección para todos los vuelos",
     "CTA_SAVE": "Guardar y salir"
   },
+  "SPORTS": {
+    "TITLE": "Equipaje deportivo",
+    "CLOSE": "Cerrar",
+    "LEGS": {
+      "OUTBOUND": "MAD - AUA",
+      "RETURN": "AUA - MAD"
+    },
+    "PASSENGERS": {
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "ITEMS": {
+      "BIKE": "Bicicleta",
+      "GOLF": "Golf",
+      "SURF": "Surf"
+    },
+    "PRICE_PER_PIECE": "Precio por pieza",
+    "ITEM_TOTAL": "Total",
+    "TOTAL_ALL": "Total para todos los vuelos",
+    "SAME_FOR_ALL": "Mismo equipo deportivo para todos los vuelos",
+    "CTA_SAVE": "Guardar y continuar"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Salida de Madrid a Arauca — Dom, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",
