@@ -43,7 +43,13 @@
                 (click)="toggleSplit()">
                 <span class="pay-switch-knob"></span>
               </button>
-              <div class="pay-toggle-text">{{ 'PAYMENT.SPLIT_TOGGLE' | translate }}</div>
+              <label
+                class="pay-toggle-text"
+                role="button"
+                tabindex="0"
+                (click)="toggleSplit()">
+                {{ 'PAYMENT.SPLIT_TOGGLE' | translate }}
+              </label>
               <span class="pay-info">i</span>
             </div>
 
