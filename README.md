@@ -16,7 +16,9 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 - 🗓️ Selectable date carousel in results
 - 🗺️ Results page localized (EN/ES/FR/PT)
 - ✅ Full flow: search → results → personal data → extras → payment → thank you
-- 🧩 Extras with seat + baggage modals
+- 🧩 Extras modals: seat, baggage, lounges, sports equipment, assistance, priority boarding
+- 🔒 Modal body scroll lock for extras
+- 💳 Payment methods: card, PayPal, Apple Pay, Google Pay
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 
 ---
@@ -66,6 +68,10 @@ src/
 │   │   │   ├── extra/
 │   │   │   ├── seat-selection/
 │   │   │   ├── baggage-selection/
+│   │   │   ├── lounge-selection/
+│   │   │   ├── sports-selection/
+│   │   │   ├── assist-selection/
+│   │   │   ├── priority-selection/
 │   │   │   ├── payment/
 │   │   │   └── thank-you/
 │   │   └── test/
@@ -139,8 +145,8 @@ Then visit:
 - **Home / Search**: landing page with header, banner, and the flight search form.
 - **Results**: shows available flight options, fare cards, and a selectable date carousel (localized).
 - **Personal data**: traveler and holder details with validation.
-- **Extras**: seat and baggage selection (modals).
-- **Payment**: captures payment method and traveler details.
+- **Extras**: seat, baggage, lounges, sports equipment, assistance, and priority boarding (modals).
+- **Payment**: card, PayPal, Apple Pay, Google Pay.
 - **Thank you**: confirmation state and CTA.
 
 ---
