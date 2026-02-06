@@ -9,7 +9,7 @@ import { AppLang } from '../../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
 
 type PaymentMethod = {
-  id: 'card' | 'paypal' | 'applepay';
+  id: 'card' | 'paypal' | 'applepay' | 'gpay';
   label: string;
   logos?: string[];
 };
@@ -40,6 +40,10 @@ export class PaymentComponent {
     {
       id: 'applepay',
       label: 'PAYMENT.METHOD_APPLEPAY',
+    },
+    {
+      id: 'gpay',
+      label: 'PAYMENT.METHOD_GPAY',
     },
   ];
 

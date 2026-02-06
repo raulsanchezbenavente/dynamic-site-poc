@@ -25,6 +25,9 @@
               @if (method.id === 'applepay') {
                 <span class="pay-logo pay-logo--apple"> Pay</span>
               }
+              @if (method.id === 'gpay') {
+                <span class="pay-logo pay-logo--gpay">G Pay</span>
+              }
               @if (method.id === 'paypal') {
                 <span class="pay-logo pay-logo--paypal">PayPal</span>
               }
@@ -103,6 +106,8 @@
                   {{ 'PAYMENT.CTA_VISA' | translate }}
                 } @else if (method.id === 'paypal') {
                   {{ 'PAYMENT.CTA_PAYPAL' | translate }}
+                } @else if (method.id === 'gpay') {
+                  {{ 'PAYMENT.CTA_GPAY' | translate }}
                 } @else {
                   {{ 'PAYMENT.CTA_APPLEPAY' | translate }}
                 }
