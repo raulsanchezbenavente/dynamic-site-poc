@@ -364,6 +364,54 @@
       }
     }
   },
+  "LOUNGE": {
+    "TITLE": "Avianca Lounges",
+    "CLOSE": "Cerrar",
+    "BANNER": "Aprovecha tu tiempo en el aeropuerto y disfruta de nuestros servicios mientras abordas tu vuelo.",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "FLIGHTS": {
+      "MAD": "Salida: Madrid, 10 de marzo de 2026, 08:10",
+      "BOG_1": "Salida: Bogotá, 10 de marzo de 2026, 08:10",
+      "ARU": "Salida: Aruba, 12 de marzo de 2026, 14:25",
+      "BOG_2": "Salida: Bogotá, 15 de marzo de 2026, 18:40"
+    },
+    "PASSENGERS": {
+      "ALL": "Seleccionar todos los pasajeros",
+      "P1": "Camila López"
+    },
+    "INFO_TITLE": "Avianca Lounges",
+    "INFO_NOTE": "Los horarios pueden variar según ciudad y disponibilidad:",
+    "INFO_LINK_TEXT": "Consulta términos y condiciones en avianca.com",
+    "IMG_ALT": "Avianca Lounges",
+    "BENEFITS": {
+      "WIFI": "Acceso ilimitado a Wi‑Fi",
+      "COFFEE": "Estación de café",
+      "SNACKS": "Bebidas, frutas, licores y snacks",
+      "WORK": "Zonas de trabajo",
+      "WIFI_PREMIUM": "Wi‑Fi de alta velocidad",
+      "PREMIUM_SNACKS": "Snacks y bebidas premium",
+      "REST": "Zona de descanso",
+      "PRIVATE_WORK": "Área de trabajo privada"
+    },
+    "SCHEDULE": {
+      "CO_TITLE": "Lounges para vuelos en Colombia:",
+      "CO_HOURS": "Apertura 5:00 a.m. - Cierre 9:30 p.m.",
+      "INTL_TITLE": "Lounges para vuelos internacionales:",
+      "INTL_HOURS": "Apertura 4:00 a.m. - Cierre 10:30 p.m.",
+      "INTL_ALT_HOURS": "Apertura 4:30 a.m. - Cierre 10:00 p.m."
+    },
+    "NOTES": {
+      "NO_REFUND": "Ten presente que a partir del cierre no tendremos servicio. Este servicio no es reembolsable.",
+      "SEASONAL": "Los horarios pueden variar según la temporada y la disponibilidad."
+    },
+    "TOTAL_LABEL": "Total para todos los vuelos",
+    "SAME_CHOICE": "Misma elección para todos los vuelos",
+    "CTA_SAVE": "Guardar y salir"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Salida de Madrid a Arauca — Dom, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

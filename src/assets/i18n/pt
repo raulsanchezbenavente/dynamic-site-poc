@@ -364,6 +364,54 @@
       }
     }
   },
+  "LOUNGE": {
+    "TITLE": "Avianca Lounges",
+    "CLOSE": "Fechar",
+    "BANNER": "Aproveite seu tempo no aeroporto e desfrute dos nossos serviços enquanto embarca no seu voo.",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "FLIGHTS": {
+      "MAD": "Saída: Madrid, 10 de março de 2026, 08:10",
+      "BOG_1": "Saída: Bogotá, 10 de março de 2026, 08:10",
+      "ARU": "Saída: Aruba, 12 de março de 2026, 14:25",
+      "BOG_2": "Saída: Bogotá, 15 de março de 2026, 18:40"
+    },
+    "PASSENGERS": {
+      "ALL": "Selecionar todos os passageiros",
+      "P1": "Camila López"
+    },
+    "INFO_TITLE": "Avianca Lounges",
+    "INFO_NOTE": "Os horários podem variar conforme a cidade e disponibilidade:",
+    "INFO_LINK_TEXT": "Consulte termos e condições em avianca.com",
+    "IMG_ALT": "Avianca Lounges",
+    "BENEFITS": {
+      "WIFI": "Acesso ilimitado ao Wi‑Fi",
+      "COFFEE": "Estação de café",
+      "SNACKS": "Bebidas, frutas, destilados e snacks",
+      "WORK": "Áreas de trabalho",
+      "WIFI_PREMIUM": "Wi‑Fi de alta velocidade",
+      "PREMIUM_SNACKS": "Snacks e bebidas premium",
+      "REST": "Área de descanso",
+      "PRIVATE_WORK": "Área de trabalho privativa"
+    },
+    "SCHEDULE": {
+      "CO_TITLE": "Lounges para voos na Colômbia:",
+      "CO_HOURS": "Abertura 5:00 - Fechamento 21:30",
+      "INTL_TITLE": "Lounges para voos internacionais:",
+      "INTL_HOURS": "Abertura 4:00 - Fechamento 22:30",
+      "INTL_ALT_HOURS": "Abertura 4:30 - Fechamento 22:00"
+    },
+    "NOTES": {
+      "NO_REFUND": "Lembre que após o fechamento não haverá atendimento. Este serviço não é reembolsável.",
+      "SEASONAL": "Os horários podem variar conforme a temporada e a disponibilidade."
+    },
+    "TOTAL_LABEL": "Total para todos os voos",
+    "SAME_CHOICE": "Mesma escolha para todos os voos",
+    "CTA_SAVE": "Salvar e sair"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Partida de Madrid para Arauca — Dom, 08 Fev 2026",
     "SUMMARY_DATES": "08 Fev – 11 Fev",

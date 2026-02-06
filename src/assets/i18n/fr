@@ -364,6 +364,54 @@
       }
     }
   },
+  "LOUNGE": {
+    "TITLE": "Avianca Lounges",
+    "CLOSE": "Fermer",
+    "BANNER": "Profitez de votre temps à l’aéroport et de nos services pendant l’embarquement.",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "FLIGHTS": {
+      "MAD": "Départ : Madrid, 10 mars 2026, 08:10",
+      "BOG_1": "Départ : Bogotá, 10 mars 2026, 08:10",
+      "ARU": "Départ : Aruba, 12 mars 2026, 14:25",
+      "BOG_2": "Départ : Bogotá, 15 mars 2026, 18:40"
+    },
+    "PASSENGERS": {
+      "ALL": "Sélectionner tous les passagers",
+      "P1": "Camila López"
+    },
+    "INFO_TITLE": "Avianca Lounges",
+    "INFO_NOTE": "Les horaires peuvent varier selon la ville et la disponibilité :",
+    "INFO_LINK_TEXT": "Consultez les conditions sur avianca.com",
+    "IMG_ALT": "Avianca Lounges",
+    "BENEFITS": {
+      "WIFI": "Accès Wi‑Fi illimité",
+      "COFFEE": "Station café",
+      "SNACKS": "Boissons, fruits, spiritueux et snacks",
+      "WORK": "Espaces de travail",
+      "WIFI_PREMIUM": "Wi‑Fi haut débit",
+      "PREMIUM_SNACKS": "Snacks et boissons premium",
+      "REST": "Espace détente",
+      "PRIVATE_WORK": "Espace de travail privé"
+    },
+    "SCHEDULE": {
+      "CO_TITLE": "Lounges pour les vols en Colombie :",
+      "CO_HOURS": "Ouverture 5:00 - Fermeture 21:30",
+      "INTL_TITLE": "Lounges pour les vols internationaux :",
+      "INTL_HOURS": "Ouverture 4:00 - Fermeture 22:30",
+      "INTL_ALT_HOURS": "Ouverture 4:30 - Fermeture 22:00"
+    },
+    "NOTES": {
+      "NO_REFUND": "Veuillez noter qu’après la fermeture, le service ne sera plus disponible. Ce service n’est pas remboursable.",
+      "SEASONAL": "Les horaires peuvent varier selon la saison et la disponibilité."
+    },
+    "TOTAL_LABEL": "Total pour tous les vols",
+    "SAME_CHOICE": "Même choix pour tous les vols",
+    "CTA_SAVE": "Enregistrer et quitter"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Départ de Madrid vers Arauca — Dim, 08 févr. 2026",
     "SUMMARY_DATES": "08 févr. – 11 févr.",

@@ -364,6 +364,54 @@
       }
     }
   },
+  "LOUNGE": {
+    "TITLE": "Avianca Lounges",
+    "CLOSE": "Close",
+    "BANNER": "Make the most of your time at the airport and enjoy our services while you board your flight.",
+    "TABS": {
+      "MADRID": "Madrid",
+      "BOGOTA": "Bogotá",
+      "ARUBA": "Aruba"
+    },
+    "FLIGHTS": {
+      "MAD": "Departure: Madrid, March 10, 2026, 08:10",
+      "BOG_1": "Departure: Bogotá, March 10, 2026, 08:10",
+      "ARU": "Departure: Aruba, March 12, 2026, 14:25",
+      "BOG_2": "Departure: Bogotá, March 15, 2026, 18:40"
+    },
+    "PASSENGERS": {
+      "ALL": "Select all passengers",
+      "P1": "Camila López"
+    },
+    "INFO_TITLE": "Avianca Lounges",
+    "INFO_NOTE": "Schedules may vary by city and availability:",
+    "INFO_LINK_TEXT": "See terms and conditions at avianca.com",
+    "IMG_ALT": "Avianca Lounges",
+    "BENEFITS": {
+      "WIFI": "Unlimited Wi‑Fi access",
+      "COFFEE": "Coffee station",
+      "SNACKS": "Beverages, fruits, spirits and snacks",
+      "WORK": "Work areas",
+      "WIFI_PREMIUM": "High‑speed Wi‑Fi",
+      "PREMIUM_SNACKS": "Premium snacks and drinks",
+      "REST": "Rest area",
+      "PRIVATE_WORK": "Private work area"
+    },
+    "SCHEDULE": {
+      "CO_TITLE": "Lounges for flights in Colombia:",
+      "CO_HOURS": "Open 5:00 a.m. - Close 9:30 p.m.",
+      "INTL_TITLE": "Lounges for international flights:",
+      "INTL_HOURS": "Open 4:00 a.m. - Close 10:30 p.m.",
+      "INTL_ALT_HOURS": "Open 4:30 a.m. - Close 10:00 p.m."
+    },
+    "NOTES": {
+      "NO_REFUND": "Please note that service ends at closing time. This service is non‑refundable.",
+      "SEASONAL": "Hours may vary by season and availability."
+    },
+    "TOTAL_LABEL": "Total for all flights",
+    "SAME_CHOICE": "Same choice for all flights",
+    "CTA_SAVE": "Save and exit"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Departing Madrid to Arauca — Sun, Feb 08, 2026",
     "SUMMARY_DATES": "08 Feb – 11 Feb",

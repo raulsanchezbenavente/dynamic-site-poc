@@ -62,8 +62,10 @@
       (click)="$event.stopPropagation()">
       @if (activeModal === 'seat') {
         <seat-selection (close)="closeModal()"></seat-selection>
-      } @else {
+      } @else if (activeModal === 'baggage') {
         <baggage-selection (close)="closeModal()"></baggage-selection>
+      } @else {
+        <lounge-selection (close)="closeModal()"></lounge-selection>
       }
     </div>
   </div>

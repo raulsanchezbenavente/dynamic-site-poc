@@ -7,6 +7,7 @@ import { RouterHelperService } from '../../../services/router-helper/router-help
 import { AppLang } from '../../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
 import { BaggageSelectionComponent } from '../baggage-selection/baggage-selection.component';
+import { LoungeSelectionComponent } from '../lounge-selection/lounge-selection.component';
 import { SeatSelectionComponent } from '../seat-selection/seat-selection.component';
 
 type ExtraCard = {
@@ -23,7 +24,7 @@ type ExtraCard = {
 @Component({
   selector: 'extra',
   standalone: true,
-  imports: [CommonModule, TranslateModule, SeatSelectionComponent, BaggageSelectionComponent],
+  imports: [CommonModule, TranslateModule, SeatSelectionComponent, BaggageSelectionComponent, LoungeSelectionComponent],
   templateUrl: './extra.component.html',
   styleUrl: './extra.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,7 +34,7 @@ export class ExtraComponent implements OnDestroy {
   private routerHelper = inject(RouterHelperService);
   private siteConfig = inject(SiteConfigService);
 
-  public activeModal: 'seat' | 'baggage' | null = null;
+  public activeModal: 'seat' | 'baggage' | 'lounge' | null = null;
 
   public extras: ExtraCard[] = [
     {
@@ -93,7 +94,7 @@ export class ExtraComponent implements OnDestroy {
   ];
 
   public openModal(cardId: ExtraCard['id']): void {
-    if (cardId === 'seat' || cardId === 'baggage') {
+    if (cardId === 'seat' || cardId === 'baggage' || cardId === 'lounge') {
       this.activeModal = cardId;
       this.setBodyScrollLocked(true);
     }
