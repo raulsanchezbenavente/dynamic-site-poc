@@ -435,6 +435,25 @@
     "SAME_FOR_ALL": "Mesmo equipamento esportivo para todos os voos",
     "CTA_SAVE": "Salvar e continuar"
   },
+  "ASSIST": {
+    "TITLE": "Assistência em viagem",
+    "CLOSE": "Fechar",
+    "IMG_ALT": "Assistência em viagem",
+    "PASSENGERS": {
+      "ALL": "Assegurar todos os passageiros",
+      "P1": "Camila López",
+      "P2": "Andrés Gómez"
+    },
+    "INFO_TITLE": "Viaje seguro com Iké",
+    "INFO_SUBTITLE": "Proteja-se contra imprevistos:",
+    "BENEFITS": {
+      "MEDICAL": "Emergências médicas, inclusive as relacionadas à COVID-19",
+      "CANCEL": "Cancelamento ou interrupção da viagem",
+      "BAGGAGE": "Imprevistos com a bagagem e outras assistências"
+    },
+    "TOTAL_ALL": "Total para todos os voos",
+    "CTA_SAVE": "Salvar e sair"
+  },
   "RESULTS": {
     "ROUTE_TITLE": "Partida de Madrid para Arauca — Dom, 08 Fev 2026",
     "SUMMARY_DATES": "08 Fev – 11 Fev",

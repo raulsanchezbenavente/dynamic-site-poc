@@ -1,0 +1,149 @@
+.as-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(20, 20, 20, 0.25);
+  overflow: hidden;
+}
+
+.as-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  border-bottom: 1px solid #ececec;
+}
+
+.as-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.as-close {
+  border: 0;
+  background: transparent;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+}
+
+.as-body {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+  padding: 20px 28px;
+}
+
+.as-left {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.as-row {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #efefef;
+  font-weight: 600;
+}
+
+.as-row--main {
+  font-size: 16px;
+}
+
+.as-row--sub {
+  font-size: 14px;
+  color: #4d4d4d;
+}
+
+.as-row-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.as-row-label::after {
+  content: 'i';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1f1f1f;
+  color: #fff;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.as-row--sub .as-row-label::after {
+  content: '';
+  display: none;
+}
+
+.as-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.as-illustration img {
+  width: 220px;
+  height: auto;
+}
+
+.as-info {
+  background: #f6f2ef;
+  border-radius: 12px;
+  padding: 16px;
+  width: 100%;
+}
+
+.as-info h3 {
+  margin: 0 0 6px;
+}
+
+.as-info ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 6px;
+}
+
+.as-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 28px 24px;
+  border-top: 1px solid #efefef;
+}
+
+.as-total {
+  font-weight: 600;
+}
+
+.as-cta {
+  border: 0;
+  background: #e10600;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+  .as-body {
+    grid-template-columns: 1fr;
+  }
+
+  .as-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

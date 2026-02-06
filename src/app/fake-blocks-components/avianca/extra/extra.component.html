@@ -66,8 +66,10 @@
         <baggage-selection (close)="closeModal()"></baggage-selection>
       } @else if (activeModal === 'lounge') {
         <lounge-selection (close)="closeModal()"></lounge-selection>
-      } @else {
+      } @else if (activeModal === 'sports') {
         <sports-selection (close)="closeModal()"></sports-selection>
+      } @else {
+        <assist-selection (close)="closeModal()"></assist-selection>
       }
     </div>
   </div>
