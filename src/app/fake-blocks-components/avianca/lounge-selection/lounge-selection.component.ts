@@ -12,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoungeSelectionComponent {
-  @Output() public close = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   public tabs = [
     {

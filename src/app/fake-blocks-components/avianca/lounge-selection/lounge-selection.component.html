@@ -5,7 +5,7 @@
       <button
         type="button"
         class="al-close"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'LOUNGE.CLOSE' | translate }}
       </button>
     </header>
@@ -107,7 +107,7 @@
       <button
         type="button"
         class="al-cta"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'LOUNGE.CTA_SAVE' | translate }}
       </button>
     </footer>

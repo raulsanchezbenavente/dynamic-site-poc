@@ -5,7 +5,7 @@
       <button
         type="button"
         class="ss-close"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'SEAT_SELECTION.CLOSE' | translate }}
       </button>
     </header>
@@ -21,7 +21,7 @@
         </button>
       }
     </div>
-
+          (click)="closed.emit()">
     <div class="ss-body">
       <aside class="ss-passengers">
         <div class="ss-passenger is-active">
@@ -130,7 +130,7 @@
       <button
         type="button"
         class="ss-next"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'SEAT_SELECTION.NEXT_FLIGHT' | translate }}
       </button>
     </footer>

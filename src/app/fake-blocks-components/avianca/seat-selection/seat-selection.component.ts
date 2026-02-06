@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SeatSelectionComponent {
-  @Output() public close = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   public legs = ['MAD - BOG', 'BOG - AUC', 'AUC - BOG', 'BOG - MAD'];
   public activeLeg = this.legs[0];

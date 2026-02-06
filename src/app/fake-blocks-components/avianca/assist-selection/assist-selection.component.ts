@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AssistSelectionComponent {
-  @Output() public close = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   public passengers = [
     { id: 'all', nameKey: 'ASSIST.PASSENGERS.ALL', checked: false },

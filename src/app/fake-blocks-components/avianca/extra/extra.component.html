@@ -61,17 +61,17 @@
       class="ex-modal-content"
       (click)="$event.stopPropagation()">
       @if (activeModal === 'seat') {
-        <seat-selection (close)="closeModal()"></seat-selection>
+        <seat-selection (closed)="closeModal()"></seat-selection>
       } @else if (activeModal === 'baggage') {
-        <baggage-selection (close)="closeModal()"></baggage-selection>
+        <baggage-selection (closed)="closeModal()"></baggage-selection>
       } @else if (activeModal === 'lounge') {
-        <lounge-selection (close)="closeModal()"></lounge-selection>
+        <lounge-selection (closed)="closeModal()"></lounge-selection>
       } @else if (activeModal === 'sports') {
-        <sports-selection (close)="closeModal()"></sports-selection>
+        <sports-selection (closed)="closeModal()"></sports-selection>
       } @else if (activeModal === 'assist') {
-        <assist-selection (close)="closeModal()"></assist-selection>
+        <assist-selection (closed)="closeModal()"></assist-selection>
       } @else {
-        <priority-selection (close)="closeModal()"></priority-selection>
+        <priority-selection (closed)="closeModal()"></priority-selection>
       }
     </div>
   </div>

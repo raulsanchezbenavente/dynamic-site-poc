@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PrioritySelectionComponent {
-  @Output() public close = new EventEmitter<void>();
+  @Output() public closed: EventEmitter<void> = new EventEmitter<void>();
 
   public tabs = ['PRIORITY.TABS.MADRID', 'PRIORITY.TABS.BOGOTA', 'PRIORITY.TABS.ARUBA', 'PRIORITY.TABS.BOGOTA'];
   public activeTab = this.tabs[0];

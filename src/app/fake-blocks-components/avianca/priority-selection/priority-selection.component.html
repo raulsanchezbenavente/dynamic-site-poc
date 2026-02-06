@@ -5,7 +5,7 @@
       <button
         type="button"
         class="pr-close"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'PRIORITY.CLOSE' | translate }}
       </button>
     </header>
@@ -80,7 +80,7 @@
       <button
         type="button"
         class="pr-cta"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'PRIORITY.CTA_SAVE' | translate }}
       </button>
     </footer>

@@ -11,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaggageSelectionComponent {
-  @Output() public close = new EventEmitter<void>();
+  @Output() public closed = new EventEmitter<void>();
 
   public legs = ['MAD - AUC', 'AUC - MAD'];
   public activeLeg = this.legs[0];

@@ -5,7 +5,7 @@
       <button
         type="button"
         class="bs-close"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'BAGGAGE_SELECTION.CLOSE' | translate }}
       </button>
     </header>
@@ -94,7 +94,7 @@
       <button
         type="button"
         class="bs-footer-cta"
-        (click)="close.emit()">
+        (click)="closed.emit()">
         {{ 'BAGGAGE_SELECTION.CTA_SAVE' | translate }}
       </button>
     </footer>
