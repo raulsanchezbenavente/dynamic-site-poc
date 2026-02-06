@@ -19,6 +19,7 @@ This project is a proof of concept for a **dynamic flight booking website**, bui
 - 🧩 Extras modals: seat, baggage, lounges, sports equipment, assistance, priority boarding
 - 🔒 Modal body scroll lock for extras
 - 💳 Payment methods: card, PayPal, Apple Pay, Google Pay
+- 🎨 Custom SVG illustrations for extras and payments (non-official logos)
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 
 ---
@@ -92,7 +93,8 @@ src/
 │       └── site-config/
 ├── assets/
 │   ├── config-site/              # CMS-like JSON site config
-│   └── i18n/                      # Translations (en/es/fr/pt)
+│   ├── i18n/                      # Translations (en/es/fr/pt)
+│   └── illustrations/             # UI SVGs (extras, payments)
 └── styles.scss
 ```
 
