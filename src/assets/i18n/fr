@@ -196,9 +196,13 @@
   "PAYMENT": {
     "TITLE": "Sélectionnez votre moyen de paiement",
     "METHOD_CARD": "Carte de crédit et de débit",
+    "METHOD_CARD_DESC": "Payez en toute sécurité avec Visa, Mastercard, Amex ou Avianca UATP.",
     "METHOD_PAYPAL": "PayPal",
+    "METHOD_PAYPAL_DESC": "Connectez-vous à PayPal et confirmez votre paiement en quelques secondes.",
     "METHOD_APPLEPAY": "Apple Pay",
+    "METHOD_APPLEPAY_DESC": "Utilisez Apple Wallet pour un paiement rapide et sécurisé.",
     "METHOD_GPAY": "Google Pay",
+    "METHOD_GPAY_DESC": "Payez avec Google Pay en utilisant vos cartes enregistrées.",
     "SPLIT_TOGGLE": "Répartir le paiement de vos vols sur deux cartes différentes",
     "CARD_INFO_TITLE": "Informations de la carte",
     "CARD_NUMBER_LABEL": "Numéro de carte",

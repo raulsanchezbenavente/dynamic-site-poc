@@ -11,6 +11,7 @@ import { SiteConfigService } from '../../../services/site-config/site-config.ser
 type PaymentMethod = {
   id: 'card' | 'paypal' | 'applepay' | 'gpay';
   label: string;
+  descriptionKey: string;
   logos?: string[];
 };
 
@@ -31,19 +32,23 @@ export class PaymentComponent {
     {
       id: 'card',
       label: 'PAYMENT.METHOD_CARD',
+      descriptionKey: 'PAYMENT.METHOD_CARD_DESC',
       logos: ['VISA', 'MC', 'AMEX'],
     },
     {
       id: 'paypal',
       label: 'PAYMENT.METHOD_PAYPAL',
+      descriptionKey: 'PAYMENT.METHOD_PAYPAL_DESC',
     },
     {
       id: 'applepay',
       label: 'PAYMENT.METHOD_APPLEPAY',
+      descriptionKey: 'PAYMENT.METHOD_APPLEPAY_DESC',
     },
     {
       id: 'gpay',
       label: 'PAYMENT.METHOD_GPAY',
+      descriptionKey: 'PAYMENT.METHOD_GPAY_DESC',
     },
   ];
 

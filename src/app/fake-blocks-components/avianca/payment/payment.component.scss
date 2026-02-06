@@ -90,6 +90,21 @@
   font-weight: 600;
 }
 
+.pay-method-text {
+  display: grid;
+  gap: 4px;
+}
+
+.pay-method-title {
+  font-weight: 700;
+}
+
+.pay-method-desc {
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+}
+
 .pay-logos {
   display: flex;
   gap: 8px;

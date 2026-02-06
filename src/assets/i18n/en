@@ -196,9 +196,13 @@
   "PAYMENT": {
     "TITLE": "Select your payment method",
     "METHOD_CARD": "Credit and debit card",
+    "METHOD_CARD_DESC": "Pay securely with Visa, Mastercard, Amex or Avianca UATP.",
     "METHOD_PAYPAL": "PayPal",
+    "METHOD_PAYPAL_DESC": "Log in to PayPal and confirm your payment in seconds.",
     "METHOD_APPLEPAY": "Apple Pay",
+    "METHOD_APPLEPAY_DESC": "Use your Apple Wallet for a fast, secure checkout.",
     "METHOD_GPAY": "Google Pay",
+    "METHOD_GPAY_DESC": "Checkout with Google Pay using your saved cards.",
     "SPLIT_TOGGLE": "Split your flight payment across two different cards",
     "CARD_INFO_TITLE": "Card information",
     "CARD_NUMBER_LABEL": "Card number",
