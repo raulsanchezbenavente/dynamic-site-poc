@@ -59,9 +59,10 @@
 
 .ss-body {
   display: grid;
-  grid-template-columns: 1.4fr 2.2fr 1.2fr;
+  grid-template-columns: 280px max-content minmax(160px, 1fr);
   gap: 16px;
   min-height: 420px;
+  align-items: start;
 }
 
 .ss-passengers {
@@ -99,6 +100,9 @@
   border-radius: 12px;
   padding: 12px;
   background: #f8fafc;
+  min-width: 0;
+  width: max-content;
+  max-width: 100%;
 }
 
 .ss-map-header {
@@ -204,6 +208,7 @@
   border-radius: 12px;
   padding: 12px;
   background: #fff;
+  min-width: 0;
 }
 
 .ss-info-title {
@@ -293,7 +298,7 @@
 
 @media (max-width: 900px) {
   .ss-body {
-    grid-template-columns: minmax(320px, 1fr) minmax(240px, 320px);
+    grid-template-columns: 1fr minmax(140px, 1fr);
     grid-template-areas:
       'passengers passengers'
       'map info';
@@ -305,11 +310,13 @@
 
   .ss-map {
     grid-area: map;
+    width: max-content;
+    max-width: 100%;
   }
 
   .ss-info {
     grid-area: info;
-    min-width: 240px;
+    max-width: 240px;
   }
 
   .ss-footer {
@@ -318,13 +325,36 @@
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 800px) {
+  .ss-info {
+    max-width: 200px;
+  }
+}
+
+@media (max-width: 630px) {
   .ss-body {
     grid-template-columns: 1fr;
     grid-template-areas:
       'passengers'
       'map'
       'info';
+  }
+}
+
+@media (max-width: 450px) {
+  .ss-map {
+    --ss-seat: 18px;
+    --ss-aisle: 6px;
+    --ss-row-label: 20px;
+    --ss-gap: 3px;
+  }
+
+  .ss-col {
+    font-size: 11px;
+  }
+
+  .ss-row-label {
+    font-size: 11px;
   }
 }
 
@@ -338,10 +368,6 @@
   }
 
   .ss-map {
-    --ss-seat: 20px;
-    --ss-aisle: 8px;
-    --ss-row-label: 22px;
-    --ss-gap: 4px;
     overflow: visible;
   }
 
