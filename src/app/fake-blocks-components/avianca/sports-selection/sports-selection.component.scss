@@ -202,6 +202,29 @@
   }
 }
 
+@media (max-width: 600px) {
+  .sp-item {
+    grid-template-columns: 1fr 140px;
+    grid-template-areas:
+      'image image'
+      'info qty';
+  }
+
+  .sp-item-img {
+    grid-area: image;
+  }
+
+  .sp-item-info {
+    grid-area: info;
+  }
+
+  .sp-item-qty {
+    grid-area: qty;
+    justify-self: end;
+    width: auto;
+  }
+}
+
 @media (max-width: 900px) {
   .sp-card {
     max-height: none;
