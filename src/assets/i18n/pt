@@ -433,7 +433,10 @@
     "ITEMS": {
       "BIKE": "Bicicleta",
       "GOLF": "Golfe",
-      "SURF": "Surf"
+      "SURF": "Surf",
+      "KITESURF": "KiteSurfing",
+      "SKI": "Equipamento de esqui",
+      "HANG_GLIDING": "Asa delta"
     },
     "PRICE_PER_PIECE": "Preço por peça",
     "ITEM_TOTAL": "Total",

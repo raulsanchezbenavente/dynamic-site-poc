@@ -26,6 +26,9 @@ export class SportsSelectionComponent {
     { id: 'bike', nameKey: 'SPORTS.ITEMS.BIKE', price: 130, imageUrl: '/assets/illustrations/extras/bike.svg', qty: 0 },
     { id: 'golf', nameKey: 'SPORTS.ITEMS.GOLF', price: 130, imageUrl: '/assets/illustrations/extras/golf.svg', qty: 0 },
     { id: 'surf', nameKey: 'SPORTS.ITEMS.SURF', price: 130, imageUrl: '/assets/illustrations/extras/surf.svg', qty: 0 },
+    { id: 'kitesurf', nameKey: 'SPORTS.ITEMS.KITESURF', price: 130, imageUrl: '/assets/illustrations/extras/kitesurfing.svg', qty: 0 },
+    { id: 'ski', nameKey: 'SPORTS.ITEMS.SKI', price: 130, imageUrl: '/assets/illustrations/extras/ski.svg', qty: 0 },
+    { id: 'hangglide', nameKey: 'SPORTS.ITEMS.HANG_GLIDING', price: 45.94, imageUrl: '/assets/illustrations/extras/hang-gliding.svg', qty: 0 },
   ];
 
   public setLeg(leg: string): void {
