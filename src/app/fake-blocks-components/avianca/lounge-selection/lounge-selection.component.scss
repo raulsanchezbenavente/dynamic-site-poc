@@ -7,6 +7,9 @@
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(20, 20, 20, 0.25);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
 }
 
 .al-header {
@@ -82,6 +85,12 @@
   grid-template-columns: 1.1fr 1fr;
   gap: 24px;
   padding: 20px 28px;
+  min-height: 0;
+}
+
+.al-body-scroll {
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .al-left {
@@ -219,6 +228,14 @@
 }
 
 @media (max-width: 1024px) {
+  .al-card {
+    max-height: none;
+  }
+
+  .al-body-scroll {
+    overflow: visible;
+  }
+
   .al-body {
     grid-template-columns: 1fr;
   }

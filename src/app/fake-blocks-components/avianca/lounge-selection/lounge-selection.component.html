@@ -31,66 +31,68 @@
       }
     </div>
 
-    <div class="al-body">
-      <section class="al-left">
-        <div class="al-flight">
-          <span class="al-flight-icon">🗓</span>
-          <span class="al-flight-text">{{ activeTab.flightTextKey | translate }}</span>
-        </div>
-
-        <div class="al-passengers">
-          @for (p of passengers; track p.id) {
-            <label class="al-passenger">
-              <input
-                type="checkbox"
-                [checked]="p.checked"
-                (change)="togglePassenger(p.id)" />
-              <span class="al-passenger-label">{{ p.labelKey | translate }}</span>
-              <span class="al-passenger-price">{{ formatPrice(activeTab.priceValue) }}</span>
-            </label>
-          }
-        </div>
-      </section>
-
-      <aside class="al-right">
-        <div class="al-info-card">
-          <div class="al-info-head">
-            <div>
-              <h3 class="al-info-title">{{ 'LOUNGE.INFO_TITLE' | translate }}</h3>
-              <ul class="al-info-list">
-                @for (b of activeTab.benefitsKeys; track b) {
-                  <li>✓ {{ b | translate }}</li>
-                }
-              </ul>
-            </div>
-            <div class="al-info-illustration">
-              <img
-                src="/assets/illustrations/extras/lounge.svg"
-                [alt]="'LOUNGE.IMG_ALT' | translate" />
-            </div>
+    <div class="al-body-scroll">
+      <div class="al-body">
+        <section class="al-left">
+          <div class="al-flight">
+            <span class="al-flight-icon">🗓</span>
+            <span class="al-flight-text">{{ activeTab.flightTextKey | translate }}</span>
           </div>
 
-          <div class="al-info-foot">
-            <div class="al-info-note">{{ 'LOUNGE.INFO_NOTE' | translate }}</div>
-            @for (s of activeTab.schedule; track s.titleKey) {
-              <div class="al-info-block">
-                <strong>{{ s.titleKey | translate }}</strong>
-                <div>{{ s.hoursKey | translate }}</div>
-              </div>
+          <div class="al-passengers">
+            @for (p of passengers; track p.id) {
+              <label class="al-passenger">
+                <input
+                  type="checkbox"
+                  [checked]="p.checked"
+                  (change)="togglePassenger(p.id)" />
+                <span class="al-passenger-label">{{ p.labelKey | translate }}</span>
+                <span class="al-passenger-price">{{ formatPrice(activeTab.priceValue) }}</span>
+              </label>
             }
-            <p class="al-info-muted">
-              {{ activeTab.noteKey | translate }}
-            </p>
-            <a
-              class="al-info-link"
-              target="_blank"
-              rel="noreferrer"
-              [href]="activeTab.linkHref">
-              {{ activeTab.linkTextKey | translate }}
-            </a>
           </div>
-        </div>
-      </aside>
+        </section>
+
+        <aside class="al-right">
+          <div class="al-info-card">
+            <div class="al-info-head">
+              <div>
+                <h3 class="al-info-title">{{ 'LOUNGE.INFO_TITLE' | translate }}</h3>
+                <ul class="al-info-list">
+                  @for (b of activeTab.benefitsKeys; track b) {
+                    <li>✓ {{ b | translate }}</li>
+                  }
+                </ul>
+              </div>
+              <div class="al-info-illustration">
+                <img
+                  src="/assets/illustrations/extras/lounge.svg"
+                  [alt]="'LOUNGE.IMG_ALT' | translate" />
+              </div>
+            </div>
+
+            <div class="al-info-foot">
+              <div class="al-info-note">{{ 'LOUNGE.INFO_NOTE' | translate }}</div>
+              @for (s of activeTab.schedule; track s.titleKey) {
+                <div class="al-info-block">
+                  <strong>{{ s.titleKey | translate }}</strong>
+                  <div>{{ s.hoursKey | translate }}</div>
+                </div>
+              }
+              <p class="al-info-muted">
+                {{ activeTab.noteKey | translate }}
+              </p>
+              <a
+                class="al-info-link"
+                target="_blank"
+                rel="noreferrer"
+                [href]="activeTab.linkHref">
+                {{ activeTab.linkTextKey | translate }}
+              </a>
+            </div>
+          </div>
+        </aside>
+      </div>
     </div>
 
     <footer class="al-footer">
