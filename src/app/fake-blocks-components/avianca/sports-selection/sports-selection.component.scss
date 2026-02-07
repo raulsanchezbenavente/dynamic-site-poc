@@ -129,6 +129,8 @@
   grid-template-columns: 28px 30px 28px;
   grid-auto-rows: min-content;
   justify-items: center;
+  justify-self: end;
+  align-content: start;
   row-gap: 6px;
 }
 
@@ -189,21 +191,23 @@
   cursor: pointer;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 900px) {
   .sp-body {
     grid-template-columns: 1fr;
-  }
-
-  .sp-item {
-    grid-template-columns: 1fr;
-  }
-
-  .sp-item-qty {
-    justify-items: start;
   }
 
   .sp-footer {
     grid-template-columns: 1fr;
     justify-items: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .sp-card {
+    max-height: none;
+  }
+
+  .sp-items-scroll {
+    overflow: visible;
   }
 }
