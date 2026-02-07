@@ -36,38 +36,40 @@
         }
       </aside>
 
-      <section class="sp-items">
-        @for (item of items; track item.id) {
-          <article class="sp-item">
-            <img
-              class="sp-item-img"
-              [src]="item.imageUrl"
-              [alt]="item.nameKey | translate" />
-            <div class="sp-item-info">
-              <h3 class="sp-item-title">{{ item.nameKey | translate }}</h3>
-              <div class="sp-item-price">{{ 'SPORTS.PRICE_PER_PIECE' | translate }}</div>
-              <div class="sp-item-price-value">{{ formatPrice(item.price) }}</div>
-            </div>
-            <div class="sp-item-qty">
-              <button
-                type="button"
-                class="sp-qty-btn"
-                (click)="decrement(item.id)">
-                −
-              </button>
-              <span class="sp-qty-value">{{ item.qty }}</span>
-              <button
-                type="button"
-                class="sp-qty-btn"
-                (click)="increment(item.id)">
-                +
-              </button>
-              <div class="sp-qty-label">{{ 'SPORTS.ITEM_TOTAL' | translate }}</div>
-              <div class="sp-qty-total">{{ totalFor(item.id) }}</div>
-            </div>
-          </article>
-        }
-      </section>
+      <div class="sp-items-scroll">
+        <section class="sp-items">
+          @for (item of items; track item.id) {
+            <article class="sp-item">
+              <img
+                class="sp-item-img"
+                [src]="item.imageUrl"
+                [alt]="item.nameKey | translate" />
+              <div class="sp-item-info">
+                <h3 class="sp-item-title">{{ item.nameKey | translate }}</h3>
+                <div class="sp-item-price">{{ 'SPORTS.PRICE_PER_PIECE' | translate }}</div>
+                <div class="sp-item-price-value">{{ formatPrice(item.price) }}</div>
+              </div>
+              <div class="sp-item-qty">
+                <button
+                  type="button"
+                  class="sp-qty-btn"
+                  (click)="decrement(item.id)">
+                  −
+                </button>
+                <span class="sp-qty-value">{{ item.qty }}</span>
+                <button
+                  type="button"
+                  class="sp-qty-btn"
+                  (click)="increment(item.id)">
+                  +
+                </button>
+                <div class="sp-qty-label">{{ 'SPORTS.ITEM_TOTAL' | translate }}</div>
+                <div class="sp-qty-total">{{ totalFor(item.id) }}</div>
+              </div>
+            </article>
+          }
+        </section>
+      </div>
     </div>
 
     <footer class="sp-footer">
