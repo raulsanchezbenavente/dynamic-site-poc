@@ -88,11 +88,14 @@
   align-items: center;
   width: 100%;
   font-weight: 600;
+  gap: 12px;
+  flex-wrap: nowrap;
 }
 
 .pay-method-text {
   display: grid;
   gap: 4px;
+  min-width: 0;
 }
 
 .pay-method-title {
@@ -108,6 +111,8 @@
 .pay-logos {
   display: flex;
   gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .pay-logo {
@@ -117,6 +122,8 @@
   font-size: 11px;
   font-weight: 700;
   background: #fff;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .pay-logo--apple {
@@ -132,6 +139,10 @@
   border-color: #111827;
   color: #111827;
   font-weight: 700;
+}
+
+.pay-method > .pay-logo {
+  margin-left: auto;
 }
 
 .pay-divider {
@@ -372,5 +383,11 @@
 @media (max-width: 980px) {
   .pay-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pay-method-desc {
+    display: none;
   }
 }
