@@ -19,7 +19,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🧩 Extras modals: seat, baggage, lounges, sports equipment, assistance, priority boarding
 - 🔒 Modal body scroll lock for extras
 - ⌨️ ESC closes extras modals
-- 📱 Mobile-friendly modals (responsive images, seat map without scroll on small screens)
+- 📱 Mobile-friendly modals (responsive images, seat map without scroll on small screens, safe viewport spacing)
 - 💳 Payment methods: card, PayPal, Apple Pay, Google Pay
 - 🎨 Custom SVG illustrations for extras and payments (non-official logos)
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
