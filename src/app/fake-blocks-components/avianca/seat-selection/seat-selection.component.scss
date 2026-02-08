@@ -376,7 +376,7 @@
   }
 
   .ss-map-scroll {
-    overflow-x: hidden;
+    overflow: visible;
   }
 
   .ss-col {
@@ -388,7 +388,7 @@
   }
 
   .ss-map-scroll {
-    max-height: 280px;
+    max-height: none;
   }
 
   .ss-footer {
