@@ -70,7 +70,6 @@
                         [class.ss-seat--selected]="selectedSeat === getSeatId(row, col)"
                         [attr.aria-label]="'SEAT_SELECTION.SEAT_ARIA' | translate: { seat: getSeatId(row, col) }"
                         (click)="selectSeat(getSeatId(row, col))">
-                        <span class="ss-seat-icon"></span>
                       </button>
                     }
                   }
