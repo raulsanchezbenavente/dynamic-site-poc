@@ -3,6 +3,9 @@
   border-radius: 16px;
   box-shadow: 0 20px 60px rgba(20, 20, 20, 0.25);
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
 }
 
 .as-header {
@@ -32,6 +35,12 @@
   grid-template-columns: 1.2fr 1fr;
   gap: 24px;
   padding: 20px 28px;
+  min-height: 0;
+}
+
+.as-body-scroll {
+  min-height: 0;
+  overflow-y: auto;
 }
 
 .as-left {
@@ -138,6 +147,14 @@
 }
 
 @media (max-width: 1024px) {
+  .as-card {
+    max-height: none;
+  }
+
+  .as-body-scroll {
+    overflow: visible;
+  }
+
   .as-body {
     grid-template-columns: 1fr;
   }
