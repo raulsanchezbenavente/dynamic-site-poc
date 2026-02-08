@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -44,5 +44,10 @@ export class AssistSelectionComponent {
       .every((p) => p.checked);
     const allPassenger = this.passengers.find((p) => p.id === 'all');
     if (allPassenger) allPassenger.checked = allSelected;
+  }
+
+  @HostListener('document:keydown.escape')
+  public handleEscape(): void {
+    this.closed.emit();
   }
 }

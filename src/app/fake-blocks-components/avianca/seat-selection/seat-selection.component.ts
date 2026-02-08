@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -92,5 +92,10 @@ export class SeatSelectionComponent {
     }
 
     this.selectedSeat = seatId;
+  }
+
+  @HostListener('document:keydown.escape')
+  public handleEscape(): void {
+    this.closed.emit();
   }
 }

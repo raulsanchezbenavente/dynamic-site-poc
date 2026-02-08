@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostListener, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -142,5 +142,10 @@ export class LoungeSelectionComponent {
       style: 'currency',
       currency: 'EUR',
     }).format(value);
+  }
+
+  @HostListener('document:keydown.escape')
+  public handleEscape(): void {
+    this.closed.emit();
   }
 }
