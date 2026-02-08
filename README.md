@@ -1,14 +1,14 @@
-# ✈️ Dynamic Flight Site (Angular + CMS)
+# ✈️ Dynamic Flight Site PoC (Angular + CMS)
 
-This project is a proof of concept for a **dynamic flight booking website**, built with **Angular**, where each page is composed dynamically based on a **declarative configuration** (simulating integration with a CMS like Umbraco).
+Proof of concept for a **dynamic flight booking website** built with **Angular**. Each page is assembled at runtime from a **declarative configuration** (simulating a CMS like Umbraco).
 
 ---
 
 ## 🚀 Features
 
-- ✨ Dynamic architecture driven by configuration (`site-config` endpoint)
+- ✨ Dynamic architecture driven by configuration (`assets/config-site`)
 - 📄 Page composition via reusable blocks
-- 📍 Dynamic routing based on JSON config site
+- 📍 Dynamic routing based on JSON site config
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Language-aware navigation using `pageId` → path mapping
@@ -103,6 +103,7 @@ src/
 ## 🧪 Requirements
 
 - Node.js (v18+ recommended)
+- npm (comes with Node)
 - Angular CLI (`npm install -g @angular/cli`)
 
 ---
@@ -110,8 +111,8 @@ src/
 ## 🛠️ Installation
 
 ```bash
-git clone https://github.com/your-user/dynamic-flight-site.git
-cd dynamic-flight-site
+git clone https://github.com/your-user/dynamic-site-poc.git
+cd dynamic-site-poc
 npm install
 ```
 
@@ -120,24 +121,28 @@ npm install
 ## ▶️ Run the App
 
 ```bash
-# Terminal 1: API for booking flow
+# Terminal 1: booking flow API (port 3000)
 node server/index.js
 
-# Terminal 2: Angular app
+# Terminal 2: Angular app (port 4200)
 npm start
 ```
 
 Then visit:
 📍 [http://localhost:4200](http://localhost:4200)
 
+API runs on:
+📍 http://localhost:3000
+
+> If you see missing module errors when starting the API, install the server deps:
+> `npm install express cors uuid`
+
 ---
 
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-
 2. `DynamicPageComponent` renders pages dynamically via `block-outlet`.
-
 3. Booking progress is tracked locally and validated against the API on port 3000.
 
 ---
@@ -164,4 +169,4 @@ Then visit:
 
 ## 📝 License
 
-MIT © \[raulshred]
+MIT © raulshred
