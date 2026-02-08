@@ -140,8 +140,8 @@
   padding: 14px 16px;
   display: grid;
   grid-template-columns: 120px 1fr auto;
+  grid-template-rows: auto 1fr;
   gap: 12px;
-  position: relative;
   background: #f8f7ff;
 }
 
@@ -150,9 +150,9 @@
 }
 
 .bs-product-badge {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  grid-column: 2 / 3;
+  grid-row: 1;
+  justify-self: center;
   background: #4f46e5;
   color: #fff;
   font-size: 11px;
@@ -162,9 +162,15 @@
 }
 
 .bs-product-img {
-  width: 104px;
-  height: 104px;
+  width: 100%;
+  max-width: 160px;
+  height: auto;
   align-self: center;
+  grid-row: 1 / span 2;
+}
+
+.bs-product-info {
+  grid-row: 2;
 }
 
 .bs-product-title {
@@ -194,6 +200,7 @@
   gap: 6px;
   align-content: start;
   justify-items: center;
+  grid-row: 1 / span 2;
 }
 
 .bs-qty-btn {
@@ -322,18 +329,35 @@
 
   .bs-product-card {
     grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
     text-align: left;
   }
 
+  .bs-product-badge {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+  }
+
   .bs-product-img {
-    width: min(220px, 100%);
+    width: 100%;
+    max-width: 320px;
     height: auto;
     justify-self: center;
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .bs-product-info {
+    grid-column: 1;
+    grid-row: 3;
   }
 
   .bs-product-qty {
     grid-template-columns: 32px 32px 32px;
     justify-content: flex-start;
+    grid-column: 1;
+    grid-row: 4;
   }
 
   .bs-footer {
