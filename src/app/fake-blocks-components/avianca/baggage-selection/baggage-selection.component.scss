@@ -294,10 +294,16 @@
 }
 
 @media (max-width: 720px) {
+  .bs-shell {
+    padding: 12px 0;
+  }
+
   .bs-card {
     padding: 14px;
     gap: 12px;
-    max-height: none;
+    margin: 0 0 12px;
+    max-height: calc(100svh - 24px);
+    overflow: hidden;
   }
 
   .bs-header {
