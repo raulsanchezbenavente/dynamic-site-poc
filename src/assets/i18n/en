@@ -153,6 +153,12 @@
     "FREQUENT_FLYER": "I have a lifemiles frequent flyer number or one from another partner airline (optional)",
     "CTA_CONTINUE": "Continue"
   },
+  "BOOKING_FOOTER": {
+    "PASSENGERS": "Passengers",
+    "TOTAL_FOR": "Total for 1 passenger",
+    "TOTAL_CAPTION": "Reservation total",
+    "CTA_PAY": "Continue and pay"
+  },
   "SEAT_SELECTION": {
     "TITLE": "Seat selection",
     "CLOSE": "Close",

@@ -1,0 +1,53 @@
+<footer
+  class="bf-footer"
+  [class.is-sticky]="sticky()">
+  <div class="bf-inner">
+    <div class="bf-left">
+      <div class="bf-itinerary">
+        <div class="bf-segment">
+          <div class="bf-date">{{ outboundDate() }}</div>
+          <div class="bf-route">
+            <span class="bf-code">{{ outboundFrom() }}</span>
+            <span class="bf-plane">✈</span>
+            <span class="bf-code">{{ outboundTo() }}</span>
+          </div>
+          <div class="bf-time">{{ outboundTime() }}</div>
+        </div>
+
+        <div class="bf-segment">
+          <div class="bf-date">{{ returnDate() }}</div>
+          <div class="bf-route">
+            <span class="bf-code">{{ returnFrom() }}</span>
+            <span class="bf-plane">✈</span>
+            <span class="bf-code">{{ returnTo() }}</span>
+          </div>
+          <div class="bf-time">{{ returnTime() }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bf-center">
+      <div class="bf-meta-block">
+        <div class="bf-meta-label">{{ passengersLabelKey() | translate }}</div>
+        <div class="bf-meta-value">{{ passengersValue() }}</div>
+      </div>
+    </div>
+
+    <div class="bf-right">
+      <div class="bf-meta-block">
+        <div class="bf-meta-label">{{ totalLabelKey() | translate }}</div>
+        <div class="bf-meta-value">{{ totalValue() }}</div>
+        <div class="bf-meta-caption">{{ totalCaptionKey() | translate }}</div>
+      </div>
+
+      <button
+        type="button"
+        class="bf-cta"
+        [disabled]="disabled()"
+        (click)="onCtaClick()">
+        {{ ctaLabelKey() | translate }}
+      </button>
+    </div>
+
+  </div>
+</footer>

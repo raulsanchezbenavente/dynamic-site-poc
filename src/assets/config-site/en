@@ -62,14 +62,6 @@
                 "span": 12
               }
             ]
-          },
-          {
-            "cols": [
-              {
-                "component": "CorporateMainFooterBlock_uiplus",
-                "span": 12
-              }
-            ]
           }
         ]
       }
@@ -99,7 +91,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "bookingFooterComponent_uiplus",
                 "span": 12
               }
             ]
@@ -132,7 +124,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "bookingFooterComponent_uiplus",
                 "span": 12
               }
             ]
@@ -165,7 +157,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "bookingFooterComponent_uiplus",
                 "span": 12
               }
             ]
@@ -191,14 +183,6 @@
             "cols": [
               {
                 "component": "thankYou_uiplus",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12
               }
             ]

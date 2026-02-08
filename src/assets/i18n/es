@@ -153,6 +153,12 @@
     "FREQUENT_FLYER": "Tengo un número de viajero frecuente lifemiles o de otra aerolínea aliada (opcional)",
     "CTA_CONTINUE": "Continuar"
   },
+  "BOOKING_FOOTER": {
+    "PASSENGERS": "Pasajeros",
+    "TOTAL_FOR": "Total para 1 pasajero",
+    "TOTAL_CAPTION": "Total de tu reserva:",
+    "CTA_PAY": "Continuar y pagar"
+  },
   "SEAT_SELECTION": {
     "TITLE": "Selección de asientos",
     "CLOSE": "Cerrar",
