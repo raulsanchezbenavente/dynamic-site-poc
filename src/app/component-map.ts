@@ -4,6 +4,7 @@ import { DsTabsComponent } from './dynamic-composite/dynamic-tabs/tabs.component
 import { AccountProfileComponent } from './fake-blocks-components/avianca/account-profile/account-profile.component';
 import { AccountSettingsComponent } from './fake-blocks-components/avianca/account-settings/account-settings.component';
 import { AdsComponent } from './fake-blocks-components/avianca/ads/ads.component';
+import { BookingHeaderComponent } from './fake-blocks-components/avianca/booking-header/booking-header.component';
 import { EliteStatusComponent } from './fake-blocks-components/avianca/elite-status/elite-status.component';
 import { ExtraComponent } from './fake-blocks-components/avianca/extra/extra.component';
 import { FindBookingsComponent } from './fake-blocks-components/avianca/find-bookings/find-bookings.component';
@@ -51,6 +52,7 @@ export const componentMap: Record<string, Type<any>> = {
   CorporateMainFooterBlock_uiplus: MainFooterComponent,
   SearchComponentBlock_uiplus: SearchComponent,
   AdsComponentBlock_uiplus: AdsComponent,
+  bookingHeaderComponent_uiplus: BookingHeaderComponent,
   results_uiplus: ResultsComponent,
   extra_uiplus: ExtraComponent,
   payment_uiplus: PaymentComponent,

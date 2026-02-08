@@ -108,6 +108,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
   });
 
+
   public ngOnInit(): void {
     this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.langTick.update((v) => v + 1));
 
@@ -157,6 +158,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.markMenuItemAsActive(tabName);
       }
     });
+
   }
 
   public markMenuItemAsActive(activeTab: string): void {
@@ -256,9 +258,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.marketOpen.update((v) => !v);
   }
 
+
   public closeMarketMenu(): void {
     this.marketOpen.set(false);
   }
+
 
   public setMarket(item: { labelKey: string; currency: string }): void {
     this.pendingMarketKey.set(item.labelKey);

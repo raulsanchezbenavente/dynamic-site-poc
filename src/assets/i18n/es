@@ -47,7 +47,12 @@
     "MARKET_UNITED_KINGDOM": "Reino Unido",
     "MARKET_DOMINICAN_REPUBLIC": "República Dominicana",
     "MARKET_URUGUAY": "Uruguay",
-    "MARKET_OTHER_COUNTRIES": "Otros países"
+    "MARKET_OTHER_COUNTRIES": "Otros países",
+    "STEPS": {
+      "FLIGHTS": "Selección de vuelos",
+      "CUSTOMIZE": "Personaliza tu viaje",
+      "PAYMENT": "Pagos"
+    }
   },
   "FOOTER": {
     "FOLLOW_US": "¡Síguenos!",

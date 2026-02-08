@@ -50,7 +50,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "bookingHeaderComponent_uiplus",
                 "span": 12
               }
             ]
@@ -83,7 +83,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "bookingHeaderComponent_uiplus",
                 "span": 12
               }
             ]
@@ -116,7 +116,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "bookingHeaderComponent_uiplus",
                 "span": 12
               }
             ]
@@ -149,7 +149,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "bookingHeaderComponent_uiplus",
                 "span": 12
               }
             ]
@@ -182,7 +182,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "bookingHeaderComponent_uiplus",
                 "span": 12
               }
             ]
