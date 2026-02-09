@@ -22,6 +22,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 📱 Mobile-friendly modals (responsive images, seat map without scroll on small screens, safe viewport spacing)
 - 🧭 Booking header stepper with active state (responsive for small screens)
 - 🧾 Booking footer summary (itinerary, passengers, total, CTA)
+- 🌐 Booking header/footer mapped in config-site for all locales (EN/ES/FR/PT)
 - 💳 Payment methods: card, PayPal, Apple Pay, Google Pay
 - 🎨 Custom SVG illustrations for extras and payments (non-official logos)
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
