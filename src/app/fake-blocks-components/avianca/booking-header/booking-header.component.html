@@ -4,8 +4,9 @@
   <div class="bh-inner">
     <a
       class="bh-logo"
-      href="/"
-      aria-label="Avianca">
+      [attr.href]="homePath()"
+      aria-label="Avianca"
+      (click)="goHome($event)">
       <span class="bh-logo-text">avianca</span>
       <svg
         class="bh-logo-mark"
