@@ -14,7 +14,7 @@ const componentCache = new Map<string, Type<any>>();
       <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
     } @else if (isLoading()) {
       <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-        Loading component: <b>{{ block()?.component }}</b>
+        <!-- Loading component: <b>{{ block()?.component }}</b> -->
       </div>
     } @else {
       <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
