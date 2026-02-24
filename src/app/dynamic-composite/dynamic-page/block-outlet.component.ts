@@ -13,8 +13,14 @@ const componentCache = new Map<string, Type<any>>();
     @if (cmp(); as c) {
       <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
     } @else if (isLoading()) {
-      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-        <!-- Loading component: <b>{{ block()?.component }}</b> -->
+      <div
+        style="padding:.75rem;border:1px dashed #e0e0e0;background:#fafafa;margin-right:auto;margin-left:auto;border-radius:6px;">
+        <div
+          style="height:12px;background:linear-gradient(90deg,#eee,#f5f5f5,#eee);background-size:200% 100%;border-radius:6px;animation:skeleton 1.2s ease-in-out infinite;"></div>
+        <div
+          style="height:12px;margin-top:8px;width:70%;background:linear-gradient(90deg,#eee,#f5f5f5,#eee);background-size:200% 100%;border-radius:6px;animation:skeleton 1.2s ease-in-out infinite;"></div>
+        <div
+          style="height:12px;margin-top:8px;width:40%;background:linear-gradient(90deg,#eee,#f5f5f5,#eee);background-size:200% 100%;border-radius:6px;animation:skeleton 1.2s ease-in-out infinite;"></div>
       </div>
     } @else {
       <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
@@ -22,6 +28,18 @@ const componentCache = new Map<string, Type<any>>();
       </div>
     }
   `,
+  styles: [
+    `
+      @keyframes skeleton {
+        0% {
+          background-position: 200% 0;
+        }
+        100% {
+          background-position: -200% 0;
+        }
+      }
+    `,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockOutletComponent {
