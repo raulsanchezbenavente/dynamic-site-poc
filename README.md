@@ -9,6 +9,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ✨ Dynamic architecture driven by configuration (`assets/config-site`)
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON site config
+- 💤 Lazy block loading via dynamic component imports
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Language-aware navigation using `pageId` → path mapping
@@ -45,9 +46,13 @@ src/
 │   ├── app.routes.ts
 │   ├── component-map.ts         # Maps block names to Angular components
 │   ├── dynamic-composite/
+│   │   ├── block-outlet/
+│   │   │   ├── block-outlet.component.ts
+│   │   │   ├── block-outlet.component.html
+│   │   │   └── block-outlet.component.scss
 │   │   ├── dynamic-blocks.component.ts
+│   │   ├── dynamic-blocks.component.html
 │   │   └── dynamic-page/
-│   │       ├── block-outlet.component.ts
 │   │       ├── dynamic-page.component.ts
 │   │       ├── dynamic-page.component.html
 │   │       └── models/
@@ -147,7 +152,7 @@ API runs on:
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-2. `DynamicPageComponent` renders pages dynamically via `block-outlet`.
+2. `DynamicPageComponent` renders pages dynamically via `block-outlet` with lazy-loaded block components.
 3. Booking progress is tracked locally and validated against the API on port 3000.
 
 ---
