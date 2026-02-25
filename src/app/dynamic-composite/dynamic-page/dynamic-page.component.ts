@@ -3,7 +3,6 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
-import { componentMap } from '../../component-map';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
@@ -24,7 +23,6 @@ type PageLayoutRow = { cols: PageLayoutCol[] };
 })
 export class DynamicPageComponent implements OnInit {
   public rows: PageLayoutRow[] = [];
-  public componentMap = componentMap;
 
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
