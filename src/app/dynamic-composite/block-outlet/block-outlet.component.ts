@@ -8,6 +8,7 @@ import { componentMap } from '../../component-map';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './block-outlet.component.html',
+  styleUrl: './block-outlet.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockOutletComponent {

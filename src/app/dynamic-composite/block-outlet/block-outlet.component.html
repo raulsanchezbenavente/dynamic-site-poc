@@ -1,11 +1,21 @@
 @if (cmp(); as c) {
   <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
 } @else if (loading()) {
-  <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-    Loading component...
+  <div class="block-placeholder" aria-busy="true" aria-live="polite">
+    <div class="skeleton-row">
+      <div class="skeleton skeleton-avatar"></div>
+      <div class="skeleton-col">
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line"></div>
+      </div>
+    </div>
+    <div class="skeleton skeleton-media"></div>
+    <div class="skeleton skeleton-line"></div>
+    <div class="skeleton skeleton-line"></div>
+    <div class="skeleton skeleton-line short"></div>
   </div>
 } @else {
-  <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
+  <div class="block-placeholder">
     Missing component: <b>{{ block()?.component }}</b>
   </div>
 }
