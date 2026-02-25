@@ -50,19 +50,20 @@ src/
 │   │   │   ├── block-outlet.component.ts
 │   │   │   ├── block-outlet.component.html
 │   │   │   └── block-outlet.component.scss
-│   │   ├── dynamic-blocks.component.ts
-│   │   ├── dynamic-blocks.component.html
-│   │   └── dynamic-page/
-│   │       ├── dynamic-page.component.ts
-│   │       ├── dynamic-page.component.html
-│   │       └── models/
-│   │           └── page-layout-models.ts
-│   ├── dynamic-composite/dynamic-tabs/
-│   │   ├── tabs.component.ts
-│   │   ├── tabs.component.html
-│   │   ├── tabs.component.scss
+│   │   ├── dynamic-blocks/
+│   │   │   ├── dynamic-blocks.component.ts
+│   │   │   └── dynamic-blocks.component.html
+│   │   ├── dynamic-page/
+│   │   │   ├── dynamic-page.component.ts
+│   │   │   └── dynamic-page.component.html
+│   │   ├── dynamic-tabs/
+│   │   │   ├── tabs.component.ts
+│   │   │   ├── tabs.component.html
+│   │   │   ├── tabs.component.scss
+│   │   │   └── models/
+│   │   │       └── cms-tab-contract.model.ts
 │   │   └── models/
-│   │       └── cms-tab-contract.model.ts
+│   │       └── page-layout-models.ts
 │   ├── fake-blocks-components/
 │   │   ├── avianca/
 │   │   │   ├── account-settings/
