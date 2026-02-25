@@ -7,19 +7,7 @@ import { componentMap } from '../../component-map';
   selector: 'block-outlet',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    @if (cmp(); as c) {
-      <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
-    } @else if (loading()) {
-      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-        Loading component...
-      </div>
-    } @else {
-      <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-        Missing component: <b>{{ block()?.component }}</b>
-      </div>
-    }
-  `,
+  templateUrl: './block-outlet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockOutletComponent {

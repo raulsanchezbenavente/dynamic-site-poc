@@ -5,8 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { componentMap } from '../../component-map';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
-
-import { BlockOutletComponent } from './block-outlet.component';
+import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 type PageLayoutCol = {
   component: string;

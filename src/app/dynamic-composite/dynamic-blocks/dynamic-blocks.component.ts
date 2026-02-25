@@ -1,17 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { BlockOutletComponent } from './dynamic-page/block-outlet.component';
+import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 @Component({
   selector: 'dynamic-blocks',
   standalone: true,
   imports: [CommonModule, BlockOutletComponent],
-  template: `
-    @for (block of blocks(); track trackByKey($index, block)) {
-      <block-outlet [block]="block"></block-outlet>
-    }
-  `,
+  templateUrl: './dynamic-blocks.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicBlocksComponent {
