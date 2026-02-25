@@ -106,14 +106,8 @@ export class ExtraComponent implements OnDestroy {
   ];
 
   public openModal(cardId: ExtraCard['id']): void {
-    if (
-      cardId === 'seat' ||
-      cardId === 'baggage' ||
-      cardId === 'lounge' ||
-      cardId === 'sports' ||
-      cardId === 'assist' ||
-      cardId === 'priority'
-    ) {
+    const validIds: ExtraCard['id'][] = ['seat', 'baggage', 'lounge', 'sports', 'assist', 'priority'];
+    if (validIds.includes(cardId)) {
       this.activeModal = cardId;
       this.setBodyScrollLocked(true);
     }
