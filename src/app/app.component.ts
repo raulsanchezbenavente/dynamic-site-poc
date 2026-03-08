@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, Type } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 
-import { DynamicPageComponent } from './dynamic-composite/dynamic-page/dynamic-page.component';
 import { ProgressAsynGuard } from './guards/progress-async.guard';
+import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 import { SiteConfigService } from './services/site-config/site-config.service';
 
 @Component({
@@ -21,7 +21,8 @@ export class AppComponent {
 
       const routes = pages.map((page: any, index: number) => ({
         path: page.path,
-        component: DynamicPageComponent,
+        loadComponent: (): Promise<Type<unknown>> =>
+          import('./dynamic-composite/dynamic-page/dynamic-page.component').then((m) => m.DynamicPageComponent),
         data: {
           path: page.path,
           components: page.layout?.rows ?? page.layout,
@@ -35,7 +36,7 @@ export class AppComponent {
             return acc;
           }, {}),
         },
-        ...(index > 0 && { canActivate: [ProgressAsynGuard] }),
+        canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],
       }));
 
       this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
