@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Clown portrait 3">
+  <defs>
+    <radialGradient id="bg3" cx="50%" cy="40%" r="70%">
+      <stop offset="0%" stop-color="#fff9db" />
+      <stop offset="100%" stop-color="#ffe3f1" />
+    </radialGradient>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg3)" />
+  <polygon points="400,70 445,160 355,160" fill="#2d3748" />
+  <ellipse cx="400" cy="330" rx="175" ry="195" fill="#ffffff" stroke="#4a5568" stroke-width="7" />
+  <circle cx="255" cy="300" r="70" fill="#63b3ed" opacity="0.9" />
+  <circle cx="545" cy="300" r="70" fill="#f687b3" opacity="0.9" />
+  <circle cx="338" cy="305" r="17" fill="#1f2937" />
+  <circle cx="462" cy="305" r="17" fill="#1f2937" />
+  <circle cx="400" cy="352" r="22" fill="#e53e3e" />
+  <path d="M315 405 C355 450, 445 450, 485 405" fill="none" stroke="#9b2c2c" stroke-width="11" stroke-linecap="round" />
+  <path d="M330 260 Q400 220 470 260" fill="none" stroke="#f6ad55" stroke-width="10" stroke-linecap="round" />
+</svg>

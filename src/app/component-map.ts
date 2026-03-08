@@ -60,6 +60,10 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   results_uiplus: () =>
     import('./fake-blocks-components/avianca/results/results.component').then((m) => m.ResultsComponent),
   extra_uiplus: () => import('./fake-blocks-components/avianca/extra/extra.component').then((m) => m.ExtraComponent),
+  navidad_uiplus: () =>
+    import('./fake-blocks-components/avianca/navidad/navidad.component').then((m) => m.NavidadComponent),
+  payasos_uiplus: () =>
+    import('./fake-blocks-components/avianca/payaso/payasos.component').then((m) => m.PayasosComponent),
   payment_uiplus: () =>
     import('./fake-blocks-components/avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus: () =>

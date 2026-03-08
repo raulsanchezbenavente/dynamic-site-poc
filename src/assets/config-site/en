@@ -9,6 +9,14 @@
           {
             "cols": [
               {
+                "component": "navidad_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12
               }
