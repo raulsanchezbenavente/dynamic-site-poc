@@ -24,7 +24,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
       </div>
 
       <div class="content">
-        <h2>Temporada Navidena</h2>
+        <h2>Temporada Navideña</h2>
         <p>Vuelos con ambiente festivo, luces, pinos y nieve cayendo.</p>
         <div
           class="motifs"
