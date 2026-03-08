@@ -21,8 +21,31 @@
             rel="icon"
             type="image/x-icon"
             href="favicon-32x32.png" />
+        <style>
+            #boot-loader {
+                position: fixed;
+                inset: 0;
+                display: grid;
+                place-items: center;
+                background: #fff;
+                z-index: 9999;
+            }
+        </style>
     </head>
     <body>
+        <div
+            id="boot-loader"
+            role="status"
+            aria-live="polite"
+            aria-label="Loading page">
+            <img
+                src="/assets/loader/plane-loader.gif"
+                alt="Loading"
+                width="180"
+                height="180"
+                decoding="async"
+                fetchpriority="high" />
+        </div>
         <app-root></app-root>
     </body>
 </html>

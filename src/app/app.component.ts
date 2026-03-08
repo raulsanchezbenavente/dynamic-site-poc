@@ -1,5 +1,6 @@
 import { Component, inject, Type } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
+import { filter, take } from 'rxjs';
 
 import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
@@ -16,6 +17,18 @@ export class AppComponent {
   private siteSvc = inject(SiteConfigService);
 
   constructor() {
+    this.router.events
+      .pipe(
+        filter(
+          (event) =>
+            event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError
+        ),
+        take(1)
+      )
+      .subscribe(() => {
+        globalThis.document?.getElementById('boot-loader')?.remove();
+      });
+
     this.siteSvc.site$.pipe().subscribe((site) => {
       const pages = site?.pages ?? [];
 
