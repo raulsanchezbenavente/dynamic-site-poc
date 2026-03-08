@@ -2,6 +2,8 @@ import { Component, inject, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
 import { filter, take } from 'rxjs';
 
+import { environment } from '../environments/environment';
+
 import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 import { SiteConfigService } from './services/site-config/site-config.service';
@@ -15,7 +17,7 @@ import { SiteConfigService } from './services/site-config/site-config.service';
 export class AppComponent {
   private router = inject(Router);
   private siteSvc = inject(SiteConfigService);
-  private readonly bootLoaderMinDurationMs = 1000;
+  private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
 
   constructor() {
     const bootStartedAt = Date.now();
