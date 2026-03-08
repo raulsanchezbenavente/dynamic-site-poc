@@ -9,6 +9,10 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ✨ Dynamic architecture driven by configuration (`assets/config-site`)
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON site config
+- ⚡ Route-level lazy loading (`loadComponent`) for dynamic pages
+- ⚡ Block-level lazy loading with dynamic `import()` per CMS component
+- 🚦 Route asset preloading guard to reduce navigation flicker
+- 🛫 Initial boot loader (plane GIF) rendered from `index.html`
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Language-aware navigation using `pageId` → path mapping
@@ -43,7 +47,7 @@ src/
 │   ├── app.component.ts
 │   ├── app.config.ts
 │   ├── app.routes.ts
-│   ├── component-map.ts         # Maps block names to Angular components
+│   ├── component-map.ts         # Maps block names to lazy component loaders
 │   ├── dynamic-composite/
 │   │   ├── dynamic-blocks.component.ts
 │   │   └── dynamic-page/
@@ -92,6 +96,7 @@ src/
 │   ├── guards/
 │   │   ├── progress.guard.ts
 │   │   └── progress-async.guard.ts
+│   │   └── route-assets-preload.guard.ts
 │   └── services/
 │       ├── booking-progress/
 │       ├── router-helper/
@@ -99,7 +104,8 @@ src/
 ├── assets/
 │   ├── config-site/              # CMS-like JSON site config
 │   ├── i18n/                      # Translations (en/es/fr/pt)
-│   └── illustrations/             # UI SVGs (extras, payments)
+│   ├── illustrations/             # UI SVGs (extras, payments)
+│   └── loader/                    # Local boot loader GIF
 └── styles.scss
 ```
 
@@ -147,8 +153,18 @@ API runs on:
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-2. `DynamicPageComponent` renders pages dynamically via `block-outlet`.
-3. Booking progress is tracked locally and validated against the API on port 3000.
+2. `AppComponent` builds routes from config and uses route-level lazy loading (`loadComponent`).
+3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
+4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
+5. Booking progress is tracked locally and validated against the API on port 3000.
+
+---
+
+## 🛫 Initial Loader
+
+- The first paint loader is rendered directly in `src/index.html` (outside Angular) for immediate display.
+- Loader image is served locally from `src/assets/loader/plane-loader.gif`.
+- `AppComponent` removes `#boot-loader` after the first navigation event is completed.
 
 ---
 
