@@ -15,8 +15,11 @@ import { SiteConfigService } from './services/site-config/site-config.service';
 export class AppComponent {
   private router = inject(Router);
   private siteSvc = inject(SiteConfigService);
+  private readonly bootLoaderMinDurationMs = 1000;
 
   constructor() {
+    const bootStartedAt = Date.now();
+
     this.router.events
       .pipe(
         filter(
@@ -26,7 +29,12 @@ export class AppComponent {
         take(1)
       )
       .subscribe(() => {
-        globalThis.document?.getElementById('boot-loader')?.remove();
+        const elapsed = Date.now() - bootStartedAt;
+        const waitMs = Math.max(0, this.bootLoaderMinDurationMs - elapsed);
+
+        globalThis.setTimeout(() => {
+          globalThis.document?.getElementById('boot-loader')?.remove();
+        }, waitMs);
       });
 
     this.siteSvc.site$.pipe().subscribe((site) => {
