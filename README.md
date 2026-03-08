@@ -95,12 +95,15 @@ src/
 │   │       └── footer.component.ts
 │   ├── guards/
 │   │   ├── progress.guard.ts
-│   │   └── progress-async.guard.ts
+│   │   ├── progress-async.guard.ts
 │   │   └── route-assets-preload.guard.ts
 │   └── services/
 │       ├── booking-progress/
 │       ├── router-helper/
 │       └── site-config/
+├── environments/
+│   ├── environment.ts            # Development config (boot loader min: 0ms)
+│   └── environment.prod.ts       # Production config (boot loader min: 1000ms)
 ├── assets/
 │   ├── config-site/              # CMS-like JSON site config
 │   ├── i18n/                      # Translations (en/es/fr/pt)
@@ -165,6 +168,21 @@ API runs on:
 - The first paint loader is rendered directly in `src/index.html` (outside Angular) for immediate display.
 - Loader image is served locally from `src/assets/loader/plane-loader.gif`.
 - `AppComponent` removes `#boot-loader` after the first navigation event is completed.
+- The minimum display time is environment-based:
+	- `development`: `0ms` (`src/environments/environment.ts`)
+	- `production`: `1000ms` (`src/environments/environment.prod.ts`)
+
+---
+
+## 🏗️ Build Configurations
+
+- `npm start` / `ng serve` uses the `development` build target.
+- `ng build` uses `production` by default (`build.defaultConfiguration = production` in `angular.json`).
+- You can force development build output with:
+
+```bash
+ng build --configuration development
+```
 
 ---
 
