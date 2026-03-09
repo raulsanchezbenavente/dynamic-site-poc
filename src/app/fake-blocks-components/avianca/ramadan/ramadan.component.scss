@@ -1,0 +1,74 @@
+:host {
+  display: block;
+}
+
+.ramadan-shell {
+  padding-left: clamp(16px, 4vw, 40px);
+  padding-right: clamp(16px, 4vw, 40px);
+  box-sizing: border-box;
+}
+
+.ramadan-card {
+  max-width: 1200px;
+  margin: 8px auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #083d77 0%, #005b8f 55%, #0a9396 100%);
+  color: #fff;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.16);
+}
+
+.ramadan-media {
+  min-height: 220px;
+  background-image:
+    linear-gradient(0deg, rgba(1, 21, 45, 0.55), rgba(1, 21, 45, 0.35)),
+    url('https://www.newtral.es/wp-content/uploads/2023/03/2131454041-FF-FAMILIA-ROMPIENDO-AYUNO-RAMADAN-DRAZEN-ZIGIC-SHUTTERSTOCK-1024x683.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.ramadan-content {
+  padding: 26px;
+  display: grid;
+  gap: 10px;
+  align-content: center;
+}
+
+.ramadan-kicker {
+  margin: 0;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.9;
+}
+
+.ramadan-title {
+  margin: 0;
+  font-size: clamp(22px, 2.4vw, 34px);
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+.ramadan-copy {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.ramadan-copy--small {
+  opacity: 0.92;
+  font-size: 13px;
+}
+
+@media (max-width: 860px) {
+  .ramadan-card {
+    grid-template-columns: 1fr;
+  }
+
+  .ramadan-media {
+    min-height: 170px;
+  }
+}

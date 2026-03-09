@@ -33,6 +33,14 @@
           {
             "cols": [
               {
+                "component": "ramadan_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "AdsComponentBlock_uiplus",
                 "span": 12
               }
