@@ -49,7 +49,9 @@ src/
 │   ├── app.routes.ts
 │   ├── component-map.ts         # Maps block names to lazy component loaders
 │   ├── dynamic-composite/
-│   │   ├── dynamic-blocks.component.ts
+│   │   ├── dynamic-blocks/
+│   │   │   ├── dynamic-blocks.component.ts
+│   │   │   └── dynamic-blocks.component.html
 │   │   └── dynamic-page/
 │   │       ├── block-outlet.component.ts
 │   │       ├── dynamic-page.component.ts
@@ -69,20 +71,20 @@ src/
 │   │   │   ├── ads/
 │   │   │   ├── elite-status/
 │   │   │   ├── find-bookings/
+│   │   │   ├── lounge-selection/
 │   │   │   ├── loyalty-card/
 │   │   │   ├── main-footer/
 │   │   │   ├── main-header/
+│   │   │   ├── extra/
+│   │   │   ├── baggage-selection/
+│   │   │   ├── assist-selection/
+│   │   │   ├── payment/
+│   │   │   ├── personal-data/
+│   │   │   ├── priority-selection/
 │   │   │   ├── results/
 │   │   │   ├── search/
-│   │   │   ├── personal-data/
-│   │   │   ├── extra/
 │   │   │   ├── seat-selection/
-│   │   │   ├── baggage-selection/
-│   │   │   ├── lounge-selection/
 │   │   │   ├── sports-selection/
-│   │   │   ├── assist-selection/
-│   │   │   ├── priority-selection/
-│   │   │   ├── payment/
 │   │   │   └── thank-you/
 │   │   └── test/
 │   │       ├── banner.component.ts
@@ -107,7 +109,7 @@ src/
 ├── assets/
 │   ├── config-site/              # CMS-like JSON site config
 │   ├── i18n/                      # Translations (en/es/fr/pt)
-│   ├── illustrations/             # UI SVGs (extras, payments)
+│   ├── illustrations/             # UI SVGs (extras, payment)
 │   └── loader/                    # Local boot loader GIF
 └── styles.scss
 ```
