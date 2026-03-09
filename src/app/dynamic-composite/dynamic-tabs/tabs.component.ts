@@ -24,7 +24,7 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import { RouterHelperService } from '../../services/router-helper/router-helper.service';
 import { AppLang } from '../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
-import { DynamicBlocksComponent } from '../dynamic-blocks.component';
+import { DynamicBlocksComponent } from '../dynamic-blocks/dynamic-blocks.component';
 
 import { CmsTabContract } from './models/cms-tab-contract.model';
 
