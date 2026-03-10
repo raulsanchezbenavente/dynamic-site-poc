@@ -16,6 +16,6 @@ export class ThankYouComponent {
   private pageNavigation = inject(PageNavigationService);
 
   public goHome(): void {
-    void this.pageNavigation.navigateByPageId('0');
+    void this.pageNavigation.navigateByPageId('0', undefined, true);
   }
 }
