@@ -32,6 +32,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🎨 Custom SVG illustrations for extras and payments (non-official logos)
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
+- 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
 
 ---
 
@@ -171,9 +172,12 @@ API runs on:
 ## 🧭 Navigation Service
 
 - `PageNavigationService` centralizes route resolution by `pageId` and language.
-- `navigateByPageId(pageId, lang?, external?)` resolves path from config and navigates internally (SPA) by default.
-- `navigateByPath(path, external?)` navigates with a direct path (internal by default, external when `external = true`).
-- If a `pageId` is not found in config, fallback route is `/{lang}/home`.
+- `navigateByPageId(pageId, lang?, external?, targetBlank?)` resolves path from config and navigates internally (SPA) by default.
+- `navigateByPath(path, external?, targetBlank?)` navigates with a direct path.
+- `external = true` forces full page reload in the same tab.
+- `targetBlank = true` opens a new tab/window and is independent from `external`.
+- In header menu items, external-link icon is shown only when `targetBlank = true`.
+- If a `pageId` is not found in config, fallback route is `/en/home`.
 
 ---
 
