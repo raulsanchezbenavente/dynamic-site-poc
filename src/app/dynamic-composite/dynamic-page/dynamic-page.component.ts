@@ -23,6 +23,7 @@ type SeoConfig = {
   canonical?: string;
 };
 type SitePage = {
+  pageId?: string;
   path?: string;
   name?: string;
   layout?: { rows?: PageLayoutRow[] } | PageLayoutRow[];
@@ -55,7 +56,7 @@ export class DynamicPageComponent implements OnInit {
         const rows = Array.isArray(layout) ? layout : layout?.rows;
         this.rows = Array.isArray(rows) ? rows : [];
         this.titleService.setTitle(String(page.name ?? ''));
-        this.seoSvc.applyPageSeo(page.path, page.name, page.seo);
+        this.seoSvc.applyPageSeo(page.path, page.name, page.seo, page.pageId);
       } else {
         this.rows = [];
       }

@@ -3,65 +3,65 @@
   <url>
     <loc>https://raulshred.com/en/home</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/home" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/home" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/home" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/home" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/inicio" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/accueil" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/casa" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/home" />
   </url>
   <url>
-    <loc>https://raulshred.com/es/home</loc>
+    <loc>https://raulshred.com/es/inicio</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/home" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/home" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/home" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/home" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/inicio" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/accueil" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/casa" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/home" />
   </url>
   <url>
-    <loc>https://raulshred.com/fr/home</loc>
+    <loc>https://raulshred.com/fr/accueil</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/home" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/home" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/home" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/home" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/inicio" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/accueil" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/casa" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/home" />
   </url>
   <url>
-    <loc>https://raulshred.com/pt/home</loc>
+    <loc>https://raulshred.com/pt/casa</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/home" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/home" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/home" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/home" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/inicio" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/accueil" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/casa" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/home" />
   </url>
   <url>
     <loc>https://raulshred.com/en/members</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/members" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/members" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/members" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/members" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/miembros" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/membres" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/membros" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/members" />
   </url>
   <url>
-    <loc>https://raulshred.com/es/members</loc>
+    <loc>https://raulshred.com/es/miembros</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/members" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/members" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/members" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/members" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/miembros" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/membres" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/membros" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/members" />
   </url>
   <url>
-    <loc>https://raulshred.com/fr/members</loc>
+    <loc>https://raulshred.com/fr/membres</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/members" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/members" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/members" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/members" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/miembros" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/membres" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/membros" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/members" />
   </url>
   <url>
-    <loc>https://raulshred.com/pt/members</loc>
+    <loc>https://raulshred.com/pt/membros</loc>
     <xhtml:link rel="alternate" hreflang="en" href="https://raulshred.com/en/members" />
-    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/members" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/members" />
-    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/members" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://raulshred.com/es/miembros" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raulshred.com/fr/membres" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://raulshred.com/pt/membros" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raulshred.com/en/members" />
   </url>
 </urlset>

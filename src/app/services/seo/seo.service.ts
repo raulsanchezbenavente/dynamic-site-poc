@@ -12,13 +12,13 @@ type SeoConfig = {
 @Injectable({ providedIn: 'root' })
 export class SeoService {
   private readonly allowedLangs = new Set(['en', 'es', 'fr', 'pt']);
-  private readonly indexableSlugs = new Set(['home', 'members']);
+  private readonly indexablePageIds = new Set(['0', '2']);
 
   private readonly title = inject(Title);
   private readonly meta = inject(Meta);
   private readonly document = inject(DOCUMENT);
 
-  public applyPageSeo(path: string | undefined, pageName: string | undefined, seo?: SeoConfig): void {
+  public applyPageSeo(path: string | undefined, pageName: string | undefined, seo?: SeoConfig, pageId?: string): void {
     const nextTitle = String(seo?.title ?? pageName ?? '').trim();
     if (nextTitle) {
       this.title.setTitle(nextTitle);
@@ -33,7 +33,7 @@ export class SeoService {
       this.meta.updateTag({ name: 'twitter:description', content: nextDescription });
     }
 
-    const nextRobots = this.resolveRobotsPolicy(path, seo?.robots);
+    const nextRobots = this.resolveRobotsPolicy(path, pageId, seo?.robots);
     if (nextRobots) {
       this.meta.updateTag({ name: 'robots', content: nextRobots });
     }
@@ -57,8 +57,8 @@ export class SeoService {
     }
   }
 
-  private resolveRobotsPolicy(path: string | undefined, configuredRobots?: string): string {
-    if (this.isIndexablePath(path)) {
+  private resolveRobotsPolicy(path: string | undefined, pageId: string | undefined, configuredRobots?: string): string {
+    if (this.isIndexablePath(path) && this.isIndexablePageId(pageId)) {
       return String(configuredRobots ?? 'index,follow').trim();
     }
 
@@ -68,11 +68,14 @@ export class SeoService {
   private isIndexablePath(path: string | undefined): boolean {
     const normalizedPath = this.normalizePath(path);
     const segments = normalizedPath.split('/').filter(Boolean);
-    if (segments.length < 2) return false;
+    if (segments.length < 1) return false;
 
     const lang = segments[0];
-    const slug = segments[1];
-    return this.allowedLangs.has(lang) && this.indexableSlugs.has(slug);
+    return this.allowedLangs.has(lang);
+  }
+
+  private isIndexablePageId(pageId: string | undefined): boolean {
+    return this.indexablePageIds.has(String(pageId ?? '').trim());
   }
 
   private normalizePath(path: string | undefined): string {
