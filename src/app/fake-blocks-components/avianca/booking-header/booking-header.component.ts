@@ -65,7 +65,7 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
 
   public goHome(event: MouseEvent): void {
     event.preventDefault();
-    void this.router.navigateByUrl(this.homePath());
+    void this.pageNavigation.navigateByPath(this.homePath());
   }
 
   private updateActiveStep(): void {
