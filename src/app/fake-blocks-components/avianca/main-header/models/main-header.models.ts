@@ -4,6 +4,7 @@ export type HeaderMenuItem = {
   label: string;
   checked?: boolean;
   external?: boolean;
+  targetBlank?: boolean;
   redirectTo?: string;
   pageId?: string;
   tabsId?: string;

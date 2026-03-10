@@ -13,7 +13,12 @@ export class PageNavigationService {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
 
-  public navigateByPath(path: string, external = false): Promise<boolean> {
+  public navigateByPath(path: string, external = false, targetBlank = false): Promise<boolean> {
+    if (targetBlank) {
+      globalThis.open(path, '_blank', 'noopener,noreferrer');
+      return Promise.resolve(true);
+    }
+
     if (external) {
       globalThis.location.assign(path);
       return Promise.resolve(true);
@@ -30,8 +35,13 @@ export class PageNavigationService {
     return '/en/home';
   }
 
-  public navigateByPageId(pageId: string | undefined, lang?: AppLang, external = false): Promise<boolean> {
+  public navigateByPageId(
+    pageId: string | undefined,
+    lang?: AppLang,
+    external = false,
+    targetBlank = false
+  ): Promise<boolean> {
     const targetPath = this.resolvePagePath(pageId, lang);
-    return this.navigateByPath(targetPath, external);
+    return this.navigateByPath(targetPath, external, targetBlank);
   }
 }

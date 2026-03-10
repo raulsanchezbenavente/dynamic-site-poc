@@ -302,7 +302,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.selectedMenuLabel.set(item.label);
 
     if (item.redirectTo) {
-      void this.pageNavigation.navigateByPath(item.redirectTo, item.external ?? false);
+      void this.pageNavigation.navigateByPath(item.redirectTo, item.external ?? false, item.targetBlank ?? false);
       return;
     }
 
@@ -317,8 +317,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     const tabParams = tabName ? { activeTab: tabName } : null;
 
     if (item.pageId) {
-      if (item.external) {
-        void this.pageNavigation.navigateByPageId(item.pageId, lang, true);
+      if (item.external || item.targetBlank) {
+        void this.pageNavigation.navigateByPageId(item.pageId, lang, item.external ?? false, item.targetBlank ?? false);
         return;
       }
 
