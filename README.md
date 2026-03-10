@@ -183,8 +183,8 @@ API runs on:
 - Loader image is served locally from `src/assets/loader/plane-loader.gif`.
 - `AppComponent` removes `#boot-loader` after the first navigation event is completed.
 - The minimum display time is environment-based:
-	- `development`: `0ms` (`src/environments/environment.ts`)
-	- `production`: `1000ms` (`src/environments/environment.prod.ts`)
+  - `development`: `0ms` (`src/environments/environment.ts`)
+  - `production`: `1000ms` (`src/environments/environment.prod.ts`)
 
 ---
 
