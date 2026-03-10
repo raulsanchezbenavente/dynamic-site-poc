@@ -10,7 +10,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -36,7 +36,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly translate = inject(TranslateService);
-  private readonly route = inject(ActivatedRoute);
   private readonly destroy$ = new Subject<void>();
 
   public market = input<string>('Colombia (COP)');
@@ -341,6 +340,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public goHome(event: MouseEvent): void {
     event.preventDefault();
-    void this.router.navigateByUrl(this.homePath());
+    void this.pageNavigation.navigateByPath(this.homePath());
   }
 }

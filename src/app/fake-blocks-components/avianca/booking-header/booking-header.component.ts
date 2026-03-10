@@ -6,6 +6,7 @@ import { filter, Subject, takeUntil } from 'rxjs';
 
 import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
+import { AppLang } from '../../../services/site-config/models/langs.model';
 
 type BookingStep = {
   key: string;
@@ -26,6 +27,7 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly pageNavigation = inject(PageNavigationService);
   private readonly destroy$ = new Subject<void>();
+  public activeLang = signal<AppLang>(this.routerHelper.language);
 
   public readonly bookingSteps: BookingStep[] = [
     { key: 'step-flights', labelKey: 'HEADER.STEPS.FLIGHTS', pageIds: ['1'] },
@@ -60,7 +62,8 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
   }
 
   public homePath(): string {
-    return this.pageNavigation.resolvePagePath('0');
+    const lang = this.activeLang();
+    return this.pageNavigation.resolvePagePath('0', lang);
   }
 
   public goHome(event: MouseEvent): void {
