@@ -302,7 +302,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.selectedMenuLabel.set(item.label);
 
     if (item.redirectTo) {
-      void this.router.navigateByUrl(item.redirectTo);
+      this.pageNavigation.navigateByPath(item.redirectTo, item.external ?? false);
       return;
     }
 
