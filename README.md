@@ -33,6 +33,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 - 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
+- 🔎 Dynamic SEO tags on route change (title, description, Open Graph, Twitter, canonical, hreflang)
 
 ---
 
@@ -106,6 +107,7 @@ src/
 │       ├── booking-progress/
 │       ├── page-navigation/
 │       ├── router-helper/
+│       ├── seo/
 │       └── site-config/
 ├── environments/
 │   ├── environment.ts            # Development config (boot loader min: 0ms)
@@ -117,6 +119,11 @@ src/
 │   └── loader/                    # Local boot loader GIF
 └── styles.scss
 ```
+
+`public/` also includes:
+
+- `robots.txt`
+- `sitemap.xml` (replace `https://www.example.com` with your real domain)
 
 ---
 
@@ -180,6 +187,20 @@ API runs on:
 - `targetBlank = true` opens a new tab/window and is independent from `external`.
 - In header menu items, external-link icon is shown only when `targetBlank = true`.
 - If a `pageId` is not found in config, fallback route is `/en/home`.
+
+---
+
+## 🔎 SEO
+
+- `SeoService` updates SEO metadata on every `NavigationEnd` event.
+- Current implementation updates:
+  - `title`
+  - `meta[name="description"]`
+  - `og:title`, `og:description`, `og:url`, `og:type`
+  - `twitter:card`, `twitter:title`, `twitter:description`
+  - `link[rel="canonical"]`
+  - `link[rel="alternate"][hreflang]` for `en`, `es`, `fr`, `pt`, and `x-default`
+- `robots.txt` and `sitemap.xml` are served from `public/`.
 
 ---
 

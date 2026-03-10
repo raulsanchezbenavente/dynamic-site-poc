@@ -27,7 +27,8 @@ export class RouterHelperService {
   }
 
   constructor() {
-    const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
+    const pathname = typeof globalThis.location?.pathname === 'string' ? globalThis.location.pathname : '/en/home';
+    const segment = pathname.split('/').filter(Boolean)[0];
     const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
   }

@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 
 import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
+import { SeoService } from './services/seo';
 import { SiteConfigService } from './services/site-config/site-config.service';
 
 @Component({
@@ -16,6 +17,7 @@ import { SiteConfigService } from './services/site-config/site-config.service';
 })
 export class AppComponent {
   private router = inject(Router);
+  private seo = inject(SeoService);
   private siteSvc = inject(SiteConfigService);
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
 
@@ -64,5 +66,11 @@ export class AppComponent {
 
       this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
     });
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        this.seo.update(event.urlAfterRedirects);
+      });
   }
 }

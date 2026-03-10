@@ -1,5 +1,6 @@
+import { isPlatformServer } from '@angular/common';
 import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, PLATFORM_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -15,14 +16,18 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [SiteConfigService],
-      useFactory: (svc: SiteConfigService) => () =>
-        firstValueFrom(svc.loadSite(['en', 'es', 'fr', 'pt', 'config-site'])),
+      deps: [SiteConfigService, PLATFORM_ID],
+      useFactory: (svc: SiteConfigService, platformId: object) => () => {
+        if (isPlatformServer(platformId)) {
+          return Promise.resolve();
+        }
+        return firstValueFrom(svc.loadSite(['en', 'es', 'fr', 'pt']));
+      },
     },
     provideHttpClient(),
 
     provideTranslateService({
-      defaultLanguage: 'en',
+      fallbackLang: 'en',
       loader: {
         provide: TranslateLoader,
         useClass: TranslateHttpLoader,
@@ -38,12 +43,16 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [TranslateService],
-      useFactory: (ts: TranslateService) => () => {
-        const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
+      deps: [TranslateService, PLATFORM_ID],
+      useFactory: (ts: TranslateService, platformId: object) => () => {
+        const pathname = typeof globalThis.location?.pathname === 'string' ? globalThis.location.pathname : '/en/home';
+        const segment = pathname.split('/').filter(Boolean)[0];
         const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
 
         ts.setDefaultLang(lang);
+        if (isPlatformServer(platformId)) {
+          return Promise.resolve();
+        }
         return firstValueFrom(ts.use(lang));
       },
     },
