@@ -302,6 +302,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.open.set(false);
     this.selectedMenuLabel.set(item.label);
 
+    if (item.redirectTo) {
+      void this.router.navigateByUrl(item.redirectTo);
+      return;
+    }
+
     const lang: string = this.activeLang();
     const tabName: string | undefined =
       item.tabsId && item.tabId
@@ -311,11 +316,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         : undefined;
     const tabParams = tabName ? { activeTab: tabName } : null;
 
-    if (item.redirectTo) {
-      this.router.navigateByUrl(item.redirectTo);
-      return;
-    }
-
     if (item.pageId) {
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
       if (currentPageId === item.pageId) {
@@ -324,11 +324,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         }
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
-        const path = this.siteConfig.getPathByPageId(item.pageId, lang as AppLang);
-        if (item.pageId && path) {
-          this.router.navigate([path ?? '/'], { queryParams: tabParams });
+        if (tabParams) {
+          const path = this.pageNavigation.resolvePagePath(item.pageId, lang as AppLang);
+          void this.router.navigate([path], { queryParams: tabParams });
         } else {
-          this.router.navigateByUrl(path ?? '/');
+          void this.pageNavigation.navigateByPageId(item.pageId, lang as AppLang);
         }
       }
     }

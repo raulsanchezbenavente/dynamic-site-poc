@@ -13,6 +13,15 @@ export class PageNavigationService {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
 
+  public navigateByPath(path: string, external = false): Promise<boolean> {
+    if (external) {
+      globalThis.location.assign(path);
+      return Promise.resolve(true);
+    }
+
+    return this.router.navigateByUrl(path);
+  }
+
   public resolvePagePath(pageId: string | undefined, lang?: AppLang): string {
     const currentLang = lang ?? this.routerHelper.language;
     const configPath = this.siteConfig.getPathByPageId(pageId, currentLang);
@@ -23,11 +32,6 @@ export class PageNavigationService {
 
   public navigateByPageId(pageId: string | undefined, lang?: AppLang, external = false): Promise<boolean> {
     const targetPath = this.resolvePagePath(pageId, lang);
-    if (external) {
-      globalThis.location.assign(targetPath);
-      return Promise.resolve(true);
-    }
-
-    return this.router.navigateByUrl(targetPath);
+    return this.navigateByPath(targetPath, external);
   }
 }
