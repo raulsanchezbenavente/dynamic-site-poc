@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 @Component({
   selector: 'personal-data',
@@ -17,9 +14,7 @@ import { SiteConfigService } from '../../../services/site-config/site-config.ser
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PersonalDataComponent {
-  private router = inject(Router);
-  private routerHelper = inject(RouterHelperService);
-  private siteConfig = inject(SiteConfigService);
+  private pageNavigation = inject(PageNavigationService);
   private translate = inject(TranslateService);
   private lastTap = 0;
 
@@ -54,9 +49,7 @@ export class PersonalDataComponent {
   }
 
   public goNext(): void {
-    const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('1-2', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/extras`);
+    void this.pageNavigation.navigateByPageId('1-2', 'extras');
   }
 
   public setTab(tab: 'adult' | 'holder'): void {

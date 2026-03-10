@@ -1,19 +1,20 @@
 import { CommonModule, Location } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
 import { AppLang } from '../../../services/site-config/models/langs.model';
 import { SiteConfigService } from '../../../services/site-config/site-config.service';
@@ -31,6 +32,7 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
+  private readonly pageNavigation = inject(PageNavigationService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly translate = inject(TranslateService);
@@ -108,7 +110,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
   });
 
-
   public ngOnInit(): void {
     this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.langTick.update((v) => v + 1));
 
@@ -158,7 +159,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.markMenuItemAsActive(tabName);
       }
     });
-
   }
 
   public markMenuItemAsActive(activeTab: string): void {
@@ -184,7 +184,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.langOpen.set(false);
     const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
-      const nextPath: string | undefined = this.siteConfig.getPathByPageId(pageId, lang);
+      const nextPath: string = this.pageNavigation.resolvePagePath(pageId, 'home', lang);
       if (nextPath) {
         const query = this.router.url.split('?')[1];
         this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
@@ -258,11 +258,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.marketOpen.update((v) => !v);
   }
 
-
   public closeMarketMenu(): void {
     this.marketOpen.set(false);
   }
-
 
   public setMarket(item: { labelKey: string; currency: string }): void {
     this.pendingMarketKey.set(item.labelKey);
@@ -338,11 +336,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public homePath(): string {
     const lang = this.activeLang();
-    return this.siteConfig.getPathByPageId('0', lang) ?? '/';
+    return this.pageNavigation.resolvePagePath('0', 'home', lang);
   }
 
   public goHome(event: MouseEvent): void {
     event.preventDefault();
-    this.router.navigateByUrl(this.homePath());
+    void this.router.navigateByUrl(this.homePath());
   }
 }

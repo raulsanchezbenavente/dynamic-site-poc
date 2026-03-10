@@ -4,9 +4,8 @@ import { NavigationEnd, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, Subject, takeUntil } from 'rxjs';
 
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
 
 type BookingStep = {
   key: string;
@@ -25,7 +24,7 @@ type BookingStep = {
 export class BookingHeaderComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly routerHelper = inject(RouterHelperService);
-  private readonly siteConfig = inject(SiteConfigService);
+  private readonly pageNavigation = inject(PageNavigationService);
   private readonly destroy$ = new Subject<void>();
 
   public readonly bookingSteps: BookingStep[] = [
@@ -61,13 +60,12 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
   }
 
   public homePath(): string {
-    const lang = this.routerHelper.language as AppLang;
-    return this.siteConfig.getPathByPageId('0', lang) ?? '/';
+    return this.pageNavigation.resolvePagePath('0', 'home');
   }
 
   public goHome(event: MouseEvent): void {
     event.preventDefault();
-    this.router.navigateByUrl(this.homePath());
+    void this.router.navigateByUrl(this.homePath());
   }
 
   private updateActiveStep(): void {

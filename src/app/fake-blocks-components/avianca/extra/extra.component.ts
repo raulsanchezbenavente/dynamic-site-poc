@@ -1,11 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
-import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 import { AssistSelectionComponent } from '../assist-selection/assist-selection.component';
 import { BaggageSelectionComponent } from '../baggage-selection/baggage-selection.component';
 import { LoungeSelectionComponent } from '../lounge-selection/lounge-selection.component';
@@ -42,9 +39,7 @@ type ExtraCard = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExtraComponent implements OnDestroy {
-  private router = inject(Router);
-  private routerHelper = inject(RouterHelperService);
-  private siteConfig = inject(SiteConfigService);
+  private pageNavigation = inject(PageNavigationService);
 
   public activeModal: 'seat' | 'baggage' | 'lounge' | 'sports' | 'assist' | 'priority' | null = null;
 
@@ -136,8 +131,6 @@ export class ExtraComponent implements OnDestroy {
   }
 
   public goToPayment(): void {
-    const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('1-3', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/payment`);
+    void this.pageNavigation.navigateByPageId('1-3', 'payment');
   }
 }

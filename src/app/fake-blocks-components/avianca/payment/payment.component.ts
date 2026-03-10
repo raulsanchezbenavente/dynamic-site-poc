@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 type PaymentMethod = {
   id: 'card' | 'paypal' | 'applepay' | 'gpay';
@@ -24,9 +21,7 @@ type PaymentMethod = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaymentComponent {
-  private router = inject(Router);
-  private routerHelper = inject(RouterHelperService);
-  private siteConfig = inject(SiteConfigService);
+  private pageNavigation = inject(PageNavigationService);
   private lastTap = 0;
   public methods: PaymentMethod[] = [
     {
@@ -97,8 +92,6 @@ export class PaymentComponent {
   }
 
   public goToThanks(): void {
-    const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('1-4', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/thanks`);
+    void this.pageNavigation.navigateByPageId('1-4', 'thanks');
   }
 }

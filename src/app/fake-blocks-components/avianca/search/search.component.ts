@@ -1,11 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
-import { SiteConfigService } from '../../../services/site-config/site-config.service';
+import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 declare const flatpickr: any;
 
@@ -19,9 +16,7 @@ declare const flatpickr: any;
 export class SearchComponent implements AfterViewInit {
   private readonly host = inject(ElementRef<HTMLElement>);
   private readonly translate = inject(TranslateService);
-  private readonly router = inject(Router);
-  private readonly routerHelper = inject(RouterHelperService);
-  private readonly siteConfig = inject(SiteConfigService);
+  private readonly pageNavigation = inject(PageNavigationService);
   private lastTap = 0;
   @ViewChild('fromInput', { static: false })
   private fromInput?: ElementRef<HTMLInputElement>;
@@ -220,9 +215,7 @@ export class SearchComponent implements AfterViewInit {
       returnDate: this.returnDate,
     });
 
-    const lang = this.routerHelper.language as AppLang;
-    const path = this.siteConfig.getPathByPageId('1', lang);
-    this.router.navigateByUrl(path ?? `/${lang}/results`);
+    void this.pageNavigation.navigateByPageId('1', 'results');
   }
 
   public goTo(page: string): void {
