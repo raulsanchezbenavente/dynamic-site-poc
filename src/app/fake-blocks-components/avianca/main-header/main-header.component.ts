@@ -318,7 +318,13 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
     if (item.pageId) {
       if (item.external || item.targetBlank) {
-        void this.pageNavigation.navigateByPageId(item.pageId, lang, item.external ?? false, item.targetBlank ?? false);
+        void this.pageNavigation.navigateByPageId(
+          item.pageId,
+          lang,
+          true,
+          item.targetBlank ?? false,
+          tabParams ?? undefined
+        );
         return;
       }
 
@@ -330,8 +336,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.routerHelper.changeActiveTab(item.tabId ?? '');
       } else {
         if (tabParams) {
-          const path = this.pageNavigation.resolvePagePath(item.pageId, lang);
-          void this.router.navigate([path], { queryParams: tabParams });
+          if (item.externalTab) {
+            void this.pageNavigation.navigateByPageId(item.pageId, lang, true, item.targetBlank ?? false, tabParams);
+          } else {
+            const path = this.pageNavigation.resolvePagePath(item.pageId, lang);
+            void this.router.navigate([path], { queryParams: tabParams });
+          }
         } else {
           void this.pageNavigation.navigateByPageId(item.pageId, lang);
         }

@@ -13,18 +13,30 @@ export class PageNavigationService {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
 
-  public navigateByPath(path: string, external = false, targetBlank = false): Promise<boolean> {
+  public navigateByPath(
+    path: string,
+    external = false,
+    targetBlank = false,
+    queryParams?: Record<string, string>
+  ): Promise<boolean> {
+    const normalizedQuery = queryParams
+      ? Object.entries(queryParams)
+          .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+          .join('&')
+      : '';
+    const targetPath = normalizedQuery ? `${path}${path.includes('?') ? '&' : '?'}${normalizedQuery}` : path;
+
     if (targetBlank) {
-      globalThis.open(path, '_blank', 'noopener,noreferrer');
+      globalThis.open(targetPath, '_blank', 'noopener,noreferrer');
       return Promise.resolve(true);
     }
 
     if (external) {
-      globalThis.location.assign(path);
+      globalThis.location.assign(targetPath);
       return Promise.resolve(true);
     }
 
-    return this.router.navigateByUrl(path);
+    return this.router.navigateByUrl(targetPath);
   }
 
   public resolvePagePath(pageId: string | undefined, lang?: AppLang): string {
@@ -39,9 +51,10 @@ export class PageNavigationService {
     pageId: string | undefined,
     lang?: AppLang,
     external = false,
-    targetBlank = false
+    targetBlank = false,
+    queryParams?: Record<string, string>
   ): Promise<boolean> {
     const targetPath = this.resolvePagePath(pageId, lang);
-    return this.navigateByPath(targetPath, external, targetBlank);
+    return this.navigateByPath(targetPath, external, targetBlank, queryParams);
   }
 }
