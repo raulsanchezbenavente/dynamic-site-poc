@@ -92,6 +92,6 @@ export class PaymentComponent {
   }
 
   public goToThanks(): void {
-    void this.pageNavigation.navigateByPageId('1-4', 'thanks');
+    void this.pageNavigation.navigateByPageId('1-4');
   }
 }

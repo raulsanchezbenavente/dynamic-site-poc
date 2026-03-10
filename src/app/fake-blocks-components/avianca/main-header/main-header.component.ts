@@ -184,7 +184,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     this.langOpen.set(false);
     const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
-      const nextPath: string = this.pageNavigation.resolvePagePath(pageId, 'home', lang);
+      const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
       if (nextPath) {
         const query = this.router.url.split('?')[1];
         this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
@@ -336,7 +336,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public homePath(): string {
     const lang = this.activeLang();
-    return this.pageNavigation.resolvePagePath('0', 'home', lang);
+    return this.pageNavigation.resolvePagePath('0', lang);
   }
 
   public goHome(event: MouseEvent): void {

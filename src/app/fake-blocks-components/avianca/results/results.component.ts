@@ -368,7 +368,7 @@ export class ResultsComponent {
   }
 
   public selectFare(): void {
-    void this.pageNavigation.navigateByPageId('1-1', 'personal-data');
+    void this.pageNavigation.navigateByPageId('1-1');
   }
 
   public goToResults(): void {

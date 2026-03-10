@@ -60,7 +60,7 @@ export class BookingHeaderComponent implements OnInit, OnDestroy {
   }
 
   public homePath(): string {
-    return this.pageNavigation.resolvePagePath('0', 'home');
+    return this.pageNavigation.resolvePagePath('0');
   }
 
   public goHome(event: MouseEvent): void {

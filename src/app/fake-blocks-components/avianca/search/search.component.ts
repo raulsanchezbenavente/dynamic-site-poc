@@ -215,7 +215,7 @@ export class SearchComponent implements AfterViewInit {
       returnDate: this.returnDate,
     });
 
-    void this.pageNavigation.navigateByPageId('1', 'results');
+    void this.pageNavigation.navigateByPageId('1');
   }
 
   public goTo(page: string): void {

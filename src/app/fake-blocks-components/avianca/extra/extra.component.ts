@@ -131,6 +131,6 @@ export class ExtraComponent implements OnDestroy {
   }
 
   public goToPayment(): void {
-    void this.pageNavigation.navigateByPageId('1-3', 'payment');
+    void this.pageNavigation.navigateByPageId('1-3');
   }
 }

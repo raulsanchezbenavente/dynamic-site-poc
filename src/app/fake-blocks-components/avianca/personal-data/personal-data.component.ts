@@ -49,7 +49,7 @@ export class PersonalDataComponent {
   }
 
   public goNext(): void {
-    void this.pageNavigation.navigateByPageId('1-2', 'extras');
+    void this.pageNavigation.navigateByPageId('1-2');
   }
 
   public setTab(tab: 'adult' | 'holder'): void {

@@ -48,7 +48,7 @@ export class SiteConfigService {
     return this.configSitesByLanguage[lang] ?? [];
   }
 
-  public getPathByPageId(pageId: string | number | undefined, lang: AppLang): string | undefined {
+  public getPathByPageId(pageId: string | undefined, lang: AppLang): string | undefined {
     if (pageId === undefined || pageId === null) return undefined;
     const pages = this.configSitesByLanguage[lang] ?? [];
     const idStr = String(pageId);

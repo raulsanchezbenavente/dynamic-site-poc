@@ -13,17 +13,21 @@ export class PageNavigationService {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
 
-  public resolvePagePath(pageId: string | number | undefined, fallbackSlug: string, lang?: AppLang): string {
+  public resolvePagePath(pageId: string | undefined, lang?: AppLang): string {
     const currentLang = lang ?? this.routerHelper.language;
     const configPath = this.siteConfig.getPathByPageId(pageId, currentLang);
     if (configPath) return configPath;
 
-    const normalizedFallbackSlug = (fallbackSlug ?? '').replace(/^\/+/, '');
-    return `/${currentLang}/${normalizedFallbackSlug}`;
+    return `/${currentLang}/home`;
   }
 
-  public navigateByPageId(pageId: string | number | undefined, fallbackSlug: string, lang?: AppLang): Promise<boolean> {
-    const targetPath = this.resolvePagePath(pageId, fallbackSlug, lang);
+  public navigateByPageId(pageId: string | undefined, lang?: AppLang, external = false): Promise<boolean> {
+    const targetPath = this.resolvePagePath(pageId, lang);
+    if (external) {
+      globalThis.location.assign(targetPath);
+      return Promise.resolve(true);
+    }
+
     return this.router.navigateByUrl(targetPath);
   }
 }
