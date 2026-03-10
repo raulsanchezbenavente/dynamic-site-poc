@@ -4,6 +4,11 @@
       "pageId": "0",
       "path": "pt/casa",
       "name": "Casa",
+      "seo": {
+        "title": "Casa",
+        "description": "Reserve voos, descubra destinos e gerencie sua viagem em um só lugar.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {
@@ -186,6 +191,11 @@
       "pageId": "2",
       "path": "pt/membros",
       "name": "Membros",
+      "seo": {
+        "title": "Membros",
+        "description": "Acesse seu perfil de fidelidade, viagens e configurações da conta.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {

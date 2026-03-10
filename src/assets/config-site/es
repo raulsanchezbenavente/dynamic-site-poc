@@ -4,6 +4,11 @@
       "pageId": "0",
       "path": "es/inicio",
       "name": "Home",
+      "seo": {
+        "title": "Inicio",
+        "description": "Reserva vuelos, descubre destinos y gestiona tu viaje en un solo lugar.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {
@@ -186,6 +191,11 @@
       "pageId": "2",
       "path": "es/miembros",
       "name": "Miembros",
+      "seo": {
+        "title": "Miembros",
+        "description": "Accede a tu perfil de lealtad, tus viajes y la configuración de tu cuenta.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {

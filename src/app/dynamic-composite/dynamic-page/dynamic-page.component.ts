@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
+import { SeoService } from '../../services/seo/seo.service';
 import { SiteConfigService } from '../../services/site-config/site-config.service';
 
 import { BlockOutletComponent } from './block-outlet.component';
@@ -15,6 +16,18 @@ type PageLayoutCol = {
   [key: string]: any;
 };
 type PageLayoutRow = { cols: PageLayoutCol[] };
+type SeoConfig = {
+  title?: string;
+  description?: string;
+  robots?: string;
+  canonical?: string;
+};
+type SitePage = {
+  path?: string;
+  name?: string;
+  layout?: { rows?: PageLayoutRow[] } | PageLayoutRow[];
+  seo?: SeoConfig;
+};
 
 @Component({
   selector: 'dynamic-page',
@@ -28,17 +41,21 @@ export class DynamicPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private siteSvc = inject(SiteConfigService);
+  private seoSvc = inject(SeoService);
 
   public ngOnInit(): void {
     const path = this.route.snapshot.routeConfig?.path;
 
     this.siteSvc.site$.subscribe((site) => {
-      const page = site?.pages?.find((p: any) => p.path === path);
+      const pages = Array.isArray(site?.pages) ? (site.pages as SitePage[]) : [];
+      const page = pages.find((p) => p.path === path);
 
       if (page) {
-        const rows = page.layout?.rows ?? page.layout;
+        const layout = page.layout;
+        const rows = Array.isArray(layout) ? layout : layout?.rows;
         this.rows = Array.isArray(rows) ? rows : [];
-        this.titleService.setTitle(page.name);
+        this.titleService.setTitle(String(page.name ?? ''));
+        this.seoSvc.applyPageSeo(page.path, page.name, page.seo);
       } else {
         this.rows = [];
       }

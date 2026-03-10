@@ -4,6 +4,11 @@
       "pageId": "0",
       "path": "fr/accueil",
       "name": "Accueil",
+      "seo": {
+        "title": "Accueil",
+        "description": "Réservez des vols, découvrez des destinations et gérez votre voyage au même endroit.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {
@@ -186,6 +191,11 @@
       "pageId": "2",
       "path": "fr/membres",
       "name": "Membres",
+      "seo": {
+        "title": "Membres",
+        "description": "Accédez à votre profil fidélité, vos voyages et les paramètres de votre compte.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {

@@ -4,6 +4,11 @@
       "pageId": "0",
       "path": "en/home",
       "name": "Home",
+      "seo": {
+        "title": "Home",
+        "description": "Book flights, discover destinations and manage your travel in one place.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {
@@ -186,6 +191,11 @@
       "pageId": "2",
       "path": "en/members",
       "name": "Members",
+      "seo": {
+        "title": "Members",
+        "description": "Access your loyalty profile, trips and account settings.",
+        "robots": "index,follow"
+      },
       "layout": {
         "rows": [
           {
