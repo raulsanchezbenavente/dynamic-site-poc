@@ -16,6 +16,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🧭 Language-aware navigation using `pageId` → path mapping
+- 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
 - 🗓️ Selectable date carousel in results
 - 🗺️ Results page localized (EN/ES/FR/PT)
@@ -30,6 +31,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 💳 Payment methods: card, PayPal, Apple Pay, Google Pay
 - 🎨 Custom SVG illustrations for extras and payments (non-official logos)
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
+- 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 
 ---
 
@@ -101,6 +103,7 @@ src/
 │   │   └── route-assets-preload.guard.ts
 │   └── services/
 │       ├── booking-progress/
+│       ├── page-navigation/
 │       ├── router-helper/
 │       └── site-config/
 ├── environments/
@@ -162,6 +165,15 @@ API runs on:
 3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
+
+---
+
+## 🧭 Navigation Service
+
+- `PageNavigationService` centralizes route resolution by `pageId` and language.
+- `navigateByPageId(pageId, lang?, external?)` resolves path from config and navigates internally (SPA) by default.
+- `navigateByPath(path, external?)` navigates with a direct path (internal by default, external when `external = true`).
+- If a `pageId` is not found in config, fallback route is `/{lang}/home`.
 
 ---
 
