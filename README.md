@@ -172,8 +172,10 @@ API runs on:
 ## 🧭 Navigation Service
 
 - `PageNavigationService` centralizes route resolution by `pageId` and language.
-- `navigateByPageId(pageId, lang?, external?, targetBlank?)` resolves path from config and navigates internally (SPA) by default.
-- `navigateByPath(path, external?, targetBlank?)` navigates with a direct path.
+- `navigateByPageId(pageId, lang?, external?, targetBlank?, queryParams?)` resolves path from config and navigates internally (SPA) by default.
+- `navigateByPath(path, external?, targetBlank?, queryParams?)` navigates with a direct path.
+- `queryParams` accepts key/value pairs and appends them to the final URL.
+- Query params are applied for internal SPA navigation, external same-tab navigation, and target-blank navigation.
 - `external = true` forces full page reload in the same tab.
 - `targetBlank = true` opens a new tab/window and is independent from `external`.
 - In header menu items, external-link icon is shown only when `targetBlank = true`.
