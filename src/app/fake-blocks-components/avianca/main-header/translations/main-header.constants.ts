@@ -8,7 +8,7 @@ export const LANGS: Lang[] = [
 ];
 
 export const DEFAULT_MENU: HeaderMenuItem[] = [
-  { label: 'HEADER.MENU_HOME', pageId: '0' },
+  { label: 'HEADER.MENU_HOME', pageId: '0', external: true },
   { label: 'HEADER.MENU_PERSONAL_DATA', pageId: '2', tabsId: '111', tabId: '22' },
   { label: 'HEADER.MENU_MY_TRIPS', pageId: '2', tabsId: '111', tabId: '33' },
   { label: 'HEADER.MENU_ACCOUNT_SETTINGS', pageId: '2', tabsId: '111', tabId: '44' },
