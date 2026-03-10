@@ -27,7 +27,7 @@ export class PageNavigationService {
     const configPath = this.siteConfig.getPathByPageId(pageId, currentLang);
     if (configPath) return configPath;
 
-    return `/${currentLang}/home`;
+    return '/en/home';
   }
 
   public navigateByPageId(pageId: string | undefined, lang?: AppLang, external = false): Promise<boolean> {
