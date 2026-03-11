@@ -15,6 +15,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🛫 Initial boot loader (plane GIF) rendered from `index.html`
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
+- 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
@@ -42,7 +43,10 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 server/
 └── index.js                     # Booking flow API (token + steps)
 public/
-└── favicon.png                  # Static assets
+├── favicon-32x32.png
+├── favicon.png
+├── robots.txt
+└── sitemap.xml                  # Public static assets
 apache/
 └── .htaccess                    # Optional Apache config
 src/
@@ -106,6 +110,7 @@ src/
 │       ├── booking-progress/
 │       ├── page-navigation/
 │       ├── router-helper/
+│       ├── seo/
 │       └── site-config/
 ├── environments/
 │   ├── environment.ts            # Development config (boot loader min: 0ms)
@@ -141,6 +146,12 @@ npm install
 ## ▶️ Run the App
 
 ```bash
+# Install client deps
+npm install
+
+# Install API deps (server uses Express)
+npm install express cors uuid
+
 # Terminal 1: booking flow API (port 3000)
 node server/index.js
 
@@ -154,8 +165,19 @@ Then visit:
 API runs on:
 📍 http://localhost:3000
 
-> If you see missing module errors when starting the API, install the server deps:
-> `npm install express cors uuid`
+---
+
+## ✅ Useful Scripts
+
+```bash
+npm start         # Dev server
+npm run build     # Production build
+npm run watch     # Development build in watch mode
+npm test          # Unit tests (Karma)
+npm run lint      # ESLint for TS/HTML
+npm run lint:styles # Stylelint for SCSS/CSS
+npm run format    # Prettier formatting
+```
 
 ---
 
@@ -166,6 +188,7 @@ API runs on:
 3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
+6. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
 
 ---
 
