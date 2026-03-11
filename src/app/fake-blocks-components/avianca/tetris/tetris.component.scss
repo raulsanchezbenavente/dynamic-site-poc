@@ -98,6 +98,11 @@
   gap: 2px;
 }
 
+.tt-row-clearing .tt-cell {
+  filter: brightness(1.6) saturate(1.25);
+  box-shadow: 0 0 7px rgba(255, 255, 255, 0.85);
+}
+
 .tt-cell {
   aspect-ratio: 1;
   border-radius: 4px;

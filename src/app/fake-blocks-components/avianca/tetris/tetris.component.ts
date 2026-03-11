@@ -30,6 +30,8 @@ export class TetrisUiplusComponent implements OnDestroy {
   private readonly baseTickMs = 520;
   private readonly minTickMs = 170;
   private readonly softDropTickMs = 35;
+  private readonly clearBlinkMs = 110;
+  private readonly clearBlinkCycles = 3;
 
   private readonly shapes: Tetromino[] = [
     {
@@ -194,6 +196,8 @@ export class TetrisUiplusComponent implements OnDestroy {
   private current = signal<ActivePiece | null>(null);
   private timerId: ReturnType<typeof setInterval> | null = null;
   private isSoftDropping = false;
+  private isClearingRows = false;
+  public flashingRows = signal<number[]>([]);
 
   public isPlaying = signal(false);
   public isGameOver = signal(false);
@@ -256,27 +260,33 @@ export class TetrisUiplusComponent implements OnDestroy {
   }
 
   public moveLeft(): void {
+    if (this.isClearingRows) {
+      return;
+    }
     this.tryMove(0, -1);
   }
 
   public moveRight(): void {
+    if (this.isClearingRows) {
+      return;
+    }
     this.tryMove(0, 1);
   }
 
   public softDrop(): void {
-    if (!this.isPlaying()) {
+    if (!this.isPlaying() || this.isClearingRows) {
       return;
     }
 
     if (!this.tryMove(1, 0)) {
-      this.lockCurrentPiece();
+      void this.lockCurrentPiece();
     } else {
       this.score.update((value) => value + 1);
     }
   }
 
   public hardDrop(): void {
-    if (!this.isPlaying()) {
+    if (!this.isPlaying() || this.isClearingRows) {
       return;
     }
 
@@ -289,11 +299,11 @@ export class TetrisUiplusComponent implements OnDestroy {
       this.score.update((value) => value + moved * 2);
     }
 
-    this.lockCurrentPiece();
+    void this.lockCurrentPiece();
   }
 
   public rotate(): void {
-    if (!this.isPlaying()) {
+    if (!this.isPlaying() || this.isClearingRows) {
       return;
     }
 
@@ -368,7 +378,7 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
-    if (!this.isPlaying() || this.isGameOver()) {
+    if (!this.isPlaying() || this.isGameOver() || this.isClearingRows) {
       return;
     }
 
@@ -423,13 +433,17 @@ export class TetrisUiplusComponent implements OnDestroy {
     return index;
   }
 
+  public isRowFlashing(rowIndex: number): boolean {
+    return this.flashingRows().includes(rowIndex);
+  }
+
   private tick(): void {
-    if (!this.isPlaying()) {
+    if (!this.isPlaying() || this.isClearingRows) {
       return;
     }
 
     if (!this.tryMove(1, 0)) {
-      this.lockCurrentPiece();
+      void this.lockCurrentPiece();
     }
   }
 
@@ -454,7 +468,11 @@ export class TetrisUiplusComponent implements OnDestroy {
     return true;
   }
 
-  private lockCurrentPiece(): void {
+  private async lockCurrentPiece(): Promise<void> {
+    if (this.isClearingRows) {
+      return;
+    }
+
     const piece = this.current();
     if (!piece) {
       return;
@@ -470,10 +488,11 @@ export class TetrisUiplusComponent implements OnDestroy {
     }
 
     this.board.set(matrix);
-    this.clearLines();
+    this.current.set(null);
 
     const wasSoftDropping = this.isSoftDropping;
     this.isSoftDropping = false;
+    await this.clearLines();
     this.spawnPiece();
 
     if (wasSoftDropping && this.isPlaying() && !this.isGameOver()) {
@@ -481,28 +500,49 @@ export class TetrisUiplusComponent implements OnDestroy {
     }
   }
 
-  private clearLines(): void {
+  private async clearLines(): Promise<void> {
     const matrix = this.cloneBoard(this.board());
-    const pending = matrix.filter((row) => row.some((cell) => cell === 0));
-    const removed = this.rows - pending.length;
+    const fullRows: number[] = [];
+
+    for (let index = 0; index < matrix.length; index += 1) {
+      if (matrix[index].every((cell) => cell !== 0)) {
+        fullRows.push(index);
+      }
+    }
+
+    const removed = fullRows.length;
 
     if (removed === 0) {
       return;
     }
 
-    const clearedRows = Array.from({ length: removed }, () => Array(this.cols).fill(0));
-    this.board.set([...clearedRows, ...pending]);
-
-    const scoreByLines = [0, 100, 300, 500, 800];
-    this.lines.update((value) => value + removed);
-    this.score.update((value) => value + scoreByLines[removed] * this.level());
-
-    const nextLevel = Math.min(10, Math.floor(this.lines() / 10) + 1);
-    if (nextLevel !== this.level()) {
-      this.level.set(nextLevel);
-      if (this.isPlaying()) {
-        this.startTimer();
+    this.isClearingRows = true;
+    try {
+      for (let cycle = 0; cycle < this.clearBlinkCycles; cycle += 1) {
+        this.flashingRows.set(fullRows);
+        await this.delay(this.clearBlinkMs);
+        this.flashingRows.set([]);
+        await this.delay(this.clearBlinkMs);
       }
+
+      const pending = matrix.filter((_, index) => !fullRows.includes(index));
+      const clearedRows = Array.from({ length: removed }, () => Array(this.cols).fill(0));
+      this.board.set([...clearedRows, ...pending]);
+
+      const scoreByLines = [0, 100, 300, 500, 800];
+      this.lines.update((value) => value + removed);
+      this.score.update((value) => value + scoreByLines[removed] * this.level());
+
+      const nextLevel = Math.min(10, Math.floor(this.lines() / 10) + 1);
+      if (nextLevel !== this.level()) {
+        this.level.set(nextLevel);
+        if (this.isPlaying()) {
+          this.startTimer();
+        }
+      }
+    } finally {
+      this.flashingRows.set([]);
+      this.isClearingRows = false;
     }
   }
 
@@ -571,6 +611,8 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   private gameOver(): void {
     this.isSoftDropping = false;
+    this.flashingRows.set([]);
+    this.isClearingRows = false;
     this.isPlaying.set(false);
     this.isGameOver.set(true);
     this.stopTimer();
@@ -583,5 +625,11 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   private cloneBoard(board: number[][]): number[][] {
     return board.map((row) => [...row]);
+  }
+
+  private async delay(ms: number): Promise<void> {
+    await new Promise<void>((resolve) => {
+      setTimeout(resolve, ms);
+    });
   }
 }

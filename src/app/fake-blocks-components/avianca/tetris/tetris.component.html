@@ -29,7 +29,9 @@
       role="grid"
       aria-label="Tablero de mini tetris">
       @for (row of boardView(); track trackByIndex($index)) {
-        <div class="tt-row">
+        <div
+          class="tt-row"
+          [class.tt-row-clearing]="isRowFlashing($index)">
           @for (cell of row; track trackByIndex($index)) {
             <span
               class="tt-cell"
