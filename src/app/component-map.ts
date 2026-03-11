@@ -64,10 +64,12 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./fake-blocks-components/avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus: () =>
     import('./fake-blocks-components/avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
-  juego_uiplus: () =>
-    import('./fake-blocks-components/avianca/juego/juego.component').then((m) => m.JuegoUiplusComponent),
+  'caza-el-icono_uiplus': () =>
+    import('./fake-blocks-components/games/caza-el-icono/caza-el-icono.component').then(
+      (m) => m.CazaElIconoUiplusComponent
+    ),
   tetris_uiplus: () =>
-    import('./fake-blocks-components/avianca/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
+    import('./fake-blocks-components/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
   empty_uiplus: () =>
     import('./fake-blocks-components/avianca/empty/empty.component').then((m) => m.EmptyUiplusComponent),
 };
