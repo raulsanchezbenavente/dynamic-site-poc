@@ -14,24 +14,20 @@
           {
             "cols": [
               {
-                "component": "tetris_uiplus",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "juego_uiplus",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "tetris_uiplus",
+                "span": 6
+              },
+              {
+                "component": "juego_uiplus",
+                "span": 6
               }
             ]
           },
