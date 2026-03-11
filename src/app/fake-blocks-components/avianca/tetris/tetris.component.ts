@@ -378,24 +378,28 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   @HostListener('window:keydown', ['$event'])
   public onKeydown(event: KeyboardEvent): void {
+    const isGameControlKey =
+      event.key === 'ArrowLeft' || event.key === 'ArrowRight' || event.key === 'ArrowDown' || event.code === 'Space';
+
+    if (isGameControlKey) {
+      event.preventDefault();
+    }
+
     if (!this.isPlaying() || this.isGameOver() || this.isClearingRows) {
       return;
     }
 
     if (event.key === 'ArrowLeft') {
-      event.preventDefault();
       this.moveLeft();
       return;
     }
 
     if (event.key === 'ArrowRight') {
-      event.preventDefault();
       this.moveRight();
       return;
     }
 
     if (event.key === 'ArrowDown') {
-      event.preventDefault();
       if (event.repeat) {
         return;
       }
@@ -408,7 +412,6 @@ export class TetrisUiplusComponent implements OnDestroy {
     }
 
     if (event.code === 'Space') {
-      event.preventDefault();
       this.rotate();
     }
   }
