@@ -66,6 +66,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./fake-blocks-components/avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
   juego_uiplus: () =>
     import('./fake-blocks-components/avianca/juego/juego.component').then((m) => m.JuegoUiplusComponent),
+  tetris_uiplus: () =>
+    import('./fake-blocks-components/avianca/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();
