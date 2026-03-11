@@ -22,12 +22,20 @@
           {
             "cols": [
               {
+                "component": "empty_uiplus",
+                "span": 1
+              },
+              {
                 "component": "tetris_uiplus",
-                "span": 6
+                "span": 5
               },
               {
                 "component": "juego_uiplus",
-                "span": 6
+                "span": 5
+              },
+              {
+                "component": "empty_uiplus",
+                "span": 1
               }
             ]
           },
