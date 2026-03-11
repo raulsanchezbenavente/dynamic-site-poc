@@ -19,6 +19,10 @@ export class SeoService {
   private readonly document = inject(DOCUMENT);
 
   public applyPageSeo(path: string | undefined, pageName: string | undefined, seo?: SeoConfig, pageId?: string): void {
+    if (this.isSeoDisabledForProxyShell()) {
+      return;
+    }
+
     const nextTitle = String(seo?.title ?? pageName ?? '').trim();
     if (nextTitle) {
       this.title.setTitle(nextTitle);
@@ -101,5 +105,14 @@ export class SeoService {
       head.appendChild(link);
     }
     link.setAttribute('href', href);
+  }
+
+  private isSeoDisabledForProxyShell(): boolean {
+    const rawValue = this.document.querySelector('meta[name="disable-dynamic-seo"]')?.getAttribute('content');
+    return (
+      String(rawValue ?? '')
+        .trim()
+        .toLowerCase() === 'true'
+    );
   }
 }
