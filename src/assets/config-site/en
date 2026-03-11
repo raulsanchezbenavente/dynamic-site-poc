@@ -26,11 +26,11 @@
                 "span": 1
               },
               {
-                "component": "tetris_uiplus",
+                "component": "caza-el-icono_uiplus",
                 "span": 5
               },
               {
-                "component": "caza-el-icono_uiplus",
+                "component": "tetris_uiplus",
                 "span": 5
               },
               {

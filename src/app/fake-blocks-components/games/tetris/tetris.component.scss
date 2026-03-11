@@ -8,9 +8,9 @@
   --tt-line: #dbe4ef;
   --tt-ink: #0f172a;
   --tt-accent: #0b77df;
-  background: radial-gradient(circle at 10% 10%, #dbeafe 0%, transparent 42%),
-    radial-gradient(circle at 85% 16%, #ffedd5 0%, transparent 35%),
-    linear-gradient(145deg, #fff, var(--tt-bg-2));
+  background:
+    radial-gradient(circle at 10% 10%, #dbeafe 0%, transparent 42%),
+    radial-gradient(circle at 85% 16%, #ffedd5 0%, transparent 35%), linear-gradient(145deg, #fff, var(--tt-bg-2));
   border: 1px solid var(--tt-line);
   border-radius: 20px;
   padding: clamp(12px, 1.8vw, 18px);
@@ -117,13 +117,27 @@
     inset -1px -1px 0 rgba(8, 12, 28, 0.5);
 }
 
-.tt-c1 { background: linear-gradient(145deg, #ff8f8f 0%, #e43333 48%, #7f1d1d 100%); }
-.tt-c2 { background: linear-gradient(145deg, #9ec0ff 0%, #4267d9 48%, #1f2f7a 100%); }
-.tt-c3 { background: linear-gradient(145deg, #9df08e 0%, #40bb3b 48%, #1f6624 100%); }
-.tt-c4 { background: linear-gradient(145deg, #fff39c 0%, #d7bc1d 48%, #776413 100%); }
-.tt-c5 { background: linear-gradient(145deg, #f1a2ff 0%, #bf4fda 48%, #5f287d 100%); }
-.tt-c6 { background: linear-gradient(145deg, #8ef2ff 0%, #28b4d2 48%, #13607d 100%); }
-.tt-c7 { background: linear-gradient(145deg, #ffd7a0 0%, #df8d2f 48%, #7f4918 100%); }
+.tt-c1 {
+  background: linear-gradient(145deg, #ff8f8f 0%, #e43333 48%, #7f1d1d 100%);
+}
+.tt-c2 {
+  background: linear-gradient(145deg, #9ec0ff 0%, #4267d9 48%, #1f2f7a 100%);
+}
+.tt-c3 {
+  background: linear-gradient(145deg, #9df08e 0%, #40bb3b 48%, #1f6624 100%);
+}
+.tt-c4 {
+  background: linear-gradient(145deg, #fff39c 0%, #d7bc1d 48%, #776413 100%);
+}
+.tt-c5 {
+  background: linear-gradient(145deg, #f1a2ff 0%, #bf4fda 48%, #5f287d 100%);
+}
+.tt-c6 {
+  background: linear-gradient(145deg, #8ef2ff 0%, #28b4d2 48%, #13607d 100%);
+}
+.tt-c7 {
+  background: linear-gradient(145deg, #ffd7a0 0%, #df8d2f 48%, #7f4918 100%);
+}
 
 .tt-overlay {
   margin: 0;
@@ -169,6 +183,53 @@
 .tt-stat strong {
   font-size: 20px;
   color: #0f172a;
+}
+
+.tt-next {
+  gap: 6px;
+}
+
+.tt-next-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 14px);
+  grid-auto-rows: 14px;
+  gap: 2px;
+  justify-content: end;
+}
+
+.tt-next-cell {
+  border-radius: 3px;
+  background: #e2e8f0;
+  border: 1px solid rgba(71, 85, 105, 0.2);
+}
+
+.tt-next-cell.tt-c1 {
+  background: linear-gradient(145deg, #ff8f8f 0%, #e43333 48%, #7f1d1d 100%);
+}
+.tt-next-cell.tt-c2 {
+  background: linear-gradient(145deg, #9ec0ff 0%, #4267d9 48%, #1f2f7a 100%);
+}
+.tt-next-cell.tt-c3 {
+  background: linear-gradient(145deg, #9df08e 0%, #40bb3b 48%, #1f6624 100%);
+}
+.tt-next-cell.tt-c4 {
+  background: linear-gradient(145deg, #fff39c 0%, #d7bc1d 48%, #776413 100%);
+}
+.tt-next-cell.tt-c5 {
+  background: linear-gradient(145deg, #f1a2ff 0%, #bf4fda 48%, #5f287d 100%);
+}
+.tt-next-cell.tt-c6 {
+  background: linear-gradient(145deg, #8ef2ff 0%, #28b4d2 48%, #13607d 100%);
+}
+.tt-next-cell.tt-c7 {
+  background: linear-gradient(145deg, #ffd7a0 0%, #df8d2f 48%, #7f4918 100%);
+}
+
+.tt-next-filled {
+  border-color: rgba(8, 12, 28, 0.55);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.36),
+    inset -1px -1px 0 rgba(8, 12, 28, 0.5);
 }
 
 .tt-controls {

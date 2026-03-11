@@ -205,6 +205,24 @@ export class TetrisUiplusComponent implements OnDestroy {
   public level = signal(1);
   public lines = signal(0);
   public highScore = signal(0);
+  public nextShape = signal<Tetromino | null>(null);
+
+  public nextPreview = computed(() => {
+    const matrix = Array.from({ length: 4 }, () => Array(4).fill(0));
+    const shape = this.nextShape();
+
+    if (!shape) {
+      return matrix;
+    }
+
+    for (const [row, col] of shape.rotations[0]) {
+      if (row >= 0 && row < 4 && col >= 0 && col < 4) {
+        matrix[row][col] = shape.color;
+      }
+    }
+
+    return matrix;
+  });
 
   public boardView = computed(() => {
     const matrix = this.cloneBoard(this.board());
@@ -550,7 +568,9 @@ export class TetrisUiplusComponent implements OnDestroy {
   }
 
   private spawnPiece(): void {
-    const shape = this.shapes[Math.floor(Math.random() * this.shapes.length)];
+    const shape = this.nextShape() ?? this.randomShape();
+    this.nextShape.set(this.randomShape());
+
     const candidate: ActivePiece = {
       shape,
       row: -1,
@@ -606,6 +626,7 @@ export class TetrisUiplusComponent implements OnDestroy {
     this.isSoftDropping = false;
     this.board.set(this.createEmptyBoard());
     this.current.set(null);
+    this.nextShape.set(this.randomShape());
     this.score.set(0);
     this.level.set(1);
     this.lines.set(0);
@@ -628,6 +649,10 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   private cloneBoard(board: number[][]): number[][] {
     return board.map((row) => [...row]);
+  }
+
+  private randomShape(): Tetromino {
+    return this.shapes[Math.floor(Math.random() * this.shapes.length)];
   }
 
   private async delay(ms: number): Promise<void> {
