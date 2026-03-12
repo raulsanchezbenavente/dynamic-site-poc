@@ -2,7 +2,7 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
-import { AppLang } from '../site-config/models/langs.model';
+import { APP_LANGS, AppLang } from '../site-config/models/langs.model';
 import { SiteConfigService } from '../site-config/site-config.service';
 
 type SeoConfig = {
@@ -14,7 +14,7 @@ type SeoConfig = {
 
 @Injectable({ providedIn: 'root' })
 export class SeoService {
-  private readonly allowedLangs = new Set<AppLang>(['en', 'es', 'fr', 'pt']);
+  private readonly allowedLangs = new Set<AppLang>(APP_LANGS);
   private readonly indexablePageIds = new Set(['0', '2']);
   private readonly siteName = 'Avianca';
   private readonly localeByLang: Record<AppLang, string> = {
@@ -136,7 +136,7 @@ export class SeoService {
     const alternates: Array<{ lang: string; href: string }> = [];
 
     if (normalizedPageId) {
-      (['es', 'en', 'fr', 'pt'] as AppLang[]).forEach((lang) => {
+      APP_LANGS.forEach((lang) => {
         const langPath = this.siteConfig.getPathByPageId(normalizedPageId, lang);
         const absoluteHref = this.resolveCanonicalUrl(langPath);
         if (absoluteHref) {

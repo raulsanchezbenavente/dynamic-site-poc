@@ -6,6 +6,7 @@ import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translat
 import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
+import { APP_LANGS, AppLang } from './services/site-config/models/langs.model';
 import { SiteConfigService } from './services/site-config/site-config.service';
 
 export const appConfig: ApplicationConfig = {
@@ -17,7 +18,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [SiteConfigService],
       useFactory: (svc: SiteConfigService) => () =>
-        firstValueFrom(svc.loadSite(['en', 'es', 'fr', 'pt', 'config-site'])),
+        firstValueFrom(svc.loadSite([...APP_LANGS, 'config-site'])),
     },
     provideHttpClient(),
 
@@ -41,7 +42,7 @@ export const appConfig: ApplicationConfig = {
       deps: [TranslateService],
       useFactory: (ts: TranslateService) => () => {
         const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
-        const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
+        const lang = APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
 
         ts.setDefaultLang(lang);
         return firstValueFrom(ts.use(lang));
