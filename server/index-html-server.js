@@ -5,7 +5,7 @@ const express = require('express');
 
 const app = express();
 const port = 4300;
-const indexPath = path.join(__dirname, 'index.html');
+const indexPath = path.join(__dirname, '../src/index.html');
 const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
@@ -164,9 +164,33 @@ function renderIndexHtml(reqPath) {
   const template = fs.readFileSync(indexPath, 'utf8');
   const seo = renderSeoTags(reqPath);
 
-  return template
-    .replace('__SEO_TITLE__', escapeHtml(seo.title))
-    .replace('<!-- DYNAMIC_SEO_TAGS -->', seo.tags);
+  const titleTagRegex = /<title[^>]*>[\s\S]*?<\/title>/i;
+  const disableSeoMetaRegex = /<meta\s+name=["']disable-dynamic-seo["'][^>]*>/i;
+  const appRootTag = '<app-root></app-root>';
+  const bootScripts = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
+
+  let html = template;
+
+  if (titleTagRegex.test(html)) {
+    html = html.replace(titleTagRegex, `<title>${escapeHtml(seo.title)}</title>`);
+  }
+
+  if (!disableSeoMetaRegex.test(html)) {
+    const disableSeoTag = '        <meta name="disable-dynamic-seo" content="true" />';
+    if (html.includes('</title>')) {
+      html = html.replace('</title>', `</title>\n${disableSeoTag}`);
+    } else {
+      html = html.replace('</head>', `${disableSeoTag}\n    </head>`);
+    }
+  }
+
+  html = html.replace('<!-- DYNAMIC_SEO_TAGS -->', seo.tags);
+
+  if (html.includes(appRootTag) && !html.includes(bootScripts)) {
+    html = html.replace(appRootTag, `${appRootTag}\n    ${bootScripts}`);
+  }
+
+  return html;
 }
 
 app.use((req, res) => {
