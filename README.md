@@ -45,7 +45,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 server/
 ├── api.js                     # Booking flow API (token + steps)
 ├── index-proxy.js               # Composition root for index proxy (port 4300)
-└── index-proxy/
+└── index-rendering/
   ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
   ├── index-renderer.js        # Applies dynamic replacements over src/index.html template
   ├── proxy-middleware.js      # HTML-vs-asset routing and pass-through proxy to Angular dev server
@@ -207,7 +207,7 @@ npm run format    # Prettier formatting
 
 ## 🌐 SEO Proxy Mode
 
-`server/index-proxy.js` is the composition root for the proxy and wires specialized modules under `server/index-proxy/`.
+`server/index-proxy.js` is the composition root for the proxy and wires specialized modules under `server/index-rendering/`.
 
 Responsibilities are split as follows:
 

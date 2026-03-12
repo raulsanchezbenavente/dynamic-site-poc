@@ -1,9 +1,7 @@
 const path = require('path');
 const express = require('express');
-const { createAnalyticsScriptsProvider } = require('./index-proxy/analytics-provider');
-const { createIndexHtmlRenderer } = require('./index-proxy/index-renderer');
-const { createIndexProxyMiddleware } = require('./index-proxy/proxy-middleware');
-const { createSeoRenderer } = require('./index-proxy/seo-renderer');
+const { createIndexProxyMiddleware } = require('./index-rendering/proxy-middleware');
+const { createRenderIndexHtml } = require('./index-rendering/render-context');
 
 const app = express();
 const port = 4300;
@@ -12,31 +10,11 @@ const analyticsScriptsPath = path.join(__dirname, '../src/assets/analytics/scrip
 const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
-const siteName = 'Avianca';
-const supportedLangs = ['es', 'en', 'fr', 'pt'];
-const localeByLang = {
-  es: 'es_ES',
-  en: 'en_US',
-  fr: 'fr_FR',
-  pt: 'pt_PT',
-};
-
-const renderSeoTags = createSeoRenderer({
-  configDir,
-  siteName,
-  supportedLangs,
-  localeByLang,
-  baseUrl: `http://localhost:${port}`,
-});
-
-const getAnalyticsScripts = createAnalyticsScriptsProvider({
-  analyticsScriptsPath,
-});
-
-const renderIndexHtml = createIndexHtmlRenderer({
+const renderIndexHtml = createRenderIndexHtml({
+  port,
   indexPath,
-  renderSeoTags,
-  getAnalyticsScripts,
+  configDir,
+  analyticsScriptsPath,
 });
 
 app.use(
