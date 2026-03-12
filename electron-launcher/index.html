@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Site Launcher</title>
+    <link
+      rel="stylesheet"
+      href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Dynamic Site Launcher</h1>
+      <div class="topbar-actions">
+        <div class="source-selector">
+          <label for="packageSourceSelect">package.json</label>
+          <select id="packageSourceSelect">
+            <option value="dev">Dev (current repository)</option>
+            <option value="prod">Prod (project root)</option>
+            <option value="custom">Other...</option>
+          </select>
+        </div>
+        <button
+          id="refreshButton"
+          class="refresh-button"
+          type="button">
+          Refresh scripts
+        </button>
+      </div>
+    </header>
+    <div
+      id="packageSourcePath"
+      class="source-path"
+      aria-live="polite"></div>
+
+    <main class="layout">
+      <section class="panel scripts-panel">
+        <h2>Scripts</h2>
+        <div
+          id="scriptsList"
+          class="scripts-list"></div>
+      </section>
+
+      <section class="panel logs-panel">
+        <div class="panel-header">
+          <h2>Logs</h2>
+          <button
+            id="clearLogsButton"
+            class="clear-logs-button"
+            type="button">
+            Clear logs
+          </button>
+        </div>
+        <div class="logs-shell">
+          <div
+            id="logTabs"
+            class="log-tabs"
+            role="tablist"
+            aria-label="Log tabs"></div>
+          <div
+            id="logs"
+            class="logs"
+            aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

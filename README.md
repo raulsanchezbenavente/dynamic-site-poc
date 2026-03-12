@@ -190,7 +190,26 @@ npm test          # Unit tests (Karma)
 npm run lint      # ESLint for TS/HTML
 npm run lint:styles # Stylelint for SCSS/CSS
 npm run format    # Prettier formatting
+npm run launcher:build:win # Build Windows launcher (NSIS)
 ```
+
+---
+
+## 🪟 Windows Launcher
+
+This project includes a **Windows launcher** built with Electron.
+
+To generate it:
+
+```bash
+npm run launcher:build:win
+```
+
+After the build finishes, the Windows executable is available at:
+
+- `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+
+The NSIS installer is also generated in `dist-electron/`.
 
 ---
 
