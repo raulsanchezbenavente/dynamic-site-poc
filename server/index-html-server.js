@@ -15,7 +15,7 @@ const localeByLang = {
   es: 'es_ES',
   en: 'en_US',
   fr: 'fr_FR',
-  pt: 'pt_PT'
+  pt: 'pt_PT',
 };
 
 function escapeHtml(value) {
@@ -90,10 +90,10 @@ function resolvePageForPath(config, requestPath) {
       seo: {
         title: siteName,
         description: '',
-        robots: 'index,follow'
-      }
+        robots: 'index,follow',
+      },
     },
-    resolvedPath: '/es/inicio'
+    resolvedPath: '/es/inicio',
   };
 }
 
@@ -136,7 +136,10 @@ function renderSeoTags(reqPath) {
   const alternates = buildAlternates(config, pageId, canonicalPath);
 
   const altLinks = alternates
-    .map((alt) => `        <link rel="alternate" hreflang="${escapeHtml(alt.lang)}" href="http://localhost:${port}${escapeHtml(alt.href)}"/>`)
+    .map(
+      (alt) =>
+        `        <link rel="alternate" hreflang="${escapeHtml(alt.lang)}" href="http://localhost:${port}${escapeHtml(alt.href)}"/>`
+    )
     .join('\n');
 
   const locale = localeByLang[matched.lang] ?? 'es_ES';
@@ -154,7 +157,7 @@ function renderSeoTags(reqPath) {
     `        <meta property="og:locale" content="${escapeHtml(locale)}"/>`,
     '        <meta name="twitter:card" content="summary_large_image"/>',
     `        <meta name="twitter:title" content="${escapeHtml(title)}"/>`,
-    `        <meta name="twitter:description" content="${escapeHtml(description)}"/>`
+    `        <meta name="twitter:description" content="${escapeHtml(description)}"/>`,
   ].join('\n');
 
   return { title, tags };
@@ -185,7 +188,7 @@ function renderIndexHtml(reqPath) {
     }
   }
 
-  html = html.replace('<!-- DYNAMIC_SEO_TAGS -->', seo.tags);
+  html = html.replace('<!-- DYNAMIC_SEO_TAGS_SSR -->', seo.tags);
 
   if (!stylesLinkRegex.test(html)) {
     const stylesTag = '    <link rel="stylesheet" href="styles.css">';
@@ -223,10 +226,10 @@ app.use((req, res) => {
       method: req.method,
       headers: {
         ...req.headers,
-        host: `${targetHost}:${targetPort}`
-      }
+        host: `${targetHost}:${targetPort}`,
+      },
     },
-    proxyRes => {
+    (proxyRes) => {
       res.status(proxyRes.statusCode || 502);
 
       Object.entries(proxyRes.headers).forEach(([key, value]) => {
