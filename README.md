@@ -43,7 +43,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 
 ```
 server/
-├── index.js                     # Booking flow API (token + steps)
+├── api.js                     # Booking flow API (token + steps)
 ├── index-html-server.js         # Composition root for index proxy (port 4300)
 └── index-proxy/
   ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
