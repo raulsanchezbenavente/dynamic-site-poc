@@ -16,6 +16,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
+- 🧠 Optional SEO proxy shell (`server/index-html-server.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
@@ -41,7 +42,8 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 
 ```
 server/
-└── index.js                     # Booking flow API (token + steps)
+├── index.js                     # Booking flow API (token + steps)
+└── index-html-server.js         # SEO proxy shell (port 4300) + pass-through proxy to Angular dev server
 public/
 ├── favicon-32x32.png
 ├── favicon.png
@@ -146,17 +148,17 @@ npm install
 ## ▶️ Run the App
 
 ```bash
-# Install client deps
+# Install deps
 npm install
 
-# Install API deps (server uses Express)
-npm install express cors uuid
-
 # Terminal 1: booking flow API (port 3000)
-node server/index.js
+npm run start:api
 
-# Terminal 2: Angular app (port 4200)
+# Terminal 2: Angular app (port 4200 by default)
 npm start
+
+# Terminal 3 (optional): SEO proxy shell (port 4300)
+npm run start:proxy
 ```
 
 Then visit:
@@ -165,12 +167,17 @@ Then visit:
 API runs on:
 📍 http://localhost:3000
 
+SEO proxy shell runs on:
+📍 http://localhost:4300
+
 ---
 
 ## ✅ Useful Scripts
 
 ```bash
 npm start         # Dev server
+npm run start:api # Booking flow API server (port 3000)
+npm run start:proxy # SEO proxy shell (port 4300)
 npm run build     # Production build
 npm run watch     # Development build in watch mode
 npm test          # Unit tests (Karma)
@@ -189,6 +196,34 @@ npm run format    # Prettier formatting
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
 6. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
+
+---
+
+## 🌐 SEO Proxy Mode
+
+`server/index-html-server.js` uses `src/index.html` as the template and renders HTML for document requests.
+
+It injects/replaces:
+
+- `<title>` based on page SEO config.
+- `<!-- DYNAMIC_SEO_TAGS -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
+- `<meta name="disable-dynamic-seo" content="true" />` to disable front-side SEO rewriting when server SEO is already applied.
+- `<link rel="stylesheet" href="styles.css">` to ensure global styles (including Bootstrap) are loaded in proxy mode.
+- `<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>` after `<app-root></app-root>`.
+
+For non-document requests (assets/chunks), it proxies directly to Angular dev server on `http://localhost:4200`.
+
+---
+
+## 🧾 About Inline CSS in dist/index.html
+
+In production builds (`dist/dynamic-site/browser/index.html`), Angular may inline critical CSS in a `<style>` block (you may see `data-beasties-container`).
+
+This is expected optimization behavior:
+
+- Improves first paint by inlining critical styles.
+- Defers the full stylesheet via generated `styles-*.css` link.
+- `dist/` files are generated artifacts and should not be edited manually.
 
 ---
 
