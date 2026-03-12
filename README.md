@@ -209,6 +209,11 @@ npm run launcher:build:all # Build all launcher targets
 
 This project includes an **Electron launcher** for Windows, macOS, and Linux.
 
+Launcher UI highlights:
+
+- Favorite scripts are marked with a yellow star icon (`★`) for quick identification.
+- Current default favorites: `build`, `start:serve-proxy`, `start:backend`.
+
 Build commands:
 
 ```bash
@@ -263,7 +268,7 @@ Responsibilities are split as follows:
 - `<!-- DYNAMIC_SEO_TAGS_SSR -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
 - `<meta name="enable-dynamic-seo" content="false" />` when serving through proxy/backend, so front-side SEO rewriting is disabled while server SEO is already applied.
 - `<link rel="stylesheet" href="styles.css">` to ensure global styles (including Bootstrap) are loaded in proxy mode.
-- `<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>` after `<app-root></app-root>`.
+- Keeps module script tags provided by Angular dev server and only falls back to `<script src="main.js" type="module"></script>` when needed.
 
 Notes:
 
@@ -313,7 +318,7 @@ This is expected optimization behavior:
 
 ## 🏗️ Build Configurations
 
-- `npm start` / `ng serve` uses the `development` build target.
+- `npm run start:serve` / `ng serve` uses the `development` build target.
 - `ng build` uses `production` by default (`build.defaultConfiguration = production` in `angular.json`).
 - You can force development build output with:
 
