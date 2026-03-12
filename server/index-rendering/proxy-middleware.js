@@ -1,5 +1,41 @@
 const http = require('http');
 
+function requestUpstreamHtml({ targetHost, targetPort, requestPath, headers }) {
+  return new Promise((resolve, reject) => {
+    const upstreamReq = http.request(
+      {
+        hostname: targetHost,
+        port: targetPort,
+        path: requestPath,
+        method: 'GET',
+        headers: {
+          ...headers,
+          host: `${targetHost}:${targetPort}`,
+        },
+      },
+      (upstreamRes) => {
+        const chunks = [];
+
+        upstreamRes.on('data', (chunk) => {
+          chunks.push(chunk);
+        });
+
+        upstreamRes.on('end', () => {
+          if ((upstreamRes.statusCode || 500) >= 400) {
+            reject(new Error(`Upstream HTML request failed with status ${upstreamRes.statusCode || 500}`));
+            return;
+          }
+
+          resolve(Buffer.concat(chunks).toString('utf8'));
+        });
+      }
+    );
+
+    upstreamReq.on('error', reject);
+    upstreamReq.end();
+  });
+}
+
 function createIndexProxyMiddleware(options) {
   const { targetHost, targetPort, renderIndexHtml } = options;
 
@@ -9,13 +45,25 @@ function createIndexProxyMiddleware(options) {
     const looksLikeAsset = /\.[a-z0-9]+$/i.test(req.path);
 
     if (isHtmlNavigation && !looksLikeAsset) {
-      try {
-        const html = renderIndexHtml(req.path);
-        res.status(200).type('html').send(html);
-      } catch (error) {
-        console.error('Failed to render dynamic SEO HTML:', error);
-        res.status(500).send('Failed to render proxy index with SEO');
-      }
+      requestUpstreamHtml({
+        targetHost,
+        targetPort,
+        requestPath: req.originalUrl,
+        headers: req.headers,
+      })
+        .then((upstreamHtml) => {
+          const html = renderIndexHtml(req.path, upstreamHtml);
+          res.status(200).type('html').send(html);
+        })
+        .catch((error) => {
+          try {
+            const fallbackHtml = renderIndexHtml(req.path);
+            res.status(200).type('html').send(fallbackHtml);
+          } catch {
+            console.error('Failed to render dynamic SEO HTML:', error);
+            res.status(500).send('Failed to render proxy index with SEO');
+          }
+        });
       return;
     }
 

@@ -17,10 +17,11 @@ function createIndexHtmlRenderer(options) {
   const enableSeoContentRegex = /(name=["']enable-dynamic-seo["'][^>]*content=["'])[^"']*(["'])/i;
   const stylesLinkRegex = /<link\s+[^>]*href=["']styles\.css["'][^>]*>/i;
   const appRootTag = '<app-root></app-root>';
-  const bootScripts = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
+  const fallbackBootScripts = '<script src="main.js" type="module"></script>';
+  const anyModuleScriptRegex = /<script\s+[^>]*type=["']module["'][^>]*>/i;
 
-  return function renderIndexHtml(requestPath) {
-    const template = fs.readFileSync(indexPath, 'utf8');
+  return function renderIndexHtml(requestPath, templateOverride = null) {
+    const template = templateOverride ?? fs.readFileSync(indexPath, 'utf8');
     const seo = renderSeoTags(requestPath);
     const analyticsScripts = getAnalyticsScripts();
 
@@ -50,8 +51,8 @@ function createIndexHtmlRenderer(options) {
       html = html.replace('</head>', `${stylesTag}\n    </head>`);
     }
 
-    if (html.includes(appRootTag) && !html.includes(bootScripts)) {
-      html = html.replace(appRootTag, `${appRootTag}\n    ${bootScripts}`);
+    if (html.includes(appRootTag) && !anyModuleScriptRegex.test(html)) {
+      html = html.replace(appRootTag, `${appRootTag}\n    ${fallbackBootScripts}`);
     }
 
     return html;
