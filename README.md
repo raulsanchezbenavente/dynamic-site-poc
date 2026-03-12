@@ -16,7 +16,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
-- 🧠 Optional SEO proxy shell (`server/index-html-server.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
+- 🧠 Optional SEO proxy shell (`server/index-proxy.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
 - 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
@@ -44,7 +44,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 ```
 server/
 ├── api.js                     # Booking flow API (token + steps)
-├── index-html-server.js         # Composition root for index proxy (port 4300)
+├── index-proxy.js               # Composition root for index proxy (port 4300)
 └── index-proxy/
   ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
   ├── index-renderer.js        # Applies dynamic replacements over src/index.html template
@@ -207,7 +207,7 @@ npm run format    # Prettier formatting
 
 ## 🌐 SEO Proxy Mode
 
-`server/index-html-server.js` is the composition root for the proxy and wires specialized modules under `server/index-proxy/`.
+`server/index-proxy.js` is the composition root for the proxy and wires specialized modules under `server/index-proxy/`.
 
 Responsibilities are split as follows:
 
