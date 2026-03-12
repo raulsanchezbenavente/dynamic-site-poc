@@ -441,7 +441,8 @@ ipcMain.handle('external:open', async (_event, url) => {
 });
 
 app.on('before-quit', (event) => {
-  if (isShuttingDown) {
+  // Allow normal quit when there is nothing to clean up.
+  if (isShuttingDown || runningScripts.size === 0) {
     return;
   }
 
@@ -468,7 +469,6 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  // This launcher should fully close when the last window is closed, including macOS.
+  app.quit();
 });
