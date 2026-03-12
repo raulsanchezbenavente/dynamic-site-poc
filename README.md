@@ -141,7 +141,42 @@ src/
 
 ---
 
-## 🛠️ Installation
+## ⚡ Quickstart (Recommended)
+
+### 🖱️ One-Click Installation & Launch
+
+The easiest way to get started is to **double-click** the installer script for your operating system. This will:
+
+1. ✅ Install all dependencies automatically (only if needed)
+2. 🔨 Build the Electron launcher
+3. 🚀 Launch the app with the interactive **Launcher UI**
+
+From the repository root, double-click the appropriate file:
+
+| OS | File | Action |
+| --- | --- | --- |
+| **macOS** | `install-and-launch-mac.command` | Double-click to run |
+| **Linux** | `install-and-launch-linux.sh` | Double-click or `bash install-and-launch-linux.sh` |
+| **Windows** | `install-and-launch-windows.bat` | Double-click to run |
+
+The Launcher UI opens automatically and provides:
+
+- 📋 One-click script execution (API, Angular dev server, proxy, etc.)
+- 📊 Real-time logs for each script
+- ⭐ Favorite scripts for quick access
+- 🛑 Easy stop/restart controls
+
+**Terminal close behavior:**
+
+- ✅ Success: Auto-closes terminal after 10 seconds
+- ❌ Error: Stays open so you can read error details
+- 💡 macOS tip: Set Terminal profile option `When the shell exits` to `Close if the shell exited cleanly`
+
+---
+
+## 🛠️ Manual Installation (Alternative)
+
+If you prefer command-line setup:
 
 ```bash
 git clone https://github.com/your-user/dynamic-site-poc.git
@@ -151,7 +186,7 @@ npm install
 
 ---
 
-## ▶️ Run the App
+## ▶️ Manual App Launch (Alternative)
 
 ```bash
 # Install deps
@@ -174,106 +209,93 @@ Then visit:
 📍 [http://localhost:4200](http://localhost:4200)
 
 API runs on:
-📍 http://localhost:3000
+📍 [http://localhost:3000](http://localhost:3000)
 
 SEO proxy shell runs on:
-📍 http://localhost:4300
+📍 [http://localhost:4300](http://localhost:4300)
 
 ---
 
 ## ✅ Useful Scripts
 
+### Development Scripts
+
 ```bash
-npm run start:serve # Dev server
-npm run start:api # Booking flow API server (port 3000)
-npm run start:backend # Backend server (port 3000)
-npm run start:proxy # SEO proxy shell (port 4300)
-npm run start:serve-proxy # Angular + proxy concurrently
-npm run build     # Production build
-npm run watch     # Development build in watch mode
-npm test          # Unit tests (Karma)
-npm run lint      # ESLint for TS/HTML
-npm run lint:styles # Stylelint for SCSS/CSS
-npm run format    # Prettier formatting
-npm run launcher:open # Open Electron launcher in dev mode
-npm run launcher:build # Build Windows launcher
-npm run launcher:build:win # Build Windows launcher (NSIS)
-npm run launcher:build:mac # Build macOS launcher (DMG + ZIP)
-npm run launcher:build:linux # Build Linux launcher (AppImage + DEB)
-npm run launcher:build:all # Build all launcher targets
-npm run launcher:build:run # Install deps + build for current OS + run built launcher
+npm run start:serve       # Dev server (port 4200)
+npm run start:api         # Booking flow API (port 3000)
+npm run start:backend     # Backend server (port 3000)
+npm run start:proxy       # SEO proxy shell (port 4300)
+npm run start:serve-proxy # Angular + proxy concurrently (recommended)
+npm run build             # Production build
+npm run watch             # Development build in watch mode
+npm run test              # Unit tests (Karma)
+npm run lint              # ESLint for TS/HTML
+npm run lint:styles       # Stylelint for SCSS/CSS
+npm run format            # Prettier formatting
+```
+
+### Launcher Scripts
+
+For launcher builds and deployment, see **🚀 Electron Launcher** section below.
+
+```bash
+npm run launcher:open         # Open Electron launcher in dev mode
+npm run launcher:build:run    # Build for current OS + run
+npm run launcher:build:win    # Build Windows installer (NSIS)
+npm run launcher:build:mac    # Build macOS (DMG + ZIP)
+npm run launcher:build:linux  # Build Linux (AppImage + DEB)
+npm run launcher:build:all    # Build all OS targets
 ```
 
 ---
 
 ## 🚀 Electron Launcher
 
-This project includes an **Electron launcher** for Windows, macOS, and Linux.
+### What is it?
 
-Launcher UI highlights:
+An interactive **GUI launcher** (built with Electron) that lets you run all npm scripts without opening a terminal. Simply double-click `install-and-launch-mac.command` (macOS), `install-and-launch-linux.sh` (Linux), or `install-and-launch-windows.bat` (Windows) to install dependencies and launch the UI automatically.
 
-- Favorite scripts are marked with a yellow star icon (`★`) for quick identification.
-- Current default favorites: `build`, `start:serve-proxy`, `start:backend`.
+### Launcher Features
 
-Build commands:
+- 📋 **Script Management**: List and execute any npm script with one click
+- ▶️ **Start/Stop**: Launch or stop running scripts easily
+- 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
+- ⭐ **Favorites**: Default favorites include `build`, `start:serve-proxy`, and `start:backend`
+- 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
+- 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
-```bash
-# Windows (NSIS)
-npm run launcher:build:win
-
-# macOS (DMG + ZIP)
-npm run launcher:build:mac
-
-# Linux (AppImage + DEB)
-npm run launcher:build:linux
-```
-
-Cross-platform one-click build + run:
+### Build & Deploy the Launcher
 
 ```bash
+# Quick build + run for your current OS
 npm run launcher:build:run
+
+# Build specific targets
+npm run launcher:build:win      # Windows (NSIS installer)
+npm run launcher:build:mac      # macOS (DMG + ZIP)
+npm run launcher:build:linux    # Linux (AppImage + DEB)
+
+# Build all OS targets
+npm run launcher:build:all
 ```
 
-Recommended quick setup (double click):
+Output artifacts go to `dist-electron/`:
 
-- You can install all dependencies and build+launch the Electron app with a single double-click script for your OS.
+- Windows: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+- macOS: `dist-electron/mac/Dynamic Site Launcher.app`
+- Linux: `dist-electron/linux-unpacked/`
 
-Double-click launchers (repo root):
+### How the Install Scripts Work
 
-- macOS: `install-and-launch-mac.command`
-- Linux: `install-and-launch-linux.sh`
-- Windows: `install-and-launch-windows.bat`
+The double-click installers at the repo root handle everything:
 
-What this automation does:
+1. ✅ **Check Dependencies**: Compares `package.json` + `package-lock.json` fingerprint
+2. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
+3. 🔨 **Build Launcher**: Executes the OS-specific build command
+4. 🚀 **Auto-Launch**: Opens the Launcher UI immediately
+5. ⏱️ **Auto-Exit**: Terminal closes after 10 seconds on success (or stays open on error)
 
-1. Checks dependency fingerprint (`package.json` + `package-lock.json`) and runs `npm install` only when needed (or when `node_modules` is missing).
-2. Executes the OS-specific launcher build command.
-  - Windows: `npm run launcher:build:win`
-  - macOS: `npm run launcher:build:mac`
-  - Linux: `npm run launcher:build:linux`
-3. Starts the generated launcher executable automatically.
-
-Smart build behavior:
-
-- If no launcher artifact exists for your OS, it builds it.
-- If an artifact exists and source fingerprint is unchanged, it skips rebuild and launches the existing executable directly.
-- If source fingerprint changed, it rebuilds and then launches the new executable.
-
-Terminal close behavior for double-click wrappers:
-
-- Success path: waits 10 seconds and then exits.
-- Error path: stays open so you can read the failure output.
-- macOS note: for auto-close to happen after clean exit, set Terminal profile option `When the shell exits` to `Close if the shell exited cleanly`.
-
-Output files are generated in `dist-electron/`.
-
-Examples:
-
-- Windows executable: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
-- macOS app bundle: `dist-electron/mac/Dynamic Site Launcher.app`
-- Linux unpacked app: `dist-electron/linux-unpacked/`
-
-Note: `dist-electron/` is a generated artifacts folder and is ignored by git.
+**Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
 
 ---
 
