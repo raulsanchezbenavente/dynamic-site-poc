@@ -16,6 +16,7 @@
     "launcher:build:mac": "electron-builder --mac dmg zip",
     "launcher:build:linux": "electron-builder --linux AppImage deb",
     "launcher:build:all": "electron-builder --win --mac --linux",
+    "launcher:build:run": "node build-launcher-and-run.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "eslint \"src/**/*.{ts,html}\"",

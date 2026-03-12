@@ -201,6 +201,7 @@ npm run launcher:build:win # Build Windows launcher (NSIS)
 npm run launcher:build:mac # Build macOS launcher (DMG + ZIP)
 npm run launcher:build:linux # Build Linux launcher (AppImage + DEB)
 npm run launcher:build:all # Build all launcher targets
+npm run launcher:build:run # Install deps + build for current OS + run built launcher
 ```
 
 ---
@@ -226,6 +227,27 @@ npm run launcher:build:mac
 # Linux (AppImage + DEB)
 npm run launcher:build:linux
 ```
+
+Cross-platform one-click build + run:
+
+```bash
+npm run launcher:build:run
+```
+
+Double-click launchers (repo root):
+
+- macOS: `install-and-launch-mac.command`
+- Linux: `install-and-launch-linux.sh`
+- Windows: `install-and-launch-windows.bat`
+
+What this automation does:
+
+1. Runs `npm install`.
+2. Executes the OS-specific launcher build command:
+  - Windows: `npm run launcher:build:win`
+  - macOS: `npm run launcher:build:mac`
+  - Linux: `npm run launcher:build:linux`
+3. Starts the generated launcher executable automatically.
 
 Output files are generated in `dist-electron/`.
 
