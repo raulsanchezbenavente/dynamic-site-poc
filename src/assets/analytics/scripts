@@ -1,52 +1,51 @@
 <!-- Analytics scripts start -->
 <script>
-    (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-NK22G54' + dl;
-        f.parentNode.insertBefore(j, f);
-    })(globalThis, document, 'script', 'dataLayer', 'GTM-NK22G54');
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-NK22G54' + dl;
+    f.parentNode.insertBefore(j, f);
+  })(globalThis, document, 'script', 'dataLayer', 'GTM-NK22G54');
 </script>
 
 <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-522JDQ9J50"></script>
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-522JDQ9J50"></script>
 <script>
-    globalThis.dataLayer = globalThis.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-522JDQ9J50', { debug_mode: true, send_page_view: false });
+  globalThis.dataLayer = globalThis.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'G-522JDQ9J50', { debug_mode: true, send_page_view: false });
 </script>
 
 <script
-    async
-    src="https://www.googletagmanager.com/gtag/js?id=G-R852K86P67"></script>
+  async
+  src="https://www.googletagmanager.com/gtag/js?id=G-R852K86P67"></script>
 <script>
-    globalThis.dataLayer = globalThis.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-    gtag('js', new Date());
-    gtag('config', 'G-R852K86P67', { debug_mode: true, send_page_view: false });
+  globalThis.dataLayer = globalThis.dataLayer || [];
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', 'G-R852K86P67', { debug_mode: true, send_page_view: false });
 </script>
 
 <script type="text/javascript">
-    (function (w, d, s, l, i) {
-        w[l] = w[l] || [];
-        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-        var f = d.getElementsByTagName(s)[0],
-            j = d.createElement(s),
-            dl = l != 'dataLayer' ? '&l=' + l : '';
-        j.async = true;
-        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-        f.parentNode.insertBefore(j, f);
-    })(globalThis, document, 'script', 'dataLayer', 'GTM-WBPM5KLJ');
+  (function (w, d, s, l, i) {
+    w[l] = w[l] || [];
+    w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+    var f = d.getElementsByTagName(s)[0],
+      j = d.createElement(s),
+      dl = l != 'dataLayer' ? '&l=' + l : '';
+    j.async = true;
+    j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+    f.parentNode.insertBefore(j, f);
+  })(globalThis, document, 'script', 'dataLayer', 'GTM-WBPM5KLJ');
 </script>
 <!-- Analytics scripts en -->
-
