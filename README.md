@@ -234,6 +234,10 @@ Cross-platform one-click build + run:
 npm run launcher:build:run
 ```
 
+Recommended quick setup (double click):
+
+- You can install all dependencies and build+launch the Electron app with a single double-click script for your OS.
+
 Double-click launchers (repo root):
 
 - macOS: `install-and-launch-mac.command`
@@ -243,7 +247,7 @@ Double-click launchers (repo root):
 What this automation does:
 
 1. Runs `npm install`.
-2. Executes the OS-specific launcher build command:
+2. Executes the OS-specific launcher build command.
   - Windows: `npm run launcher:build:win`
   - macOS: `npm run launcher:build:mac`
   - Linux: `npm run launcher:build:linux`
