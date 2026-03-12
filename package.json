@@ -4,6 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:api": "node server/index.js",
+    "start:proxy": "node server/index-html-server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
