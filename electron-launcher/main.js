@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
 
 const runningScripts = new Map();
 let isShuttingDown = false;
@@ -417,6 +417,27 @@ ipcMain.handle('scripts:stop', async (_event, scriptName) => {
 
   await killProcessTree(child);
   return { ok: true };
+});
+
+ipcMain.handle('external:open', async (_event, url) => {
+  let parsed;
+
+  try {
+    parsed = new URL(String(url));
+  } catch {
+    return { ok: false, error: 'Invalid URL' };
+  }
+
+  if (!['http:', 'https:'].includes(parsed.protocol)) {
+    return { ok: false, error: 'Unsupported URL protocol' };
+  }
+
+  try {
+    await shell.openExternal(parsed.toString());
+    return { ok: true };
+  } catch (error) {
+    return { ok: false, error: error?.message || 'Failed to open URL' };
+  }
 });
 
 app.on('before-quit', (event) => {

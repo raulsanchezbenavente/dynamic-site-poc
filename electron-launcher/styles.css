@@ -272,6 +272,15 @@ button:hover:not(:disabled) {
 .log-line.stderr {
   color: #ffd9ce;
 }
+.log-link {
+  color: #ffe082;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+.log-link:hover {
+  color: #fff4bf;
+}
 
 @media (width <= 1000px) {
   .topbar {

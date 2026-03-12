@@ -12,6 +12,58 @@ const logsByScript = new Map([['all', []]]);
 const favoriteScripts = new Set(['build', 'start:serve-proxy', 'start:backend']);
 
 let packageSourceState = null;
+const urlPattern = /https?:\/\/[^\s<>"]+/gi;
+
+function trimTrailingUrlPunctuation(urlText) {
+  let trimmed = urlText;
+  let trailing = '';
+
+  while (/[),.;!?]$/.test(trimmed)) {
+    trailing = trimmed.slice(-1) + trailing;
+    trimmed = trimmed.slice(0, -1);
+  }
+
+  return { url: trimmed, trailing };
+}
+
+function appendLogTextWithLinks(container, text) {
+  let lastIndex = 0;
+  urlPattern.lastIndex = 0;
+
+  for (const match of text.matchAll(urlPattern)) {
+    const rawUrl = match[0];
+    const matchIndex = match.index ?? 0;
+
+    if (matchIndex > lastIndex) {
+      container.appendChild(document.createTextNode(text.slice(lastIndex, matchIndex)));
+    }
+
+    const { url, trailing } = trimTrailingUrlPunctuation(rawUrl);
+    if (url.length > 0) {
+      const link = document.createElement('a');
+      link.className = 'log-link';
+      link.href = url;
+      link.textContent = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        await window.launcherApi.openExternal(url);
+      });
+      container.appendChild(link);
+    }
+
+    if (trailing) {
+      container.appendChild(document.createTextNode(trailing));
+    }
+
+    lastIndex = matchIndex + rawUrl.length;
+  }
+
+  if (lastIndex < text.length) {
+    container.appendChild(document.createTextNode(text.slice(lastIndex)));
+  }
+}
 
 function ensureLogBucket(scriptName) {
   if (!logsByScript.has(scriptName)) {
@@ -42,7 +94,8 @@ function renderLogs() {
   for (const entry of bucket) {
     const line = document.createElement('pre');
     line.className = `log-line ${entry.stream}`;
-    line.textContent = activeLogTab === 'all' ? `[${entry.script}] ${entry.message}` : entry.message;
+    const lineText = activeLogTab === 'all' ? `[${entry.script}] ${entry.message}` : entry.message;
+    appendLogTextWithLinks(line, lineText);
     logsEl.appendChild(line);
   }
 

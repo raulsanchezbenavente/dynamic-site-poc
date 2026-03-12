@@ -4,6 +4,7 @@ contextBridge.exposeInMainWorld('launcherApi', {
   listScripts: () => ipcRenderer.invoke('scripts:list'),
   startScript: (scriptName) => ipcRenderer.invoke('scripts:start', scriptName),
   stopScript: (scriptName) => ipcRenderer.invoke('scripts:stop', scriptName),
+  openExternal: (url) => ipcRenderer.invoke('external:open', url),
   getPackageSource: () => ipcRenderer.invoke('package-source:get'),
   setPackageSource: (payload) => ipcRenderer.invoke('package-source:set', payload),
   pickCustomPackageJson: () => ipcRenderer.invoke('package-source:pick-custom'),
