@@ -246,7 +246,7 @@ Double-click launchers (repo root):
 
 What this automation does:
 
-1. Runs `npm install`.
+1. Checks dependency fingerprint (`package.json` + `package-lock.json`) and runs `npm install` only when needed (or when `node_modules` is missing).
 2. Executes the OS-specific launcher build command.
   - Windows: `npm run launcher:build:win`
   - macOS: `npm run launcher:build:mac`
@@ -258,6 +258,12 @@ Smart build behavior:
 - If no launcher artifact exists for your OS, it builds it.
 - If an artifact exists and source fingerprint is unchanged, it skips rebuild and launches the existing executable directly.
 - If source fingerprint changed, it rebuilds and then launches the new executable.
+
+Terminal close behavior for double-click wrappers:
+
+- Success path: waits 10 seconds and then exits.
+- Error path: stays open so you can read the failure output.
+- macOS note: for auto-close to happen after clean exit, set Terminal profile option `When the shell exits` to `Close if the shell exited cleanly`.
 
 Output files are generated in `dist-electron/`.
 
