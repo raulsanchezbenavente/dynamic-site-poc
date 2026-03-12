@@ -2,9 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { inject, Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
+import { AppLang } from '../site-config/models/langs.model';
 import { SiteConfigService } from '../site-config/site-config.service';
-
-type AppLang = 'es' | 'en' | 'fr' | 'pt';
 
 type SeoConfig = {
   title?: string;
