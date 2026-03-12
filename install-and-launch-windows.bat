@@ -9,5 +9,6 @@ if errorlevel 1 (
   exit /b 1
 )
 echo.
-echo Done. Press any key to close...
-pause >nul
+echo Done. Closing in 10 seconds...
+timeout /t 10 /nobreak >nul
+exit /b 0
