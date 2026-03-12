@@ -1,9 +1,11 @@
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { spawn, spawnSync } = require('child_process');
 
 const repoRoot = __dirname;
 const distElectronDir = path.join(repoRoot, 'dist-electron');
+const buildStatePath = path.join(distElectronDir, '.launcher-build-state.json');
 let currentOutputDir = distElectronDir;
 
 function sleepMs(ms) {
@@ -218,6 +220,87 @@ function pickNewestPath(paths) {
   })[0];
 }
 
+function listFilesRecursively(dirPath, results = []) {
+  if (!fs.existsSync(dirPath)) {
+    return results;
+  }
+
+  const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+  for (const entry of entries) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      listFilesRecursively(fullPath, results);
+      continue;
+    }
+
+    results.push(fullPath);
+  }
+
+  return results;
+}
+
+function computeFileHash(filePath) {
+  const hash = crypto.createHash('sha256');
+  hash.update(fs.readFileSync(filePath));
+  return hash.digest('hex');
+}
+
+function getFingerprintInputs() {
+  const directFiles = [
+    path.join(repoRoot, 'package.json'),
+    path.join(repoRoot, 'package-lock.json'),
+    path.join(repoRoot, 'build-launcher-and-run.js'),
+  ].filter((filePath) => fs.existsSync(filePath));
+
+  const launcherFiles = listFilesRecursively(path.join(repoRoot, 'electron-launcher')).filter((filePath) =>
+    /\.(js|json|html|css|png|icns)$/i.test(filePath)
+  );
+
+  return [...directFiles, ...launcherFiles].sort();
+}
+
+function computeBuildFingerprint() {
+  const hash = crypto.createHash('sha256');
+  const inputs = getFingerprintInputs();
+
+  for (const filePath of inputs) {
+    const relative = path.relative(repoRoot, filePath).replace(/\\/g, '/');
+    const fileHash = computeFileHash(filePath);
+    hash.update(`${relative}:${fileHash}\n`);
+  }
+
+  return hash.digest('hex');
+}
+
+function platformStateKey() {
+  if (process.platform === 'win32') {
+    return 'win32';
+  }
+
+  if (process.platform === 'darwin') {
+    return 'darwin';
+  }
+
+  return 'linux';
+}
+
+function readBuildState() {
+  if (!fs.existsSync(buildStatePath)) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(fs.readFileSync(buildStatePath, 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+function writeBuildState(nextState) {
+  fs.mkdirSync(distElectronDir, { recursive: true });
+  fs.writeFileSync(buildStatePath, `${JSON.stringify(nextState, null, 2)}\n`, 'utf8');
+}
+
 function escapePowerShellSingleQuotedString(value) {
   return String(value).replace(/'/g, "''");
 }
@@ -232,7 +315,7 @@ function findBuiltArtifact() {
       throw new Error('Windows executable not found inside dist-electron/win-unpacked');
     }
 
-    return exeCandidates[0];
+    return pickNewestPath(exeCandidates);
   }
 
   if (process.platform === 'darwin') {
@@ -258,7 +341,7 @@ function findBuiltArtifact() {
   const appImageCandidates = walkFiles(currentOutputDir, (_fullPath, name) => name.endsWith('.AppImage'));
 
   if (appImageCandidates.length > 0) {
-    return appImageCandidates[0];
+    return pickNewestPath(appImageCandidates);
   }
 
   const unpackedCandidates = walkFiles(path.join(currentOutputDir, 'linux-unpacked'), (fullPath, name) => {
@@ -278,7 +361,60 @@ function findBuiltArtifact() {
     throw new Error('Linux executable not found (expected .AppImage or linux-unpacked binary)');
   }
 
-  return unpackedCandidates[0];
+  return pickNewestPath(unpackedCandidates);
+}
+
+function shouldBuildLauncher() {
+  currentOutputDir = distElectronDir;
+
+  let existingArtifact = null;
+  try {
+    existingArtifact = findBuiltArtifact();
+  } catch {
+    return { shouldBuild: true, reason: 'No existing launcher artifact found', existingArtifact: null, fingerprint: null };
+  }
+
+  const fingerprint = computeBuildFingerprint();
+  const state = readBuildState();
+  const key = platformStateKey();
+  const currentState = state[key];
+
+  const hasMatchingState =
+    currentState &&
+    currentState.fingerprint === fingerprint &&
+    currentState.artifactPath &&
+    fs.existsSync(currentState.artifactPath);
+
+  if (hasMatchingState) {
+    return {
+      shouldBuild: false,
+      reason: 'Existing launcher matches current source fingerprint',
+      existingArtifact: currentState.artifactPath,
+      fingerprint,
+    };
+  }
+
+  return {
+    shouldBuild: true,
+    reason: 'Source fingerprint changed or previous build metadata is missing',
+    existingArtifact,
+    fingerprint,
+  };
+}
+
+function saveBuildFingerprint(fingerprint, artifactPath) {
+  if (!fingerprint) {
+    return;
+  }
+
+  const state = readBuildState();
+  const key = platformStateKey();
+  state[key] = {
+    fingerprint,
+    artifactPath,
+    updatedAt: new Date().toISOString(),
+  };
+  writeBuildState(state);
 }
 
 function launchBuiltArtifact(artifactPath) {
@@ -347,32 +483,46 @@ function main() {
   const npm = npmCommand();
   const buildScript = buildScriptByPlatform();
 
-  stopWindowsLauncherIfRunning();
-  createWindowsFreshOutputDir();
-
   runOrThrow(npm, ['install'], 'Installing dependencies (npm install)');
 
-  const buildArgs = ['run', buildScript];
-  if (process.platform === 'win32') {
-    buildArgs.push('--', `--config.directories.output=${currentOutputDir}`);
+  const buildDecision = shouldBuildLauncher();
+  console.log(`\n[info] ${buildDecision.reason}`);
+
+  let artifactPath = buildDecision.existingArtifact;
+
+  if (buildDecision.shouldBuild) {
+    stopWindowsLauncherIfRunning();
+    createWindowsFreshOutputDir();
+
+    const buildArgs = ['run', buildScript];
+    if (process.platform === 'win32') {
+      buildArgs.push('--', `--config.directories.output=${currentOutputDir}`);
+    }
+    const buildEnvOverrides =
+      process.platform === 'win32'
+        ? {
+            CSC_IDENTITY_AUTO_DISCOVERY: 'false',
+            CSC_LINK: null,
+            CSC_KEY_PASSWORD: null,
+            WIN_CSC_LINK: null,
+            WIN_CSC_KEY_PASSWORD: null,
+          }
+        : null;
+
+    runOrThrow(npm, buildArgs, `Building launcher (${buildScript})`, buildEnvOverrides);
+    artifactPath = findBuiltArtifact();
+    saveBuildFingerprint(buildDecision.fingerprint, artifactPath);
+  } else {
+    currentOutputDir = distElectronDir;
   }
-  const buildEnvOverrides =
-    process.platform === 'win32'
-      ? {
-          CSC_IDENTITY_AUTO_DISCOVERY: 'false',
-          CSC_LINK: null,
-          CSC_KEY_PASSWORD: null,
-          WIN_CSC_LINK: null,
-          WIN_CSC_KEY_PASSWORD: null,
-        }
-      : null;
 
-  runOrThrow(npm, buildArgs, `Building launcher (${buildScript})`, buildEnvOverrides);
+  if (!artifactPath || !fs.existsSync(artifactPath)) {
+    throw new Error('Launcher artifact is missing after build decision.');
+  }
 
-  const artifactPath = findBuiltArtifact();
   launchBuiltArtifact(artifactPath);
 
-  console.log('\n[done] Build completed and launcher started successfully.');
+  console.log('\n[done] Launcher started successfully.');
 }
 
 try {

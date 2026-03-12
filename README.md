@@ -253,6 +253,12 @@ What this automation does:
   - Linux: `npm run launcher:build:linux`
 3. Starts the generated launcher executable automatically.
 
+Smart build behavior:
+
+- If no launcher artifact exists for your OS, it builds it.
+- If an artifact exists and source fingerprint is unchanged, it skips rebuild and launches the existing executable directly.
+- If source fingerprint changed, it rebuilds and then launches the new executable.
+
 Output files are generated in `dist-electron/`.
 
 Examples:
