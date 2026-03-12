@@ -42,7 +42,8 @@ function createIndexHtmlRenderer(options) {
     }
 
     html = html.replace('<!-- DYNAMIC_ANALYTICS_SCRIPTS -->', analyticsScripts);
-    html = html.replace('<!-- DYNAMIC_SEO_TAGS_SSR -->', seo.tags);
+    const seoBlock = ['    <!-- SEO start -->', seo.tags, '    <!-- SEO end -->'].join('\n');
+    html = html.replace('<!-- DYNAMIC_SEO_TAGS_SSR -->', seoBlock);
 
     if (!stylesLinkRegex.test(html)) {
       const stylesTag = '    <link rel="stylesheet" href="styles.css">';
