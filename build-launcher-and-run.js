@@ -4,13 +4,46 @@ const { spawn, spawnSync } = require('child_process');
 
 const repoRoot = __dirname;
 const distElectronDir = path.join(repoRoot, 'dist-electron');
+let currentOutputDir = distElectronDir;
 
-function runOrThrow(command, args, label) {
+function sleepMs(ms) {
+  const shared = new SharedArrayBuffer(4);
+  const view = new Int32Array(shared);
+  Atomics.wait(view, 0, 0, ms);
+}
+
+function getLauncherExeName() {
+  try {
+    const packageJson = JSON.parse(fs.readFileSync(path.join(repoRoot, 'package.json'), 'utf8'));
+    const productName = String(packageJson?.build?.productName || 'Dynamic Site Launcher').trim();
+    return `${productName}.exe`;
+  } catch {
+    return 'Dynamic Site Launcher.exe';
+  }
+}
+
+function runOrThrow(command, args, label, envOverrides = null) {
   console.log(`\n[step] ${label}`);
-  const result = spawnSync(command, args, {
+  const isWindowsNpm = process.platform === 'win32' && /^npm(\.cmd)?$/i.test(command);
+  const finalCommand = isWindowsNpm ? 'cmd.exe' : command;
+  const finalArgs = isWindowsNpm ? ['/d', '/s', '/c', ['npm', ...args].join(' ')] : args;
+  const env = { ...process.env };
+
+  if (envOverrides) {
+    for (const [key, value] of Object.entries(envOverrides)) {
+      if (value == null) {
+        delete env[key];
+      } else {
+        env[key] = String(value);
+      }
+    }
+  }
+
+  const result = spawnSync(finalCommand, finalArgs, {
     cwd: repoRoot,
     stdio: 'inherit',
     shell: false,
+    env,
   });
 
   if (result.error) {
@@ -23,7 +56,99 @@ function runOrThrow(command, args, label) {
 }
 
 function npmCommand() {
-  return process.platform === 'win32' ? 'npm.cmd' : 'npm';
+  return 'npm';
+}
+
+function stopWindowsLauncherIfRunning() {
+  if (process.platform !== 'win32') {
+    return;
+  }
+
+  const exeName = getLauncherExeName();
+  console.log(`\n[step] Ensuring ${exeName} is not running`);
+
+  const result = spawnSync('taskkill', ['/IM', exeName, '/T', '/F'], {
+    cwd: repoRoot,
+    stdio: 'ignore',
+    shell: false,
+    windowsHide: true,
+  });
+
+  // taskkill returns non-zero when process is not running; that's fine.
+  if (result.error) {
+    console.warn(`[warn] Could not run taskkill for ${exeName}: ${result.error.message}`);
+  }
+
+  // Also stop detached child processes still running from win-unpacked (e.g. crashpad_handler).
+  const winUnpackedPrefix = path.join(distElectronDir, 'win-unpacked').replace(/\\/g, '\\\\');
+  const psScript = [
+    '$ErrorActionPreference = "SilentlyContinue"',
+    `$prefix = "${winUnpackedPrefix}"`,
+    'Get-CimInstance Win32_Process |',
+    '  Where-Object { $_.ExecutablePath -and $_.ExecutablePath.StartsWith($prefix, [System.StringComparison]::OrdinalIgnoreCase) } |',
+    '  ForEach-Object { Stop-Process -Id $_.ProcessId -Force }',
+  ].join('; ');
+
+  const psResult = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', psScript], {
+    cwd: repoRoot,
+    stdio: 'ignore',
+    shell: false,
+    windowsHide: true,
+  });
+
+  if (psResult.error) {
+    console.warn(`[warn] Could not run PowerShell process cleanup: ${psResult.error.message}`);
+  }
+
+  // Give Windows a short moment to release file handles.
+  sleepMs(700);
+}
+
+function cleanWindowsUnpackedOutput() {
+  if (process.platform !== 'win32') {
+    return;
+  }
+
+  const winUnpackedDir = path.join(distElectronDir, 'win-unpacked');
+  if (!fs.existsSync(winUnpackedDir)) {
+    return;
+  }
+
+  console.log(`\n[step] Cleaning previous output (${winUnpackedDir})`);
+
+  let lastError = null;
+  for (let attempt = 1; attempt <= 6; attempt += 1) {
+    try {
+      fs.rmSync(winUnpackedDir, { recursive: true, force: true });
+      return;
+    } catch (error) {
+      lastError = error;
+      const code = String(error?.code ?? '');
+      if (code !== 'EBUSY' && code !== 'EPERM') {
+        throw error;
+      }
+
+      console.warn(`[warn] Cleanup attempt ${attempt}/6 failed (${code}). Retrying...`);
+      stopWindowsLauncherIfRunning();
+      sleepMs(500 * attempt);
+    }
+  }
+
+  if (lastError) {
+    throw lastError;
+  }
+}
+
+function createWindowsFreshOutputDir() {
+  if (process.platform !== 'win32') {
+    currentOutputDir = distElectronDir;
+    return;
+  }
+
+  const safeTimestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const runsRoot = path.join(distElectronDir, 'runs');
+  currentOutputDir = path.join(runsRoot, `win-${safeTimestamp}`);
+  fs.mkdirSync(currentOutputDir, { recursive: true });
 }
 
 function buildScriptByPlatform() {
@@ -95,7 +220,7 @@ function pickNewestPath(paths) {
 
 function findBuiltArtifact() {
   if (process.platform === 'win32') {
-    const exeCandidates = walkFiles(distElectronDir, (fullPath, name) => {
+    const exeCandidates = walkFiles(currentOutputDir, (fullPath, name) => {
       return fullPath.includes(`${path.sep}win-unpacked${path.sep}`) && name.toLowerCase().endsWith('.exe');
     });
 
@@ -108,9 +233,9 @@ function findBuiltArtifact() {
 
   if (process.platform === 'darwin') {
     const macCandidates = [
-      path.join(distElectronDir, 'mac'),
-      path.join(distElectronDir, 'mac-arm64'),
-      path.join(distElectronDir, 'mac-universal'),
+      path.join(currentOutputDir, 'mac'),
+      path.join(currentOutputDir, 'mac-arm64'),
+      path.join(currentOutputDir, 'mac-universal'),
     ];
 
     const appCandidates = macCandidates.flatMap((candidateDir) =>
@@ -126,13 +251,13 @@ function findBuiltArtifact() {
     return pickNewestPath(appCandidates);
   }
 
-  const appImageCandidates = walkFiles(distElectronDir, (_fullPath, name) => name.endsWith('.AppImage'));
+  const appImageCandidates = walkFiles(currentOutputDir, (_fullPath, name) => name.endsWith('.AppImage'));
 
   if (appImageCandidates.length > 0) {
     return appImageCandidates[0];
   }
 
-  const unpackedCandidates = walkFiles(path.join(distElectronDir, 'linux-unpacked'), (fullPath, name) => {
+  const unpackedCandidates = walkFiles(path.join(currentOutputDir, 'linux-unpacked'), (fullPath, name) => {
     if (name.includes('.')) {
       return false;
     }
@@ -199,8 +324,27 @@ function main() {
   const npm = npmCommand();
   const buildScript = buildScriptByPlatform();
 
+  stopWindowsLauncherIfRunning();
+  createWindowsFreshOutputDir();
+
   runOrThrow(npm, ['install'], 'Installing dependencies (npm install)');
-  runOrThrow(npm, ['run', buildScript], `Building launcher (${buildScript})`);
+
+  const buildArgs = ['run', buildScript];
+  if (process.platform === 'win32') {
+    buildArgs.push('--', `--config.directories.output=${currentOutputDir}`);
+  }
+  const buildEnvOverrides =
+    process.platform === 'win32'
+      ? {
+          CSC_IDENTITY_AUTO_DISCOVERY: 'false',
+          CSC_LINK: null,
+          CSC_KEY_PASSWORD: null,
+          WIN_CSC_LINK: null,
+          WIN_CSC_KEY_PASSWORD: null,
+        }
+      : null;
+
+  runOrThrow(npm, buildArgs, `Building launcher (${buildScript})`, buildEnvOverrides);
 
   const artifactPath = findBuiltArtifact();
   launchBuiltArtifact(artifactPath);

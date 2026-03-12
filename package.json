@@ -39,13 +39,10 @@
     },
     "win": {
       "icon": "electron-launcher/assets/avianca-icon.png",
+      "signAndEditExecutable": false,
       "target": [
         "nsis"
       ]
-    },
-    "nsis": {
-      "installerIcon": "electron-launcher/assets/avianca-icon.png",
-      "uninstallerIcon": "electron-launcher/assets/avianca-icon.png"
     },
     "mac": {
       "icon": "electron-launcher/assets/avianca-icon.icns",

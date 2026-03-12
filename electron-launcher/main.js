@@ -72,7 +72,9 @@ function hasAngularWorkspace(packageJsonPath) {
 }
 
 function isPackagedAppInternalPath(candidatePath) {
-  const normalized = String(candidatePath ?? '').replace(/\\/g, '/').toLowerCase();
+  const normalized = String(candidatePath ?? '')
+    .replace(/\\/g, '/')
+    .toLowerCase();
   return normalized.includes('.app/contents/resources/') || normalized.includes('/app.asar/');
 }
 
@@ -218,6 +220,21 @@ function buildSpawnEnv() {
       continue;
     }
     env[key] = String(value);
+  }
+
+  if (process.platform === 'win32') {
+    // Keep Windows PATH semantics (semicolon + case-insensitive variable name).
+    const pathKey = Object.keys(env).find((key) => key.toLowerCase() === 'path') || 'Path';
+    const currentPathEntries = String(env[pathKey] ?? env.PATH ?? '')
+      .split(';')
+      .filter(Boolean);
+    const fallbackPathEntries = ['C:\\Windows\\System32', 'C:\\Windows', 'C:\\Windows\\System32\\Wbem'];
+    const mergedPath = Array.from(new Set([...currentPathEntries, ...fallbackPathEntries]));
+    env[pathKey] = mergedPath.join(';');
+    if (pathKey !== 'PATH') {
+      env.PATH = env[pathKey];
+    }
+    return env;
   }
 
   // GUI apps on macOS often start with a reduced PATH and cannot find npm.
