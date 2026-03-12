@@ -44,7 +44,12 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 ```
 server/
 ├── index.js                     # Booking flow API (token + steps)
-└── index-html-server.js         # SEO proxy shell (port 4300) + pass-through proxy to Angular dev server
+├── index-html-server.js         # Composition root for index proxy (port 4300)
+└── index-proxy/
+  ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
+  ├── index-renderer.js        # Applies dynamic replacements over src/index.html template
+  ├── proxy-middleware.js      # HTML-vs-asset routing and pass-through proxy to Angular dev server
+  └── seo-renderer.js          # Resolves page SEO from config-site and renders SEO tags
 public/
 ├── favicon-32x32.png
 ├── favicon.png
@@ -202,7 +207,16 @@ npm run format    # Prettier formatting
 
 ## 🌐 SEO Proxy Mode
 
-`server/index-html-server.js` uses `src/index.html` as the template and renders HTML for document requests.
+`server/index-html-server.js` is the composition root for the proxy and wires specialized modules under `server/index-proxy/`.
+
+Responsibilities are split as follows:
+
+- `seo-renderer.js`: reads `src/assets/config-site/*`, resolves page metadata by request path, and returns `<title>` + SEO tags.
+- `analytics-provider.js`: reads analytics snippet content from `src/assets/analytics/scripts`.
+- `index-renderer.js`: uses `src/index.html` as template and applies dynamic replacements.
+- `proxy-middleware.js`: serves rendered HTML for document navigation and proxies assets/chunks to Angular dev server (`http://localhost:4200`).
+
+`index-renderer.js` injects/replaces:
 
 It injects/replaces:
 
