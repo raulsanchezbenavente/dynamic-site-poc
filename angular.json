@@ -42,9 +42,7 @@
               "node_modules/flatpickr/dist/flatpickr.min.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/flatpickr/dist/flatpickr.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -112,9 +110,7 @@
               "node_modules/flatpickr/dist/flatpickr.min.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/flatpickr/dist/flatpickr.min.js"
-            ]
+            "scripts": []
           }
         }
       }
