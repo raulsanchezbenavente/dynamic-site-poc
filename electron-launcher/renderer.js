@@ -9,6 +9,7 @@ const packageSourcePath = document.getElementById('packageSourcePath');
 let scriptsState = [];
 let activeLogTab = 'all';
 const logsByScript = new Map([['all', []]]);
+const favoriteScripts = new Set(['build', 'start:serve-proxy', 'start:backend']);
 
 let packageSourceState = null;
 
@@ -188,8 +189,22 @@ function renderScripts() {
     const info = document.createElement('div');
     info.className = 'script-info';
 
+    const title = document.createElement('div');
+    title.className = 'script-title';
+
     const name = document.createElement('strong');
     name.textContent = script.name;
+
+    title.appendChild(name);
+
+    if (favoriteScripts.has(script.name)) {
+      const favoriteIcon = document.createElement('span');
+      favoriteIcon.className = 'favorite-star';
+      favoriteIcon.textContent = '★';
+      favoriteIcon.title = 'Favorite script';
+      favoriteIcon.setAttribute('aria-label', 'Favorite script');
+      title.appendChild(favoriteIcon);
+    }
 
     const command = document.createElement('span');
     command.textContent = script.command;
@@ -198,7 +213,7 @@ function renderScripts() {
     status.className = `status ${script.running ? 'running' : 'stopped'}`;
     status.textContent = script.running ? 'running' : 'stopped';
 
-    info.append(name, command, status);
+    info.append(title, command, status);
 
     const actions = document.createElement('div');
     actions.className = 'actions';

@@ -134,13 +134,27 @@ body {
   display: grid;
   gap: 0.3rem;
 }
+.script-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
 .script-info strong {
-  font-size: 1rem;
+  font-size: 1.12rem;
 }
 .script-info span {
   color: var(--muted);
   font-size: 0.9rem;
   word-break: break-word;
+}
+.script-info .favorite-star {
+  color: #ffcc00;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1;
+  text-shadow:
+    0 0 1px rgb(0 0 0 / 12%),
+    0 0 6px rgb(255 204 0 / 45%);
 }
 .status {
   justify-self: start;
