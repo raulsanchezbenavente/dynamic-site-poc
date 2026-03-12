@@ -296,13 +296,34 @@ function killProcessTree(child) {
       return;
     }
 
+    let killTimeout = null;
+
+    const cleanup = () => {
+      if (killTimeout) {
+        clearTimeout(killTimeout);
+      }
+      resolve();
+    };
+
+    // Wait for the process to actually exit.
+    child.once('exit', cleanup);
+    child.once('close', cleanup);
+
+    // Send SIGTERM first.
     try {
       child.kill('SIGTERM');
     } catch {
       // Ignore if process already exited.
     }
 
-    resolve();
+    // If process doesn't die in 5 seconds, force kill it.
+    killTimeout = setTimeout(() => {
+      try {
+        child.kill('SIGKILL');
+      } catch {
+        // Ignore if process already exited.
+      }
+    }, 5000);
   });
 }
 
