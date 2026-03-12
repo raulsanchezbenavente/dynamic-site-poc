@@ -218,6 +218,10 @@ function pickNewestPath(paths) {
   })[0];
 }
 
+function escapePowerShellSingleQuotedString(value) {
+  return String(value).replace(/'/g, "''");
+}
+
 function findBuiltArtifact() {
   if (process.platform === 'win32') {
     const exeCandidates = walkFiles(currentOutputDir, (fullPath, name) => {
@@ -298,13 +302,32 @@ function launchBuiltArtifact(artifactPath) {
   }
 
   if (process.platform === 'win32') {
-    const child = spawn('cmd.exe', ['/d', '/s', '/c', 'start', '', artifactPath], {
+    const escapedPath = escapePowerShellSingleQuotedString(artifactPath);
+    const psScript = [
+      `$proc = Start-Process -FilePath '${escapedPath}' -PassThru`,
+      'Start-Sleep -Milliseconds 350',
+      '$ws = New-Object -ComObject WScript.Shell',
+      '[void]$ws.AppActivate($proc.Id)',
+    ].join('; ');
+
+    const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', psScript], {
       cwd: repoRoot,
-      detached: true,
       stdio: 'ignore',
+      shell: false,
       windowsHide: true,
     });
-    child.unref();
+
+    if (result.error || result.status !== 0) {
+      // Fallback: still launch app even if focus activation fails.
+      const child = spawn('cmd.exe', ['/d', '/s', '/c', 'start', '', artifactPath], {
+        cwd: repoRoot,
+        detached: true,
+        stdio: 'ignore',
+        windowsHide: true,
+      });
+      child.unref();
+    }
+
     return;
   }
 
