@@ -17,6 +17,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🌍 i18n with per-language site configs (ngx-translate)
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
 - 🧠 Optional SEO proxy shell (`server/index-html-server.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
+- 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
@@ -206,10 +207,16 @@ npm run format    # Prettier formatting
 It injects/replaces:
 
 - `<title>` based on page SEO config.
-- `<!-- DYNAMIC_SEO_TAGS -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
+- `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder with the raw contents of `src/assets/analytics/scripts`.
+- `<!-- DYNAMIC_SEO_TAGS_SSR -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
 - `<meta name="disable-dynamic-seo" content="true" />` to disable front-side SEO rewriting when server SEO is already applied.
 - `<link rel="stylesheet" href="styles.css">` to ensure global styles (including Bootstrap) are loaded in proxy mode.
 - `<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>` after `<app-root></app-root>`.
+
+Notes:
+
+- The analytics file is read on each HTML request while running the proxy, so changes to `src/assets/analytics/scripts` are reflected without rebuilding.
+- If `src/assets/analytics/scripts` does not exist, the analytics placeholder is replaced with an empty string.
 
 For non-document requests (assets/chunks), it proxies directly to Angular dev server on `http://localhost:4200`.
 

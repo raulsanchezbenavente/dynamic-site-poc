@@ -6,6 +6,7 @@ const express = require('express');
 const app = express();
 const port = 4300;
 const indexPath = path.join(__dirname, '../src/index.html');
+const analyticsScriptsPath = path.join(__dirname, '../src/assets/analytics/scripts');
 const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
@@ -166,6 +167,7 @@ function renderSeoTags(reqPath) {
 function renderIndexHtml(reqPath) {
   const template = fs.readFileSync(indexPath, 'utf8');
   const seo = renderSeoTags(reqPath);
+  const analyticsScripts = fs.existsSync(analyticsScriptsPath) ? fs.readFileSync(analyticsScriptsPath, 'utf8') : '';
 
   const titleTagRegex = /<title[^>]*>[\s\S]*?<\/title>/i;
   const disableSeoMetaRegex = /<meta\s+name=["']disable-dynamic-seo["'][^>]*>/i;
@@ -188,6 +190,7 @@ function renderIndexHtml(reqPath) {
     }
   }
 
+  html = html.replace('<!-- DYNAMIC_ANALYTICS_SCRIPTS -->', analyticsScripts);
   html = html.replace('<!-- DYNAMIC_SEO_TAGS_SSR -->', seo.tags);
 
   if (!stylesLinkRegex.test(html)) {
