@@ -259,9 +259,28 @@ function getFingerprintInputs() {
   return [...directFiles, ...launcherFiles].sort();
 }
 
+function getDependencyFingerprintInputs() {
+  return [path.join(repoRoot, 'package.json'), path.join(repoRoot, 'package-lock.json')].filter((filePath) =>
+    fs.existsSync(filePath)
+  );
+}
+
 function computeBuildFingerprint() {
   const hash = crypto.createHash('sha256');
   const inputs = getFingerprintInputs();
+
+  for (const filePath of inputs) {
+    const relative = path.relative(repoRoot, filePath).replace(/\\/g, '/');
+    const fileHash = computeFileHash(filePath);
+    hash.update(`${relative}:${fileHash}\n`);
+  }
+
+  return hash.digest('hex');
+}
+
+function computeDependencyFingerprint() {
+  const hash = crypto.createHash('sha256');
+  const inputs = getDependencyFingerprintInputs().sort();
 
   for (const filePath of inputs) {
     const relative = path.relative(repoRoot, filePath).replace(/\\/g, '/');
@@ -299,6 +318,49 @@ function readBuildState() {
 function writeBuildState(nextState) {
   fs.mkdirSync(distElectronDir, { recursive: true });
   fs.writeFileSync(buildStatePath, `${JSON.stringify(nextState, null, 2)}\n`, 'utf8');
+}
+
+function shouldRunNpmInstall() {
+  const nodeModulesPath = path.join(repoRoot, 'node_modules');
+  const dependencyFingerprint = computeDependencyFingerprint();
+  const state = readBuildState();
+  const installState = state.install ?? null;
+
+  if (!fs.existsSync(nodeModulesPath)) {
+    return {
+      shouldInstall: true,
+      reason: 'node_modules directory is missing',
+      dependencyFingerprint,
+    };
+  }
+
+  const hasMatchingState = installState && installState.dependencyFingerprint === dependencyFingerprint;
+  if (hasMatchingState) {
+    return {
+      shouldInstall: false,
+      reason: 'Dependencies fingerprint unchanged (npm install skipped)',
+      dependencyFingerprint,
+    };
+  }
+
+  return {
+    shouldInstall: true,
+    reason: 'Dependencies fingerprint changed',
+    dependencyFingerprint,
+  };
+}
+
+function saveInstallFingerprint(dependencyFingerprint) {
+  if (!dependencyFingerprint) {
+    return;
+  }
+
+  const state = readBuildState();
+  state.install = {
+    dependencyFingerprint,
+    updatedAt: new Date().toISOString(),
+  };
+  writeBuildState(state);
 }
 
 function escapePowerShellSingleQuotedString(value) {
@@ -483,7 +545,13 @@ function main() {
   const npm = npmCommand();
   const buildScript = buildScriptByPlatform();
 
-  runOrThrow(npm, ['install'], 'Installing dependencies (npm install)');
+  const installDecision = shouldRunNpmInstall();
+  console.log(`\n[info] ${installDecision.reason}`);
+
+  if (installDecision.shouldInstall) {
+    runOrThrow(npm, ['install'], 'Installing dependencies (npm install)');
+    saveInstallFingerprint(installDecision.dependencyFingerprint);
+  }
 
   const buildDecision = shouldBuildLauncher();
   console.log(`\n[info] ${buildDecision.reason}`);
