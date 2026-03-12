@@ -161,10 +161,13 @@ npm install
 npm run start:api
 
 # Terminal 2: Angular app (port 4200 by default)
-npm start
+npm run start:serve
 
 # Terminal 3 (optional): SEO proxy shell (port 4300)
 npm run start:proxy
+
+# Optional: start Angular + proxy together
+npm run start:serve-proxy
 ```
 
 Then visit:
@@ -181,35 +184,53 @@ SEO proxy shell runs on:
 ## ✅ Useful Scripts
 
 ```bash
-npm start         # Dev server
+npm run start:serve # Dev server
 npm run start:api # Booking flow API server (port 3000)
+npm run start:backend # Backend server (port 3000)
 npm run start:proxy # SEO proxy shell (port 4300)
+npm run start:serve-proxy # Angular + proxy concurrently
 npm run build     # Production build
 npm run watch     # Development build in watch mode
 npm test          # Unit tests (Karma)
 npm run lint      # ESLint for TS/HTML
 npm run lint:styles # Stylelint for SCSS/CSS
 npm run format    # Prettier formatting
+npm run launcher:open # Open Electron launcher in dev mode
+npm run launcher:build # Build Windows launcher
 npm run launcher:build:win # Build Windows launcher (NSIS)
+npm run launcher:build:mac # Build macOS launcher (DMG + ZIP)
+npm run launcher:build:linux # Build Linux launcher (AppImage + DEB)
+npm run launcher:build:all # Build all launcher targets
 ```
 
 ---
 
-## 🪟 Windows Launcher
+## 🚀 Electron Launcher
 
-This project includes a **Windows launcher** built with Electron.
+This project includes an **Electron launcher** for Windows, macOS, and Linux.
 
-To generate it:
+Build commands:
 
 ```bash
+# Windows (NSIS)
 npm run launcher:build:win
+
+# macOS (DMG + ZIP)
+npm run launcher:build:mac
+
+# Linux (AppImage + DEB)
+npm run launcher:build:linux
 ```
 
-After the build finishes, the Windows executable is available at:
+Output files are generated in `dist-electron/`.
 
-- `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+Examples:
 
-The NSIS installer is also generated in `dist-electron/`.
+- Windows executable: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+- macOS app bundle: `dist-electron/mac/Dynamic Site Launcher.app`
+- Linux unpacked app: `dist-electron/linux-unpacked/`
+
+Note: `dist-electron/` is a generated artifacts folder and is ignored by git.
 
 ---
 
@@ -236,8 +257,6 @@ Responsibilities are split as follows:
 - `proxy-middleware.js`: serves rendered HTML for document navigation and proxies assets/chunks to Angular dev server (`http://localhost:4200`).
 
 `index-renderer.js` injects/replaces:
-
-It injects/replaces:
 
 - `<title>` based on page SEO config.
 - `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder with the raw contents of `src/assets/analytics/scripts`.
