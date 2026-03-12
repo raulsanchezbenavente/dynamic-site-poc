@@ -223,7 +223,7 @@ It injects/replaces:
 - `<title>` based on page SEO config.
 - `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder with the raw contents of `src/assets/analytics/scripts`.
 - `<!-- DYNAMIC_SEO_TAGS_SSR -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
-- `<meta name="disable-dynamic-seo" content="true" />` to disable front-side SEO rewriting when server SEO is already applied.
+- `<meta name="enable-dynamic-seo" content="false" />` when serving through proxy/backend, so front-side SEO rewriting is disabled while server SEO is already applied.
 - `<link rel="stylesheet" href="styles.css">` to ensure global styles (including Bootstrap) are loaded in proxy mode.
 - `<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>` after `<app-root></app-root>`.
 

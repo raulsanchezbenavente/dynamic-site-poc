@@ -177,9 +177,14 @@ export class SeoService {
   }
 
   private isSeoDisabledForProxyShell(): boolean {
-    const rawValue = this.document.querySelector('meta[name="disable-dynamic-seo"]')?.getAttribute('content');
+    const enableValue = this.document.querySelector('meta[name="enable-dynamic-seo"]')?.getAttribute('content');
+    if (enableValue != null) {
+      return String(enableValue).trim().toLowerCase() === 'false';
+    }
+
+    const disableValue = this.document.querySelector('meta[name="disable-dynamic-seo"]')?.getAttribute('content');
     return (
-      String(rawValue ?? '')
+      String(disableValue ?? '')
         .trim()
         .toLowerCase() === 'true'
     );

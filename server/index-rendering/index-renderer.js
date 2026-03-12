@@ -13,7 +13,8 @@ function createIndexHtmlRenderer(options) {
   const { indexPath, renderSeoTags, getAnalyticsScripts = () => '' } = options;
 
   const titleTagRegex = /<title[^>]*>[\s\S]*?<\/title>/i;
-  const disableSeoMetaRegex = /<meta\s+name=["']disable-dynamic-seo["'][^>]*>/i;
+  const enableSeoMetaRegex = /<meta\s+name=["']enable-dynamic-seo["'][^>]*>/i;
+  const enableSeoContentRegex = /(name=["']enable-dynamic-seo["'][^>]*content=["'])[^"']*(["'])/i;
   const stylesLinkRegex = /<link\s+[^>]*href=["']styles\.css["'][^>]*>/i;
   const appRootTag = '<app-root></app-root>';
   const bootScripts = '<script src="polyfills.js" type="module"></script><script src="main.js" type="module"></script>';
@@ -29,12 +30,14 @@ function createIndexHtmlRenderer(options) {
       html = html.replace(titleTagRegex, `<title>${escapeHtml(seo.title)}</title>`);
     }
 
-    if (!disableSeoMetaRegex.test(html)) {
-      const disableSeoTag = '        <meta name="disable-dynamic-seo" content="true" />';
+    if (enableSeoMetaRegex.test(html)) {
+      html = html.replace(enableSeoContentRegex, '$1false$2');
+    } else {
+      const enableSeoTag = '    <meta\n      name="enable-dynamic-seo"\n      content="false" />';
       if (html.includes('</title>')) {
-        html = html.replace('</title>', `</title>\n${disableSeoTag}`);
+        html = html.replace('</title>', `</title>\n${enableSeoTag}`);
       } else {
-        html = html.replace('</head>', `${disableSeoTag}\n    </head>`);
+        html = html.replace('</head>', `${enableSeoTag}\n    </head>`);
       }
     }
 
