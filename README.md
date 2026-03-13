@@ -148,8 +148,8 @@ src/
 The easiest way to get started is to **double-click** the installer script for your operating system. This will:
 
 1. ✅ Install all dependencies automatically (only if needed)
-2. 🔨 Build the Electron launcher
-3. 🚀 Launch the app with the interactive **Launcher UI**
+2. ⚙️ Choose launcher mode from a boolean toggle in `build-launcher-and-run.js`
+3. 🚀 Run the selected flow (dev `launcher:open` or build+run executable)
 
 From the repository root, double-click the appropriate file:
 
@@ -169,8 +169,11 @@ The Launcher UI opens automatically and provides:
 Build behavior in one-click mode:
 
 - 🧠 Smart dependency install: runs `npm install` only when `package.json` / `package-lock.json` changes or `node_modules` is missing
-- ⚡ Smart launcher rebuild: the first successful build stores launcher metadata, and later runs reuse the existing artifact when launcher sources are unchanged
-- 🪟 Windows-specific safe output: when rebuilding on Windows, uses `dist-electron/runs/win-<timestamp>/` to avoid locked-file conflicts
+- 🔀 Selectable flow via `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`:
+  - `true`: runs `npm run launcher:open` (development launcher mode)
+  - `false`: uses smart build+run executable flow (with build cache metadata)
+- ⚡ Smart launcher rebuild (build mode only): the first successful build stores launcher metadata, and later runs reuse the existing artifact when launcher sources are unchanged
+- 🪟 Windows-specific safe output (build mode only): when rebuilding on Windows, uses `dist-electron/runs/win-<timestamp>/` to avoid locked-file conflicts
 
 **Terminal close behavior:**
 
@@ -259,7 +262,22 @@ npm run launcher:build:all    # Build all OS targets
 
 ### What is it?
 
-An interactive **GUI launcher** (built with Electron) that lets you run all npm scripts without opening a terminal. Simply double-click `install-and-launch-mac.command` (macOS), `install-and-launch-linux.sh` (Linux), or `install-and-launch-windows.bat` (Windows) to install dependencies and launch the UI automatically.
+An interactive **GUI launcher** (built with Electron) that lets you run all npm scripts without opening a terminal. Simply double-click `install-and-launch-mac.command` (macOS), `install-and-launch-linux.sh` (Linux), or `install-and-launch-windows.bat` (Windows) to install dependencies and run the configured launcher flow automatically.
+
+### Select One-Click Flow (New)
+
+In `build-launcher-and-run.js`, configure this constant:
+
+```js
+const USE_DEV_LAUNCHER_OPEN_FLOW = true;
+```
+
+To switch launcher mode between **dev** and **prod/build**, change only this constant in `build-launcher-and-run.js`.
+
+- `true` → one-click scripts run `npm run launcher:open` (development mode)
+- `false` → one-click scripts keep the previous smart build-and-run executable behavior
+
+This keeps both flows in code, so you can switch by changing only one boolean value.
 
 ### Launcher Features
 
@@ -301,8 +319,10 @@ The double-click installers at the repo root handle everything:
 
 1. ✅ **Check Dependencies**: Compares `package.json` + `package-lock.json` fingerprint
 2. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
-3. 🔨 **Smart Build Decision**: Reuses existing launcher if source fingerprint is unchanged, otherwise builds for current OS
-4. 🚀 **Auto-Launch**: Opens the Launcher UI immediately and brings it to front on Windows when possible
+3. 🔀 **Flow Switch**: Reads `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`
+4. 🚀 **Auto-Launch**:
+  - If `true`: runs `npm run launcher:open`
+  - If `false`: applies smart build decision (reuse existing launcher if unchanged, otherwise build for current OS) and launches executable
 5. ⏱️ **Auto-Exit**: Terminal closes after 5 seconds on success (or stays open on error)
 
 **Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
