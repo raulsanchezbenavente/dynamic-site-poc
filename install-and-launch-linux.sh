@@ -3,5 +3,5 @@ set -euo pipefail
 cd "$(dirname "$0")"
 node build-launcher-and-run.js
 echo ""
-echo "Done. Closing in 10 seconds..."
-sleep 10
+echo "Done. Closing in 5 seconds..."
+sleep 5

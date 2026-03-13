@@ -4,8 +4,8 @@ node build-launcher-and-run.js
 status=$?
 if [ "$status" -eq 0 ]; then
   echo ""
-  echo "Done. Exiting in 10 seconds..."
-  sleep 10
+  echo "Done. Exiting in 5 seconds..."
+  sleep 5
   exit 0
 fi
 
