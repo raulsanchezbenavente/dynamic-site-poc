@@ -4,7 +4,11 @@ const logTabsEl = document.getElementById('logTabs');
 const refreshButton = document.getElementById('refreshButton');
 const quitButton = document.getElementById('quitButton');
 const clearLogsButton = document.getElementById('clearLogsButton');
-const terminalThemeSelect = document.getElementById('terminalThemeSelect');
+const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
+const terminalThemeText = document.getElementById('terminalThemeText');
+const terminalThemePreview = document.getElementById('terminalThemePreview');
+const terminalThemeMenu = document.getElementById('terminalThemeMenu');
+const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const packageSourceSelect = document.getElementById('packageSourceSelect');
 const packageSourcePath = document.getElementById('packageSourcePath');
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
@@ -13,7 +17,12 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
-const TERMINAL_THEMES = new Set(['ocean', 'light', 'kdark']);
+const TERMINAL_THEMES = new Set(['ocean', 'light', 'dark']);
+const TERMINAL_THEME_LABELS = {
+  ocean: 'Ocean',
+  light: 'Light',
+  dark: 'Dark',
+};
 
 let scriptsState = [];
 let activeLogTab = 'all';
@@ -299,14 +308,57 @@ function applyTerminalTheme(themeName) {
   const normalizedTheme = TERMINAL_THEMES.has(themeName) ? themeName : 'ocean';
   document.body.dataset.terminalTheme = normalizedTheme;
 
-  if (terminalThemeSelect) {
-    terminalThemeSelect.value = normalizedTheme;
+  if (terminalThemeText) {
+    terminalThemeText.textContent = TERMINAL_THEME_LABELS[normalizedTheme];
   }
+
+  if (terminalThemePreview) {
+    terminalThemePreview.className = `theme-preview theme-preview-${normalizedTheme}`;
+  }
+
+  for (const option of terminalThemeOptions) {
+    option.setAttribute('aria-selected', String(option.dataset.theme === normalizedTheme));
+  }
+}
+
+function openThemeMenu() {
+  if (!terminalThemeMenu || !terminalThemeTrigger) {
+    return;
+  }
+
+  terminalThemeMenu.hidden = false;
+  terminalThemeTrigger.setAttribute('aria-expanded', 'true');
+}
+
+function closeThemeMenu() {
+  if (!terminalThemeMenu || !terminalThemeTrigger) {
+    return;
+  }
+
+  terminalThemeMenu.hidden = true;
+  terminalThemeTrigger.setAttribute('aria-expanded', 'false');
+}
+
+function toggleThemeMenu() {
+  if (!terminalThemeMenu) {
+    return;
+  }
+
+  if (terminalThemeMenu.hidden) {
+    openThemeMenu();
+    return;
+  }
+
+  closeThemeMenu();
 }
 
 function readSavedTerminalTheme() {
   try {
     const raw = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
+    if (raw === 'kdark') {
+      return 'dark';
+    }
+
     if (!raw || !TERMINAL_THEMES.has(raw)) {
       return 'ocean';
     }
@@ -322,10 +374,10 @@ function saveTerminalTheme(themeName) {
   window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, normalizedTheme);
 }
 
-function onTerminalThemeChange() {
-  const selectedTheme = terminalThemeSelect?.value || 'ocean';
+function onTerminalThemeChange(selectedTheme) {
   applyTerminalTheme(selectedTheme);
   saveTerminalTheme(selectedTheme);
+  closeThemeMenu();
 }
 
 function setRunning(scriptName, running) {
@@ -449,7 +501,32 @@ quitButton.addEventListener('click', async () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
-terminalThemeSelect.addEventListener('change', onTerminalThemeChange);
+terminalThemeTrigger.addEventListener('click', toggleThemeMenu);
+for (const option of terminalThemeOptions) {
+  option.addEventListener('click', () => {
+    onTerminalThemeChange(option.dataset.theme || 'ocean');
+  });
+}
+document.addEventListener('click', (event) => {
+  if (!terminalThemeMenu || !terminalThemeTrigger) {
+    return;
+  }
+
+  const target = event.target;
+  if (!(target instanceof Node)) {
+    return;
+  }
+
+  const clickedInsideSelector = terminalThemeMenu.contains(target) || terminalThemeTrigger.contains(target);
+  if (!clickedInsideSelector) {
+    closeThemeMenu();
+  }
+});
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeThemeMenu();
+  }
+});
 packageSourceSelect.addEventListener('change', () => {
   void onPackageSourceChange();
 });

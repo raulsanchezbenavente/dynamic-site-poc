@@ -69,12 +69,59 @@
         <div class="panel-header">
           <h2>Console output</h2>
           <div class="terminal-theme-selector">
-            <label for="terminalThemeSelect">Terminal theme</label>
-            <select id="terminalThemeSelect">
-              <option value="ocean">Ocean</option>
-              <option value="light">Light</option>
-              <option value="kdark">KDark</option>
-            </select>
+            <span class="terminal-theme-label">Terminal theme</span>
+            <button
+              id="terminalThemeTrigger"
+              class="terminal-theme-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="terminalThemeMenu">
+              <span
+                id="terminalThemePreview"
+                class="theme-preview theme-preview-ocean"
+                aria-hidden="true"></span>
+              <span id="terminalThemeText">Ocean</span>
+            </button>
+            <div
+              id="terminalThemeMenu"
+              class="terminal-theme-menu"
+              role="listbox"
+              hidden>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="ocean"
+                aria-selected="true">
+                <span
+                  class="theme-preview theme-preview-ocean"
+                  aria-hidden="true"></span>
+                <span>Ocean</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="light"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-light"
+                  aria-hidden="true"></span>
+                <span>Light</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="dark"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-dark"
+                  aria-hidden="true"></span>
+                <span>Dark</span>
+              </button>
+            </div>
           </div>
           <button
             id="clearLogsButton"
