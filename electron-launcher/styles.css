@@ -2,6 +2,8 @@
 :root {
   --panel: #fff;
   --panel-soft: #f7fafc;
+  --shell: #edf3f8;
+  --shell-tint: rgba(76, 104, 142, 0.08);
   --ink: #0b1220;
   --muted: #4f6179;
   --line: #d7e2ef;
@@ -16,9 +18,11 @@ body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--ink);
-  background:
-    radial-gradient(circle at 0% 0%, #dde9ff 0%, transparent 32%),
-    radial-gradient(circle at 100% 0%, #e6f7ef 0%, transparent 24%), linear-gradient(145deg, #f8fafc, #edf3fb);
+  background-color: var(--shell);
+  background-image:
+    radial-gradient(circle at 1px 1px, var(--shell-tint) 1.1px, transparent 0),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72));
+  background-size: 18px 18px, auto;
 }
 .topbar {
   display: flex;
