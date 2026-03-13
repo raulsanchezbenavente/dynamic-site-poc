@@ -155,9 +155,9 @@ From the repository root, double-click the appropriate file:
 
 | OS          | File                             | Action                                             |
 | ----------- | -------------------------------- | -------------------------------------------------- |
+| **Windows** | `install-and-launch-windows.bat` | Double-click to run                                |
 | **macOS**   | `install-and-launch-mac.command` | Double-click to run                                |
 | **Linux**   | `install-and-launch-linux.sh`    | Double-click or `bash install-and-launch-linux.sh` |
-| **Windows** | `install-and-launch-windows.bat` | Double-click to run                                |
 
 The Launcher UI opens automatically and provides:
 
