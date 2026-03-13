@@ -176,14 +176,37 @@ body {
   font-size: 0.9rem;
   word-break: break-word;
 }
-.script-info .favorite-star {
-  color: #ffcc00;
-  font-size: 1.35rem;
+.favorite-toggle {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  padding: 0;
+  min-width: 1.1rem;
+  border-radius: 0.3rem;
+  color: #a8b7cb;
+  font-size: 1.25rem;
   font-weight: 900;
   line-height: 1;
-  text-shadow:
-    0 0 1px rgb(0 0 0 / 12%),
-    0 0 6px rgb(255 204 0 / 45%);
+}
+.favorite-toggle:hover:not(:disabled) {
+  color: #f0b80f;
+  box-shadow: none;
+  transform: scale(1.05);
+}
+.favorite-toggle.active {
+  color: #f0b80f;
+}
+.scripts-empty-state {
+  margin: 0;
+  border: 1px dashed var(--line);
+  border-radius: 0.8rem;
+  background: #f9fcff;
+  color: #486383;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 1rem;
 }
 .status {
   justify-self: start;

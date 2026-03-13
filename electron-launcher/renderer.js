@@ -10,11 +10,12 @@ const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
+const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 
 let scriptsState = [];
 let activeLogTab = 'all';
 const logsByScript = new Map([['all', []]]);
-const favoriteScripts = new Set(['build', 'start:serve-proxy', 'start:backend']);
+let favoriteScripts = new Set();
 
 let packageSourceState = null;
 const urlPattern = /https?:\/\/[^\s<>"]+/gi;
@@ -252,6 +253,45 @@ function restoreFilters() {
   }
 }
 
+function readSavedFavorites() {
+  try {
+    const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
+    if (!raw) {
+      return new Set();
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return new Set();
+    }
+
+    const favorites = parsed.filter((name) => typeof name === 'string' && name.length > 0);
+    return new Set(favorites);
+  } catch {
+    return new Set();
+  }
+}
+
+function saveFavorites() {
+  const payload = Array.from(favoriteScripts).sort();
+  window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function isFavoriteScript(scriptName) {
+  return favoriteScripts.has(scriptName);
+}
+
+function toggleFavoriteScript(scriptName) {
+  if (favoriteScripts.has(scriptName)) {
+    favoriteScripts.delete(scriptName);
+  } else {
+    favoriteScripts.add(scriptName);
+  }
+
+  saveFavorites();
+  renderScripts();
+}
+
 function setRunning(scriptName, running) {
   scriptsState = scriptsState.map((script) => (script.name === scriptName ? { ...script, running } : script));
   renderScripts();
@@ -285,7 +325,7 @@ function renderScripts() {
       return true;
     }
 
-    return (runningOnly && script.running) || (favoritesOnly && favoriteScripts.has(script.name));
+    return (runningOnly && script.running) || (favoritesOnly && isFavoriteScript(script.name));
   });
 
   if (visibleScripts.length === 0) {
@@ -311,14 +351,15 @@ function renderScripts() {
 
     title.appendChild(name);
 
-    if (favoriteScripts.has(script.name)) {
-      const favoriteIcon = document.createElement('span');
-      favoriteIcon.className = 'favorite-star';
-      favoriteIcon.textContent = '★';
-      favoriteIcon.title = 'Favorite script';
-      favoriteIcon.setAttribute('aria-label', 'Favorite script');
-      title.appendChild(favoriteIcon);
-    }
+    const favoriteButton = document.createElement('button');
+    favoriteButton.type = 'button';
+    favoriteButton.className = `favorite-toggle ${isFavoriteScript(script.name) ? 'active' : ''}`;
+    favoriteButton.textContent = isFavoriteScript(script.name) ? '★' : '☆';
+    favoriteButton.title = isFavoriteScript(script.name) ? 'Remove from favorites' : 'Add to favorites';
+    favoriteButton.setAttribute('aria-label', favoriteButton.title);
+    favoriteButton.setAttribute('aria-pressed', String(isFavoriteScript(script.name)));
+    favoriteButton.addEventListener('click', () => toggleFavoriteScript(script.name));
+    title.appendChild(favoriteButton);
 
     const command = document.createElement('span');
     command.textContent = script.command;
@@ -393,6 +434,7 @@ window.launcherApi.onScriptStatus(({ script, running }) => {
 });
 
 async function init() {
+  favoriteScripts = readSavedFavorites();
   restoreFilters();
   await refreshPackageSourceUi();
   await refreshScripts();
