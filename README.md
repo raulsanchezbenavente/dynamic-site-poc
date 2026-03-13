@@ -153,11 +153,11 @@ The easiest way to get started is to **double-click** the installer script for y
 
 From the repository root, double-click the appropriate file:
 
-| OS | File | Action |
-| --- | --- | --- |
-| **macOS** | `install-and-launch-mac.command` | Double-click to run |
-| **Linux** | `install-and-launch-linux.sh` | Double-click or `bash install-and-launch-linux.sh` |
-| **Windows** | `install-and-launch-windows.bat` | Double-click to run |
+| OS          | File                             | Action                                             |
+| ----------- | -------------------------------- | -------------------------------------------------- |
+| **macOS**   | `install-and-launch-mac.command` | Double-click to run                                |
+| **Linux**   | `install-and-launch-linux.sh`    | Double-click or `bash install-and-launch-linux.sh` |
+| **Windows** | `install-and-launch-windows.bat` | Double-click to run                                |
 
 The Launcher UI opens automatically and provides:
 
@@ -165,6 +165,12 @@ The Launcher UI opens automatically and provides:
 - 📊 Real-time logs for each script
 - ⭐ Favorite scripts for quick access
 - 🛑 Easy stop/restart controls
+
+Build behavior in one-click mode:
+
+- 🧠 Smart dependency install: runs `npm install` only when `package.json` / `package-lock.json` changes or `node_modules` is missing
+- ⚡ Smart launcher rebuild: reuses existing launcher artifact when launcher sources are unchanged
+- 🪟 Windows-specific safe output: when rebuilding on Windows, uses `dist-electron/runs/win-<timestamp>/` to avoid locked-file conflicts
 
 **Terminal close behavior:**
 
@@ -279,11 +285,15 @@ npm run launcher:build:linux    # Linux (AppImage + DEB)
 npm run launcher:build:all
 ```
 
-Output artifacts go to `dist-electron/`:
+Output artifacts:
 
-- Windows: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
-- macOS: `dist-electron/mac/Dynamic Site Launcher.app`
-- Linux: `dist-electron/linux-unpacked/`
+- `npm run launcher:build:run`:
+  - Windows: `dist-electron/runs/win-<timestamp>/win-unpacked/Dynamic Site Launcher.exe`
+  - macOS: `dist-electron/mac/*.app` (or latest cached artifact if unchanged)
+  - Linux: `dist-electron/*.AppImage` or `dist-electron/linux-unpacked/` (or latest cached artifact if unchanged)
+- `npm run launcher:build:win`:
+  - Executable: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+  - Installer: `dist-electron/Dynamic Site Launcher Setup <version>.exe`
 
 ### How the Install Scripts Work
 
@@ -291,8 +301,8 @@ The double-click installers at the repo root handle everything:
 
 1. ✅ **Check Dependencies**: Compares `package.json` + `package-lock.json` fingerprint
 2. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
-3. 🔨 **Build Launcher**: Executes the OS-specific build command
-4. 🚀 **Auto-Launch**: Opens the Launcher UI immediately
+3. 🔨 **Smart Build Decision**: Reuses existing launcher if source fingerprint is unchanged, otherwise builds for current OS
+4. 🚀 **Auto-Launch**: Opens the Launcher UI immediately and brings it to front on Windows when possible
 5. ⏱️ **Auto-Exit**: Terminal closes after 10 seconds on success (or stays open on error)
 
 **Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
