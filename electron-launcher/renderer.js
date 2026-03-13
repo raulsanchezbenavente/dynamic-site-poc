@@ -2,6 +2,7 @@ const scriptsList = document.getElementById('scriptsList');
 const logsEl = document.getElementById('logs');
 const logTabsEl = document.getElementById('logTabs');
 const refreshButton = document.getElementById('refreshButton');
+const quitButton = document.getElementById('quitButton');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const packageSourceSelect = document.getElementById('packageSourceSelect');
 const packageSourcePath = document.getElementById('packageSourcePath');
@@ -299,6 +300,17 @@ async function refreshScripts() {
 }
 
 refreshButton.addEventListener('click', refreshScripts);
+quitButton.addEventListener('click', async () => {
+  try {
+    await window.launcherApi.quitApp();
+  } catch (error) {
+    appendLog({
+      script: 'launcher',
+      stream: 'stderr',
+      message: `Failed to close launcher: ${error?.message || String(error)}\n`,
+    });
+  }
+});
 clearLogsButton.addEventListener('click', clearLogs);
 packageSourceSelect.addEventListener('change', () => {
   void onPackageSourceChange();

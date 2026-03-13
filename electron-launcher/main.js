@@ -453,6 +453,11 @@ ipcMain.handle('scripts:stop', async (_event, scriptName) => {
   return { ok: true };
 });
 
+ipcMain.handle('app:quit', async () => {
+  app.quit();
+  return { ok: true };
+});
+
 ipcMain.handle('external:open', async (_event, url) => {
   let parsed;
 

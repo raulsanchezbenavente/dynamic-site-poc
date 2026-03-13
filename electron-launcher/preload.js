@@ -1,6 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('launcherApi', {
+  quitApp: () => ipcRenderer.invoke('app:quit'),
   listScripts: () => ipcRenderer.invoke('scripts:list'),
   startScript: (scriptName) => ipcRenderer.invoke('scripts:start', scriptName),
   stopScript: (scriptName) => ipcRenderer.invoke('scripts:stop', scriptName),

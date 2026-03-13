@@ -208,6 +208,11 @@ button:hover:not(:disabled) {
   color: #fff;
   border-color: #08439f;
 }
+.quit-button {
+  background: #fff1f1;
+  border-color: #f3c9c9;
+  color: #9f2323;
+}
 .run-btn {
   background: #ebf8f0;
   border-color: #bfe6cd;
