@@ -358,7 +358,7 @@ body {
   position: absolute;
   top: calc(100% + 0.35rem);
   right: 0;
-  width: 100%;
+  width: max-content;
   min-width: 11.5rem;
   display: grid;
   gap: 0.35rem;
