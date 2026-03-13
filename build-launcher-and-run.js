@@ -8,6 +8,9 @@ const distElectronDir = path.join(repoRoot, 'dist-electron');
 const buildStatePath = path.join(distElectronDir, '.launcher-build-state.json');
 let currentOutputDir = distElectronDir;
 
+// Toggle flow: true => run launcher in development mode, false => keep build-and-run executable flow.
+const USE_DEV_LAUNCHER_OPEN_FLOW = true;
+
 function sleepMs(ms) {
   const shared = new SharedArrayBuffer(4);
   const view = new Int32Array(shared);
@@ -556,6 +559,12 @@ function main() {
   if (installDecision.shouldInstall) {
     runOrThrow(npm, ['install'], 'Installing dependencies (npm install)');
     saveInstallFingerprint(installDecision.dependencyFingerprint);
+  }
+
+  if (USE_DEV_LAUNCHER_OPEN_FLOW) {
+    runOrThrow(npm, ['run', 'launcher:open'], 'Launching development launcher (launcher:open)');
+    console.log('\n[done] Development launcher closed successfully.');
+    return;
   }
 
   const buildDecision = shouldBuildLauncher();
