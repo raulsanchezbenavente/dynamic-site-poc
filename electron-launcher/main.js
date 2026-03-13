@@ -213,6 +213,19 @@ function broadcast(channel, payload) {
   }
 }
 
+function stripAnsiEscapeCodes(value) {
+  return String(value).replace(/[\u001b\u009b][[\]()#;?]*(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-ntqry=><~])/g, '');
+}
+
+function sanitizeLogMessage(value) {
+  const message = String(value);
+  if (process.platform !== 'win32') {
+    return message;
+  }
+
+  return stripAnsiEscapeCodes(message);
+}
+
 function buildSpawnEnv() {
   const env = {};
   for (const [key, value] of Object.entries(process.env)) {
@@ -406,11 +419,11 @@ ipcMain.handle('scripts:start', async (_event, scriptName) => {
   broadcast('scripts:status', { script: scriptName, running: true });
 
   child.stdout.on('data', (chunk) => {
-    broadcast('scripts:log', { script: scriptName, stream: 'stdout', message: String(chunk) });
+    broadcast('scripts:log', { script: scriptName, stream: 'stdout', message: sanitizeLogMessage(chunk) });
   });
 
   child.stderr.on('data', (chunk) => {
-    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: String(chunk) });
+    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: sanitizeLogMessage(chunk) });
   });
 
   child.on('error', (error) => {
