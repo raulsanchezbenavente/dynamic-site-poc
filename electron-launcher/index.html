@@ -15,12 +15,59 @@
       <h1>Dynamic Site Launcher</h1>
       <div class="topbar-actions">
         <div class="source-selector">
-          <label for="packageSourceSelect">package.json</label>
-          <select id="packageSourceSelect">
-            <option value="dev">Dev (current repository)</option>
-            <option value="prod">Prod (project root)</option>
-            <option value="custom">Other...</option>
-          </select>
+          <span class="source-selector-label">package.json</span>
+          <button
+            id="packageSourceTrigger"
+            class="source-selector-trigger"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="packageSourceMenu">
+            <span
+              id="packageSourcePreview"
+              class="source-preview source-preview-dev"
+              aria-hidden="true"></span>
+            <span id="packageSourceText">Dev (current repository)</span>
+          </button>
+          <div
+            id="packageSourceMenu"
+            class="source-selector-menu"
+            role="listbox"
+            hidden>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="dev"
+              aria-selected="true">
+              <span
+                class="source-preview source-preview-dev"
+                aria-hidden="true"></span>
+              <span>Dev (current repository)</span>
+            </button>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="prod"
+              aria-selected="false">
+              <span
+                class="source-preview source-preview-prod"
+                aria-hidden="true"></span>
+              <span>Prod (project root)</span>
+            </button>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="custom"
+              aria-selected="false">
+              <span
+                class="source-preview source-preview-custom"
+                aria-hidden="true"></span>
+              <span>Other...</span>
+            </button>
+          </div>
         </div>
         <button
           id="refreshButton"

@@ -9,7 +9,11 @@ const terminalThemeText = document.getElementById('terminalThemeText');
 const terminalThemePreview = document.getElementById('terminalThemePreview');
 const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
-const packageSourceSelect = document.getElementById('packageSourceSelect');
+const packageSourceTrigger = document.getElementById('packageSourceTrigger');
+const packageSourceText = document.getElementById('packageSourceText');
+const packageSourcePreview = document.getElementById('packageSourcePreview');
+const packageSourceMenu = document.getElementById('packageSourceMenu');
+const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
 const packageSourcePath = document.getElementById('packageSourcePath');
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
@@ -25,6 +29,11 @@ const TERMINAL_THEME_LABELS = {
   red: 'Red',
   'solarized-dark': 'Solarized Dark',
   dark: 'Dark',
+};
+const PACKAGE_SOURCE_LABELS = {
+  dev: 'Dev (current repository)',
+  prod: 'Prod (project root)',
+  custom: 'Other...',
 };
 
 let scriptsState = [];
@@ -171,7 +180,21 @@ function updatePackageSourceUi() {
     return;
   }
 
-  packageSourceSelect.value = packageSourceState.mode;
+  const mode = Object.prototype.hasOwnProperty.call(PACKAGE_SOURCE_LABELS, packageSourceState.mode)
+    ? packageSourceState.mode
+    : 'dev';
+
+  if (packageSourceText) {
+    packageSourceText.textContent = PACKAGE_SOURCE_LABELS[mode];
+  }
+
+  if (packageSourcePreview) {
+    packageSourcePreview.className = `source-preview source-preview-${mode}`;
+  }
+
+  for (const option of packageSourceOptions) {
+    option.setAttribute('aria-selected', String(option.dataset.source === mode));
+  }
 
   const stateLabel = packageSourceState.exists ? 'OK' : 'NOT FOUND';
   packageSourcePath.textContent = `${stateLabel}: ${packageSourceState.selectedPath}`;
@@ -200,18 +223,50 @@ async function chooseCustomPackageJson() {
   return true;
 }
 
-async function onPackageSourceChange() {
-  const mode = packageSourceSelect.value;
+async function onPackageSourceChange(mode = 'dev') {
 
   if (mode === 'custom') {
     const selected = await chooseCustomPackageJson();
     if (!selected) {
       await refreshPackageSourceUi();
     }
+    closePackageSourceMenu();
     return;
   }
 
   await applyPackageSource(mode);
+  closePackageSourceMenu();
+}
+
+function openPackageSourceMenu() {
+  if (!packageSourceMenu || !packageSourceTrigger) {
+    return;
+  }
+
+  packageSourceMenu.hidden = false;
+  packageSourceTrigger.setAttribute('aria-expanded', 'true');
+}
+
+function closePackageSourceMenu() {
+  if (!packageSourceMenu || !packageSourceTrigger) {
+    return;
+  }
+
+  packageSourceMenu.hidden = true;
+  packageSourceTrigger.setAttribute('aria-expanded', 'false');
+}
+
+function togglePackageSourceMenu() {
+  if (!packageSourceMenu) {
+    return;
+  }
+
+  if (packageSourceMenu.hidden) {
+    openPackageSourceMenu();
+    return;
+  }
+
+  closePackageSourceMenu();
 }
 
 function clearLogs() {
@@ -510,8 +565,14 @@ for (const option of terminalThemeOptions) {
     onTerminalThemeChange(option.dataset.theme || 'ocean');
   });
 }
+packageSourceTrigger.addEventListener('click', togglePackageSourceMenu);
+for (const option of packageSourceOptions) {
+  option.addEventListener('click', () => {
+    void onPackageSourceChange(option.dataset.source || 'dev');
+  });
+}
 document.addEventListener('click', (event) => {
-  if (!terminalThemeMenu || !terminalThemeTrigger) {
+  if (!terminalThemeMenu || !terminalThemeTrigger || !packageSourceMenu || !packageSourceTrigger) {
     return;
   }
 
@@ -524,14 +585,17 @@ document.addEventListener('click', (event) => {
   if (!clickedInsideSelector) {
     closeThemeMenu();
   }
+
+  const clickedInsidePackageSelector = packageSourceMenu.contains(target) || packageSourceTrigger.contains(target);
+  if (!clickedInsidePackageSelector) {
+    closePackageSourceMenu();
+  }
 });
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     closeThemeMenu();
+    closePackageSourceMenu();
   }
-});
-packageSourceSelect.addEventListener('change', () => {
-  void onPackageSourceChange();
 });
 filterRunningCheckbox.addEventListener('change', renderScripts);
 filterFavoritesCheckbox.addEventListener('change', renderScripts);
