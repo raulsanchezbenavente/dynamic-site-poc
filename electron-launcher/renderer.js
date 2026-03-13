@@ -4,6 +4,7 @@ const logTabsEl = document.getElementById('logTabs');
 const refreshButton = document.getElementById('refreshButton');
 const quitButton = document.getElementById('quitButton');
 const clearLogsButton = document.getElementById('clearLogsButton');
+const terminalThemeSelect = document.getElementById('terminalThemeSelect');
 const packageSourceSelect = document.getElementById('packageSourceSelect');
 const packageSourcePath = document.getElementById('packageSourcePath');
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
@@ -11,6 +12,8 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
+const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
+const TERMINAL_THEMES = new Set(['ocean', 'light', 'kdark']);
 
 let scriptsState = [];
 let activeLogTab = 'all';
@@ -292,6 +295,39 @@ function toggleFavoriteScript(scriptName) {
   renderScripts();
 }
 
+function applyTerminalTheme(themeName) {
+  const normalizedTheme = TERMINAL_THEMES.has(themeName) ? themeName : 'ocean';
+  document.body.dataset.terminalTheme = normalizedTheme;
+
+  if (terminalThemeSelect) {
+    terminalThemeSelect.value = normalizedTheme;
+  }
+}
+
+function readSavedTerminalTheme() {
+  try {
+    const raw = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
+    if (!raw || !TERMINAL_THEMES.has(raw)) {
+      return 'ocean';
+    }
+
+    return raw;
+  } catch {
+    return 'ocean';
+  }
+}
+
+function saveTerminalTheme(themeName) {
+  const normalizedTheme = TERMINAL_THEMES.has(themeName) ? themeName : 'ocean';
+  window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, normalizedTheme);
+}
+
+function onTerminalThemeChange() {
+  const selectedTheme = terminalThemeSelect?.value || 'ocean';
+  applyTerminalTheme(selectedTheme);
+  saveTerminalTheme(selectedTheme);
+}
+
 function setRunning(scriptName, running) {
   scriptsState = scriptsState.map((script) => (script.name === scriptName ? { ...script, running } : script));
   renderScripts();
@@ -413,6 +449,7 @@ quitButton.addEventListener('click', async () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
+terminalThemeSelect.addEventListener('change', onTerminalThemeChange);
 packageSourceSelect.addEventListener('change', () => {
   void onPackageSourceChange();
 });
@@ -435,6 +472,7 @@ window.launcherApi.onScriptStatus(({ script, running }) => {
 
 async function init() {
   favoriteScripts = readSavedFavorites();
+  applyTerminalTheme(readSavedTerminalTheme());
   restoreFilters();
   await refreshPackageSourceUi();
   await refreshScripts();

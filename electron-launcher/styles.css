@@ -10,6 +10,58 @@
   --run: #0f7a44;
   --stop: #b42318;
   --brand: #0b5bd3;
+
+  --terminal-tabs-border: #4f79c9;
+  --terminal-tabs-bg-start: #4069be;
+  --terminal-tabs-bg-end: #365fb4;
+  --terminal-tab-border: #7fa0e3;
+  --terminal-tab-bg: #3f66b7;
+  --terminal-tab-ink: #e5efff;
+  --terminal-tab-active-bg: #5f86d2;
+  --terminal-tab-active-border: #bed1f7;
+  --terminal-tab-active-ink: #f7fbff;
+  --terminal-body-bg: #3f66b7;
+  --terminal-body-ink: #f1f6ff;
+  --terminal-stdout: #eef5ff;
+  --terminal-stderr: #ffd9ce;
+  --terminal-link: #ffe082;
+  --terminal-link-hover: #fff4bf;
+}
+
+body[data-terminal-theme='light'] {
+  --terminal-tabs-border: #bfd0e8;
+  --terminal-tabs-bg-start: #ecf4ff;
+  --terminal-tabs-bg-end: #e3efff;
+  --terminal-tab-border: #c9d9ee;
+  --terminal-tab-bg: #f4f9ff;
+  --terminal-tab-ink: #36506f;
+  --terminal-tab-active-bg: #d9e8ff;
+  --terminal-tab-active-border: #98b9ec;
+  --terminal-tab-active-ink: #1e3d66;
+  --terminal-body-bg: #f9fcff;
+  --terminal-body-ink: #1b2a3a;
+  --terminal-stdout: #1b3f63;
+  --terminal-stderr: #8f2e2e;
+  --terminal-link: #0a59c9;
+  --terminal-link-hover: #003f95;
+}
+
+body[data-terminal-theme='kdark'] {
+  --terminal-tabs-border: #2f3a4b;
+  --terminal-tabs-bg-start: #1d2530;
+  --terminal-tabs-bg-end: #161d27;
+  --terminal-tab-border: #3b4a60;
+  --terminal-tab-bg: #253243;
+  --terminal-tab-ink: #d2e1f2;
+  --terminal-tab-active-bg: #34506f;
+  --terminal-tab-active-border: #5f89b8;
+  --terminal-tab-active-ink: #f1f7ff;
+  --terminal-body-bg: #151c26;
+  --terminal-body-ink: #d8e2f0;
+  --terminal-stdout: #c9ddf3;
+  --terminal-stderr: #ffb2a1;
+  --terminal-link: #9dc4ff;
+  --terminal-link-hover: #c6ddff;
 }
 * {
   box-sizing: border-box;
@@ -106,6 +158,25 @@ body {
   padding-right: 0.75rem;
   border-bottom: 1px solid var(--line);
   background: var(--panel-soft);
+}
+.terminal-theme-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-left: auto;
+}
+.terminal-theme-selector label {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.terminal-theme-selector select {
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: #fff;
+  color: var(--ink);
+  padding: 0.4rem 0.55rem;
+  font-size: 0.92rem;
 }
 .panel-header h2 {
   border-bottom: 0;
@@ -290,14 +361,14 @@ button:hover:not(:disabled) {
   display: flex;
   gap: 0.5rem;
   padding: 0.65rem 0.75rem;
-  border-bottom: 1px solid #4f79c9;
-  background: linear-gradient(180deg, #4069be 0%, #365fb4 100%);
+  border-bottom: 1px solid var(--terminal-tabs-border);
+  background: linear-gradient(180deg, var(--terminal-tabs-bg-start) 0%, var(--terminal-tabs-bg-end) 100%);
   overflow-x: auto;
 }
 .log-tab {
-  border: 1px solid #7fa0e3;
-  background: #3f66b7;
-  color: #e5efff;
+  border: 1px solid var(--terminal-tab-border);
+  background: var(--terminal-tab-bg);
+  color: var(--terminal-tab-ink);
   border-radius: 0.55rem;
   padding: 0.5rem 0.9rem;
   font-size: 1rem;
@@ -305,13 +376,13 @@ button:hover:not(:disabled) {
   white-space: nowrap;
 }
 .log-tab.active {
-  background: #5f86d2;
-  border-color: #bed1f7;
-  color: #f7fbff;
+  background: var(--terminal-tab-active-bg);
+  border-color: var(--terminal-tab-active-border);
+  color: var(--terminal-tab-active-ink);
 }
 .logs {
-  background: #3f66b7;
-  color: #f1f6ff;
+  background: var(--terminal-body-bg);
+  color: var(--terminal-body-ink);
   padding: 0.9rem;
   overflow: auto;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
@@ -330,19 +401,19 @@ button:hover:not(:disabled) {
   font-style: inherit;
 }
 .log-line.stdout {
-  color: #eef5ff;
+  color: var(--terminal-stdout);
 }
 .log-line.stderr {
-  color: #ffd9ce;
+  color: var(--terminal-stderr);
 }
 .log-link {
-  color: #ffe082;
+  color: var(--terminal-link);
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
 }
 .log-link:hover {
-  color: #fff4bf;
+  color: var(--terminal-link-hover);
 }
 
 @media (width <= 1000px) {
@@ -366,6 +437,13 @@ button:hover:not(:disabled) {
     align-items: flex-start;
     flex-direction: column;
     padding: 0.9rem 1rem;
+  }
+  .panel-header {
+    flex-wrap: wrap;
+  }
+  .terminal-theme-selector {
+    margin-left: 0;
+    order: 2;
   }
   .scripts-panel-header h2 {
     padding: 0;
