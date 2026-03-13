@@ -43,7 +43,23 @@
 
     <main class="layout">
       <section class="panel scripts-panel">
-        <h2>Scripts</h2>
+        <div class="panel-header scripts-panel-header">
+          <h2>Scripts</h2>
+          <div class="scripts-filters">
+            <label class="filter-toggle" for="filterRunningCheckbox">
+              <input
+                id="filterRunningCheckbox"
+                type="checkbox" />
+              Running
+            </label>
+            <label class="filter-toggle" for="filterFavoritesCheckbox">
+              <input
+                id="filterFavoritesCheckbox"
+                type="checkbox" />
+              Favorites
+            </label>
+          </div>
+        </div>
         <div
           id="scriptsList"
           class="scripts-list"></div>

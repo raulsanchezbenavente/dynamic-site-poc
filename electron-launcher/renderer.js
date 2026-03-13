@@ -6,6 +6,10 @@ const quitButton = document.getElementById('quitButton');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const packageSourceSelect = document.getElementById('packageSourceSelect');
 const packageSourcePath = document.getElementById('packageSourcePath');
+const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
+const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
+
+const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 
 let scriptsState = [];
 let activeLogTab = 'all';
@@ -210,6 +214,44 @@ function clearLogs() {
   renderLogs();
 }
 
+function readSavedFilters() {
+  try {
+    const raw = window.localStorage.getItem(FILTER_STATE_STORAGE_KEY);
+    if (!raw) {
+      return { running: false, favorites: false };
+    }
+
+    const parsed = JSON.parse(raw);
+    return {
+      running: Boolean(parsed?.running),
+      favorites: Boolean(parsed?.favorites),
+    };
+  } catch {
+    return { running: false, favorites: false };
+  }
+}
+
+function saveFilters() {
+  const payload = {
+    running: Boolean(filterRunningCheckbox?.checked),
+    favorites: Boolean(filterFavoritesCheckbox?.checked),
+  };
+
+  window.localStorage.setItem(FILTER_STATE_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function restoreFilters() {
+  const saved = readSavedFilters();
+
+  if (filterRunningCheckbox) {
+    filterRunningCheckbox.checked = saved.running;
+  }
+
+  if (filterFavoritesCheckbox) {
+    filterFavoritesCheckbox.checked = saved.favorites;
+  }
+}
+
 function setRunning(scriptName, running) {
   scriptsState = scriptsState.map((script) => (script.name === scriptName ? { ...script, running } : script));
   renderScripts();
@@ -235,8 +277,26 @@ async function stopScript(scriptName) {
 
 function renderScripts() {
   scriptsList.replaceChildren();
+  const runningOnly = Boolean(filterRunningCheckbox?.checked);
+  const favoritesOnly = Boolean(filterFavoritesCheckbox?.checked);
 
-  for (const script of scriptsState) {
+  const visibleScripts = scriptsState.filter((script) => {
+    if (!runningOnly && !favoritesOnly) {
+      return true;
+    }
+
+    return (runningOnly && script.running) || (favoritesOnly && favoriteScripts.has(script.name));
+  });
+
+  if (visibleScripts.length === 0) {
+    const emptyState = document.createElement('p');
+    emptyState.className = 'scripts-empty-state';
+    emptyState.textContent = 'No scripts match the selected filters.';
+    scriptsList.appendChild(emptyState);
+    return;
+  }
+
+  for (const script of visibleScripts) {
     const row = document.createElement('div');
     row.className = `script-row ${script.running ? 'running' : ''}`;
 
@@ -315,6 +375,10 @@ clearLogsButton.addEventListener('click', clearLogs);
 packageSourceSelect.addEventListener('change', () => {
   void onPackageSourceChange();
 });
+filterRunningCheckbox.addEventListener('change', renderScripts);
+filterFavoritesCheckbox.addEventListener('change', renderScripts);
+filterRunningCheckbox.addEventListener('change', saveFilters);
+filterFavoritesCheckbox.addEventListener('change', saveFilters);
 
 window.launcherApi.onScriptLog((payload) => {
   appendLog(payload);
@@ -329,6 +393,7 @@ window.launcherApi.onScriptStatus(({ script, running }) => {
 });
 
 async function init() {
+  restoreFilters();
   await refreshPackageSourceUi();
   await refreshScripts();
 }

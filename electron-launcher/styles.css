@@ -22,7 +22,9 @@ body {
   background-image:
     radial-gradient(circle at 1px 1px, var(--shell-tint) 1.1px, transparent 0),
     linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.72));
-  background-size: 18px 18px, auto;
+  background-size:
+    18px 18px,
+    auto;
 }
 .topbar {
   display: flex;
@@ -107,6 +109,29 @@ body {
 }
 .panel-header h2 {
   border-bottom: 0;
+}
+.scripts-panel-header {
+  padding-right: 1rem;
+}
+.scripts-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+}
+.filter-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #314a6a;
+  user-select: none;
+}
+.filter-toggle input {
+  margin: 0;
+  width: 0.92rem;
+  height: 0.92rem;
 }
 .clear-logs-button {
   background: #fff1f1;
@@ -307,6 +332,14 @@ button:hover:not(:disabled) {
   }
   .source-selector select {
     flex: 1 1 auto;
+  }
+  .scripts-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 0.9rem 1rem;
+  }
+  .scripts-panel-header h2 {
+    padding: 0;
   }
   .layout {
     grid-template-columns: 1fr;
