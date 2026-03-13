@@ -46,22 +46,58 @@ body[data-terminal-theme='light'] {
   --terminal-link-hover: #003f95;
 }
 
-body[data-terminal-theme='quiet-light'] {
-  --terminal-tabs-border: #c9c9c9;
-  --terminal-tabs-bg-start: #f3f3f3;
-  --terminal-tabs-bg-end: #ececec;
-  --terminal-tab-border: #d4d4d4;
-  --terminal-tab-bg: #f7f7f7;
-  --terminal-tab-ink: #444;
-  --terminal-tab-active-bg: #e7e7e7;
-  --terminal-tab-active-border: #bdbdbd;
-  --terminal-tab-active-ink: #2a2a2a;
-  --terminal-body-bg: #fcfcfc;
-  --terminal-body-ink: #2b2b2b;
-  --terminal-stdout: #333;
-  --terminal-stderr: #a1260d;
-  --terminal-link: #005fb8;
-  --terminal-link-hover: #004a91;
+body[data-terminal-theme='solarized-light'] {
+  --terminal-tabs-border: #c7ba9b;
+  --terminal-tabs-bg-start: #f4ecd7;
+  --terminal-tabs-bg-end: #eee4cd;
+  --terminal-tab-border: #d4c8aa;
+  --terminal-tab-bg: #f8f1dd;
+  --terminal-tab-ink: #5c5a50;
+  --terminal-tab-active-bg: #ebdfbf;
+  --terminal-tab-active-border: #b9aa84;
+  --terminal-tab-active-ink: #4f4d43;
+  --terminal-body-bg: #fdf6e3;
+  --terminal-body-ink: #586e75;
+  --terminal-stdout: #5b6f75;
+  --terminal-stderr: #dc322f;
+  --terminal-link: #268bd2;
+  --terminal-link-hover: #0068b5;
+}
+
+body[data-terminal-theme='red'] {
+  --terminal-tabs-border: #a73f3f;
+  --terminal-tabs-bg-start: #b74444;
+  --terminal-tabs-bg-end: #9f3737;
+  --terminal-tab-border: #ca6a6a;
+  --terminal-tab-bg: #a64040;
+  --terminal-tab-ink: #ffe8e8;
+  --terminal-tab-active-bg: #c55858;
+  --terminal-tab-active-border: #efb0b0;
+  --terminal-tab-active-ink: #fff7f7;
+  --terminal-body-bg: #7f2b2b;
+  --terminal-body-ink: #ffe9e9;
+  --terminal-stdout: #ffe3e3;
+  --terminal-stderr: #ffd6a8;
+  --terminal-link: #ffd27a;
+  --terminal-link-hover: #ffe6b7;
+}
+
+body[data-terminal-theme='solarized-dark'] {
+  --terminal-tabs-border: #35545a;
+  --terminal-tabs-bg-start: #133239;
+  --terminal-tabs-bg-end: #102a30;
+  --terminal-tab-border: #486971;
+  --terminal-tab-bg: #1b3b42;
+  --terminal-tab-ink: #d7e3e4;
+  --terminal-tab-active-bg: #2a4c54;
+  --terminal-tab-active-border: #6b8a90;
+  --terminal-tab-active-ink: #eef7f7;
+  --terminal-body-bg: #002b36;
+  --terminal-body-ink: #93a1a1;
+  --terminal-stdout: #93a1a1;
+  --terminal-stderr: #dc322f;
+  --terminal-link: #268bd2;
+  --terminal-link-hover: #56b2f2;
 }
 
 body[data-terminal-theme='dark'],
@@ -275,11 +311,17 @@ body {
 .theme-preview-ocean {
   background: linear-gradient(180deg, #4069be 0%, #365fb4 45%, #2c4f96 100%);
 }
+.theme-preview-red {
+  background: linear-gradient(180deg, #b74444 0%, #9f3737 48%, #7f2b2b 100%);
+}
+.theme-preview-solarized-dark {
+  background: linear-gradient(180deg, #133239 0%, #0d2c33 52%, #002b36 100%);
+}
 .theme-preview-light {
   background: linear-gradient(180deg, #eef6ff 0%, #f8fbff 52%, #dbe9ff 100%);
 }
-.theme-preview-quiet-light {
-  background: linear-gradient(180deg, #f3f3f3 0%, #fcfcfc 55%, #e7e7e7 100%);
+.theme-preview-solarized-light {
+  background: linear-gradient(180deg, #f4ecd7 0%, #fdf6e3 55%, #e7dcbf 100%);
 }
 .theme-preview-dark {
   background: linear-gradient(180deg, #1d2530 0%, #1b222d 48%, #151c26 100%);

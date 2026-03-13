@@ -17,11 +17,13 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
-const TERMINAL_THEMES = new Set(['ocean', 'light', 'quiet-light', 'dark']);
+const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
   light: 'Light',
-  'quiet-light': 'Quiet Light',
+  'solarized-light': 'Solarized Light',
+  red: 'Red',
+  'solarized-dark': 'Solarized Dark',
   dark: 'Dark',
 };
 
