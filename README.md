@@ -169,12 +169,12 @@ The Launcher UI opens automatically and provides:
 Build behavior in one-click mode:
 
 - 🧠 Smart dependency install: runs `npm install` only when `package.json` / `package-lock.json` changes or `node_modules` is missing
-- ⚡ Smart launcher rebuild: reuses existing launcher artifact when launcher sources are unchanged
+- ⚡ Smart launcher rebuild: the first successful build stores launcher metadata, and later runs reuse the existing artifact when launcher sources are unchanged
 - 🪟 Windows-specific safe output: when rebuilding on Windows, uses `dist-electron/runs/win-<timestamp>/` to avoid locked-file conflicts
 
 **Terminal close behavior:**
 
-- ✅ Success: Auto-closes terminal after 10 seconds
+- ✅ Success: Auto-closes terminal after 5 seconds
 - ❌ Error: Stays open so you can read error details
 - 💡 macOS tip: Set Terminal profile option `When the shell exits` to `Close if the shell exited cleanly`
 
@@ -246,7 +246,7 @@ For launcher builds and deployment, see **🚀 Electron Launcher** section below
 
 ```bash
 npm run launcher:open         # Open Electron launcher in dev mode
-npm run launcher:build:run    # Build for current OS + run
+npm run launcher:build:run    # Build or reuse current-OS launcher, then run
 npm run launcher:build:win    # Build Windows installer (NSIS)
 npm run launcher:build:mac    # Build macOS (DMG + ZIP)
 npm run launcher:build:linux  # Build Linux (AppImage + DEB)
@@ -303,7 +303,7 @@ The double-click installers at the repo root handle everything:
 2. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
 3. 🔨 **Smart Build Decision**: Reuses existing launcher if source fingerprint is unchanged, otherwise builds for current OS
 4. 🚀 **Auto-Launch**: Opens the Launcher UI immediately and brings it to front on Windows when possible
-5. ⏱️ **Auto-Exit**: Terminal closes after 10 seconds on success (or stays open on error)
+5. ⏱️ **Auto-Exit**: Terminal closes after 5 seconds on success (or stays open on error)
 
 **Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
 
