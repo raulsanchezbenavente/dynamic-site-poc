@@ -428,15 +428,20 @@ function findBuiltArtifact() {
 
 function shouldBuildLauncher() {
   currentOutputDir = distElectronDir;
+  const fingerprint = computeBuildFingerprint();
 
   let existingArtifact = null;
   try {
     existingArtifact = findBuiltArtifact();
   } catch {
-    return { shouldBuild: true, reason: 'No existing launcher artifact found', existingArtifact: null, fingerprint: null };
+    return {
+      shouldBuild: true,
+      reason: 'No existing launcher artifact found',
+      existingArtifact: null,
+      fingerprint,
+    };
   }
 
-  const fingerprint = computeBuildFingerprint();
   const state = readBuildState();
   const key = platformStateKey();
   const currentState = state[key];
