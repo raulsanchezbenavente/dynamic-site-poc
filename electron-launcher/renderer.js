@@ -27,6 +27,7 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
+const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
@@ -55,6 +56,7 @@ const TERMINAL_TAB_PREFIX = 'terminal:';
 const TERMINAL_HISTORY_LIMIT = 200;
 let editingTerminalSessionId = null;
 const runningTerminalSessions = new Set();
+const orderedLogTabs = [];
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -118,26 +120,143 @@ function ensureLogBucket(scriptName) {
   if (!logsByScript.has(scriptName)) {
     logsByScript.set(scriptName, []);
   }
+
+  if (scriptName && scriptName !== 'all') {
+    registerTabOrder(scriptName);
+  }
+}
+
+function readSavedLogTabOrder() {
+  try {
+    const raw = window.localStorage.getItem(LOG_TAB_ORDER_STORAGE_KEY);
+    if (!raw) {
+      return [];
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return [];
+    }
+
+    const seen = new Set();
+    const cleaned = [];
+
+    for (const entry of parsed) {
+      if (typeof entry !== 'string' || !entry || entry === 'all' || seen.has(entry)) {
+        continue;
+      }
+
+      seen.add(entry);
+      cleaned.push(entry);
+    }
+
+    return cleaned;
+  } catch {
+    return [];
+  }
+}
+
+function saveLogTabOrder() {
+  try {
+    window.localStorage.setItem(LOG_TAB_ORDER_STORAGE_KEY, JSON.stringify(orderedLogTabs));
+  } catch {
+    // Ignore storage failures (private mode/quota) and keep in-memory ordering.
+  }
+}
+
+function restoreLogTabOrder() {
+  const saved = readSavedLogTabOrder();
+  orderedLogTabs.splice(0, orderedLogTabs.length, ...saved);
+}
+
+function registerTabOrder(tabName) {
+  if (!tabName || tabName === 'all') {
+    return;
+  }
+
+  if (!orderedLogTabs.includes(tabName)) {
+    orderedLogTabs.push(tabName);
+    saveLogTabOrder();
+  }
+}
+
+function touchTabOrder(tabName) {
+  if (!tabName || tabName === 'all') {
+    return;
+  }
+
+  const existingIndex = orderedLogTabs.indexOf(tabName);
+  if (existingIndex >= 0) {
+    orderedLogTabs.splice(existingIndex, 1);
+  }
+
+  orderedLogTabs.push(tabName);
+  saveLogTabOrder();
+}
+
+function pruneTabOrder(availableTabs) {
+  if (!(availableTabs instanceof Set)) {
+    return;
+  }
+
+  const knownScriptNames = new Set((scriptsState || []).map((script) => script.name));
+  let changed = false;
+  for (let index = orderedLogTabs.length - 1; index >= 0; index -= 1) {
+    const tabName = orderedLogTabs[index];
+
+    if (isTerminalTab(tabName)) {
+      if (availableTabs.has(tabName)) {
+        continue;
+      }
+
+      orderedLogTabs.splice(index, 1);
+      changed = true;
+      continue;
+    }
+
+    const scriptStillKnown = knownScriptNames.has(tabName);
+    const hasLogsBucket = logsByScript.has(tabName);
+    if (scriptStillKnown || hasLogsBucket) {
+      continue;
+    }
+
+    if (!availableTabs.has(tabName)) {
+      orderedLogTabs.splice(index, 1);
+      changed = true;
+    }
+  }
+
+  if (changed) {
+    saveLogTabOrder();
+  }
 }
 
 function getTabNames() {
-  const names = new Set(['all']);
+  const availableTabs = new Set(['all']);
 
   for (const script of scriptsState) {
     if (script.running) {
-      names.add(script.name);
+      availableTabs.add(script.name);
     }
   }
 
   for (const key of logsByScript.keys()) {
-    names.add(key);
+    if (key !== 'all') {
+      availableTabs.add(key);
+    }
   }
 
   for (const session of terminalSessions.values()) {
-    names.add(`${TERMINAL_TAB_PREFIX}${session.id}`);
+    availableTabs.add(`${TERMINAL_TAB_PREFIX}${session.id}`);
   }
 
-  return Array.from(names);
+  for (const tabName of availableTabs) {
+    registerTabOrder(tabName);
+  }
+
+  pruneTabOrder(availableTabs);
+
+  return ['all', ...orderedLogTabs.filter((tabName) => availableTabs.has(tabName))];
 }
 
 function isTerminalTab(tabName) {
@@ -757,6 +876,7 @@ async function createNewTerminalSession() {
     return null;
   }
 
+  touchTabOrder(`${TERMINAL_TAB_PREFIX}${session.id}`);
   activeTerminalSessionId = session.id;
   activeLogTab = `${TERMINAL_TAB_PREFIX}${session.id}`;
   renderLogTabs();
@@ -924,6 +1044,9 @@ function onTerminalThemeChange(selectedTheme) {
 
 function setRunning(scriptName, running) {
   scriptsState = scriptsState.map((script) => (script.name === scriptName ? { ...script, running } : script));
+  if (running) {
+    touchTabOrder(scriptName);
+  }
   renderScripts();
   renderLogTabs();
 }
@@ -1024,10 +1147,44 @@ function renderScripts() {
 }
 
 async function refreshScripts() {
+  await refreshTerminalSessions();
   scriptsState = await window.launcherApi.listScripts();
   renderScripts();
   renderLogTabs();
   renderLogs();
+}
+
+async function refreshTerminalSessions() {
+  const existingSessions = await window.launcherApi.listTerminalSessions();
+  const nextSessionIds = new Set();
+
+  for (const session of existingSessions) {
+    const normalized = ensureTerminalSessionShape(session);
+    if (!normalized) {
+      continue;
+    }
+
+    nextSessionIds.add(normalized.id);
+    registerTabOrder(`${TERMINAL_TAB_PREFIX}${normalized.id}`);
+  }
+
+  for (const sessionId of Array.from(terminalSessions.keys())) {
+    if (!nextSessionIds.has(sessionId)) {
+      terminalSessions.delete(sessionId);
+      runningTerminalSessions.delete(sessionId);
+    }
+  }
+
+  if (activeTerminalSessionId && !terminalSessions.has(activeTerminalSessionId)) {
+    activeTerminalSessionId = null;
+    if (isTerminalTab(activeLogTab)) {
+      activeLogTab = 'all';
+    }
+  }
+
+  if (terminalSessions.size > 0 && !activeTerminalSessionId) {
+    activeTerminalSessionId = Array.from(terminalSessions.keys())[0];
+  }
 }
 
 refreshButton.addEventListener('click', refreshScripts);
@@ -1160,17 +1317,9 @@ async function init() {
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
   restoreFilters();
+  restoreLogTabOrder();
   await refreshPackageSourceUi();
   await refreshScripts();
-
-  const existingSessions = await window.launcherApi.listTerminalSessions();
-  for (const session of existingSessions) {
-    ensureTerminalSessionShape(session);
-  }
-
-  if (terminalSessions.size > 0 && !activeTerminalSessionId) {
-    activeTerminalSessionId = Array.from(terminalSessions.keys())[0];
-  }
 
   // Re-render after restoring terminal sessions so Session tabs appear on first load.
   renderLogTabs();
