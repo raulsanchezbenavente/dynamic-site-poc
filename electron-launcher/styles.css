@@ -358,8 +358,13 @@ body {
   background: var(--panel-soft);
   font-size: 1.1rem;
 }
+.logs-panel {
+  overflow: visible;
+}
 .panel-header {
   display: flex;
+  position: relative;
+  z-index: 2;
   justify-content: space-between;
   align-items: center;
   gap: 0.75rem;
@@ -499,7 +504,8 @@ body {
 .scripts-title-group h2 {
   margin: 0;
 }
-.refresh-icon-button {
+.refresh-icon-button,
+.session-icon-button {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -513,7 +519,8 @@ body {
   border-color: #bdd1f1;
   padding: 0;
 }
-.refresh-icon-button::after {
+.refresh-icon-button::after,
+.session-icon-button::after {
   content: attr(data-tooltip);
   position: absolute;
   left: 50%;
@@ -536,7 +543,8 @@ body {
     transform 130ms ease;
   z-index: 120;
 }
-.refresh-icon-button::before {
+.refresh-icon-button::before,
+.session-icon-button::before {
   content: '';
   position: absolute;
   left: 50%;
@@ -557,12 +565,18 @@ body {
 .refresh-icon-button:hover::after,
 .refresh-icon-button:hover::before,
 .refresh-icon-button:focus-visible::after,
-.refresh-icon-button:focus-visible::before {
+.refresh-icon-button:focus-visible::before,
+.session-icon-button:hover::after,
+.session-icon-button:hover::before,
+.session-icon-button:focus-visible::after,
+.session-icon-button:focus-visible::before {
   opacity: 1;
   transform: translate(-50%, 0) rotate(45deg);
 }
 .refresh-icon-button:hover::after,
-.refresh-icon-button:focus-visible::after {
+.refresh-icon-button:focus-visible::after,
+.session-icon-button:hover::after,
+.session-icon-button:focus-visible::after {
   transform: translate(-50%, 0);
 }
 .refresh-icon-svg {
@@ -602,20 +616,19 @@ body {
   padding: 0.45rem 0.7rem;
 }
 .toggle-terminal-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
   background: #eef5ff;
   border-color: #bfd5f8;
   color: #1f4f91;
-  font-size: 0.85rem;
-  padding: 0.45rem 0.7rem;
 }
 .toggle-terminal-icon {
-  width: 0.95rem;
-  height: 0.95rem;
+  width: 1rem;
+  height: 1rem;
   stroke: currentColor;
   flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+.session-icon-button:hover:not(:disabled) .toggle-terminal-icon {
+  transform: scale(1.08);
 }
 .scripts-list {
   padding: 0.9rem;
@@ -760,8 +773,12 @@ button:hover:not(:disabled) {
 }
 .logs-shell {
   display: grid;
+  position: relative;
+  z-index: 1;
   grid-template-rows: auto 1fr;
   min-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 1rem 1rem;
 }
 .log-tabs {
   display: flex;

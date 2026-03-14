@@ -151,8 +151,10 @@
         <div class="panel-header logs-panel-header">
           <button
             id="toggleTerminalButton"
-            class="toggle-terminal-button"
+            class="toggle-terminal-button session-icon-button"
             type="button"
+            data-tooltip="New session"
+            aria-label="New session"
             aria-controls="interactiveTerminalBar">
             <svg
               class="toggle-terminal-icon"
@@ -162,29 +164,16 @@
               aria-hidden="true"
               focusable="false">
               <path
-                d="M4 6h16"
+                d="M12 5v14"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.6"
                 stroke-linecap="round" />
               <path
-                d="M4 12h16"
+                d="M5 12h14"
                 stroke="currentColor"
-                stroke-width="2"
+                stroke-width="2.6"
                 stroke-linecap="round" />
-              <path
-                d="M4 18h10"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round" />
-              <path
-                d="M17 16l3 3 3-3"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                transform="translate(-2 -4)" />
             </svg>
-            New terminal
           </button>
           <div class="terminal-theme-selector">
             <span class="terminal-theme-label">Terminal theme</span>
