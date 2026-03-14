@@ -148,8 +148,44 @@
       </section>
 
       <section class="panel logs-panel">
-        <div class="panel-header">
-          <h2>Console output</h2>
+        <div class="panel-header logs-panel-header">
+          <button
+            id="toggleTerminalButton"
+            class="toggle-terminal-button"
+            type="button"
+            aria-controls="interactiveTerminalBar">
+            <svg
+              class="toggle-terminal-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M4 6h16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round" />
+              <path
+                d="M4 12h16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round" />
+              <path
+                d="M4 18h10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round" />
+              <path
+                d="M17 16l3 3 3-3"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                transform="translate(-2 -4)" />
+            </svg>
+            New terminal
+          </button>
           <div class="terminal-theme-selector">
             <span class="terminal-theme-label">Terminal theme</span>
             <button
@@ -243,13 +279,6 @@
             class="clear-logs-button"
             type="button">
             Clear logs
-          </button>
-          <button
-            id="toggleTerminalButton"
-            class="toggle-terminal-button"
-            type="button"
-            aria-controls="interactiveTerminalBar">
-            New terminal
           </button>
         </div>
         <div class="logs-shell">
