@@ -7,12 +7,63 @@ const runningScripts = new Map();
 let isShuttingDown = false;
 const terminalSessions = new Map();
 let terminalSessionCounter = 0;
+const DEFAULT_WINDOW_STATE = {
+  width: 1180,
+  height: 760,
+  minWidth: 960,
+  minHeight: 640,
+};
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
   mode: defaultSourceMode,
   customPath: '',
 };
+
+function getWindowStatePath() {
+  return path.join(app.getPath('userData'), 'launcher-window-state.json');
+}
+
+function readWindowState() {
+  try {
+    const raw = fs.readFileSync(getWindowStatePath(), 'utf8');
+    const parsed = JSON.parse(raw);
+
+    return {
+      width: Number(parsed?.width) || DEFAULT_WINDOW_STATE.width,
+      height: Number(parsed?.height) || DEFAULT_WINDOW_STATE.height,
+      minWidth: DEFAULT_WINDOW_STATE.minWidth,
+      minHeight: DEFAULT_WINDOW_STATE.minHeight,
+      x: Number.isFinite(parsed?.x) ? Number(parsed.x) : undefined,
+      y: Number.isFinite(parsed?.y) ? Number(parsed.y) : undefined,
+      isMaximized: Boolean(parsed?.isMaximized),
+    };
+  } catch {
+    return { ...DEFAULT_WINDOW_STATE, isMaximized: false };
+  }
+}
+
+function writeWindowState(win) {
+  if (!win || win.isDestroyed()) {
+    return;
+  }
+
+  const bounds = win.isMaximized() ? win.getNormalBounds() : win.getBounds();
+  const nextState = {
+    width: Math.max(Math.round(bounds.width || DEFAULT_WINDOW_STATE.width), DEFAULT_WINDOW_STATE.minWidth),
+    height: Math.max(Math.round(bounds.height || DEFAULT_WINDOW_STATE.height), DEFAULT_WINDOW_STATE.minHeight),
+    x: Number.isFinite(bounds.x) ? Math.round(bounds.x) : undefined,
+    y: Number.isFinite(bounds.y) ? Math.round(bounds.y) : undefined,
+    isMaximized: win.isMaximized(),
+  };
+
+  try {
+    fs.mkdirSync(path.dirname(getWindowStatePath()), { recursive: true });
+    fs.writeFileSync(getWindowStatePath(), `${JSON.stringify(nextState, null, 2)}\n`, 'utf8');
+  } catch {
+    // Ignore window-state persistence failures.
+  }
+}
 
 function pathHasPackageJson(packageJsonPath) {
   if (!packageJsonPath) {
@@ -421,12 +472,27 @@ function getPackageSourceStatus() {
 
 function createWindow() {
   const iconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
+  const windowState = readWindowState();
+  let persistWindowStateTimeout = null;
+
+  const scheduleWindowStatePersist = () => {
+    if (persistWindowStateTimeout) {
+      clearTimeout(persistWindowStateTimeout);
+    }
+
+    persistWindowStateTimeout = setTimeout(() => {
+      persistWindowStateTimeout = null;
+      writeWindowState(win);
+    }, 150);
+  };
 
   const win = new BrowserWindow({
-    width: 1180,
-    height: 760,
-    minWidth: 960,
-    minHeight: 640,
+    width: windowState.width,
+    height: windowState.height,
+    minWidth: windowState.minWidth,
+    minHeight: windowState.minHeight,
+    x: windowState.x,
+    y: windowState.y,
     icon: iconPath,
     autoHideMenuBar: true,
     webPreferences: {
@@ -436,7 +502,35 @@ function createWindow() {
     },
   });
 
+  win.on('close', () => {
+    writeWindowState(win);
+  });
+
+  win.on('resized', () => {
+    scheduleWindowStatePersist();
+  });
+
+  win.on('moved', () => {
+    scheduleWindowStatePersist();
+  });
+
+  win.on('maximize', () => {
+    writeWindowState(win);
+  });
+
+  win.on('unmaximize', () => {
+    writeWindowState(win);
+  });
+
   win.loadFile(path.join(__dirname, 'index.html'));
+
+  if (windowState.isMaximized) {
+    win.once('ready-to-show', () => {
+      if (!win.isDestroyed()) {
+        win.maximize();
+      }
+    });
+  }
 }
 
 function readScripts() {
