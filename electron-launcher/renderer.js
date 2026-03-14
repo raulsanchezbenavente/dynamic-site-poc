@@ -142,6 +142,29 @@ function sessionIdFromTab(tabName) {
   return String(tabName).slice(TERMINAL_TAB_PREFIX.length);
 }
 
+async function closeTerminalSession(sessionId) {
+  if (!sessionId || !terminalSessions.has(sessionId)) {
+    return;
+  }
+
+  await window.launcherApi.closeTerminalSession(sessionId);
+  terminalSessions.delete(sessionId);
+
+  if (activeTerminalSessionId === sessionId) {
+    const remainingSessionIds = Array.from(terminalSessions.keys());
+    if (remainingSessionIds.length > 0) {
+      activeTerminalSessionId = remainingSessionIds[0];
+      activeLogTab = `${TERMINAL_TAB_PREFIX}${activeTerminalSessionId}`;
+    } else {
+      activeTerminalSessionId = null;
+      activeLogTab = 'all';
+    }
+  }
+
+  renderLogTabs();
+  renderLogs();
+}
+
 function updateConsoleSurface() {
   const terminalTabActive = isTerminalTab(activeLogTab);
   const activeSession = getActiveTerminalSession();
@@ -203,7 +226,22 @@ function renderLogTabs() {
     if (isTerminalTab(tabName)) {
       const sessionId = sessionIdFromTab(tabName);
       const session = sessionId ? terminalSessions.get(sessionId) : null;
-      tab.textContent = session?.name || 'Session';
+      const label = document.createElement('span');
+      label.className = 'log-tab-label';
+      label.textContent = session?.name || 'Session';
+
+      const closeButton = document.createElement('button');
+      closeButton.type = 'button';
+      closeButton.className = 'log-tab-close';
+      closeButton.textContent = '×';
+      closeButton.title = `Close ${session?.name || 'session'}`;
+      closeButton.setAttribute('aria-label', closeButton.title);
+      closeButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        void closeTerminalSession(sessionId);
+      });
+
+      tab.replaceChildren(label, closeButton);
       tab.classList.add('log-tab-terminal');
     } else {
       tab.textContent = tabName;

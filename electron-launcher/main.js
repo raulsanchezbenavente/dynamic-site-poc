@@ -202,6 +202,14 @@ function listTerminalSessions() {
   }));
 }
 
+function closeTerminalSession(sessionId) {
+  if (!sessionId || !terminalSessions.has(sessionId)) {
+    return false;
+  }
+
+  return terminalSessions.delete(sessionId);
+}
+
 function resolveTerminalPath(baseDir, target) {
   if (!target || target === '~') {
     return app.getPath('home');
@@ -635,6 +643,11 @@ ipcMain.handle('terminal:create-session', async () => {
 
 ipcMain.handle('terminal:list-sessions', async () => {
   return listTerminalSessions();
+});
+
+ipcMain.handle('terminal:close-session', async (_event, sessionId) => {
+  const closed = closeTerminalSession(sessionId);
+  return { ok: closed };
 });
 
 ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {

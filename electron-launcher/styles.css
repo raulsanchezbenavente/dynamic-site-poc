@@ -638,6 +638,30 @@ button:hover:not(:disabled) {
   font-weight: 700;
   white-space: nowrap;
 }
+.log-tab.log-tab-terminal {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.log-tab-label {
+  white-space: nowrap;
+}
+.log-tab-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
+  min-width: auto;
+  padding: 0 0.2rem;
+  border-radius: 0.3rem;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.log-tab-close:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.14);
+}
 .log-tab.active {
   background: var(--terminal-tab-active-bg);
   border-color: var(--terminal-tab-active-border);

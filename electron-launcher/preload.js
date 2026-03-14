@@ -11,6 +11,7 @@ contextBridge.exposeInMainWorld('launcherApi', {
   pickCustomPackageJson: () => ipcRenderer.invoke('package-source:pick-custom'),
   createTerminalSession: () => ipcRenderer.invoke('terminal:create-session'),
   listTerminalSessions: () => ipcRenderer.invoke('terminal:list-sessions'),
+  closeTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:close-session', sessionId),
   getTerminalCwd: (sessionId) => ipcRenderer.invoke('terminal:get-cwd', sessionId),
   runTerminalCommand: (sessionId, command) => ipcRenderer.invoke('terminal:run-command', { sessionId, command }),
   onScriptLog: (handler) => {
