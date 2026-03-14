@@ -174,6 +174,7 @@ function createTerminalSession() {
     id,
     name: `Session ${terminalSessionCounter}`,
     cwd: getDefaultTerminalWorkingDirectory(),
+    activeProcess: null,
   };
 
   terminalSessions.set(id, session);
@@ -202,12 +203,32 @@ function listTerminalSessions() {
   }));
 }
 
-function closeTerminalSession(sessionId) {
+async function closeTerminalSession(sessionId) {
   if (!sessionId || !terminalSessions.has(sessionId)) {
     return false;
   }
 
+  const session = terminalSessions.get(sessionId);
+  if (session?.activeProcess) {
+    await killProcessTree(session.activeProcess);
+    session.activeProcess = null;
+  }
+
   return terminalSessions.delete(sessionId);
+}
+
+async function stopAllTerminalSessions() {
+  const sessions = Array.from(terminalSessions.values());
+  await Promise.all(
+    sessions.map(async (session) => {
+      if (!session.activeProcess) {
+        return;
+      }
+
+      await killProcessTree(session.activeProcess);
+      session.activeProcess = null;
+    })
+  );
 }
 
 function renameTerminalSession(sessionId, nextName) {
@@ -251,6 +272,17 @@ function executeTerminalCommand(sessionId, commandInput) {
     const session = getTerminalSession(sessionId);
     if (!session) {
       resolve({ ok: false, output: '', error: 'Terminal session not found\n', exitCode: 1, cwd: '' });
+      return;
+    }
+
+    if (session.activeProcess) {
+      resolve({
+        ok: false,
+        output: '',
+        error: 'Another command is still running in this terminal session\n',
+        exitCode: 1,
+        cwd: session.cwd,
+      });
       return;
     }
 
@@ -303,8 +335,22 @@ function executeTerminalCommand(sessionId, commandInput) {
     };
 
     const child = spawn(command, [], options);
+    session.activeProcess = child;
     let output = '';
     let error = '';
+    let settled = false;
+
+    const finalize = (payload) => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      if (session.activeProcess === child) {
+        session.activeProcess = null;
+      }
+      resolve(payload);
+    };
 
     child.stdout.on('data', (chunk) => {
       output += sanitizeLogMessage(chunk);
@@ -315,7 +361,7 @@ function executeTerminalCommand(sessionId, commandInput) {
     });
 
     child.on('error', (spawnError) => {
-      resolve({
+      finalize({
         ok: false,
         output,
         error: `${error}${spawnError.message}\n`,
@@ -325,7 +371,7 @@ function executeTerminalCommand(sessionId, commandInput) {
     });
 
     child.on('close', (code) => {
-      resolve({
+      finalize({
         ok: code === 0,
         output,
         error,
@@ -665,7 +711,7 @@ ipcMain.handle('terminal:list-sessions', async () => {
 });
 
 ipcMain.handle('terminal:close-session', async (_event, sessionId) => {
-  const closed = closeTerminalSession(sessionId);
+  const closed = await closeTerminalSession(sessionId);
   return { ok: closed };
 });
 
@@ -706,6 +752,7 @@ app.on('before-quit', (event) => {
   isShuttingDown = true;
 
   stopAllRunningScripts()
+    .then(() => stopAllTerminalSessions())
     .catch(() => {
       // Ignore shutdown cleanup errors.
     })
