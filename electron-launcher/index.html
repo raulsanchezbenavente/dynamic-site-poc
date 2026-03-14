@@ -70,12 +70,6 @@
           </div>
         </div>
         <button
-          id="refreshButton"
-          class="refresh-button"
-          type="button">
-          Refresh scripts
-        </button>
-        <button
           id="quitButton"
           class="quit-button"
           type="button">
@@ -91,7 +85,48 @@
     <main class="layout">
       <section class="panel scripts-panel">
         <div class="panel-header scripts-panel-header">
-          <h2>Scripts</h2>
+          <div class="scripts-title-group">
+            <h2>Scripts</h2>
+            <button
+              id="refreshButton"
+              class="refresh-icon-button"
+              type="button"
+              data-tooltip="Refresh scripts"
+              aria-label="Refresh scripts">
+              <svg
+                class="refresh-icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false">
+                <path
+                  d="M20 8a8 8 0 0 0-13.65-4.9"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M3 3v5h5"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M4 16a8 8 0 0 0 13.65 4.9"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M21 21v-5h-5"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
           <div class="scripts-filters">
             <label class="filter-toggle" for="filterRunningCheckbox">
               <input
