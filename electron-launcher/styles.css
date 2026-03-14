@@ -703,6 +703,9 @@ button:hover:not(:disabled) {
   border-top: 1px solid var(--terminal-tabs-border);
   background: color-mix(in oklab, var(--terminal-body-bg) 92%, #000 8%);
 }
+.interactive-terminal-bar[hidden] {
+  display: none !important;
+}
 .interactive-terminal-cwd {
   color: color-mix(in oklab, var(--terminal-stdout) 80%, #9fc0f2 20%);
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;

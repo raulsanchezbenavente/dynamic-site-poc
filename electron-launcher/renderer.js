@@ -143,6 +143,21 @@ function sessionIdFromTab(tabName) {
   return String(tabName).slice(TERMINAL_TAB_PREFIX.length);
 }
 
+function hideTerminalInputBar() {
+  if (interactiveTerminalBar) {
+    interactiveTerminalBar.hidden = true;
+    interactiveTerminalBar.setAttribute('aria-hidden', 'true');
+  }
+
+  if (interactiveTerminalInput) {
+    interactiveTerminalInput.disabled = true;
+  }
+
+  if (interactiveTerminalRunButton) {
+    interactiveTerminalRunButton.disabled = true;
+  }
+}
+
 async function closeTerminalSession(sessionId) {
   if (!sessionId || !terminalSessions.has(sessionId)) {
     return;
@@ -212,23 +227,18 @@ function updateConsoleSurface() {
   const activeSession = getActiveTerminalSession();
   const showTerminalInput = Boolean(terminalTabActive && activeSession);
 
-  if (interactiveTerminalBar) {
-    interactiveTerminalBar.hidden = !showTerminalInput;
-    interactiveTerminalBar.setAttribute('aria-hidden', String(!showTerminalInput));
+  if (!showTerminalInput) {
+    hideTerminalInputBar();
+    return;
   }
 
-  if (interactiveTerminalInput) {
-    interactiveTerminalInput.disabled = !showTerminalInput;
-  }
+  interactiveTerminalBar.hidden = false;
+  interactiveTerminalBar.setAttribute('aria-hidden', 'false');
+  interactiveTerminalInput.disabled = false;
+  interactiveTerminalRunButton.disabled = false;
 
-  if (interactiveTerminalRunButton) {
-    interactiveTerminalRunButton.disabled = !showTerminalInput;
-  }
-
-  if (showTerminalInput) {
-    setTerminalCwd(activeSession.id, activeSession.cwd);
-    renderTerminalOutput();
-  }
+  setTerminalCwd(activeSession.id, activeSession.cwd);
+  renderTerminalOutput();
 }
 
 function renderLogs() {
@@ -236,6 +246,8 @@ function renderLogs() {
   if (isTerminalTab(activeLogTab)) {
     return;
   }
+
+  hideTerminalInputBar();
 
   logsEl.replaceChildren();
   const bucket = logsByScript.get(activeLogTab) ?? [];
