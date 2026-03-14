@@ -67,7 +67,7 @@ function trimTrailingUrlPunctuation(urlText) {
   return { url: trimmed, trailing };
 }
 
-function appendLogTextWithLinks(container, text) {
+function appendTextWithLinks(container, text) {
   let lastIndex = 0;
   urlPattern.lastIndex = 0;
 
@@ -104,6 +104,13 @@ function appendLogTextWithLinks(container, text) {
   if (lastIndex < text.length) {
     container.appendChild(document.createTextNode(text.slice(lastIndex)));
   }
+}
+
+function createLogLineElement(className, text) {
+  const line = document.createElement('pre');
+  line.className = className;
+  appendTextWithLinks(line, text);
+  return line;
 }
 
 function ensureLogBucket(scriptName) {
@@ -254,10 +261,8 @@ function renderLogs() {
   const bucket = logsByScript.get(activeLogTab) ?? [];
 
   for (const entry of bucket) {
-    const line = document.createElement('pre');
-    line.className = `log-line ${entry.stream}`;
     const lineText = activeLogTab === 'all' ? `[${entry.script}] ${entry.message}` : entry.message;
-    appendLogTextWithLinks(line, lineText);
+    const line = createLogLineElement(`log-line ${entry.stream}`, lineText);
     logsEl.appendChild(line);
   }
 
@@ -582,15 +587,6 @@ function toggleFavoriteScript(scriptName) {
   renderScripts();
 }
 
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#39;');
-}
-
 function getActiveTerminalSession() {
   if (!activeTerminalSessionId) {
     return null;
@@ -660,9 +656,7 @@ function renderTerminalOutput() {
   }
 
   for (const lineEntry of session.lines) {
-    const line = document.createElement('pre');
-    line.className = `log-line ${lineEntry.className}`.trim();
-    line.innerHTML = escapeHtml(lineEntry.content);
+    const line = createLogLineElement(`log-line ${lineEntry.className}`.trim(), lineEntry.content);
     logsEl.appendChild(line);
   }
 

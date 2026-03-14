@@ -461,9 +461,9 @@ body {
   height: 0.92rem;
 }
 .clear-logs-button {
-  background: #fff1f1;
-  border-color: #f3c9c9;
-  color: #9f2323;
+  background: #f6f9fc;
+  border-color: #d9e4f2;
+  color: #36506f;
   font-size: 0.85rem;
   padding: 0.45rem 0.7rem;
 }
