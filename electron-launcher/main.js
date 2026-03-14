@@ -423,10 +423,10 @@ function createWindow() {
   const iconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
 
   const win = new BrowserWindow({
-    width: 1320,
-    height: 860,
-    minWidth: 1100,
-    minHeight: 720,
+    width: 1180,
+    height: 760,
+    minWidth: 960,
+    minHeight: 640,
     icon: iconPath,
     autoHideMenuBar: true,
     webPreferences: {
