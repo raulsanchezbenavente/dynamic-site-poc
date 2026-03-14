@@ -702,6 +702,22 @@ async function runInteractiveTerminalCommand(command) {
     return;
   }
 
+  const normalized = trimmed.toLowerCase();
+  if (normalized === 'clear') {
+    session.lines = [];
+    renderTerminalOutput();
+
+    if (interactiveTerminalInput && !interactiveTerminalInput.disabled) {
+      interactiveTerminalInput.focus();
+    }
+    return;
+  }
+
+  if (normalized === 'exit') {
+    await closeTerminalSession(session.id);
+    return;
+  }
+
   appendTerminalLine(session.id, `${session.cwd || '~'} $ ${trimmed}`, 'interactive-terminal-command');
 
   if (interactiveTerminalRunButton) {
