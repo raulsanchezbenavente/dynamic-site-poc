@@ -481,6 +481,10 @@ function clearLogs() {
     if (activeSession) {
       activeSession.lines = [];
       renderTerminalOutput();
+
+      if (interactiveTerminalInput && !interactiveTerminalInput.disabled) {
+        interactiveTerminalInput.focus();
+      }
     }
     return;
   }
