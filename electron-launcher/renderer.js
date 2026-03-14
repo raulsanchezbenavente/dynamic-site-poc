@@ -52,6 +52,7 @@ const urlPattern = /https?:\/\/[^\s<>"]+/gi;
 let activeTerminalSessionId = null;
 const terminalSessions = new Map();
 const TERMINAL_TAB_PREFIX = 'terminal:';
+const TERMINAL_HISTORY_LIMIT = 200;
 let editingTerminalSessionId = null;
 const runningTerminalSessions = new Set();
 
@@ -604,6 +605,15 @@ function ensureTerminalSessionShape(session) {
   if (existing) {
     existing.name = session.name || existing.name;
     existing.cwd = session.cwd || existing.cwd;
+    if (!Array.isArray(existing.commandHistory)) {
+      existing.commandHistory = [];
+    }
+    if (!Number.isInteger(existing.historyCursor)) {
+      existing.historyCursor = -1;
+    }
+    if (typeof existing.historyDraft !== 'string') {
+      existing.historyDraft = '';
+    }
     return existing;
   }
 
@@ -612,9 +622,78 @@ function ensureTerminalSessionShape(session) {
     name: session.name || 'Session',
     cwd: session.cwd || '',
     lines: [],
+    commandHistory: [],
+    historyCursor: -1,
+    historyDraft: '',
   };
   terminalSessions.set(created.id, created);
   return created;
+}
+
+function resetTerminalHistoryNavigation(session) {
+  if (!session) {
+    return;
+  }
+
+  session.historyCursor = -1;
+  session.historyDraft = '';
+}
+
+function addTerminalCommandToHistory(session, command) {
+  if (!session) {
+    return;
+  }
+
+  const normalized = String(command || '').trim();
+  if (!normalized) {
+    return;
+  }
+
+  session.commandHistory.push(normalized);
+  if (session.commandHistory.length > TERMINAL_HISTORY_LIMIT) {
+    session.commandHistory.splice(0, session.commandHistory.length - TERMINAL_HISTORY_LIMIT);
+  }
+
+  resetTerminalHistoryNavigation(session);
+}
+
+function navigateTerminalHistory(direction) {
+  const session = getActiveTerminalSession();
+  if (!session || !interactiveTerminalInput || interactiveTerminalInput.disabled) {
+    return;
+  }
+
+  const history = session.commandHistory || [];
+  if (history.length === 0) {
+    return;
+  }
+
+  if (direction === 'up') {
+    if (session.historyCursor === -1) {
+      session.historyDraft = interactiveTerminalInput.value;
+      session.historyCursor = history.length - 1;
+    } else if (session.historyCursor > 0) {
+      session.historyCursor -= 1;
+    }
+
+    interactiveTerminalInput.value = history[session.historyCursor] || '';
+  } else if (direction === 'down') {
+    if (session.historyCursor === -1) {
+      return;
+    }
+
+    if (session.historyCursor < history.length - 1) {
+      session.historyCursor += 1;
+      interactiveTerminalInput.value = history[session.historyCursor] || '';
+    } else {
+      session.historyCursor = -1;
+      interactiveTerminalInput.value = session.historyDraft || '';
+      session.historyDraft = '';
+    }
+  }
+
+  const end = interactiveTerminalInput.value.length;
+  interactiveTerminalInput.setSelectionRange(end, end);
 }
 
 function appendTerminalLine(sessionId, content, className = '') {
@@ -696,6 +775,8 @@ async function runInteractiveTerminalCommand(command) {
   if (!trimmed) {
     return;
   }
+
+  addTerminalCommandToHistory(session, trimmed);
 
   const normalized = trimmed.toLowerCase();
   if (normalized === 'clear') {
@@ -974,6 +1055,22 @@ interactiveTerminalForm.addEventListener('submit', (event) => {
   const command = interactiveTerminalInput.value;
   interactiveTerminalInput.value = '';
   void runInteractiveTerminalCommand(command);
+});
+interactiveTerminalInput.addEventListener('keydown', (event) => {
+  if (!isTerminalTab(activeLogTab) || !activeTerminalSessionId) {
+    return;
+  }
+
+  if (event.key === 'ArrowUp') {
+    event.preventDefault();
+    navigateTerminalHistory('up');
+    return;
+  }
+
+  if (event.key === 'ArrowDown') {
+    event.preventDefault();
+    navigateTerminalHistory('down');
+  }
 });
 terminalThemeTrigger.addEventListener('click', toggleThemeMenu);
 for (const option of terminalThemeOptions) {
