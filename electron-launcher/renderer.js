@@ -52,6 +52,7 @@ const urlPattern = /https?:\/\/[^\s<>"]+/gi;
 let activeTerminalSessionId = null;
 const terminalSessions = new Map();
 const TERMINAL_TAB_PREFIX = 'terminal:';
+let editingTerminalSessionId = null;
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -165,6 +166,47 @@ async function closeTerminalSession(sessionId) {
   renderLogs();
 }
 
+async function renameTerminalSession(sessionId, nextName) {
+  const session = terminalSessions.get(sessionId);
+  if (!session) {
+    return;
+  }
+
+  const trimmedName = String(nextName ?? '').trim();
+  if (!trimmedName || trimmedName === session.name) {
+    editingTerminalSessionId = null;
+    renderLogTabs();
+    return;
+  }
+
+  const result = await window.launcherApi.renameTerminalSession(sessionId, trimmedName);
+  if (result?.ok && result.session) {
+    ensureTerminalSessionShape(result.session);
+  }
+
+  editingTerminalSessionId = null;
+  renderLogTabs();
+}
+
+function startTerminalSessionRename(sessionId) {
+  if (!sessionId || !terminalSessions.has(sessionId)) {
+    return;
+  }
+
+  editingTerminalSessionId = sessionId;
+  renderLogTabs();
+
+  requestAnimationFrame(() => {
+    const input = document.querySelector(`[data-terminal-rename-input="${sessionId}"]`);
+    if (!(input instanceof HTMLInputElement)) {
+      return;
+    }
+
+    input.focus();
+    input.select();
+  });
+}
+
 function updateConsoleSurface() {
   const terminalTabActive = isTerminalTab(activeLogTab);
   const activeSession = getActiveTerminalSession();
@@ -219,16 +261,53 @@ function renderLogTabs() {
   logTabsEl.replaceChildren();
 
   for (const tabName of tabNames) {
-    const tab = document.createElement('button');
-    tab.type = 'button';
+    const terminalTab = isTerminalTab(tabName);
+    const tab = document.createElement(terminalTab ? 'div' : 'button');
+    if (tab instanceof HTMLButtonElement) {
+      tab.type = 'button';
+    }
     tab.role = 'tab';
     tab.className = `log-tab ${tabName === activeLogTab ? 'active' : ''}`;
-    if (isTerminalTab(tabName)) {
+    if (terminalTab) {
       const sessionId = sessionIdFromTab(tabName);
       const session = sessionId ? terminalSessions.get(sessionId) : null;
-      const label = document.createElement('span');
-      label.className = 'log-tab-label';
-      label.textContent = session?.name || 'Session';
+      const isEditing = sessionId && editingTerminalSessionId === sessionId;
+
+      const label = document.createElement(isEditing ? 'input' : 'span');
+      label.className = isEditing ? 'log-tab-edit-input' : 'log-tab-label';
+
+      if (isEditing && label instanceof HTMLInputElement) {
+        label.type = 'text';
+        label.value = session?.name || '';
+        label.setAttribute('data-terminal-rename-input', sessionId || '');
+        label.addEventListener('click', (event) => {
+          event.stopPropagation();
+        });
+        label.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            event.stopPropagation();
+            void renameTerminalSession(sessionId, label.value);
+            return;
+          }
+
+          if (event.key === 'Escape') {
+            event.preventDefault();
+            event.stopPropagation();
+            editingTerminalSessionId = null;
+            renderLogTabs();
+          }
+        });
+        label.addEventListener('blur', () => {
+          void renameTerminalSession(sessionId, label.value);
+        });
+      } else {
+        label.textContent = session?.name || 'Session';
+        label.addEventListener('dblclick', (event) => {
+          event.stopPropagation();
+          startTerminalSessionRename(sessionId);
+        });
+      }
 
       const closeButton = document.createElement('button');
       closeButton.type = 'button';
@@ -243,6 +322,13 @@ function renderLogTabs() {
 
       tab.replaceChildren(label, closeButton);
       tab.classList.add('log-tab-terminal');
+      tab.tabIndex = 0;
+      tab.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          tab.click();
+        }
+      });
     } else {
       tab.textContent = tabName;
     }

@@ -645,6 +645,22 @@ button:hover:not(:disabled) {
 }
 .log-tab-label {
   white-space: nowrap;
+  cursor: pointer;
+}
+.log-tab-edit-input {
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 0.3rem;
+  background: rgba(12, 20, 38, 0.24);
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+  min-width: 6.5rem;
+  max-width: 11rem;
+  padding: 0.12rem 0.34rem;
+}
+.log-tab-edit-input:focus {
+  outline: 1px solid rgba(255, 255, 255, 0.56);
+  outline-offset: 0;
 }
 .log-tab-close {
   border: 0;

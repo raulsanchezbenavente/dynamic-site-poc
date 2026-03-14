@@ -210,6 +210,25 @@ function closeTerminalSession(sessionId) {
   return terminalSessions.delete(sessionId);
 }
 
+function renameTerminalSession(sessionId, nextName) {
+  const session = getTerminalSession(sessionId);
+  if (!session) {
+    return null;
+  }
+
+  const normalized = String(nextName ?? '').trim();
+  if (!normalized) {
+    return null;
+  }
+
+  session.name = normalized;
+  return {
+    id: session.id,
+    name: session.name,
+    cwd: session.cwd,
+  };
+}
+
 function resolveTerminalPath(baseDir, target) {
   if (!target || target === '~') {
     return app.getPath('home');
@@ -648,6 +667,18 @@ ipcMain.handle('terminal:list-sessions', async () => {
 ipcMain.handle('terminal:close-session', async (_event, sessionId) => {
   const closed = closeTerminalSession(sessionId);
   return { ok: closed };
+});
+
+ipcMain.handle('terminal:rename-session', async (_event, payload) => {
+  const sessionId = payload?.sessionId;
+  const nextName = payload?.name;
+  const session = renameTerminalSession(sessionId, nextName);
+
+  if (!session) {
+    return { ok: false };
+  }
+
+  return { ok: true, session };
 });
 
 ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {
