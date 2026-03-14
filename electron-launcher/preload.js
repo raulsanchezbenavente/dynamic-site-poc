@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld('launcherApi', {
   createTerminalSession: () => ipcRenderer.invoke('terminal:create-session'),
   listTerminalSessions: () => ipcRenderer.invoke('terminal:list-sessions'),
   closeTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:close-session', sessionId),
+  interruptTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:interrupt-session', sessionId),
   renameTerminalSession: (sessionId, name) => ipcRenderer.invoke('terminal:rename-session', { sessionId, name }),
   getTerminalCwd: (sessionId) => ipcRenderer.invoke('terminal:get-cwd', sessionId),
   runTerminalCommand: (sessionId, command) => ipcRenderer.invoke('terminal:run-command', { sessionId, command }),

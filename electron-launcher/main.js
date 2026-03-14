@@ -231,6 +231,16 @@ async function stopAllTerminalSessions() {
   );
 }
 
+async function interruptTerminalSession(sessionId) {
+  const session = getTerminalSession(sessionId);
+  if (!session?.activeProcess) {
+    return false;
+  }
+
+  await killProcessTree(session.activeProcess);
+  return true;
+}
+
 function renameTerminalSession(sessionId, nextName) {
   const session = getTerminalSession(sessionId);
   if (!session) {
@@ -727,6 +737,11 @@ ipcMain.handle('terminal:list-sessions', async () => {
 ipcMain.handle('terminal:close-session', async (_event, sessionId) => {
   const closed = await closeTerminalSession(sessionId);
   return { ok: closed };
+});
+
+ipcMain.handle('terminal:interrupt-session', async (_event, sessionId) => {
+  const interrupted = await interruptTerminalSession(sessionId);
+  return { ok: interrupted };
 });
 
 ipcMain.handle('terminal:rename-session', async (_event, payload) => {

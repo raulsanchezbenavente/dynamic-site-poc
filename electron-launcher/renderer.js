@@ -53,6 +53,7 @@ let activeTerminalSessionId = null;
 const terminalSessions = new Map();
 const TERMINAL_TAB_PREFIX = 'terminal:';
 let editingTerminalSessionId = null;
+const runningTerminalSessions = new Set();
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -719,6 +720,7 @@ async function runInteractiveTerminalCommand(command) {
   }
 
   appendTerminalLine(session.id, `${session.cwd || '~'} $ ${trimmed}`, 'interactive-terminal-command');
+  runningTerminalSessions.add(session.id);
 
   if (interactiveTerminalRunButton) {
     interactiveTerminalRunButton.disabled = true;
@@ -747,6 +749,8 @@ async function runInteractiveTerminalCommand(command) {
     appendTerminalLine(session.id, String(error?.message || error), 'interactive-terminal-stderr');
     appendTerminalLine(session.id, '[exit 1]', 'interactive-terminal-exit');
   } finally {
+    runningTerminalSessions.delete(session.id);
+
     if (interactiveTerminalInput) {
       interactiveTerminalInput.disabled = false;
       interactiveTerminalInput.focus();
@@ -1010,6 +1014,19 @@ document.addEventListener('click', (event) => {
   }
 });
 document.addEventListener('keydown', (event) => {
+  if (
+    (event.ctrlKey || event.metaKey) &&
+    String(event.key).toLowerCase() === 'c' &&
+    isTerminalTab(activeLogTab) &&
+    activeTerminalSessionId &&
+    runningTerminalSessions.has(activeTerminalSessionId)
+  ) {
+    event.preventDefault();
+    appendTerminalLine(activeTerminalSessionId, '^C', 'interactive-terminal-stderr');
+    void window.launcherApi.interruptTerminalSession(activeTerminalSessionId);
+    return;
+  }
+
   if (event.key === 'Escape') {
     closeThemeMenu();
     closePackageSourceMenu();
