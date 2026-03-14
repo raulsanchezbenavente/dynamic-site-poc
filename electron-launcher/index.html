@@ -30,6 +30,11 @@
             <span id="packageSourceText">Dev (current repository)</span>
           </button>
           <div
+            id="packageSourceTooltip"
+            class="source-selector-tooltip"
+            role="tooltip"
+            aria-hidden="true"></div>
+          <div
             id="packageSourceMenu"
             class="source-selector-menu"
             role="listbox"
@@ -77,11 +82,6 @@
         </button>
       </div>
     </header>
-    <div
-      id="packageSourcePath"
-      class="source-path"
-      aria-live="polite"></div>
-
     <main class="layout">
       <section class="panel scripts-panel">
         <div class="panel-header scripts-panel-header">

@@ -18,9 +18,9 @@ const interactiveTerminalRunButton = document.getElementById('interactiveTermina
 const packageSourceTrigger = document.getElementById('packageSourceTrigger');
 const packageSourceText = document.getElementById('packageSourceText');
 const packageSourcePreview = document.getElementById('packageSourcePreview');
+const packageSourceTooltip = document.getElementById('packageSourceTooltip');
 const packageSourceMenu = document.getElementById('packageSourceMenu');
 const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
-const packageSourcePath = document.getElementById('packageSourcePath');
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 
@@ -410,8 +410,16 @@ function updatePackageSourceUi() {
   }
 
   const stateLabel = packageSourceState.exists ? 'OK' : 'NOT FOUND';
-  packageSourcePath.textContent = `${stateLabel}: ${packageSourceState.selectedPath}`;
-  packageSourcePath.classList.toggle('invalid', !packageSourceState.exists);
+  const sourceTooltip = `${stateLabel}: ${packageSourceState.selectedPath}`;
+  if (packageSourceTrigger) {
+    packageSourceTrigger.title = sourceTooltip;
+    packageSourceTrigger.setAttribute('aria-label', `${PACKAGE_SOURCE_LABELS[mode]}. ${sourceTooltip}`);
+  }
+
+  if (packageSourceTooltip) {
+    packageSourceTooltip.textContent = sourceTooltip;
+    packageSourceTooltip.setAttribute('aria-hidden', 'false');
+  }
 }
 
 async function refreshPackageSourceUi() {
