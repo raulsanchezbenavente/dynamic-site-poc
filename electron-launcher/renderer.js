@@ -928,6 +928,10 @@ async function init() {
     activeTerminalSessionId = Array.from(terminalSessions.keys())[0];
   }
 
+  // Re-render after restoring terminal sessions so Session tabs appear on first load.
+  renderLogTabs();
+  renderLogs();
+
   if (interactiveTerminalBar) {
     interactiveTerminalBar.hidden = true;
   }
