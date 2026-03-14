@@ -732,12 +732,14 @@ async function runInteractiveTerminalCommand(command) {
     const result = await window.launcherApi.runTerminalCommand(session.id, trimmed);
     setTerminalCwd(session.id, result?.cwd || session.cwd);
 
-    for (const line of splitTerminalText(result?.output || '')) {
-      appendTerminalLine(session.id, line, 'interactive-terminal-stdout');
-    }
+    if (!result?.streamed) {
+      for (const line of splitTerminalText(result?.output || '')) {
+        appendTerminalLine(session.id, line, 'interactive-terminal-stdout');
+      }
 
-    for (const line of splitTerminalText(result?.error || '')) {
-      appendTerminalLine(session.id, line, 'interactive-terminal-stderr');
+      for (const line of splitTerminalText(result?.error || '')) {
+        appendTerminalLine(session.id, line, 'interactive-terminal-stderr');
+      }
     }
 
     appendTerminalLine(session.id, `[exit ${result?.exitCode ?? 1}]`, 'interactive-terminal-exit');
@@ -1027,6 +1029,14 @@ window.launcherApi.onScriptStatus(({ script, running }) => {
 
   if (running) {
     focusScriptLogTab(script);
+  }
+});
+
+window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
+  const className = stream === 'stderr' ? 'interactive-terminal-stderr' : 'interactive-terminal-stdout';
+
+  for (const line of splitTerminalText(message || '')) {
+    appendTerminalLine(sessionId, line, className);
   }
 });
 

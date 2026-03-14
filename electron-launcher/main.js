@@ -353,30 +353,44 @@ function executeTerminalCommand(sessionId, commandInput) {
     };
 
     child.stdout.on('data', (chunk) => {
-      output += sanitizeLogMessage(chunk);
+      const message = sanitizeLogMessage(chunk);
+      output += message;
+      broadcast('terminal:output', {
+        sessionId: session.id,
+        stream: 'stdout',
+        message,
+      });
     });
 
     child.stderr.on('data', (chunk) => {
-      error += sanitizeLogMessage(chunk);
+      const message = sanitizeLogMessage(chunk);
+      error += message;
+      broadcast('terminal:output', {
+        sessionId: session.id,
+        stream: 'stderr',
+        message,
+      });
     });
 
     child.on('error', (spawnError) => {
       finalize({
         ok: false,
-        output,
-        error: `${error}${spawnError.message}\n`,
+        output: '',
+        error: `${spawnError.message}\n`,
         exitCode: 1,
         cwd,
+        streamed: true,
       });
     });
 
     child.on('close', (code) => {
       finalize({
         ok: code === 0,
-        output,
-        error,
+        output: '',
+        error: '',
         exitCode: Number.isInteger(code) ? code : 1,
         cwd,
+        streamed: true,
       });
     });
   });

@@ -15,6 +15,11 @@ contextBridge.exposeInMainWorld('launcherApi', {
   renameTerminalSession: (sessionId, name) => ipcRenderer.invoke('terminal:rename-session', { sessionId, name }),
   getTerminalCwd: (sessionId) => ipcRenderer.invoke('terminal:get-cwd', sessionId),
   runTerminalCommand: (sessionId, command) => ipcRenderer.invoke('terminal:run-command', { sessionId, command }),
+  onTerminalOutput: (handler) => {
+    const listener = (_event, payload) => handler(payload);
+    ipcRenderer.on('terminal:output', listener);
+    return () => ipcRenderer.removeListener('terminal:output', listener);
+  },
   onScriptLog: (handler) => {
     const listener = (_event, payload) => handler(payload);
     ipcRenderer.on('scripts:log', listener);
