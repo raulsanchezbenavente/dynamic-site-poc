@@ -9,6 +9,10 @@ contextBridge.exposeInMainWorld('launcherApi', {
   getPackageSource: () => ipcRenderer.invoke('package-source:get'),
   setPackageSource: (payload) => ipcRenderer.invoke('package-source:set', payload),
   pickCustomPackageJson: () => ipcRenderer.invoke('package-source:pick-custom'),
+  createTerminalSession: () => ipcRenderer.invoke('terminal:create-session'),
+  listTerminalSessions: () => ipcRenderer.invoke('terminal:list-sessions'),
+  getTerminalCwd: (sessionId) => ipcRenderer.invoke('terminal:get-cwd', sessionId),
+  runTerminalCommand: (sessionId, command) => ipcRenderer.invoke('terminal:run-command', { sessionId, command }),
   onScriptLog: (handler) => {
     const listener = (_event, payload) => handler(payload);
     ipcRenderer.on('scripts:log', listener);

@@ -9,6 +9,12 @@ const terminalThemeText = document.getElementById('terminalThemeText');
 const terminalThemePreview = document.getElementById('terminalThemePreview');
 const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
+const toggleTerminalButton = document.getElementById('toggleTerminalButton');
+const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
+const interactiveTerminalCwd = document.getElementById('interactiveTerminalCwd');
+const interactiveTerminalForm = document.getElementById('interactiveTerminalForm');
+const interactiveTerminalInput = document.getElementById('interactiveTerminalInput');
+const interactiveTerminalRunButton = document.getElementById('interactiveTerminalRunButton');
 const packageSourceTrigger = document.getElementById('packageSourceTrigger');
 const packageSourceText = document.getElementById('packageSourceText');
 const packageSourcePreview = document.getElementById('packageSourcePreview');
@@ -43,6 +49,9 @@ let favoriteScripts = new Set();
 
 let packageSourceState = null;
 const urlPattern = /https?:\/\/[^\s<>"]+/gi;
+let activeTerminalSessionId = null;
+const terminalSessions = new Map();
+const TERMINAL_TAB_PREFIX = 'terminal:';
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -114,10 +123,55 @@ function getTabNames() {
     names.add(key);
   }
 
+  for (const session of terminalSessions.values()) {
+    names.add(`${TERMINAL_TAB_PREFIX}${session.id}`);
+  }
+
   return Array.from(names);
 }
 
+function isTerminalTab(tabName) {
+  return String(tabName).startsWith(TERMINAL_TAB_PREFIX);
+}
+
+function sessionIdFromTab(tabName) {
+  if (!isTerminalTab(tabName)) {
+    return null;
+  }
+
+  return String(tabName).slice(TERMINAL_TAB_PREFIX.length);
+}
+
+function updateConsoleSurface() {
+  const terminalTabActive = isTerminalTab(activeLogTab);
+  const activeSession = getActiveTerminalSession();
+  const showTerminalInput = Boolean(terminalTabActive && activeSession);
+
+  if (interactiveTerminalBar) {
+    interactiveTerminalBar.hidden = !showTerminalInput;
+    interactiveTerminalBar.setAttribute('aria-hidden', String(!showTerminalInput));
+  }
+
+  if (interactiveTerminalInput) {
+    interactiveTerminalInput.disabled = !showTerminalInput;
+  }
+
+  if (interactiveTerminalRunButton) {
+    interactiveTerminalRunButton.disabled = !showTerminalInput;
+  }
+
+  if (showTerminalInput) {
+    setTerminalCwd(activeSession.id, activeSession.cwd);
+    renderTerminalOutput();
+  }
+}
+
 function renderLogs() {
+  updateConsoleSurface();
+  if (isTerminalTab(activeLogTab)) {
+    return;
+  }
+
   logsEl.replaceChildren();
   const bucket = logsByScript.get(activeLogTab) ?? [];
 
@@ -146,12 +200,28 @@ function renderLogTabs() {
     tab.type = 'button';
     tab.role = 'tab';
     tab.className = `log-tab ${tabName === activeLogTab ? 'active' : ''}`;
-    tab.textContent = tabName;
+    if (isTerminalTab(tabName)) {
+      const sessionId = sessionIdFromTab(tabName);
+      const session = sessionId ? terminalSessions.get(sessionId) : null;
+      tab.textContent = session?.name || 'Session';
+      tab.classList.add('log-tab-terminal');
+    } else {
+      tab.textContent = tabName;
+    }
     tab.setAttribute('aria-selected', String(tabName === activeLogTab));
     tab.addEventListener('click', () => {
       activeLogTab = tabName;
+      if (isTerminalTab(tabName)) {
+        activeTerminalSessionId = sessionIdFromTab(tabName);
+      } else {
+        activeTerminalSessionId = null;
+      }
       renderLogTabs();
       renderLogs();
+
+      if (isTerminalTab(tabName) && interactiveTerminalInput) {
+        interactiveTerminalInput.focus();
+      }
     });
     logTabsEl.appendChild(tab);
   }
@@ -270,6 +340,15 @@ function togglePackageSourceMenu() {
 }
 
 function clearLogs() {
+  if (isTerminalTab(activeLogTab)) {
+    const activeSession = getActiveTerminalSession();
+    if (activeSession) {
+      activeSession.lines = [];
+      renderTerminalOutput();
+    }
+    return;
+  }
+
   if (activeLogTab === 'all') {
     logsByScript.clear();
     logsByScript.set('all', []);
@@ -360,6 +439,166 @@ function toggleFavoriteScript(scriptName) {
 
   saveFavorites();
   renderScripts();
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function getActiveTerminalSession() {
+  if (!activeTerminalSessionId) {
+    return null;
+  }
+
+  return terminalSessions.get(activeTerminalSessionId) || null;
+}
+
+function ensureTerminalSessionShape(session) {
+  if (!session || !session.id) {
+    return null;
+  }
+
+  const existing = terminalSessions.get(session.id);
+  if (existing) {
+    existing.name = session.name || existing.name;
+    existing.cwd = session.cwd || existing.cwd;
+    return existing;
+  }
+
+  const created = {
+    id: session.id,
+    name: session.name || 'Session',
+    cwd: session.cwd || '',
+    lines: [],
+  };
+  terminalSessions.set(created.id, created);
+  return created;
+}
+
+function appendTerminalLine(sessionId, content, className = '') {
+  const session = terminalSessions.get(sessionId);
+  if (!session) {
+    return;
+  }
+
+  session.lines.push({ content: String(content), className });
+
+  if (activeTerminalSessionId === sessionId) {
+    renderTerminalOutput();
+  }
+}
+
+function setTerminalCwd(sessionId, cwd) {
+  const session = terminalSessions.get(sessionId);
+  if (!session) {
+    return;
+  }
+
+  session.cwd = String(cwd || '');
+
+  if (activeTerminalSessionId === sessionId && interactiveTerminalCwd) {
+    interactiveTerminalCwd.textContent = session.cwd;
+    interactiveTerminalCwd.title = session.cwd;
+  }
+}
+
+function renderTerminalOutput() {
+  if (!logsEl) {
+    return;
+  }
+
+  logsEl.replaceChildren();
+  const session = getActiveTerminalSession();
+  if (!session) {
+    return;
+  }
+
+  for (const lineEntry of session.lines) {
+    const line = document.createElement('pre');
+    line.className = `log-line ${lineEntry.className}`.trim();
+    line.innerHTML = escapeHtml(lineEntry.content);
+    logsEl.appendChild(line);
+  }
+
+  logsEl.scrollTop = logsEl.scrollHeight;
+}
+
+async function createNewTerminalSession() {
+  const created = await window.launcherApi.createTerminalSession();
+  const session = ensureTerminalSessionShape(created);
+  if (!session) {
+    return null;
+  }
+
+  activeTerminalSessionId = session.id;
+  activeLogTab = `${TERMINAL_TAB_PREFIX}${session.id}`;
+  renderLogTabs();
+  renderLogs();
+  return session;
+}
+
+function splitTerminalText(value) {
+  const lines = String(value || '').split(/\r?\n/);
+  if (lines.length > 0 && lines[lines.length - 1] === '') {
+    lines.pop();
+  }
+
+  return lines;
+}
+
+async function runInteractiveTerminalCommand(command) {
+  const session = getActiveTerminalSession();
+  if (!session) {
+    return;
+  }
+
+  const trimmed = String(command || '').trim();
+  if (!trimmed) {
+    return;
+  }
+
+  appendTerminalLine(session.id, `${session.cwd || '~'} $ ${trimmed}`, 'interactive-terminal-command');
+
+  if (interactiveTerminalRunButton) {
+    interactiveTerminalRunButton.disabled = true;
+  }
+
+  if (interactiveTerminalInput) {
+    interactiveTerminalInput.disabled = true;
+  }
+
+  try {
+    const result = await window.launcherApi.runTerminalCommand(session.id, trimmed);
+    setTerminalCwd(session.id, result?.cwd || session.cwd);
+
+    for (const line of splitTerminalText(result?.output || '')) {
+      appendTerminalLine(session.id, line, 'interactive-terminal-stdout');
+    }
+
+    for (const line of splitTerminalText(result?.error || '')) {
+      appendTerminalLine(session.id, line, 'interactive-terminal-stderr');
+    }
+
+    appendTerminalLine(session.id, `[exit ${result?.exitCode ?? 1}]`, 'interactive-terminal-exit');
+  } catch (error) {
+    appendTerminalLine(session.id, String(error?.message || error), 'interactive-terminal-stderr');
+    appendTerminalLine(session.id, '[exit 1]', 'interactive-terminal-exit');
+  } finally {
+    if (interactiveTerminalInput) {
+      interactiveTerminalInput.disabled = false;
+      interactiveTerminalInput.focus();
+      interactiveTerminalInput.select();
+    }
+
+    if (interactiveTerminalRunButton) {
+      interactiveTerminalRunButton.disabled = false;
+    }
+  }
 }
 
 function applyTerminalTheme(themeName) {
@@ -559,6 +798,27 @@ quitButton.addEventListener('click', async () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
+toggleTerminalButton.addEventListener('click', async () => {
+  const session = await createNewTerminalSession();
+  if (!session) {
+    return;
+  }
+
+  if (interactiveTerminalInput) {
+    interactiveTerminalInput.focus();
+  }
+});
+interactiveTerminalForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  if (!activeTerminalSessionId) {
+    return;
+  }
+
+  const command = interactiveTerminalInput.value;
+  interactiveTerminalInput.value = '';
+  void runInteractiveTerminalCommand(command);
+});
 terminalThemeTrigger.addEventListener('click', toggleThemeMenu);
 for (const option of terminalThemeOptions) {
   option.addEventListener('click', () => {
@@ -620,6 +880,20 @@ async function init() {
   restoreFilters();
   await refreshPackageSourceUi();
   await refreshScripts();
+
+  const existingSessions = await window.launcherApi.listTerminalSessions();
+  for (const session of existingSessions) {
+    ensureTerminalSessionShape(session);
+  }
+
+  if (terminalSessions.size > 0 && !activeTerminalSessionId) {
+    activeTerminalSessionId = Array.from(terminalSessions.keys())[0];
+  }
+
+  if (interactiveTerminalBar) {
+    interactiveTerminalBar.hidden = true;
+  }
+  updateConsoleSurface();
 }
 
 void init();

@@ -204,6 +204,13 @@
             </div>
           </div>
           <button
+            id="toggleTerminalButton"
+            class="toggle-terminal-button"
+            type="button"
+            aria-controls="interactiveTerminalBar">
+            New terminal
+          </button>
+          <button
             id="clearLogsButton"
             class="clear-logs-button"
             type="button">
@@ -220,6 +227,28 @@
             id="logs"
             class="logs"
             aria-live="polite"></div>
+          <div
+            id="interactiveTerminalBar"
+            class="interactive-terminal-bar"
+            hidden>
+            <span id="interactiveTerminalCwd" class="interactive-terminal-cwd"></span>
+            <form id="interactiveTerminalForm" class="interactive-terminal-form">
+              <label for="interactiveTerminalInput" class="interactive-terminal-prompt">$</label>
+              <input
+                id="interactiveTerminalInput"
+                class="interactive-terminal-input"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Type a command and press Enter" />
+              <button
+                id="interactiveTerminalRunButton"
+                class="interactive-terminal-run"
+                type="submit">
+                Run
+              </button>
+            </form>
+          </div>
         </div>
       </section>
     </main>

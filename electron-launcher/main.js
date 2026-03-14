@@ -5,6 +5,8 @@ const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
 
 const runningScripts = new Map();
 let isShuttingDown = false;
+const terminalSessions = new Map();
+let terminalSessionCounter = 0;
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -158,6 +160,153 @@ function getProjectContext() {
     packageJsonPath,
     projectRoot: path.dirname(packageJsonPath),
   };
+}
+
+function getDefaultTerminalWorkingDirectory() {
+  const { projectRoot } = getProjectContext();
+  return projectRoot;
+}
+
+function createTerminalSession() {
+  terminalSessionCounter += 1;
+  const id = `session-${Date.now()}-${terminalSessionCounter}`;
+  const session = {
+    id,
+    name: `Session ${terminalSessionCounter}`,
+    cwd: getDefaultTerminalWorkingDirectory(),
+  };
+
+  terminalSessions.set(id, session);
+  return session;
+}
+
+function getTerminalSession(sessionId) {
+  if (sessionId && terminalSessions.has(sessionId)) {
+    const existing = terminalSessions.get(sessionId);
+    if (existing.cwd && fs.existsSync(existing.cwd)) {
+      return existing;
+    }
+
+    existing.cwd = getDefaultTerminalWorkingDirectory();
+    return existing;
+  }
+
+  return null;
+}
+
+function listTerminalSessions() {
+  return Array.from(terminalSessions.values()).map((session) => ({
+    id: session.id,
+    name: session.name,
+    cwd: session.cwd,
+  }));
+}
+
+function resolveTerminalPath(baseDir, target) {
+  if (!target || target === '~') {
+    return app.getPath('home');
+  }
+
+  const expanded = target.startsWith('~/') ? path.join(app.getPath('home'), target.slice(2)) : target;
+  if (path.isAbsolute(expanded)) {
+    return path.normalize(expanded);
+  }
+
+  return path.resolve(baseDir, expanded);
+}
+
+function normalizeTerminalCommand(input) {
+  return String(input ?? '').replace(/\r\n/g, '\n').trim();
+}
+
+function executeTerminalCommand(sessionId, commandInput) {
+  return new Promise((resolve) => {
+    const session = getTerminalSession(sessionId);
+    if (!session) {
+      resolve({ ok: false, output: '', error: 'Terminal session not found\n', exitCode: 1, cwd: '' });
+      return;
+    }
+
+    const command = normalizeTerminalCommand(commandInput);
+    if (!command) {
+      resolve({ ok: true, output: '', error: '', exitCode: 0, cwd: session.cwd });
+      return;
+    }
+
+    const cwd = session.cwd;
+    const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
+    if (cdMatch) {
+      const rawTarget = (cdMatch[1] ?? '').trim();
+      const nextDir = resolveTerminalPath(cwd, rawTarget || '~');
+
+      if (!fs.existsSync(nextDir)) {
+        resolve({
+          ok: false,
+          output: '',
+          error: `cd: no such file or directory: ${rawTarget || '~'}\n`,
+          exitCode: 1,
+          cwd,
+        });
+        return;
+      }
+
+      const stats = fs.statSync(nextDir);
+      if (!stats.isDirectory()) {
+        resolve({
+          ok: false,
+          output: '',
+          error: `cd: not a directory: ${rawTarget || '~'}\n`,
+          exitCode: 1,
+          cwd,
+        });
+        return;
+      }
+
+      session.cwd = nextDir;
+      resolve({ ok: true, output: '', error: '', exitCode: 0, cwd: session.cwd });
+      return;
+    }
+
+    const env = buildSpawnEnv();
+    const options = {
+      cwd,
+      env,
+      windowsHide: true,
+      shell: true,
+    };
+
+    const child = spawn(command, [], options);
+    let output = '';
+    let error = '';
+
+    child.stdout.on('data', (chunk) => {
+      output += sanitizeLogMessage(chunk);
+    });
+
+    child.stderr.on('data', (chunk) => {
+      error += sanitizeLogMessage(chunk);
+    });
+
+    child.on('error', (spawnError) => {
+      resolve({
+        ok: false,
+        output,
+        error: `${error}${spawnError.message}\n`,
+        exitCode: 1,
+        cwd,
+      });
+    });
+
+    child.on('close', (code) => {
+      resolve({
+        ok: code === 0,
+        output,
+        error,
+        exitCode: Number.isInteger(code) ? code : 1,
+        cwd,
+      });
+    });
+  });
 }
 
 function getPackageSourceStatus() {
@@ -477,6 +626,30 @@ ipcMain.handle('external:open', async (_event, url) => {
   } catch (error) {
     return { ok: false, error: error?.message || 'Failed to open URL' };
   }
+});
+
+ipcMain.handle('terminal:create-session', async () => {
+  const session = createTerminalSession();
+  return { id: session.id, name: session.name, cwd: session.cwd };
+});
+
+ipcMain.handle('terminal:list-sessions', async () => {
+  return listTerminalSessions();
+});
+
+ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {
+  const session = getTerminalSession(sessionId);
+  if (!session) {
+    return { cwd: getDefaultTerminalWorkingDirectory() };
+  }
+
+  return { cwd: session.cwd, id: session.id, name: session.name };
+});
+
+ipcMain.handle('terminal:run-command', async (_event, payload) => {
+  const sessionId = payload?.sessionId;
+  const commandInput = payload?.command ?? '';
+  return executeTerminalCommand(sessionId, commandInput);
 });
 
 app.on('before-quit', (event) => {
