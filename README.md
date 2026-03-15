@@ -299,7 +299,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - Closing a session tab stops active child processes for that session.
-- Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout.
+- Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
 
 ### Tab Ordering
 
