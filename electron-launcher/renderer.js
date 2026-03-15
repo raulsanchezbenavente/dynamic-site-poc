@@ -32,6 +32,8 @@ const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
+const ANSI_CONTROL_SEQUENCE_PATTERN = /\u001b\[[0-9;?]*[ -/]*[@-~]/g;
+const ANSI_OSC_PATTERN = /\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g;
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'tokion-night-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
@@ -117,10 +119,17 @@ function appendTextWithLinks(container, text) {
   }
 }
 
+function sanitizeRenderedLogText(value) {
+  return String(value ?? '')
+    .replace(ANSI_OSC_PATTERN, '')
+    .replace(ANSI_CONTROL_SEQUENCE_PATTERN, '')
+    .replace(/\r/g, '');
+}
+
 function createLogLineElement(className, text) {
   const line = document.createElement('pre');
   line.className = className;
-  appendTextWithLinks(line, text);
+  appendTextWithLinks(line, sanitizeRenderedLogText(text));
   return line;
 }
 
