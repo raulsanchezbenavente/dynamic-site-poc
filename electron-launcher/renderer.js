@@ -10,6 +10,7 @@ const terminalThemePreview = document.getElementById('terminalThemePreview');
 const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
+const interruptTerminalButton = document.getElementById('interruptTerminalButton');
 const expandLogsButton = document.getElementById('expandLogsButton');
 const layoutEl = document.querySelector('.layout');
 const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
@@ -1102,6 +1103,15 @@ function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
   appendTerminalLine(sessionId, line, 'interactive-terminal-completion');
 }
 
+function interruptActiveTerminalSession() {
+  if (!isTerminalTab(activeLogTab) || !activeTerminalSessionId || !runningTerminalSessions.has(activeTerminalSessionId)) {
+    return;
+  }
+
+  appendTerminalLine(activeTerminalSessionId, '^C', 'interactive-terminal-stderr');
+  void window.launcherApi.interruptTerminalSession(activeTerminalSessionId);
+}
+
 async function handleTerminalTabAutocomplete(reverse = false) {
   const session = getActiveTerminalSession();
   if (!session || !interactiveTerminalInput || interactiveTerminalInput.disabled) {
@@ -1491,6 +1501,9 @@ quitButton.addEventListener('click', async () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
+interruptTerminalButton.addEventListener('click', () => {
+  interruptActiveTerminalSession();
+});
 expandLogsButton.addEventListener('click', () => {
   const isExpanded = layoutEl.classList.toggle('terminal-fullscreen');
   expandLogsButton.setAttribute('aria-pressed', String(isExpanded));
@@ -1589,8 +1602,7 @@ document.addEventListener('keydown', (event) => {
     runningTerminalSessions.has(activeTerminalSessionId)
   ) {
     event.preventDefault();
-    appendTerminalLine(activeTerminalSessionId, '^C', 'interactive-terminal-stderr');
-    void window.launcherApi.interruptTerminalSession(activeTerminalSessionId);
+    interruptActiveTerminalSession();
     return;
   }
 
