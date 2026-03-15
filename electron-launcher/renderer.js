@@ -88,6 +88,11 @@ let terminalTypeOptions = [];
 let selectedTerminalType = 'cmd';
 let defaultTerminalType = 'cmd';
 
+function getTerminalTypeMeta(typeId) {
+  const normalized = String(typeId || '').trim().toLowerCase();
+  return terminalTypeOptions.find((entry) => entry.id === normalized) || null;
+}
+
 function readSavedTerminalType() {
   try {
     return String(window.localStorage.getItem(TERMINAL_TYPE_STORAGE_KEY) || '').trim().toLowerCase();
@@ -918,6 +923,13 @@ function renderLogTabs() {
         });
       }
 
+      const terminalTypeMeta = getTerminalTypeMeta(session?.terminalType);
+      const terminalTypeIcon = document.createElement('span');
+      terminalTypeIcon.className = 'log-tab-terminal-type-icon';
+      terminalTypeIcon.textContent = terminalTypeMeta?.icon || '';
+      terminalTypeIcon.title = terminalTypeMeta?.label || '';
+      terminalTypeIcon.setAttribute('aria-hidden', 'true');
+
       const closeButton = document.createElement('button');
       closeButton.type = 'button';
       closeButton.className = 'log-tab-close';
@@ -929,7 +941,7 @@ function renderLogTabs() {
         void closeTerminalSession(sessionId);
       });
 
-      tab.replaceChildren(label, closeButton);
+      tab.replaceChildren(terminalTypeIcon, label, closeButton);
       tab.classList.add('log-tab-terminal');
       tab.tabIndex = 0;
       tab.addEventListener('keydown', (event) => {
@@ -1272,6 +1284,7 @@ function ensureTerminalSessionShape(session) {
   if (existing) {
     existing.name = session.name || existing.name;
     existing.cwd = session.cwd || existing.cwd;
+    existing.terminalType = session.terminalType || existing.terminalType || defaultTerminalType;
     if (!Array.isArray(existing.commandHistory)) {
       existing.commandHistory = [];
     }
@@ -1288,6 +1301,7 @@ function ensureTerminalSessionShape(session) {
     id: session.id,
     name: session.name || 'Session',
     cwd: session.cwd || '',
+    terminalType: session.terminalType || defaultTerminalType,
     lines: [],
     commandHistory: [],
     historyCursor: -1,
@@ -1411,7 +1425,7 @@ function renderTerminalOutput() {
 
 async function createNewTerminalSession() {
   resetTerminalAutocompleteState();
-  const created = await window.launcherApi.createTerminalSession();
+  const created = await window.launcherApi.createTerminalSession({ terminalType: selectedTerminalType });
   const session = ensureTerminalSessionShape(created);
   if (!session) {
     return null;
@@ -1662,7 +1676,7 @@ async function runInteractiveTerminalCommand(command) {
 
   try {
     const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
-      terminalType: selectedTerminalType,
+      terminalType: session.terminalType || selectedTerminalType,
     });
     setTerminalCwd(session.id, result?.cwd || session.cwd);
 

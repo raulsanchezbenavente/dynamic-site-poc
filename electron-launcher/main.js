@@ -249,13 +249,19 @@ function getDefaultTerminalWorkingDirectory() {
   return projectRoot;
 }
 
-function createTerminalSession() {
+function createTerminalSession(options = null) {
   terminalSessionCounter += 1;
+  const requestedTerminalType = String(options?.terminalType || '').trim().toLowerCase();
+  const availableTypes = getWindowsTerminalTypes();
+  const availableIds = new Set(availableTypes.map((entry) => entry.id));
+  const defaultTerminalType = getSystemDefaultWindowsTerminalType(availableTypes) || 'cmd';
+  const terminalType = availableIds.has(requestedTerminalType) ? requestedTerminalType : defaultTerminalType;
   const id = `session-${Date.now()}-${terminalSessionCounter}`;
   const session = {
     id,
     name: `Session ${terminalSessionCounter}`,
     cwd: getDefaultTerminalWorkingDirectory(),
+    terminalType,
     activeProcess: null,
   };
 
@@ -282,6 +288,7 @@ function listTerminalSessions() {
     id: session.id,
     name: session.name,
     cwd: session.cwd,
+    terminalType: session.terminalType,
   }));
 }
 
@@ -1190,9 +1197,9 @@ ipcMain.handle('external:open', async (_event, url) => {
   }
 });
 
-ipcMain.handle('terminal:create-session', async () => {
-  const session = createTerminalSession();
-  return { id: session.id, name: session.name, cwd: session.cwd };
+ipcMain.handle('terminal:create-session', async (_event, options) => {
+  const session = createTerminalSession(options);
+  return { id: session.id, name: session.name, cwd: session.cwd, terminalType: session.terminalType };
 });
 
 ipcMain.handle('terminal:list-sessions', async () => {

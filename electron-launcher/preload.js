@@ -9,7 +9,7 @@ contextBridge.exposeInMainWorld('launcherApi', {
   getPackageSource: () => ipcRenderer.invoke('package-source:get'),
   setPackageSource: (payload) => ipcRenderer.invoke('package-source:set', payload),
   pickCustomPackageJson: () => ipcRenderer.invoke('package-source:pick-custom'),
-  createTerminalSession: () => ipcRenderer.invoke('terminal:create-session'),
+  createTerminalSession: (options = null) => ipcRenderer.invoke('terminal:create-session', options),
   listTerminalSessions: () => ipcRenderer.invoke('terminal:list-sessions'),
   closeTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:close-session', sessionId),
   interruptTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:interrupt-session', sessionId),
