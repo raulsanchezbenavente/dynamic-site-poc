@@ -7,6 +7,9 @@ const runningScripts = new Map();
 let isShuttingDown = false;
 const terminalSessions = new Map();
 let terminalSessionCounter = 0;
+const windowsCommandExistsCache = new Map();
+let cachedGitBashExecutablePath;
+let cachedWindowsTerminalTypes = null;
 const DEFAULT_WINDOW_STATE = {
   width: 1180,
   height: 760,
@@ -584,19 +587,35 @@ function commandExistsOnWindows(commandName) {
     return false;
   }
 
+  const normalizedName = String(commandName || '').trim().toLowerCase();
+  if (!normalizedName) {
+    return false;
+  }
+
+  if (windowsCommandExistsCache.has(normalizedName)) {
+    return windowsCommandExistsCache.get(normalizedName);
+  }
+
   try {
-    const result = spawnSync('where', [commandName], {
+    const result = spawnSync('where', [normalizedName], {
       windowsHide: true,
       stdio: 'ignore',
       shell: false,
     });
-    return !result.error && result.status === 0;
+    const exists = !result.error && result.status === 0;
+    windowsCommandExistsCache.set(normalizedName, exists);
+    return exists;
   } catch {
+    windowsCommandExistsCache.set(normalizedName, false);
     return false;
   }
 }
 
 function resolveGitBashExecutablePath() {
+  if (cachedGitBashExecutablePath !== undefined) {
+    return cachedGitBashExecutablePath;
+  }
+
   const knownCandidates = [
     'C:\\Program Files\\Git\\bin\\bash.exe',
     'C:\\Program Files (x86)\\Git\\bin\\bash.exe',
@@ -604,20 +623,27 @@ function resolveGitBashExecutablePath() {
 
   for (const candidatePath of knownCandidates) {
     if (fs.existsSync(candidatePath)) {
-      return candidatePath;
+      cachedGitBashExecutablePath = candidatePath;
+      return cachedGitBashExecutablePath;
     }
   }
 
   if (commandExistsOnWindows('bash.exe')) {
-    return 'bash.exe';
+    cachedGitBashExecutablePath = 'bash.exe';
+    return cachedGitBashExecutablePath;
   }
 
-  return null;
+  cachedGitBashExecutablePath = null;
+  return cachedGitBashExecutablePath;
 }
 
 function getWindowsTerminalTypes() {
   if (process.platform !== 'win32') {
     return [];
+  }
+
+  if (Array.isArray(cachedWindowsTerminalTypes)) {
+    return [...cachedWindowsTerminalTypes];
   }
 
   const options = [{ id: 'cmd', label: 'Command Prompt (cmd)' }];
@@ -634,7 +660,8 @@ function getWindowsTerminalTypes() {
     options.push({ id: 'git-bash', label: 'Git Bash' });
   }
 
-  return options;
+  cachedWindowsTerminalTypes = options;
+  return [...cachedWindowsTerminalTypes];
 }
 
 function getSystemDefaultWindowsTerminalType(availableOptions) {
@@ -684,7 +711,7 @@ function resolveWindowsTerminalSpawn(terminalType, commandToRun, cwd, env) {
     if (bashPath) {
       return {
         command: bashPath,
-        args: ['-lc', commandToRun],
+        args: ['--noprofile', '--norc', '-lc', commandToRun],
         options: { cwd, env, windowsHide: true, shell: false },
       };
     }
