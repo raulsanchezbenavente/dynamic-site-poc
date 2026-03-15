@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { spawn } = require('child_process');
+const { spawn, spawnSync } = require('child_process');
 const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
 
 const runningScripts = new Map();
@@ -572,7 +572,125 @@ function completeTerminalInput(sessionId, input, cursor) {
   };
 }
 
-function executeTerminalCommand(sessionId, commandInput) {
+function commandExistsOnWindows(commandName) {
+  if (process.platform !== 'win32') {
+    return false;
+  }
+
+  try {
+    const result = spawnSync('where', [commandName], {
+      windowsHide: true,
+      stdio: 'ignore',
+      shell: false,
+    });
+    return !result.error && result.status === 0;
+  } catch {
+    return false;
+  }
+}
+
+function resolveGitBashExecutablePath() {
+  const knownCandidates = [
+    'C:\\Program Files\\Git\\bin\\bash.exe',
+    'C:\\Program Files (x86)\\Git\\bin\\bash.exe',
+  ];
+
+  for (const candidatePath of knownCandidates) {
+    if (fs.existsSync(candidatePath)) {
+      return candidatePath;
+    }
+  }
+
+  if (commandExistsOnWindows('bash.exe')) {
+    return 'bash.exe';
+  }
+
+  return null;
+}
+
+function getWindowsTerminalTypes() {
+  if (process.platform !== 'win32') {
+    return [];
+  }
+
+  const options = [{ id: 'cmd', label: 'Command Prompt (cmd)' }];
+
+  if (commandExistsOnWindows('powershell.exe')) {
+    options.push({ id: 'powershell', label: 'Windows PowerShell' });
+  }
+
+  if (commandExistsOnWindows('pwsh.exe')) {
+    options.push({ id: 'pwsh', label: 'PowerShell 7 (pwsh)' });
+  }
+
+  if (resolveGitBashExecutablePath()) {
+    options.push({ id: 'git-bash', label: 'Git Bash' });
+  }
+
+  return options;
+}
+
+function getSystemDefaultWindowsTerminalType(availableOptions) {
+  if (process.platform !== 'win32') {
+    return '';
+  }
+
+  const availableIds = new Set((availableOptions || []).map((option) => option.id));
+  const comSpec = String(process.env.ComSpec || process.env.COMSPEC || '').toLowerCase();
+
+  if (availableIds.has('pwsh') && /pwsh(\.exe)?$/.test(comSpec)) {
+    return 'pwsh';
+  }
+
+  if (availableIds.has('powershell') && /powershell(\.exe)?$/.test(comSpec)) {
+    return 'powershell';
+  }
+
+  if (availableIds.has('cmd')) {
+    return 'cmd';
+  }
+
+  return availableOptions?.[0]?.id || '';
+}
+
+function resolveWindowsTerminalSpawn(terminalType, commandToRun, cwd, env) {
+  const type = String(terminalType || 'cmd').trim().toLowerCase();
+
+  if (type === 'powershell' && commandExistsOnWindows('powershell.exe')) {
+    return {
+      command: 'powershell.exe',
+      args: ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-Command', commandToRun],
+      options: { cwd, env, windowsHide: true, shell: false },
+    };
+  }
+
+  if (type === 'pwsh' && commandExistsOnWindows('pwsh.exe')) {
+    return {
+      command: 'pwsh.exe',
+      args: ['-NoProfile', '-Command', commandToRun],
+      options: { cwd, env, windowsHide: true, shell: false },
+    };
+  }
+
+  if (type === 'git-bash') {
+    const bashPath = resolveGitBashExecutablePath();
+    if (bashPath) {
+      return {
+        command: bashPath,
+        args: ['-lc', commandToRun],
+        options: { cwd, env, windowsHide: true, shell: false },
+      };
+    }
+  }
+
+  return {
+    command: 'cmd.exe',
+    args: ['/d', '/s', '/c', commandToRun],
+    options: { cwd, env, windowsHide: true, shell: false },
+  };
+}
+
+function executeTerminalCommand(sessionId, commandInput, executionOptions = null) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
     if (!session) {
@@ -634,14 +752,21 @@ function executeTerminalCommand(sessionId, commandInput) {
     }
 
     const env = buildSpawnEnv();
-    const spawnOptions = {
-      cwd,
-      env,
-      windowsHide: true,
-      shell: true,
-    };
+    const requestedTerminalType = String(executionOptions?.terminalType || 'cmd');
 
-    const child = spawn(commandToRun, [], spawnOptions);
+    let child = null;
+    if (process.platform === 'win32') {
+      const spawnConfig = resolveWindowsTerminalSpawn(requestedTerminalType, commandToRun, cwd, env);
+      child = spawn(spawnConfig.command, spawnConfig.args, spawnConfig.options);
+    } else {
+      child = spawn(commandToRun, [], {
+        cwd,
+        env,
+        windowsHide: true,
+        shell: true,
+      });
+    }
+
     session.activeProcess = child;
     let output = '';
     let error = '';
@@ -1109,10 +1234,20 @@ ipcMain.handle('terminal:complete-input', async (_event, payload) => {
   return completeTerminalInput(payload?.sessionId, payload?.input ?? '', payload?.cursor);
 });
 
+ipcMain.handle('terminal:get-types', async () => {
+  const options = getWindowsTerminalTypes();
+  return {
+    supported: process.platform === 'win32',
+    options,
+    defaultType: getSystemDefaultWindowsTerminalType(options),
+  };
+});
+
 ipcMain.handle('terminal:run-command', async (_event, payload) => {
   const sessionId = payload?.sessionId;
   const commandInput = payload?.command ?? '';
-  return executeTerminalCommand(sessionId, commandInput);
+  const executionOptions = payload?.options ?? null;
+  return executeTerminalCommand(sessionId, commandInput, executionOptions);
 });
 
 app.on('before-quit', (event) => {

@@ -10,6 +10,8 @@ const terminalThemePreview = document.getElementById('terminalThemePreview');
 const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
+const terminalTypeSelector = document.getElementById('terminalTypeSelector');
+const terminalTypeSelect = document.getElementById('terminalTypeSelect');
 const interruptTerminalButton = document.getElementById('interruptTerminalButton');
 const closeTerminalSessionButton = document.getElementById('closeTerminalSessionButton');
 const terminalFontDecreaseButton = document.getElementById('terminalFontDecreaseButton');
@@ -37,6 +39,7 @@ const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
+const TERMINAL_TYPE_STORAGE_KEY = 'launcher.terminal-type.v1';
 const ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN = /\u001b\[(?![0-9;]*m)[0-9;?]*[ -/]*[@-~]/g;
 const ANSI_OSC_PATTERN = /\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g;
 const ANSI_SGR_PATTERN = /\u001b\[([0-9;]*)m/g;
@@ -78,6 +81,62 @@ const orderedLogTabs = [];
 let terminalAutocompleteState = null;
 let draggedLogTabName = null;
 let terminalFontSizePx = TERMINAL_FONT_SIZE_DEFAULT;
+let terminalTypeOptions = [];
+let selectedTerminalType = 'cmd';
+let defaultTerminalType = 'cmd';
+
+function readSavedTerminalType() {
+  try {
+    return String(window.localStorage.getItem(TERMINAL_TYPE_STORAGE_KEY) || '').trim().toLowerCase();
+  } catch {
+    return '';
+  }
+}
+
+function saveSelectedTerminalType(typeId) {
+  try {
+    window.localStorage.setItem(TERMINAL_TYPE_STORAGE_KEY, String(typeId || defaultTerminalType || 'cmd'));
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function applyTerminalTypeSelection(typeId) {
+  const normalized = String(typeId || defaultTerminalType || 'cmd').trim().toLowerCase();
+  const availableIds = new Set(terminalTypeOptions.map((entry) => entry.id));
+  selectedTerminalType = availableIds.has(normalized) ? normalized : defaultTerminalType;
+
+  if (terminalTypeSelect) {
+    terminalTypeSelect.value = selectedTerminalType;
+  }
+}
+
+function populateTerminalTypeSelector(config) {
+  if (!terminalTypeSelector || !terminalTypeSelect) {
+    return;
+  }
+
+  const supported = Boolean(config?.supported);
+  const options = Array.isArray(config?.options) ? config.options : [];
+  terminalTypeOptions = options
+    .filter((option) => option && typeof option.id === 'string' && typeof option.label === 'string')
+    .map((option) => ({ id: option.id.toLowerCase(), label: option.label }));
+
+  const showSelector = supported && terminalTypeOptions.length > 0;
+  terminalTypeSelector.hidden = !showSelector;
+
+  terminalTypeSelect.replaceChildren();
+  for (const option of terminalTypeOptions) {
+    const element = document.createElement('option');
+    element.value = option.id;
+    element.textContent = option.label;
+    terminalTypeSelect.appendChild(element);
+  }
+
+  defaultTerminalType = String(config?.defaultType || terminalTypeOptions[0]?.id || 'cmd').toLowerCase();
+  const preferredType = readSavedTerminalType() || defaultTerminalType;
+  applyTerminalTypeSelection(preferredType);
+}
 
 function normalizeTerminalFontSize(value) {
   const parsed = Number(value);
@@ -1518,7 +1577,9 @@ async function runInteractiveTerminalCommand(command) {
   }
 
   try {
-    const result = await window.launcherApi.runTerminalCommand(session.id, trimmed);
+    const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
+      terminalType: selectedTerminalType,
+    });
     setTerminalCwd(session.id, result?.cwd || session.cwd);
 
     if (!result?.streamed) {
@@ -1815,6 +1876,11 @@ terminalFontResetButton?.addEventListener('click', () => {
 terminalFontIncreaseButton?.addEventListener('click', () => {
   changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
 });
+terminalTypeSelect?.addEventListener('change', () => {
+  const nextType = terminalTypeSelect.value;
+  applyTerminalTypeSelection(nextType);
+  saveSelectedTerminalType(selectedTerminalType);
+});
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
   if (!session) {
@@ -2020,6 +2086,7 @@ async function init() {
     // Ignore storage failures.
   }
   await refreshPackageSourceUi();
+  populateTerminalTypeSelector(await window.launcherApi.getTerminalTypes());
   await refreshScripts();
 
   // Re-render after restoring terminal sessions so Session tabs appear on first load.

@@ -552,6 +552,34 @@ body {
 .logs-panel-header .toggle-terminal-button {
   margin: 0;
 }
+.terminal-type-selector {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.terminal-type-selector[hidden] {
+  display: none;
+}
+.terminal-type-selector label {
+  color: #38577f;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.terminal-type-selector select {
+  border: 1px solid #bfd5f8;
+  border-radius: 0.6rem;
+  background: #eef5ff;
+  color: #1f4f91;
+  font-size: 0.86rem;
+  font-weight: 700;
+  min-height: 2rem;
+  padding: 0.28rem 0.45rem;
+}
+.terminal-type-selector select:focus-visible {
+  outline: 2px solid #8eb0e5;
+  outline-offset: 1px;
+}
 .scripts-panel-header {
   padding-right: 1rem;
 }
@@ -1215,6 +1243,9 @@ button:hover:not(:disabled) {
   .terminal-theme-selector {
     margin-left: 0;
     order: 2;
+  }
+  .terminal-type-selector {
+    order: 4;
   }
   .toggle-terminal-button {
     order: 3;
