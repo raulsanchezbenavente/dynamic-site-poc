@@ -606,13 +606,13 @@ body {
   transform: translateY(0);
 }
 .interrupt-terminal-button {
-  background: #fff1f1;
-  border-color: #f3c9c9;
-  color: #9f2323;
+  background: #eef5ff;
+  border-color: #bfd5f8;
+  color: #1f4f91;
 }
 .interrupt-terminal-icon {
-  width: 1.12rem;
-  height: 1.12rem;
+  width: 1.38rem;
+  height: 1.38rem;
   stroke: currentColor;
   flex: 0 0 auto;
 }
@@ -697,6 +697,8 @@ body:has(.layout.terminal-fullscreen) .layout {
   margin-left: 0.2rem;
 }
 .clear-logs-icon {
+  position: relative;
+  top: -1px;
   width: 1.2rem;
   height: 1.2rem;
   stroke: currentColor;
