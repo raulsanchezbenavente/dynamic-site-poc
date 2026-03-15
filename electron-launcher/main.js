@@ -328,6 +328,32 @@ function normalizeTerminalCommand(input) {
   return String(input ?? '').replace(/\r\n/g, '\n').trim();
 }
 
+function normalizeCommandForTerminalPresentation(command) {
+  if (!command || process.platform === 'win32') {
+    return command;
+  }
+
+  // Keep complex shell expressions untouched.
+  if (!/^[\w./~\-\s]+$/.test(command)) {
+    return command;
+  }
+
+  const tokens = command.split(/\s+/).filter(Boolean);
+  if (tokens.length === 0 || tokens[0] !== 'ls') {
+    return command;
+  }
+
+  const hasExplicitFormat = tokens.some(
+    (token) => token === '-1' || /^--format(=|$)/.test(token) || /^-[^-]*[Cxm][^-]*$/.test(token)
+  );
+
+  if (hasExplicitFormat) {
+    return command;
+  }
+
+  return ['ls', '-C', ...tokens.slice(1)].join(' ');
+}
+
 function executeTerminalCommand(sessionId, commandInput) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
@@ -352,6 +378,8 @@ function executeTerminalCommand(sessionId, commandInput) {
       resolve({ ok: true, output: '', error: '', exitCode: 0, cwd: session.cwd });
       return;
     }
+
+    const commandToRun = normalizeCommandForTerminalPresentation(command);
 
     const cwd = session.cwd;
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
@@ -395,7 +423,7 @@ function executeTerminalCommand(sessionId, commandInput) {
       shell: true,
     };
 
-    const child = spawn(command, [], options);
+    const child = spawn(commandToRun, [], options);
     session.activeProcess = child;
     let output = '';
     let error = '';
