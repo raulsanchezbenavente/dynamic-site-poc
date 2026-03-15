@@ -611,8 +611,8 @@ body {
   color: #1f4f91;
 }
 .interrupt-terminal-icon {
-  width: 1.38rem;
-  height: 1.38rem;
+  width: calc(1.38rem + 6px);
+  height: calc(1.38rem + 6px);
   stroke: currentColor;
   flex: 0 0 auto;
 }
