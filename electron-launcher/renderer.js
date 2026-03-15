@@ -920,7 +920,7 @@ function canCycleAutocomplete(sessionId) {
     return false;
   }
 
-  if (!Array.isArray(terminalAutocompleteState.suggestions) || terminalAutocompleteState.suggestions.length <= 1) {
+  if (!Array.isArray(terminalAutocompleteState.suggestions) || terminalAutocompleteState.suggestions.length === 0) {
     return false;
   }
 
@@ -1038,29 +1038,33 @@ async function handleTerminalTabAutocomplete(reverse = false) {
     return;
   }
 
-  if (suggestions.length === 1) {
-    renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
-    if (suggestions[0] !== completion) {
-      replaceTerminalInputToken(tokenStart, tokenStart + completion.length, suggestions[0]);
-    }
-    resetTerminalAutocompleteState();
-    return;
-  }
-
   const prefix = inputValue.slice(0, tokenStart);
   const suffix = inputValue.slice(tokenEnd);
-  const currentValue = interactiveTerminalInput.value;
-  const currentToken = currentValue.slice(prefix.length, currentValue.length - suffix.length);
 
+  // Keep state even for a single suggestion so repeated Tab does not clear the list.
   terminalAutocompleteState = {
     sessionId: session.id,
     prefix,
     suffix,
     tokenStart,
-    tokenEnd: tokenStart + currentToken.length,
+    tokenEnd: tokenStart + completion.length,
     suggestions,
-    index: -1,
+    index: suggestions.length > 1 ? -1 : 0,
   };
+
+  if (suggestions.length === 1) {
+    renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
+    if (suggestions[0] !== completion) {
+      replaceTerminalInputToken(tokenStart, tokenStart + completion.length, suggestions[0]);
+      terminalAutocompleteState.tokenEnd = tokenStart + suggestions[0].length;
+    }
+    return;
+  }
+
+  const currentValue = interactiveTerminalInput.value;
+  const currentToken = currentValue.slice(prefix.length, currentValue.length - suffix.length);
+
+  terminalAutocompleteState.tokenEnd = tokenStart + currentToken.length;
 
   renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
 }
