@@ -11,7 +11,6 @@
     "start:backend": "node server/index.js",
     "start:api": "node server/api.js",
     "launcher:open": "electron electron-launcher/main.js",
-    "launcher:build": "electron-builder --win",
     "launcher:build:win": "electron-builder --win nsis",
     "launcher:build:mac": "electron-builder --mac dmg zip",
     "launcher:build:linux": "electron-builder --linux AppImage deb",
