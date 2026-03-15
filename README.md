@@ -285,9 +285,12 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
-- ⭐ **Favorites**: Default favorites include `build`, `start:serve-proxy`, and `start:backend`
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally
+- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
+- 🪟 **Windows Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted)
+- 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
 - 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
@@ -302,8 +305,10 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Use **New Terminal** in the launcher to create independent Session tabs.
 - Each session keeps its own current directory (`cwd`) and command history.
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
+- Built-in command handling supports `clear` and `cls` to clear the current session output.
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
+- `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
 
