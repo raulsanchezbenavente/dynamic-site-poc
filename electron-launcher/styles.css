@@ -656,6 +656,12 @@ body {
 .layout.terminal-fullscreen .scripts-panel {
   display: none;
 }
+body:has(.layout.terminal-fullscreen) .topbar {
+  display: none;
+}
+body:has(.layout.terminal-fullscreen) .layout {
+  height: 100vh;
+}
 .refresh-icon-svg {
   width: 1.2rem;
   height: 1.2rem;
