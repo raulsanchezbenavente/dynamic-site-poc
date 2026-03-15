@@ -951,10 +951,29 @@ function applyNextAutocompleteSuggestion() {
   terminalAutocompleteState.tokenEnd = terminalAutocompleteState.tokenStart + nextSuggestion.length;
 }
 
+function clearAutocompleteSuggestionsFromSession(sessionId) {
+  const session = terminalSessions.get(sessionId);
+  if (!session || !Array.isArray(session.lines)) {
+    return;
+  }
+
+  const nextLines = session.lines.filter((lineEntry) => lineEntry.className !== 'interactive-terminal-completion');
+  if (nextLines.length === session.lines.length) {
+    return;
+  }
+
+  session.lines = nextLines;
+  if (activeTerminalSessionId === sessionId) {
+    renderTerminalOutput();
+  }
+}
+
 function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
   if (!suggestions || suggestions.length === 0 || !terminalSessions.has(sessionId)) {
     return;
   }
+
+  clearAutocompleteSuggestionsFromSession(sessionId);
 
   const line = suggestions
     .slice(0, 60)
@@ -966,7 +985,7 @@ function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
     return;
   }
 
-  appendTerminalLine(sessionId, line, 'interactive-terminal-stdout');
+  appendTerminalLine(sessionId, line, 'interactive-terminal-completion');
 }
 
 async function handleTerminalTabAutocomplete() {
@@ -991,6 +1010,7 @@ async function handleTerminalTabAutocomplete() {
   }
 
   if (!result?.ok) {
+    clearAutocompleteSuggestionsFromSession(session.id);
     resetTerminalAutocompleteState();
     return;
   }
@@ -1011,6 +1031,7 @@ async function handleTerminalTabAutocomplete() {
   }
 
   if (suggestions.length === 0) {
+    clearAutocompleteSuggestionsFromSession(session.id);
     resetTerminalAutocompleteState();
     return;
   }
@@ -1054,6 +1075,7 @@ async function runInteractiveTerminalCommand(command) {
   }
 
   resetTerminalAutocompleteState();
+  clearAutocompleteSuggestionsFromSession(session.id);
 
   addTerminalCommandToHistory(session, trimmed);
 
