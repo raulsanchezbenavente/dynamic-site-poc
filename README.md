@@ -41,7 +41,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 
 ## 📁 Project Structure
 
-```
+```text
 server/
 ├── api.js                     # Booking flow API (token + steps)
 ├── index-proxy.js               # Composition root for index proxy (port 4300)
@@ -284,9 +284,31 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 📋 **Script Management**: List and execute any npm script with one click
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
+- ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
 - ⭐ **Favorites**: Default favorites include `build`, `start:serve-proxy`, and `start:backend`
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
+- 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
+- ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
+
+### Terminal Sessions in Launcher
+
+- Use **New Terminal** in the launcher to create independent Session tabs.
+- Each session keeps its own current directory (`cwd`) and command history.
+- Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
+- Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
+- Closing a session tab stops active child processes for that session.
+
+### Tab Ordering
+
+- Log tabs (scripts and terminal sessions) can be reordered via drag and drop.
+- The tab order is saved in local storage and restored on next launcher start.
+- The `all` tab remains fixed at the beginning.
+
+### macOS Dev Icon Note
+
+- In dev mode (`npm run launcher:open`), the launcher applies a custom app icon for Dock/App Switcher.
+- The launcher tries `electron-launcher/assets/avianca-icon.icns` first and falls back to `electron-launcher/assets/avianca-icon.png` if needed.
 
 ### Build & Deploy the Launcher
 
@@ -318,12 +340,10 @@ Output artifacts:
 The double-click installers at the repo root handle everything:
 
 1. ✅ **Check Dependencies**: Compares `package.json` + `package-lock.json` fingerprint
-2. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
-3. 🔀 **Flow Switch**: Reads `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`
-4. 🚀 **Auto-Launch**:
-  - If `true`: runs `npm run launcher:open`
-  - If `false`: applies smart build decision (reuse existing launcher if unchanged, otherwise build for current OS) and launches executable
-5. ⏱️ **Auto-Exit**: Terminal closes after 5 seconds on success (or stays open on error)
+1. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
+1. 🔀 **Flow Switch**: Reads `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`
+1. 🚀 **Auto-Launch**: If `true`, runs `npm run launcher:open`; if `false`, applies smart build decision (reuse existing launcher if unchanged, otherwise build for current OS) and launches executable
+1. ⏱️ **Auto-Exit**: Terminal closes after 5 seconds on success (or stays open on error)
 
 **Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
 
