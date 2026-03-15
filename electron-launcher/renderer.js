@@ -32,13 +32,14 @@ const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
-const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'dark']);
+const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
   light: 'Light',
   'solarized-light': 'Solarized Light',
   red: 'Red',
   'solarized-dark': 'Solarized Dark',
+  'kimbie-dark': 'Kimbie Dark',
   dark: 'Dark',
 };
 const PACKAGE_SOURCE_LABELS = {
@@ -1320,7 +1321,7 @@ function readSavedTerminalTheme() {
   try {
     const raw = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
     if (raw === 'kdark') {
-      return 'dark';
+      return 'kimbie-dark';
     }
 
     if (!raw || !TERMINAL_THEMES.has(raw)) {
