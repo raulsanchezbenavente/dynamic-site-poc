@@ -766,6 +766,10 @@ function sessionIdFromTab(tabName) {
   return String(tabName).slice(TERMINAL_TAB_PREFIX.length);
 }
 
+function isTerminalSessionRunning(sessionId) {
+  return Boolean(sessionId && runningTerminalSessions.has(sessionId));
+}
+
 function hideTerminalInputBar() {
   if (interactiveTerminalBar) {
     interactiveTerminalBar.hidden = true;
@@ -881,7 +885,7 @@ function updateConsoleSurface() {
   interactiveTerminalBar.hidden = false;
   interactiveTerminalBar.setAttribute('aria-hidden', 'false');
   interactiveTerminalInput.disabled = false;
-  interactiveTerminalRunButton.disabled = false;
+  interactiveTerminalRunButton.disabled = isTerminalSessionRunning(activeSession.id);
 
   setTerminalCwd(activeSession.id, activeSession.cwd);
   renderTerminalOutput();
@@ -1719,10 +1723,6 @@ async function runInteractiveTerminalCommand(command) {
     interactiveTerminalRunButton.disabled = true;
   }
 
-  if (interactiveTerminalInput) {
-    interactiveTerminalInput.disabled = true;
-  }
-
   try {
     const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
       terminalType: session.terminalType || selectedTerminalType,
@@ -1748,7 +1748,6 @@ async function runInteractiveTerminalCommand(command) {
     updateInterruptTerminalButtonState();
 
     if (interactiveTerminalInput) {
-      interactiveTerminalInput.disabled = false;
       interactiveTerminalInput.focus();
       interactiveTerminalInput.select();
     }
@@ -2041,12 +2040,21 @@ interactiveTerminalForm.addEventListener('submit', (event) => {
     return;
   }
 
+  if (isTerminalSessionRunning(activeTerminalSessionId)) {
+    return;
+  }
+
   const command = interactiveTerminalInput.value;
   interactiveTerminalInput.value = '';
   void runInteractiveTerminalCommand(command);
 });
 interactiveTerminalInput.addEventListener('keydown', (event) => {
   if (!isTerminalTab(activeLogTab) || !activeTerminalSessionId) {
+    return;
+  }
+
+  if ((event.key === 'Enter' || event.key === 'NumpadEnter') && isTerminalSessionRunning(activeTerminalSessionId)) {
+    event.preventDefault();
     return;
   }
 
