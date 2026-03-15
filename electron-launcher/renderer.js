@@ -2109,6 +2109,30 @@ document.addEventListener('click', (event) => {
     }
   }
 });
+
+function hasSelectedTextForCopyShortcut() {
+  const activeElement = document.activeElement;
+  const isTextInput = activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement;
+
+  if (isTextInput) {
+    const start = Number(activeElement.selectionStart ?? -1);
+    const end = Number(activeElement.selectionEnd ?? -1);
+    if (start >= 0 && end >= 0 && start !== end) {
+      return true;
+    }
+  }
+
+  if (activeElement && activeElement.isContentEditable) {
+    const contentSelection = window.getSelection ? window.getSelection() : null;
+    if (contentSelection && !contentSelection.isCollapsed && String(contentSelection).trim()) {
+      return true;
+    }
+  }
+
+  const selection = window.getSelection ? window.getSelection() : null;
+  return Boolean(selection && !selection.isCollapsed && String(selection).trim());
+}
+
 document.addEventListener('keydown', (event) => {
   const isCtrlShortcut = event.ctrlKey && !event.metaKey && !event.altKey;
   if (isCtrlShortcut) {
@@ -2179,6 +2203,7 @@ document.addEventListener('keydown', (event) => {
   if (
     (event.ctrlKey || event.metaKey) &&
     String(event.key).toLowerCase() === 'c' &&
+    !hasSelectedTextForCopyShortcut() &&
     isTerminalTab(activeLogTab) &&
     activeTerminalSessionId &&
     runningTerminalSessions.has(activeTerminalSessionId)
