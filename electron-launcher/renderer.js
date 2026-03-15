@@ -160,6 +160,7 @@ function applyTerminalTypeSelection(typeId) {
     if (terminalTypeIcon) {
       terminalTypeIcon.className = `terminal-type-trigger-icon ${selectedOption.iconClass}`;
       terminalTypeIcon.textContent = selectedOption.iconText || '';
+      terminalTypeIcon.setAttribute('data-tooltip', selectedOption.label);
     }
 
     if (terminalTypeText) {
@@ -224,6 +225,7 @@ function renderTerminalTypeMenu() {
     icon.className = `terminal-type-option-icon ${option.iconClass}`;
     icon.setAttribute('aria-hidden', 'true');
     icon.textContent = option.iconText || '';
+    icon.setAttribute('data-tooltip', option.label);
 
     const label = document.createElement('span');
     label.className = 'terminal-type-option-label';
@@ -970,7 +972,7 @@ function renderLogTabs() {
       const terminalTypeIcon = document.createElement('span');
       terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || ''}`.trim();
       terminalTypeIcon.textContent = terminalTypeMeta?.iconText || '';
-      terminalTypeIcon.title = terminalTypeMeta?.label || '';
+      terminalTypeIcon.setAttribute('data-tooltip', terminalTypeMeta?.label || 'Terminal');
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
 
       const closeButton = document.createElement('button');
