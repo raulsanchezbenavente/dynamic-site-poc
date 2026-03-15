@@ -93,6 +93,24 @@ function getTerminalTypeMeta(typeId) {
   return terminalTypeOptions.find((entry) => entry.id === normalized) || null;
 }
 
+function getTerminalTypeVisual(typeId) {
+  const normalized = String(typeId || '').trim().toLowerCase();
+
+  if (normalized === 'powershell') {
+    return { iconText: '>_', iconClass: 'terminal-type-icon-powershell' };
+  }
+
+  if (normalized === 'pwsh') {
+    return { iconText: 'PS', iconClass: 'terminal-type-icon-pwsh' };
+  }
+
+  if (normalized === 'git-bash') {
+    return { iconText: '$', iconClass: 'terminal-type-icon-git-bash' };
+  }
+
+  return { iconText: '>_', iconClass: 'terminal-type-icon-cmd' };
+}
+
 function ensureTerminalSessionBanner(session) {
   if (!session) {
     return;
@@ -109,7 +127,7 @@ function ensureTerminalSessionBanner(session) {
 
   const terminalTypeMeta = getTerminalTypeMeta(session.terminalType);
   const shellLabel = terminalTypeMeta?.label || 'Terminal';
-  const shellIcon = terminalTypeMeta?.icon ? `${terminalTypeMeta.icon} ` : '';
+  const shellIcon = terminalTypeMeta?.iconText ? `${terminalTypeMeta.iconText} ` : '';
   session.lines.unshift({
     content: `[${shellIcon}${shellLabel} session]`,
     className: 'interactive-terminal-session-meta',
@@ -140,7 +158,8 @@ function applyTerminalTypeSelection(typeId) {
   const selectedOption = terminalTypeOptions.find((entry) => entry.id === selectedTerminalType);
   if (selectedOption) {
     if (terminalTypeIcon) {
-      terminalTypeIcon.textContent = selectedOption.icon || '';
+      terminalTypeIcon.className = `terminal-type-trigger-icon ${selectedOption.iconClass}`;
+      terminalTypeIcon.textContent = selectedOption.iconText || '';
     }
 
     if (terminalTypeText) {
@@ -202,9 +221,9 @@ function renderTerminalTypeMenu() {
     button.setAttribute('aria-selected', String(option.id === selectedTerminalType));
 
     const icon = document.createElement('span');
-    icon.className = 'terminal-type-option-icon';
+    icon.className = `terminal-type-option-icon ${option.iconClass}`;
     icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = option.icon || '';
+    icon.textContent = option.iconText || '';
 
     const label = document.createElement('span');
     label.className = 'terminal-type-option-label';
@@ -232,11 +251,12 @@ function populateTerminalTypeSelector(config) {
     .filter((option) => option && typeof option.id === 'string' && typeof option.label === 'string')
     .map((option) => {
       const normalizedLabel = String(option.label || '').trim();
-      const iconMatch = normalizedLabel.match(/^([^\s]+)\s+(.*)$/u);
+      const visual = getTerminalTypeVisual(option.id);
       return {
         id: option.id.toLowerCase(),
-        icon: iconMatch ? iconMatch[1] : '',
-        label: iconMatch ? iconMatch[2] : normalizedLabel,
+        iconText: visual.iconText,
+        iconClass: visual.iconClass,
+        label: normalizedLabel,
       };
     });
 
@@ -948,8 +968,8 @@ function renderLogTabs() {
 
       const terminalTypeMeta = getTerminalTypeMeta(session?.terminalType);
       const terminalTypeIcon = document.createElement('span');
-      terminalTypeIcon.className = 'log-tab-terminal-type-icon';
-      terminalTypeIcon.textContent = terminalTypeMeta?.icon || '';
+      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || ''}`.trim();
+      terminalTypeIcon.textContent = terminalTypeMeta?.iconText || '';
       terminalTypeIcon.title = terminalTypeMeta?.label || '';
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
 

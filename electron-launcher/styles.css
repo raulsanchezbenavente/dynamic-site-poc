@@ -581,6 +581,14 @@ body {
   justify-content: center;
   width: 1.1rem;
   flex: 0 0 1.1rem;
+  height: 1rem;
+  border-radius: 0.22rem;
+  border: 1px solid transparent;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
 .terminal-type-trigger::after {
   content: '▾';
@@ -628,9 +636,37 @@ body {
   justify-content: center;
   width: 1.1rem;
   flex: 0 0 1.1rem;
+  height: 1rem;
+  border-radius: 0.22rem;
+  border: 1px solid transparent;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.56rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  line-height: 1;
 }
 .terminal-type-option-label {
   white-space: nowrap;
+}
+.terminal-type-icon-cmd {
+  background: #111827;
+  border-color: #2a3345;
+  color: #e5edf8;
+}
+.terminal-type-icon-powershell {
+  background: #005a9e;
+  border-color: #2d79bc;
+  color: #eef6ff;
+}
+.terminal-type-icon-pwsh {
+  background: linear-gradient(135deg, #3256cf 0%, #7b3fd1 100%);
+  border-color: #5b67ca;
+  color: #f6f4ff;
+}
+.terminal-type-icon-git-bash {
+  background: #101722;
+  border-color: #2f3d4f;
+  color: #78d37f;
 }
 .scripts-panel-header {
   padding-right: 1rem;
@@ -1082,8 +1118,14 @@ button:hover:not(:disabled) {
   justify-content: center;
   width: 1rem;
   min-width: 1rem;
+  height: 0.94rem;
+  border-radius: 0.2rem;
+  border: 1px solid transparent;
   margin-left: 0.1rem;
-  font-size: 0.92rem;
+  font-family: 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.5rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
   line-height: 1;
   opacity: 0.92;
 }
