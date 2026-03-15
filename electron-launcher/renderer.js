@@ -1875,6 +1875,30 @@ document.addEventListener('click', (event) => {
   }
 });
 document.addEventListener('keydown', (event) => {
+  const isCtrlShortcut = event.ctrlKey && !event.metaKey && !event.altKey;
+  if (isCtrlShortcut) {
+    const key = String(event.key);
+    const code = String(event.code || '');
+
+    if (key === '+' || (key === '=' && event.shiftKey) || code === 'NumpadAdd') {
+      event.preventDefault();
+      changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
+      return;
+    }
+
+    if (key === '-' || key === '_' || code === 'NumpadSubtract') {
+      event.preventDefault();
+      changeTerminalFontSize(-TERMINAL_FONT_SIZE_STEP);
+      return;
+    }
+
+    if (key === '0' || code === 'Numpad0') {
+      event.preventDefault();
+      resetTerminalFontSize();
+      return;
+    }
+  }
+
   if (
     (event.ctrlKey || event.metaKey) &&
     String(event.key).toLowerCase() === 'c' &&
