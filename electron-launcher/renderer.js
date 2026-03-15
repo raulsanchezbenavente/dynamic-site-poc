@@ -333,6 +333,16 @@ function hideTerminalInputBar() {
   }
 }
 
+function updateInterruptTerminalButtonState() {
+  if (!interruptTerminalButton) {
+    return;
+  }
+
+  const activeSession = getActiveTerminalSession();
+  const canInterrupt = Boolean(isTerminalTab(activeLogTab) && activeSession);
+  interruptTerminalButton.disabled = !canInterrupt;
+}
+
 async function closeTerminalSession(sessionId) {
   if (!sessionId || !terminalSessions.has(sessionId)) {
     return;
@@ -401,6 +411,8 @@ function updateConsoleSurface() {
   const terminalTabActive = isTerminalTab(activeLogTab);
   const activeSession = getActiveTerminalSession();
   const showTerminalInput = Boolean(terminalTabActive && activeSession);
+
+  updateInterruptTerminalButtonState();
 
   if (!showTerminalInput) {
     hideTerminalInputBar();
@@ -1228,6 +1240,7 @@ async function runInteractiveTerminalCommand(command) {
 
   appendTerminalLine(session.id, `${session.cwd || '~'} $ ${trimmed}`, 'interactive-terminal-command');
   runningTerminalSessions.add(session.id);
+  updateInterruptTerminalButtonState();
 
   if (interactiveTerminalRunButton) {
     interactiveTerminalRunButton.disabled = true;
@@ -1257,6 +1270,7 @@ async function runInteractiveTerminalCommand(command) {
     appendTerminalLine(session.id, '[exit 1]', 'interactive-terminal-exit');
   } finally {
     runningTerminalSessions.delete(session.id);
+    updateInterruptTerminalButtonState();
 
     if (interactiveTerminalInput) {
       interactiveTerminalInput.disabled = false;
