@@ -17,7 +17,8 @@
     "launcher:build:all": "electron-builder --win --mac --linux",
     "launcher:build:run": "node build-launcher-and-run.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:watch": "ng test",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\""
