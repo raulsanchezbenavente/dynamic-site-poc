@@ -359,6 +359,179 @@ function normalizeCommandForTerminalPresentation(command, options = null) {
   return ['ls', '-C', ...tokens.slice(1)].join(' ');
 }
 
+function getTerminalCompletionContext(input, cursor) {
+  const value = String(input ?? '');
+  const safeCursor = Math.max(0, Math.min(Number.isInteger(cursor) ? cursor : value.length, value.length));
+  const left = value.slice(0, safeCursor);
+
+  let start = left.length;
+  while (start > 0 && !/\s/.test(left[start - 1])) {
+    start -= 1;
+  }
+
+  const token = value.slice(start, safeCursor);
+  const commandName = left
+    .slice(0, start)
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)[0];
+
+  return {
+    start,
+    end: safeCursor,
+    token,
+    directoryOnly: commandName === 'cd',
+  };
+}
+
+function getLongestCommonPrefix(values) {
+  if (!Array.isArray(values) || values.length === 0) {
+    return '';
+  }
+
+  let prefix = String(values[0] ?? '');
+  for (let index = 1; index < values.length && prefix.length > 0; index += 1) {
+    const candidate = String(values[index] ?? '');
+    while (prefix.length > 0 && !candidate.startsWith(prefix)) {
+      prefix = prefix.slice(0, -1);
+    }
+  }
+
+  return prefix;
+}
+
+function resolveCompletionDirectory(cwd, token) {
+  const homeDir = app.getPath('home');
+  const hasTrailingSlash = token.endsWith('/');
+
+  let pathPart = token;
+  if (!hasTrailingSlash) {
+    pathPart = path.dirname(token);
+  }
+
+  const baseName = hasTrailingSlash ? '' : path.basename(token);
+
+  if (!token) {
+    return {
+      directoryPath: cwd,
+      prefix: '',
+      baseName: '',
+    };
+  }
+
+  if (token.startsWith('/')) {
+    const normalizedDir = pathPart === '.' ? '/' : path.normalize(pathPart);
+    const prefix = normalizedDir === '/' ? '/' : `${normalizedDir.replace(/\\/g, '/')}/`;
+    return {
+      directoryPath: normalizedDir,
+      prefix,
+      baseName,
+    };
+  }
+
+  if (token.startsWith('~')) {
+    const normalizedDir = pathPart === '.' ? '~' : pathPart;
+    const suffix = normalizedDir === '~' ? '' : normalizedDir.slice(2);
+    const directoryPath = suffix ? path.join(homeDir, suffix) : homeDir;
+    const prefix = normalizedDir === '~' ? '~/' : `${normalizedDir}/`;
+    return {
+      directoryPath,
+      prefix,
+      baseName,
+    };
+  }
+
+  const normalizedDir = pathPart === '.' ? '' : pathPart;
+  return {
+    directoryPath: path.resolve(cwd, normalizedDir || '.'),
+    prefix: normalizedDir ? `${normalizedDir.replace(/\\/g, '/')}/` : '',
+    baseName,
+  };
+}
+
+function completeTerminalInput(sessionId, input, cursor) {
+  const session = getTerminalSession(sessionId);
+  if (!session) {
+    return {
+      ok: false,
+      error: 'Terminal session not found',
+      start: 0,
+      end: 0,
+      token: '',
+      completion: '',
+      suggestions: [],
+    };
+  }
+
+  const context = getTerminalCompletionContext(input, cursor);
+  if (/['"`]/.test(context.token)) {
+    return {
+      ok: true,
+      ...context,
+      completion: context.token,
+      suggestions: [],
+    };
+  }
+
+  const resolved = resolveCompletionDirectory(session.cwd, context.token);
+  if (!fs.existsSync(resolved.directoryPath)) {
+    return {
+      ok: true,
+      ...context,
+      completion: context.token,
+      suggestions: [],
+    };
+  }
+
+  let entries = [];
+  try {
+    entries = fs.readdirSync(resolved.directoryPath, { withFileTypes: true });
+  } catch {
+    return {
+      ok: true,
+      ...context,
+      completion: context.token,
+      suggestions: [],
+    };
+  }
+
+  const showHidden = resolved.baseName.startsWith('.');
+  const suggestions = entries
+    .filter((entry) => {
+      if (!showHidden && entry.name.startsWith('.')) {
+        return false;
+      }
+
+      if (!entry.name.startsWith(resolved.baseName)) {
+        return false;
+      }
+
+      if (context.directoryOnly && !entry.isDirectory()) {
+        return false;
+      }
+
+      return true;
+    })
+    .map((entry) => {
+      const suffix = entry.isDirectory() ? '/' : '';
+      const replacement = `${resolved.prefix}${entry.name}${suffix}`;
+      return {
+        display: `${entry.name}${suffix}`,
+        replacement,
+      };
+    })
+    .sort((left, right) => left.display.localeCompare(right.display));
+
+  const completion = getLongestCommonPrefix(suggestions.map((entry) => entry.replacement)) || context.token;
+
+  return {
+    ok: true,
+    ...context,
+    completion,
+    suggestions,
+  };
+}
+
 function executeTerminalCommand(sessionId, commandInput, options = null) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
@@ -890,6 +1063,10 @@ ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {
   }
 
   return { cwd: session.cwd, id: session.id, name: session.name };
+});
+
+ipcMain.handle('terminal:complete-input', async (_event, payload) => {
+  return completeTerminalInput(payload?.sessionId, payload?.input ?? '', payload?.cursor);
 });
 
 ipcMain.handle('terminal:run-command', async (_event, payload) => {

@@ -59,6 +59,7 @@ const TERMINAL_HISTORY_LIMIT = 200;
 let editingTerminalSessionId = null;
 const runningTerminalSessions = new Set();
 const orderedLogTabs = [];
+let terminalAutocompleteState = null;
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -895,6 +896,143 @@ function splitTerminalText(value) {
   return lines;
 }
 
+function resetTerminalAutocompleteState() {
+  terminalAutocompleteState = null;
+}
+
+function replaceTerminalInputToken(start, end, replacement) {
+  if (!interactiveTerminalInput) {
+    return;
+  }
+
+  const value = interactiveTerminalInput.value;
+  interactiveTerminalInput.value = `${value.slice(0, start)}${replacement}${value.slice(end)}`;
+  const nextCursor = start + replacement.length;
+  interactiveTerminalInput.setSelectionRange(nextCursor, nextCursor);
+}
+
+function canCycleAutocomplete(sessionId) {
+  if (!terminalAutocompleteState || !interactiveTerminalInput) {
+    return false;
+  }
+
+  if (terminalAutocompleteState.sessionId !== sessionId) {
+    return false;
+  }
+
+  if (!Array.isArray(terminalAutocompleteState.suggestions) || terminalAutocompleteState.suggestions.length <= 1) {
+    return false;
+  }
+
+  const value = interactiveTerminalInput.value;
+  const cursor = interactiveTerminalInput.selectionStart ?? value.length;
+  const { prefix, suffix, tokenStart, tokenEnd } = terminalAutocompleteState;
+
+  if (!value.startsWith(prefix) || !value.endsWith(suffix)) {
+    return false;
+  }
+
+  return cursor >= tokenStart && cursor <= tokenEnd;
+}
+
+function applyNextAutocompleteSuggestion() {
+  if (!terminalAutocompleteState || !interactiveTerminalInput) {
+    return;
+  }
+
+  const suggestions = terminalAutocompleteState.suggestions;
+  const nextIndex = (terminalAutocompleteState.index + 1) % suggestions.length;
+  const nextSuggestion = suggestions[nextIndex];
+
+  replaceTerminalInputToken(terminalAutocompleteState.tokenStart, terminalAutocompleteState.tokenEnd, nextSuggestion);
+  terminalAutocompleteState.index = nextIndex;
+  terminalAutocompleteState.tokenEnd = terminalAutocompleteState.tokenStart + nextSuggestion.length;
+}
+
+function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
+  if (!suggestions || suggestions.length <= 1 || !terminalSessions.has(sessionId)) {
+    return;
+  }
+
+  const line = suggestions
+    .slice(0, 60)
+    .map((item) => String(item || '').trim())
+    .filter(Boolean)
+    .join('  ');
+
+  if (!line) {
+    return;
+  }
+
+  appendTerminalLine(sessionId, line, 'interactive-terminal-stdout');
+}
+
+async function handleTerminalTabAutocomplete() {
+  const session = getActiveTerminalSession();
+  if (!session || !interactiveTerminalInput || interactiveTerminalInput.disabled) {
+    return;
+  }
+
+  if (canCycleAutocomplete(session.id)) {
+    applyNextAutocompleteSuggestion();
+    return;
+  }
+
+  const inputValue = interactiveTerminalInput.value;
+  const cursor = interactiveTerminalInput.selectionStart ?? inputValue.length;
+  const result = await window.launcherApi.completeTerminalInput(session.id, inputValue, cursor);
+
+  if (!result?.ok) {
+    resetTerminalAutocompleteState();
+    return;
+  }
+
+  const tokenStart = Number.isInteger(result.start) ? result.start : cursor;
+  const tokenEnd = Number.isInteger(result.end) ? result.end : cursor;
+  const tokenValue = inputValue.slice(tokenStart, tokenEnd);
+  const completion = String(result.completion ?? tokenValue);
+  const suggestions = Array.isArray(result.suggestions)
+    ? result.suggestions.map((entry) => String(entry?.replacement || '')).filter(Boolean)
+    : [];
+  const suggestionLabels = Array.isArray(result.suggestions)
+    ? result.suggestions.map((entry) => String(entry?.display || '').trim()).filter(Boolean)
+    : [];
+
+  if (completion && completion !== tokenValue) {
+    replaceTerminalInputToken(tokenStart, tokenEnd, completion);
+  }
+
+  if (suggestions.length === 0) {
+    resetTerminalAutocompleteState();
+    return;
+  }
+
+  if (suggestions.length === 1) {
+    if (suggestions[0] !== completion) {
+      replaceTerminalInputToken(tokenStart, tokenStart + completion.length, suggestions[0]);
+    }
+    resetTerminalAutocompleteState();
+    return;
+  }
+
+  const prefix = inputValue.slice(0, tokenStart);
+  const suffix = inputValue.slice(tokenEnd);
+  const currentValue = interactiveTerminalInput.value;
+  const currentToken = currentValue.slice(prefix.length, currentValue.length - suffix.length);
+
+  terminalAutocompleteState = {
+    sessionId: session.id,
+    prefix,
+    suffix,
+    tokenStart,
+    tokenEnd: tokenStart + currentToken.length,
+    suggestions,
+    index: -1,
+  };
+
+  renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
+}
+
 async function runInteractiveTerminalCommand(command) {
   const session = getActiveTerminalSession();
   if (!session) {
@@ -905,6 +1043,8 @@ async function runInteractiveTerminalCommand(command) {
   if (!trimmed) {
     return;
   }
+
+  resetTerminalAutocompleteState();
 
   addTerminalCommandToHistory(session, trimmed);
 
@@ -1259,6 +1399,12 @@ interactiveTerminalInput.addEventListener('keydown', (event) => {
     return;
   }
 
+  if (event.key === 'Tab') {
+    event.preventDefault();
+    void handleTerminalTabAutocomplete();
+    return;
+  }
+
   if (event.key === 'ArrowUp') {
     event.preventDefault();
     navigateTerminalHistory('up');
@@ -1269,6 +1415,9 @@ interactiveTerminalInput.addEventListener('keydown', (event) => {
     event.preventDefault();
     navigateTerminalHistory('down');
   }
+});
+interactiveTerminalInput.addEventListener('input', () => {
+  resetTerminalAutocompleteState();
 });
 terminalThemeTrigger.addEventListener('click', toggleThemeMenu);
 for (const option of terminalThemeOptions) {
