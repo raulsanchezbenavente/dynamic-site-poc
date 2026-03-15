@@ -289,7 +289,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
-- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Ocean, Red, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
+- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
 - � **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - �🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
@@ -298,6 +298,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Use **New Terminal** in the launcher to create independent Session tabs.
 - Each session keeps its own current directory (`cwd`) and command history.
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
+- **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - Closing a session tab stops active child processes for that session.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
