@@ -32,11 +32,12 @@ const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
-const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
+const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'tokion-night-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
   light: 'Light',
   'solarized-light': 'Solarized Light',
+  'tokion-night-light': 'Tokion Night Light',
   red: 'Red',
   'solarized-dark': 'Solarized Dark',
   'kimbie-dark': 'Kimbie Dark',

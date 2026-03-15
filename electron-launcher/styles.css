@@ -64,6 +64,24 @@ body[data-terminal-theme='solarized-light'] {
   --terminal-link-hover: #0068b5;
 }
 
+body[data-terminal-theme='tokion-night-light'] {
+  --terminal-tabs-border: #99a8d6;
+  --terminal-tabs-bg-start: #dce6ff;
+  --terminal-tabs-bg-end: #d1ddff;
+  --terminal-tab-border: #afbcdf;
+  --terminal-tab-bg: #e8efff;
+  --terminal-tab-ink: #3f4667;
+  --terminal-tab-active-bg: #c6d4ff;
+  --terminal-tab-active-border: #8699d6;
+  --terminal-tab-active-ink: #2d3656;
+  --terminal-body-bg: #f0f4ff;
+  --terminal-body-ink: #4b5478;
+  --terminal-stdout: #4b5478;
+  --terminal-stderr: #b75e6f;
+  --terminal-link: #3f5fbf;
+  --terminal-link-hover: #2e4696;
+}
+
 body[data-terminal-theme='red'] {
   --terminal-tabs-border: #a73f3f;
   --terminal-tabs-bg-start: #b74444;
@@ -497,6 +515,9 @@ body {
 }
 .theme-preview-solarized-light {
   background: linear-gradient(180deg, #f4ecd7 0%, #fdf6e3 55%, #e7dcbf 100%);
+}
+.theme-preview-tokion-night-light {
+  background: linear-gradient(180deg, #dce6ff 0%, #e8efff 52%, #c6d4ff 100%);
 }
 .theme-preview-dark {
   background: linear-gradient(180deg, #1d2530 0%, #1b222d 48%, #151c26 100%);
