@@ -776,9 +776,27 @@ button:hover:not(:disabled) {
   border-color: #08439f;
 }
 .quit-button {
-  background: #fff1f1;
-  border-color: #f3c9c9;
-  color: #9f2323;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: #f8fafc;
+  border-color: #d6e0ec;
+  color: #1f3550;
+}
+.quit-button-icon {
+  width: 0.98rem;
+  height: 0.98rem;
+  flex: 0 0 auto;
+  opacity: 0.92;
+}
+.quit-button:hover:not(:disabled) {
+  background: #f1f6fb;
+  border-color: #c8d7e8;
+  color: #1a446b;
+}
+.quit-button:focus-visible {
+  outline: 2px solid rgba(26, 68, 107, 0.3);
+  outline-offset: 2px;
 }
 .run-btn {
   background: #ebf8f0;
