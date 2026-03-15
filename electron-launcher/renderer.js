@@ -1880,6 +1880,12 @@ document.addEventListener('keydown', (event) => {
     const key = String(event.key);
     const code = String(event.code || '');
 
+    if (String(key).toLowerCase() === 'r' || code === 'KeyR') {
+      event.preventDefault();
+      void refreshScripts();
+      return;
+    }
+
     if (key === '+' || (key === '=' && event.shiftKey) || code === 'NumpadAdd') {
       event.preventDefault();
       changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
