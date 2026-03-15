@@ -291,6 +291,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - 🪟 **Windows Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted)
 - 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
+- 🎨 **ANSI Color Parsing Across Platforms**: Terminal output preserves ANSI color sequences on Windows so colorized output behaves closer to macOS/Linux
 - 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
@@ -308,6 +309,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Built-in command handling supports `clear` and `cls` to clear the current session output.
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
+- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored).
 - `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
