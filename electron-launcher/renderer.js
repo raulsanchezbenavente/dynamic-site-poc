@@ -468,16 +468,17 @@ function renderLogTabs() {
           event.stopPropagation();
         });
         label.addEventListener('keydown', (event) => {
+          // Keep keystrokes inside rename input so parent tab keyboard shortcuts don't intercept space/enter.
+          event.stopPropagation();
+
           if (event.key === 'Enter') {
             event.preventDefault();
-            event.stopPropagation();
             void renameTerminalSession(sessionId, label.value);
             return;
           }
 
           if (event.key === 'Escape') {
             event.preventDefault();
-            event.stopPropagation();
             editingTerminalSessionId = null;
             renderLogTabs();
           }
