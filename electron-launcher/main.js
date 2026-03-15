@@ -951,17 +951,8 @@ function broadcast(channel, payload) {
   }
 }
 
-function stripAnsiEscapeCodes(value) {
-  return String(value).replace(/[\u001b\u009b][[\]()#;?]*(?:(?:\d{1,4}(?:;\d{0,4})*)?[\dA-PR-TZcf-ntqry=><~])/g, '');
-}
-
 function sanitizeLogMessage(value) {
-  const message = String(value);
-  if (process.platform !== 'win32') {
-    return message;
-  }
-
-  return stripAnsiEscapeCodes(message);
+  return String(value);
 }
 
 function buildSpawnEnv() {
