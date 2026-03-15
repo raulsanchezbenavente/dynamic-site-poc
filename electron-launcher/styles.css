@@ -390,6 +390,9 @@ body {
   min-height: 0;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.07);
 }
+.logs-panel {
+  overflow: visible;
+}
 .panel h2 {
   margin: 0;
   padding: 0.9rem 1rem;
@@ -647,70 +650,6 @@ body {
 }
 .terminal-type-option-label {
   white-space: nowrap;
-}
-.terminal-type-trigger-icon,
-.terminal-type-option-icon,
-.log-tab-terminal-type-icon {
-  position: relative;
-}
-.terminal-type-trigger-icon::after,
-.terminal-type-option-icon::after,
-.log-tab-terminal-type-icon::after {
-  content: attr(data-tooltip);
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 0.45rem);
-  transform: translate(-50%, -0.2rem);
-  opacity: 0;
-  pointer-events: none;
-  background: #1f2d44;
-  color: #f4f8ff;
-  border: 1px solid #3f5a86;
-  border-radius: 0.5rem;
-  padding: 0.28rem 0.45rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  line-height: 1;
-  white-space: nowrap;
-  box-shadow: 0 10px 18px rgba(10, 18, 32, 0.26);
-  transition:
-    opacity 130ms ease,
-    transform 130ms ease;
-  z-index: 120;
-}
-.terminal-type-trigger-icon::before,
-.terminal-type-option-icon::before,
-.log-tab-terminal-type-icon::before {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 0.15rem);
-  transform: translate(-50%, -0.2rem) rotate(45deg);
-  width: 0.44rem;
-  height: 0.44rem;
-  opacity: 0;
-  pointer-events: none;
-  background: #1f2d44;
-  border-left: 1px solid #3f5a86;
-  border-top: 1px solid #3f5a86;
-  transition:
-    opacity 130ms ease,
-    transform 130ms ease;
-  z-index: 119;
-}
-.terminal-type-trigger-icon:hover::after,
-.terminal-type-trigger-icon:hover::before,
-.terminal-type-option-icon:hover::after,
-.terminal-type-option-icon:hover::before,
-.log-tab-terminal-type-icon:hover::after,
-.log-tab-terminal-type-icon:hover::before {
-  opacity: 1;
-  transform: translate(-50%, 0) rotate(45deg);
-}
-.terminal-type-trigger-icon:hover::after,
-.terminal-type-option-icon:hover::after,
-.log-tab-terminal-type-icon:hover::after {
-  transform: translate(-50%, 0);
 }
 .terminal-type-icon-cmd {
   background: #111827;
