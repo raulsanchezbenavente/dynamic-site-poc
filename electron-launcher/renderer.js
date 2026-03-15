@@ -11,6 +11,7 @@ const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
 const interruptTerminalButton = document.getElementById('interruptTerminalButton');
+const closeTerminalSessionButton = document.getElementById('closeTerminalSessionButton');
 const terminalFontDecreaseButton = document.getElementById('terminalFontDecreaseButton');
 const terminalFontResetButton = document.getElementById('terminalFontResetButton');
 const terminalFontIncreaseButton = document.getElementById('terminalFontIncreaseButton');
@@ -598,6 +599,16 @@ function updateInterruptTerminalButtonState() {
   interruptTerminalButton.disabled = !canInterrupt;
 }
 
+function updateCloseTerminalSessionButtonState() {
+  if (!closeTerminalSessionButton) {
+    return;
+  }
+
+  const activeSession = getActiveTerminalSession();
+  const canCloseSession = Boolean(isTerminalTab(activeLogTab) && activeSession);
+  closeTerminalSessionButton.disabled = !canCloseSession;
+}
+
 async function closeTerminalSession(sessionId) {
   if (!sessionId || !terminalSessions.has(sessionId)) {
     return;
@@ -668,6 +679,7 @@ function updateConsoleSurface() {
   const showTerminalInput = Boolean(terminalTabActive && activeSession);
 
   updateInterruptTerminalButtonState();
+  updateCloseTerminalSessionButtonState();
 
   if (!showTerminalInput) {
     hideTerminalInputBar();
@@ -1776,6 +1788,13 @@ clearLogsButton.addEventListener('click', clearLogs);
 interruptTerminalButton.addEventListener('click', () => {
   interruptActiveTerminalSession();
 });
+closeTerminalSessionButton?.addEventListener('click', () => {
+  if (!activeTerminalSessionId) {
+    return;
+  }
+
+  void closeTerminalSession(activeTerminalSessionId);
+});
 expandLogsButton.addEventListener('click', () => {
   const isExpanded = layoutEl.classList.toggle('terminal-fullscreen');
   expandLogsButton.setAttribute('aria-pressed', String(isExpanded));
@@ -1905,6 +1924,14 @@ document.addEventListener('keydown', (event) => {
     if (String(key).toLowerCase() === 'd' || code === 'KeyD') {
       event.preventDefault();
       clearLogs();
+      return;
+    }
+
+    if (String(key).toLowerCase() === 'q' || code === 'KeyQ') {
+      event.preventDefault();
+      if (activeTerminalSessionId) {
+        void closeTerminalSession(activeTerminalSessionId);
+      }
       return;
     }
 

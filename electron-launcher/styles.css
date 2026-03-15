@@ -675,6 +675,17 @@ body {
   stroke: currentColor;
   flex: 0 0 auto;
 }
+.close-terminal-button {
+  background: #fff1f1;
+  border-color: #f3c9c9;
+  color: #9f2323;
+}
+.close-terminal-icon {
+  width: calc(1.3rem + 6px);
+  height: calc(1.3rem + 6px);
+  stroke: currentColor;
+  flex: 0 0 auto;
+}
 .expand-logs-icon {
   width: 1.1rem;
   height: 1.1rem;
