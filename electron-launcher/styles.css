@@ -900,7 +900,7 @@ button:hover:not(:disabled) {
   font-size: 1.1rem;
   font-weight: 400;
   font-style: normal;
-  line-height: 1.36;
+  line-height: 1.22;
   letter-spacing: 0;
 }
 .interactive-terminal-bar {
@@ -976,7 +976,7 @@ button:hover:not(:disabled) {
   border-color: #b7d2f4;
 }
 .log-line {
-  margin: 0 0 0.32rem;
+  margin: 0 0 0.18rem;
   white-space: pre-wrap;
   font-family: inherit;
   font-size: inherit;
