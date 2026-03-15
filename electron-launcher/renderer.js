@@ -1696,7 +1696,7 @@ async function runInteractiveTerminalCommand(command) {
   addTerminalCommandToHistory(session, trimmed);
 
   const normalized = trimmed.toLowerCase();
-  if (normalized === 'clear') {
+  if (normalized === 'clear' || normalized === 'cls') {
     session.lines = [];
     renderTerminalOutput();
 
