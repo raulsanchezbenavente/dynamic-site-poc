@@ -422,14 +422,15 @@ body {
   margin-left: auto;
 }
 .terminal-font-button {
-  min-width: 2rem;
-  width: 2rem;
-  height: 2rem;
+  min-width: 2.2rem;
+  width: 2.2rem;
+  height: 2.2rem;
   padding: 0;
   border-radius: 0.55rem;
-  font-size: 0.75rem;
+  font-size: 0.94rem;
   font-weight: 800;
   letter-spacing: 0.02em;
+  line-height: 1;
 }
 .terminal-theme-label {
   color: var(--muted);
