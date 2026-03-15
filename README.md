@@ -309,7 +309,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 
 ### Launcher Shortcuts
 
-- `Ctrl + R`: Refresh scripts list
+- `Ctrl + S`: Refresh scripts list
 - `Ctrl + N`: Create new terminal session
 - `Ctrl + Q`: Close active terminal session
 - `Ctrl + D`: Clear current logs view

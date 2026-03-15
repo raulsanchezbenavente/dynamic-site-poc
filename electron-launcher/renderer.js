@@ -1981,7 +1981,7 @@ document.addEventListener('keydown', (event) => {
       return;
     }
 
-    if (String(key).toLowerCase() === 'r' || code === 'KeyR') {
+    if (String(key).toLowerCase() === 's' || code === 'KeyS') {
       event.preventDefault();
       void refreshScripts();
       return;
