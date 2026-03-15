@@ -58,6 +58,7 @@ let editingTerminalSessionId = null;
 const runningTerminalSessions = new Set();
 const orderedLogTabs = [];
 let terminalAutocompleteState = null;
+let draggedLogTabName = null;
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -193,6 +194,45 @@ function touchTabOrder(tabName) {
 
   orderedLogTabs.push(tabName);
   saveLogTabOrder();
+}
+
+function isReorderableLogTab(tabName) {
+  return Boolean(tabName && tabName !== 'all');
+}
+
+function clearLogTabDropIndicators() {
+  if (!logTabsEl) {
+    return;
+  }
+
+  for (const element of logTabsEl.querySelectorAll('.log-tab-drop-before, .log-tab-drop-after')) {
+    element.classList.remove('log-tab-drop-before', 'log-tab-drop-after');
+  }
+}
+
+function reorderLogTabs(sourceTabName, targetTabName, insertBefore = true) {
+  if (!isReorderableLogTab(sourceTabName) || !isReorderableLogTab(targetTabName)) {
+    return false;
+  }
+
+  if (sourceTabName === targetTabName) {
+    return false;
+  }
+
+  const sourceIndex = orderedLogTabs.indexOf(sourceTabName);
+  const targetIndex = orderedLogTabs.indexOf(targetTabName);
+  if (sourceIndex < 0 || targetIndex < 0) {
+    return false;
+  }
+
+  orderedLogTabs.splice(sourceIndex, 1);
+
+  const adjustedTargetIndex = orderedLogTabs.indexOf(targetTabName);
+  const insertionIndex = insertBefore ? adjustedTargetIndex : adjustedTargetIndex + 1;
+  orderedLogTabs.splice(insertionIndex, 0, sourceTabName);
+
+  saveLogTabOrder();
+  return true;
 }
 
 function pruneTabOrder(availableTabs) {
@@ -407,6 +447,7 @@ function renderLogTabs() {
     }
     tab.role = 'tab';
     tab.className = `log-tab ${tabName === activeLogTab ? 'active' : ''}`;
+    tab.dataset.tabName = tabName;
     if (terminalTab) {
       const sessionId = sessionIdFromTab(tabName);
       const session = sessionId ? terminalSessions.get(sessionId) : null;
@@ -471,6 +512,74 @@ function renderLogTabs() {
     } else {
       tab.textContent = tabName;
     }
+
+    if (isReorderableLogTab(tabName)) {
+      tab.draggable = true;
+      tab.classList.add('log-tab-draggable');
+
+      tab.addEventListener('dragstart', (event) => {
+        draggedLogTabName = tabName;
+        tab.classList.add('log-tab-dragging');
+
+        if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = 'move';
+          event.dataTransfer.setData('text/plain', tabName);
+        }
+      });
+
+      tab.addEventListener('dragover', (event) => {
+        if (!draggedLogTabName || draggedLogTabName === tabName) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const rect = tab.getBoundingClientRect();
+        const dropBefore = event.clientX < rect.left + rect.width / 2;
+
+        clearLogTabDropIndicators();
+        tab.classList.add(dropBefore ? 'log-tab-drop-before' : 'log-tab-drop-after');
+
+        if (event.dataTransfer) {
+          event.dataTransfer.dropEffect = 'move';
+        }
+      });
+
+      tab.addEventListener('dragleave', (event) => {
+        const related = event.relatedTarget;
+        if (related instanceof Node && tab.contains(related)) {
+          return;
+        }
+
+        tab.classList.remove('log-tab-drop-before', 'log-tab-drop-after');
+      });
+
+      tab.addEventListener('drop', (event) => {
+        if (!draggedLogTabName || draggedLogTabName === tabName) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const rect = tab.getBoundingClientRect();
+        const dropBefore = event.clientX < rect.left + rect.width / 2;
+        const didReorder = reorderLogTabs(draggedLogTabName, tabName, dropBefore);
+
+        draggedLogTabName = null;
+        clearLogTabDropIndicators();
+
+        if (didReorder) {
+          renderLogTabs();
+        }
+      });
+
+      tab.addEventListener('dragend', () => {
+        draggedLogTabName = null;
+        clearLogTabDropIndicators();
+        tab.classList.remove('log-tab-dragging');
+      });
+    }
+
     tab.setAttribute('aria-selected', String(tabName === activeLogTab));
     tab.addEventListener('click', () => {
       resetTerminalAutocompleteState();

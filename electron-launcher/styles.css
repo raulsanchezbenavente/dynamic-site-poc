@@ -891,6 +891,20 @@ button:hover:not(:disabled) {
   border-color: var(--terminal-tab-active-border);
   color: var(--terminal-tab-active-ink);
 }
+.log-tab.log-tab-draggable {
+  cursor: grab;
+  user-select: none;
+}
+.log-tab.log-tab-dragging {
+  opacity: 0.58;
+  cursor: grabbing;
+}
+.log-tab.log-tab-drop-before {
+  box-shadow: inset 3px 0 0 color-mix(in oklab, var(--terminal-tab-active-border) 72%, #ffffff 28%);
+}
+.log-tab.log-tab-drop-after {
+  box-shadow: inset -3px 0 0 color-mix(in oklab, var(--terminal-tab-active-border) 72%, #ffffff 28%);
+}
 .logs {
   background: var(--terminal-body-bg);
   color: var(--terminal-body-ink);
