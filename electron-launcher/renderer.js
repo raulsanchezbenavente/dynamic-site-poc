@@ -1042,9 +1042,14 @@ function saveTerminalTheme(themeName) {
 
 function readSavedColumnOutputPreference() {
   try {
-    return window.localStorage.getItem(COLUMN_OUTPUT_STORAGE_KEY) === 'true';
+    const saved = window.localStorage.getItem(COLUMN_OUTPUT_STORAGE_KEY);
+    if (saved == null) {
+      return true;
+    }
+
+    return saved === 'true';
   } catch {
-    return false;
+    return true;
   }
 }
 

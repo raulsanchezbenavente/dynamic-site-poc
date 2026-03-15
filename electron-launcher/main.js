@@ -421,14 +421,14 @@ function executeTerminalCommand(sessionId, commandInput, options = null) {
     }
 
     const env = buildSpawnEnv();
-    const options = {
+    const spawnOptions = {
       cwd,
       env,
       windowsHide: true,
       shell: true,
     };
 
-    const child = spawn(commandToRun, [], options);
+    const child = spawn(commandToRun, [], spawnOptions);
     session.activeProcess = child;
     let output = '';
     let error = '';
