@@ -20,6 +20,37 @@ const packageSource = {
   customPath: '',
 };
 
+function getLauncherIconPath() {
+  const platformIconName = process.platform === 'darwin' ? 'avianca-icon.icns' : 'avianca-icon.png';
+  const platformIconPath = path.join(__dirname, 'assets', platformIconName);
+  if (fs.existsSync(platformIconPath)) {
+    return platformIconPath;
+  }
+
+  const fallbackIconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
+  return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
+}
+
+function applyAppIcon() {
+  if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
+    return;
+  }
+
+  const iconCandidates = [
+    path.join(__dirname, 'assets', 'avianca-icon.icns'),
+    path.join(__dirname, 'assets', 'avianca-icon.png'),
+  ].filter((candidatePath) => fs.existsSync(candidatePath));
+
+  for (const iconPath of iconCandidates) {
+    try {
+      app.dock.setIcon(iconPath);
+      return;
+    } catch {
+      // Try the next available icon candidate.
+    }
+  }
+}
+
 function getWindowStatePath() {
   return path.join(app.getPath('userData'), 'launcher-window-state.json');
 }
@@ -686,7 +717,7 @@ function getPackageSourceStatus() {
 }
 
 function createWindow() {
-  const iconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
+  const iconPath = getLauncherIconPath();
   const windowState = readWindowState();
   let persistWindowStateTimeout = null;
 
@@ -1104,6 +1135,7 @@ app.on('before-quit', (event) => {
 });
 
 app.whenReady().then(() => {
+  applyAppIcon();
   createWindow();
 
   app.on('activate', () => {
