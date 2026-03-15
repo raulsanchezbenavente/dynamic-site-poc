@@ -30,6 +30,7 @@ const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
+const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
@@ -1495,6 +1496,11 @@ expandLogsButton.addEventListener('click', () => {
   expandLogsButton.setAttribute('aria-pressed', String(isExpanded));
   expandLogsButton.setAttribute('data-tooltip', isExpanded ? 'Collapse terminal' : 'Expand terminal');
   expandLogsButton.setAttribute('aria-label', isExpanded ? 'Collapse terminal' : 'Expand terminal');
+  try {
+    window.localStorage.setItem(TERMINAL_FULLSCREEN_STORAGE_KEY, String(isExpanded));
+  } catch {
+    // Ignore storage failures.
+  }
 });
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
@@ -1623,6 +1629,17 @@ async function init() {
   applyTerminalTheme(readSavedTerminalTheme());
   restoreFilters();
   restoreLogTabOrder();
+
+  try {
+    if (window.localStorage.getItem(TERMINAL_FULLSCREEN_STORAGE_KEY) === 'true' && layoutEl && expandLogsButton) {
+      layoutEl.classList.add('terminal-fullscreen');
+      expandLogsButton.setAttribute('aria-pressed', 'true');
+      expandLogsButton.setAttribute('data-tooltip', 'Collapse terminal');
+      expandLogsButton.setAttribute('aria-label', 'Collapse terminal');
+    }
+  } catch {
+    // Ignore storage failures.
+  }
   await refreshPackageSourceUi();
   await refreshScripts();
 
