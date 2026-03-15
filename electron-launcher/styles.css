@@ -524,9 +524,9 @@ body {
 .clear-icon-button::after {
   content: attr(data-tooltip);
   position: absolute;
-  left: 50%;
+  left: 0;
   top: calc(100% + 0.52rem);
-  transform: translate(-50%, -0.2rem);
+  transform: translateY(-0.2rem);
   opacity: 0;
   pointer-events: none;
   background: #1f2d44;
@@ -585,7 +585,7 @@ body {
 .session-icon-button:focus-visible::after,
 .clear-icon-button:hover::after,
 .clear-icon-button:focus-visible::after {
-  transform: translate(-50%, 0);
+  transform: translateY(0);
 }
 .refresh-icon-svg {
   width: 1.2rem;
