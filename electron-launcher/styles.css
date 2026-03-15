@@ -642,9 +642,6 @@ body {
   stroke: currentColor;
   transition: transform 160ms ease;
 }
-.refresh-icon-button:hover:not(:disabled) .refresh-icon-svg {
-  transform: rotate(-35deg);
-}
 .scripts-filters {
   display: flex;
   align-items: center;
