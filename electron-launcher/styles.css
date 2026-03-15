@@ -492,10 +492,6 @@ body {
 .logs-panel-header .toggle-terminal-button {
   margin: 0;
 }
-.logs-output-toggle {
-  margin-left: 0.2rem;
-  color: #36506f;
-}
 .scripts-panel-header {
   padding-right: 1rem;
 }

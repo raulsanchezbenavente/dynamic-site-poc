@@ -328,13 +328,8 @@ function normalizeTerminalCommand(input) {
   return String(input ?? '').replace(/\r\n/g, '\n').trim();
 }
 
-function normalizeCommandForTerminalPresentation(command, options = null) {
+function normalizeCommandForTerminalPresentation(command) {
   if (!command || process.platform === 'win32') {
-    return command;
-  }
-
-  const preferColumnOutput = Boolean(options?.preferColumnOutput);
-  if (!preferColumnOutput) {
     return command;
   }
 
@@ -546,7 +541,7 @@ function completeTerminalInput(sessionId, input, cursor) {
   };
 }
 
-function executeTerminalCommand(sessionId, commandInput, options = null) {
+function executeTerminalCommand(sessionId, commandInput) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
     if (!session) {
@@ -571,7 +566,7 @@ function executeTerminalCommand(sessionId, commandInput, options = null) {
       return;
     }
 
-    const commandToRun = normalizeCommandForTerminalPresentation(command, options);
+    const commandToRun = normalizeCommandForTerminalPresentation(command);
 
     const cwd = session.cwd;
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
@@ -1086,8 +1081,7 @@ ipcMain.handle('terminal:complete-input', async (_event, payload) => {
 ipcMain.handle('terminal:run-command', async (_event, payload) => {
   const sessionId = payload?.sessionId;
   const commandInput = payload?.command ?? '';
-  const options = payload?.options ?? null;
-  return executeTerminalCommand(sessionId, commandInput, options);
+  return executeTerminalCommand(sessionId, commandInput);
 });
 
 app.on('before-quit', (event) => {
