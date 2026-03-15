@@ -496,17 +496,31 @@ function completeTerminalInput(sessionId, input, cursor) {
   }
 
   const showHidden = resolved.baseName.startsWith('.');
+  const normalizedBaseName = resolved.baseName.toLowerCase();
   const suggestions = entries
     .filter((entry) => {
       if (!showHidden && entry.name.startsWith('.')) {
         return false;
       }
 
-      if (!entry.name.startsWith(resolved.baseName)) {
+      if (!entry.name.toLowerCase().startsWith(normalizedBaseName)) {
         return false;
       }
 
-      if (context.directoryOnly && !entry.isDirectory()) {
+      if (context.directoryOnly) {
+        if (entry.isDirectory()) {
+          return true;
+        }
+
+        if (entry.isSymbolicLink()) {
+          try {
+            const stats = fs.statSync(path.join(resolved.directoryPath, entry.name));
+            return stats.isDirectory();
+          } catch {
+            return false;
+          }
+        }
+
         return false;
       }
 

@@ -475,6 +475,7 @@ function renderLogTabs() {
     }
     tab.setAttribute('aria-selected', String(tabName === activeLogTab));
     tab.addEventListener('click', () => {
+      resetTerminalAutocompleteState();
       activeLogTab = tabName;
       if (isTerminalTab(tabName)) {
         activeTerminalSessionId = sessionIdFromTab(tabName);
@@ -873,6 +874,7 @@ function renderTerminalOutput() {
 }
 
 async function createNewTerminalSession() {
+  resetTerminalAutocompleteState();
   const created = await window.launcherApi.createTerminalSession();
   const session = ensureTerminalSessionShape(created);
   if (!session) {
@@ -950,7 +952,7 @@ function applyNextAutocompleteSuggestion() {
 }
 
 function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
-  if (!suggestions || suggestions.length <= 1 || !terminalSessions.has(sessionId)) {
+  if (!suggestions || suggestions.length === 0 || !terminalSessions.has(sessionId)) {
     return;
   }
 
@@ -980,7 +982,13 @@ async function handleTerminalTabAutocomplete() {
 
   const inputValue = interactiveTerminalInput.value;
   const cursor = interactiveTerminalInput.selectionStart ?? inputValue.length;
-  const result = await window.launcherApi.completeTerminalInput(session.id, inputValue, cursor);
+  let result = null;
+  try {
+    result = await window.launcherApi.completeTerminalInput(session.id, inputValue, cursor);
+  } catch {
+    resetTerminalAutocompleteState();
+    return;
+  }
 
   if (!result?.ok) {
     resetTerminalAutocompleteState();
@@ -1008,6 +1016,7 @@ async function handleTerminalTabAutocomplete() {
   }
 
   if (suggestions.length === 1) {
+    renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
     if (suggestions[0] !== completion) {
       replaceTerminalInputToken(tokenStart, tokenStart + completion.length, suggestions[0]);
     }
