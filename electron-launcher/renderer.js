@@ -10,6 +10,8 @@ const terminalThemePreview = document.getElementById('terminalThemePreview');
 const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
+const expandLogsButton = document.getElementById('expandLogsButton');
+const layoutEl = document.querySelector('.layout');
 const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
 const interactiveTerminalCwd = document.getElementById('interactiveTerminalCwd');
 const interactiveTerminalForm = document.getElementById('interactiveTerminalForm');
@@ -1488,6 +1490,12 @@ quitButton.addEventListener('click', async () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
+expandLogsButton.addEventListener('click', () => {
+  const isExpanded = layoutEl.classList.toggle('terminal-fullscreen');
+  expandLogsButton.setAttribute('aria-pressed', String(isExpanded));
+  expandLogsButton.setAttribute('data-tooltip', isExpanded ? 'Collapse terminal' : 'Expand terminal');
+  expandLogsButton.setAttribute('aria-label', isExpanded ? 'Collapse terminal' : 'Expand terminal');
+});
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
   if (!session) {
