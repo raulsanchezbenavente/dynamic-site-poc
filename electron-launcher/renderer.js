@@ -1880,9 +1880,37 @@ document.addEventListener('keydown', (event) => {
     const key = String(event.key);
     const code = String(event.code || '');
 
+    if (event.key === 'Enter' || code === 'Enter' || code === 'NumpadEnter') {
+      event.preventDefault();
+      expandLogsButton?.click();
+      return;
+    }
+
+    if (String(key).toLowerCase() === 'n' || code === 'KeyN') {
+      event.preventDefault();
+      void createNewTerminalSession().then((session) => {
+        if (session && interactiveTerminalInput) {
+          interactiveTerminalInput.focus();
+        }
+      });
+      return;
+    }
+
     if (String(key).toLowerCase() === 'r' || code === 'KeyR') {
       event.preventDefault();
       void refreshScripts();
+      return;
+    }
+
+    if (String(key).toLowerCase() === 'd' || code === 'KeyD') {
+      event.preventDefault();
+      clearLogs();
+      return;
+    }
+
+    if (String(key).toLowerCase() === 'x' || code === 'KeyX') {
+      event.preventDefault();
+      interruptActiveTerminalSession();
       return;
     }
 
