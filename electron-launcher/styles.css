@@ -26,6 +26,7 @@
   --terminal-stderr: #ffd9ce;
   --terminal-link: #ffe082;
   --terminal-link-hover: #fff4bf;
+  --terminal-font-size-px: 17.6px;
 }
 
 body[data-terminal-theme='light'] {
@@ -412,7 +413,23 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
+  margin-left: 0.45rem;
+}
+.terminal-font-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
   margin-left: auto;
+}
+.terminal-font-button {
+  min-width: 2rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border-radius: 0.55rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
 }
 .terminal-theme-label {
   color: var(--muted);
@@ -1050,7 +1067,7 @@ button:hover:not(:disabled) {
   padding: 0.9rem;
   overflow: auto;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 1.1rem;
+  font-size: var(--terminal-font-size-px);
   font-weight: 400;
   font-style: normal;
   line-height: 1.22;
@@ -1070,7 +1087,7 @@ button:hover:not(:disabled) {
 .interactive-terminal-cwd {
   color: color-mix(in oklab, var(--terminal-stdout) 80%, #9fc0f2 20%);
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 0.76rem;
+  font-size: calc(var(--terminal-font-size-px) * 0.69);
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1100,7 +1117,7 @@ button:hover:not(:disabled) {
 .interactive-terminal-prompt {
   color: #ffe082;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 1rem;
+  font-size: calc(var(--terminal-font-size-px) * 0.91);
   font-weight: 700;
 }
 .interactive-terminal-input {
@@ -1111,7 +1128,7 @@ button:hover:not(:disabled) {
   padding: 0.52rem 0.62rem;
   outline: none;
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
-  font-size: 0.93rem;
+  font-size: calc(var(--terminal-font-size-px) * 0.85);
 }
 .interactive-terminal-input::placeholder {
   color: color-mix(in oklab, var(--terminal-body-ink) 65%, #c2d4f1 35%);

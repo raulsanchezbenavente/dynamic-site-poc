@@ -11,6 +11,9 @@ const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
 const interruptTerminalButton = document.getElementById('interruptTerminalButton');
+const terminalFontDecreaseButton = document.getElementById('terminalFontDecreaseButton');
+const terminalFontResetButton = document.getElementById('terminalFontResetButton');
+const terminalFontIncreaseButton = document.getElementById('terminalFontIncreaseButton');
 const expandLogsButton = document.getElementById('expandLogsButton');
 const layoutEl = document.querySelector('.layout');
 const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
@@ -30,12 +33,17 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
+const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
 const ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN = /\u001b\[(?![0-9;]*m)[0-9;?]*[ -/]*[@-~]/g;
 const ANSI_OSC_PATTERN = /\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g;
 const ANSI_SGR_PATTERN = /\u001b\[([0-9;]*)m/g;
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'tokion-night-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
+const TERMINAL_FONT_SIZE_DEFAULT = 17.6;
+const TERMINAL_FONT_SIZE_MIN = 12;
+const TERMINAL_FONT_SIZE_MAX = 28;
+const TERMINAL_FONT_SIZE_STEP = 1;
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
   light: 'Light',
@@ -68,6 +76,61 @@ const runningTerminalSessions = new Set();
 const orderedLogTabs = [];
 let terminalAutocompleteState = null;
 let draggedLogTabName = null;
+let terminalFontSizePx = TERMINAL_FONT_SIZE_DEFAULT;
+
+function normalizeTerminalFontSize(value) {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) {
+    return TERMINAL_FONT_SIZE_DEFAULT;
+  }
+
+  return Math.min(TERMINAL_FONT_SIZE_MAX, Math.max(TERMINAL_FONT_SIZE_MIN, parsed));
+}
+
+function updateTerminalFontButtonsState() {
+  if (terminalFontDecreaseButton) {
+    terminalFontDecreaseButton.disabled = terminalFontSizePx <= TERMINAL_FONT_SIZE_MIN;
+  }
+
+  if (terminalFontIncreaseButton) {
+    terminalFontIncreaseButton.disabled = terminalFontSizePx >= TERMINAL_FONT_SIZE_MAX;
+  }
+}
+
+function applyTerminalFontSize(sizePx) {
+  terminalFontSizePx = normalizeTerminalFontSize(sizePx);
+  document.body.style.setProperty('--terminal-font-size-px', `${terminalFontSizePx}px`);
+  updateTerminalFontButtonsState();
+}
+
+function readSavedTerminalFontSize() {
+  try {
+    const raw = window.localStorage.getItem(TERMINAL_FONT_SIZE_STORAGE_KEY);
+    return normalizeTerminalFontSize(raw);
+  } catch {
+    return TERMINAL_FONT_SIZE_DEFAULT;
+  }
+}
+
+function saveTerminalFontSize(sizePx) {
+  const normalized = normalizeTerminalFontSize(sizePx);
+  try {
+    window.localStorage.setItem(TERMINAL_FONT_SIZE_STORAGE_KEY, String(normalized));
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function changeTerminalFontSize(delta) {
+  const nextSize = normalizeTerminalFontSize(terminalFontSizePx + delta);
+  applyTerminalFontSize(nextSize);
+  saveTerminalFontSize(nextSize);
+}
+
+function resetTerminalFontSize() {
+  applyTerminalFontSize(TERMINAL_FONT_SIZE_DEFAULT);
+  saveTerminalFontSize(TERMINAL_FONT_SIZE_DEFAULT);
+}
 
 function trimTrailingUrlPunctuation(urlText) {
   let trimmed = urlText;
@@ -1724,6 +1787,15 @@ expandLogsButton.addEventListener('click', () => {
     // Ignore storage failures.
   }
 });
+terminalFontDecreaseButton?.addEventListener('click', () => {
+  changeTerminalFontSize(-TERMINAL_FONT_SIZE_STEP);
+});
+terminalFontResetButton?.addEventListener('click', () => {
+  resetTerminalFontSize();
+});
+terminalFontIncreaseButton?.addEventListener('click', () => {
+  changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
+});
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
   if (!session) {
@@ -1848,6 +1920,7 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 async function init() {
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
+  applyTerminalFontSize(readSavedTerminalFontSize());
   restoreFilters();
   restoreLogTabOrder();
 
