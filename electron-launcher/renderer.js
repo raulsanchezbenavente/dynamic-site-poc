@@ -937,13 +937,17 @@ function canCycleAutocomplete(sessionId) {
   return cursor >= tokenStart && cursor <= tokenEnd;
 }
 
-function applyNextAutocompleteSuggestion() {
+function applyNextAutocompleteSuggestion(step = 1) {
   if (!terminalAutocompleteState || !interactiveTerminalInput) {
     return;
   }
 
   const suggestions = terminalAutocompleteState.suggestions;
-  const nextIndex = (terminalAutocompleteState.index + 1) % suggestions.length;
+  const size = suggestions.length;
+  const normalizedStep = step >= 0 ? 1 : -1;
+  const baseIndex = terminalAutocompleteState.index;
+  const seedIndex = baseIndex < 0 ? (normalizedStep > 0 ? -1 : 0) : baseIndex;
+  const nextIndex = (seedIndex + normalizedStep + size) % size;
   const nextSuggestion = suggestions[nextIndex];
 
   replaceTerminalInputToken(terminalAutocompleteState.tokenStart, terminalAutocompleteState.tokenEnd, nextSuggestion);
@@ -988,14 +992,14 @@ function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
   appendTerminalLine(sessionId, line, 'interactive-terminal-completion');
 }
 
-async function handleTerminalTabAutocomplete() {
+async function handleTerminalTabAutocomplete(reverse = false) {
   const session = getActiveTerminalSession();
   if (!session || !interactiveTerminalInput || interactiveTerminalInput.disabled) {
     return;
   }
 
   if (canCycleAutocomplete(session.id)) {
-    applyNextAutocompleteSuggestion();
+    applyNextAutocompleteSuggestion(reverse ? -1 : 1);
     return;
   }
 
@@ -1432,7 +1436,7 @@ interactiveTerminalInput.addEventListener('keydown', (event) => {
 
   if (event.key === 'Tab') {
     event.preventDefault();
-    void handleTerminalTabAutocomplete();
+          void handleTerminalTabAutocomplete(Boolean(event.shiftKey));
     return;
   }
 
