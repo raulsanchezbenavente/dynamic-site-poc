@@ -613,18 +613,18 @@ function getWindowsTerminalTypes() {
     return [];
   }
 
-  const options = [{ id: 'cmd', label: 'Command Prompt (cmd)' }];
+  const options = [{ id: 'cmd', label: '🖥️ Command Prompt (cmd)' }];
 
   if (commandExistsOnWindows('powershell.exe')) {
-    options.push({ id: 'powershell', label: 'Windows PowerShell' });
+    options.push({ id: 'powershell', label: '🔷 Windows PowerShell' });
   }
 
   if (commandExistsOnWindows('pwsh.exe')) {
-    options.push({ id: 'pwsh', label: 'PowerShell 7 (pwsh)' });
+    options.push({ id: 'pwsh', label: '⚡ PowerShell 7 (pwsh)' });
   }
 
   if (resolveGitBashExecutablePath()) {
-    options.push({ id: 'git-bash', label: 'Git Bash' });
+    options.push({ id: 'git-bash', label: '🐧 Git Bash' });
   }
 
   return options;

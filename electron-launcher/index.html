@@ -204,10 +204,25 @@
             id="terminalTypeSelector"
             class="terminal-type-selector"
             hidden>
-            <label for="terminalTypeSelect">Terminal</label>
-            <select
-              id="terminalTypeSelect"
-              aria-label="Terminal type"></select>
+            <button
+              id="terminalTypeTrigger"
+              class="terminal-type-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="terminalTypeMenu"
+              aria-label="Terminal type">
+              <span
+                id="terminalTypeIcon"
+                class="terminal-type-trigger-icon"
+                aria-hidden="true"></span>
+              <span id="terminalTypeText">Command Prompt (cmd)</span>
+            </button>
+            <div
+              id="terminalTypeMenu"
+              class="terminal-type-menu"
+              role="listbox"
+              hidden></div>
           </div>
           <button
             id="closeTerminalSessionButton"

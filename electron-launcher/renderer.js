@@ -11,7 +11,10 @@ const terminalThemeMenu = document.getElementById('terminalThemeMenu');
 const terminalThemeOptions = Array.from(document.querySelectorAll('.terminal-theme-option'));
 const toggleTerminalButton = document.getElementById('toggleTerminalButton');
 const terminalTypeSelector = document.getElementById('terminalTypeSelector');
-const terminalTypeSelect = document.getElementById('terminalTypeSelect');
+const terminalTypeTrigger = document.getElementById('terminalTypeTrigger');
+const terminalTypeIcon = document.getElementById('terminalTypeIcon');
+const terminalTypeText = document.getElementById('terminalTypeText');
+const terminalTypeMenu = document.getElementById('terminalTypeMenu');
 const interruptTerminalButton = document.getElementById('interruptTerminalButton');
 const closeTerminalSessionButton = document.getElementById('closeTerminalSessionButton');
 const terminalFontDecreaseButton = document.getElementById('terminalFontDecreaseButton');
@@ -106,13 +109,92 @@ function applyTerminalTypeSelection(typeId) {
   const availableIds = new Set(terminalTypeOptions.map((entry) => entry.id));
   selectedTerminalType = availableIds.has(normalized) ? normalized : defaultTerminalType;
 
-  if (terminalTypeSelect) {
-    terminalTypeSelect.value = selectedTerminalType;
+  const selectedOption = terminalTypeOptions.find((entry) => entry.id === selectedTerminalType);
+  if (selectedOption) {
+    if (terminalTypeIcon) {
+      terminalTypeIcon.textContent = selectedOption.icon || '';
+    }
+
+    if (terminalTypeText) {
+      terminalTypeText.textContent = selectedOption.label;
+    }
+  }
+
+  if (terminalTypeMenu) {
+    for (const option of Array.from(terminalTypeMenu.querySelectorAll('.terminal-type-option'))) {
+      option.setAttribute('aria-selected', String(option.dataset.type === selectedTerminalType));
+    }
+  }
+}
+
+function closeTerminalTypeMenu() {
+  if (!terminalTypeMenu || !terminalTypeTrigger) {
+    return;
+  }
+
+  terminalTypeMenu.hidden = true;
+  terminalTypeTrigger.setAttribute('aria-expanded', 'false');
+}
+
+function openTerminalTypeMenu() {
+  if (!terminalTypeMenu || !terminalTypeTrigger) {
+    return;
+  }
+
+  terminalTypeMenu.hidden = false;
+  terminalTypeTrigger.setAttribute('aria-expanded', 'true');
+}
+
+function toggleTerminalTypeMenu() {
+  if (!terminalTypeMenu) {
+    return;
+  }
+
+  if (terminalTypeMenu.hidden) {
+    openTerminalTypeMenu();
+    return;
+  }
+
+  closeTerminalTypeMenu();
+}
+
+function renderTerminalTypeMenu() {
+  if (!terminalTypeMenu) {
+    return;
+  }
+
+  terminalTypeMenu.replaceChildren();
+
+  for (const option of terminalTypeOptions) {
+    const button = document.createElement('button');
+    button.className = 'terminal-type-option';
+    button.type = 'button';
+    button.role = 'option';
+    button.dataset.type = option.id;
+    button.setAttribute('aria-selected', String(option.id === selectedTerminalType));
+
+    const icon = document.createElement('span');
+    icon.className = 'terminal-type-option-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = option.icon || '';
+
+    const label = document.createElement('span');
+    label.className = 'terminal-type-option-label';
+    label.textContent = option.label;
+
+    button.append(icon, label);
+    button.addEventListener('click', () => {
+      applyTerminalTypeSelection(option.id);
+      saveSelectedTerminalType(selectedTerminalType);
+      closeTerminalTypeMenu();
+    });
+
+    terminalTypeMenu.appendChild(button);
   }
 }
 
 function populateTerminalTypeSelector(config) {
-  if (!terminalTypeSelector || !terminalTypeSelect) {
+  if (!terminalTypeSelector || !terminalTypeMenu) {
     return;
   }
 
@@ -120,22 +202,24 @@ function populateTerminalTypeSelector(config) {
   const options = Array.isArray(config?.options) ? config.options : [];
   terminalTypeOptions = options
     .filter((option) => option && typeof option.id === 'string' && typeof option.label === 'string')
-    .map((option) => ({ id: option.id.toLowerCase(), label: option.label }));
+    .map((option) => {
+      const normalizedLabel = String(option.label || '').trim();
+      const iconMatch = normalizedLabel.match(/^([^\s]+)\s+(.*)$/u);
+      return {
+        id: option.id.toLowerCase(),
+        icon: iconMatch ? iconMatch[1] : '',
+        label: iconMatch ? iconMatch[2] : normalizedLabel,
+      };
+    });
 
   const showSelector = supported && terminalTypeOptions.length > 0;
   terminalTypeSelector.hidden = !showSelector;
 
-  terminalTypeSelect.replaceChildren();
-  for (const option of terminalTypeOptions) {
-    const element = document.createElement('option');
-    element.value = option.id;
-    element.textContent = option.label;
-    terminalTypeSelect.appendChild(element);
-  }
-
   defaultTerminalType = String(config?.defaultType || terminalTypeOptions[0]?.id || 'cmd').toLowerCase();
   const preferredType = readSavedTerminalType() || defaultTerminalType;
   applyTerminalTypeSelection(preferredType);
+  renderTerminalTypeMenu();
+  closeTerminalTypeMenu();
 }
 
 function normalizeTerminalFontSize(value) {
@@ -1876,11 +1960,7 @@ terminalFontResetButton?.addEventListener('click', () => {
 terminalFontIncreaseButton?.addEventListener('click', () => {
   changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
 });
-terminalTypeSelect?.addEventListener('change', () => {
-  const nextType = terminalTypeSelect.value;
-  applyTerminalTypeSelection(nextType);
-  saveSelectedTerminalType(selectedTerminalType);
-});
+terminalTypeTrigger?.addEventListener('click', toggleTerminalTypeMenu);
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
   if (!session) {
@@ -1940,23 +2020,30 @@ for (const option of packageSourceOptions) {
   });
 }
 document.addEventListener('click', (event) => {
-  if (!terminalThemeMenu || !terminalThemeTrigger || !packageSourceMenu || !packageSourceTrigger) {
-    return;
-  }
-
   const target = event.target;
   if (!(target instanceof Node)) {
     return;
   }
 
-  const clickedInsideSelector = terminalThemeMenu.contains(target) || terminalThemeTrigger.contains(target);
-  if (!clickedInsideSelector) {
-    closeThemeMenu();
+  if (terminalThemeMenu && terminalThemeTrigger) {
+    const clickedInsideSelector = terminalThemeMenu.contains(target) || terminalThemeTrigger.contains(target);
+    if (!clickedInsideSelector) {
+      closeThemeMenu();
+    }
   }
 
-  const clickedInsidePackageSelector = packageSourceMenu.contains(target) || packageSourceTrigger.contains(target);
-  if (!clickedInsidePackageSelector) {
-    closePackageSourceMenu();
+  if (terminalTypeMenu && terminalTypeTrigger) {
+    const clickedInsideTerminalType = terminalTypeMenu.contains(target) || terminalTypeTrigger.contains(target);
+    if (!clickedInsideTerminalType) {
+      closeTerminalTypeMenu();
+    }
+  }
+
+  if (packageSourceMenu && packageSourceTrigger) {
+    const clickedInsidePackageSelector = packageSourceMenu.contains(target) || packageSourceTrigger.contains(target);
+    if (!clickedInsidePackageSelector) {
+      closePackageSourceMenu();
+    }
   }
 });
 document.addEventListener('keydown', (event) => {
@@ -2040,6 +2127,7 @@ document.addEventListener('keydown', (event) => {
 
   if (event.key === 'Escape') {
     closeThemeMenu();
+    closeTerminalTypeMenu();
     closePackageSourceMenu();
   }
 });
