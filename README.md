@@ -292,6 +292,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🪟 **Windows Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted)
 - 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
 - 🎨 **ANSI Color Parsing Across Platforms**: Terminal output preserves ANSI color sequences on Windows so colorized output behaves closer to macOS/Linux
+- ⚡ **Windows Startup Optimizations**: Terminal capability detection is cached to reduce command startup overhead
 - 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
@@ -307,6 +308,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Each session keeps its own current directory (`cwd`) and command history.
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
 - Built-in command handling supports `clear` and `cls` to clear the current session output.
+- Git Bash sessions on Windows are launched with a faster startup profile (`--noprofile --norc`) to reduce command latency.
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored).
