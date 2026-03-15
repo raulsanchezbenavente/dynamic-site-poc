@@ -328,8 +328,13 @@ function normalizeTerminalCommand(input) {
   return String(input ?? '').replace(/\r\n/g, '\n').trim();
 }
 
-function normalizeCommandForTerminalPresentation(command) {
+function normalizeCommandForTerminalPresentation(command, options = null) {
   if (!command || process.platform === 'win32') {
+    return command;
+  }
+
+  const preferColumnOutput = Boolean(options?.preferColumnOutput);
+  if (!preferColumnOutput) {
     return command;
   }
 
@@ -354,7 +359,7 @@ function normalizeCommandForTerminalPresentation(command) {
   return ['ls', '-C', ...tokens.slice(1)].join(' ');
 }
 
-function executeTerminalCommand(sessionId, commandInput) {
+function executeTerminalCommand(sessionId, commandInput, options = null) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
     if (!session) {
@@ -379,7 +384,7 @@ function executeTerminalCommand(sessionId, commandInput) {
       return;
     }
 
-    const commandToRun = normalizeCommandForTerminalPresentation(command);
+    const commandToRun = normalizeCommandForTerminalPresentation(command, options);
 
     const cwd = session.cwd;
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
@@ -890,7 +895,8 @@ ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {
 ipcMain.handle('terminal:run-command', async (_event, payload) => {
   const sessionId = payload?.sessionId;
   const commandInput = payload?.command ?? '';
-  return executeTerminalCommand(sessionId, commandInput);
+  const options = payload?.options ?? null;
+  return executeTerminalCommand(sessionId, commandInput, options);
 });
 
 app.on('before-quit', (event) => {

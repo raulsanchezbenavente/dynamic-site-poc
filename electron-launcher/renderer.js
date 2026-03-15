@@ -23,11 +23,13 @@ const packageSourceMenu = document.getElementById('packageSourceMenu');
 const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
+const columnOutputCheckbox = document.getElementById('columnOutputCheckbox');
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
+const COLUMN_OUTPUT_STORAGE_KEY = 'launcher.terminal-column-output.v1';
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'red', 'solarized-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
@@ -934,7 +936,9 @@ async function runInteractiveTerminalCommand(command) {
   }
 
   try {
-    const result = await window.launcherApi.runTerminalCommand(session.id, trimmed);
+    const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
+      preferColumnOutput: Boolean(columnOutputCheckbox?.checked),
+    });
     setTerminalCwd(session.id, result?.cwd || session.cwd);
 
     if (!result?.streamed) {
@@ -1034,6 +1038,30 @@ function readSavedTerminalTheme() {
 function saveTerminalTheme(themeName) {
   const normalizedTheme = TERMINAL_THEMES.has(themeName) ? themeName : 'ocean';
   window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, normalizedTheme);
+}
+
+function readSavedColumnOutputPreference() {
+  try {
+    return window.localStorage.getItem(COLUMN_OUTPUT_STORAGE_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+function saveColumnOutputPreference(enabled) {
+  try {
+    window.localStorage.setItem(COLUMN_OUTPUT_STORAGE_KEY, enabled ? 'true' : 'false');
+  } catch {
+    // Ignore storage failures and keep runtime preference only.
+  }
+}
+
+function restoreColumnOutputPreference() {
+  if (!columnOutputCheckbox) {
+    return;
+  }
+
+  columnOutputCheckbox.checked = readSavedColumnOutputPreference();
 }
 
 function onTerminalThemeChange(selectedTheme) {
@@ -1292,6 +1320,11 @@ filterRunningCheckbox.addEventListener('change', renderScripts);
 filterFavoritesCheckbox.addEventListener('change', renderScripts);
 filterRunningCheckbox.addEventListener('change', saveFilters);
 filterFavoritesCheckbox.addEventListener('change', saveFilters);
+if (columnOutputCheckbox) {
+  columnOutputCheckbox.addEventListener('change', () => {
+    saveColumnOutputPreference(Boolean(columnOutputCheckbox.checked));
+  });
+}
 
 window.launcherApi.onScriptLog((payload) => {
   appendLog(payload);
@@ -1317,6 +1350,7 @@ async function init() {
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
   restoreFilters();
+  restoreColumnOutputPreference();
   restoreLogTabOrder();
   await refreshPackageSourceUi();
   await refreshScripts();
