@@ -32,8 +32,9 @@ const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
-const ANSI_CONTROL_SEQUENCE_PATTERN = /\u001b\[[0-9;?]*[ -/]*[@-~]/g;
+const ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN = /\u001b\[(?![0-9;]*m)[0-9;?]*[ -/]*[@-~]/g;
 const ANSI_OSC_PATTERN = /\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g;
+const ANSI_SGR_PATTERN = /\u001b\[([0-9;]*)m/g;
 const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'tokion-night-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
 const TERMINAL_THEME_LABELS = {
   ocean: 'Ocean',
@@ -119,17 +120,199 @@ function appendTextWithLinks(container, text) {
   }
 }
 
-function sanitizeRenderedLogText(value) {
+function normalizeRenderedLogText(value) {
   return String(value ?? '')
     .replace(ANSI_OSC_PATTERN, '')
-    .replace(ANSI_CONTROL_SEQUENCE_PATTERN, '')
+    .replace(ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN, '')
     .replace(/\r/g, '');
+}
+
+function ansiCodeToColor(code) {
+  switch (code) {
+    case 30:
+      return '#111827';
+    case 31:
+      return '#ef4444';
+    case 32:
+      return '#22c55e';
+    case 33:
+      return '#f59e0b';
+    case 34:
+      return '#3b82f6';
+    case 35:
+      return '#d946ef';
+    case 36:
+      return '#06b6d4';
+    case 37:
+      return '#e5e7eb';
+    case 90:
+      return '#9ca3af';
+    case 91:
+      return '#f87171';
+    case 92:
+      return '#4ade80';
+    case 93:
+      return '#fbbf24';
+    case 94:
+      return '#60a5fa';
+    case 95:
+      return '#e879f9';
+    case 96:
+      return '#22d3ee';
+    case 97:
+      return '#f9fafb';
+    default:
+      return null;
+  }
+}
+
+function appendStyledTextWithLinks(container, text, styleState) {
+  if (!text) {
+    return;
+  }
+
+  let lastIndex = 0;
+  urlPattern.lastIndex = 0;
+
+  const applyStyle = (element) => {
+    if (!styleState) {
+      return;
+    }
+
+    if (styleState.color) {
+      element.style.color = styleState.color;
+    }
+
+    if (styleState.bold) {
+      element.style.fontWeight = '700';
+    }
+
+    if (styleState.dim) {
+      element.style.opacity = '0.75';
+    }
+  };
+
+  for (const match of text.matchAll(urlPattern)) {
+    const rawUrl = match[0];
+    const matchIndex = match.index ?? 0;
+
+    if (matchIndex > lastIndex) {
+      const chunk = text.slice(lastIndex, matchIndex);
+      if (chunk) {
+        const span = document.createElement('span');
+        span.textContent = chunk;
+        applyStyle(span);
+        container.appendChild(span);
+      }
+    }
+
+    const { url, trailing } = trimTrailingUrlPunctuation(rawUrl);
+    if (url.length > 0) {
+      const link = document.createElement('a');
+      link.className = 'log-link';
+      link.href = url;
+      link.textContent = url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      applyStyle(link);
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        await window.launcherApi.openExternal(url);
+      });
+      container.appendChild(link);
+    }
+
+    if (trailing) {
+      const trailingSpan = document.createElement('span');
+      trailingSpan.textContent = trailing;
+      applyStyle(trailingSpan);
+      container.appendChild(trailingSpan);
+    }
+
+    lastIndex = matchIndex + rawUrl.length;
+  }
+
+  if (lastIndex < text.length) {
+    const tail = document.createElement('span');
+    tail.textContent = text.slice(lastIndex);
+    applyStyle(tail);
+    container.appendChild(tail);
+  }
+}
+
+function appendAnsiStyledText(container, text) {
+  const normalized = normalizeRenderedLogText(text);
+  const styleState = {
+    color: null,
+    bold: false,
+    dim: false,
+  };
+
+  let cursor = 0;
+  ANSI_SGR_PATTERN.lastIndex = 0;
+
+  for (const match of normalized.matchAll(ANSI_SGR_PATTERN)) {
+    const index = match.index ?? 0;
+
+    if (index > cursor) {
+      appendStyledTextWithLinks(container, normalized.slice(cursor, index), styleState);
+    }
+
+    const codes = String(match[1] ?? '')
+      .split(';')
+      .map((value) => Number(value || '0'));
+
+    for (const code of codes) {
+      if (!Number.isFinite(code)) {
+        continue;
+      }
+
+      if (code === 0) {
+        styleState.color = null;
+        styleState.bold = false;
+        styleState.dim = false;
+        continue;
+      }
+
+      if (code === 1) {
+        styleState.bold = true;
+        continue;
+      }
+
+      if (code === 2) {
+        styleState.dim = true;
+        continue;
+      }
+
+      if (code === 22) {
+        styleState.bold = false;
+        styleState.dim = false;
+        continue;
+      }
+
+      if (code === 39) {
+        styleState.color = null;
+        continue;
+      }
+
+      const mappedColor = ansiCodeToColor(code);
+      if (mappedColor) {
+        styleState.color = mappedColor;
+      }
+    }
+
+    cursor = index + match[0].length;
+  }
+
+  if (cursor < normalized.length) {
+    appendStyledTextWithLinks(container, normalized.slice(cursor), styleState);
+  }
 }
 
 function createLogLineElement(className, text) {
   const line = document.createElement('pre');
   line.className = className;
-  appendTextWithLinks(line, sanitizeRenderedLogText(text));
+  appendAnsiStyledText(line, text);
   return line;
 }
 
