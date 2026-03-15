@@ -288,7 +288,9 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ⭐ **Favorites**: Default favorites include `build`, `start:serve-proxy`, and `start:backend`
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
+- 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
+- 🔠 **Terminal Font Size Controls**: Increase, decrease, or reset terminal font size directly from the toolbar (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
 - � **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - �🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
@@ -302,6 +304,18 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - Closing a session tab stops active child processes for that session.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
+
+### Launcher Shortcuts
+
+- `Ctrl + R`: Refresh scripts list
+- `Ctrl + N`: Create new terminal session
+- `Ctrl + Q`: Close active terminal session
+- `Ctrl + D`: Clear current logs view
+- `Ctrl + X`: Send SIGINT to active terminal session
+- `Ctrl + Enter`: Toggle terminal fullscreen
+- `Ctrl + +`: Increase terminal font size
+- `Ctrl + -`: Decrease terminal font size
+- `Ctrl + 0`: Reset terminal font size
 
 ### Tab Ordering
 
