@@ -289,6 +289,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
+- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Ocean, Red, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
 - � **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - �🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
