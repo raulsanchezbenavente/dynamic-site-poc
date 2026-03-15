@@ -697,6 +697,24 @@ function resolveWindowsTerminalSpawn(terminalType, commandToRun, cwd, env) {
   };
 }
 
+function getEffectiveWindowsSessionTerminalType(session, requestedTerminalType = '') {
+  const availableTypes = getWindowsTerminalTypes();
+  const availableIds = new Set(availableTypes.map((entry) => entry.id));
+  const requestedType = String(requestedTerminalType || '').trim().toLowerCase();
+  const sessionType = String(session?.terminalType || '').trim().toLowerCase();
+  const defaultType = getSystemDefaultWindowsTerminalType(availableTypes) || 'cmd';
+
+  if (availableIds.has(requestedType)) {
+    return requestedType;
+  }
+
+  if (availableIds.has(sessionType)) {
+    return sessionType;
+  }
+
+  return defaultType;
+}
+
 function executeTerminalCommand(sessionId, commandInput, executionOptions = null) {
   return new Promise((resolve) => {
     const session = getTerminalSession(sessionId);
@@ -759,11 +777,13 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
     }
 
     const env = buildSpawnEnv();
-    const requestedTerminalType = String(executionOptions?.terminalType || 'cmd');
+    const requestedTerminalType = String(executionOptions?.terminalType || '');
 
     let child = null;
     if (process.platform === 'win32') {
-      const spawnConfig = resolveWindowsTerminalSpawn(requestedTerminalType, commandToRun, cwd, env);
+      const effectiveTerminalType = getEffectiveWindowsSessionTerminalType(session, requestedTerminalType);
+      session.terminalType = effectiveTerminalType;
+      const spawnConfig = resolveWindowsTerminalSpawn(effectiveTerminalType, commandToRun, cwd, env);
       child = spawn(spawnConfig.command, spawnConfig.args, spawnConfig.options);
     } else {
       child = spawn(commandToRun, [], {

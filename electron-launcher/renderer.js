@@ -93,6 +93,29 @@ function getTerminalTypeMeta(typeId) {
   return terminalTypeOptions.find((entry) => entry.id === normalized) || null;
 }
 
+function ensureTerminalSessionBanner(session) {
+  if (!session) {
+    return;
+  }
+
+  if (!Array.isArray(session.lines)) {
+    session.lines = [];
+  }
+
+  const hasBanner = session.lines.some((lineEntry) => lineEntry.className === 'interactive-terminal-session-meta');
+  if (hasBanner) {
+    return;
+  }
+
+  const terminalTypeMeta = getTerminalTypeMeta(session.terminalType);
+  const shellLabel = terminalTypeMeta?.label || 'Terminal';
+  const shellIcon = terminalTypeMeta?.icon ? `${terminalTypeMeta.icon} ` : '';
+  session.lines.unshift({
+    content: `[${shellIcon}${shellLabel} session]`,
+    className: 'interactive-terminal-session-meta',
+  });
+}
+
 function readSavedTerminalType() {
   try {
     return String(window.localStorage.getItem(TERMINAL_TYPE_STORAGE_KEY) || '').trim().toLowerCase();
@@ -1285,6 +1308,9 @@ function ensureTerminalSessionShape(session) {
     existing.name = session.name || existing.name;
     existing.cwd = session.cwd || existing.cwd;
     existing.terminalType = session.terminalType || existing.terminalType || defaultTerminalType;
+    if (!Array.isArray(existing.lines)) {
+      existing.lines = [];
+    }
     if (!Array.isArray(existing.commandHistory)) {
       existing.commandHistory = [];
     }
@@ -1294,6 +1320,7 @@ function ensureTerminalSessionShape(session) {
     if (typeof existing.historyDraft !== 'string') {
       existing.historyDraft = '';
     }
+    ensureTerminalSessionBanner(existing);
     return existing;
   }
 
@@ -1307,6 +1334,7 @@ function ensureTerminalSessionShape(session) {
     historyCursor: -1,
     historyDraft: '',
   };
+  ensureTerminalSessionBanner(created);
   terminalSessions.set(created.id, created);
   return created;
 }
