@@ -380,11 +380,24 @@ function normalizeCommandForTerminalPresentation(command) {
   }
 
   const tokens = command.split(/\s+/).filter(Boolean);
-  if (tokens.length === 0 || tokens[0] !== 'ls') {
+  if (tokens.length === 0) {
     return command;
   }
 
-  const hasExplicitFormat = tokens.some(
+  let lsTokenIndex = 0;
+  if (tokens[0] === 'sudo') {
+    lsTokenIndex = 1;
+    while (lsTokenIndex < tokens.length && /^-/.test(tokens[lsTokenIndex])) {
+      lsTokenIndex += 1;
+    }
+  }
+
+  if (lsTokenIndex >= tokens.length || tokens[lsTokenIndex] !== 'ls') {
+    return command;
+  }
+
+  const lsArguments = tokens.slice(lsTokenIndex + 1);
+  const hasExplicitFormat = lsArguments.some(
     (token) => token === '-1' || /^--format(=|$)/.test(token) || /^-[^-]*[Cxm][^-]*$/.test(token)
   );
 
@@ -392,7 +405,25 @@ function normalizeCommandForTerminalPresentation(command) {
     return command;
   }
 
-  return ['ls', '-C', ...tokens.slice(1)].join(' ');
+  return [...tokens.slice(0, lsTokenIndex + 1), '-C', ...lsArguments].join(' ');
+}
+
+function normalizeCommandForSudoStdin(command) {
+  if (!command || process.platform === 'win32') {
+    return command;
+  }
+
+  const trimmed = String(command).trim();
+  if (!/^sudo(?:\s|$)/i.test(trimmed)) {
+    return command;
+  }
+
+  // If caller already requested stdin mode, keep the command untouched.
+  if (/(?:^|\s)(?:-S|--stdin)(?:\s|$)/.test(trimmed)) {
+    return command;
+  }
+
+  return trimmed.replace(/^sudo(?:\s+|$)/i, 'sudo -S ');
 }
 
 function getTerminalCompletionContext(input, cursor) {
@@ -767,7 +798,7 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
       return;
     }
 
-    const commandToRun = normalizeCommandForTerminalPresentation(command);
+    const commandToRun = normalizeCommandForSudoStdin(normalizeCommandForTerminalPresentation(command));
 
     const cwd = session.cwd;
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
@@ -879,6 +910,39 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
         streamed: true,
       });
     });
+  });
+}
+
+function sendTerminalInput(sessionId, input, options = null) {
+  return new Promise((resolve) => {
+    const session = getTerminalSession(sessionId);
+    if (!session) {
+      resolve({ ok: false, error: 'Terminal session not found\n' });
+      return;
+    }
+
+    const child = session.activeProcess;
+    if (!child || !child.stdin || child.stdin.destroyed || !child.stdin.writable) {
+      resolve({ ok: false, error: 'No active command is waiting for input\n' });
+      return;
+    }
+
+    const appendNewline = options?.appendNewline !== false;
+    const normalizedInput = String(input ?? '').replace(/\r/g, '').replace(/\n/g, '');
+    const payload = appendNewline ? `${normalizedInput}\n` : normalizedInput;
+
+    try {
+      child.stdin.write(payload, 'utf8', (error) => {
+        if (error) {
+          resolve({ ok: false, error: `${error.message}\n` });
+          return;
+        }
+
+        resolve({ ok: true });
+      });
+    } catch (error) {
+      resolve({ ok: false, error: `${error?.message || 'Failed to write to stdin'}\n` });
+    }
   });
 }
 
@@ -1277,6 +1341,13 @@ ipcMain.handle('terminal:get-cwd', async (_event, sessionId) => {
 
 ipcMain.handle('terminal:complete-input', async (_event, payload) => {
   return completeTerminalInput(payload?.sessionId, payload?.input ?? '', payload?.cursor);
+});
+
+ipcMain.handle('terminal:send-input', async (_event, payload) => {
+  const sessionId = payload?.sessionId;
+  const input = payload?.input ?? '';
+  const options = payload?.options ?? null;
+  return sendTerminalInput(sessionId, input, options);
 });
 
 ipcMain.handle('terminal:get-types', async () => {

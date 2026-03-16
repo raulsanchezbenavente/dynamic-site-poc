@@ -18,6 +18,8 @@ contextBridge.exposeInMainWorld('launcherApi', {
   getTerminalTypes: () => ipcRenderer.invoke('terminal:get-types'),
   completeTerminalInput: (sessionId, input, cursor) =>
     ipcRenderer.invoke('terminal:complete-input', { sessionId, input, cursor }),
+  sendTerminalInput: (sessionId, input, options = null) =>
+    ipcRenderer.invoke('terminal:send-input', { sessionId, input, options }),
   runTerminalCommand: (sessionId, command, options = null) =>
     ipcRenderer.invoke('terminal:run-command', { sessionId, command, options }),
   onTerminalOutput: (handler) => {

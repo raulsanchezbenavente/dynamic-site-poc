@@ -78,8 +78,13 @@ let activeTerminalSessionId = null;
 const terminalSessions = new Map();
 const TERMINAL_TAB_PREFIX = 'terminal:';
 const TERMINAL_HISTORY_LIMIT = 200;
+const TERMINAL_DEFAULT_PLACEHOLDER = 'Type a command and press Enter';
+const TERMINAL_PASSWORD_PLACEHOLDER = 'Enter sudo password and press Enter';
+const SUDO_PASSWORD_PROMPT_PATTERN =
+  /(?:^|\s)(?:\[sudo\]\s*)?password(?:\s+for\s+[^:]+)?\s*:\s*$|^\s*contrase(?:n|ñ)a(?:\s+de\s+sudo)?\s*:\s*$/i;
 let editingTerminalSessionId = null;
 const runningTerminalSessions = new Set();
+const terminalPasswordPromptSessions = new Set();
 const orderedLogTabs = [];
 let terminalAutocompleteState = null;
 let draggedLogTabName = null;
@@ -774,6 +779,47 @@ function isTerminalSessionRunning(sessionId) {
   return Boolean(sessionId && runningTerminalSessions.has(sessionId));
 }
 
+function isAwaitingTerminalPassword(sessionId) {
+  return Boolean(sessionId && terminalPasswordPromptSessions.has(sessionId));
+}
+
+function updateInteractiveTerminalInputMode() {
+  if (!interactiveTerminalInput) {
+    return;
+  }
+
+  const sessionId = isTerminalTab(activeLogTab) ? activeTerminalSessionId : null;
+  const awaitingPassword = Boolean(sessionId && isAwaitingTerminalPassword(sessionId));
+  const running = Boolean(sessionId && isTerminalSessionRunning(sessionId));
+
+  interactiveTerminalInput.type = awaitingPassword ? 'password' : 'text';
+  interactiveTerminalInput.placeholder = awaitingPassword ? TERMINAL_PASSWORD_PLACEHOLDER : TERMINAL_DEFAULT_PLACEHOLDER;
+
+  if (interactiveTerminalRunButton && sessionId) {
+    interactiveTerminalRunButton.disabled = running && !awaitingPassword;
+  }
+}
+
+function markTerminalSessionAwaitingPassword(sessionId, awaitingPassword) {
+  if (!sessionId) {
+    return;
+  }
+
+  if (awaitingPassword) {
+    terminalPasswordPromptSessions.add(sessionId);
+  } else {
+    terminalPasswordPromptSessions.delete(sessionId);
+  }
+
+  if (activeTerminalSessionId === sessionId) {
+    updateInteractiveTerminalInputMode();
+  }
+}
+
+function lineLooksLikeSudoPasswordPrompt(line) {
+  return SUDO_PASSWORD_PROMPT_PATTERN.test(String(line ?? '').trim());
+}
+
 function hideTerminalInputBar() {
   if (interactiveTerminalBar) {
     interactiveTerminalBar.hidden = true;
@@ -782,6 +828,8 @@ function hideTerminalInputBar() {
 
   if (interactiveTerminalInput) {
     interactiveTerminalInput.disabled = true;
+    interactiveTerminalInput.type = 'text';
+    interactiveTerminalInput.placeholder = TERMINAL_DEFAULT_PLACEHOLDER;
   }
 
   if (interactiveTerminalRunButton) {
@@ -816,6 +864,7 @@ async function closeTerminalSession(sessionId) {
 
   await window.launcherApi.closeTerminalSession(sessionId);
   terminalSessions.delete(sessionId);
+  terminalPasswordPromptSessions.delete(sessionId);
 
   if (activeTerminalSessionId === sessionId) {
     const remainingSessionIds = Array.from(terminalSessions.keys());
@@ -830,6 +879,7 @@ async function closeTerminalSession(sessionId) {
 
   renderLogTabs();
   renderLogs();
+  updateInteractiveTerminalInputMode();
 }
 
 async function renameTerminalSession(sessionId, nextName) {
@@ -890,6 +940,7 @@ function updateConsoleSurface() {
   interactiveTerminalBar.setAttribute('aria-hidden', 'false');
   interactiveTerminalInput.disabled = false;
   interactiveTerminalRunButton.disabled = isTerminalSessionRunning(activeSession.id);
+  updateInteractiveTerminalInputMode();
 
   setTerminalCwd(activeSession.id, activeSession.cwd);
   renderTerminalOutput();
@@ -1084,6 +1135,7 @@ function renderLogTabs() {
       }
       renderLogTabs();
       renderLogs();
+      updateInteractiveTerminalInputMode();
 
       if (isTerminalTab(tabName) && interactiveTerminalInput) {
         interactiveTerminalInput.focus();
@@ -1604,8 +1656,19 @@ function interruptActiveTerminalSession() {
     return;
   }
 
+  markTerminalSessionAwaitingPassword(activeTerminalSessionId, false);
   appendTerminalLine(activeTerminalSessionId, '^C', 'interactive-terminal-stderr');
   void window.launcherApi.interruptTerminalSession(activeTerminalSessionId);
+}
+
+async function submitInteractiveTerminalInput(sessionId, input) {
+  const result = await window.launcherApi.sendTerminalInput(sessionId, input, { appendNewline: true });
+  if (result?.ok) {
+    return;
+  }
+
+  appendTerminalLine(sessionId, String(result?.error || 'Failed to send input\n'), 'interactive-terminal-stderr');
+  markTerminalSessionAwaitingPassword(sessionId, false);
 }
 
 async function handleTerminalTabAutocomplete(reverse = false) {
@@ -1700,8 +1763,13 @@ async function runInteractiveTerminalCommand(command) {
 
   resetTerminalAutocompleteState();
   clearAutocompleteSuggestionsFromSession(session.id);
+  markTerminalSessionAwaitingPassword(session.id, false);
 
   addTerminalCommandToHistory(session, trimmed);
+
+  if (/^sudo(?:\s|$)/i.test(trimmed)) {
+    markTerminalSessionAwaitingPassword(session.id, true);
+  }
 
   const normalized = trimmed.toLowerCase();
   if (normalized === 'clear' || normalized === 'cls') {
@@ -1722,10 +1790,7 @@ async function runInteractiveTerminalCommand(command) {
   appendTerminalLine(session.id, `${session.cwd || '~'} $ ${trimmed}`, 'interactive-terminal-command');
   runningTerminalSessions.add(session.id);
   updateInterruptTerminalButtonState();
-
-  if (interactiveTerminalRunButton) {
-    interactiveTerminalRunButton.disabled = true;
-  }
+  updateInteractiveTerminalInputMode();
 
   try {
     const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
@@ -1749,6 +1814,7 @@ async function runInteractiveTerminalCommand(command) {
     appendTerminalLine(session.id, '[exit 1]', 'interactive-terminal-exit');
   } finally {
     runningTerminalSessions.delete(session.id);
+    markTerminalSessionAwaitingPassword(session.id, false);
     updateInterruptTerminalButtonState();
 
     if (interactiveTerminalInput) {
@@ -1756,9 +1822,7 @@ async function runInteractiveTerminalCommand(command) {
       interactiveTerminalInput.select();
     }
 
-    if (interactiveTerminalRunButton) {
-      interactiveTerminalRunButton.disabled = false;
-    }
+    updateInteractiveTerminalInputMode();
   }
 }
 
@@ -2044,12 +2108,17 @@ interactiveTerminalForm.addEventListener('submit', (event) => {
     return;
   }
 
-  if (isTerminalSessionRunning(activeTerminalSessionId)) {
+  const sessionId = activeTerminalSessionId;
+  const command = interactiveTerminalInput.value;
+  interactiveTerminalInput.value = '';
+
+  if (isTerminalSessionRunning(sessionId)) {
+    if (isAwaitingTerminalPassword(sessionId)) {
+      void submitInteractiveTerminalInput(sessionId, command);
+    }
     return;
   }
 
-  const command = interactiveTerminalInput.value;
-  interactiveTerminalInput.value = '';
   void runInteractiveTerminalCommand(command);
 });
 interactiveTerminalInput.addEventListener('keydown', (event) => {
@@ -2057,7 +2126,11 @@ interactiveTerminalInput.addEventListener('keydown', (event) => {
     return;
   }
 
-  if ((event.key === 'Enter' || event.key === 'NumpadEnter') && isTerminalSessionRunning(activeTerminalSessionId)) {
+  if (
+    (event.key === 'Enter' || event.key === 'NumpadEnter') &&
+    isTerminalSessionRunning(activeTerminalSessionId) &&
+    !isAwaitingTerminalPassword(activeTerminalSessionId)
+  ) {
     event.preventDefault();
     return;
   }
@@ -2252,6 +2325,9 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
   const className = stream === 'stderr' ? 'interactive-terminal-stderr' : 'interactive-terminal-stdout';
 
   for (const line of splitTerminalText(message || '')) {
+    if (stream === 'stderr' && lineLooksLikeSudoPasswordPrompt(line)) {
+      markTerminalSessionAwaitingPassword(sessionId, true);
+    }
     appendTerminalLine(sessionId, line, className);
   }
 });
@@ -2284,6 +2360,7 @@ async function init() {
   if (interactiveTerminalBar) {
     interactiveTerminalBar.hidden = true;
   }
+  updateInteractiveTerminalInputMode();
   updateConsoleSurface();
 }
 
