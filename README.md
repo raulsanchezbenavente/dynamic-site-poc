@@ -311,7 +311,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Git Bash sessions on Windows are launched with a faster startup profile (`--noprofile --norc`) to reduce command latency.
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
-- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored).
+- **`sudo` password support**: when a running command outputs a password prompt (e.g. `sudo`), the terminal input automatically switches to password mode (masked input). Type the password and press Enter or click Run to send it to the process via stdin. Input returns to normal mode once the prompt is gone.
+- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored), except when a password prompt is detected.
 - Terminal font size defaults to `17.6px` on first launch or after clearing local storage; this matches the value applied by the Reset font button.
 - `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
@@ -335,10 +336,13 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - The tab order is saved in local storage and restored on next launcher start.
 - The `all` tab remains fixed at the beginning.
 
-### macOS Dev Icon Note
+### macOS App Icon
 
-- In dev mode (`npm run launcher:open`), the launcher applies a custom app icon for Dock/App Switcher.
-- The launcher tries `electron-launcher/assets/avianca-icon.icns` first and falls back to `electron-launcher/assets/avianca-icon.png` if needed.
+- The launcher uses a custom icon for Dock and App Switcher (`Cmd + Tab`).
+- The icon is a rounded macOS-style square with the full blue background and white airplane (`electron-launcher/assets/avianca-icon.icns` / `avianca-icon.png`).
+- In dev mode (`npm run launcher:open`), the icon is applied via `app.dock.setIcon()` using a `nativeImage` built from the PNG to bypass potential ICNS caching.
+- In packaged mode, the icon is embedded in the app bundle (`dist-electron/mac/Dynamic Site Launcher.app/Contents/Resources/icon.icns`).
+- The app name shown in `Cmd + Tab` is `Dynamic Site Launcher` when running the packaged executable. In dev mode it shows `Electron` — this is a macOS limitation: the app switcher name is taken from the bundle metadata, which belongs to the generic Electron binary, and cannot be overridden in JS at runtime.
 
 ### Build & Deploy the Launcher
 
