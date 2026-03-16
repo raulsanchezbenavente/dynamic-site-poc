@@ -41,6 +41,7 @@ const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
+const ACTIVE_LOG_TAB_STORAGE_KEY = 'launcher.active-log-tab.v1';
 const TERMINAL_FULLSCREEN_STORAGE_KEY = 'launcher.terminal-fullscreen.v1';
 const TERMINAL_TYPE_STORAGE_KEY = 'launcher.terminal-type.v1';
 const ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN = /\u001b\[(?![0-9;]*m)[0-9;?]*[ -/]*[@-~]/g;
@@ -639,6 +640,23 @@ function restoreLogTabOrder() {
   orderedLogTabs.splice(0, orderedLogTabs.length, ...saved);
 }
 
+function readSavedActiveLogTab() {
+  try {
+    return String(window.localStorage.getItem(ACTIVE_LOG_TAB_STORAGE_KEY) || '').trim();
+  } catch {
+    return '';
+  }
+}
+
+function saveActiveLogTab(tabName) {
+  const normalized = String(tabName || 'all').trim() || 'all';
+  try {
+    window.localStorage.setItem(ACTIVE_LOG_TAB_STORAGE_KEY, normalized);
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
 function registerTabOrder(tabName) {
   if (!tabName || tabName === 'all') {
     return;
@@ -977,6 +995,8 @@ function renderLogTabs() {
   if (!tabNames.includes(activeLogTab)) {
     activeLogTab = 'all';
   }
+
+  saveActiveLogTab(activeLogTab);
 
   logTabsEl.replaceChildren();
 
@@ -2339,6 +2359,8 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 });
 
 async function init() {
+  const savedActiveLogTab = readSavedActiveLogTab();
+
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
   applyTerminalFontSize(readSavedTerminalFontSize());
@@ -2358,6 +2380,16 @@ async function init() {
   await refreshPackageSourceUi();
   populateTerminalTypeSelector(await window.launcherApi.getTerminalTypes());
   await refreshScripts();
+
+  if (savedActiveLogTab) {
+    const availableTabs = new Set(getTabNames());
+    if (availableTabs.has(savedActiveLogTab)) {
+      activeLogTab = savedActiveLogTab;
+      if (isTerminalTab(savedActiveLogTab)) {
+        activeTerminalSessionId = sessionIdFromTab(savedActiveLogTab);
+      }
+    }
+  }
 
   // Re-render after restoring terminal sessions so Session tabs appear on first load.
   renderLogTabs();
