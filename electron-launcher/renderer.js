@@ -969,6 +969,28 @@ function updateConsoleSurface() {
   renderTerminalOutput();
 }
 
+function focusActiveTabTextbox() {
+  const activeTabTextbox = logTabsEl?.querySelector('.log-tab.active input:not([disabled])');
+  if (activeTabTextbox instanceof HTMLInputElement) {
+    activeTabTextbox.focus();
+    if (activeTabTextbox.dataset.terminalRenameInput) {
+      activeTabTextbox.select();
+    }
+    return;
+  }
+
+  const canFocusInteractiveTerminalInput =
+    isTerminalTab(activeLogTab) &&
+    interactiveTerminalBar &&
+    !interactiveTerminalBar.hidden &&
+    interactiveTerminalInput &&
+    !interactiveTerminalInput.disabled;
+
+  if (canFocusInteractiveTerminalInput) {
+    interactiveTerminalInput.focus();
+  }
+}
+
 function renderLogs() {
   updateConsoleSurface();
   if (isTerminalTab(activeLogTab)) {
@@ -2038,6 +2060,9 @@ async function refreshScripts() {
   renderScripts();
   renderLogTabs();
   renderLogs();
+  requestAnimationFrame(() => {
+    focusActiveTabTextbox();
+  });
 }
 
 async function refreshTerminalSessions() {
