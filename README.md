@@ -312,6 +312,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored).
+- Terminal font size defaults to `17.6px` on first launch or after clearing local storage; this matches the value applied by the Reset font button.
 - `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
