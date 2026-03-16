@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn, spawnSync } = require('child_process');
-const { app, BrowserWindow, dialog, ipcMain, shell } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, nativeImage, shell } = require('electron');
 
 const runningScripts = new Map();
 let isShuttingDown = false;
@@ -40,12 +40,20 @@ function applyAppIcon() {
   }
 
   const iconCandidates = [
-    path.join(__dirname, 'assets', 'avianca-icon.icns'),
     path.join(__dirname, 'assets', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'avianca-icon.icns'),
   ].filter((candidatePath) => fs.existsSync(candidatePath));
 
   for (const iconPath of iconCandidates) {
     try {
+      if (path.extname(iconPath).toLowerCase() === '.png') {
+        const runtimeIcon = nativeImage.createFromPath(iconPath);
+        if (!runtimeIcon.isEmpty()) {
+          app.dock.setIcon(runtimeIcon);
+          return;
+        }
+      }
+
       app.dock.setIcon(iconPath);
       return;
     } catch {
