@@ -92,6 +92,7 @@ let terminalFontSizePx = TERMINAL_FONT_SIZE_DEFAULT;
 let terminalTypeOptions = [];
 let selectedTerminalType = 'cmd';
 let defaultTerminalType = 'cmd';
+const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '').trim().toLowerCase();
@@ -111,6 +112,10 @@ function getTerminalTypeVisual(typeId) {
 
   if (normalized === 'git-bash') {
     return { iconText: '$', iconClass: 'terminal-type-icon-git-bash' };
+  }
+
+  if (IS_MACOS) {
+    return { iconText: '>_', iconClass: 'terminal-type-icon-macos' };
   }
 
   return { iconText: '>_', iconClass: 'terminal-type-icon-cmd' };
@@ -1027,10 +1032,11 @@ function renderLogTabs() {
       }
 
       const terminalTypeMeta = getTerminalTypeMeta(session?.terminalType);
+      const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
       const terminalTypeIcon = document.createElement('span');
-      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || ''}`.trim();
-      terminalTypeIcon.textContent = terminalTypeMeta?.iconText || '';
-      terminalTypeIcon.title = terminalTypeMeta?.label || 'Terminal';
+      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
+      terminalTypeIcon.textContent = terminalTypeMeta?.iconText || terminalTypeVisual.iconText || '';
+      terminalTypeIcon.title = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
 
       const closeButton = document.createElement('button');

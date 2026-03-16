@@ -671,6 +671,11 @@ body {
   border-color: #2f3d4f;
   color: #78d37f;
 }
+.terminal-type-icon-macos {
+  background: #1a2430;
+  border-color: #44566f;
+  color: #d9eaff;
+}
 .scripts-panel-header {
   padding-right: 1rem;
 }
