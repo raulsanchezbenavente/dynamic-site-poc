@@ -299,8 +299,9 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Increase, decrease, or reset terminal font size directly from the toolbar (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
-- � **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
-- �🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
+- 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
+- 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
+- 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
 ### Terminal Sessions in Launcher
 
@@ -312,7 +313,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - **`sudo` password support**: when a running command outputs a password prompt (e.g. `sudo`), the terminal input automatically switches to password mode (masked input). Type the password and press Enter or click Run to send it to the process via stdin. Input returns to normal mode once the prompt is gone.
-- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored), except when a password prompt is detected.
+- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored). The exception is when a `sudo` password prompt is active: in that case Enter and Run are allowed to submit the password.
 - Terminal font size defaults to `17.6px` on first launch or after clearing local storage; this matches the value applied by the Reset font button.
 - `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
