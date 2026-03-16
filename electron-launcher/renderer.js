@@ -272,8 +272,12 @@ function populateTerminalTypeSelector(config) {
 }
 
 function normalizeTerminalFontSize(value) {
+  if (value === null || value === undefined || String(value).trim() === '') {
+    return TERMINAL_FONT_SIZE_DEFAULT;
+  }
+
   const parsed = Number(value);
-  if (!Number.isFinite(parsed)) {
+  if (!Number.isFinite(parsed) || parsed === 0) {
     return TERMINAL_FONT_SIZE_DEFAULT;
   }
 
