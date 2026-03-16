@@ -1075,10 +1075,11 @@ function renderLogTabs() {
 
       const terminalTypeMeta = getTerminalTypeMeta(session?.terminalType);
       const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
+      const terminalTypeTooltip = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
       const terminalTypeIcon = document.createElement('span');
-      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
+      terminalTypeIcon.className = `log-tab-terminal-type-icon log-tab-tooltip ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
       terminalTypeIcon.textContent = terminalTypeMeta?.iconText || terminalTypeVisual.iconText || '';
-      terminalTypeIcon.title = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
+      terminalTypeIcon.setAttribute('data-tooltip', terminalTypeTooltip);
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
 
       const closeButton = document.createElement('button');
