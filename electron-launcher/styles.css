@@ -1357,18 +1357,15 @@ button:hover:not(:disabled) {
     flex-direction: column;
     padding: 0.9rem 1rem;
   }
-  .panel-header {
-    flex-wrap: wrap;
+   .panel-header {
+     flex-direction: row;
+     flex-wrap: nowrap;
+     overflow-x: auto;
   }
   .terminal-theme-selector {
-    margin-left: 0;
-    order: 2;
+     margin-left: 0;
   }
   .terminal-type-selector {
-    order: 4;
-  }
-  .toggle-terminal-button {
-    order: 3;
   }
   .terminal-theme-trigger {
     min-width: 9.8rem;
