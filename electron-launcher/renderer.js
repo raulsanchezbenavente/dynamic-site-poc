@@ -3,6 +3,7 @@ const logsEl = document.getElementById('logs');
 const logTabsEl = document.getElementById('logTabs');
 const refreshButton = document.getElementById('refreshButton');
 const quitButton = document.getElementById('quitButton');
+const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
 const terminalThemeText = document.getElementById('terminalThemeText');
@@ -2236,6 +2237,28 @@ quitButton.addEventListener('click', async () => {
       stream: 'stderr',
       message: `Failed to close launcher: ${error?.message || String(error)}\n`,
     });
+  }
+});
+quitButton.addEventListener('mouseenter', () => {
+  if (quitButtonTooltip) {
+    quitButtonTooltip.textContent = 'Exit (Ctrl Q)';
+    quitButtonTooltip.setAttribute('aria-hidden', 'false');
+  }
+});
+quitButton.addEventListener('mouseleave', () => {
+  if (quitButtonTooltip) {
+    quitButtonTooltip.setAttribute('aria-hidden', 'true');
+  }
+});
+quitButton.addEventListener('focus', () => {
+  if (quitButtonTooltip) {
+    quitButtonTooltip.textContent = 'Exit (Ctrl Q)';
+    quitButtonTooltip.setAttribute('aria-hidden', 'false');
+  }
+});
+quitButton.addEventListener('blur', () => {
+  if (quitButtonTooltip) {
+    quitButtonTooltip.setAttribute('aria-hidden', 'true');
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);

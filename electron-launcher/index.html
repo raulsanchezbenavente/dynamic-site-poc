@@ -73,38 +73,44 @@
             </button>
           </div>
         </div>
-        <button
-          id="quitButton"
-          class="quit-button"
-          type="button">
-          <svg
-            class="quit-button-icon"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-            focusable="false">
-            <path
-              d="M10 4H6.8C5.81 4 5 4.81 5 5.8V18.2C5 19.19 5.81 20 6.8 20H10"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path
-              d="M14 8L19 12L14 16"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-            <path
-              d="M9 12H19"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round" />
-          </svg>
-          <span>Exit</span>
-        </button>
+        <div class="quit-button-group">
+          <button
+            id="quitButton"
+            class="quit-button"
+            type="button">
+            <svg
+              class="quit-button-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M10 4H6.8C5.81 4 5 4.81 5 5.8V18.2C5 19.19 5.81 20 6.8 20H10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M14 8L19 12L14 16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M9 12H19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span>Exit</span>
+          </button>
+          <div
+            id="quitButtonTooltip"
+            class="source-selector-tooltip"
+            aria-hidden="true"></div>
+        </div>
       </div>
     </header>
     <main class="layout">

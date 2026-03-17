@@ -184,6 +184,11 @@ body {
   align-items: center;
   gap: 0.65rem;
 }
+.quit-button-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
 .source-selector {
   position: relative;
   display: flex;
@@ -255,6 +260,13 @@ body {
 .source-selector-trigger:focus-visible + .source-selector-tooltip {
   opacity: 1;
   transform: translateY(0);
+}
+#quitButtonTooltip[aria-hidden='false'] {
+  opacity: 1;
+  transform: translateY(0);
+}
+#quitButtonTooltip {
+  white-space: nowrap !important;
 }
 .source-selector-trigger[aria-expanded='true'] + .source-selector-tooltip {
   opacity: 0;
