@@ -703,6 +703,7 @@ body {
 .session-icon-button,
 .interrupt-icon-button,
 .clear-icon-button,
+.export-icon-button,
 .expand-icon-button {
   position: relative;
   display: inline-flex;
@@ -721,6 +722,7 @@ body {
 .session-icon-button::after,
 .interrupt-icon-button::after,
 .clear-icon-button::after,
+.export-icon-button::after,
 .expand-icon-button::after {
   content: attr(data-tooltip);
   position: absolute;
@@ -748,6 +750,7 @@ body {
 .session-icon-button::before,
 .interrupt-icon-button::before,
 .clear-icon-button::before,
+.export-icon-button::before,
 .expand-icon-button::before {
   content: '';
   position: absolute;
@@ -782,6 +785,10 @@ body {
 .clear-icon-button:hover::before,
 .clear-icon-button:focus-visible::after,
 .clear-icon-button:focus-visible::before,
+.export-icon-button:hover::after,
+.export-icon-button:hover::before,
+.export-icon-button:focus-visible::after,
+.export-icon-button:focus-visible::before,
 .expand-icon-button:hover::after,
 .expand-icon-button:hover::before,
 .expand-icon-button:focus-visible::after,
@@ -797,6 +804,8 @@ body {
 .interrupt-icon-button:focus-visible::after,
 .clear-icon-button:hover::after,
 .clear-icon-button:focus-visible::after,
+.export-icon-button:hover::after,
+.export-icon-button:focus-visible::after,
 .expand-icon-button:hover::after,
 .expand-icon-button:focus-visible::after {
   transform: translateY(0);
@@ -900,7 +909,15 @@ body:has(.layout.terminal-fullscreen) .layout {
   border-color: #bfd5f8;
   color: #1f4f91;
 }
+.export-logs-button {
+  background: #eef5ff;
+  border-color: #bfd5f8;
+  color: #1f4f91;
+}
 .clear-icon-button {
+  margin-left: 0.2rem;
+}
+.export-icon-button {
   margin-left: 0.2rem;
 }
 .clear-logs-icon {
@@ -913,6 +930,16 @@ body:has(.layout.terminal-fullscreen) .layout {
   transition: transform 160ms ease;
 }
 .clear-icon-button:hover:not(:disabled) .clear-logs-icon {
+  transform: translateY(-0.04rem);
+}
+.export-logs-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  stroke: currentColor;
+  flex: 0 0 auto;
+  transition: transform 160ms ease;
+}
+.export-icon-button:hover:not(:disabled) .export-logs-icon {
   transform: translateY(-0.04rem);
 }
 .toggle-terminal-button {

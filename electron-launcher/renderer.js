@@ -5,6 +5,7 @@ const refreshButton = document.getElementById('refreshButton');
 const quitButton = document.getElementById('quitButton');
 const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
+const exportLogsButton = document.getElementById('exportLogsButton');
 const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
 const terminalThemeText = document.getElementById('terminalThemeText');
 const terminalThemePreview = document.getElementById('terminalThemePreview');
@@ -1333,6 +1334,66 @@ function appendLog({ script, stream, message }) {
   renderLogs();
 }
 
+function formatExportTimestamp(date = new Date()) {
+  const year = String(date.getFullYear());
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${year}${month}${day}-${hours}${minutes}${seconds}`;
+}
+
+function normalizeExportName(value, fallback = 'logs') {
+  const normalized = String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9._-]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+  return normalized || fallback;
+}
+
+function buildCurrentLogExportPayload() {
+  const timestamp = formatExportTimestamp();
+
+  if (isTerminalTab(activeLogTab)) {
+    const session = getActiveTerminalSession();
+    const sessionLabel = normalizeExportName(session?.name || 'terminal-session', 'terminal-session');
+    const lines = Array.isArray(session?.lines)
+      ? session.lines.map((lineEntry) => String(lineEntry?.content || ''))
+      : [];
+    return {
+      suggestedFileName: `${sessionLabel}-${timestamp}.log`,
+      content: `${lines.join('\n')}\n`,
+    };
+  }
+
+  const bucket = logsByScript.get(activeLogTab) ?? [];
+  const tabLabel = activeLogTab === 'all' ? 'all-scripts' : normalizeExportName(activeLogTab, 'script');
+  const lines = bucket.map((entry) =>
+    activeLogTab === 'all' ? `[${entry.script}] ${entry.message}` : String(entry.message || '')
+  );
+
+  return {
+    suggestedFileName: `${tabLabel}-${timestamp}.log`,
+    content: `${lines.join('')}\n`,
+  };
+}
+
+async function exportActiveLogs() {
+  const payload = buildCurrentLogExportPayload();
+  const result = await window.launcherApi.exportLogs(payload);
+
+  if (!result?.ok) {
+    window.alert(`Failed to export logs: ${result?.error || 'Unknown error'}`);
+    return;
+  }
+
+  if (result.canceled) {
+    return;
+  }
+}
+
 function focusScriptLogTab(scriptName) {
   ensureLogBucket(scriptName);
   activeLogTab = scriptName;
@@ -2264,6 +2325,9 @@ quitButton.addEventListener('blur', () => {
   }
 });
 clearLogsButton.addEventListener('click', clearLogs);
+exportLogsButton?.addEventListener('click', () => {
+  void exportActiveLogs();
+});
 interruptTerminalButton.addEventListener('click', () => {
   interruptActiveTerminalSession();
 });

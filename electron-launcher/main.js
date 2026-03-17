@@ -1309,6 +1309,32 @@ ipcMain.handle('scripts:stop', async (_event, scriptName) => {
   return { ok: true };
 });
 
+ipcMain.handle('logs:export', async (event, payload) => {
+  const content = String(payload?.content ?? '');
+  const suggestedFileName = String(payload?.suggestedFileName || 'launcher-logs.log').trim() || 'launcher-logs.log';
+  const ownerWindow = BrowserWindow.fromWebContents(event.sender) || null;
+
+  const result = await dialog.showSaveDialog(ownerWindow || undefined, {
+    title: 'Export logs',
+    defaultPath: path.join(app.getPath('downloads'), suggestedFileName),
+    filters: [
+      { name: 'Log files', extensions: ['log', 'txt'] },
+      { name: 'All files', extensions: ['*'] },
+    ],
+  });
+
+  if (result.canceled || !result.filePath) {
+    return { ok: true, canceled: true };
+  }
+
+  try {
+    fs.writeFileSync(result.filePath, content, 'utf8');
+    return { ok: true, canceled: false, path: result.filePath };
+  } catch (error) {
+    return { ok: false, error: error?.message || 'Failed to save log file' };
+  }
+});
+
 ipcMain.handle('app:quit', async () => {
   app.quit();
   return { ok: true };
