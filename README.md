@@ -301,6 +301,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
 - 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
+- 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips are rendered in a floating portal outside the tabs container so they are never cut by overflow
+- 🖱️ **Horizontal Tab Scrolling**: The terminal tabs strip supports horizontal scrolling with mouse wheel/trackpad gestures
 - 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
 ### Terminal Sessions in Launcher
