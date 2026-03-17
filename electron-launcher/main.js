@@ -31,8 +31,21 @@ function getLauncherIconPath() {
     }
   }
 
-  const platformIconName = process.platform === 'darwin' ? 'avianca-icon.icns' : 'avianca-icon.png';
-  const platformIconPath = path.join(__dirname, 'assets', platformIconName);
+  if (process.platform === 'darwin') {
+    const macIconCandidates = [
+      path.join(__dirname, 'assets', 'avianca-icon.icns'),
+      path.join(__dirname, 'assets', 'mac.iconset', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'avianca-icon.png'),
+    ];
+
+    for (const macIconPath of macIconCandidates) {
+      if (fs.existsSync(macIconPath)) {
+        return macIconPath;
+      }
+    }
+  }
+
+  const platformIconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
   if (fs.existsSync(platformIconPath)) {
     return platformIconPath;
   }
@@ -47,8 +60,9 @@ function applyAppIcon() {
   }
 
   const iconCandidates = [
-    path.join(__dirname, 'assets', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'mac.iconset', 'avianca-icon.png'),
     path.join(__dirname, 'assets', 'avianca-icon.icns'),
+    path.join(__dirname, 'assets', 'avianca-icon.png'),
   ].filter((candidatePath) => fs.existsSync(candidatePath));
 
   for (const iconPath of iconCandidates) {

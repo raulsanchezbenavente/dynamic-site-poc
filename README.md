@@ -342,7 +342,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 ### macOS App Icon
 
 - The launcher uses a custom icon for Dock and App Switcher (`Cmd + Tab`).
-- The icon is a rounded macOS-style square with the full blue background and white airplane (`electron-launcher/assets/avianca-icon.icns` / `avianca-icon.png`).
+- The icon is a rounded macOS-style square with the full blue background and white airplane (`electron-launcher/assets/avianca-icon.icns` / `electron-launcher/assets/mac.iconset/avianca-icon.png`).
 - In dev mode (`npm run launcher:open`), the icon is applied via `app.dock.setIcon()` using a `nativeImage` built from the PNG to bypass potential ICNS caching.
 - In packaged mode, the icon is embedded in the app bundle (`dist-electron/mac/Dynamic Site Launcher.app/Contents/Resources/icon.icns`).
 - The app name shown in `Cmd + Tab` is `Dynamic Site Launcher` when running the packaged executable. In dev mode it shows `Electron` — this is a macOS limitation: the app switcher name is taken from the bundle metadata, which belongs to the generic Electron binary, and cannot be overridden in JS at runtime.
