@@ -93,6 +93,8 @@ let terminalFontSizePx = TERMINAL_FONT_SIZE_DEFAULT;
 let terminalTypeOptions = [];
 let selectedTerminalType = 'cmd';
 let defaultTerminalType = 'cmd';
+let logTabTooltipPortalEl = null;
+let activeLogTabTooltipTarget = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
@@ -696,6 +698,86 @@ function clearLogTabDropIndicators() {
   }
 }
 
+function ensureLogTabTooltipPortal() {
+  if (logTabTooltipPortalEl && document.body.contains(logTabTooltipPortalEl)) {
+    return logTabTooltipPortalEl;
+  }
+
+  const tooltip = document.createElement('div');
+  tooltip.className = 'log-tab-tooltip-portal';
+  tooltip.setAttribute('role', 'tooltip');
+  tooltip.hidden = true;
+  document.body.appendChild(tooltip);
+  logTabTooltipPortalEl = tooltip;
+  return tooltip;
+}
+
+function hideLogTabTooltipPortal() {
+  activeLogTabTooltipTarget = null;
+  if (!logTabTooltipPortalEl) {
+    return;
+  }
+
+  logTabTooltipPortalEl.hidden = true;
+  logTabTooltipPortalEl.textContent = '';
+}
+
+function positionLogTabTooltipPortal(target) {
+  const tooltip = ensureLogTabTooltipPortal();
+  if (!tooltip || !target) {
+    return;
+  }
+
+  const targetRect = target.getBoundingClientRect();
+  const gap = 8;
+  tooltip.hidden = false;
+  tooltip.style.left = '0px';
+  tooltip.style.top = '0px';
+
+  const tooltipRect = tooltip.getBoundingClientRect();
+  const minLeft = 8;
+  const maxLeft = Math.max(minLeft, window.innerWidth - tooltipRect.width - 8);
+  const centeredLeft = targetRect.left + targetRect.width / 2 - tooltipRect.width / 2;
+  const left = Math.min(maxLeft, Math.max(minLeft, centeredLeft));
+
+  let top = targetRect.bottom + gap;
+  let side = 'bottom';
+  if (top + tooltipRect.height > window.innerHeight - 8) {
+    top = Math.max(8, targetRect.top - tooltipRect.height - gap);
+    side = 'top';
+  }
+
+  tooltip.style.left = `${Math.round(left)}px`;
+  tooltip.style.top = `${Math.round(top)}px`;
+  tooltip.dataset.side = side;
+}
+
+function showLogTabTooltipPortal(target) {
+  const tooltipText = String(target?.getAttribute('data-tooltip') || '').trim();
+  if (!tooltipText) {
+    hideLogTabTooltipPortal();
+    return;
+  }
+
+  const tooltip = ensureLogTabTooltipPortal();
+  if (!tooltip) {
+    return;
+  }
+
+  tooltip.textContent = tooltipText;
+  activeLogTabTooltipTarget = target;
+  positionLogTabTooltipPortal(target);
+}
+
+function refreshLogTabTooltipPortalPosition() {
+  if (!activeLogTabTooltipTarget || !document.body.contains(activeLogTabTooltipTarget)) {
+    hideLogTabTooltipPortal();
+    return;
+  }
+
+  positionLogTabTooltipPortal(activeLogTabTooltipTarget);
+}
+
 function handleLogTabsWheelScroll(event) {
   if (!logTabsEl) {
     return;
@@ -1043,6 +1125,7 @@ function renderLogTabs() {
   }
 
   saveActiveLogTab(activeLogTab);
+  hideLogTabTooltipPortal();
 
   logTabsEl.replaceChildren();
 
@@ -1101,10 +1184,16 @@ function renderLogTabs() {
       const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
       const terminalTypeTooltip = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
       const terminalTypeIcon = document.createElement('span');
-      terminalTypeIcon.className = `log-tab-terminal-type-icon log-tab-tooltip ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
+      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
       terminalTypeIcon.textContent = terminalTypeMeta?.iconText || terminalTypeVisual.iconText || '';
       terminalTypeIcon.setAttribute('data-tooltip', terminalTypeTooltip);
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
+      terminalTypeIcon.addEventListener('mouseenter', () => {
+        showLogTabTooltipPortal(terminalTypeIcon);
+      });
+      terminalTypeIcon.addEventListener('mouseleave', () => {
+        hideLogTabTooltipPortal();
+      });
 
       const closeButton = document.createElement('button');
       closeButton.type = 'button';
@@ -2270,6 +2359,9 @@ document.addEventListener('click', (event) => {
     }
   }
 });
+
+window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
+window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
