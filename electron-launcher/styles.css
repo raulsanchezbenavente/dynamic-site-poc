@@ -1161,7 +1161,7 @@ button:hover:not(:disabled) {
 .log-tab-tooltip-portal::before {
   content: '';
   position: absolute;
-  left: 0.76rem;
+  left: 0.42rem;
   width: 0.46rem;
   height: 0.46rem;
   background: #1f2d44;
