@@ -296,6 +296,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
+- 💾 **Export Logs to File**: Save the active log tab (script, `All scripts`, or terminal session) with a toolbar button and native save dialog
+- 🔔 **Visual Export Feedback**: Export success/errors are shown as non-blocking toast notifications in the launcher UI
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Increase, decrease, or reset terminal font size directly from the toolbar (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
@@ -327,6 +329,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - `Ctrl + N`: Create new terminal session
 - `Ctrl + W`: Close active terminal session
 - `Ctrl + D`: Clear current logs view
+- `Ctrl + E`: Export active logs to file
 - `Ctrl + X`: Send SIGINT to active terminal session
 - `Ctrl + Enter`: Toggle terminal fullscreen
 - `Ctrl + +`: Increase terminal font size
