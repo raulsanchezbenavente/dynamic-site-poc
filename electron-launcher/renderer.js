@@ -2557,6 +2557,12 @@ document.addEventListener('keydown', (event) => {
       return;
     }
 
+    if (String(key).toLowerCase() === 'e' || code === 'KeyE') {
+      event.preventDefault();
+      void exportActiveLogs();
+      return;
+    }
+
     if (String(key).toLowerCase() === 'w' || code === 'KeyW') {
       event.preventDefault();
       if (activeTerminalSessionId) {
