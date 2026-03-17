@@ -1224,12 +1224,12 @@ button:hover:not(:disabled) {
   color: var(--terminal-tab-active-ink);
 }
 .log-tab.log-tab-draggable {
-  cursor: grab;
+  cursor: pointer;
   user-select: none;
 }
 .log-tab.log-tab-dragging {
   opacity: 0.58;
-  cursor: grabbing;
+  cursor: pointer;
 }
 .log-tab.log-tab-drop-before {
   border-color: color-mix(in oklab, var(--terminal-tab-active-border) 75%, #ffffff 25%);
