@@ -170,6 +170,36 @@ body {
     18px 18px,
     auto;
 }
+.launcher-toast {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  max-width: min(34rem, calc(100vw - 2rem));
+  padding: 0.55rem 0.75rem;
+  border-radius: 0.55rem;
+  border: 1px solid #2f5ea5;
+  background: #1f4f91;
+  color: #f4f8ff;
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+  box-shadow: 0 12px 24px rgba(10, 18, 32, 0.24);
+  opacity: 0;
+  transform: translateY(0.35rem);
+  pointer-events: none;
+  transition:
+    opacity 160ms ease,
+    transform 160ms ease;
+  z-index: 280;
+}
+.launcher-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.launcher-toast.is-error {
+  border-color: #93303b;
+  background: #8f2e2e;
+}
 .topbar {
   display: flex;
   justify-content: space-between;

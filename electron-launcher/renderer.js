@@ -6,6 +6,7 @@ const quitButton = document.getElementById('quitButton');
 const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const exportLogsButton = document.getElementById('exportLogsButton');
+const launcherToast = document.getElementById('launcherToast');
 const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
 const terminalThemeText = document.getElementById('terminalThemeText');
 const terminalThemePreview = document.getElementById('terminalThemePreview');
@@ -97,6 +98,7 @@ let selectedTerminalType = 'cmd';
 let defaultTerminalType = 'cmd';
 let logTabTooltipPortalEl = null;
 let activeLogTabTooltipTarget = null;
+let launcherToastHideTimer = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
@@ -1385,13 +1387,43 @@ async function exportActiveLogs() {
   const result = await window.launcherApi.exportLogs(payload);
 
   if (!result?.ok) {
-    window.alert(`Failed to export logs: ${result?.error || 'Unknown error'}`);
+    showLauncherToast(`Failed to export logs: ${result?.error || 'Unknown error'}`, { type: 'error' });
     return;
   }
 
   if (result.canceled) {
     return;
   }
+
+  showLauncherToast(`Logs exported to ${result.path}`);
+}
+
+function showLauncherToast(message, options = {}) {
+  if (!launcherToast) {
+    return;
+  }
+
+  const type = options.type === 'error' ? 'error' : 'success';
+  launcherToast.textContent = String(message || '').trim();
+  launcherToast.hidden = false;
+  launcherToast.classList.toggle('is-error', type === 'error');
+  launcherToast.classList.add('is-visible');
+  launcherToast.setAttribute('role', type === 'error' ? 'alert' : 'status');
+  launcherToast.setAttribute('aria-live', type === 'error' ? 'assertive' : 'polite');
+
+  if (launcherToastHideTimer) {
+    clearTimeout(launcherToastHideTimer);
+  }
+
+  launcherToastHideTimer = setTimeout(() => {
+    launcherToast.classList.remove('is-visible');
+    launcherToastHideTimer = null;
+    setTimeout(() => {
+      if (!launcherToast.classList.contains('is-visible')) {
+        launcherToast.hidden = true;
+      }
+    }, 170);
+  }, type === 'error' ? 4200 : 2600);
 }
 
 function focusScriptLogTab(scriptName) {
