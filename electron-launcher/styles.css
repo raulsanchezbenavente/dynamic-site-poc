@@ -1092,7 +1092,7 @@ button:hover:not(:disabled) {
   padding: 0.65rem 0.75rem;
   border-bottom: 1px solid var(--terminal-tabs-border);
   background: linear-gradient(180deg, var(--terminal-tabs-bg-start) 0%, var(--terminal-tabs-bg-end) 100%);
-  overflow-x: auto;
+  overflow-x: visible;
 }
 .log-tab {
   display: inline-flex;
