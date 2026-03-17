@@ -2450,6 +2450,12 @@ document.addEventListener('keydown', (event) => {
       return;
     }
 
+    if (String(key).toLowerCase() === 'q' || code === 'KeyQ') {
+      event.preventDefault();
+      quitButton?.click();
+      return;
+    }
+
     if (key === '+' || (key === '=' && event.shiftKey) || code === 'NumpadAdd') {
       event.preventDefault();
       changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
