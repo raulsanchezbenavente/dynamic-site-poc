@@ -2099,6 +2099,8 @@ async function runScript(scriptName) {
 }
 
 async function stopScript(scriptName) {
+  focusScriptLogTab(scriptName);
+
   const result = await window.launcherApi.stopScript(scriptName);
   if (!result.ok) {
     appendLog({ script: scriptName, stream: 'stderr', message: `${result.error}\n` });
