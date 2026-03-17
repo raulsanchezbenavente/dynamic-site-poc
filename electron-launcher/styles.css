@@ -1161,10 +1161,9 @@ button:hover:not(:disabled) {
 .log-tab-tooltip-portal::before {
   content: '';
   position: absolute;
-  left: 50%;
+  left: 0.76rem;
   width: 0.46rem;
   height: 0.46rem;
-  margin-left: -0.23rem;
   background: #1f2d44;
 }
 .log-tab-tooltip-portal[data-side='bottom']::before {
