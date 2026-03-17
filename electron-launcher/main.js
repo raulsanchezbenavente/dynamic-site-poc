@@ -24,6 +24,13 @@ const packageSource = {
 };
 
 function getLauncherIconPath() {
+  if (process.platform === 'win32') {
+    const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca.png');
+    if (fs.existsSync(windowsIconPath)) {
+      return windowsIconPath;
+    }
+  }
+
   const platformIconName = process.platform === 'darwin' ? 'avianca-icon.icns' : 'avianca-icon.png';
   const platformIconPath = path.join(__dirname, 'assets', platformIconName);
   if (fs.existsSync(platformIconPath)) {
@@ -262,7 +269,9 @@ function getDefaultTerminalWorkingDirectory() {
 
 function createTerminalSession(options = null) {
   terminalSessionCounter += 1;
-  const requestedTerminalType = String(options?.terminalType || '').trim().toLowerCase();
+  const requestedTerminalType = String(options?.terminalType || '')
+    .trim()
+    .toLowerCase();
   const availableTypes = getWindowsTerminalTypes();
   const availableIds = new Set(availableTypes.map((entry) => entry.id));
   const defaultTerminalType = getSystemDefaultWindowsTerminalType(availableTypes) || 'cmd';
@@ -374,7 +383,9 @@ function resolveTerminalPath(baseDir, target) {
 }
 
 function normalizeTerminalCommand(input) {
-  return String(input ?? '').replace(/\r\n/g, '\n').trim();
+  return String(input ?? '')
+    .replace(/\r\n/g, '\n')
+    .trim();
 }
 
 function normalizeCommandForTerminalPresentation(command) {
@@ -445,11 +456,7 @@ function getTerminalCompletionContext(input, cursor) {
   }
 
   const token = value.slice(start, safeCursor);
-  const commandName = left
-    .slice(0, start)
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)[0];
+  const commandName = left.slice(0, start).trim().split(/\s+/).filter(Boolean)[0];
 
   return {
     start,
@@ -626,7 +633,9 @@ function commandExistsOnWindows(commandName) {
     return false;
   }
 
-  const normalizedName = String(commandName || '').trim().toLowerCase();
+  const normalizedName = String(commandName || '')
+    .trim()
+    .toLowerCase();
   if (!normalizedName) {
     return false;
   }
@@ -655,10 +664,7 @@ function resolveGitBashExecutablePath() {
     return cachedGitBashExecutablePath;
   }
 
-  const knownCandidates = [
-    'C:\\Program Files\\Git\\bin\\bash.exe',
-    'C:\\Program Files (x86)\\Git\\bin\\bash.exe',
-  ];
+  const knownCandidates = ['C:\\Program Files\\Git\\bin\\bash.exe', 'C:\\Program Files (x86)\\Git\\bin\\bash.exe'];
 
   for (const candidatePath of knownCandidates) {
     if (fs.existsSync(candidatePath)) {
@@ -727,7 +733,9 @@ function getSystemDefaultWindowsTerminalType(availableOptions) {
 }
 
 function resolveWindowsTerminalSpawn(terminalType, commandToRun, cwd, env) {
-  const type = String(terminalType || 'cmd').trim().toLowerCase();
+  const type = String(terminalType || 'cmd')
+    .trim()
+    .toLowerCase();
 
   if (type === 'powershell' && commandExistsOnWindows('powershell.exe')) {
     return {
@@ -766,8 +774,12 @@ function resolveWindowsTerminalSpawn(terminalType, commandToRun, cwd, env) {
 function getEffectiveWindowsSessionTerminalType(session, requestedTerminalType = '') {
   const availableTypes = getWindowsTerminalTypes();
   const availableIds = new Set(availableTypes.map((entry) => entry.id));
-  const requestedType = String(requestedTerminalType || '').trim().toLowerCase();
-  const sessionType = String(session?.terminalType || '').trim().toLowerCase();
+  const requestedType = String(requestedTerminalType || '')
+    .trim()
+    .toLowerCase();
+  const sessionType = String(session?.terminalType || '')
+    .trim()
+    .toLowerCase();
   const defaultType = getSystemDefaultWindowsTerminalType(availableTypes) || 'cmd';
 
   if (availableIds.has(requestedType)) {
@@ -936,7 +948,9 @@ function sendTerminalInput(sessionId, input, options = null) {
     }
 
     const appendNewline = options?.appendNewline !== false;
-    const normalizedInput = String(input ?? '').replace(/\r/g, '').replace(/\n/g, '');
+    const normalizedInput = String(input ?? '')
+      .replace(/\r/g, '')
+      .replace(/\n/g, '');
     const payload = appendNewline ? `${normalizedInput}\n` : normalizedInput;
 
     try {

@@ -38,7 +38,7 @@
       "main": "electron-launcher/main.js"
     },
     "win": {
-      "icon": "electron-launcher/assets/avianca-icon.png",
+      "icon": "electron-launcher/assets/windows/avianca.png",
       "signAndEditExecutable": false,
       "target": [
         "nsis"
