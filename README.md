@@ -312,7 +312,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
 - Built-in command handling supports `clear` and `cls` to clear the current session output.
 - Git Bash sessions on Windows are launched with a faster startup profile (`--noprofile --norc`) to reduce command latency.
-- **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `all scripts` tab.
+- **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `All scripts` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
 - **`sudo` password support**: when a running command outputs a password prompt (e.g. `sudo`), the terminal input automatically switches to password mode (masked input). Type the password and press Enter or click Run to send it to the process via stdin. Input returns to normal mode once the prompt is gone.
 - While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored). The exception is when a `sudo` password prompt is active: in that case Enter and Run are allowed to submit the password.
@@ -337,7 +337,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 
 - Log tabs (scripts and terminal sessions) can be reordered via drag and drop.
 - The tab order is saved in local storage and restored on next launcher start.
-- The `all scripts` tab remains fixed at the beginning.
+- The `All scripts` tab remains fixed at the beginning.
 
 ### macOS App Icon
 
