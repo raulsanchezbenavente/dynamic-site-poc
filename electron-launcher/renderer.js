@@ -585,6 +585,17 @@ function appendAnsiStyledText(container, text) {
 function createLogLineElement(className, text) {
   const line = document.createElement('pre');
   line.className = className;
+
+  const normalized = normalizeRenderedLogText(text);
+  const plainWithoutSgr = normalized.replace(/\u001b\[[0-9;]*m/g, '');
+
+  // Some Windows tools inject ANSI SGR codes in the middle of URLs (e.g. before :4200),
+  // which breaks link parsing into partial links like http://localhost.
+  if (/https?:\/\//i.test(plainWithoutSgr)) {
+    appendTextWithLinks(line, plainWithoutSgr);
+    return line;
+  }
+
   appendAnsiStyledText(line, text);
   return line;
 }
