@@ -2425,7 +2425,7 @@ document.addEventListener('keydown', (event) => {
       return;
     }
 
-    if (String(key).toLowerCase() === 'q' || code === 'KeyQ') {
+    if (String(key).toLowerCase() === 'w' || code === 'KeyW') {
       event.preventDefault();
       if (activeTerminalSessionId) {
         void closeTerminalSession(activeTerminalSessionId);

@@ -325,7 +325,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 
 - `Ctrl + S`: Refresh scripts list
 - `Ctrl + N`: Create new terminal session
-- `Ctrl + Q`: Close active terminal session
+- `Ctrl + W`: Close active terminal session
 - `Ctrl + D`: Clear current logs view
 - `Ctrl + X`: Send SIGINT to active terminal session
 - `Ctrl + Enter`: Toggle terminal fullscreen
