@@ -696,6 +696,30 @@ function clearLogTabDropIndicators() {
   }
 }
 
+function handleLogTabsWheelScroll(event) {
+  if (!logTabsEl) {
+    return;
+  }
+
+  const delta = Math.abs(event.deltaX) > 0 ? event.deltaX : event.deltaY;
+  if (!delta) {
+    return;
+  }
+
+  const maxScrollLeft = Math.max(0, logTabsEl.scrollWidth - logTabsEl.clientWidth);
+  if (maxScrollLeft <= 0) {
+    return;
+  }
+
+  const nextScrollLeft = Math.min(maxScrollLeft, Math.max(0, logTabsEl.scrollLeft + delta));
+  if (nextScrollLeft === logTabsEl.scrollLeft) {
+    return;
+  }
+
+  event.preventDefault();
+  logTabsEl.scrollLeft = nextScrollLeft;
+}
+
 function reorderLogTabs(sourceTabName, targetTabName, insertBefore = true) {
   if (!isReorderableLogTab(sourceTabName) || !isReorderableLogTab(targetTabName)) {
     return false;
@@ -2246,6 +2270,8 @@ document.addEventListener('click', (event) => {
     }
   }
 });
+
+logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
 function hasSelectedTextForCopyShortcut() {
   const activeElement = document.activeElement;
