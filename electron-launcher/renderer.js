@@ -1219,7 +1219,7 @@ function renderLogTabs() {
         }
       });
     } else {
-      tab.textContent = tabName;
+      tab.textContent = tabName === 'all' ? 'all scripts' : tabName;
     }
 
     if (isReorderableLogTab(tabName)) {
