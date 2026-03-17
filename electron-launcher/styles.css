@@ -1371,7 +1371,7 @@ button:hover:not(:disabled) {
   color: var(--terminal-link-hover);
 }
 
-@media (width <= 1000px) {
+@media (width <= 1200px) {
   .topbar {
     flex-direction: column;
     align-items: stretch;
@@ -1399,13 +1399,12 @@ button:hover:not(:disabled) {
     flex-direction: column;
     padding: 0.9rem 1rem;
   }
-   .panel-header {
-     flex-direction: row;
-     flex-wrap: nowrap;
-     overflow-x: auto;
+  .panel-header {
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
   .terminal-theme-selector {
-     margin-left: 0;
+    margin-left: 0;
   }
   .terminal-theme-trigger {
     min-width: 9.8rem;
