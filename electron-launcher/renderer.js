@@ -2630,7 +2630,7 @@ interactiveTerminalInput.addEventListener('keydown', (event) => {
     return;
   }
 
-  if (event.key === 'Tab') {
+  if (event.key === 'Tab' && !event.ctrlKey && !event.metaKey && !event.altKey) {
     event.preventDefault();
     void handleTerminalTabAutocomplete(Boolean(event.shiftKey));
     return;
