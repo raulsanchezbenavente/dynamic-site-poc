@@ -31,6 +31,19 @@ function getLauncherIconPath() {
     }
   }
 
+  if (process.platform === 'linux') {
+    const linuxIconCandidates = [
+      path.join(__dirname, 'assets', 'windows', 'avianca.png'),
+      path.join(__dirname, 'assets', 'avianca-icon.png'),
+    ];
+
+    for (const linuxIconPath of linuxIconCandidates) {
+      if (fs.existsSync(linuxIconPath)) {
+        return linuxIconPath;
+      }
+    }
+  }
+
   if (process.platform === 'darwin') {
     const macIconCandidates = [
       path.join(__dirname, 'assets', 'avianca-icon.icns'),
@@ -1305,6 +1318,13 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
+
+  if (process.platform === 'linux' && iconPath && typeof win.setIcon === 'function') {
+    const linuxIcon = nativeImage.createFromPath(iconPath);
+    if (!linuxIcon.isEmpty()) {
+      win.setIcon(linuxIcon);
+    }
+  }
 
   win.on('close', () => {
     writeWindowState(win);
