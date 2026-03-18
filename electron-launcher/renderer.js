@@ -20,6 +20,9 @@ const terminalTypeText = document.getElementById('terminalTypeText');
 const terminalTypeMenu = document.getElementById('terminalTypeMenu');
 const interruptTerminalButton = document.getElementById('interruptTerminalButton');
 const closeTerminalSessionButton = document.getElementById('closeTerminalSessionButton');
+const terminalFontMenuTrigger = document.getElementById('terminalFontMenuTrigger');
+const terminalFontMenuValue = document.getElementById('terminalFontMenuValue');
+const terminalFontMenu = document.getElementById('terminalFontMenu');
 const terminalFontDecreaseButton = document.getElementById('terminalFontDecreaseButton');
 const terminalFontResetButton = document.getElementById('terminalFontResetButton');
 const terminalFontIncreaseButton = document.getElementById('terminalFontIncreaseButton');
@@ -50,7 +53,16 @@ const TERMINAL_TYPE_STORAGE_KEY = 'launcher.terminal-type.v1';
 const ANSI_NON_SGR_CONTROL_SEQUENCE_PATTERN = /\u001b\[(?![0-9;]*m)[0-9;?]*[ -/]*[@-~]/g;
 const ANSI_OSC_PATTERN = /\u001b\][^\u0007]*(?:\u0007|\u001b\\)/g;
 const ANSI_SGR_PATTERN = /\u001b\[([0-9;]*)m/g;
-const TERMINAL_THEMES = new Set(['ocean', 'light', 'solarized-light', 'tokion-night-light', 'red', 'solarized-dark', 'kimbie-dark', 'dark']);
+const TERMINAL_THEMES = new Set([
+  'ocean',
+  'light',
+  'solarized-light',
+  'tokion-night-light',
+  'red',
+  'solarized-dark',
+  'kimbie-dark',
+  'dark',
+]);
 const TERMINAL_FONT_SIZE_DEFAULT = 17.6;
 const TERMINAL_FONT_SIZE_MIN = 12;
 const TERMINAL_FONT_SIZE_MAX = 28;
@@ -102,12 +114,16 @@ let launcherToastHideTimer = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
-  const normalized = String(typeId || '').trim().toLowerCase();
+  const normalized = String(typeId || '')
+    .trim()
+    .toLowerCase();
   return terminalTypeOptions.find((entry) => entry.id === normalized) || null;
 }
 
 function getTerminalTypeVisual(typeId) {
-  const normalized = String(typeId || '').trim().toLowerCase();
+  const normalized = String(typeId || '')
+    .trim()
+    .toLowerCase();
 
   if (normalized === 'powershell') {
     return { iconText: '>_', iconClass: 'terminal-type-icon-powershell' };
@@ -153,7 +169,9 @@ function ensureTerminalSessionBanner(session) {
 
 function readSavedTerminalType() {
   try {
-    return String(window.localStorage.getItem(TERMINAL_TYPE_STORAGE_KEY) || '').trim().toLowerCase();
+    return String(window.localStorage.getItem(TERMINAL_TYPE_STORAGE_KEY) || '')
+      .trim()
+      .toLowerCase();
   } catch {
     return '';
   }
@@ -168,7 +186,9 @@ function saveSelectedTerminalType(typeId) {
 }
 
 function applyTerminalTypeSelection(typeId) {
-  const normalized = String(typeId || defaultTerminalType || 'cmd').trim().toLowerCase();
+  const normalized = String(typeId || defaultTerminalType || 'cmd')
+    .trim()
+    .toLowerCase();
   const availableIds = new Set(terminalTypeOptions.map((entry) => entry.id));
   selectedTerminalType = availableIds.has(normalized) ? normalized : defaultTerminalType;
 
@@ -311,10 +331,59 @@ function updateTerminalFontButtonsState() {
   }
 }
 
+function formatTerminalFontSizeLabel(sizePx) {
+  const rounded = Math.round(sizePx * 10) / 10;
+  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+}
+
+function updateTerminalFontMenuLabel() {
+  const label = formatTerminalFontSizeLabel(terminalFontSizePx);
+
+  if (terminalFontMenuValue) {
+    terminalFontMenuValue.textContent = label;
+  }
+
+  if (terminalFontMenuTrigger) {
+    terminalFontMenuTrigger.setAttribute('aria-label', `Terminal font size ${label}px`);
+  }
+}
+
+function openTerminalFontMenu() {
+  if (!terminalFontMenu || !terminalFontMenuTrigger) {
+    return;
+  }
+
+  terminalFontMenu.hidden = false;
+  terminalFontMenuTrigger.setAttribute('aria-expanded', 'true');
+}
+
+function closeTerminalFontMenu() {
+  if (!terminalFontMenu || !terminalFontMenuTrigger) {
+    return;
+  }
+
+  terminalFontMenu.hidden = true;
+  terminalFontMenuTrigger.setAttribute('aria-expanded', 'false');
+}
+
+function toggleTerminalFontMenu() {
+  if (!terminalFontMenu) {
+    return;
+  }
+
+  if (terminalFontMenu.hidden) {
+    openTerminalFontMenu();
+    return;
+  }
+
+  closeTerminalFontMenu();
+}
+
 function applyTerminalFontSize(sizePx) {
   terminalFontSizePx = normalizeTerminalFontSize(sizePx);
   document.body.style.setProperty('--terminal-font-size-px', `${terminalFontSizePx}px`);
   updateTerminalFontButtonsState();
+  updateTerminalFontMenuLabel();
 }
 
 function readSavedTerminalFontSize() {
@@ -940,7 +1009,9 @@ function updateInteractiveTerminalInputMode() {
   const running = Boolean(sessionId && isTerminalSessionRunning(sessionId));
 
   interactiveTerminalInput.type = awaitingPassword ? 'password' : 'text';
-  interactiveTerminalInput.placeholder = awaitingPassword ? TERMINAL_PASSWORD_PLACEHOLDER : TERMINAL_DEFAULT_PLACEHOLDER;
+  interactiveTerminalInput.placeholder = awaitingPassword
+    ? TERMINAL_PASSWORD_PLACEHOLDER
+    : TERMINAL_DEFAULT_PLACEHOLDER;
 
   if (interactiveTerminalRunButton && sessionId) {
     interactiveTerminalRunButton.disabled = running && !awaitingPassword;
@@ -1202,7 +1273,8 @@ function renderLogTabs() {
       const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
       const terminalTypeTooltip = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
       const terminalTypeIcon = document.createElement('span');
-      terminalTypeIcon.className = `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
+      terminalTypeIcon.className =
+        `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
       terminalTypeIcon.textContent = terminalTypeMeta?.iconText || terminalTypeVisual.iconText || '';
       terminalTypeIcon.setAttribute('data-tooltip', terminalTypeTooltip);
       terminalTypeIcon.setAttribute('aria-hidden', 'true');
@@ -1415,15 +1487,18 @@ function showLauncherToast(message, options = {}) {
     clearTimeout(launcherToastHideTimer);
   }
 
-  launcherToastHideTimer = setTimeout(() => {
-    launcherToast.classList.remove('is-visible');
-    launcherToastHideTimer = null;
-    setTimeout(() => {
-      if (!launcherToast.classList.contains('is-visible')) {
-        launcherToast.hidden = true;
-      }
-    }, 170);
-  }, type === 'error' ? 4200 : 2600);
+  launcherToastHideTimer = setTimeout(
+    () => {
+      launcherToast.classList.remove('is-visible');
+      launcherToastHideTimer = null;
+      setTimeout(() => {
+        if (!launcherToast.classList.contains('is-visible')) {
+          launcherToast.hidden = true;
+        }
+      }, 170);
+    },
+    type === 'error' ? 4200 : 2600
+  );
 }
 
 function focusScriptLogTab(scriptName) {
@@ -1490,7 +1565,6 @@ async function chooseCustomPackageJson() {
 }
 
 async function onPackageSourceChange(mode = 'dev') {
-
   if (mode === 'custom') {
     const selected = await chooseCustomPackageJson();
     if (!selected) {
@@ -1922,7 +1996,11 @@ function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
 }
 
 function interruptActiveTerminalSession() {
-  if (!isTerminalTab(activeLogTab) || !activeTerminalSessionId || !runningTerminalSessions.has(activeTerminalSessionId)) {
+  if (
+    !isTerminalTab(activeLogTab) ||
+    !activeTerminalSessionId ||
+    !runningTerminalSessions.has(activeTerminalSessionId)
+  ) {
     return;
   }
 
@@ -2390,6 +2468,7 @@ terminalFontResetButton?.addEventListener('click', () => {
 terminalFontIncreaseButton?.addEventListener('click', () => {
   changeTerminalFontSize(TERMINAL_FONT_SIZE_STEP);
 });
+terminalFontMenuTrigger?.addEventListener('click', toggleTerminalFontMenu);
 terminalTypeTrigger?.addEventListener('click', toggleTerminalTypeMenu);
 toggleTerminalButton.addEventListener('click', async () => {
   const session = await createNewTerminalSession();
@@ -2484,6 +2563,13 @@ document.addEventListener('click', (event) => {
     const clickedInsideTerminalType = terminalTypeMenu.contains(target) || terminalTypeTrigger.contains(target);
     if (!clickedInsideTerminalType) {
       closeTerminalTypeMenu();
+    }
+  }
+
+  if (terminalFontMenu && terminalFontMenuTrigger) {
+    const clickedInsideFontMenu = terminalFontMenu.contains(target) || terminalFontMenuTrigger.contains(target);
+    if (!clickedInsideFontMenu) {
+      closeTerminalFontMenu();
     }
   }
 
@@ -2618,6 +2704,7 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     closeThemeMenu();
     closeTerminalTypeMenu();
+    closeTerminalFontMenu();
     closePackageSourceMenu();
   }
 });

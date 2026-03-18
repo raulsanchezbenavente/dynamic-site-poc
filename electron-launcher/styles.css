@@ -461,10 +461,49 @@ body {
   margin-left: 0.45rem;
 }
 .terminal-font-controls {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
   margin-left: auto;
+}
+.terminal-font-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3.9rem;
+  height: 2.2rem;
+  border: 1px solid var(--line);
+  border-radius: 0.6rem;
+  background: #fff;
+  color: var(--ink);
+  padding: 0 0.6rem;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+.terminal-font-menu-trigger::after {
+  content: '▾';
+  margin-left: 0.42rem;
+  color: #667f9f;
+  font-size: 0.8rem;
+}
+.terminal-font-menu {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem;
+  border: 1px solid var(--line);
+  border-radius: 0.65rem;
+  background: #fff;
+  box-shadow: 0 14px 26px rgba(15, 23, 42, 0.12);
+  z-index: 42;
+}
+.terminal-font-menu[hidden] {
+  display: none;
 }
 .terminal-font-button {
   min-width: 2.2rem;
@@ -1178,7 +1217,10 @@ button:hover:not(:disabled) {
   font-weight: 700;
   line-height: 1;
   white-space: nowrap;
-  transition: border-color 120ms ease, background-color 120ms ease, box-shadow 120ms ease;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    box-shadow 120ms ease;
 }
 .log-tab.log-tab-terminal {
   display: inline-flex;
