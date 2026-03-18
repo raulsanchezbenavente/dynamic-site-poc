@@ -116,6 +116,7 @@ let activeLogTabTooltipTarget = null;
 let launcherToastHideTimer = null;
 let isQuitInProgress = false;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
+const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
@@ -1346,7 +1347,16 @@ function renderLogTabs() {
 
       const terminalTypeMeta = getTerminalTypeMeta(session?.terminalType);
       const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
-      const terminalTypeTooltip = terminalTypeMeta?.label || (IS_MACOS ? 'macOS Terminal' : 'Terminal');
+      const terminalTypeMetaLabel = String(terminalTypeMeta?.label || '').trim();
+      const terminalTypeTooltip = terminalTypeMetaLabel
+        ? IS_LINUX && /^terminal$/i.test(terminalTypeMetaLabel)
+          ? 'Linux terminal'
+          : terminalTypeMetaLabel
+        : IS_MACOS
+          ? 'macOS Terminal'
+          : IS_LINUX
+            ? 'Linux terminal'
+            : 'Terminal';
       const terminalTypeIcon = document.createElement('span');
       terminalTypeIcon.className =
         `log-tab-terminal-type-icon ${terminalTypeMeta?.iconClass || terminalTypeVisual.iconClass || ''}`.trim();
