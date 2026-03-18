@@ -285,8 +285,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
-- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally
-- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `build`, `start:backend`, and `test`.
+- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), the Favorites filter is initialized as enabled.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
@@ -321,6 +321,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Terminal font size defaults to `17.6px` on first launch or after clearing local storage; this matches the value applied by the Reset font button.
 - `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
 - Closing a session tab stops active child processes for that session.
+- Closing the launcher app also stops active terminal session child processes before exit.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
 
 ### Launcher Shortcuts
