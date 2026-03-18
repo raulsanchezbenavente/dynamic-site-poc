@@ -298,8 +298,11 @@ function populateTerminalTypeSelector(config) {
       };
     });
 
-  const showSelector = supported && terminalTypeOptions.length > 0;
+  const showSelector = supported && terminalTypeOptions.length > 1;
   terminalTypeSelector.hidden = !showSelector;
+
+  terminalTypeSelector.classList.toggle('terminal-type-selector-combined', showSelector);
+  toggleTerminalButton?.classList.toggle('terminal-type-button-combined', showSelector);
 
   defaultTerminalType = String(config?.defaultType || terminalTypeOptions[0]?.id || 'cmd').toLowerCase();
   const preferredType = readSavedTerminalType() || defaultTerminalType;
