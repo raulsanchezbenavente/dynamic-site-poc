@@ -23,6 +23,13 @@ const packageSource = {
   customPath: '',
 };
 
+if (process.platform === 'linux') {
+  app.setName('dynamic-site-launcher');
+  if (typeof app.setDesktopName === 'function') {
+    app.setDesktopName('dynamic-site-launcher.desktop');
+  }
+}
+
 function getLauncherIconPath() {
   if (process.platform === 'win32') {
     const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca.png');

@@ -53,11 +53,18 @@
       "category": "public.app-category.developer-tools"
     },
     "linux": {
+      "icon": "electron-launcher/assets/windows/avianca.png",
+      "executableName": "dynamic-site-launcher",
       "target": [
         "AppImage",
         "deb"
       ],
-      "category": "Development"
+      "category": "Development",
+      "desktop": {
+        "Name": "Dynamic Site Launcher",
+        "StartupWMClass": "dynamic-site-launcher",
+        "Icon": "avianca"
+      }
     }
   },
   "dependencies": {
