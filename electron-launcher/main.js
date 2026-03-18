@@ -297,6 +297,8 @@ function createTerminalSession(options = null) {
     cwd: getDefaultTerminalWorkingDirectory(),
     terminalType,
     activeProcess: null,
+    activeCommandInput: '',
+    activeCommandFinalizer: null,
   };
 
   terminalSessions.set(id, session);
@@ -334,7 +336,19 @@ async function closeTerminalSession(sessionId) {
   const session = terminalSessions.get(sessionId);
   if (session?.activeProcess) {
     await killProcessTree(session.activeProcess);
+    if (typeof session.activeCommandFinalizer === 'function') {
+      session.activeCommandFinalizer({
+        ok: false,
+        output: '',
+        error: 'Terminal session closed by user\n',
+        exitCode: 130,
+        cwd: session.cwd,
+        streamed: true,
+      });
+    }
     session.activeProcess = null;
+    session.activeCommandInput = '';
+    session.activeCommandFinalizer = null;
   }
 
   return terminalSessions.delete(sessionId);
@@ -349,9 +363,205 @@ async function stopAllTerminalSessions() {
       }
 
       await killProcessTree(session.activeProcess);
+      if (typeof session.activeCommandFinalizer === 'function') {
+        session.activeCommandFinalizer({
+          ok: false,
+          output: '',
+          error: 'Terminal session interrupted\n',
+          exitCode: 130,
+          cwd: session.cwd,
+          streamed: true,
+        });
+      }
       session.activeProcess = null;
+      session.activeCommandInput = '';
+      session.activeCommandFinalizer = null;
     })
   );
+}
+
+function parseNpmRunScriptName(commandInput) {
+  const normalized = String(commandInput || '').trim();
+  const match = normalized.match(/^npm(?:\.cmd)?\s+run\s+([^\s]+)(?:\s|$)/i);
+  return match?.[1] ? String(match[1]).trim().toLowerCase() : '';
+}
+
+function killWindowsNodeByCommandLineTokens(tokens) {
+  return new Promise((resolve) => {
+    const normalizedTokens = Array.from(
+      new Set((tokens || []).map((token) => String(token || '').trim()).filter(Boolean))
+    );
+
+    if (process.platform !== 'win32' || normalizedTokens.length === 0) {
+      resolve(false);
+      return;
+    }
+
+    const tokenLiteral = normalizedTokens.map((token) => `'${token.replace(/'/g, "''")}'`).join(', ');
+    const script = [
+      `$tokens = @(${tokenLiteral})`,
+      '$matchProc = {',
+      '  param($proc)',
+      "  if ($proc.Name -ine 'node.exe' -or -not $proc.CommandLine) { return $false }",
+      '  $cmd = [string]$proc.CommandLine',
+      '  $cmdLower = $cmd.ToLower()',
+      '  return (($tokens | Where-Object { $_ -and $_.Length -gt 0 -and $cmdLower.Contains($_.ToLower()) }).Count -gt 0)',
+      '}',
+      '$targets = Get-CimInstance Win32_Process | Where-Object { & $matchProc $_ }',
+      '$pids = $targets | Select-Object -ExpandProperty ProcessId -Unique',
+      'if ($pids) { foreach ($pid in $pids) { Stop-Process -Id $pid -Force -ErrorAction SilentlyContinue } }',
+      'Start-Sleep -Milliseconds 220',
+      '$remaining = Get-CimInstance Win32_Process | Where-Object { & $matchProc $_ } | Select-Object -ExpandProperty ProcessId -Unique',
+      'if ($remaining) { Write-Output "false" } elseif ($pids) { Write-Output "true" } else { Write-Output "false" }',
+    ].join('; ');
+
+    const ps = spawn('powershell.exe', ['-NoProfile', '-Command', script], { windowsHide: true, shell: false });
+    let stdout = '';
+
+    ps.stdout.on('data', (chunk) => {
+      stdout += String(chunk || '');
+    });
+    ps.on('error', () => resolve(false));
+    ps.on('close', () => {
+      resolve(/true/i.test(String(stdout || '')));
+    });
+  });
+}
+
+function runWindowsTaskkillByPid(pid) {
+  return new Promise((resolve) => {
+    const normalizedPid = Number(pid);
+    if (process.platform !== 'win32' || !Number.isInteger(normalizedPid) || normalizedPid <= 0) {
+      resolve(false);
+      return;
+    }
+
+    const killer = spawn('taskkill', ['/pid', String(normalizedPid), '/T', '/F'], {
+      windowsHide: true,
+      shell: false,
+    });
+
+    killer.on('error', () => resolve(false));
+    killer.on('close', (code) => {
+      resolve(code === 0);
+    });
+  });
+}
+
+function getWindowsListeningPidsByPort(port) {
+  return new Promise((resolve) => {
+    const normalizedPort = Number(port);
+    if (process.platform !== 'win32' || !Number.isInteger(normalizedPort) || normalizedPort <= 0) {
+      resolve([]);
+      return;
+    }
+
+    const cmd = spawn('netstat', ['-ano', '-p', 'tcp'], { windowsHide: true, shell: false });
+    let stdout = '';
+
+    cmd.stdout.on('data', (chunk) => {
+      stdout += String(chunk || '');
+    });
+    cmd.on('error', () => resolve([]));
+    cmd.on('close', () => {
+      const pids = new Set();
+      const lines = String(stdout || '').split(/\r?\n/);
+
+      for (const line of lines) {
+        const parts = line.trim().split(/\s+/);
+        if (parts.length < 5 || parts[0].toUpperCase() !== 'TCP') {
+          continue;
+        }
+
+        const localAddress = parts[1] || '';
+        const state = (parts[3] || '').toUpperCase();
+        const pidValue = Number(parts[4]);
+        if (state !== 'LISTENING' || !Number.isInteger(pidValue) || pidValue <= 0) {
+          continue;
+        }
+
+        const localPortRaw = localAddress.includes(':') ? localAddress.slice(localAddress.lastIndexOf(':') + 1) : '';
+        const localPort = Number(localPortRaw);
+        if (localPort === normalizedPort) {
+          pids.add(pidValue);
+        }
+      }
+
+      resolve(Array.from(pids));
+    });
+  });
+}
+
+function killWindowsProcessByListeningPort(port) {
+  return new Promise((resolve) => {
+    const normalizedPort = Number(port);
+    if (process.platform !== 'win32' || !Number.isInteger(normalizedPort) || normalizedPort <= 0) {
+      resolve(false);
+      return;
+    }
+
+    getWindowsListeningPidsByPort(normalizedPort)
+      .then(async (pidsBefore) => {
+        if (!pidsBefore.length) {
+          resolve(false);
+          return;
+        }
+
+        await Promise.all(pidsBefore.map((pid) => runWindowsTaskkillByPid(pid)));
+        await new Promise((done) => setTimeout(done, 250));
+
+        const pidsAfter = await getWindowsListeningPidsByPort(normalizedPort);
+        resolve(pidsAfter.length === 0);
+      })
+      .catch(() => resolve(false));
+  });
+}
+
+function isWindowsPortInUse(port) {
+  return getWindowsListeningPidsByPort(port).then((pids) => pids.length > 0).catch(() => false);
+}
+
+async function tryGitBashFallbackInterrupt(session) {
+  if (!session || process.platform !== 'win32' || session.terminalType !== 'git-bash') {
+    return null;
+  }
+
+  const scriptName = parseNpmRunScriptName(session.activeCommandInput);
+  if (!scriptName) {
+    return null;
+  }
+
+  if (scriptName === 'start:backend') {
+    const portInUseBefore = await isWindowsPortInUse(4400);
+    if (!portInUseBefore) {
+      return true;
+    }
+
+    const killedByPortPid = await killWindowsProcessByListeningPort(4400);
+    if (!killedByPortPid) {
+      await killWindowsNodeByCommandLineTokens(['server/index.js', 'server\\index.js']);
+    }
+
+    const portInUseAfter = await isWindowsPortInUse(4400);
+    return !portInUseAfter;
+  }
+
+  if (scriptName === 'start:api') {
+    const portInUseBefore = await isWindowsPortInUse(3000);
+    if (!portInUseBefore) {
+      return true;
+    }
+
+    const killedByPortPid = await killWindowsProcessByListeningPort(3000);
+    if (!killedByPortPid) {
+      await killWindowsNodeByCommandLineTokens(['server/api.js', 'server\\api.js']);
+    }
+
+    const portInUseAfter = await isWindowsPortInUse(3000);
+    return !portInUseAfter;
+  }
+
+  return null;
 }
 
 async function interruptTerminalSession(sessionId) {
@@ -360,7 +570,35 @@ async function interruptTerminalSession(sessionId) {
     return false;
   }
 
+  const activeProcess = session.activeProcess;
   await killProcessTree(session.activeProcess);
+
+  const processExited = activeProcess.exitCode != null || activeProcess.killed;
+  const fallbackResult = await tryGitBashFallbackInterrupt(session);
+
+  let interrupted = processExited;
+  if (typeof fallbackResult === 'boolean') {
+    interrupted = fallbackResult;
+  }
+
+  if (!interrupted) {
+    return false;
+  }
+
+  if (typeof session.activeCommandFinalizer === 'function') {
+    session.activeCommandFinalizer({
+      ok: false,
+      output: '',
+      error: 'Command interrupted by user\n',
+      exitCode: 130,
+      cwd: session.cwd,
+      streamed: true,
+    });
+  }
+
+  session.activeProcess = null;
+  session.activeCommandInput = '';
+  session.activeCommandFinalizer = null;
   return true;
 }
 
@@ -887,6 +1125,7 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
     }
 
     session.activeProcess = child;
+    session.activeCommandInput = command;
     let output = '';
     let error = '';
     let settled = false;
@@ -900,8 +1139,16 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
       if (session.activeProcess === child) {
         session.activeProcess = null;
       }
+      if (session.activeCommandFinalizer === finalize) {
+        session.activeCommandFinalizer = null;
+      }
+      if (session.activeCommandInput === command) {
+        session.activeCommandInput = '';
+      }
       resolve(payload);
     };
+
+    session.activeCommandFinalizer = finalize;
 
     child.stdout.on('data', (chunk) => {
       const message = sanitizeLogMessage(chunk);

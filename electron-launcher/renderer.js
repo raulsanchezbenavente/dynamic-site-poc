@@ -2008,7 +2008,7 @@ function renderAutocompleteSuggestionsOnce(sessionId, suggestions) {
   appendTerminalLine(sessionId, line, 'interactive-terminal-completion');
 }
 
-function interruptActiveTerminalSession() {
+async function interruptActiveTerminalSession() {
   if (
     !isTerminalTab(activeLogTab) ||
     !activeTerminalSessionId ||
@@ -2017,9 +2017,16 @@ function interruptActiveTerminalSession() {
     return;
   }
 
-  markTerminalSessionAwaitingPassword(activeTerminalSessionId, false);
-  appendTerminalLine(activeTerminalSessionId, '^C', 'interactive-terminal-stderr');
-  void window.launcherApi.interruptTerminalSession(activeTerminalSessionId);
+  const sessionId = activeTerminalSessionId;
+  markTerminalSessionAwaitingPassword(sessionId, false);
+
+  const result = await window.launcherApi.interruptTerminalSession(sessionId);
+  if (!result?.ok) {
+    appendTerminalLine(sessionId, '[interrupt failed: process is still running]', 'interactive-terminal-stderr');
+    return;
+  }
+
+  appendTerminalLine(sessionId, '^C', 'interactive-terminal-stderr');
 }
 
 async function submitInteractiveTerminalInput(sessionId, input) {
