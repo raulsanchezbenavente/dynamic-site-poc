@@ -305,6 +305,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
 - 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips (including the session close `x`) are rendered in a floating portal outside the tabs container so they are never cut by overflow
 - 🖱️ **Horizontal Tab Scrolling**: The terminal tabs strip supports horizontal scrolling with mouse wheel/trackpad gestures
+- ⌨️ **Keyboard Tab Navigation**: Use `Ctrl + Tab` to move to the next log tab and `Ctrl + Shift + Tab` to move to the previous one
 - 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
 ### Terminal Sessions in Launcher
@@ -332,6 +333,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - `Ctrl + D`: Clear current logs view
 - `Ctrl + E`: Export active logs to file
 - `Ctrl + X`: Send SIGINT to active terminal session
+- `Ctrl + Tab`: Focus next log tab
+- `Ctrl + Shift + Tab`: Focus previous log tab
 - `Ctrl + Enter`: Toggle terminal fullscreen
 - `Ctrl + +`: Increase terminal font size
 - `Ctrl + -`: Decrease terminal font size
