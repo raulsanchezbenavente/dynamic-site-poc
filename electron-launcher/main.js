@@ -518,7 +518,9 @@ function killWindowsProcessByListeningPort(port) {
 }
 
 function isWindowsPortInUse(port) {
-  return getWindowsListeningPidsByPort(port).then((pids) => pids.length > 0).catch(() => false);
+  return getWindowsListeningPidsByPort(port)
+    .then((pids) => pids.length > 0)
+    .catch(() => false);
 }
 
 async function tryGitBashFallbackInterrupt(session) {
