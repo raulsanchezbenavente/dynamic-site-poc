@@ -328,6 +328,46 @@ function listTerminalSessions() {
   }));
 }
 
+function waitForChildExitState(child, timeoutMs = 1200) {
+  return new Promise((resolve) => {
+    if (!child || child.exitCode != null || child.killed) {
+      resolve(true);
+      return;
+    }
+
+    let settled = false;
+    let timeout = null;
+
+    const finish = (value) => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      child.removeListener('exit', onExitOrClose);
+      child.removeListener('close', onExitOrClose);
+      resolve(Boolean(value));
+    };
+
+    const onExitOrClose = () => {
+      finish(true);
+    };
+
+    child.once('exit', onExitOrClose);
+    child.once('close', onExitOrClose);
+
+    timeout = setTimeout(
+      () => {
+        finish(child.exitCode != null || child.killed);
+      },
+      Math.max(0, Number(timeoutMs) || 0)
+    );
+  });
+}
+
 async function stopTerminalSessionActiveProcess(session, finalizerErrorMessage) {
   if (!session?.activeProcess) {
     return true;
@@ -335,6 +375,7 @@ async function stopTerminalSessionActiveProcess(session, finalizerErrorMessage) 
 
   const activeProcess = session.activeProcess;
   await killProcessTree(activeProcess);
+  await waitForChildExitState(activeProcess, 1200);
 
   const processExited = activeProcess.exitCode != null || activeProcess.killed;
   const fallbackResult = await tryGitBashFallbackInterrupt(session);
