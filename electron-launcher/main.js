@@ -394,6 +394,10 @@ async function stopAllTerminalSessions() {
   );
 }
 
+function hasActiveTerminalProcesses() {
+  return Array.from(terminalSessions.values()).some((session) => Boolean(session?.activeProcess));
+}
+
 function parseNpmRunScriptName(commandInput) {
   const normalized = String(commandInput || '').trim();
   const match = normalized.match(/^npm(?:\.cmd)?\s+run\s+([^\s]+)(?:\s|$)/i);
@@ -1664,7 +1668,9 @@ ipcMain.handle('terminal:run-command', async (_event, payload) => {
 
 app.on('before-quit', (event) => {
   // Allow normal quit when there is nothing to clean up.
-  if (isShuttingDown || runningScripts.size === 0) {
+  const hasRunningScripts = runningScripts.size > 0;
+  const hasRunningTerminals = hasActiveTerminalProcesses();
+  if (isShuttingDown || (!hasRunningScripts && !hasRunningTerminals)) {
     return;
   }
 
