@@ -471,6 +471,7 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.3rem;
   min-width: 3.9rem;
   height: 2.2rem;
   border: 1px solid var(--line);
@@ -478,9 +479,34 @@ body {
   background: #fff;
   color: var(--ink);
   padding: 0 0.6rem;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
   letter-spacing: 0.01em;
+}
+.terminal-font-menu-icon {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 1.1rem;
+  height: 0.95rem;
+  flex: 0 0 1.1rem;
+  color: #1f4f91;
+}
+.terminal-font-glyph-large {
+  font-size: 0.9rem;
+  line-height: 0.9;
+  font-weight: 900;
+}
+.terminal-font-glyph-small {
+  font-size: 0.64rem;
+  line-height: 0.8;
+  font-weight: 800;
+  margin-left: -0.04rem;
+  transform: translateY(-0.02rem);
+}
+.terminal-font-menu-value {
+  font-size: 0.84rem;
+  line-height: 1;
 }
 .terminal-font-menu-trigger::after {
   content: '▾';
