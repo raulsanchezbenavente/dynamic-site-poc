@@ -1273,6 +1273,11 @@ button:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 6px 14px rgba(15, 23, 42, 0.14);
 }
+.log-tab:focus,
+.log-tab:focus-visible {
+  outline: 1px solid transparent;
+  outline-offset: 0;
+}
 .log-tab.log-tab-terminal {
   display: inline-flex;
   align-items: center;
