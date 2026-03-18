@@ -7,6 +7,7 @@ const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const exportLogsButton = document.getElementById('exportLogsButton');
 const launcherToast = document.getElementById('launcherToast');
+const shutdownOverlay = document.getElementById('shutdownOverlay');
 const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
 const terminalThemeText = document.getElementById('terminalThemeText');
 const terminalThemePreview = document.getElementById('terminalThemePreview');
@@ -113,6 +114,7 @@ let defaultTerminalType = 'cmd';
 let logTabTooltipPortalEl = null;
 let activeLogTabTooltipTarget = null;
 let launcherToastHideTimer = null;
+let isQuitInProgress = false;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 
 function getTerminalTypeMeta(typeId) {
@@ -2518,9 +2520,22 @@ async function refreshTerminalSessions() {
 
 refreshButton.addEventListener('click', refreshScripts);
 quitButton.addEventListener('click', async () => {
+  if (isQuitInProgress) {
+    return;
+  }
+
+  isQuitInProgress = true;
+  if (shutdownOverlay) {
+    shutdownOverlay.hidden = false;
+  }
+
   try {
     await window.launcherApi.quitApp();
   } catch (error) {
+    isQuitInProgress = false;
+    if (shutdownOverlay) {
+      shutdownOverlay.hidden = true;
+    }
     appendLog({
       script: 'launcher',
       stream: 'stderr',
