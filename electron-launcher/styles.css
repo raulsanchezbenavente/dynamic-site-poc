@@ -1258,9 +1258,14 @@ button:hover:not(:disabled) {
   line-height: 1;
   white-space: nowrap;
   transition:
+    transform 120ms ease,
     border-color 120ms ease,
     background-color 120ms ease,
     box-shadow 120ms ease;
+}
+.log-tab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.14);
 }
 .log-tab.log-tab-terminal {
   display: inline-flex;
