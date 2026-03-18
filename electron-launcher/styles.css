@@ -797,7 +797,7 @@ body {
 .scripts-title-group {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 0.44rem;
 }
 .scripts-title-group h2 {
   margin: 0;
