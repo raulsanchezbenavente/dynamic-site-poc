@@ -289,7 +289,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
-- 🪟 **Windows Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted)
+- 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
 - 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
 - 🎨 **ANSI Color Parsing Across Platforms**: Terminal output preserves ANSI color sequences on Windows so colorized output behaves closer to macOS/Linux
 - ⚡ **Windows Startup Optimizations**: Terminal capability detection is cached to reduce command startup overhead
@@ -297,13 +297,13 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
 - 💾 **Export Logs to File**: Save the active log tab (script, `All scripts`, or terminal session) with a toolbar button and native save dialog
-- 🔔 **Visual Export Feedback**: Export success/errors are shown as non-blocking toast notifications in the launcher UI
+- 🔔 **Visual Export Feedback**: Export success/errors are shown as non-blocking toast notifications in the launcher UI (visible for 5 seconds)
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
-- 🔠 **Terminal Font Size Controls**: Increase, decrease, or reset terminal font size directly from the toolbar (persisted between launches)
+- 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
 - 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
-- 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips are rendered in a floating portal outside the tabs container so they are never cut by overflow
+- 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips (including the session close `x`) are rendered in a floating portal outside the tabs container so they are never cut by overflow
 - 🖱️ **Horizontal Tab Scrolling**: The terminal tabs strip supports horizontal scrolling with mouse wheel/trackpad gestures
 - 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
 
