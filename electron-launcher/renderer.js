@@ -1503,18 +1503,15 @@ function showLauncherToast(message, options = {}) {
     clearTimeout(launcherToastHideTimer);
   }
 
-  launcherToastHideTimer = setTimeout(
-    () => {
-      launcherToast.classList.remove('is-visible');
-      launcherToastHideTimer = null;
-      setTimeout(() => {
-        if (!launcherToast.classList.contains('is-visible')) {
-          launcherToast.hidden = true;
-        }
-      }, 170);
-    },
-    type === 'error' ? 4200 : 2600
-  );
+  launcherToastHideTimer = setTimeout(() => {
+    launcherToast.classList.remove('is-visible');
+    launcherToastHideTimer = null;
+    setTimeout(() => {
+      if (!launcherToast.classList.contains('is-visible')) {
+        launcherToast.hidden = true;
+      }
+    }, 170);
+  }, 5000);
 }
 
 function focusScriptLogTab(scriptName) {
