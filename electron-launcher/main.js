@@ -1419,6 +1419,7 @@ function spawnScriptProcess(scriptName) {
     cwd: projectRoot,
     env,
     windowsHide: true,
+    detached: true,
   });
 }
 
@@ -1444,6 +1445,27 @@ function killProcessTree(child) {
       return;
     }
 
+    const normalizedPid = Number(child.pid);
+    const canSignalUnixGroup = Number.isInteger(normalizedPid) && normalizedPid > 0;
+
+    const signalUnixProcessTree = (signal) => {
+      if (canSignalUnixGroup) {
+        try {
+          process.kill(-normalizedPid, signal);
+          return true;
+        } catch {
+          // Fallback to child-only kill when group signaling fails.
+        }
+      }
+
+      try {
+        child.kill(signal);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
     let killTimeout = null;
 
     const cleanup = () => {
@@ -1458,19 +1480,11 @@ function killProcessTree(child) {
     child.once('close', cleanup);
 
     // Send SIGTERM first.
-    try {
-      child.kill('SIGTERM');
-    } catch {
-      // Ignore if process already exited.
-    }
+    signalUnixProcessTree('SIGTERM');
 
     // If process doesn't die in 5 seconds, force kill it.
     killTimeout = setTimeout(() => {
-      try {
-        child.kill('SIGKILL');
-      } catch {
-        // Ignore if process already exited.
-      }
+      signalUnixProcessTree('SIGKILL');
     }, 5000);
   });
 }
