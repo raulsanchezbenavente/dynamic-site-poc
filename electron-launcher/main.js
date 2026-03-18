@@ -328,6 +328,43 @@ function listTerminalSessions() {
   }));
 }
 
+async function stopTerminalSessionActiveProcess(session, finalizerErrorMessage) {
+  if (!session?.activeProcess) {
+    return true;
+  }
+
+  const activeProcess = session.activeProcess;
+  await killProcessTree(activeProcess);
+
+  const processExited = activeProcess.exitCode != null || activeProcess.killed;
+  const fallbackResult = await tryGitBashFallbackInterrupt(session);
+
+  let stopped = processExited;
+  if (typeof fallbackResult === 'boolean') {
+    stopped = fallbackResult;
+  }
+
+  if (!stopped) {
+    return false;
+  }
+
+  if (typeof session.activeCommandFinalizer === 'function') {
+    session.activeCommandFinalizer({
+      ok: false,
+      output: '',
+      error: finalizerErrorMessage,
+      exitCode: 130,
+      cwd: session.cwd,
+      streamed: true,
+    });
+  }
+
+  session.activeProcess = null;
+  session.activeCommandInput = '';
+  session.activeCommandFinalizer = null;
+  return true;
+}
+
 async function closeTerminalSession(sessionId) {
   if (!sessionId || !terminalSessions.has(sessionId)) {
     return false;
@@ -335,20 +372,10 @@ async function closeTerminalSession(sessionId) {
 
   const session = terminalSessions.get(sessionId);
   if (session?.activeProcess) {
-    await killProcessTree(session.activeProcess);
-    if (typeof session.activeCommandFinalizer === 'function') {
-      session.activeCommandFinalizer({
-        ok: false,
-        output: '',
-        error: 'Terminal session closed by user\n',
-        exitCode: 130,
-        cwd: session.cwd,
-        streamed: true,
-      });
+    const stopped = await stopTerminalSessionActiveProcess(session, 'Terminal session closed by user\n');
+    if (!stopped) {
+      return false;
     }
-    session.activeProcess = null;
-    session.activeCommandInput = '';
-    session.activeCommandFinalizer = null;
   }
 
   return terminalSessions.delete(sessionId);
@@ -362,20 +389,7 @@ async function stopAllTerminalSessions() {
         return;
       }
 
-      await killProcessTree(session.activeProcess);
-      if (typeof session.activeCommandFinalizer === 'function') {
-        session.activeCommandFinalizer({
-          ok: false,
-          output: '',
-          error: 'Terminal session interrupted\n',
-          exitCode: 130,
-          cwd: session.cwd,
-          streamed: true,
-        });
-      }
-      session.activeProcess = null;
-      session.activeCommandInput = '';
-      session.activeCommandFinalizer = null;
+      await stopTerminalSessionActiveProcess(session, 'Terminal session interrupted\n');
     })
   );
 }
@@ -572,36 +586,7 @@ async function interruptTerminalSession(sessionId) {
     return false;
   }
 
-  const activeProcess = session.activeProcess;
-  await killProcessTree(session.activeProcess);
-
-  const processExited = activeProcess.exitCode != null || activeProcess.killed;
-  const fallbackResult = await tryGitBashFallbackInterrupt(session);
-
-  let interrupted = processExited;
-  if (typeof fallbackResult === 'boolean') {
-    interrupted = fallbackResult;
-  }
-
-  if (!interrupted) {
-    return false;
-  }
-
-  if (typeof session.activeCommandFinalizer === 'function') {
-    session.activeCommandFinalizer({
-      ok: false,
-      output: '',
-      error: 'Command interrupted by user\n',
-      exitCode: 130,
-      cwd: session.cwd,
-      streamed: true,
-    });
-  }
-
-  session.activeProcess = null;
-  session.activeCommandInput = '';
-  session.activeCommandFinalizer = null;
-  return true;
+  return stopTerminalSessionActiveProcess(session, 'Command interrupted by user\n');
 }
 
 function renameTerminalSession(sessionId, nextName) {

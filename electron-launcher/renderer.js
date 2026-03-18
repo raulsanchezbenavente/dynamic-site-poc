@@ -1083,7 +1083,13 @@ async function closeTerminalSession(sessionId) {
     return;
   }
 
-  await window.launcherApi.closeTerminalSession(sessionId);
+  const result = await window.launcherApi.closeTerminalSession(sessionId);
+  if (!result?.ok) {
+    appendTerminalLine(sessionId, '[close failed: process is still running]', 'interactive-terminal-stderr');
+    showLauncherToast('Failed to close terminal session: process is still running', { type: 'error' });
+    return;
+  }
+
   terminalSessions.delete(sessionId);
   terminalPasswordPromptSessions.delete(sessionId);
 
