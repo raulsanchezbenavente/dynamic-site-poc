@@ -1349,11 +1349,15 @@ function renderLogTabs() {
       const terminalTypeVisual = getTerminalTypeVisual(session?.terminalType);
       const terminalTypeMetaLabel = String(terminalTypeMeta?.label || '').trim();
       const terminalTypeTooltip = terminalTypeMetaLabel
-        ? IS_LINUX && /^terminal$/i.test(terminalTypeMetaLabel)
-          ? 'Linux terminal'
+        ? /^terminal$/i.test(terminalTypeMetaLabel)
+          ? IS_MACOS
+            ? 'MacOS terminal'
+            : IS_LINUX
+              ? 'Linux terminal'
+              : terminalTypeMetaLabel
           : terminalTypeMetaLabel
         : IS_MACOS
-          ? 'macOS Terminal'
+          ? 'MacOS terminal'
           : IS_LINUX
             ? 'Linux terminal'
             : 'Terminal';
