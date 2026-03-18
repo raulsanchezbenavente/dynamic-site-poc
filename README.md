@@ -298,6 +298,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
 - 💾 **Export Logs to File**: Save the active log tab (script, `All scripts`, or terminal session) with a toolbar button and native save dialog
 - 🔔 **Visual Export Feedback**: Export success/errors are shown as non-blocking toast notifications in the launcher UI (visible for 5 seconds)
+- 🚪 **Closing State Overlay**: On app exit, a transparent blocker with `Closing launcher...` and a loading icon is shown so users get immediate feedback during shutdown delays
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
