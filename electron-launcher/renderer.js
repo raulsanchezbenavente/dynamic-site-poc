@@ -1292,8 +1292,21 @@ function renderLogTabs() {
       closeButton.type = 'button';
       closeButton.className = 'log-tab-close';
       closeButton.textContent = '×';
-      closeButton.title = `Close ${session?.name || 'session'}`;
-      closeButton.setAttribute('aria-label', closeButton.title);
+      const closeSessionTooltip = `Close ${session?.name || 'session'}`;
+      closeButton.setAttribute('data-tooltip', closeSessionTooltip);
+      closeButton.setAttribute('aria-label', closeSessionTooltip);
+      closeButton.addEventListener('mouseenter', () => {
+        showLogTabTooltipPortal(closeButton);
+      });
+      closeButton.addEventListener('mouseleave', () => {
+        hideLogTabTooltipPortal();
+      });
+      closeButton.addEventListener('focus', () => {
+        showLogTabTooltipPortal(closeButton);
+      });
+      closeButton.addEventListener('blur', () => {
+        hideLogTabTooltipPortal();
+      });
       closeButton.addEventListener('click', (event) => {
         event.stopPropagation();
         void closeTerminalSession(sessionId);
