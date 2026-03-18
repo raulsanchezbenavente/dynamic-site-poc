@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Site Launcher</title>
+    <link
+      rel="stylesheet"
+      href="./styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>Dynamic Site Launcher</h1>
+      <div class="topbar-actions">
+        <div class="source-selector">
+          <span class="source-selector-label">package.json</span>
+          <button
+            id="packageSourceTrigger"
+            class="source-selector-trigger"
+            type="button"
+            aria-haspopup="listbox"
+            aria-expanded="false"
+            aria-controls="packageSourceMenu">
+            <span
+              id="packageSourcePreview"
+              class="source-preview source-preview-dev"
+              aria-hidden="true"></span>
+            <span id="packageSourceText">Dev (current repository)</span>
+          </button>
+          <div
+            id="packageSourceTooltip"
+            class="source-selector-tooltip"
+            aria-hidden="true"></div>
+          <div
+            id="packageSourceMenu"
+            class="source-selector-menu"
+            role="listbox"
+            hidden>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="dev"
+              aria-selected="true">
+              <span
+                class="source-preview source-preview-dev"
+                aria-hidden="true"></span>
+              <span>Dev (current repository)</span>
+            </button>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="prod"
+              aria-selected="false">
+              <span
+                class="source-preview source-preview-prod"
+                aria-hidden="true"></span>
+              <span>Prod (project root)</span>
+            </button>
+            <button
+              class="package-source-option"
+              type="button"
+              role="option"
+              data-source="custom"
+              aria-selected="false">
+              <span
+                class="source-preview source-preview-custom"
+                aria-hidden="true"></span>
+              <span>Other...</span>
+            </button>
+          </div>
+        </div>
+        <div class="quit-button-group">
+          <button
+            id="quitButton"
+            class="quit-button"
+            type="button">
+            <svg
+              class="quit-button-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M10 4H6.8C5.81 4 5 4.81 5 5.8V18.2C5 19.19 5.81 20 6.8 20H10"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M14 8L19 12L14 16"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M9 12H19"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <span>Exit</span>
+          </button>
+          <div
+            id="quitButtonTooltip"
+            class="source-selector-tooltip"
+            aria-hidden="true"></div>
+        </div>
+      </div>
+    </header>
+    <main class="layout">
+      <section class="panel scripts-panel">
+        <div class="panel-header scripts-panel-header">
+          <div class="scripts-title-group">
+            <h2>Scripts</h2>
+            <button
+              id="refreshButton"
+              class="refresh-icon-button"
+              type="button"
+              data-tooltip="Refresh scripts (Ctrl S)"
+              aria-label="Refresh scripts">
+              <svg
+                class="refresh-icon-svg"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                focusable="false">
+                <path
+                  d="M20 8a8 8 0 0 0-13.65-4.9"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M3 3v5h5"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M4 16a8 8 0 0 0 13.65 4.9"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+                <path
+                  d="M21 21v-5h-5"
+                  stroke="currentColor"
+                  stroke-width="2.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round" />
+              </svg>
+            </button>
+          </div>
+          <div class="scripts-filters">
+            <label
+              class="filter-toggle"
+              for="filterRunningCheckbox">
+              <input
+                id="filterRunningCheckbox"
+                type="checkbox" />
+              Running
+            </label>
+            <label
+              class="filter-toggle"
+              for="filterFavoritesCheckbox">
+              <input
+                id="filterFavoritesCheckbox"
+                type="checkbox" />
+              Favorites
+            </label>
+          </div>
+        </div>
+        <div
+          id="scriptsList"
+          class="scripts-list"></div>
+      </section>
+
+      <section class="panel logs-panel">
+        <div class="panel-header logs-panel-header">
+          <div
+            id="terminalTypeSelector"
+            class="terminal-type-selector"
+            hidden>
+            <button
+              id="terminalTypeTrigger"
+              class="terminal-type-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="terminalTypeMenu"
+              aria-label="Terminal type">
+              <span
+                id="terminalTypeIcon"
+                class="terminal-type-trigger-icon"
+                aria-hidden="true"></span>
+              <span id="terminalTypeText">Command Prompt (cmd)</span>
+            </button>
+            <div
+              id="terminalTypeMenu"
+              class="terminal-type-menu"
+              role="listbox"
+              hidden></div>
+          </div>
+          <button
+            id="toggleTerminalButton"
+            class="toggle-terminal-button session-icon-button"
+            type="button"
+            data-tooltip="New session (Ctrl N)"
+            aria-label="New session"
+            aria-controls="interactiveTerminalBar">
+            <svg
+              class="toggle-terminal-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M12 7.3v9.4"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round" />
+              <path
+                d="M7.3 12h9.4"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round" />
+            </svg>
+          </button>
+          <button
+            id="closeTerminalSessionButton"
+            class="close-terminal-button session-icon-button"
+            type="button"
+            data-tooltip="Close session (Ctrl W)"
+            aria-label="Close session">
+            <svg
+              class="close-terminal-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M7.3 7.3L16.7 16.7"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M16.7 7.3L7.3 16.7"
+                stroke="currentColor"
+                stroke-width="2.8"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button
+            id="interruptTerminalButton"
+            class="interrupt-terminal-button interrupt-icon-button"
+            type="button"
+            data-tooltip="Send SIGINT (Ctrl X)"
+            aria-label="Send SIGINT">
+            <svg
+              class="interrupt-terminal-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M4.6 6.2H19.4V17.8H4.6Z"
+                stroke="currentColor"
+                stroke-width="1.35"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M7.6 9.1L10.1 11.4L7.6 13.7"
+                stroke="currentColor"
+                stroke-width="1.35"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M14.1 9.5L16.9 12.3M16.9 9.5L14.1 12.3"
+                stroke="currentColor"
+                stroke-width="1.35"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <button
+            id="clearLogsButton"
+            class="clear-logs-button clear-icon-button"
+            type="button"
+            data-tooltip="Clear logs (Ctrl D)"
+            aria-label="Clear logs">
+            <svg
+              class="clear-logs-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M1.9 7h20.2"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round" />
+              <path
+                d="M7.3 7V5.8c0-.88.72-1.6 1.6-1.6h6.2c.88 0 1.6.72 1.6 1.6V7"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M5.4 7.3V18c0 1.77 1.43 3.2 3.2 3.2h6.8c1.77 0 3.2-1.43 3.2-3.2V7.3"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M8.4 10.2v7"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round" />
+              <path
+                d="M12 10.2v7"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round" />
+              <path
+                d="M15.6 10.2v7"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round" />
+            </svg>
+          </button>
+          <button
+            id="exportLogsButton"
+            class="export-logs-button export-icon-button"
+            type="button"
+            data-tooltip="Export logs (Ctrl E)"
+            aria-label="Export logs to file">
+            <svg
+              class="export-logs-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M12 4.4V14.1"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M8.5 10.8L12 14.3L15.5 10.8"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M5.2 17.3H18.8"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round" />
+              <path
+                d="M4.7 17.3V18.6C4.7 19.59 5.51 20.4 6.5 20.4H17.5C18.49 20.4 19.3 19.59 19.3 18.6V17.3"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+          <div
+            class="terminal-font-controls"
+            aria-label="Terminal font size controls">
+            <button
+              id="terminalFontMenuTrigger"
+              class="terminal-font-menu-trigger"
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded="false"
+              aria-controls="terminalFontMenu"
+              aria-label="Terminal font size">
+              <span
+                class="terminal-font-menu-icon"
+                aria-hidden="true">
+                <span class="terminal-font-glyph-large">A</span>
+                <span class="terminal-font-glyph-small">a</span>
+              </span>
+              <span
+                id="terminalFontMenuValue"
+                class="terminal-font-menu-value"
+                >17.6</span
+              >
+            </button>
+            <div
+              id="terminalFontMenu"
+              class="terminal-font-menu"
+              role="menu"
+              hidden>
+              <button
+                id="terminalFontDecreaseButton"
+                class="session-icon-button terminal-font-button"
+                type="button"
+                data-tooltip="Decrease terminal font (Ctrl -)"
+                aria-label="Decrease terminal font size">
+                A-
+              </button>
+              <button
+                id="terminalFontResetButton"
+                class="session-icon-button terminal-font-button"
+                type="button"
+                data-tooltip="Reset terminal font (Ctrl 0)"
+                aria-label="Reset terminal font size">
+                Ao
+              </button>
+              <button
+                id="terminalFontIncreaseButton"
+                class="session-icon-button terminal-font-button"
+                type="button"
+                data-tooltip="Increase terminal font (Ctrl +)"
+                aria-label="Increase terminal font size">
+                A+
+              </button>
+            </div>
+          </div>
+          <div class="terminal-theme-selector">
+            <button
+              id="terminalThemeTrigger"
+              class="terminal-theme-trigger"
+              type="button"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-controls="terminalThemeMenu">
+              <span
+                id="terminalThemePreview"
+                class="theme-preview theme-preview-ocean"
+                aria-hidden="true"></span>
+              <span id="terminalThemeText">Ocean</span>
+            </button>
+            <div
+              id="terminalThemeMenu"
+              class="terminal-theme-menu"
+              role="listbox"
+              hidden>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="light"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-light"
+                  aria-hidden="true"></span>
+                <span>Light</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="tokion-night-light"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-tokion-night-light"
+                  aria-hidden="true"></span>
+                <span>Tokion Night Light</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="solarized-light"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-solarized-light"
+                  aria-hidden="true"></span>
+                <span>Solarized Light</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="red"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-red"
+                  aria-hidden="true"></span>
+                <span>Red</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="ocean"
+                aria-selected="true">
+                <span
+                  class="theme-preview theme-preview-ocean"
+                  aria-hidden="true"></span>
+                <span>Ocean</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="solarized-dark"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-solarized-dark"
+                  aria-hidden="true"></span>
+                <span>Solarized Dark</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="kimbie-dark"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-kimbie-dark"
+                  aria-hidden="true"></span>
+                <span>Kimbie Dark</span>
+              </button>
+              <button
+                class="terminal-theme-option"
+                type="button"
+                role="option"
+                data-theme="dark"
+                aria-selected="false">
+                <span
+                  class="theme-preview theme-preview-dark"
+                  aria-hidden="true"></span>
+                <span>Dark</span>
+              </button>
+            </div>
+          </div>
+          <button
+            id="expandLogsButton"
+            class="expand-logs-button expand-icon-button"
+            type="button"
+            data-tooltip="Expand terminal (Ctrl Enter)"
+            aria-label="Expand terminal"
+            aria-pressed="false">
+            <!-- Expand icon: shown when not expanded -->
+            <svg
+              class="expand-logs-icon expand-logs-icon-expand"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M3 9V5a2 2 0 0 1 2-2h4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M15 3h4a2 2 0 0 1 2 2v4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M21 15v4a2 2 0 0 1-2 2h-4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M9 21H5a2 2 0 0 1-2-2v-4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+            <!-- Collapse icon: shown when expanded -->
+            <svg
+              class="expand-logs-icon expand-logs-icon-collapse"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              aria-hidden="true"
+              focusable="false">
+              <path
+                d="M9 3v4a2 2 0 0 1-2 2H3"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M21 9h-4a2 2 0 0 1-2-2V3"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M3 15h4a2 2 0 0 1 2 2v4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path
+                d="M15 21v-4a2 2 0 0 1 2-2h4"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </button>
+        </div>
+        <div class="logs-shell">
+          <div
+            id="logTabs"
+            class="log-tabs"
+            role="tablist"
+            aria-label="Log tabs"></div>
+          <div
+            id="logs"
+            class="logs"
+            aria-live="polite"></div>
+          <div
+            id="interactiveTerminalBar"
+            class="interactive-terminal-bar"
+            hidden>
+            <span
+              id="interactiveTerminalCwd"
+              class="interactive-terminal-cwd"></span>
+            <form
+              id="interactiveTerminalForm"
+              class="interactive-terminal-form">
+              <label
+                for="interactiveTerminalInput"
+                class="interactive-terminal-prompt"
+                >$</label
+              >
+              <input
+                id="interactiveTerminalInput"
+                class="interactive-terminal-input"
+                type="text"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="Type a command and press Enter" />
+              <button
+                id="interactiveTerminalRunButton"
+                class="interactive-terminal-run"
+                type="submit">
+                Run
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div
+      id="launcherToast"
+      class="launcher-toast"
+      role="status"
+      aria-live="polite"
+      hidden></div>
+
+    <div
+      id="shutdownOverlay"
+      class="shutdown-overlay"
+      role="status"
+      aria-live="polite"
+      hidden>
+      <div class="shutdown-overlay-card">
+        <span
+          class="shutdown-overlay-icon"
+          aria-hidden="true"></span>
+        <span>Closing launcher...</span>
+      </div>
+    </div>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

@@ -15,6 +15,9 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🛫 Initial boot loader (plane GIF) rendered from `index.html`
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
+- 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
+- 🧠 Optional SEO proxy shell (`server/index-proxy.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
+- 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
@@ -38,11 +41,20 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 
 ## 📁 Project Structure
 
-```
+```text
 server/
-└── index.js                     # Booking flow API (token + steps)
+├── api.js                     # Booking flow API (token + steps)
+├── index-proxy.js               # Composition root for index proxy (port 4300)
+└── index-rendering/
+  ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
+  ├── index-renderer.js        # Applies dynamic replacements over src/index.html template
+  ├── proxy-middleware.js      # HTML-vs-asset routing and pass-through proxy to Angular dev server
+  └── seo-renderer.js          # Resolves page SEO from config-site and renders SEO tags
 public/
-└── favicon.png                  # Static assets
+├── favicon-32x32.png
+├── favicon.png
+├── robots.txt
+└── sitemap.xml                  # Public static assets
 apache/
 └── .htaccess                    # Optional Apache config
 src/
@@ -106,6 +118,7 @@ src/
 │       ├── booking-progress/
 │       ├── page-navigation/
 │       ├── router-helper/
+│       ├── seo/
 │       └── site-config/
 ├── environments/
 │   ├── environment.ts            # Development config (boot loader min: 0ms)
@@ -128,7 +141,51 @@ src/
 
 ---
 
-## 🛠️ Installation
+## ⚡ Quickstart (Recommended)
+
+### 🖱️ One-Click Installation & Launch
+
+The easiest way to get started is to **double-click** the installer script for your operating system. This will:
+
+1. ✅ Install all dependencies automatically (only if needed)
+2. ⚙️ Choose launcher mode from a boolean toggle in `build-launcher-and-run.js`
+3. 🚀 Run the selected flow (dev `launcher:open` or build+run executable)
+
+From the repository root, double-click the appropriate file:
+
+| OS          | File                             | Action                                             |
+| ----------- | -------------------------------- | -------------------------------------------------- |
+| **Windows** | `install-and-launch-windows.bat` | Double-click to run                                |
+| **macOS**   | `install-and-launch-mac.command` | Double-click to run                                |
+| **Linux**   | `install-and-launch-linux.sh`    | Double-click or `bash install-and-launch-linux.sh` |
+
+The Launcher UI opens automatically and provides:
+
+- 📋 One-click script execution (API, Angular dev server, proxy, etc.)
+- 📊 Real-time logs for each script
+- ⭐ Favorite scripts for quick access
+- 🛑 Easy stop/restart controls
+
+Build behavior in one-click mode:
+
+- 🧠 Smart dependency install: runs `npm install` only when `package.json` / `package-lock.json` changes or `node_modules` is missing
+- 🔀 Selectable flow via `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`:
+  - `true`: runs `npm run launcher:open` (development launcher mode)
+  - `false`: uses smart build+run executable flow (with build cache metadata)
+- ⚡ Smart launcher rebuild (build mode only): the first successful build stores launcher metadata, and later runs reuse the existing artifact when launcher sources are unchanged
+- 🪟 Windows-specific safe output (build mode only): when rebuilding on Windows, uses `dist-electron/runs/win-<timestamp>/` to avoid locked-file conflicts
+
+**Terminal close behavior:**
+
+- ✅ Success: Auto-closes terminal after 5 seconds
+- ❌ Error: Stays open so you can read error details
+- 💡 macOS tip: Set Terminal profile option `When the shell exits` to `Close if the shell exited cleanly`
+
+---
+
+## 🛠️ Manual Installation (Alternative)
+
+If you prefer command-line setup:
 
 ```bash
 git clone https://github.com/your-user/dynamic-site-poc.git
@@ -138,24 +195,206 @@ npm install
 
 ---
 
-## ▶️ Run the App
+## ▶️ Manual App Launch (Alternative)
 
 ```bash
-# Terminal 1: booking flow API (port 3000)
-node server/index.js
+# Install deps
+npm install
 
-# Terminal 2: Angular app (port 4200)
-npm start
+# Terminal 1: booking flow API (port 3000)
+npm run start:api
+
+# Terminal 2: Angular app (port 4200 by default)
+npm run start:serve
+
+# Terminal 3 (optional): SEO proxy shell (port 4300)
+npm run start:proxy
+
+# Optional: start Angular + proxy together
+npm run start:serve-proxy
 ```
 
 Then visit:
 📍 [http://localhost:4200](http://localhost:4200)
 
 API runs on:
-📍 http://localhost:3000
+📍 [http://localhost:3000](http://localhost:3000)
 
-> If you see missing module errors when starting the API, install the server deps:
-> `npm install express cors uuid`
+SEO proxy shell runs on:
+📍 [http://localhost:4300](http://localhost:4300)
+
+---
+
+## ✅ Useful Scripts
+
+### Development Scripts
+
+```bash
+npm run start:serve       # Dev server (port 4200)
+npm run start:api         # Booking flow API (port 3000)
+npm run start:backend     # Backend server (port 3000)
+npm run start:proxy       # SEO proxy shell (port 4300)
+npm run start:serve-proxy # Angular + proxy concurrently (recommended)
+npm run build             # Production build
+npm run watch             # Development build in watch mode
+npm run test              # Unit tests (Karma)
+npm run lint              # ESLint for TS/HTML
+npm run lint:styles       # Stylelint for SCSS/CSS
+npm run format            # Prettier formatting
+```
+
+### Launcher Scripts
+
+For launcher builds and deployment, see **🚀 Electron Launcher** section below.
+
+```bash
+npm run launcher:open         # Open Electron launcher in dev mode
+npm run launcher:build:run    # Build or reuse current-OS launcher, then run
+npm run launcher:build:win    # Build Windows installer (NSIS)
+npm run launcher:build:mac    # Build macOS (DMG + ZIP)
+npm run launcher:build:linux  # Build Linux (AppImage + DEB)
+npm run launcher:build:all    # Build all OS targets
+```
+
+---
+
+## 🚀 Electron Launcher
+
+### What is it?
+
+An interactive **GUI launcher** (built with Electron) that lets you run all npm scripts without opening a terminal. Simply double-click `install-and-launch-mac.command` (macOS), `install-and-launch-linux.sh` (Linux), or `install-and-launch-windows.bat` (Windows) to install dependencies and run the configured launcher flow automatically.
+
+### Select One-Click Flow (New)
+
+In `build-launcher-and-run.js`, configure this constant:
+
+```js
+const USE_DEV_LAUNCHER_OPEN_FLOW = true;
+```
+
+To switch launcher mode between **dev** and **prod/build**, change only this constant in `build-launcher-and-run.js`.
+
+- `true` → one-click scripts run `npm run launcher:open` (development mode)
+- `false` → one-click scripts keep the previous smart build-and-run executable behavior
+
+This keeps both flows in code, so you can switch by changing only one boolean value.
+
+### Launcher Features
+
+- 📋 **Script Management**: List and execute any npm script with one click
+- ▶️ **Start/Stop**: Launch or stop running scripts easily
+- 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
+- ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `build`, `start:backend`, and `test`.
+- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), the Favorites filter is initialized as enabled.
+- 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
+- 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
+- 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
+- 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
+- 🎨 **ANSI Color Parsing Across Platforms**: Terminal output preserves ANSI color sequences on Windows so colorized output behaves closer to macOS/Linux
+- ⚡ **Windows Startup Optimizations**: Terminal capability detection is cached to reduce command startup overhead
+- 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
+- ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
+- 📐 **Taller Workspace Panels**: Scripts and Terminal panels use a taller layout to show more content with less scrolling
+- 💾 **Export Logs to File**: Save the active log tab (script, `All scripts`, or terminal session) with a toolbar button and native save dialog
+- 🔔 **Visual Export Feedback**: Export success/errors are shown as non-blocking toast notifications in the launcher UI (visible for 5 seconds)
+- 🚪 **Closing State Overlay**: On app exit, a transparent blocker with `Closing launcher...` and a loading icon is shown so users get immediate feedback during shutdown delays
+- ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
+- 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
+- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
+- 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
+- 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
+- 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips (including the session close `x`) are rendered in a floating portal outside the tabs container so they are never cut by overflow
+- 🖱️ **Horizontal Tab Scrolling**: The terminal tabs strip supports horizontal scrolling with mouse wheel/trackpad gestures
+- ⌨️ **Keyboard Tab Navigation**: Use `Ctrl + Tab` to move to the next log tab and `Ctrl + Shift + Tab` to move to the previous one
+- 🛑 **Zero Terminal Usage**: Everything via the Launcher UI—no command-line needed
+
+### Terminal Sessions in Launcher
+
+- Use **New Terminal** in the launcher to create independent Session tabs.
+- Each session keeps its own current directory (`cwd`) and command history.
+- Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
+- Built-in command handling supports `clear` and `cls` to clear the current session output.
+- Git Bash sessions on Windows are launched with a faster startup profile (`--noprofile --norc`) to reduce command latency.
+- **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `All scripts` tab.
+- Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
+- **`sudo` password support**: when a running command outputs a password prompt (e.g. `sudo`), the terminal input automatically switches to password mode (masked input). Type the password and press Enter or click Run to send it to the process via stdin. Input returns to normal mode once the prompt is gone.
+- While a command is running, the terminal input remains editable, but command submission is blocked until the current command finishes (Run button disabled and Enter ignored). The exception is when a `sudo` password prompt is active: in that case Enter and Run are allowed to submit the password.
+- Terminal font size defaults to `17.6px` on first launch or after clearing local storage; this matches the value applied by the Reset font button.
+- `Ctrl + C` respects copy behavior: if text is selected, it copies selection; if nothing is selected and a terminal session is running, it sends interrupt.
+- Closing a session tab stops active child processes for that session.
+- Closing the launcher app also stops active terminal session child processes before exit.
+- Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
+
+### Launcher Shortcuts
+
+- `Ctrl + S`: Refresh scripts list
+- `Ctrl + N`: Create new terminal session
+- `Ctrl + W`: Close active terminal session
+- `Ctrl + D`: Clear current logs view
+- `Ctrl + E`: Export active logs to file
+- `Ctrl + X`: Send SIGINT to active terminal session
+- `Ctrl + Tab`: Focus next log tab
+- `Ctrl + Shift + Tab`: Focus previous log tab
+- `Ctrl + Enter`: Toggle terminal fullscreen
+- `Ctrl + +`: Increase terminal font size
+- `Ctrl + -`: Decrease terminal font size
+- `Ctrl + 0`: Reset terminal font size
+
+### Tab Ordering
+
+- Log tabs (scripts and terminal sessions) can be reordered via drag and drop.
+- The tab order is saved in local storage and restored on next launcher start.
+- The `All scripts` tab remains fixed at the beginning.
+
+### macOS App Icon
+
+- The launcher uses a custom icon for Dock and App Switcher (`Cmd + Tab`).
+- The icon is a rounded macOS-style square with the full blue background and white airplane (`electron-launcher/assets/avianca-icon.icns` / `electron-launcher/assets/mac.iconset/avianca-icon.png`).
+- In dev mode (`npm run launcher:open`), the icon is applied via `app.dock.setIcon()` using a `nativeImage` built from `electron-launcher/assets/mac.iconset/avianca-icon.png` to bypass potential ICNS caching.
+- In packaged mode, the icon is embedded in the app bundle (`dist-electron/mac/Dynamic Site Launcher.app/Contents/Resources/icon.icns`).
+- The app name shown in `Cmd + Tab` is `Dynamic Site Launcher` when running the packaged executable. In dev mode it shows `Electron` — this is a macOS limitation: the app switcher name is taken from the bundle metadata, which belongs to the generic Electron binary, and cannot be overridden in JS at runtime.
+
+### Windows App Icon
+
+- The Windows build icon is configured from `electron-launcher/assets/windows/avianca.png` (see `package.json` > `build.win.icon`).
+
+### Build & Deploy the Launcher
+
+```bash
+# Quick build + run for your current OS
+npm run launcher:build:run
+
+# Build specific targets
+npm run launcher:build:win      # Windows (NSIS installer)
+npm run launcher:build:mac      # macOS (DMG + ZIP)
+npm run launcher:build:linux    # Linux (AppImage + DEB)
+
+# Build all OS targets
+npm run launcher:build:all
+```
+
+Output artifacts:
+
+- `npm run launcher:build:run`:
+  - Windows: `dist-electron/runs/win-<timestamp>/win-unpacked/Dynamic Site Launcher.exe`
+  - macOS: `dist-electron/mac/*.app` (or latest cached artifact if unchanged)
+  - Linux: `dist-electron/*.AppImage` or `dist-electron/linux-unpacked/` (or latest cached artifact if unchanged)
+- `npm run launcher:build:win`:
+  - Executable: `dist-electron/win-unpacked/Dynamic Site Launcher.exe`
+  - Installer: `dist-electron/Dynamic Site Launcher Setup <version>.exe`
+
+### How the Install Scripts Work
+
+The double-click installers at the repo root handle everything:
+
+1. ✅ **Check Dependencies**: Compares `package.json` + `package-lock.json` fingerprint
+1. 📦 **Smart Install**: Runs `npm install` only if needed (or if `node_modules` is missing)
+1. 🔀 **Flow Switch**: Reads `USE_DEV_LAUNCHER_OPEN_FLOW` in `build-launcher-and-run.js`
+1. 🚀 **Auto-Launch**: If `true`, runs `npm run launcher:open`; if `false`, applies smart build decision (reuse existing launcher if unchanged, otherwise build for current OS) and launches executable
+1. ⏱️ **Auto-Exit**: Terminal closes after 5 seconds on success (or stays open on error)
+
+**Tip for macOS**: Set Terminal preference `When the shell exits` to `Close if the shell exited cleanly` for seamless auto-close.
 
 ---
 
@@ -166,6 +405,48 @@ API runs on:
 3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
+6. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
+
+---
+
+## 🌐 SEO Proxy Mode
+
+`server/index-proxy.js` is the composition root for the proxy and wires specialized modules under `server/index-rendering/`.
+
+Responsibilities are split as follows:
+
+- `seo-renderer.js`: reads `src/assets/config-site/*`, resolves page metadata by request path, and returns `<title>` + SEO tags.
+- `analytics-provider.js`: reads analytics snippet content from `src/assets/analytics/scripts`.
+- `index-renderer.js`: uses `src/index.html` as template and applies dynamic replacements.
+- `proxy-middleware.js`: serves rendered HTML for document navigation and proxies assets/chunks to Angular dev server (`http://localhost:4200`).
+
+`index-renderer.js` injects/replaces:
+
+- `<title>` based on page SEO config.
+- `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder with the raw contents of `src/assets/analytics/scripts`.
+- `<!-- DYNAMIC_SEO_TAGS_SSR -->` placeholder with meta/link tags (description, robots, canonical, alternates, OG, Twitter).
+- `<meta name="enable-dynamic-seo" content="false" />` when serving through proxy/backend, so front-side SEO rewriting is disabled while server SEO is already applied.
+- `<link rel="stylesheet" href="styles.css">` to ensure global styles (including Bootstrap) are loaded in proxy mode.
+- Keeps module script tags provided by Angular dev server and only falls back to `<script src="main.js" type="module"></script>` when needed.
+
+Notes:
+
+- The analytics file is read on each HTML request while running the proxy, so changes to `src/assets/analytics/scripts` are reflected without rebuilding.
+- If `src/assets/analytics/scripts` does not exist, the analytics placeholder is replaced with an empty string.
+
+For non-document requests (assets/chunks), it proxies directly to Angular dev server on `http://localhost:4200`.
+
+---
+
+## 🧾 About Inline CSS in dist/index.html
+
+In production builds (`dist/dynamic-site/browser/index.html`), Angular may inline critical CSS in a `<style>` block (you may see `data-beasties-container`).
+
+This is expected optimization behavior:
+
+- Improves first paint by inlining critical styles.
+- Defers the full stylesheet via generated `styles-*.css` link.
+- `dist/` files are generated artifacts and should not be edited manually.
 
 ---
 
@@ -196,7 +477,7 @@ API runs on:
 
 ## 🏗️ Build Configurations
 
-- `npm start` / `ng serve` uses the `development` build target.
+- `npm run start:serve` / `ng serve` uses the `development` build target.
 - `ng build` uses `production` by default (`build.defaultConfiguration = production` in `angular.json`).
 - You can force development build output with:
 

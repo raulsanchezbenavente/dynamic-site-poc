@@ -1,17 +1,65 @@
 {
   "name": "dynamic-site",
   "version": "0.0.0",
+  "main": "electron-launcher/main.js",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start:serve": "ng serve",
+    "start:proxy": "node server/index-proxy.js",
+    "start:serve-proxy": "concurrently \"npm run start:serve\" \"npm run start:proxy\"",
     "build": "ng build",
+    "start:backend": "node server/index.js",
+    "start:api": "node server/api.js",
+    "launcher:open": "electron electron-launcher/main.js",
+    "launcher:build:win": "electron-builder --win nsis",
+    "launcher:build:mac": "electron-builder --mac dmg zip",
+    "launcher:build:linux": "electron-builder --linux AppImage deb",
+    "launcher:build:all": "electron-builder --win --mac --linux",
+    "launcher:build:run": "node build-launcher-and-run.js",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "ng test --watch=false --browsers=ChromeHeadless",
+    "test:watch": "ng test",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\""
   },
   "private": true,
+  "build": {
+    "appId": "com.flyr.dynamic.site.launcher",
+    "productName": "Dynamic Site Launcher",
+    "directories": {
+      "output": "dist-electron"
+    },
+    "files": [
+      "electron-launcher/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "electron-launcher/main.js"
+    },
+    "win": {
+      "icon": "electron-launcher/assets/windows/avianca.png",
+      "signAndEditExecutable": false,
+      "target": [
+        "nsis"
+      ]
+    },
+    "mac": {
+      "icon": "electron-launcher/assets/avianca-icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.developer-tools"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Development"
+    }
+  },
   "dependencies": {
     "@angular/common": "^19.2.0",
     "@angular/compiler": "^19.2.0",
@@ -20,8 +68,12 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
+    "@fontsource/jetbrains-mono": "^5.1.1",
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
+    "bootstrap": "^5.3.3",
+    "bootstrap-icons": "^1.11.3",
+    "flatpickr": "^4.6.13",
     "http-server": "^14.1.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
@@ -37,7 +89,10 @@
     "@types/jasmine": "~5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
+    "concurrently": "^9.0.1",
     "eslint": "^9.18.0",
+    "electron": "^31.0.2",
+    "electron-builder": "^25.0.5",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.29.1",
