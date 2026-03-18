@@ -1423,6 +1423,83 @@ function spawnScriptProcess(scriptName) {
   });
 }
 
+function listUnixProcessPairs() {
+  return new Promise((resolve) => {
+    const ps = spawn('ps', ['-eo', 'pid=,ppid='], {
+      windowsHide: true,
+      shell: false,
+    });
+
+    let stdout = '';
+    ps.stdout.on('data', (chunk) => {
+      stdout += String(chunk || '');
+    });
+
+    ps.on('error', () => resolve([]));
+    ps.on('close', () => {
+      const pairs = stdout
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .map((line) => line.split(/\s+/))
+        .filter((tokens) => tokens.length >= 2)
+        .map((tokens) => ({
+          pid: Number(tokens[0]),
+          ppid: Number(tokens[1]),
+        }))
+        .filter((entry) => Number.isInteger(entry.pid) && entry.pid > 0 && Number.isInteger(entry.ppid) && entry.ppid >= 0);
+
+      resolve(pairs);
+    });
+  });
+}
+
+async function collectUnixProcessTreePids(rootPid) {
+  const normalizedRootPid = Number(rootPid);
+  if (!Number.isInteger(normalizedRootPid) || normalizedRootPid <= 0) {
+    return [];
+  }
+
+  const pairs = await listUnixProcessPairs();
+  const childrenByParent = new Map();
+
+  for (const pair of pairs) {
+    const siblings = childrenByParent.get(pair.ppid) || [];
+    siblings.push(pair.pid);
+    childrenByParent.set(pair.ppid, siblings);
+  }
+
+  const pending = [normalizedRootPid];
+  const discovered = new Set();
+
+  while (pending.length > 0) {
+    const currentPid = pending.pop();
+    if (discovered.has(currentPid)) {
+      continue;
+    }
+
+    discovered.add(currentPid);
+    const children = childrenByParent.get(currentPid) || [];
+    for (const childPid of children) {
+      if (!discovered.has(childPid)) {
+        pending.push(childPid);
+      }
+    }
+  }
+
+  return Array.from(discovered);
+}
+
+function signalUnixPids(pids, signal) {
+  for (const pid of pids) {
+    try {
+      process.kill(pid, signal);
+    } catch {
+      // Ignore failures for already-exited processes.
+    }
+  }
+}
+
 function killProcessTree(child) {
   return new Promise((resolve) => {
     if (!child || child.killed || child.exitCode != null) {
@@ -1448,29 +1525,39 @@ function killProcessTree(child) {
     const normalizedPid = Number(child.pid);
     const canSignalUnixGroup = Number.isInteger(normalizedPid) && normalizedPid > 0;
 
-    const signalUnixProcessTree = (signal) => {
+    const signalUnixProcessTree = (signal, explicitPids = []) => {
       if (canSignalUnixGroup) {
         try {
           process.kill(-normalizedPid, signal);
-          return true;
         } catch {
-          // Fallback to child-only kill when group signaling fails.
+          // Group signal can fail when group no longer exists.
         }
       }
 
+      signalUnixPids(explicitPids, signal);
+
       try {
         child.kill(signal);
-        return true;
       } catch {
-        return false;
+        // Ignore if process already exited.
       }
     };
 
     let killTimeout = null;
+    let hardTimeout = null;
+    let settled = false;
 
     const cleanup = () => {
+      if (settled) {
+        return;
+      }
+
+      settled = true;
       if (killTimeout) {
         clearTimeout(killTimeout);
+      }
+      if (hardTimeout) {
+        clearTimeout(hardTimeout);
       }
       resolve();
     };
@@ -1479,13 +1566,26 @@ function killProcessTree(child) {
     child.once('exit', cleanup);
     child.once('close', cleanup);
 
-    // Send SIGTERM first.
-    signalUnixProcessTree('SIGTERM');
+    // Never leave stop awaiting forever if a child process misbehaves.
+    hardTimeout = setTimeout(cleanup, 9000);
 
-    // If process doesn't die in 5 seconds, force kill it.
-    killTimeout = setTimeout(() => {
-      signalUnixProcessTree('SIGKILL');
-    }, 5000);
+    void collectUnixProcessTreePids(normalizedPid)
+      .then((treePids) => {
+        // Send SIGTERM first.
+        signalUnixProcessTree('SIGTERM', treePids);
+
+        // If process doesn't die in 5 seconds, force kill it.
+        killTimeout = setTimeout(() => {
+          signalUnixProcessTree('SIGKILL', treePids);
+        }, 5000);
+      })
+      .catch(() => {
+        // Minimal fallback if process listing fails.
+        signalUnixProcessTree('SIGTERM');
+        killTimeout = setTimeout(() => {
+          signalUnixProcessTree('SIGKILL');
+        }, 5000);
+      });
   });
 }
 
