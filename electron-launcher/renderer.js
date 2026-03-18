@@ -1197,6 +1197,68 @@ function focusActiveTabTextbox() {
   }
 }
 
+function focusRenderedTabByName(tabName) {
+  if (!logTabsEl || !tabName) {
+    return;
+  }
+
+  for (const element of Array.from(logTabsEl.querySelectorAll('.log-tab'))) {
+    if (!(element instanceof HTMLElement)) {
+      continue;
+    }
+
+    if (String(element.dataset.tabName || '') !== String(tabName)) {
+      continue;
+    }
+
+    element.focus();
+    return;
+  }
+}
+
+function activateLogTab(tabName, options = null) {
+  const normalizedTabName = String(tabName || 'all').trim() || 'all';
+  resetTerminalAutocompleteState();
+  activeLogTab = normalizedTabName;
+
+  if (isTerminalTab(normalizedTabName)) {
+    activeTerminalSessionId = sessionIdFromTab(normalizedTabName);
+  } else {
+    activeTerminalSessionId = null;
+  }
+
+  renderLogTabs();
+  renderLogs();
+  updateInteractiveTerminalInputMode();
+
+  if (isTerminalTab(normalizedTabName) && interactiveTerminalInput) {
+    interactiveTerminalInput.focus();
+    return;
+  }
+
+  if (options?.focusTab) {
+    focusRenderedTabByName(normalizedTabName);
+  }
+}
+
+function cycleLogTabs(step = 1) {
+  const tabNames = getTabNames();
+  if (!Array.isArray(tabNames) || tabNames.length === 0) {
+    return;
+  }
+
+  const normalizedStep = Number(step) || 1;
+  const currentIndex = Math.max(0, tabNames.indexOf(activeLogTab));
+  const nextIndex = (currentIndex + normalizedStep + tabNames.length) % tabNames.length;
+  const nextTabName = tabNames[nextIndex];
+
+  if (!nextTabName) {
+    return;
+  }
+
+  activateLogTab(nextTabName, { focusTab: true });
+}
+
 function renderLogs() {
   updateConsoleSurface();
   if (isTerminalTab(activeLogTab)) {
@@ -2668,6 +2730,12 @@ document.addEventListener('keydown', (event) => {
   if (isCtrlShortcut) {
     const key = String(event.key);
     const code = String(event.code || '');
+
+    if (key === 'Tab' || code === 'Tab') {
+      event.preventDefault();
+      cycleLogTabs(event.shiftKey ? -1 : 1);
+      return;
+    }
 
     if (event.key === 'Enter' || code === 'Enter' || code === 'NumpadEnter') {
       event.preventDefault();
