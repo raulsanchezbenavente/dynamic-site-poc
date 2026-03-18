@@ -1623,4 +1623,7 @@ button:hover:not(:disabled) {
   .logs-panel {
     min-height: 32rem;
   }
+  .logs-shell {
+    height: 40rem;
+  }
 }
