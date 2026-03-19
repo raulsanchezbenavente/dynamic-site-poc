@@ -1,6 +1,5 @@
 import { Type } from '@angular/core';
 
-// Prueba module with alias: @prueba
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 
 export const componentMap: Record<string, BlockComponentLoader> = {

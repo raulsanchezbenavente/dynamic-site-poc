@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { GenericTabsComponent, type TabDefinition } from '@prueba';
 
+import { GenericTabsComponent, type TabDefinition } from '../../../fake-libs';
 import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 @Component({

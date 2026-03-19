@@ -15,9 +15,9 @@
       "@fake-blocks-avianca": ["src/app/fake-blocks-components/avianca/index.ts"],
       "@fake-blocks-avianca/index": ["src/app/fake-blocks-components/avianca/index.ts"],
       "@fake-blocks-avianca/*": ["src/app/fake-blocks-components/avianca/*"],
-      "@prueba": ["src/app/prueba/index.ts"],
-      "@prueba/index": ["src/app/prueba/index.ts"],
-      "@prueba/*": ["src/app/prueba/*"]
+      "fake-libs": ["src/app/fake-libs/index.ts"],
+      "fake-libs/index": ["src/app/fake-libs/index.ts"],
+      "fake-libs/*": ["src/app/fake-libs/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
