@@ -38,14 +38,14 @@
       "main": "electron-launcher/main.js"
     },
     "win": {
-      "icon": "electron-launcher/assets/windows/avianca.png",
+      "icon": "electron-launcher/assets/windows/avianca-icon.png",
       "signAndEditExecutable": false,
       "target": [
         "nsis"
       ]
     },
     "mac": {
-      "icon": "electron-launcher/assets/avianca-icon.icns",
+      "icon": "electron-launcher/assets/mac/avianca-icon.icns",
       "target": [
         "dmg",
         "zip"
@@ -53,8 +53,7 @@
       "category": "public.app-category.developer-tools"
     },
     "linux": {
-      "icon": "electron-launcher/assets/windows/avianca.png",
-      "executableName": "dynamic-site-launcher",
+      "icon": "electron-launcher/assets/linux/avianca-icon.png",
       "target": [
         "AppImage",
         "deb"
