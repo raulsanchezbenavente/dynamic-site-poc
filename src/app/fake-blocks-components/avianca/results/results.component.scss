@@ -91,6 +91,18 @@
   gap: 4px;
   font-weight: 600;
   color: #333;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.fr-date:hover:not(.fr-date--active) {
+  background: #f8fafb;
+  border-color: #cfe4e8;
+  box-shadow: 0 4px 10px rgba(11, 114, 133, 0.12);
+  transform: translateY(-1px);
 }
 
 .fr-date--active {
