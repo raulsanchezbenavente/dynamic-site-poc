@@ -25,7 +25,7 @@ const packageSource = {
 
 function getLauncherIconPath() {
   if (process.platform === 'win32') {
-    const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca.png');
+    const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
     if (fs.existsSync(windowsIconPath)) {
       return windowsIconPath;
     }
@@ -49,7 +49,7 @@ function getLauncherIconPath() {
     return platformIconPath;
   }
 
-  const fallbackIconPath = path.join(__dirname, 'assets', 'windows', 'avianca.png');
+  const fallbackIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
   return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
 }
 

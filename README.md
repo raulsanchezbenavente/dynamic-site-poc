@@ -357,7 +357,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 
 ### Windows App Icon
 
-- The Windows build icon is configured from `electron-launcher/assets/windows/avianca.png` (see `package.json` > `build.win.icon`).
+- The Windows build icon is configured from `electron-launcher/assets/windows/avianca-icon.png` (see `package.json` > `build.win.icon`).
 
 ### Linux App Icon
 
