@@ -207,12 +207,23 @@
   align-items: center;
   gap: 18px;
   cursor: pointer;
+  border-radius: 12px;
+  padding: 8px 10px;
+  transition:
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.fr-card-main:hover {
+  background: #f5fbfc;
+  box-shadow: inset 0 0 0 1px rgba(11, 114, 133, 0.22);
+  transform: translateY(-1px);
 }
 
 .fr-card-main:focus {
   outline: 2px solid rgba(11, 114, 133, 0.35);
   outline-offset: 4px;
-  border-radius: 12px;
 }
 
 .fr-time-block {
