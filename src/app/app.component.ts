@@ -44,8 +44,7 @@ export class AppComponent {
 
       const routes = pages.map((page: any, index: number) => ({
         path: page.path,
-        loadComponent: (): Promise<Type<unknown>> =>
-          import('./dynamic-composite/dynamic-page/dynamic-page.component').then((m) => m.DynamicPageComponent),
+        loadComponent: (): Promise<Type<unknown>> => import('./dynamic-composite').then((m) => m.DynamicPageComponent),
         data: {
           path: page.path,
           components: page.layout?.rows ?? page.layout,
