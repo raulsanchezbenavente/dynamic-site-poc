@@ -8,7 +8,13 @@
     "paths": {
       "@dynamic-composite": ["src/app/dynamic-composite/index.ts"],
       "@dynamic-composite/index": ["src/app/dynamic-composite/index.ts"],
-      "@dynamic-composite/*": ["src/app/dynamic-composite/*"]
+      "@dynamic-composite/*": ["src/app/dynamic-composite/*"],
+      "@fake-blocks-test": ["src/app/fake-blocks-components/test/index.ts"],
+      "@fake-blocks-test/index": ["src/app/fake-blocks-components/test/index.ts"],
+      "@fake-blocks-test/*": ["src/app/fake-blocks-components/test/*"],
+      "@fake-blocks-avianca": ["src/app/fake-blocks-components/avianca/index.ts"],
+      "@fake-blocks-avianca/index": ["src/app/fake-blocks-components/avianca/index.ts"],
+      "@fake-blocks-avianca/*": ["src/app/fake-blocks-components/avianca/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
