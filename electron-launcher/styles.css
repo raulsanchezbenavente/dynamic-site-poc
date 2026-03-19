@@ -1587,6 +1587,9 @@ button:hover:not(:disabled) {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  .quit-button-group {
+    margin-left: auto;
+  }
   .source-selector {
     flex: 1 1 100%;
     justify-content: flex-start;
