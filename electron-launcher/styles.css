@@ -1587,6 +1587,9 @@ button:hover:not(:disabled) {
     flex-wrap: wrap;
     justify-content: space-between;
   }
+  .quit-button-group {
+    margin-left: auto;
+  }
   .source-selector {
     flex: 1 1 100%;
     justify-content: flex-start;
@@ -1622,8 +1625,5 @@ button:hover:not(:disabled) {
   .scripts-panel,
   .logs-panel {
     min-height: 32rem;
-  }
-  .logs-shell {
-    height: 40rem;
   }
 }
