@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { GenericTabsComponent, type TabDefinition } from '@prueba';
 
 import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 @Component({
   selector: 'personal-data',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, GenericTabsComponent],
   templateUrl: './personal-data.component.html',
   styleUrl: './personal-data.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -19,6 +20,23 @@ export class PersonalDataComponent {
   private lastTap = 0;
 
   public activeTab: 'adult' | 'holder' = 'adult';
+
+  public get tabsDefinition(): TabDefinition[] {
+    return [
+      {
+        id: 'adult',
+        label: 'PERSONAL_DATA.TAB_ADULT',
+        icon: '👤',
+        isValid: this.isAdultFormValid(),
+      },
+      {
+        id: 'holder',
+        label: 'PERSONAL_DATA.TAB_HOLDER',
+        icon: '💼',
+        isValid: this.isHolderFormValid(),
+      },
+    ];
+  }
   public adultName = '';
   public adultLastName = '';
   public adultGender = '';
@@ -52,8 +70,12 @@ export class PersonalDataComponent {
     void this.pageNavigation.navigateByPageId('1-2');
   }
 
-  public setTab(tab: 'adult' | 'holder'): void {
-    this.activeTab = tab;
+  public onTabChanged(tabId: string): void {
+    this.activeTab = tabId as 'adult' | 'holder';
+  }
+
+  private updateTabsValidity(): void {
+    // No-op: tabsDefinition es un getter dinámico
   }
 
   public fillDemoData(): void {

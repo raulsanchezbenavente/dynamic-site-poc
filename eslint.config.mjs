@@ -40,7 +40,7 @@ export default [
       sourceType: 'module',
       parser: tsParser,
       parserOptions: {
-        project: ['tsconfig.json', './tsconfig.spec.json'],
+        project: ['tsconfig.json', './tsconfig.app.json', './tsconfig.spec.json'],
         createDefaultProgram: true,
       },
     },
@@ -225,7 +225,7 @@ export default [
     settings: {
       'import/resolver': {
         typescript: {
-          project: ['./tsconfig.json'],
+          project: ['./tsconfig.json', './tsconfig.app.json'],
         },
       },
     },

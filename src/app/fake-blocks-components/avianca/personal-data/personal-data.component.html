@@ -12,46 +12,11 @@
   </label>
 
   <div class="pd-card">
-    <div class="pd-tabs">
-      <button
-        type="button"
-        class="pd-tab"
-        [class.is-active]="activeTab === 'adult'"
-        (click)="setTab('adult')">
-        <span
-          class="pd-tab-icon"
-          aria-hidden="true"
-          >👤</span
-        >
-        <span>{{ 'PERSONAL_DATA.TAB_ADULT' | translate }}</span>
-        @if (!isAdultFormValid()) {
-          <span
-            class="pd-tab-alert"
-            aria-hidden="true"
-            >!</span
-          >
-        }
-      </button>
-      <button
-        type="button"
-        class="pd-tab"
-        [class.is-active]="activeTab === 'holder'"
-        (click)="setTab('holder')">
-        <span
-          class="pd-tab-icon"
-          aria-hidden="true"
-          >💼</span
-        >
-        <span>{{ 'PERSONAL_DATA.TAB_HOLDER' | translate }}</span>
-        @if (!isHolderFormValid()) {
-          <span
-            class="pd-tab-alert"
-            aria-hidden="true"
-            >!</span
-          >
-        }
-      </button>
-    </div>
+    <generic-tabs
+      [tabs]="tabsDefinition"
+      [activeTabId]="activeTab"
+      (tabChanged)="onTabChanged($event)">
+    </generic-tabs>
 
     <div class="pd-content">
       @if (activeTab === 'adult') {

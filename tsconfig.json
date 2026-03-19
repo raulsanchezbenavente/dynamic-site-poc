@@ -14,7 +14,10 @@
       "@fake-blocks-test/*": ["src/app/fake-blocks-components/test/*"],
       "@fake-blocks-avianca": ["src/app/fake-blocks-components/avianca/index.ts"],
       "@fake-blocks-avianca/index": ["src/app/fake-blocks-components/avianca/index.ts"],
-      "@fake-blocks-avianca/*": ["src/app/fake-blocks-components/avianca/*"]
+      "@fake-blocks-avianca/*": ["src/app/fake-blocks-components/avianca/*"],
+      "@prueba": ["src/app/prueba/index.ts"],
+      "@prueba/index": ["src/app/prueba/index.ts"],
+      "@prueba/*": ["src/app/prueba/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
