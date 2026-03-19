@@ -4,6 +4,12 @@
   "compileOnSave": false,
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
+    "baseUrl": ".",
+    "paths": {
+      "@dynamic-composite": ["src/app/dynamic-composite/index.ts"],
+      "@dynamic-composite/index": ["src/app/dynamic-composite/index.ts"],
+      "@dynamic-composite/*": ["src/app/dynamic-composite/*"]
+    },
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

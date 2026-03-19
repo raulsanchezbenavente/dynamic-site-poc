@@ -6,7 +6,7 @@ import { preloadLayoutComponents } from '../component-map';
 @Injectable({ providedIn: 'root' })
 export class RouteAssetsPreloadGuard implements CanActivate {
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    await Promise.allSettled([import('../dynamic-composite'), preloadLayoutComponents(route.data?.['components'])]);
+    await Promise.allSettled([import('@dynamic-composite'), preloadLayoutComponents(route.data?.['components'])]);
 
     return true;
   }
