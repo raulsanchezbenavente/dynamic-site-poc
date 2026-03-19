@@ -33,9 +33,8 @@ function getLauncherIconPath() {
 
   if (process.platform === 'darwin') {
     const macIconCandidates = [
-      path.join(__dirname, 'assets', 'avianca-icon.icns'),
-      path.join(__dirname, 'assets', 'mac.iconset', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
+      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
     ];
 
     for (const macIconPath of macIconCandidates) {
@@ -45,12 +44,12 @@ function getLauncherIconPath() {
     }
   }
 
-  const platformIconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
+  const platformIconPath = path.join(__dirname, 'assets', 'linux', 'avianca-icon.png');
   if (fs.existsSync(platformIconPath)) {
     return platformIconPath;
   }
 
-  const fallbackIconPath = path.join(__dirname, 'assets', 'avianca-icon.png');
+  const fallbackIconPath = path.join(__dirname, 'assets', 'windows', 'avianca.png');
   return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
 }
 
@@ -60,9 +59,8 @@ function applyAppIcon() {
   }
 
   const iconCandidates = [
-    path.join(__dirname, 'assets', 'mac.iconset', 'avianca-icon.png'),
-    path.join(__dirname, 'assets', 'avianca-icon.icns'),
-    path.join(__dirname, 'assets', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
   ].filter((candidatePath) => fs.existsSync(candidatePath));
 
   for (const iconPath of iconCandidates) {

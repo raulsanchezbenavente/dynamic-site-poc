@@ -45,7 +45,7 @@
       ]
     },
     "mac": {
-      "icon": "electron-launcher/assets/avianca-icon.icns",
+      "icon": "electron-launcher/assets/mac/avianca-icon.icns",
       "target": [
         "dmg",
         "zip"
@@ -53,6 +53,7 @@
       "category": "public.app-category.developer-tools"
     },
     "linux": {
+      "icon": "electron-launcher/assets/linux/avianca-icon.png",
       "target": [
         "AppImage",
         "deb"
