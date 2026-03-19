@@ -62,7 +62,7 @@
       "desktop": {
         "Name": "Dynamic Site Launcher",
         "StartupWMClass": "dynamic-site-launcher",
-        "Icon": "avianca"
+        "Icon": "avianca-icon"
       }
     }
   },
