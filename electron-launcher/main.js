@@ -40,7 +40,8 @@ function getLauncherIconPath() {
 
   if (process.platform === 'linux') {
     const linuxIconCandidates = [
-      path.join(__dirname, 'assets', 'windows', 'avianca.png'),
+      path.join(__dirname, 'assets', 'linux', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'windows', 'avianca-icon.png'),
       path.join(__dirname, 'assets', 'avianca-icon.png'),
     ];
 
@@ -98,6 +99,75 @@ function applyAppIcon() {
     } catch {
       // Try the next available icon candidate.
     }
+  }
+}
+
+function escapeDesktopEntryValue(value) {
+  return String(value ?? '')
+    .replace(/\\/g, '\\\\')
+    .replace(/\n/g, ' ');
+}
+
+function quoteDesktopExecArg(arg) {
+  const value = String(arg ?? '');
+  if (!value) {
+    return '""';
+  }
+
+  if (!/[\s"\\$`]/.test(value)) {
+    return value;
+  }
+
+  return `"${value.replace(/(["\\$`])/g, '\\$1')}"`;
+}
+
+function ensureLinuxDevDesktopEntry() {
+  if (process.platform !== 'linux' || app.isPackaged) {
+    return;
+  }
+
+  const iconPath = getLauncherIconPath();
+  if (!iconPath || !fs.existsSync(iconPath)) {
+    return;
+  }
+
+  const desktopFileName = 'dynamic-site-launcher.desktop';
+  const applicationsDir = path.join(app.getPath('home'), '.local', 'share', 'applications');
+  const desktopEntryPath = path.join(applicationsDir, desktopFileName);
+  const execCommand = [process.execPath, ...process.argv.slice(1)].map(quoteDesktopExecArg).join(' ');
+
+  const desktopEntryContent = [
+    '[Desktop Entry]',
+    'Type=Application',
+    'Version=1.0',
+    `Name=${escapeDesktopEntryValue('Dynamic Site Launcher')}`,
+    `Exec=${execCommand}`,
+    `TryExec=${escapeDesktopEntryValue(process.execPath)}`,
+    `Icon=${escapeDesktopEntryValue(iconPath)}`,
+    'Terminal=false',
+    'Categories=Development;',
+    'StartupNotify=true',
+    'StartupWMClass=dynamic-site-launcher',
+    '',
+  ].join('\n');
+
+  try {
+    fs.mkdirSync(applicationsDir, { recursive: true });
+
+    let currentContent = '';
+    if (fs.existsSync(desktopEntryPath)) {
+      currentContent = fs.readFileSync(desktopEntryPath, 'utf8');
+    }
+
+    if (currentContent !== desktopEntryContent) {
+      fs.writeFileSync(desktopEntryPath, desktopEntryContent, { mode: 0o644 });
+    }
+
+    if (typeof app.setDesktopName === 'function') {
+      app.setDesktopName(desktopFileName);
+    }
+  } catch {
+    // Ignore desktop-entry setup failures in development mode.
   }
 }
 
@@ -1868,6 +1938,7 @@ app.on('before-quit', (event) => {
 });
 
 app.whenReady().then(() => {
+  ensureLinuxDevDesktopEntry();
   applyAppIcon();
   createWindow();
 
