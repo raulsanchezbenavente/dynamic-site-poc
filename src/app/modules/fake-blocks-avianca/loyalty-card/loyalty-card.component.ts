@@ -34,6 +34,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public memberNumber = input<string>('13440242314');
   public totalMiles = input<string>('600,700');
   public expirationDate = input<string>('31 de mayo de 2026');
+  public accentColor = computed(() => this.getToneColor(this.loyaltyTone()));
   public gradientBackground = computed(() => {
     const tone = this.loyaltyTone();
     if (tone === 'gold') {
@@ -137,6 +138,22 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     }
 
     return 'red';
+  }
+
+  private getToneColor(tone: LoyaltyTone): string {
+    if (tone === 'gold') {
+      return '#d4a52a';
+    }
+
+    if (tone === 'silver') {
+      return '#7a8fa6';
+    }
+
+    if (tone === 'blue') {
+      return '#2e86ff';
+    }
+
+    return '#e2007a';
   }
 
   private normalizeTone(value: unknown): LoyaltyTone | null {
