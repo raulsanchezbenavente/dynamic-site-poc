@@ -36,6 +36,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 - 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
+- 🎨 Loyalty card resolves per-page config from `assets/config-site`, loads its tone from `assets/config/loyalty/{lang}`, and syncs that color with the main header badge/button
 - 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
 - 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
 
@@ -130,6 +131,7 @@ src/
 │   └── environment.prod.ts    # Production config (boot loader min: 1000ms)
 ├── assets/
 │   ├── config-site/           # CMS-like JSON site config
+│   ├── config/                # Runtime payloads consumed by dynamic blocks
 │   ├── i18n/                  # Translations (en/es/fr/pt)
 │   ├── illustrations/         # UI SVGs (extras, payment)
 │   └── loader/                # Local boot loader GIF
@@ -428,6 +430,7 @@ The double-click installers at the repo root handle everything:
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
 6. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
+7. Some blocks also fetch runtime payloads outside the main site config. Example: `loyaltyOverviewCard_uiplus` resolves its block config by `pageId` + language, fetches `/assets/config/loyalty/{lang}`, and publishes the resulting tone through `LoyaltyToneService` so the main header stays visually aligned.
 
 ---
 
@@ -511,7 +514,7 @@ ng build --configuration development
 
 ## 📄 Pages Overview
 
-- **Home / Search**: landing page with header, banner, and the flight search form.
+- **Home / Search**: landing page with header, loyalty card, banner, and the flight search form.
 - **Results**: shows available flight options, fare cards, and a selectable date carousel (localized).
 - **Personal data**: traveler and holder details with validation.
 - **Extras**: seat, baggage, lounges, sports equipment, assistance, and priority boarding (modals).
