@@ -23,6 +23,8 @@
     "MENU_ACCOUNT_SETTINGS": "Configurações da conta",
     "MENU_MY_ELITE_STATUS": "Meu status elite",
     "MENU_BOOK_LM": "Reservar um voo com LM",
+    "LOGIN": "Entrar",
+    "LOGOUT": "Sair",
     "MARKET_TITLE": "Selecione um país",
     "MARKET_APPLY": "Aplicar",
     "MARKET_CLOSE": "Fechar",

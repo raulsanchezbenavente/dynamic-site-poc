@@ -444,6 +444,14 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
+.lm-user--login {
+  padding-right: 16px;
+}
+
+.lm-user--login:hover {
+  background: #fdf0f6;
+}
+
 .lm-lm-badge {
   width: 34px;
   height: 34px;
@@ -457,6 +465,11 @@
   text-transform: lowercase;
   font-size: 14px;
   flex: 0 0 auto;
+}
+
+.lm-lm-badge--login svg {
+  width: 18px;
+  height: 18px;
 }
 
 .lm-user-text {

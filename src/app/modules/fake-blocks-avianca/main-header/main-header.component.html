@@ -65,13 +65,6 @@
         <span class="lm-market-currency">{{ selectedCurrency() }}</span>
       </button>
     </div>
-
-    <button
-      type="button"
-      class="lm-auth-trigger"
-      (click)="authAction()">
-      {{ isAuthenticated() ? 'Log out' : 'Log in' }}
-    </button>
   </div>
 </div>
 
@@ -150,30 +143,58 @@
     <!-- Right: locale + user -->
     <div class="lm-right">
       <div class="lm-user-wrap">
-        <button
-          type="button"
-          class="lm-user"
-          aria-haspopup="menu"
-          [attr.aria-expanded]="open()"
-          (click)="toggleMenu($event)">
-          <span
-            class="lm-lm-badge"
-            aria-hidden="true"
-            >lm</span
-          >
+        @if (isAuthenticated()) {
+          <button
+            type="button"
+            class="lm-user"
+            aria-haspopup="menu"
+            [attr.aria-expanded]="open()"
+            (click)="toggleMenu($event)">
+            <span
+              class="lm-lm-badge"
+              aria-hidden="true"
+              >lm</span
+            >
 
-          <span class="lm-user-text">
-            <span class="lm-user-name">{{ userName() }}</span>
-            <span class="lm-user-miles">{{ userMiles() }} mil...</span>
-          </span>
+            <span class="lm-user-text">
+              <span class="lm-user-name">{{ userName() }}</span>
+              <span class="lm-user-miles">{{ userMiles() }} mil...</span>
+            </span>
 
-          <span
-            class="lm-caret"
-            aria-hidden="true"
-            [class.is-open]="open()"
-            >▾</span
-          >
-        </button>
+            <span
+              class="lm-caret"
+              aria-hidden="true"
+              [class.is-open]="open()"
+              >▾</span
+            >
+          </button>
+        } @else {
+          <button
+            type="button"
+            class="lm-user lm-user--login"
+            (click)="authAction()">
+            <span
+              class="lm-lm-badge lm-lm-badge--login"
+              aria-hidden="true">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle
+                  cx="12"
+                  cy="8"
+                  r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+            </span>
+            <span class="lm-user-text">
+              <span class="lm-user-name">{{ 'HEADER.LOGIN' | translate }}</span>
+            </span>
+          </button>
+        }
 
         @if (open()) {
           <div
@@ -247,7 +268,7 @@
                 type="button"
                 role="menuitem"
                 (click)="authAction()">
-                <span class="lm-dd-label">{{ isAuthenticated() ? 'Log out' : 'Log in' }}</span>
+                <span class="lm-dd-label">{{ 'HEADER.LOGOUT' | translate }}</span>
               </button>
             </div>
           </div>

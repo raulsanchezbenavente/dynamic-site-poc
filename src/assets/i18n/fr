@@ -23,6 +23,8 @@
     "MENU_ACCOUNT_SETTINGS": "Paramètres du compte",
     "MENU_MY_ELITE_STATUS": "Mon statut élite",
     "MENU_BOOK_LM": "Réserver un vol avec LM",
+    "LOGIN": "Se connecter",
+    "LOGOUT": "Se déconnecter",
     "MARKET_TITLE": "Sélectionnez un pays",
     "MARKET_APPLY": "Appliquer",
     "MARKET_CLOSE": "Fermer",
