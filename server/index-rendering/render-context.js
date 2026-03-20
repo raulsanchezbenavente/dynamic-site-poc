@@ -14,7 +14,7 @@ const defaultSiteOptions = {
 };
 
 function createRenderIndexHtml(options) {
-  const { port, indexPath, configDir, analyticsScriptsPath, siteOptions = {} } = options;
+  const { port, baseUrl, indexPath, configDir, analyticsScriptsPath, siteOptions = {} } = options;
   const resolvedSiteOptions = { ...defaultSiteOptions, ...siteOptions };
 
   const renderSeoTags = createSeoRenderer({
@@ -22,7 +22,7 @@ function createRenderIndexHtml(options) {
     siteName: resolvedSiteOptions.siteName,
     supportedLangs: resolvedSiteOptions.supportedLangs,
     localeByLang: resolvedSiteOptions.localeByLang,
-    baseUrl: `http://localhost:${port}`,
+    baseUrl: baseUrl || `http://localhost:${port}`,
   });
 
   const getAnalyticsScripts = createAnalyticsScriptsProvider({

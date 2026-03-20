@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { KeycloakAuthService } from '@navigation';
 
 @Component({
   selector: 'pb-customer-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule],
   template: `
     <div
       class="container my-5"
@@ -49,8 +49,7 @@ import { RouterModule } from '@angular/router';
             <button
               class="btn btn-primary"
               type="submit"
-              [disabled]="!loginForm.valid"
-              [routerLink]="['/']">
+              [disabled]="!loginForm.valid || isSubmitting">
               Log In
             </button>
           </div>
@@ -62,10 +61,22 @@ import { RouterModule } from '@angular/router';
   `,
 })
 export class CustomerLoginComponent {
+  private readonly auth = inject(KeycloakAuthService);
+
   public email = '';
   public password = '';
+  public isSubmitting = false;
 
-  public login(): void {
-    console.log('Logging in with:', this.email, this.password);
+  public async login(): Promise<void> {
+    if (this.isSubmitting) {
+      return;
+    }
+
+    this.isSubmitting = true;
+    try {
+      await this.auth.login();
+    } finally {
+      this.isSubmitting = false;
+    }
   }
 }

@@ -1,3 +1,4 @@
+export * from './services/auth/keycloak-auth.service';
 export * from './services/booking-progress/booking-progress.service';
 export * from './services/page-navigation/page-navigation.service';
 export * from './services/router-helper/router-helper.service';

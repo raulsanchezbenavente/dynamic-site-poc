@@ -11,7 +11,13 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService } from '@navigation';
+import {
+  AppLang,
+  KeycloakAuthService,
+  PageNavigationService,
+  RouterHelperService,
+  SiteConfigService,
+} from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -31,6 +37,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly pageNavigation = inject(PageNavigationService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly auth = inject(KeycloakAuthService);
   private readonly translate = inject(TranslateService);
   private readonly destroy$ = new Subject<void>();
 
@@ -100,6 +107,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public langOpen = signal(false);
   public langs = LANGS;
   public activeLang = signal<AppLang>(this.routerHelper.language);
+  public isAuthenticated = signal(false);
   public activeLangLabelKey = computed(() => {
     const code = this.activeLang();
     return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
@@ -190,6 +198,19 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public trackByLang(_: number, l: Lang): AppLang {
     return l.code;
+  }
+
+  public async authAction(): Promise<void> {
+    await this.auth.ensureInitialized();
+
+    if (this.auth.isAuthenticated) {
+      await this.auth.logout();
+      this.isAuthenticated.set(false);
+      this.open.set(false);
+      return;
+    }
+
+    await this.auth.login();
   }
 
   public toggleLangMenu(ev: MouseEvent): void {

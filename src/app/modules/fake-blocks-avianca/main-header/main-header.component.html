@@ -65,6 +65,13 @@
         <span class="lm-market-currency">{{ selectedCurrency() }}</span>
       </button>
     </div>
+
+    <button
+      type="button"
+      class="lm-auth-trigger"
+      (click)="authAction()">
+      {{ isAuthenticated() ? 'Log out' : 'Log in' }}
+    </button>
   </div>
 </div>
 
@@ -238,8 +245,9 @@
               <button
                 class="lm-dd-item lm-dd-item--logout"
                 type="button"
-                role="menuitem">
-                <span class="lm-dd-label">Log out</span>
+                role="menuitem"
+                (click)="authAction()">
+                <span class="lm-dd-label">{{ isAuthenticated() ? 'Log out' : 'Log in' }}</span>
               </button>
             </div>
           </div>
