@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, OnDestroy, signal } from '@angular/core';
 
 @Component({
-  selector: 'caza-el-icono-uiplus',
+  selector: 'icon-hunter-uiplus',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './caza-el-icono.component.html',
-  styleUrl: './caza-el-icono.component.scss',
+  templateUrl: './icon-hunter.component.html',
+  styleUrl: './icon-hunter.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CazaElIconoUiplusComponent implements OnDestroy {
+export class IconHunterUiplusComponent implements OnDestroy {
   private readonly gameDurationSeconds = 20;
   private timerId: ReturnType<typeof setInterval> | null = null;
 

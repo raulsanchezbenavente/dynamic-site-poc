@@ -14,14 +14,6 @@
           {
             "cols": [
               {
-                "component": "tetris_uiplus",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12
               }

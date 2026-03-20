@@ -1,2 +1,2 @@
-export { CazaElIconoUiplusComponent } from './caza-el-icono/caza-el-icono.component';
+export { IconHunterUiplusComponent } from './icon-hunter/icon-hunter.component';
 export { TetrisUiplusComponent } from './tetris/tetris.component';
