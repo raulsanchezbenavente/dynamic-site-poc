@@ -48,6 +48,23 @@ export class SiteConfigService {
     return this.configSitesByLanguage[lang] ?? [];
   }
 
+  public getBlockConfig(pageId: string, componentName: string, lang: AppLang): any | undefined {
+    const pages = this.getPagesByLang(lang);
+    const page = pages.find((p) => String(p?.pageId ?? '') === String(pageId));
+    if (!page) {
+      return undefined;
+    }
+    const rows = page?.layout?.rows ?? (Array.isArray(page?.layout) ? page.layout : []);
+    for (const row of rows) {
+      for (const col of Array.isArray(row?.cols) ? row.cols : []) {
+        if (col?.component === componentName) {
+          return col.config ?? undefined;
+        }
+      }
+    }
+    return undefined;
+  }
+
   public getPathByPageId(pageId: string | undefined, lang: AppLang): string | undefined {
     if (pageId === undefined || pageId === null) return undefined;
     const pages = this.configSitesByLanguage[lang] ?? [];

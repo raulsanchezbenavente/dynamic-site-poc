@@ -11,7 +11,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { AppLang, RouterHelperService } from '@navigation';
+import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
@@ -51,13 +51,13 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
   private readonly http = inject(HttpClient);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly siteConfig = inject(SiteConfigService);
   private readonly loyaltyTone = signal<LoyaltyTone>('red');
   private readonly activeLang = signal<AppLang>(this.routerHelper.language);
   private readonly destroy$ = new Subject<void>();
 
   public ngOnInit(): void {
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
-      console.log(lang);
       this.activeLang.set(lang);
     });
   }
@@ -69,17 +69,19 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
   constructor() {
     effect((onCleanup) => {
-      const configuredUrl = String(this.config()?.url || '').trim();
-      const url = this.resolveConfigUrlByLanguage(configuredUrl, this.activeLang());
+      const lang = this.activeLang();
+      const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
+      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus', lang) : null;
+      const url = String(blockConfig?.url ?? this.config()?.url ?? '').trim();
 
       if (!url) {
         this.loyaltyTone.set('red');
         return;
       }
 
-      const subscription = this.http.get<unknown>(url).subscribe({
-        next: (response) => {
-          this.loyaltyTone.set(this.resolveTone(response));
+      const subscription = this.http.get(url, { responseType: 'text' }).subscribe({
+        next: (responseText) => {
+          this.loyaltyTone.set(this.resolveTone(this.parseLoyaltyPayload(responseText)));
         },
         error: () => {
           this.loyaltyTone.set('red');
@@ -156,21 +158,15 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  private resolveConfigUrlByLanguage(url: string, lang: AppLang): string {
-    const normalizedUrl = String(url || '').trim();
-    if (!normalizedUrl) {
-      return normalizedUrl;
+  private parseLoyaltyPayload(raw: string): unknown {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) {
+      return null;
     }
-
-    const languageSuffixPattern = /\/(en|es|fr|pt)$/;
-    if (languageSuffixPattern.test(normalizedUrl)) {
-      return normalizedUrl.replace(languageSuffixPattern, `/${lang}`);
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return trimmed;
     }
-
-    if (normalizedUrl === '/assets/config/loyalty') {
-      return `/assets/config/loyalty/${lang}`;
-    }
-
-    return normalizedUrl;
   }
 }
