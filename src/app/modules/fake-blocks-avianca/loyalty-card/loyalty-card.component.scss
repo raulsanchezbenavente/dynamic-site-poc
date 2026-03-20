@@ -2,6 +2,18 @@
   display: block;
 }
 
+@property --lm-grad-start {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
+@property --lm-grad-end {
+  syntax: '<color>';
+  inherits: false;
+  initial-value: transparent;
+}
+
 .lm-shell {
   padding-left: clamp(16px, 4vw, 40px);
   padding-right: clamp(16px, 4vw, 40px);
@@ -12,7 +24,10 @@
   border-radius: 16px;
   padding: 22px 26px 26px;
   color: #fff;
-  background: linear-gradient(180deg, #b50080, red);
+  background: linear-gradient(180deg, var(--lm-grad-start), var(--lm-grad-end));
+  transition:
+    --lm-grad-start 180ms ease,
+    --lm-grad-end 180ms ease;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   max-width: 1100px;
   margin-left: auto;
@@ -153,6 +168,7 @@
   font-size: 12px;
   text-transform: lowercase;
   flex: 0 0 auto;
+  transition: background-color 180ms ease;
 }
 
 .lm-copy {

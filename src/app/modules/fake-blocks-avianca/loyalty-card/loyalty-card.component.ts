@@ -15,9 +15,7 @@ import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { LoyaltyToneService } from '../loyalty-tone.service';
-
-type LoyaltyTone = 'red' | 'gold' | 'silver' | 'blue';
+import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
 
 @Component({
   selector: 'loyalty-overview-card',
@@ -35,28 +33,14 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public totalMiles = input<string>('600,700');
   public expirationDate = input<string>('31 de mayo de 2026');
   public accentColor = computed(() => this.getToneColor(this.loyaltyTone()));
-  public gradientBackground = computed(() => {
-    const tone = this.loyaltyTone();
-    if (tone === 'gold') {
-      return 'linear-gradient(180deg, #8a5a00, #d4a52a)';
-    }
-
-    if (tone === 'blue') {
-      return 'linear-gradient(180deg, #0b4ea2, #2e86ff)';
-    }
-
-    if (tone === 'silver') {
-      return 'linear-gradient(180deg, #66778a, #aeb8c2)';
-    }
-
-    return 'linear-gradient(180deg, #b50080, red)';
-  });
+  public gradientStartColor = computed(() => this.getGradientStops(this.loyaltyTone()).start);
+  public gradientEndColor = computed(() => this.getGradientStops(this.loyaltyTone()).end);
 
   private readonly http = inject(HttpClient);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
   private readonly loyaltyToneSvc = inject(LoyaltyToneService);
-  private readonly loyaltyTone = signal<LoyaltyTone>('red');
+  private readonly loyaltyTone = signal<LoyaltyTone | null>(null);
   private readonly activeLang = signal<AppLang>(this.routerHelper.language);
   private readonly destroy$ = new Subject<void>();
 
@@ -79,7 +63,8 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       const url = String(blockConfig?.url ?? this.config()?.url ?? '').trim();
 
       if (!url) {
-        this.loyaltyTone.set('red');
+        this.loyaltyTone.set(null);
+        this.loyaltyToneSvc.tone.set(null);
         return;
       }
 
@@ -90,8 +75,8 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
           this.loyaltyToneSvc.tone.set(tone);
         },
         error: () => {
-          this.loyaltyTone.set('red');
-          this.loyaltyToneSvc.tone.set('red');
+          this.loyaltyTone.set(null);
+          this.loyaltyToneSvc.tone.set(null);
         },
       });
 
@@ -107,7 +92,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  private resolveTone(payload: unknown): LoyaltyTone {
+  private resolveTone(payload: unknown): LoyaltyTone | null {
     const normalizedFromPayload = this.normalizeTone(payload);
     if (normalizedFromPayload) {
       return normalizedFromPayload;
@@ -137,10 +122,14 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       }
     }
 
-    return 'red';
+    return null;
   }
 
-  private getToneColor(tone: LoyaltyTone): string {
+  private getToneColor(tone: LoyaltyTone | null): string | null {
+    if (!tone) {
+      return null;
+    }
+
     if (tone === 'gold') {
       return '#d4a52a';
     }
@@ -154,6 +143,26 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     }
 
     return '#e2007a';
+  }
+
+  private getGradientStops(tone: LoyaltyTone | null): { start: string | null; end: string | null } {
+    if (!tone) {
+      return { start: null, end: null };
+    }
+
+    if (tone === 'gold') {
+      return { start: '#8a5a00', end: '#d4a52a' };
+    }
+
+    if (tone === 'silver') {
+      return { start: '#66778a', end: '#aeb8c2' };
+    }
+
+    if (tone === 'blue') {
+      return { start: '#0b4ea2', end: '#2e86ff' };
+    }
+
+    return { start: '#b50080', end: '#ff0000' };
   }
 
   private normalizeTone(value: unknown): LoyaltyTone | null {

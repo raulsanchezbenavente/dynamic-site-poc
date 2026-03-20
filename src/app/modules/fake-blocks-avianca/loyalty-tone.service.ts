@@ -11,6 +11,9 @@ const TONE_COLORS: Record<LoyaltyTone, string> = {
 
 @Injectable({ providedIn: 'root' })
 export class LoyaltyToneService {
-  public readonly tone = signal<LoyaltyTone>('red');
-  public readonly color = computed(() => TONE_COLORS[this.tone()]);
+  public readonly tone = signal<LoyaltyTone | null>(null);
+  public readonly color = computed(() => {
+    const tone = this.tone();
+    return tone ? TONE_COLORS[tone] : null;
+  });
 }
