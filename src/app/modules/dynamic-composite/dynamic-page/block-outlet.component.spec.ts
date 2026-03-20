@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { componentMap } from '../../component-map';
+import { componentMap } from '../../../component-map';
 import { BlockOutletComponent } from './block-outlet.component';
 
 @Component({
