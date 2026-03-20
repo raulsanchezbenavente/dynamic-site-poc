@@ -1019,7 +1019,7 @@ body:has(.layout.terminal-fullscreen) .topbar {
   display: none;
 }
 body:has(.layout.terminal-fullscreen) .layout {
-  height: 100vh;
+  height: calc(100dvh - 1px);
 }
 .refresh-icon-svg {
   width: 1.2rem;
