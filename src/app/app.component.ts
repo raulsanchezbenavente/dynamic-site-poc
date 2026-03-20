@@ -1,12 +1,12 @@
 import { Component, inject, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
+import { SiteConfigService } from '@navigation';
 import { filter, take } from 'rxjs';
 
 import { environment } from '../environments/environment';
 
 import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
-import { SiteConfigService } from './services/site-config/site-config.service';
 
 @Component({
   selector: 'app-root',

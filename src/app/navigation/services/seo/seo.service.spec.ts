@@ -29,8 +29,12 @@ describe('SeoService', () => {
     meta = TestBed.inject(Meta);
     documentRef = TestBed.inject(DOCUMENT);
 
-    documentRef.head.querySelectorAll('link[rel="canonical"], link[rel="alternate"][data-seo-dynamic="true"]').forEach((n) => n.remove());
-    documentRef.head.querySelectorAll('meta[name="enable-dynamic-seo"], meta[name="disable-dynamic-seo"]').forEach((n) => n.remove());
+    documentRef.head
+      .querySelectorAll('link[rel="canonical"], link[rel="alternate"][data-seo-dynamic="true"]')
+      .forEach((n) => n.remove());
+    documentRef.head
+      .querySelectorAll('meta[name="enable-dynamic-seo"], meta[name="disable-dynamic-seo"]')
+      .forEach((n) => n.remove());
   });
 
   it('should create', () => {

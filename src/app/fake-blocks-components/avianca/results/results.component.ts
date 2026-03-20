@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { BookingProgressService, PageNavigationService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { BookingProgressService } from '../../../services/booking-progress/booking-progress.service';
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 type DateOption = {
   day: string;

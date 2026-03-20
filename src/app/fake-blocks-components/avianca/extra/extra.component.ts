@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy } from '@angular/core';
+import { PageNavigationService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 import { AssistSelectionComponent } from '../assist-selection/assist-selection.component';
 import { BaggageSelectionComponent } from '../baggage-selection/baggage-selection.component';
 import { LoungeSelectionComponent } from '../lounge-selection/lounge-selection.component';

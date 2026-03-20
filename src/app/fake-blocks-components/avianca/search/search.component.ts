@@ -1,9 +1,8 @@
 import { AfterViewInit, Component, ElementRef, HostListener, inject, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PageNavigationService } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import flatpickr from 'flatpickr';
-
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 @Component({
   selector: 'search',

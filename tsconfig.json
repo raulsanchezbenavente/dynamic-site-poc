@@ -6,6 +6,11 @@
     "outDir": "./dist/out-tsc",
     "baseUrl": ".",
     "paths": {
+      "@navigation": ["src/app/navigation/index.ts"],
+      "@navigation/index": ["src/app/navigation/index.ts"],
+      "@navigation/*": ["src/app/navigation/*"],
+      "@navigation/services": ["src/app/navigation/services"],
+      "@navigation/services/*": ["src/app/navigation/services/*"],
       "@dynamic-composite": ["src/app/dynamic-composite/index.ts"],
       "@dynamic-composite/index": ["src/app/dynamic-composite/index.ts"],
       "@dynamic-composite/*": ["src/app/dynamic-composite/*"],

@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { AppLang, PageNavigationService, RouterHelperService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, Subject, takeUntil } from 'rxjs';
-
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
-import { RouterHelperService } from '../../../services/router-helper/router-helper.service';
-import { AppLang } from '../../../services/site-config/models/langs.model';
 
 type BookingStep = {
   key: string;

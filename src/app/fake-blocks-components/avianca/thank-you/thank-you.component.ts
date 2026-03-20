@@ -1,8 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { PageNavigationService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 @Component({
   selector: 'thank-you',

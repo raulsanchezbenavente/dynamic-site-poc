@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { PageNavigationService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
-
-import { PageNavigationService } from '../../../services/page-navigation/page-navigation.service';
 
 type PaymentMethod = {
   id: 'card' | 'paypal' | 'applepay' | 'gpay';

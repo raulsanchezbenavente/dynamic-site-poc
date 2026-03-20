@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { BookingProgressService } from '@navigation';
 import flatpickr from 'flatpickr';
-
-import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
 
 @Component({
   selector: 'pb-search',

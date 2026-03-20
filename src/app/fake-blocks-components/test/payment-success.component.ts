@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 
-import { BookingProgressService } from '../../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '@navigation';
 
 @Component({
   selector: 'pb-payment-success',

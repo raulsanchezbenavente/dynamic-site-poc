@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-
-import { SeoService } from '../../services/seo/seo.service';
-import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { SeoService, SiteConfigService } from '@navigation';
 
 import { BlockOutletComponent } from './block-outlet.component';
 

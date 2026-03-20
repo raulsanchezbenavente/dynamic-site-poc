@@ -4,8 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
-import { RouterHelperService } from '../../services/router-helper/router-helper.service';
-import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { RouterHelperService, SiteConfigService } from '@navigation';
 import { CmsTabContract } from './models/cms-tab-contract.model';
 import { DsTabsComponent } from './tabs.component';
 

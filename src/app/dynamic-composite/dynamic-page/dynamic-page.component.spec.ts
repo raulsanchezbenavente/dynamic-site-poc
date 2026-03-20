@@ -4,8 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
-import { SeoService } from '../../services/seo/seo.service';
-import { SiteConfigService } from '../../services/site-config/site-config.service';
+import { SeoService, SiteConfigService } from '@navigation';
 import { DynamicPageComponent } from './dynamic-page.component';
 
 describe('DynamicPageComponent', () => {

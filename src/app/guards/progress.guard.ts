@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-
-import { BookingProgressService } from '../services/booking-progress/booking-progress.service';
+import { BookingProgressService } from '@navigation';
 
 @Injectable({ providedIn: 'root' })
 export class ProgressGuard implements CanActivate {

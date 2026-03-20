@@ -1,13 +1,12 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
+import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
-import { APP_LANGS, AppLang } from './services/site-config/models/langs.model';
-import { SiteConfigService } from './services/site-config/site-config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

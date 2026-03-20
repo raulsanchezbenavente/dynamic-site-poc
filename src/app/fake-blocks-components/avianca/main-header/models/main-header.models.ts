@@ -1,4 +1,4 @@
-import { AppLang } from '../../../../services/site-config/models/langs.model';
+import { AppLang } from '@navigation';
 
 export type HeaderMenuItem = {
   label: string;

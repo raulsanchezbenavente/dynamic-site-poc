@@ -230,7 +230,12 @@ export default [
       },
     },
     rules: {
-      'import/no-unresolved': 'error',
+      'import/no-unresolved': [
+        'error',
+        {
+          ignore: ['^@navigation$', '^@navigation/'],
+        },
+      ],
       'import/named': 'error',
       'import/order': 'off',
     },
