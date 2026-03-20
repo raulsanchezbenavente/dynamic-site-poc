@@ -57,6 +57,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      console.log(lang);
       this.activeLang.set(lang);
     });
   }

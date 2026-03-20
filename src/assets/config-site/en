@@ -212,7 +212,7 @@
                 "component": "loyaltyOverviewCard_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty-en"
+                  "url": "/assets/config/loyalty/en"
                 }
               }
             ]
