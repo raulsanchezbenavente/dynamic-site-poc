@@ -17,9 +17,9 @@
       "@fake-blocks-test": ["src/app/fake-blocks-components/test/index.ts"],
       "@fake-blocks-test/index": ["src/app/fake-blocks-components/test/index.ts"],
       "@fake-blocks-test/*": ["src/app/fake-blocks-components/test/*"],
-      "@fake-blocks-avianca": ["src/app/fake-blocks-components/avianca/index.ts"],
-      "@fake-blocks-avianca/index": ["src/app/fake-blocks-components/avianca/index.ts"],
-      "@fake-blocks-avianca/*": ["src/app/fake-blocks-components/avianca/*"],
+      "@fake-blocks-avianca": ["src/app/modules/fake-blocks-avianca/index.ts"],
+      "@fake-blocks-avianca/index": ["src/app/modules/fake-blocks-avianca/index.ts"],
+      "@fake-blocks-avianca/*": ["src/app/modules/fake-blocks-avianca/*"],
       "fake-libs": ["src/app/modules/fake-libs/index.ts"],
       "fake-libs/index": ["src/app/modules/fake-libs/index.ts"],
       "fake-libs/*": ["src/app/modules/fake-libs/*"]

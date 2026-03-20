@@ -20,50 +20,45 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   // Avianca
   tabs: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
   loyaltyOverviewCard_uiplus: () =>
-    import('./fake-blocks-components/avianca/loyalty-card/loyalty-card.component').then(
+    import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
       (m) => m.LoyaltyOverviewCardComponent
     ),
   CorporateMainHeaderBlock_uiplus: () =>
-    import('./fake-blocks-components/avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
+    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
   accountProfile_uiplus: () =>
-    import('./fake-blocks-components/avianca/account-profile/account-profile.component').then(
+    import('./modules/fake-blocks-avianca/account-profile/account-profile.component').then(
       (m) => m.AccountProfileComponent
     ),
   accountSettings_uiplus: () =>
-    import('./fake-blocks-components/avianca/account-settings/account-settings.component').then(
+    import('./modules/fake-blocks-avianca/account-settings/account-settings.component').then(
       (m) => m.AccountSettingsComponent
     ),
   personalData_uiplus: () =>
-    import('./fake-blocks-components/avianca/personal-data/personal-data.component').then(
-      (m) => m.PersonalDataComponent
-    ),
+    import('./modules/fake-blocks-avianca/personal-data/personal-data.component').then((m) => m.PersonalDataComponent),
   findBookings_uiplus: () =>
-    import('./fake-blocks-components/avianca/find-bookings/find-bookings.component').then(
-      (m) => m.FindBookingsComponent
-    ),
+    import('./modules/fake-blocks-avianca/find-bookings/find-bookings.component').then((m) => m.FindBookingsComponent),
   eliteStatus_uiplus: () =>
-    import('./fake-blocks-components/avianca/elite-status/elite-status.component').then((m) => m.EliteStatusComponent),
+    import('./modules/fake-blocks-avianca/elite-status/elite-status.component').then((m) => m.EliteStatusComponent),
   CorporateMainFooterBlock_uiplus: () =>
-    import('./fake-blocks-components/avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
+    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
   SearchComponentBlock_uiplus: () =>
-    import('./fake-blocks-components/avianca/search/search.component').then((m) => m.SearchComponent),
-  AdsComponentBlock_uiplus: () =>
-    import('./fake-blocks-components/avianca/ads/ads.component').then((m) => m.AdsComponent),
+    import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
+  AdsComponentBlock_uiplus: () => import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
   bookingHeaderComponent_uiplus: () =>
-    import('./fake-blocks-components/avianca/booking-header/booking-header.component').then(
+    import('./modules/fake-blocks-avianca/booking-header/booking-header.component').then(
       (m) => m.BookingHeaderComponent
     ),
   bookingFooterComponent_uiplus: () =>
-    import('./fake-blocks-components/avianca/booking-footer/booking-footer.component').then(
+    import('./modules/fake-blocks-avianca/booking-footer/booking-footer.component').then(
       (m) => m.BookingFooterComponent
     ),
   results_uiplus: () =>
-    import('./fake-blocks-components/avianca/results/results.component').then((m) => m.ResultsComponent),
-  extra_uiplus: () => import('./fake-blocks-components/avianca/extra/extra.component').then((m) => m.ExtraComponent),
+    import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
+  extra_uiplus: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
   payment_uiplus: () =>
-    import('./fake-blocks-components/avianca/payment/payment.component').then((m) => m.PaymentComponent),
+    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus: () =>
-    import('./fake-blocks-components/avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();
