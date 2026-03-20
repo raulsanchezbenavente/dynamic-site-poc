@@ -59,6 +59,9 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+  'caza-el-icono_uiplus': () =>
+    import('./modules/games/caza-el-icono/caza-el-icono.component').then((m) => m.CazaElIconoUiplusComponent),
+  tetris_uiplus: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();

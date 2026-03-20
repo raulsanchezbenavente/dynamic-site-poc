@@ -1,0 +1,137 @@
+<section class="tt-shell">
+  <div class="tt-top">
+    <div>
+      <p class="tt-eyebrow">UI+ Arcade</p>
+      <h2 class="tt-title">Mini Tetris</h2>
+      <p class="tt-status">{{ statusText() }}</p>
+    </div>
+
+    <div class="tt-actions">
+      <button
+        type="button"
+        class="tt-btn tt-btn-primary"
+        (click)="startGame()">
+        {{ isGameOver() ? 'Reiniciar' : score() > 0 ? 'Nueva partida' : 'Empezar' }}
+      </button>
+      <button
+        type="button"
+        class="tt-btn"
+        [disabled]="isGameOver()"
+        (click)="togglePause()">
+        {{ isPlaying() ? 'Pausar' : 'Continuar' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="tt-layout">
+    <div
+      class="tt-board"
+      role="grid"
+      aria-label="Tablero de mini tetris">
+      @for (row of boardView(); track trackByIndex($index)) {
+        <div
+          class="tt-row"
+          [class.tt-row-clearing]="isRowFlashing($index)">
+          @for (cell of row; track trackByIndex($index)) {
+            <span
+              class="tt-cell"
+              [class.tt-filled]="cell > 0"
+              [class.tt-c1]="cell === 1"
+              [class.tt-c2]="cell === 2"
+              [class.tt-c3]="cell === 3"
+              [class.tt-c4]="cell === 4"
+              [class.tt-c5]="cell === 5"
+              [class.tt-c6]="cell === 6"
+              [class.tt-c7]="cell === 7"></span>
+          }
+        </div>
+      }
+
+      @if (!isPlaying() && !isGameOver()) {
+        <p class="tt-overlay">Pulsa Empezar</p>
+      }
+      @if (isGameOver()) {
+        <p class="tt-overlay tt-overlay-gameover">Game Over</p>
+      }
+    </div>
+
+    <aside class="tt-panel">
+      <article class="tt-stat tt-next">
+        <span>Siguiente</span>
+        <div
+          class="tt-next-grid"
+          role="img"
+          aria-label="Siguiente pieza">
+          @for (row of nextPreview(); track trackByIndex($index)) {
+            @for (cell of row; track trackByIndex($index)) {
+              <span
+                class="tt-next-cell"
+                [class.tt-next-filled]="cell > 0"
+                [class.tt-c1]="cell === 1"
+                [class.tt-c2]="cell === 2"
+                [class.tt-c3]="cell === 3"
+                [class.tt-c4]="cell === 4"
+                [class.tt-c5]="cell === 5"
+                [class.tt-c6]="cell === 6"
+                [class.tt-c7]="cell === 7"></span>
+            }
+          }
+        </div>
+      </article>
+
+      <article class="tt-stat">
+        <span>Puntaje</span>
+        <strong>{{ score() }}</strong>
+      </article>
+      <article class="tt-stat">
+        <span>Lineas</span>
+        <strong>{{ lines() }}</strong>
+      </article>
+      <article class="tt-stat">
+        <span>Nivel</span>
+        <strong>{{ level() }}</strong>
+      </article>
+      <article class="tt-stat">
+        <span>Record</span>
+        <strong>{{ highScore() }}</strong>
+      </article>
+
+      <div class="tt-controls">
+        <p class="tt-controls-title">Controles</p>
+        <p>Teclado: izquierda/derecha/abajo y espacio</p>
+        <div class="tt-mobile-grid">
+          <button
+            type="button"
+            class="tt-control"
+            (click)="rotate()">
+            Rotar
+          </button>
+          <button
+            type="button"
+            class="tt-control"
+            (click)="moveLeft()">
+            Izquierda
+          </button>
+          <button
+            type="button"
+            class="tt-control"
+            (click)="softDrop()">
+            Abajo
+          </button>
+          <button
+            type="button"
+            class="tt-control"
+            (click)="moveRight()">
+            Derecha
+          </button>
+          <button
+            type="button"
+            class="tt-control tt-control-drop"
+            (click)="hardDrop()">
+            Soltar
+          </button>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
