@@ -17,10 +17,12 @@ const targetHost = 'localhost';
 const targetPort = 4200;
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
+const sslPemPath = path.join(__dirname, 'cert', 'newshoreGeneral.pem');
 const sslPfxPassphrase = '123456';
 
+const hasPemHttpsConfig = fs.existsSync(sslPemPath);
 const hasPfxHttpsConfig = fs.existsSync(sslPfxPath);
-const hasHttpsConfig = hasPfxHttpsConfig;
+const hasHttpsConfig = hasPemHttpsConfig || hasPfxHttpsConfig;
 
 const httpsBaseUrl = `https://${publicHost}${httpsPort === 443 ? '' : `:${httpsPort}`}`;
 const httpBaseUrl = `http://localhost:${httpPort}`;
@@ -47,10 +49,21 @@ http.createServer(app).listen(httpPort, () => {
 
 if (hasHttpsConfig) {
   try {
-    const httpsOptions = {
-      pfx: fs.readFileSync(sslPfxPath),
-      ...(sslPfxPassphrase ? { passphrase: sslPfxPassphrase } : {}),
-    };
+    let httpsOptions;
+
+    if (hasPemHttpsConfig) {
+      // Use PEM format (better compatibility)
+      httpsOptions = {
+        cert: fs.readFileSync(sslPemPath),
+        key: fs.readFileSync(sslPemPath),
+      };
+    } else {
+      // Fallback to PFX format
+      httpsOptions = {
+        pfx: fs.readFileSync(sslPfxPath),
+        ...(sslPfxPassphrase ? { passphrase: sslPfxPassphrase } : {}),
+      };
+    }
 
     https.createServer(httpsOptions, app).listen(httpsPort, () => {
       console.log(`Index server running on ${httpsBaseUrl}`);
@@ -62,5 +75,5 @@ if (hasHttpsConfig) {
     console.error('If using PFX, verify the configured passphrase matches the certificate password.');
   }
 } else {
-  console.log('HTTPS disabled: server/cert/newshoreGeneral.pfx not found.');
+  console.log('HTTPS disabled: server/cert/newshoreGeneral.pem or server/cert/newshoreGeneral.pfx not found.');
 }
