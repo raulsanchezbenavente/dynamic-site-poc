@@ -444,12 +444,33 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
 }
 
-.lm-user--login {
-  padding-right: 16px;
+.lm-login-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid #111;
+  background: #fff;
+  border-radius: 999px;
+  padding: 8px 18px 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 700;
+  color: #111;
+  letter-spacing: 0;
+  transition:
+    background 0.15s ease,
+    box-shadow 0.15s ease;
+  white-space: nowrap;
 }
 
-.lm-user--login:hover {
-  background: #fdf0f6;
+.lm-login-btn:hover {
+  background: #f4f4f4;
+}
+
+.lm-login-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
 }
 
 .lm-lm-badge {
@@ -465,11 +486,6 @@
   text-transform: lowercase;
   font-size: 14px;
   flex: 0 0 auto;
-}
-
-.lm-lm-badge--login svg {
-  width: 18px;
-  height: 18px;
 }
 
 .lm-user-text {
