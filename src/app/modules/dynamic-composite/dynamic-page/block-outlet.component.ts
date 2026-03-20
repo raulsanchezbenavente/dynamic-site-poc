@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, input, signal, Type } from '@angular/core';
-
-import { loadBlockComponent } from '../../component-map';
+import { loadBlockComponent } from 'src/app/component-map';
 
 @Component({
   selector: 'block-outlet',
