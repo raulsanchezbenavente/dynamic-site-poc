@@ -3,20 +3,20 @@ import { Type } from '@angular/core';
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 
 export const componentMap: Record<string, BlockComponentLoader> = {
-  login: () => import('./fake-blocks-components/test/customer-login').then((m) => m.CustomerLoginComponent),
-  header: () => import('./fake-blocks-components/test/header.component').then((m) => m.HeaderComponent),
-  banner: () => import('./fake-blocks-components/test/banner.component').then((m) => m.BannerComponent),
-  search: () => import('./fake-blocks-components/test/search.component').then((m) => m.SearchComponent),
-  footer: () => import('./fake-blocks-components/test/footer.component').then((m) => m.FooterComponent),
-  results: () => import('./fake-blocks-components/test/results.component').then((m) => m.ResultsComponent),
+  login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
+  header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
+  banner: () => import('./modules/fake-blocks-test/banner.component').then((m) => m.BannerComponent),
+  search: () => import('./modules/fake-blocks-test/search.component').then((m) => m.SearchComponent),
+  footer: () => import('./modules/fake-blocks-test/footer.component').then((m) => m.FooterComponent),
+  results: () => import('./modules/fake-blocks-test/results.component').then((m) => m.ResultsComponent),
   'baggage-selection': () =>
-    import('./fake-blocks-components/test/baggage-selection').then((m) => m.BaggageSelectionComponent),
-  seatmap: () => import('./fake-blocks-components/test/seatmap.component').then((m) => m.SeatmapComponent),
+    import('./modules/fake-blocks-test/baggage-selection').then((m) => m.BaggageSelectionComponent),
+  seatmap: () => import('./modules/fake-blocks-test/seatmap.component').then((m) => m.SeatmapComponent),
   'payment-methods': () =>
-    import('./fake-blocks-components/test/payment-methods.component').then((m) => m.PaymentMethodsComponent),
+    import('./modules/fake-blocks-test/payment-methods.component').then((m) => m.PaymentMethodsComponent),
   'payment-success': () =>
-    import('./fake-blocks-components/test/payment-success.component').then((m) => m.PaymentSuccessComponent),
-  explanation: () => import('./fake-blocks-components/test/explanation.component').then((m) => m.ExplanationComponent),
+    import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
+  explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
   // Avianca
   tabs: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
   loyaltyOverviewCard_uiplus: () =>
