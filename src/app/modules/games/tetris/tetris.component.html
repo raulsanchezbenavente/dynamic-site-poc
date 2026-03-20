@@ -11,14 +11,14 @@
         type="button"
         class="tt-btn tt-btn-primary"
         (click)="startGame()">
-        {{ isGameOver() ? 'Reiniciar' : score() > 0 ? 'Nueva partida' : 'Empezar' }}
+        {{ isGameOver() ? 'Restart' : score() > 0 ? 'New game' : 'Start' }}
       </button>
       <button
         type="button"
         class="tt-btn"
         [disabled]="isGameOver()"
         (click)="togglePause()">
-        {{ isPlaying() ? 'Pausar' : 'Continuar' }}
+        {{ isPlaying() ? 'Pause' : 'Resume' }}
       </button>
     </div>
   </div>
@@ -27,7 +27,7 @@
     <div
       class="tt-board"
       role="grid"
-      aria-label="Tablero de mini tetris">
+      aria-label="Mini tetris board">
       @for (row of boardView(); track trackByIndex($index)) {
         <div
           class="tt-row"
@@ -48,7 +48,7 @@
       }
 
       @if (!isPlaying() && !isGameOver()) {
-        <p class="tt-overlay">Pulsa Empezar</p>
+        <p class="tt-overlay">Press Start</p>
       }
       @if (isGameOver()) {
         <p class="tt-overlay tt-overlay-gameover">Game Over</p>
@@ -57,11 +57,11 @@
 
     <aside class="tt-panel">
       <article class="tt-stat tt-next">
-        <span>Siguiente</span>
+        <span>Next</span>
         <div
           class="tt-next-grid"
           role="img"
-          aria-label="Siguiente pieza">
+          aria-label="Next piece">
           @for (row of nextPreview(); track trackByIndex($index)) {
             @for (cell of row; track trackByIndex($index)) {
               <span
@@ -80,55 +80,55 @@
       </article>
 
       <article class="tt-stat">
-        <span>Puntaje</span>
+        <span>Score</span>
         <strong>{{ score() }}</strong>
       </article>
       <article class="tt-stat">
-        <span>Lineas</span>
+        <span>Lines</span>
         <strong>{{ lines() }}</strong>
       </article>
       <article class="tt-stat">
-        <span>Nivel</span>
+        <span>Level</span>
         <strong>{{ level() }}</strong>
       </article>
       <article class="tt-stat">
-        <span>Record</span>
+        <span>Best</span>
         <strong>{{ highScore() }}</strong>
       </article>
 
       <div class="tt-controls">
-        <p class="tt-controls-title">Controles</p>
-        <p>Teclado: izquierda/derecha/abajo y espacio</p>
+        <p class="tt-controls-title">Controls</p>
+        <p>Keyboard: left / right / down and space</p>
         <div class="tt-mobile-grid">
           <button
             type="button"
             class="tt-control"
             (click)="rotate()">
-            Rotar
+            Rotate
           </button>
           <button
             type="button"
             class="tt-control"
             (click)="moveLeft()">
-            Izquierda
+            Left
           </button>
           <button
             type="button"
             class="tt-control"
             (click)="softDrop()">
-            Abajo
+            Down
           </button>
           <button
             type="button"
             class="tt-control"
             (click)="moveRight()">
-            Derecha
+            Right
           </button>
           <button
             type="button"
             class="tt-control tt-control-drop"
             (click)="hardDrop()">
-            Soltar
+            Drop
           </button>
         </div>
       </div>

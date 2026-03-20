@@ -245,14 +245,14 @@ export class TetrisUiplusComponent implements OnDestroy {
 
   public statusText = computed(() => {
     if (this.isGameOver()) {
-      return 'Juego terminado. Pulsa reiniciar para otra partida.';
+      return 'Game over. Press restart to play again.';
     }
 
     if (!this.isPlaying()) {
-      return 'Pulsa empezar y usa: izq/der mover, abajo bajar, espacio rotar.';
+      return 'Press start and use: left/right to move, down to drop, space to rotate.';
     }
 
-    return 'Tetris en marcha. Mantente vivo y limpia lineas.';
+    return 'Tetris in progress. Stay alive and clear lines.';
   });
 
   public startGame(): void {

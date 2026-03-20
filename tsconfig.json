@@ -22,7 +22,10 @@
       "@fake-blocks-avianca/*": ["src/app/modules/fake-blocks-avianca/*"],
       "fake-libs": ["src/app/modules/fake-libs/index.ts"],
       "fake-libs/index": ["src/app/modules/fake-libs/index.ts"],
-      "fake-libs/*": ["src/app/modules/fake-libs/*"]
+      "fake-libs/*": ["src/app/modules/fake-libs/*"],
+      "@games": ["src/app/modules/games/index.ts"],
+      "@games/index": ["src/app/modules/games/index.ts"],
+      "@games/*": ["src/app/modules/games/*"]
     },
     "strict": true,
     "noImplicitOverride": true,

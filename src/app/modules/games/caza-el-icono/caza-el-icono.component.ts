@@ -25,12 +25,12 @@ export class CazaElIconoUiplusComponent implements OnDestroy {
   public statusText = computed(() => {
     if (!this.isPlaying()) {
       if (this.timeLeft() === this.gameDurationSeconds) {
-        return 'Pulsa "Empezar" y atrapa el icono tantas veces como puedas.';
+        return 'Press "Start" and catch the icon as many times as you can.';
       }
-      return 'Partida terminada. Pulsa "Jugar otra vez" para mejorar tu marca.';
+      return 'Game over. Press "Play again" to beat your score.';
     }
 
-    return this.timeLeft() <= 5 ? 'Ultimos segundos, no pares.' : 'Sigue asi, suma puntos y sube el combo.';
+    return this.timeLeft() <= 5 ? 'Last seconds, keep going!' : 'Keep it up, score points and build your combo.';
   });
 
   public startGame(): void {

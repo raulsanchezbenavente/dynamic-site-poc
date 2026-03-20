@@ -1,8 +1,8 @@
 <section class="jg-shell">
   <div class="jg-header">
     <div>
-      <p class="jg-eyebrow">Juego UI+</p>
-      <h2 class="jg-title">Caza el icono</h2>
+      <p class="jg-eyebrow">UI+ Game</p>
+      <h2 class="jg-title">Icon Hunter</h2>
       <p class="jg-status">{{ statusText() }}</p>
     </div>
 
@@ -10,13 +10,13 @@
       type="button"
       class="jg-start"
       (click)="startGame()">
-      {{ isPlaying() ? 'Reiniciar' : timeLeft() < 20 ? 'Jugar otra vez' : 'Empezar' }}
+      {{ isPlaying() ? 'Restart' : timeLeft() < 20 ? 'Play again' : 'Start' }}
     </button>
   </div>
 
   <div class="jg-stats">
     <article class="jg-stat">
-      <span>Puntos</span>
+      <span>Score</span>
       <strong>{{ score() }}</strong>
     </article>
     <article class="jg-stat">
@@ -24,24 +24,26 @@
       <strong>x{{ combo() }}</strong>
     </article>
     <article class="jg-stat">
-      <span>Tiempo</span>
+      <span>Time</span>
       <strong>{{ timeLeft() }}s</strong>
     </article>
     <article class="jg-stat">
-      <span>Record</span>
+      <span>Best</span>
       <strong>{{ highScore() }}</strong>
     </article>
   </div>
 
-  <div class="jg-board" [class.jg-board-playing]="isPlaying()">
+  <div
+    class="jg-board"
+    [class.jg-board-playing]="isPlaying()">
     @if (!isPlaying()) {
-      <p class="jg-overlay-text">Presiona "Empezar" para iniciar la partida de 20 segundos.</p>
+      <p class="jg-overlay-text">Press "Start" to begin the 20-second game.</p>
     }
 
     <button
       type="button"
       class="jg-target"
-      aria-label="Objetivo del juego"
+      aria-label="Game target"
       [disabled]="!isPlaying()"
       [style.left.%]="targetX()"
       [style.top.%]="targetY()"
