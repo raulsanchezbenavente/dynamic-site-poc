@@ -22,6 +22,17 @@
           {
             "cols": [
               {
+                "component": "loyaltyOverviewCard_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/fr"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "SearchComponentBlock_uiplus",
                 "span": 12
               }
