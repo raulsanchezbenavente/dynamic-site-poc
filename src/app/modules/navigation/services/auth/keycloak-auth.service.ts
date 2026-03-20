@@ -1,4 +1,4 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import Keycloak from 'keycloak-js';
 
 import { environment } from '../../../../../environments/environment';
@@ -11,8 +11,12 @@ export class KeycloakAuthService {
     clientId: environment.keycloak.clientId,
   });
   private initPromise: Promise<void> | null = null;
+  private readonly authStateChange = signal(0); // Trigger para forzar recalc
 
-  public readonly isAuthenticated = signal(false);
+  public readonly isAuthenticated = computed(() => {
+    this.authStateChange(); // Dependencia para reactividad
+    return Boolean(this.keycloak.authenticated);
+  });
 
   public get token(): string | undefined {
     return this.keycloak.token;
@@ -36,13 +40,21 @@ export class KeycloakAuthService {
       .init({
         onLoad: 'check-sso',
         silentCheckSsoRedirectUri: `${globalThis.location.origin}/silent-check-sso.html`,
-        silentCheckSsoFallback: false,
+        silentCheckSsoFallback: true,
         pkceMethod: 'S256',
         checkLoginIframe: false,
         enableLogging: environment.keycloak.enableLogging,
       })
       .then(() => {
-        this.isAuthenticated.set(this.keycloak.authenticated ?? false);
+        // Esperar suficiente tiempo para que Keycloak cargue tokens e initialice completamente
+        return new Promise((resolve) => setTimeout(resolve, 300));
+      })
+      .then(() => {
+        // Intentar actualizar el token para refrescarlo si está próximo a expirar
+        return this.keycloak.updateToken(60).catch(() => undefined);
+      })
+      .then(() => {
+        this.authStateChange.update((v) => v + 1); // Trigger computed update
       });
 
     await this.initPromise;
@@ -51,6 +63,7 @@ export class KeycloakAuthService {
   public async login(): Promise<void> {
     await this.ensureInitialized();
     await this.keycloak.login();
+    this.authStateChange.update((v) => v + 1);
   }
 
   public async logout(): Promise<void> {
@@ -60,6 +73,7 @@ export class KeycloakAuthService {
     for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
       try {
         await this.keycloak.logout({ redirectUri: globalThis.location.origin });
+        this.authStateChange.update((v) => v + 1);
         return;
       } catch (error) {
         if (attempt === maxRetries) {
