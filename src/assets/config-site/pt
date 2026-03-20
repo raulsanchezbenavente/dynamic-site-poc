@@ -210,7 +210,10 @@
             "cols": [
               {
                 "component": "loyaltyOverviewCard_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty-pt"
+                }
               }
             ]
           },
