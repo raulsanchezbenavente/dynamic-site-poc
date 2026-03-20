@@ -162,13 +162,13 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       return normalizedUrl;
     }
 
-    const languageSuffixPattern = /-(en|es|fr|pt)$/;
+    const languageSuffixPattern = /\/(en|es|fr|pt)$/;
     if (languageSuffixPattern.test(normalizedUrl)) {
-      return normalizedUrl.replace(languageSuffixPattern, `-${lang}`);
+      return normalizedUrl.replace(languageSuffixPattern, `/${lang}`);
     }
 
     if (normalizedUrl === '/assets/config/loyalty') {
-      return `/assets/config/loyalty-${lang}`;
+      return `/assets/config/loyalty/${lang}`;
     }
 
     return normalizedUrl;
