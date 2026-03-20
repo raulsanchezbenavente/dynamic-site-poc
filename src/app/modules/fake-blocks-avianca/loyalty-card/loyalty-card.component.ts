@@ -1,7 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
+import { AppLang, RouterHelperService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
+import { Subject, takeUntil } from 'rxjs';
 
 type LoyaltyTone = 'red' | 'gold' | 'silver' | 'blue';
 
@@ -13,7 +25,7 @@ type LoyaltyTone = 'red' | 'gold' | 'silver' | 'blue';
   styleUrl: './loyalty-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoyaltyOverviewCardComponent {
+export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public config = input<{ url?: string } | null>(null);
   public name = input<string>('Perico');
 
@@ -38,11 +50,26 @@ export class LoyaltyOverviewCardComponent {
   });
 
   private readonly http = inject(HttpClient);
+  private readonly routerHelper = inject(RouterHelperService);
   private readonly loyaltyTone = signal<LoyaltyTone>('red');
+  private readonly activeLang = signal<AppLang>(this.routerHelper.language);
+  private readonly destroy$ = new Subject<void>();
+
+  public ngOnInit(): void {
+    this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      this.activeLang.set(lang);
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   constructor() {
     effect((onCleanup) => {
-      const url = String(this.config()?.url || '').trim();
+      const configuredUrl = String(this.config()?.url || '').trim();
+      const url = this.resolveConfigUrlByLanguage(configuredUrl, this.activeLang());
 
       if (!url) {
         this.loyaltyTone.set('red');
@@ -126,5 +153,23 @@ export class LoyaltyOverviewCardComponent {
     }
 
     return null;
+  }
+
+  private resolveConfigUrlByLanguage(url: string, lang: AppLang): string {
+    const normalizedUrl = String(url || '').trim();
+    if (!normalizedUrl) {
+      return normalizedUrl;
+    }
+
+    const languageSuffixPattern = /-(en|es|fr|pt)$/;
+    if (languageSuffixPattern.test(normalizedUrl)) {
+      return normalizedUrl.replace(languageSuffixPattern, `-${lang}`);
+    }
+
+    if (normalizedUrl === '/assets/config/loyalty') {
+      return `/assets/config/loyalty-${lang}`;
+    }
+
+    return normalizedUrl;
   }
 }
