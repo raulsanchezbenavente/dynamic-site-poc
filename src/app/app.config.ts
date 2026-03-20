@@ -1,7 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
+import { APP_LANGS, AppLang, KeycloakAuthService, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { firstValueFrom } from 'rxjs';
@@ -19,6 +19,19 @@ export const appConfig: ApplicationConfig = {
       useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.loadSite([...APP_LANGS, 'config-site'])),
     },
     provideHttpClient(),
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [KeycloakAuthService],
+      useFactory: (auth: KeycloakAuthService) => async () => {
+        try {
+          await auth.ensureInitialized();
+          console.log('[Keycloak] initialized, authenticated:', auth.isAuthenticated());
+        } catch (err) {
+          console.warn('[Keycloak] skipped at startup:', err);
+        }
+      },
+    },
 
     provideTranslateService({
       defaultLanguage: 'en',

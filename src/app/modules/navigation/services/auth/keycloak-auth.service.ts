@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import Keycloak from 'keycloak-js';
 
 import { environment } from '../../../../../environments/environment';
@@ -12,9 +12,7 @@ export class KeycloakAuthService {
   });
   private initPromise: Promise<void> | null = null;
 
-  public get isAuthenticated(): boolean {
-    return Boolean(this.keycloak.authenticated);
-  }
+  public readonly isAuthenticated = signal(false);
 
   public get token(): string | undefined {
     return this.keycloak.token;
@@ -36,11 +34,16 @@ export class KeycloakAuthService {
 
     this.initPromise = this.keycloak
       .init({
+        onLoad: 'check-sso',
+        silentCheckSsoRedirectUri: `${globalThis.location.origin}/silent-check-sso.html`,
+        silentCheckSsoFallback: false,
         pkceMethod: 'S256',
         checkLoginIframe: false,
         enableLogging: environment.keycloak.enableLogging,
       })
-      .then(() => undefined);
+      .then(() => {
+        this.isAuthenticated.set(this.keycloak.authenticated ?? false);
+      });
 
     await this.initPromise;
   }

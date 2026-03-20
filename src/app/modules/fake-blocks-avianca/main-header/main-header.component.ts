@@ -107,7 +107,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public langOpen = signal(false);
   public langs = LANGS;
   public activeLang = signal<AppLang>(this.routerHelper.language);
-  public isAuthenticated = signal(false);
+  public isAuthenticated = computed(() => this.auth.isAuthenticated());
   public activeLangLabelKey = computed(() => {
     const code = this.activeLang();
     return this.langs.find((l) => l.code === code)?.label ?? 'HEADER.EN';
@@ -203,9 +203,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public async authAction(): Promise<void> {
     await this.auth.ensureInitialized();
 
-    if (this.auth.isAuthenticated) {
+    if (this.auth.isAuthenticated()) {
       await this.auth.logout();
-      this.isAuthenticated.set(false);
       this.open.set(false);
       return;
     }
