@@ -15,6 +15,8 @@ import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
+import { LoyaltyToneService } from '../loyalty-tone.service';
+
 type LoyaltyTone = 'red' | 'gold' | 'silver' | 'blue';
 
 @Component({
@@ -52,6 +54,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   private readonly http = inject(HttpClient);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
+  private readonly loyaltyToneSvc = inject(LoyaltyToneService);
   private readonly loyaltyTone = signal<LoyaltyTone>('red');
   private readonly activeLang = signal<AppLang>(this.routerHelper.language);
   private readonly destroy$ = new Subject<void>();
@@ -81,10 +84,13 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
       const subscription = this.http.get(url, { responseType: 'text' }).subscribe({
         next: (responseText) => {
-          this.loyaltyTone.set(this.resolveTone(this.parseLoyaltyPayload(responseText)));
+          const tone = this.resolveTone(this.parseLoyaltyPayload(responseText));
+          this.loyaltyTone.set(tone);
+          this.loyaltyToneSvc.tone.set(tone);
         },
         error: () => {
           this.loyaltyTone.set('red');
+          this.loyaltyToneSvc.tone.set('red');
         },
       });
 
