@@ -36,6 +36,8 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ⚡ Demo autofill on double click (desktop) / double tap (mobile) for search, personal data, and payment
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 - 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
+- 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
+- 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
 
 ---
 
@@ -44,92 +46,108 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 ```text
 server/
 ├── api.js                     # Booking flow API (token + steps)
-├── index-proxy.js               # Composition root for index proxy (port 4300)
+├── index-proxy.js             # Composition root for index proxy (port 4300)
 └── index-rendering/
-  ├── analytics-provider.js    # Reads analytics scripts from src/assets/analytics/scripts
-  ├── index-renderer.js        # Applies dynamic replacements over src/index.html template
-  ├── proxy-middleware.js      # HTML-vs-asset routing and pass-through proxy to Angular dev server
-  └── seo-renderer.js          # Resolves page SEO from config-site and renders SEO tags
+    ├── analytics-provider.js  # Reads analytics scripts from src/assets/analytics/scripts
+    ├── index-renderer.js      # Applies dynamic replacements over src/index.html template
+    ├── proxy-middleware.js    # HTML-vs-asset routing and pass-through proxy to Angular dev server
+    └── seo-renderer.js        # Resolves page SEO from config-site and renders SEO tags
 public/
 ├── favicon-32x32.png
 ├── favicon.png
 ├── robots.txt
-└── sitemap.xml                  # Public static assets
+└── sitemap.xml                # Public static assets
 apache/
-└── .htaccess                    # Optional Apache config
+└── .htaccess                  # Optional Apache config
 src/
 ├── app/
 │   ├── app.component.ts
 │   ├── app.config.ts
 │   ├── app.routes.ts
-│   ├── component-map.ts         # Maps block names to lazy component loaders
-│   ├── dynamic-composite/
-│   │   ├── dynamic-blocks/
-│   │   │   ├── dynamic-blocks.component.ts
-│   │   │   └── dynamic-blocks.component.html
-│   │   └── dynamic-page/
-│   │       ├── block-outlet.component.ts
-│   │       ├── dynamic-page.component.ts
-│   │       ├── dynamic-page.component.html
-│   │       └── models/
-│   │           └── page-layout-models.ts
-│   ├── dynamic-composite/dynamic-tabs/
-│   │   ├── tabs.component.ts
-│   │   ├── tabs.component.html
-│   │   ├── tabs.component.scss
-│   │   └── models/
-│   │       └── cms-tab-contract.model.ts
-│   ├── fake-blocks-components/
-│   │   ├── avianca/
-│   │   │   ├── account-settings/
-│   │   │   ├── account-profile/
-│   │   │   ├── ads/
-│   │   │   ├── elite-status/
-│   │   │   ├── find-bookings/
-│   │   │   ├── lounge-selection/
-│   │   │   ├── loyalty-card/
-│   │   │   ├── main-footer/
-│   │   │   ├── main-header/
-│   │   │   ├── extra/
-│   │   │   ├── baggage-selection/
-│   │   │   ├── assist-selection/
-│   │   │   ├── payment/
-│   │   │   ├── personal-data/
-│   │   │   ├── priority-selection/
-│   │   │   ├── results/
-│   │   │   ├── search/
-│   │   │   ├── seat-selection/
-│   │   │   ├── sports-selection/
-│   │   │   └── thank-you/
-│   │   └── test/
-│   │       ├── banner.component.ts
-│   │       ├── search.component.ts
-│   │       ├── results.component.ts
-│   │       ├── baggage-selection.ts
-│   │       ├── seatmap.component.ts
-│   │       ├── payment-methods.component.ts
-│   │       ├── payment-success.component.ts
-│   │       └── footer.component.ts
+│   ├── component-map.ts       # Maps block names to lazy component loaders
 │   ├── guards/
 │   │   ├── progress.guard.ts
 │   │   ├── progress-async.guard.ts
 │   │   └── route-assets-preload.guard.ts
-│   └── services/
-│       ├── booking-progress/
-│       ├── page-navigation/
-│       ├── router-helper/
-│       ├── seo/
-│       └── site-config/
+│   └── modules/               # All feature and shared modules
+│       ├── dynamic-composite/ # (@dynamic-composite) Dynamic page/block/tabs infrastructure
+│       │   ├── dynamic-blocks/
+│       │   ├── dynamic-page/
+│       │   └── dynamic-tabs/
+│       ├── navigation/        # (@navigation) All app services + barrel index
+│       │   └── services/
+│       │       ├── booking-progress/
+│       │       ├── page-navigation/
+│       │       ├── router-helper/
+│       │       ├── seo/
+│       │       └── site-config/
+│       ├── fake-libs/         # (fake-libs) Shared reusable UI components
+│       │   ├── generic-tabs.component.ts
+│       │   └── index.ts
+│       ├── fake-blocks-avianca/ # (@fake-blocks-avianca) Avianca CMS block components
+│       │   ├── account-profile/
+│       │   ├── account-settings/
+│       │   ├── ads/
+│       │   ├── assist-selection/
+│       │   ├── baggage-selection/
+│       │   ├── booking-footer/
+│       │   ├── booking-header/
+│       │   ├── elite-status/
+│       │   ├── extra/
+│       │   ├── find-bookings/
+│       │   ├── lounge-selection/
+│       │   ├── loyalty-card/
+│       │   ├── main-footer/
+│       │   ├── main-header/
+│       │   ├── payment/
+│       │   ├── personal-data/
+│       │   ├── priority-selection/
+│       │   ├── results/
+│       │   ├── search/
+│       │   ├── seat-selection/
+│       │   ├── sports-selection/
+│       │   ├── thank-you/
+│       │   └── index.ts
+│       ├── fake-blocks-test/  # (@fake-blocks-test) Generic demo block components
+│       │   ├── banner.component.ts
+│       │   ├── baggage-selection/
+│       │   ├── customer-login/
+│       │   ├── explanation.component.ts
+│       │   ├── footer.component.ts
+│       │   ├── header.component.ts
+│       │   ├── payment-methods.component.ts
+│       │   ├── payment-success.component.ts
+│       │   ├── results.component.ts
+│       │   ├── search.component.ts
+│       │   ├── seatmap.component.ts
+│       │   └── index.ts
+│       └── games/             # (@games) Mini-games
+│           ├── icon-hunter/   # Tap-to-catch icon game with combo scoring
+│           ├── tetris/        # Classic falling-block puzzle
+│           └── index.ts
 ├── environments/
-│   ├── environment.ts            # Development config (boot loader min: 0ms)
-│   └── environment.prod.ts       # Production config (boot loader min: 1000ms)
+│   ├── environment.ts         # Development config (boot loader min: 0ms)
+│   └── environment.prod.ts    # Production config (boot loader min: 1000ms)
 ├── assets/
-│   ├── config-site/              # CMS-like JSON site config
-│   ├── i18n/                      # Translations (en/es/fr/pt)
-│   ├── illustrations/             # UI SVGs (extras, payment)
-│   └── loader/                    # Local boot loader GIF
+│   ├── config-site/           # CMS-like JSON site config
+│   ├── i18n/                  # Translations (en/es/fr/pt)
+│   ├── illustrations/         # UI SVGs (extras, payment)
+│   └── loader/                # Local boot loader GIF
 └── styles.scss
 ```
+
+### Module Aliases (tsconfig `paths`)
+
+| Alias                  | Module                              |
+| ---------------------- | ----------------------------------- |
+| `@navigation`          | `modules/navigation` (all services) |
+| `@dynamic-composite`   | `modules/dynamic-composite`         |
+| `@fake-blocks-avianca` | `modules/fake-blocks-avianca`       |
+| `@fake-blocks-test`    | `modules/fake-blocks-test`          |
+| `@games`               | `modules/games`                     |
+| `fake-libs`            | `modules/fake-libs`                 |
+
+> **Note:** Dynamic `import()` paths in `component-map.ts` always use direct relative paths (not aliases) to ensure Webpack creates separate lazy chunks per component.
 
 ---
 
