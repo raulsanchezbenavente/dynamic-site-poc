@@ -18,17 +18,17 @@ export class SiteConfigService {
 
     return forkJoin(requests).pipe(
       tap((sites) => {
-        this.configSitesByLanguage = uniqueLangs.reduce(
-          (acc, lang, idx) => {
-            const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
-            acc[lang] = pages;
-            return acc;
-          },
-          {} as Record<AppLang | string, any[]>
-        );
+        const nextConfigSitesByLanguage = { ...this.configSitesByLanguage } as Record<AppLang | string, any[]>;
+
+        uniqueLangs.forEach((lang, idx) => {
+          const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
+          nextConfigSitesByLanguage[lang] = pages;
+        });
+
+        this.configSitesByLanguage = nextConfigSitesByLanguage;
       }),
-      map((sites) => ({
-        pages: sites.flatMap((s) => (Array.isArray(s?.pages) ? s.pages : [])),
+      map(() => ({
+        pages: Object.values(this.configSitesByLanguage).flatMap((pages) => (Array.isArray(pages) ? pages : [])),
       })),
       tap((mergedSite) => {
         this._siteSubject.next(mergedSite);

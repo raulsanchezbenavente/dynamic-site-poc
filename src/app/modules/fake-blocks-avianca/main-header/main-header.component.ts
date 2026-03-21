@@ -15,7 +15,7 @@ import {
 import { Router } from '@angular/router';
 import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
@@ -214,10 +214,17 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public setLang(lang: AppLang): void {
+  public async setLang(lang: AppLang): Promise<void> {
     this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
+
+    try {
+      await firstValueFrom(this.siteConfig.loadSite([lang]));
+    } catch {
+      // If the language config fails to load, keep current behavior with fallback path resolution.
+    }
+
     const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
       const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);

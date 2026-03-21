@@ -78,4 +78,32 @@ describe('SiteConfigService', () => {
 
     expect(tabs.map((t) => t.name)).toEqual(['overview', 'details']);
   });
+
+  it('should keep previously loaded routes when loading a new language', () => {
+    let firstLoadPages: any[] = [];
+    let secondLoadPages: any[] = [];
+
+    service.loadSite(['en']).subscribe((result) => {
+      firstLoadPages = result.pages;
+    });
+
+    const enReq = httpMock.expectOne('/assets/config-site/en');
+    enReq.flush({ pages: [{ pageId: '0', path: '/en/home' }] });
+
+    expect(firstLoadPages).toEqual([{ pageId: '0', path: '/en/home' }]);
+
+    service.loadSite(['es']).subscribe((result) => {
+      secondLoadPages = result.pages;
+    });
+
+    const esReq = httpMock.expectOne('/assets/config-site/es');
+    esReq.flush({ pages: [{ pageId: '0', path: '/es/home' }] });
+
+    expect(service.getPagesByLang('en')).toEqual([{ pageId: '0', path: '/en/home' }]);
+    expect(service.getPagesByLang('es')).toEqual([{ pageId: '0', path: '/es/home' }]);
+    expect(secondLoadPages).toEqual([
+      { pageId: '0', path: '/en/home' },
+      { pageId: '0', path: '/es/home' },
+    ]);
+  });
 });
