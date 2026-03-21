@@ -34,7 +34,6 @@ export const appConfig: ApplicationConfig = {
                   return '';
                 })
                 .filter(Boolean);
-              console.log('[router] routes loaded for lang', lang, routesInConfig);
             })
           )
         );

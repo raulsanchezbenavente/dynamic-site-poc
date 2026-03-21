@@ -1,16 +1,16 @@
 import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService } from '@navigation';
@@ -18,6 +18,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { firstValueFrom, Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
+
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -171,7 +172,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
-      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang) : null;
+      const blockConfig = pageId
+        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
+        : null;
       const url = String(blockConfig?.url ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
@@ -221,16 +224,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
     try {
       await firstValueFrom(this.siteConfig.loadSite([lang]));
-      const loadedPaths = this.siteConfig
-        .getPagesByLang(lang)
-        .map((page: unknown) => {
-          if (typeof page === 'object' && page !== null && 'path' in page) {
-            return String((page as { path?: unknown }).path ?? '');
-          }
-          return '';
-        })
-        .filter((path: string) => path.length > 0);
-      console.log('[i18n] routes loaded after language change', lang, loadedPaths);
+      console.log('[i18n] router.config after language change', lang, this.router.config);
     } catch {
       // If the language config fails to load, keep current behavior with fallback path resolution.
     }
