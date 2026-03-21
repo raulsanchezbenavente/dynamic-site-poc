@@ -15,6 +15,7 @@ const analyticsScriptsPath = path.join(__dirname, '../src/assets/analytics/scrip
 const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
+const healthCheckPath = '/__proxy-health';
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
 const sslPemPath = path.join(__dirname, 'cert', 'newshoreGeneral.pem');
@@ -43,13 +44,16 @@ function checkPublicHostReachability(baseUrl, timeoutMs = 3500) {
   return new Promise((resolve) => {
     const target = new URL(baseUrl);
     const client = target.protocol === 'https:' ? https : http;
+    const isHttps = target.protocol === 'https:';
     const req = client.request(
       {
         hostname: target.hostname,
         port: target.port || (target.protocol === 'https:' ? 443 : 80),
-        path: '/',
+        path: healthCheckPath,
         method: 'GET',
         timeout: timeoutMs,
+        // Local proxy can run with self-signed certs; this check is only for reachability.
+        ...(isHttps ? { rejectUnauthorized: false } : {}),
       },
       (res) => {
         const status = Number(res.statusCode || 0);
@@ -90,6 +94,10 @@ const renderIndexHtml = createRenderIndexHtml({
   analyticsScriptsPath,
 });
 
+app.get(healthCheckPath, (_req, res) => {
+  res.status(200).type('text/plain').send('ok');
+});
+
 app.use(
   createIndexProxyMiddleware({
     targetHost,
@@ -101,7 +109,6 @@ app.use(
 http.createServer(app).listen(httpPort, () => {
   console.log(`Index server running on ${httpBaseUrl}`);
   console.log(`Forwarding assets/chunks to http://${targetHost}:${targetPort}`);
-  void warnIfPublicHostIsUnreachable();
 });
 
 if (hasHttpsConfig) {
@@ -138,6 +145,10 @@ if (hasHttpsConfig) {
 
     httpsServer.listen(httpsPort, () => {
       console.log(`Index server running on ${httpsBaseUrl}`);
+      // Run after HTTPS bind to avoid false negatives during startup race.
+      setTimeout(() => {
+        void warnIfPublicHostIsUnreachable();
+      }, 150);
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
