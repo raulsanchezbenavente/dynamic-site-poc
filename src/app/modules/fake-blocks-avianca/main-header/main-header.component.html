@@ -144,18 +144,19 @@
     <div class="lm-right">
       <div class="lm-user-wrap">
         @if (isAuthenticated()) {
-          <button
-            type="button"
-            class="lm-user"
-            aria-haspopup="menu"
-            [attr.aria-expanded]="open()"
-            (click)="toggleMenu($event)">
-            <span
-              class="lm-lm-badge"
-              aria-hidden="true"
-              >lm</span
-            >
-
+           <button
+          type="button"
+          class="lm-user"
+          aria-haspopup="menu"
+          [style.border-color]="loyaltyToneSvc.color()"
+          [attr.aria-expanded]="open()"
+          (click)="toggleMenu($event)">
+          <span
+            class="lm-lm-badge"
+            aria-hidden="true"
+            [style.background]="loyaltyToneSvc.color()"
+            >lm</span
+          >
             <span class="lm-user-text">
               <span class="lm-user-name">{{ userName() }}</span>
               <span class="lm-user-miles">{{ userMiles() }} mil...</span>

@@ -1,14 +1,14 @@
 import { CommonModule, Location } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  HostListener,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    HostListener,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -21,6 +21,7 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
+import { LoyaltyToneService } from '../loyalty-tone.service';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -40,6 +41,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly auth = inject(KeycloakAuthService);
   private readonly translate = inject(TranslateService);
   private readonly destroy$ = new Subject<void>();
+  public readonly loyaltyToneSvc = inject(LoyaltyToneService);
 
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
