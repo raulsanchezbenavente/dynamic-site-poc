@@ -26,6 +26,62 @@ const hasHttpsConfig = hasPemHttpsConfig || hasPfxHttpsConfig;
 
 const httpsBaseUrl = `https://${publicHost}${httpsPort === 443 ? '' : `:${httpsPort}`}`;
 const httpBaseUrl = `http://localhost:${httpPort}`;
+
+function formatErrorLog(message) {
+  if (process.env.NO_COLOR) {
+    return `[ERROR] ${message}`;
+  }
+  return `\u001b[31m[ERROR] ${message}\u001b[0m`;
+}
+
+function logError(message) {
+  // Some launchers only preserve ANSI colors consistently on stdout.
+  console.log(formatErrorLog(message));
+}
+
+function checkPublicHostReachability(baseUrl, timeoutMs = 3500) {
+  return new Promise((resolve) => {
+    const target = new URL(baseUrl);
+    const client = target.protocol === 'https:' ? https : http;
+    const req = client.request(
+      {
+        hostname: target.hostname,
+        port: target.port || (target.protocol === 'https:' ? 443 : 80),
+        path: '/',
+        method: 'GET',
+        timeout: timeoutMs,
+      },
+      (res) => {
+        const status = Number(res.statusCode || 0);
+        // Drain response to release socket quickly.
+        res.resume();
+        resolve({ ok: status >= 200 && status < 500, status });
+      }
+    );
+
+    req.on('timeout', () => {
+      req.destroy(new Error(`timeout after ${timeoutMs}ms`));
+    });
+
+    req.on('error', (error) => {
+      resolve({ ok: false, error: error instanceof Error ? error.message : String(error) });
+    });
+
+    req.end();
+  });
+}
+
+async function warnIfPublicHostIsUnreachable() {
+  const result = await checkPublicHostReachability(httpsBaseUrl);
+  if (result.ok) {
+    return;
+  }
+
+  const reason = result.error || `HTTP ${result.status || 'unknown'}`;
+  logError(`[Proxy health] ${httpsBaseUrl} is not reachable (${reason}).`);
+  logError('[Proxy health] Please verify DNS/hosts mapping and local certificate trust for av-booking-local.newshore.es.');
+}
+
 const renderIndexHtml = createRenderIndexHtml({
   port: httpPort,
   baseUrl: hasHttpsConfig ? httpsBaseUrl : httpBaseUrl,
@@ -45,6 +101,7 @@ app.use(
 http.createServer(app).listen(httpPort, () => {
   console.log(`Index server running on ${httpBaseUrl}`);
   console.log(`Forwarding assets/chunks to http://${targetHost}:${targetPort}`);
+  void warnIfPublicHostIsUnreachable();
 });
 
 if (hasHttpsConfig) {
