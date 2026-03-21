@@ -1,8 +1,10 @@
 import { CommonModule, Location } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import {
     ChangeDetectionStrategy,
     Component,
     computed,
+    effect,
     HostListener,
     inject,
     input,
@@ -15,7 +17,7 @@ import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { LoyaltyToneService } from '../loyalty-tone.service';
+import { LoyaltyTone } from '../loyalty-tone.service';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -32,13 +34,16 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly pageNavigation = inject(PageNavigationService);
   private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
   private readonly destroy$ = new Subject<void>();
-  public readonly loyaltyToneSvc = inject(LoyaltyToneService);
+  private readonly headerTone = signal<LoyaltyTone | null>(null);
 
+  public config = input<{ url?: string } | null>(null);
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
+  public headerAccentColor = computed(() => this.getToneColor(this.headerTone()));
 
   public marketOpen = signal(false);
   public markets: Array<{ labelKey: string; currency: string; flagCode: string }> = [
@@ -108,6 +113,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   });
 
   public ngOnInit(): void {
+    this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      this.activeLang.set(lang);
+    });
+
     this.translate.onLangChange.pipe(takeUntil(this.destroy$)).subscribe(() => this.langTick.update((v) => v + 1));
 
     const storedMarketKey = this.getStoredMarketKey();
@@ -156,6 +165,36 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.markMenuItemAsActive(tabName);
       }
     });
+  }
+
+  constructor() {
+    effect((onCleanup) => {
+      const lang = this.activeLang();
+      const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
+      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang) : null;
+      const url = String(blockConfig?.url ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+
+      if (!url) {
+        this.headerTone.set(null);
+        return;
+      }
+
+      const subscription = this.http.get(url, { responseType: 'text' }).subscribe({
+        next: (responseText) => {
+          const tone = this.resolveTone(this.parseTonePayload(responseText));
+          this.headerTone.set(tone);
+        },
+        error: () => {
+          this.headerTone.set(null);
+        },
+      });
+
+      onCleanup(() => subscription.unsubscribe());
+    });
+  }
+
+  private getDefaultToneUrl(lang: AppLang): string {
+    return `/assets/config/loyalty/${lang}`;
   }
 
   public markMenuItemAsActive(activeTab: string): void {
@@ -355,5 +394,95 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public goHome(event: MouseEvent): void {
     event.preventDefault();
     void this.pageNavigation.navigateByPath(this.homePath(), true);
+  }
+
+  private resolveTone(payload: unknown): LoyaltyTone | null {
+    const normalizedFromPayload = this.normalizeTone(payload);
+    if (normalizedFromPayload) {
+      return normalizedFromPayload;
+    }
+
+    if (payload && typeof payload === 'object') {
+      const stack: unknown[] = [payload];
+      const visited = new Set<unknown>();
+
+      while (stack.length > 0) {
+        const current = stack.pop();
+        if (!current || typeof current !== 'object' || visited.has(current)) {
+          continue;
+        }
+
+        visited.add(current);
+        for (const value of Object.values(current)) {
+          const normalized = this.normalizeTone(value);
+          if (normalized) {
+            return normalized;
+          }
+
+          if (value && typeof value === 'object') {
+            stack.push(value);
+          }
+        }
+      }
+    }
+
+    return null;
+  }
+
+  private normalizeTone(value: unknown): LoyaltyTone | null {
+    if (typeof value !== 'string') {
+      return null;
+    }
+
+    const normalized = value.trim().toLowerCase();
+    if (normalized === 'gold') {
+      return 'gold';
+    }
+
+    if (normalized === 'silver') {
+      return 'silver';
+    }
+
+    if (normalized === 'blue') {
+      return 'blue';
+    }
+
+    if (normalized === 'red') {
+      return 'red';
+    }
+
+    return null;
+  }
+
+  private parseTonePayload(raw: string): unknown {
+    const trimmed = String(raw || '').trim();
+    if (!trimmed) {
+      return null;
+    }
+    try {
+      return JSON.parse(trimmed);
+    } catch {
+      return trimmed;
+    }
+  }
+
+  private getToneColor(tone: LoyaltyTone | null): string | null {
+    if (!tone) {
+      return null;
+    }
+
+    if (tone === 'gold') {
+      return '#d4a52a';
+    }
+
+    if (tone === 'silver') {
+      return '#7a8fa6';
+    }
+
+    if (tone === 'blue') {
+      return '#2e86ff';
+    }
+
+    return '#e2007a';
   }
 }

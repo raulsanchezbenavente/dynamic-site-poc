@@ -146,14 +146,14 @@
         <button
           type="button"
           class="lm-user"
-          [style.border-color]="loyaltyToneSvc.color()"
           aria-haspopup="menu"
+          [style.border-color]="headerAccentColor()"
           [attr.aria-expanded]="open()"
           (click)="toggleMenu($event)">
           <span
             class="lm-lm-badge"
-            [style.background]="loyaltyToneSvc.color()"
             aria-hidden="true"
+            [style.background]="headerAccentColor()"
             >lm</span
           >
 

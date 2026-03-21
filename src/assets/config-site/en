@@ -15,14 +15,6 @@
             "cols": [
               {
                 "component": "CorporateMainHeaderBlock_uiplus",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "loyaltyOverviewCard_uiplus",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/en"
@@ -213,7 +205,10 @@
             "cols": [
               {
                 "component": "CorporateMainHeaderBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
               }
             ]
           },
