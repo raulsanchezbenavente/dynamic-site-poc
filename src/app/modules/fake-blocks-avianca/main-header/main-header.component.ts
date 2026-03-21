@@ -12,11 +12,11 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  AppLang,
-  KeycloakAuthService,
-  PageNavigationService,
-  RouterHelperService,
-  SiteConfigService,
+    AppLang,
+    KeycloakAuthService,
+    PageNavigationService,
+    RouterHelperService,
+    SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -206,12 +206,20 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     await this.auth.ensureInitialized();
 
     if (this.auth.isAuthenticated()) {
-      await this.auth.logout();
+      await this.auth.logout(this.buildLogoutRedirectUri());
       this.open.set(false);
       return;
     }
 
     await this.auth.login();
+  }
+
+  private buildLogoutRedirectUri(): string {
+    const lang = this.activeLang();
+    const homePath = this.pageNavigation.resolvePagePath('0', lang) || `/${lang}/home`;
+    const currentPath = String(this.router.url || '').split('?')[0].split('#')[0].trim();
+    const path = currentPath && currentPath.startsWith('/') ? currentPath : homePath;
+    return `${globalThis.location.origin}${path}`;
   }
 
   public toggleLangMenu(ev: MouseEvent): void {

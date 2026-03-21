@@ -66,13 +66,14 @@ export class KeycloakAuthService {
     this.authStateChange.update((v) => v + 1);
   }
 
-  public async logout(): Promise<void> {
+  public async logout(redirectUri?: string): Promise<void> {
     await this.ensureInitialized();
     const maxRetries = environment.keycloak.logoutRetryAttempts;
+    const safeRedirectUri = String(redirectUri || globalThis.location.origin).trim() || globalThis.location.origin;
 
     for (let attempt = 0; attempt <= maxRetries; attempt += 1) {
       try {
-        await this.keycloak.logout({ redirectUri: globalThis.location.origin });
+        await this.keycloak.logout({ redirectUri: safeRedirectUri });
         this.authStateChange.update((v) => v + 1);
         return;
       } catch (error) {
