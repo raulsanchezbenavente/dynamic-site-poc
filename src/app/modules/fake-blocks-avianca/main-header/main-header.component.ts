@@ -221,6 +221,16 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
     try {
       await firstValueFrom(this.siteConfig.loadSite([lang]));
+      const loadedPaths = this.siteConfig
+        .getPagesByLang(lang)
+        .map((page: unknown) => {
+          if (typeof page === 'object' && page !== null && 'path' in page) {
+            return String((page as { path?: unknown }).path ?? '');
+          }
+          return '';
+        })
+        .filter((path: string) => path.length > 0);
+      console.log('[i18n] routes loaded after language change', lang, loadedPaths);
     } catch {
       // If the language config fails to load, keep current behavior with fallback path resolution.
     }
