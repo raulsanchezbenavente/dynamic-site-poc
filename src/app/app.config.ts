@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { firstValueFrom, tap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
 
@@ -23,20 +23,7 @@ export const appConfig: ApplicationConfig = {
       deps: [SiteConfigService],
       useFactory: (svc: SiteConfigService) => () => {
         const lang = resolveLangFromPathname(globalThis.location.pathname);
-        return firstValueFrom(
-          svc.loadSite([lang]).pipe(
-            tap((site) => {
-              const routesInConfig = (site?.pages ?? [])
-                .map((page) => {
-                  if (typeof page === 'object' && page !== null && 'path' in page) {
-                    return String((page as { path?: unknown }).path ?? '');
-                  }
-                  return '';
-                })
-                .filter(Boolean);
-            })
-          )
-        );
+        return firstValueFrom(svc.loadSite([lang]));
       },
     },
     provideHttpClient(),
