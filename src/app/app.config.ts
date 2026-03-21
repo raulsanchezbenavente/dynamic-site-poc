@@ -8,6 +8,11 @@ import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
 
+function resolveLangFromPathname(pathname: string): AppLang {
+  const segment = pathname.split('/').filter(Boolean)[0];
+  return APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -16,7 +21,10 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       multi: true,
       deps: [SiteConfigService],
-      useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.loadSite([...APP_LANGS, 'config-site'])),
+      useFactory: (svc: SiteConfigService) => () => {
+        const lang = resolveLangFromPathname(globalThis.location.pathname);
+        return firstValueFrom(svc.loadSite([lang]));
+      },
     },
     provideHttpClient(),
 
@@ -39,8 +47,7 @@ export const appConfig: ApplicationConfig = {
       multi: true,
       deps: [TranslateService],
       useFactory: (ts: TranslateService) => () => {
-        const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
-        const lang = APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
+        const lang = resolveLangFromPathname(globalThis.location.pathname);
 
         ts.setDefaultLang(lang);
         return firstValueFrom(ts.use(lang));
