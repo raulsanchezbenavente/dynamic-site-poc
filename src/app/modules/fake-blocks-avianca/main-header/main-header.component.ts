@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -33,7 +33,6 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly pageNavigation = inject(PageNavigationService);
-  private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
@@ -231,7 +230,13 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
           const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
           if (nextPath) {
             const query = this.router.url.split('?')[1];
-            this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
+            const targetUrl = query ? `${nextPath}?${query}` : nextPath;
+            this.router.navigateByUrl(targetUrl).then(() => {
+              this.routerHelper.changeLanguage(lang);
+              console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
+              console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
+            });
+            return;
           }
         }
 
