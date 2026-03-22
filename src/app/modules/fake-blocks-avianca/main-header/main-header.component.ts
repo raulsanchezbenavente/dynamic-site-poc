@@ -231,7 +231,8 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
           const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
           if (nextPath) {
             const query = this.router.url.split('?')[1];
-            this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
+            const targetUrl = query ? `${nextPath}?${query}` : nextPath;
+            this.location.go(targetUrl);
           }
         }
 
