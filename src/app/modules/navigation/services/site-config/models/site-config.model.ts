@@ -1,5 +1,4 @@
 export interface SiteBlockConfig {
-  url?: string;
   [key: string]: unknown;
 }
 
