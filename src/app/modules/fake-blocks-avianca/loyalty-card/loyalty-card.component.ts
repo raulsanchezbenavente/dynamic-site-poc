@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
 } from '@angular/core';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
@@ -60,7 +60,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
       const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus', lang) : null;
-      const url = String(blockConfig?.url ?? this.config()?.url ?? '').trim();
+      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? '').trim();
 
       if (!url) {
         this.loyaltyTone.set(null);

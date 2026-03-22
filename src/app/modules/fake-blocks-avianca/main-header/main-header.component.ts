@@ -175,7 +175,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       const blockConfig = pageId
         ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
         : null;
-      const url = String(blockConfig?.url ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
         this.headerTone.set(null);
