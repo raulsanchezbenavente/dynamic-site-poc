@@ -220,19 +220,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public async setLang(lang: AppLang): Promise<void> {
     this.translate.use(lang);
     this.langOpen.set(false);
-    const currentPageId = this.routerHelper.getCurrentPageId();
-    const currentPath = this.router.url.split('?')[0];
+    const initialLang = this.routerHelper.initialLanguage;
 
     try {
-      await firstValueFrom(
-        this.siteConfig.switchLanguageSiteConfig(
-          this.routerHelper.initialLanguage,
-          this.routerHelper.language,
-          lang,
-          currentPageId,
-          currentPath
-        )
-      );
+      this.siteConfig.keepOnlyLanguages([initialLang, lang]);
+      await firstValueFrom(this.siteConfig.loadSite([lang]));
       this.routerHelper.changeLanguage(lang);
       console.log('[i18n] router.config after language change', lang, this.router.config);
       console.log('[i18n] site.config after language change', lang, this.siteConfig.siteSnapshot);
@@ -240,7 +232,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       // If the language config fails to load, keep current behavior with fallback path resolution.
     }
 
-    const pageId: string | undefined = currentPageId;
+    const pageId: string | undefined = this.routerHelper.getCurrentPageId();
     if (pageId) {
       const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
       if (nextPath) {
