@@ -4,17 +4,26 @@ import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { AppLang } from './models/langs.model';
+import {
+    SiteBlockConfig,
+    SiteConfigResponse,
+    SiteLayoutCol,
+    SiteLayoutRow,
+    SitePage,
+    SiteTab,
+    SiteTabSummary,
+} from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
 export class SiteConfigService {
   private readonly http = inject(HttpClient);
-  private readonly _siteSubject = new BehaviorSubject<any | null>(null);
+  private readonly _siteSubject = new BehaviorSubject<SiteConfigResponse | null>(null);
   public readonly site$ = this._siteSubject.asObservable();
-  public configSitesByLanguage: Partial<Record<AppLang, any[]>> = {};
+  public configSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
 
   public keepOnlyLanguages(langs: AppLang[]): void {
     const allowed = new Set<AppLang>(langs);
-    const nextConfig: Partial<Record<AppLang, any[]>> = {};
+    const nextConfig: Partial<Record<AppLang, SitePage[]>> = {};
 
     (Object.keys(this.configSitesByLanguage) as AppLang[]).forEach((lang) => {
       if (allowed.has(lang)) {
@@ -30,11 +39,11 @@ export class SiteConfigService {
 
   public loadSite(langs: AppLang[] | string[]): Observable<{ pages: any[] }> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
-    const requests = uniqueLangs.map((lang) => this.http.get<{ pages: any[] }>(this.getURlFromLangAndContext(lang)));
+    const requests = uniqueLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
 
     return forkJoin(requests).pipe(
       tap((sites) => {
-        const nextConfigSitesByLanguage = { ...this.configSitesByLanguage } as Record<AppLang | string, any[]>;
+        const nextConfigSitesByLanguage = { ...this.configSitesByLanguage } as Record<AppLang | string, SitePage[]>;
 
         uniqueLangs.forEach((lang, idx) => {
           const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
@@ -56,23 +65,24 @@ export class SiteConfigService {
     return '/assets/config-site/' + lang;
   }
 
-  public get siteSnapshot(): any | null {
+  public get siteSnapshot(): SiteConfigResponse | null {
     return this._siteSubject.value;
   }
 
-  public getPagesByLang(lang: AppLang): any[] {
+  public getPagesByLang(lang: AppLang): SitePage[] {
     return this.configSitesByLanguage[lang] ?? [];
   }
 
-  public getBlockConfig(pageId: string, componentName: string, lang: AppLang): any | undefined {
+  public getBlockConfig(pageId: string, componentName: string, lang: AppLang): SiteBlockConfig | undefined {
     const pages = this.getPagesByLang(lang);
     const page = pages.find((p) => String(p?.pageId ?? '') === String(pageId));
     if (!page) {
       return undefined;
     }
-    const rows = page?.layout?.rows ?? (Array.isArray(page?.layout) ? page.layout : []);
+    const rows = this.getRows(page);
     for (const row of rows) {
-      for (const col of Array.isArray(row?.cols) ? row.cols : []) {
+      const cols = this.getCols(row);
+      for (const col of cols) {
         if (col?.component === componentName) {
           return col.config ?? undefined;
         }
@@ -92,50 +102,53 @@ export class SiteConfigService {
   public getTabNamesByTabsId(
     tabsId: string | number,
     lang?: AppLang
-  ): Array<{ name: string; title?: string; secondaryText?: string; tabId?: string }> {
+  ): SiteTabSummary[] {
     const tabsIdStr = String(tabsId);
     const pages = lang ? (this.configSitesByLanguage[lang] ?? []) : Object.values(this.configSitesByLanguage).flat();
 
-    const tabMap = new Map<string, { name: string; title?: string; secondaryText?: string; tabId?: string }>();
+    const tabMap = new Map<string, SiteTabSummary>();
 
     for (const page of pages) {
       if (String(page?.tabsId ?? '') === tabsIdStr) {
-        const pageTabs = Array.isArray(page?.tabs) ? page.tabs : [];
-        pageTabs.forEach((tab: any) => {
-          const name = tab?.name ? String(tab.name) : '';
-          if (!name) return;
-          if (!tabMap.has(name)) {
-            tabMap.set(name, {
-              name,
-              title: tab?.title ? String(tab.title) : undefined,
-              secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
-              tabId: tab?.tabId ? String(tab.tabId) : undefined,
-            });
-          }
-        });
+        this.upsertTabsIntoMap(tabMap, page.tabs);
       }
 
-      const rows = page?.layout?.rows ?? page?.layout ?? [];
-      const cols = Array.isArray(rows) ? rows.flatMap((row: any) => row?.cols ?? []) : [];
+      const rows = this.getRows(page);
+      const cols = rows.flatMap((row) => this.getCols(row));
 
       for (const col of cols) {
         if (String(col?.tabsId ?? '') !== tabsIdStr) continue;
-        const tabs = Array.isArray(col?.tabs) ? col.tabs : [];
-        tabs.forEach((tab: any) => {
-          const name = tab?.name ? String(tab.name) : '';
-          if (!name) return;
-          if (!tabMap.has(name)) {
-            tabMap.set(name, {
-              name,
-              title: tab?.title ? String(tab.title) : undefined,
-              secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
-              tabId: tab?.tabId ? String(tab.tabId) : undefined,
-            });
-          }
-        });
+        this.upsertTabsIntoMap(tabMap, col.tabs);
       }
     }
 
     return Array.from(tabMap.values());
+  }
+
+  private getRows(page: SitePage): SiteLayoutRow[] {
+    if (Array.isArray(page?.layout)) {
+      return page.layout;
+    }
+    return Array.isArray(page?.layout?.rows) ? page.layout.rows : [];
+  }
+
+  private getCols(row: SiteLayoutRow): SiteLayoutCol[] {
+    return Array.isArray(row?.cols) ? row.cols : [];
+  }
+
+  private upsertTabsIntoMap(tabMap: Map<string, SiteTabSummary>, tabs: SiteTab[] | undefined): void {
+    const safeTabs = Array.isArray(tabs) ? tabs : [];
+
+    safeTabs.forEach((tab) => {
+      const name = tab?.name ? String(tab.name) : '';
+      if (!name || tabMap.has(name)) return;
+
+      tabMap.set(name, {
+        name,
+        title: tab?.title ? String(tab.title) : undefined,
+        secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
+        tabId: tab?.tabId ? String(tab.tabId) : undefined,
+      });
+    });
   }
 }

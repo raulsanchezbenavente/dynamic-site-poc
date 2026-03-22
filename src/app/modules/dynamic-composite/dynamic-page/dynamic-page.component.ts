@@ -2,31 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { SeoService, SiteConfigService } from '@navigation';
+import { SeoService, SiteConfigService, SiteLayoutCol, SiteLayoutRow, SitePage } from '@navigation';
 
 import { BlockOutletComponent } from './block-outlet.component';
-
-type PageLayoutCol = {
-  component: string;
-  span?: number;
-  tabs?: any[];
-  config?: any;
-  [key: string]: any;
-};
-type PageLayoutRow = { cols: PageLayoutCol[] };
-type SeoConfig = {
-  title?: string;
-  description?: string;
-  robots?: string;
-  canonical?: string;
-};
-type SitePage = {
-  pageId?: string;
-  path?: string;
-  name?: string;
-  layout?: { rows?: PageLayoutRow[] } | PageLayoutRow[];
-  seo?: SeoConfig;
-};
 
 @Component({
   selector: 'dynamic-page',
@@ -35,7 +13,7 @@ type SitePage = {
   templateUrl: './dynamic-page.component.html',
 })
 export class DynamicPageComponent implements OnInit {
-  public rows: PageLayoutRow[] = [];
+  public rows: SiteLayoutRow[] = [];
 
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
@@ -61,7 +39,7 @@ export class DynamicPageComponent implements OnInit {
     });
   }
 
-  public getInputs(col: PageLayoutCol): Record<string, any> {
+  public getInputs(col: SiteLayoutCol): Record<string, unknown> {
     const { component, span, ...inputs } = col;
     return inputs;
   }
