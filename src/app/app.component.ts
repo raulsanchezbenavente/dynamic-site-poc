@@ -1,6 +1,7 @@
 import { Component, inject, Type } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, Router, RouterOutlet } from '@angular/router';
-import { SiteConfigService } from '@navigation';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { APP_LANGS, AppLang, RouterHelperService, SiteConfigService } from '@navigation';
+import { TranslateService } from '@ngx-translate/core';
 import { filter, take } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -17,7 +18,10 @@ import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 export class AppComponent {
   private router = inject(Router);
   private siteSvc = inject(SiteConfigService);
+  private routerHelper = inject(RouterHelperService);
+  private translate = inject(TranslateService);
   private hasLoggedInitialSiteLoad = false;
+  private shouldSyncLangFromUrl = false;
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
 
   constructor() {
@@ -38,6 +42,31 @@ export class AppComponent {
         globalThis.setTimeout(() => {
           globalThis.document?.getElementById('boot-loader')?.remove();
         }, waitMs);
+      });
+
+    this.router.events
+      .pipe(filter((event): event is NavigationStart => event instanceof NavigationStart))
+      .subscribe((event) => {
+        this.shouldSyncLangFromUrl = event.navigationTrigger === 'popstate';
+      });
+
+    this.router.events
+      .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        if (!this.shouldSyncLangFromUrl) {
+          return;
+        }
+
+        const langFromUrl = this.getLangFromPath(event.urlAfterRedirects);
+        if (this.routerHelper.language !== langFromUrl) {
+          this.routerHelper.changeLanguage(langFromUrl);
+        }
+
+        if (this.translate.currentLang !== langFromUrl) {
+          this.translate.use(langFromUrl);
+        }
+
+        this.shouldSyncLangFromUrl = false;
       });
 
     this.siteSvc.site$.pipe().subscribe((site) => {
@@ -71,5 +100,10 @@ export class AppComponent {
         console.log('[SITE LOAD][INIT] site config', this.siteSvc.siteSnapshot);
       }
     });
+  }
+
+  private getLangFromPath(path: string): AppLang {
+    const segment = path.split('?')[0].split('/').filter(Boolean)[0];
+    return APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
   }
 }
