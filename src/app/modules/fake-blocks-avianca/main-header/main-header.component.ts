@@ -218,12 +218,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   public async setLang(lang: AppLang): Promise<void> {
-    this.activeLang.set(lang);
     this.translate.use(lang);
     this.langOpen.set(false);
 
     try {
       await firstValueFrom(this.siteConfig.loadSite([lang]));
+      this.routerHelper.changeLanguage(lang);
       console.log('[i18n] router.config after language change', lang, this.router.config);
     } catch {
       // If the language config fails to load, keep current behavior with fallback path resolution.
@@ -235,7 +235,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       if (nextPath) {
         const query = this.router.url.split('?')[1];
         this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
-        this.routerHelper.changeLanguage(lang);
       }
     }
   }
