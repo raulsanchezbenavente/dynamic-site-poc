@@ -17,6 +17,7 @@ import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 export class AppComponent {
   private router = inject(Router);
   private siteSvc = inject(SiteConfigService);
+  private hasLoggedInitialSiteLoad = false;
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
 
   constructor() {
@@ -63,6 +64,12 @@ export class AppComponent {
       }));
 
       this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
+
+      if (!this.hasLoggedInitialSiteLoad) {
+        this.hasLoggedInitialSiteLoad = true;
+        console.log('[SITE LOAD][INIT] router.config', this.router.config);
+        console.log('[SITE LOAD][INIT] site config', this.siteSvc.siteSnapshot);
+      }
     });
   }
 }

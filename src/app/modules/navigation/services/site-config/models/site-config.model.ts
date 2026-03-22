@@ -23,7 +23,7 @@ export interface SiteTab {
   title?: string;
   secondaryText?: string;
   components?: SiteLayoutCol[];
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface SiteLayoutCol {
@@ -32,17 +32,17 @@ export interface SiteLayoutCol {
   tabsId?: string | number;
   tabs?: SiteTab[];
   config?: SiteBlockConfig;
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface SiteLayout {
   rows?: SiteLayoutRow[];
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface SitePage {
@@ -54,7 +54,7 @@ export interface SitePage {
   tabs?: SiteTab[];
   layout?: SiteLayout | SiteLayoutRow[];
   seo?: SiteSeoConfig;
-  [key: string]: unknown;
+  // [key: string]: unknown;
 }
 
 export interface SiteConfigResponse {

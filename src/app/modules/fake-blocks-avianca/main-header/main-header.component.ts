@@ -1,23 +1,24 @@
 import { CommonModule, Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, take, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
+
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -171,8 +172,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
-      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang) : null;
-      const url = String(blockConfig?.url ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+      const blockConfig = pageId
+        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
+        : null;
+      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
         this.headerTone.set(null);
@@ -215,18 +218,27 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   public setLang(lang: AppLang): void {
-    this.activeLang.set(lang);
-    this.translate.use(lang);
     this.langOpen.set(false);
-    const pageId: string | undefined = this.routerHelper.getCurrentPageId();
-    if (pageId) {
-      const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
-      if (nextPath) {
-        const query = this.router.url.split('?')[1];
-        this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
+    this.siteConfig
+      .loadSite([lang])
+      .pipe(take(1))
+      .subscribe(() => {
+        this.activeLang.set(lang);
+        this.translate.use(lang);
+
+        const pageId: string | undefined = this.routerHelper.getCurrentPageId();
+        if (pageId) {
+          const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
+          if (nextPath) {
+            const query = this.router.url.split('?')[1];
+            this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
+          }
+        }
+
         this.routerHelper.changeLanguage(lang);
-      }
-    }
+        console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
+        console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
+      });
   }
 
   public trackByLang(_: number, l: Lang): AppLang {
