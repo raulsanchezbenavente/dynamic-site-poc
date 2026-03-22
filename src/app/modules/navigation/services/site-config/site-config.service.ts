@@ -20,6 +20,8 @@ export class SiteConfigService {
   private readonly _siteSubject = new BehaviorSubject<SiteConfigResponse | null>(null);
   public readonly site$ = this._siteSubject.asObservable();
   public configSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
+  private pinnedInitialPagePath: string | null = null;
+  private pinnedInitialPageId: string | null = null;
 
   public keepOnlyLanguages(langs: AppLang[]): void {
     const allowed = new Set<AppLang>(langs);
@@ -37,7 +39,70 @@ export class SiteConfigService {
     });
   }
 
-  public loadSite(langs: AppLang[] | string[]): Observable<{ pages: any[] }> {
+  public keepOnlyCurrentRouteForLanguage(
+    lang: AppLang,
+    currentPageId: string | undefined,
+    currentPath: string | undefined
+  ): void {
+    const pages = this.configSitesByLanguage[lang] ?? [];
+    const normalizedPageId = String(currentPageId ?? '').trim();
+    const normalizedPath = String(currentPath ?? '').trim().replace(/^\//, '');
+
+    const keptPages = pages.filter((page) => {
+      const samePageId = normalizedPageId && String(page?.pageId ?? '') === normalizedPageId;
+      const samePath = normalizedPath && String(page?.path ?? '').replace(/^\//, '') === normalizedPath;
+      return Boolean(samePageId || samePath);
+    });
+
+    this.configSitesByLanguage = {
+      [lang]: keptPages,
+    };
+
+    this._siteSubject.next({
+      pages: keptPages,
+    });
+  }
+
+  public prepareForLanguageSwitch(
+    initialLang: AppLang,
+    sourceLang: AppLang,
+    currentPageId: string | undefined,
+    currentPath: string | undefined
+  ): void {
+    const normalizedPath = String(currentPath ?? '').trim().replace(/^\//, '');
+    const normalizedPageId = String(currentPageId ?? '').trim();
+
+    if (sourceLang === initialLang) {
+      this.pinnedInitialPagePath = normalizedPath || this.pinnedInitialPagePath;
+      this.pinnedInitialPageId = normalizedPageId || this.pinnedInitialPageId;
+    }
+
+    const initialPages = this.configSitesByLanguage[initialLang] ?? [];
+    const pinnedPage = this.findPageByPathOrId(initialPages, this.pinnedInitialPagePath, this.pinnedInitialPageId);
+
+    this.configSitesByLanguage = pinnedPage
+      ? {
+          [initialLang]: [pinnedPage],
+        }
+      : {};
+
+    this._siteSubject.next({
+      pages: Object.values(this.configSitesByLanguage).flatMap((pages) => (Array.isArray(pages) ? pages : [])),
+    });
+  }
+
+  public switchLanguageSiteConfig(
+    initialLang: AppLang,
+    sourceLang: AppLang,
+    targetLang: AppLang,
+    currentPageId: string | undefined,
+    currentPath: string | undefined
+  ): Observable<SiteConfigResponse> {
+    this.prepareForLanguageSwitch(initialLang, sourceLang, currentPageId, currentPath);
+    return this.loadSite([targetLang]);
+  }
+
+  public loadSite(langs: AppLang[] | string[]): Observable<SiteConfigResponse> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
     const requests = uniqueLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
 
@@ -149,6 +214,23 @@ export class SiteConfigService {
         secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
         tabId: tab?.tabId ? String(tab.tabId) : undefined,
       });
+    });
+  }
+
+  private findPageByPathOrId(
+    pages: SitePage[],
+    path: string | null,
+    pageId: string | null
+  ): SitePage | undefined {
+    const normalizedPath = String(path ?? '').trim().replace(/^\//, '');
+    const normalizedPageId = String(pageId ?? '').trim();
+
+    return pages.find((page) => {
+      const pagePath = String(page?.path ?? '').replace(/^\//, '');
+      const pageIdValue = String(page?.pageId ?? '').trim();
+      const byPath = normalizedPath && pagePath === normalizedPath;
+      const byId = normalizedPageId && pageIdValue === normalizedPageId;
+      return Boolean(byPath || byId);
     });
   }
 }
