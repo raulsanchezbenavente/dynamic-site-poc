@@ -220,8 +220,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public async setLang(lang: AppLang): Promise<void> {
     this.translate.use(lang);
     this.langOpen.set(false);
+    const initialLang = this.routerHelper.initialLanguage;
 
     try {
+      this.siteConfig.keepOnlyLanguages([initialLang, lang]);
       await firstValueFrom(this.siteConfig.loadSite([lang]));
       this.routerHelper.changeLanguage(lang);
       console.log('[i18n] router.config after language change', lang, this.router.config);

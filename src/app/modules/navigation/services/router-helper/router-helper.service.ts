@@ -17,6 +17,11 @@ export class RouterHelperService {
   private readonly activeTabSubject = new Subject<string>();
   public readonly activeTab$ = this.activeTabSubject.asObservable();
 
+  private readonly _initialLanguage: AppLang = 'en';
+  public get initialLanguage(): AppLang {
+    return this._initialLanguage;
+  }
+
   private _language: AppLang = 'en';
   public get language(): AppLang {
     return this._language;
@@ -30,6 +35,7 @@ export class RouterHelperService {
     const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
     const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
+    this._initialLanguage = lang;
   }
 
   public getLeafRoute(): ActivatedRoute {
