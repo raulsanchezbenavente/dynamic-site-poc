@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, Observable } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { AppLang } from './models/langs.model';
@@ -23,11 +23,20 @@ export class SiteConfigService {
 
   public loadSite(langs: AppLang[] | string[]): Observable<SiteConfigResponse> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
-    const requests = uniqueLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
+    const missingLangs = uniqueLangs.filter((lang) => {
+      const appLang = lang as AppLang;
+      return !this.configSitesByLanguage[appLang]?.length;
+    });
+
+    if (!missingLangs.length) {
+      return of(this.getMergedSiteConfig());
+    }
+
+    const requests = missingLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
 
     return forkJoin(requests).pipe(
       tap((sites) => {
-        const loadedSitesByLanguage = uniqueLangs.reduce(
+        const loadedSitesByLanguage = missingLangs.reduce(
           (acc, lang, idx) => {
             const pages = Array.isArray(sites?.[idx]?.pages) ? sites[idx].pages : [];
             acc[lang as AppLang] = pages;
@@ -41,14 +50,16 @@ export class SiteConfigService {
           ...(loadedSitesByLanguage as Partial<Record<AppLang, SitePage[]>>),
         };
       }),
-      map(() => {
-        const mergedPages: SitePage[] = Object.values(this.configSitesByLanguage).flatMap((pages) => pages ?? []);
-        return { pages: mergedPages };
-      }),
+      map(() => this.getMergedSiteConfig()),
       tap((mergedSite) => {
         this._siteSubject.next(mergedSite);
       })
     );
+  }
+
+  private getMergedSiteConfig(): SiteConfigResponse {
+    const mergedPages: SitePage[] = Object.values(this.configSitesByLanguage).flatMap((pages) => pages ?? []);
+    return { pages: mergedPages };
   }
 
   private getURlFromLangAndContext(lang: AppLang | string): string {
