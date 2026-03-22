@@ -227,6 +227,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       await firstValueFrom(this.siteConfig.loadSite([lang]));
       this.routerHelper.changeLanguage(lang);
       console.log('[i18n] router.config after language change', lang, this.router.config);
+      console.log('[i18n] site.config after language change', lang, this.siteConfig.siteSnapshot);
     } catch {
       // If the language config fails to load, keep current behavior with fallback path resolution.
     }

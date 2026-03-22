@@ -64,6 +64,7 @@ export class AppComponent {
 
       this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
       console.log('[router] router.config after reset', this.router.config);
+      console.log('[site-config] snapshot after reset', site);
     });
   }
 }
