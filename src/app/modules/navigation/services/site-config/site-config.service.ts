@@ -27,6 +27,18 @@ export class SiteConfigService {
 
   constructor() {}
 
+  public clearPersistedSiteConfigFromSessionStorage(): void {
+    if (typeof sessionStorage === 'undefined') {
+      return;
+    }
+
+    try {
+      sessionStorage.removeItem(SiteConfigService.SESSION_STORAGE_KEY);
+    } catch {
+      // Ignore storage access failures.
+    }
+  }
+
   public loadSite(langs: AppLang[] | string[]): Observable<SiteConfigResponse> {
     this.hydrateFromSessionStorageOnce();
 

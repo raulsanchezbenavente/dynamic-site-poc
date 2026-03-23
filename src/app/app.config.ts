@@ -14,6 +14,15 @@ const getLangFromUrl = (): AppLang => {
   return APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
 };
 
+const shouldClearSiteConfigSessionCacheOnInit = (): boolean => {
+  const navigationEntry = globalThis.performance?.getEntriesByType?.('navigation')?.at(0) as
+    | PerformanceNavigationTiming
+    | undefined;
+  const navigationType = navigationEntry?.type;
+
+  return navigationType === 'navigate' || navigationType === 'reload';
+};
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
@@ -23,7 +32,14 @@ export const appConfig: ApplicationConfig = {
       provide: APP_INITIALIZER,
       multi: true,
       deps: [SiteConfigService],
-      useFactory: (svc: SiteConfigService) => () => firstValueFrom(svc.loadSite([getLangFromUrl()])),
+      useFactory: (svc: SiteConfigService) => () => {
+        if (shouldClearSiteConfigSessionCacheOnInit()) {
+          svc.clearPersistedSiteConfigFromSessionStorage();
+          console.log('[APP ENTRY][BROWSER] cleared site config session cache before loadSite');
+        }
+
+        return firstValueFrom(svc.loadSite([getLangFromUrl()]));
+      },
     },
     provideHttpClient(),
 
