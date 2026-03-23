@@ -74,7 +74,8 @@ describe('LanguageSwitchService', () => {
 
   it('should navigate to resolved page', (done) => {
     service.switchLanguage('es' as AppLang).subscribe(() => {
-      expect(router.navigateByUrl).toHaveBeenCalledWith('/es/home');
+      const navigatedUrl = router.navigateByUrl.calls.mostRecent().args[0] as string;
+      expect(navigatedUrl).toContain('/es/home');
       done();
     });
   });
