@@ -257,7 +257,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public open = signal(false);
   public selectedMenuLabel = signal<string | null>(null);
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
 
   // Always returns a non-empty array if nothing is provided
   public items = computed(() => {
@@ -379,21 +379,18 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
       const currentPageId: string | undefined = this.routerHelper.getCurrentPageId();
       if (currentPageId === item.pageId) {
-        if (tabParams) {
-          // this.router.navigate([], { queryParams: tabParams, queryParamsHandling: 'merge' });
+        if (item.tabId) {
+          this.routerHelper.changeActiveTab(item.tabId);
         }
-        this.routerHelper.changeActiveTab(item.tabId ?? '');
-      } else {
-        if (tabParams) {
-          if (item.externalTab) {
-            void this.pageNavigation.navigateByPageId(item.pageId, lang, true, item.targetBlank ?? false, tabParams);
-          } else {
-            const path = this.pageNavigation.resolvePagePath(item.pageId, lang);
-            void this.router.navigate([path], { queryParams: tabParams });
-          }
+      } else if (tabParams) {
+        if (item.externalTab) {
+          void this.pageNavigation.navigateByPageId(item.pageId, lang, true, item.targetBlank ?? false, tabParams);
         } else {
-          void this.pageNavigation.navigateByPageId(item.pageId, lang);
+          const path = this.pageNavigation.resolvePagePath(item.pageId, lang);
+          void this.router.navigate([path], { queryParams: tabParams });
         }
+      } else {
+        void this.pageNavigation.navigateByPageId(item.pageId, lang);
       }
     }
   }

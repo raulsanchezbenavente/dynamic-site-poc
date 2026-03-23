@@ -53,10 +53,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   public indicatorTransform = computed(() => `translateX(${this.indicatorLeft()}px)`);
 
   @ViewChild('tabsRoot', { static: true })
-  private tabsRoot?: ElementRef<HTMLElement>;
+  private readonly tabsRoot?: ElementRef<HTMLElement>;
 
   @ViewChildren('tabButton')
-  private tabButtons?: QueryList<ElementRef<HTMLElement>>;
+  private readonly tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
     const raw = this.tabs();
@@ -159,10 +159,8 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
       const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
-      this.activeId.set(tab?.tabId);
-      this.setActiveTabName(tab?.name);
-      this.setPageTitle(tab);
-      this.select(tab!, true);
+      if (!tab) return;
+      this.activateTab(tab, { historyMode: 'push', emitEvent: true, allowReselect: true });
     });
   }
 
@@ -188,7 +186,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       qpTab = tabs[0]?.name;
       requestAnimationFrame(() => {
-        this.setActiveTabName(tabs[0]?.name, 'replace');
+        this.routerHelper.syncActiveTabUrl(tabs[0]?.name, 'replace');
       });
     }
     if (!tabs.length) return;
@@ -212,37 +210,45 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
-    if (this.activeId() === tab.tabId) return;
+    this.activateTab(tab, {
+      historyMode: 'push',
+      emitEvent: !stopPropagation,
+      allowReselect: false,
+    });
+  }
+
+  private setActiveTabName(tabName: string | undefined): void {
+    if (!tabName) return;
+    const tab = this.viewTabs().find((candidate) => candidate.name === tabName);
+    if (!tab) return;
+    this.activateTab(tab, { historyMode: 'replace', emitEvent: false, allowReselect: true });
+  }
+
+  private activateTab(
+    tab: CmsTabContract,
+    options: { historyMode: 'push' | 'replace'; emitEvent: boolean; allowReselect: boolean }
+  ): void {
+    if (!options.allowReselect && this.activeId() === tab.tabId) {
+      return;
+    }
+
     this.activeId.set(tab.tabId);
-    this.setActiveTabName(tab.name, 'push');
+    this.routerHelper.syncActiveTabUrl(tab.name, options.historyMode);
     this.setPageTitle(tab);
-    if (stopPropagation) return;
+
+    if (this.tabsId() && tab.tabId) {
+      this.routerHelper.setCurrentTabId(this.tabsId()!, tab.tabId);
+    }
+
+    if (!options.emitEvent) {
+      return;
+    }
+
     this._tabsSubject.next(tab);
     const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
       detail: { tab },
     });
     globalThis.dispatchEvent(customEvent);
-  }
-
-  private setActiveTabName(tabName: string | undefined, historyMode: 'push' | 'replace' = 'replace'): void {
-    const url = new URL(globalThis.location.href);
-    const params = new URLSearchParams(url.search);
-    params.set('activeTab', tabName ?? '');
-
-    const normalizedQuery = Array.from(params.entries())
-      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
-      .join('&');
-
-    const nextUrl = `${url.pathname}${normalizedQuery ? `?${normalizedQuery}` : ''}${url.hash}`;
-    const currentUrl = `${url.pathname}${url.search}${url.hash}`;
-
-    if (nextUrl !== currentUrl) {
-      if (historyMode === 'push') {
-        globalThis.history.pushState({}, '', nextUrl);
-      } else {
-        globalThis.history.replaceState({}, '', nextUrl);
-      }
-    }
   }
 
   private setPageTitle(tab: CmsTabContract | undefined): void {
