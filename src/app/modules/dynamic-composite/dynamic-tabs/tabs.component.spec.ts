@@ -11,6 +11,8 @@ import { DsTabsComponent } from './tabs.component';
 describe('DsTabsComponent', () => {
   let fixture: ComponentFixture<DsTabsComponent>;
   let component: DsTabsComponent;
+  let routeQueryValues: Record<string, string | null>;
+  let tabSummaries: Array<{ name: string; tabId?: string }>;
 
   const routerEvents$ = new Subject<NavigationStart>();
   const languageChange$ = new Subject<'en' | 'es' | 'fr' | 'pt'>();
@@ -20,7 +22,7 @@ describe('DsTabsComponent', () => {
     snapshot: {
       data: { path: '/' },
       queryParamMap: {
-        get: (_key: string): string | null => null,
+        get: (key: string): string | null => routeQueryValues[key] ?? null,
       },
     },
   };
@@ -31,7 +33,7 @@ describe('DsTabsComponent', () => {
   };
 
   const siteConfigMock = {
-    getTabNamesByTabsId: (_tabsId: string): Array<{ name: string }> => [],
+    getTabNamesByTabsId: (_tabsId: string): Array<{ name: string; tabId?: string }> => tabSummaries,
   };
 
   const tabsInput: CmsTabContract[] = [
@@ -50,6 +52,9 @@ describe('DsTabsComponent', () => {
   ];
 
   beforeEach(async () => {
+    routeQueryValues = {};
+    tabSummaries = [];
+
     await TestBed.configureTestingModule({
       imports: [DsTabsComponent],
       providers: [
@@ -109,5 +114,37 @@ describe('DsTabsComponent', () => {
     fixture.detectChanges();
 
     expect(component.activeId()).toBe('tab-1');
+  });
+
+  it('should activate the current-language tab when browser back restores a tab name from another language', () => {
+    fixture.componentRef.setInput('tabsId', 'members-tabs');
+    fixture.componentRef.setInput('tabs', [
+      {
+        tabId: 'tab-1',
+        name: 'Datos personales',
+        title: 'Datos personales',
+        components: [{ component: 'header' }],
+      },
+      {
+        tabId: 'tab-2',
+        name: 'Mis viajes',
+        title: 'Mis viajes',
+        components: [{ component: 'footer' }],
+      },
+    ] as CmsTabContract[]);
+    tabSummaries = [
+      { name: 'Personal data', tabId: 'tab-1' },
+      { name: 'Datos personales', tabId: 'tab-1' },
+      { name: 'My trips', tabId: 'tab-2' },
+      { name: 'Mis viajes', tabId: 'tab-2' },
+    ];
+
+    fixture.detectChanges();
+
+    globalThis.history.replaceState({}, '', '/context.html?activeTab=My%20trips');
+    globalThis.dispatchEvent(new PopStateEvent('popstate'));
+    fixture.detectChanges();
+
+    expect(component.activeId()).toBe('tab-2');
   });
 });

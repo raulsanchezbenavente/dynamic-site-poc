@@ -192,7 +192,19 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     if (!tabs.length) return;
-    const tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
+    let tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
+
+    if (!tab && qpTab && this.tabsId()) {
+      const normalizedTabName = qpTab.trim().toLowerCase();
+      const matchedTabSummary = this.siteConfig
+        .getTabNamesByTabsId(this.tabsId()!)
+        .find((summary) => summary.name.trim().toLowerCase() === normalizedTabName);
+
+      if (matchedTabSummary?.tabId) {
+        tab = tabs.find((currentTab) => currentTab.tabId === matchedTabSummary.tabId);
+      }
+    }
+
     if (tab) {
       this.activeId.set(tab.tabId);
       this.setPageTitle(tab);
