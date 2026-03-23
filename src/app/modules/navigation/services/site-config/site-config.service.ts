@@ -20,16 +20,33 @@ export class SiteConfigService {
   private readonly _siteSubject = new BehaviorSubject<SiteConfigResponse | null>(null);
   public readonly site$ = this._siteSubject.asObservable();
   public configSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
+  private readonly fullConfigSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
+  private readonly visitedPathsByLanguage = new Map<AppLang, Set<string>>();
 
   public loadSite(langs: AppLang[] | string[]): Observable<SiteConfigResponse> {
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
+
+    // Rehydrate requested languages from full cache.
+    // This prevents serving a partial (pruned) language when the user switches back to it.
+    uniqueLangs.forEach((lang) => {
+      const appLang = lang as AppLang;
+      const fullPages = this.fullConfigSitesByLanguage[appLang];
+      if (fullPages?.length) {
+        this.configSitesByLanguage[appLang] = [...fullPages];
+      }
+    });
+
     const missingLangs = uniqueLangs.filter((lang) => {
       const appLang = lang as AppLang;
       return !this.configSitesByLanguage[appLang]?.length;
     });
 
     if (!missingLangs.length) {
-      return of(this.getMergedSiteConfig());
+      return of(this.getMergedSiteConfig()).pipe(
+        tap((mergedSite) => {
+          this._siteSubject.next(mergedSite);
+        })
+      );
     }
 
     const requests = missingLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
@@ -49,6 +66,8 @@ export class SiteConfigService {
           ...this.configSitesByLanguage,
           ...(loadedSitesByLanguage as Partial<Record<AppLang, SitePage[]>>),
         };
+
+        this.updateFullLanguageCache(loadedSitesByLanguage as Partial<Record<AppLang, SitePage[]>>);
       }),
       map(() => this.getMergedSiteConfig()),
       tap((mergedSite) => {
@@ -157,6 +176,36 @@ export class SiteConfigService {
     return Array.from(tabMap.values());
   }
 
+  public markRouteAsVisited(lang: AppLang, path: string): void {
+    const normalizedPath = this.normalizePath(path);
+    if (!normalizedPath) {
+      return;
+    }
+
+    const visitedPaths = this.visitedPathsByLanguage.get(lang) ?? new Set<string>();
+    visitedPaths.add(normalizedPath);
+    this.visitedPathsByLanguage.set(lang, visitedPaths);
+  }
+
+  public pruneLanguageKeepingVisitedRoutes(lang: AppLang): void {
+    const pages = this.configSitesByLanguage[lang] ?? [];
+    if (!pages.length) {
+      return;
+    }
+
+    const visitedPaths = this.visitedPathsByLanguage.get(lang) ?? new Set<string>();
+    const keptPages = pages.filter((page) => visitedPaths.has(this.normalizePath(page?.path ?? '')));
+
+    if (!keptPages.length) {
+      delete this.configSitesByLanguage[lang];
+      this._siteSubject.next(this.getMergedSiteConfig());
+      return;
+    }
+
+    this.configSitesByLanguage[lang] = keptPages;
+    this._siteSubject.next(this.getMergedSiteConfig());
+  }
+
   public removeLanguage(lang: AppLang): void {
     if (!this.configSitesByLanguage[lang]) {
       return;
@@ -164,5 +213,27 @@ export class SiteConfigService {
 
     delete this.configSitesByLanguage[lang];
     this._siteSubject.next(this.getMergedSiteConfig());
+  }
+
+  private updateFullLanguageCache(loadedSitesByLanguage: Partial<Record<AppLang, SitePage[]>>): void {
+    const entries = Object.entries(loadedSitesByLanguage) as Array<[AppLang, SitePage[]]>;
+    for (const [lang, pages] of entries) {
+      this.fullConfigSitesByLanguage[lang] = [...(pages ?? [])];
+    }
+  }
+
+  private normalizePath(path: string): string {
+    const basePath = path.split('?')[0].split('#')[0].trim();
+    if (!basePath) {
+      return '';
+    }
+
+    const withoutLeadingSlash = basePath.startsWith('/') ? basePath.slice(1) : basePath;
+
+    if (withoutLeadingSlash.length > 1 && withoutLeadingSlash.endsWith('/')) {
+      return withoutLeadingSlash.slice(0, -1);
+    }
+
+    return withoutLeadingSlash;
   }
 }

@@ -99,4 +99,89 @@ describe('SiteConfigService', () => {
     expect(service.getPagesByLang('en')).toEqual([]);
     expect(service.getPagesByLang('es').length).toBe(1);
   });
+
+  it('should keep only visited routes when pruning a language', () => {
+    service.configSitesByLanguage = {
+      en: [
+        { pageId: '1', path: 'en/home' },
+        { pageId: '2', path: 'en/results' },
+        { pageId: '3', path: 'en/payment' },
+      ],
+      es: [{ pageId: '1', path: 'es/home' }],
+    };
+
+    service.markRouteAsVisited('en', '/en/home');
+    service.markRouteAsVisited('en', '/en/results');
+    service.pruneLanguageKeepingVisitedRoutes('en');
+
+    expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home', 'en/results']);
+    expect(service.getPagesByLang('es').map((p) => p.path)).toEqual(['es/home']);
+  });
+
+  it('should remove language when pruning and no routes were visited', () => {
+    service.configSitesByLanguage = {
+      en: [
+        { pageId: '1', path: 'en/home' },
+        { pageId: '2', path: 'en/results' },
+      ],
+      es: [{ pageId: '1', path: 'es/home' }],
+    };
+
+    service.pruneLanguageKeepingVisitedRoutes('en');
+
+    expect(service.getPagesByLang('en')).toEqual([]);
+    expect(service.getPagesByLang('es').map((p) => p.path)).toEqual(['es/home']);
+  });
+
+  it('should restore full language routes when loading a previously pruned language', () => {
+    let resultPages: any[] = [];
+
+    service.loadSite(['en']).subscribe((result) => {
+      resultPages = result.pages;
+    });
+
+    const enReq = httpMock.expectOne('/assets/config-site/en');
+    enReq.flush({
+      pages: [
+        { pageId: '0', path: 'en/home' },
+        { pageId: '1', path: 'en/results' },
+      ],
+    });
+
+    service.markRouteAsVisited('en', '/en/home');
+    service.pruneLanguageKeepingVisitedRoutes('en');
+
+    expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home']);
+
+    service.removeLanguage('en');
+    service.loadSite(['en']).subscribe((result) => {
+      resultPages = result.pages;
+    });
+
+    expect(httpMock.match('/assets/config-site/en').length).toBe(0);
+    expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home', 'en/results']);
+    expect(resultPages.some((p) => p.path === 'en/results')).toBeTrue();
+  });
+
+  it('should restore full language routes when loading a pruned language still present in active config', () => {
+    service.loadSite(['en']).subscribe();
+
+    const enReq = httpMock.expectOne('/assets/config-site/en');
+    enReq.flush({
+      pages: [
+        { pageId: '0', path: 'en/home' },
+        { pageId: '1', path: 'en/results' },
+      ],
+    });
+
+    service.markRouteAsVisited('en', '/en/home');
+    service.pruneLanguageKeepingVisitedRoutes('en');
+
+    expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home']);
+
+    service.loadSite(['en']).subscribe();
+
+    expect(httpMock.match('/assets/config-site/en').length).toBe(0);
+    expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home', 'en/results']);
+  });
 });

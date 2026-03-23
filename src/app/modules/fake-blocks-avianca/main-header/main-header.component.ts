@@ -219,6 +219,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   public setLang(lang: AppLang): void {
     this.langOpen.set(false);
     const currentLang = this.activeLang();
+    this.siteConfig.markRouteAsVisited(currentLang, globalThis.location.pathname);
 
     this.siteConfig
       .loadSite([lang])
@@ -231,16 +232,30 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
             const query = this.buildLanguageSwitchQuery(pageId, currentLang, lang);
             const targetUrl = query ? `${nextPath}?${query}` : nextPath;
 
-            void this.router.navigateByUrl(targetUrl).then(() => {
-              this.activeLang.set(lang);
-              this.translate.use(lang);
-              this.routerHelper.changeLanguage(lang);
-              if (currentLang !== lang) {
-                this.siteConfig.removeLanguage(currentLang);
-              }
-              console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
-              console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
-            });
+            void this.router
+              .navigateByUrl(targetUrl)
+              .then((navigated) => {
+                if (!navigated) {
+                  console.warn('[LANG SWITCH] Navigation canceled, preserving current language routes', {
+                    currentLang,
+                    targetLang: lang,
+                    targetUrl,
+                  });
+                  return;
+                }
+
+                this.activeLang.set(lang);
+                this.translate.use(lang);
+                this.routerHelper.changeLanguage(lang);
+                if (currentLang !== lang) {
+                  this.siteConfig.pruneLanguageKeepingVisitedRoutes(currentLang);
+                }
+                console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
+                console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
+              })
+              .catch((error) => {
+                console.error('[LANG SWITCH] Navigation failed, preserving current language routes', error);
+              });
 
             return;
           }
@@ -250,7 +265,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.translate.use(lang);
         this.routerHelper.changeLanguage(lang);
         if (currentLang !== lang) {
-          this.siteConfig.removeLanguage(currentLang);
+          this.siteConfig.pruneLanguageKeepingVisitedRoutes(currentLang);
         }
         console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
         console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);

@@ -60,6 +60,10 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event) => {
+        const langFromUrl = this.getLangFromPath(event.urlAfterRedirects);
+        const visitedPath = event.urlAfterRedirects.split('?')[0].split('#')[0] ?? '';
+        this.siteSvc.markRouteAsVisited(langFromUrl, visitedPath);
+
         if (!this.shouldSyncLangFromUrl) {
           return;
         }
