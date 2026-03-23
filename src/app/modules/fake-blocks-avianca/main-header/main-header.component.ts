@@ -230,7 +230,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         if (pageId) {
           const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
           if (nextPath) {
-            const query = this.router.url.split('?')[1];
+            // Use the real browser URL (not this.router.url) because tabs write
+            // activeTabId via history.pushState, which Angular Router does not track.
+            const query = globalThis.location.search.slice(1);
             const targetUrl = query ? `${nextPath}?${query}` : nextPath;
             void this.router.navigateByUrl(targetUrl);
           }

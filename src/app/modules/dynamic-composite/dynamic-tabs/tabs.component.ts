@@ -43,7 +43,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly title = inject(Title);
   private readonly destroy$ = new Subject<void>();
-  private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
+  private readonly tabsOverride = signal<
+    Array<{ tabId?: string; name: string; title?: string; secondaryText?: string }>
+  >([]);
   private readonly _tabsSubject = new BehaviorSubject<CmsTabContract | null>(null);
   public readonly tabs$ = this._tabsSubject.asObservable();
 
@@ -86,7 +88,8 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!overrides.length) return normalized;
 
     return normalized.map((tab, index) => {
-      const override = overrides[index];
+      const overrideByTabId = tab.tabId ? overrides.find((o) => o.tabId === tab.tabId) : undefined;
+      const override = overrideByTabId ?? overrides[index];
       if (!override) return tab;
       return {
         ...tab,
@@ -109,7 +112,8 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     effect(() => {
       requestAnimationFrame(() => {
         const qpTab = this.route.snapshot.queryParamMap.get('activeTab') ?? undefined;
-        this.navigateToTab(qpTab);
+        const qpTabId = this.route.snapshot.queryParamMap.get('activeTabId') ?? undefined;
+        this.navigateToTab(qpTab, qpTabId);
       });
     });
 
@@ -137,30 +141,35 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
         takeUntil(this.destroy$)
       )
       .subscribe((event) => {
-        const activeTab: string | undefined =
-          new URLSearchParams(event.url.split('?')[1]).get('activeTab') ?? undefined;
-        this.navigateToTab(activeTab);
+        const queryParams = new URLSearchParams(event.url.split('?')[1] ?? '');
+        const activeTab: string | undefined = queryParams.get('activeTab') ?? undefined;
+        const activeTabId: string | undefined = queryParams.get('activeTabId') ?? undefined;
+        this.navigateToTab(activeTab, activeTabId);
       });
 
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      const activeTabId = this.activeId();
+
       if (this.tabsId()) {
         const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
         this.tabsOverride.set(overrides);
-        const tabName: string | undefined = overrides.find((o) => {
-          const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
-          return o.name === currentTab?.name;
-        })?.name;
-        this.setActiveTabName(tabName);
       }
 
-      const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
-      this.setPageTitle(currentTab);
+      const tabs = this.viewTabs();
+      const preservedTab = tabs.find((t) => t.tabId === activeTabId) ?? tabs[0];
+      if (!preservedTab) {
+        return;
+      }
+
+      this.activeId.set(preservedTab.tabId);
+      this.setActiveTabName(preservedTab.name, 'replace', preservedTab.tabId);
+      this.setPageTitle(preservedTab);
     });
 
     this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
       const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
       this.activeId.set(tab?.tabId);
-      this.setActiveTabName(tab?.name);
+      this.setActiveTabName(tab?.name, 'replace', tab?.tabId);
       this.setPageTitle(tab);
       this.select(tab!, true);
     });
@@ -173,30 +182,56 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     queueMicrotask(() => this.updateIndicator());
   }
 
-  private navigateToTab(qpTab: string | undefined): void {
+  private navigateToTab(qpTab: string | undefined, qpTabId: string | undefined = undefined): void {
     const tabs = this.viewTabs();
-    if (!qpTab) {
+    if (!qpTab && !qpTabId) {
       const snapshotPath = this.route.snapshot.data?.['path'];
       const currentPath = globalThis.location.pathname;
       if (snapshotPath !== currentPath) return;
 
-      qpTab = tabs[0]?.name;
+      const currentTab = tabs.find((t) => t.tabId === this.activeId());
+      const fallbackTab = currentTab ?? tabs[0];
+      qpTab = fallbackTab?.name;
+      qpTabId = fallbackTab?.tabId;
       requestAnimationFrame(() => {
-        this.setActiveTabName(tabs[0]?.name, 'replace');
+        this.setActiveTabName(fallbackTab?.name, 'replace', fallbackTab?.tabId);
       });
     }
     if (!tabs.length) return;
-    const tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
+    let tab: CmsTabContract | undefined = qpTabId ? tabs.find((t) => t.tabId === qpTabId) : undefined;
+
+    if (!tab) {
+      tab = tabs.find((t) => t.name === qpTab);
+    }
+
+    if (!tab && qpTab && this.tabsId()) {
+      const tabSummaries = this.siteConfig.getTabNamesByTabsId(this.tabsId()!);
+      const matchedSummary = tabSummaries.find(
+        (summary) => summary.name.trim().toLowerCase() === qpTab.trim().toLowerCase()
+      );
+
+      if (matchedSummary?.tabId) {
+        tab = tabs.find((t) => t.tabId === matchedSummary.tabId);
+      }
+    }
+
     if (tab) {
       this.activeId.set(tab.tabId);
       this.setPageTitle(tab);
+      return;
+    }
+
+    const currentTab = tabs.find((t) => t.tabId === this.activeId());
+    if (currentTab) {
+      this.setActiveTabName(currentTab.name, 'replace', currentTab.tabId);
+      this.setPageTitle(currentTab);
     }
   }
 
   public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
     if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
-    this.setActiveTabName(tab.name, 'push');
+    this.setActiveTabName(tab.name, 'push', tab.tabId);
     this.setPageTitle(tab);
     if (stopPropagation) return;
     this._tabsSubject.next(tab);
@@ -206,10 +241,19 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     globalThis.dispatchEvent(customEvent);
   }
 
-  private setActiveTabName(tabName: string | undefined, historyMode: 'push' | 'replace' = 'replace'): void {
+  private setActiveTabName(
+    tabName: string | undefined,
+    historyMode: 'push' | 'replace' = 'replace',
+    tabId: string | undefined = undefined
+  ): void {
     const url = new URL(globalThis.location.href);
     const params = new URLSearchParams(url.search);
     params.set('activeTab', tabName ?? '');
+    if (tabId) {
+      params.set('activeTabId', tabId);
+    } else {
+      params.delete('activeTabId');
+    }
 
     const normalizedQuery = Array.from(params.entries())
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
@@ -220,6 +264,12 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (nextUrl !== currentUrl) {
       if (historyMode === 'push') {
+        console.log('[TABS][HISTORY PUSH]', {
+          tabId,
+          tabName,
+          from: currentUrl,
+          to: nextUrl,
+        });
         globalThis.history.pushState({}, '', nextUrl);
       } else {
         globalThis.history.replaceState({}, '', nextUrl);
