@@ -40,6 +40,7 @@ function getLauncherIconPath() {
 
   if (process.platform === 'linux') {
     const linuxIconCandidates = [
+      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
       path.join(__dirname, 'assets', 'linux', 'avianca-icon.png'),
       path.join(__dirname, 'assets', 'windows', 'avianca-icon.png'),
       path.join(__dirname, 'assets', 'avianca-icon.png'),
@@ -1364,6 +1365,9 @@ function getPackageSourceStatus() {
 
 function createWindow() {
   const iconPath = getLauncherIconPath();
+  const linuxRuntimeIcon = process.platform === 'linux' && iconPath ? nativeImage.createFromPath(iconPath) : null;
+  const effectiveWindowIcon =
+    process.platform === 'linux' && linuxRuntimeIcon && !linuxRuntimeIcon.isEmpty() ? linuxRuntimeIcon : iconPath;
   const windowState = readWindowState();
   let persistWindowStateTimeout = null;
 
@@ -1385,7 +1389,7 @@ function createWindow() {
     minHeight: windowState.minHeight,
     x: windowState.x,
     y: windowState.y,
-    icon: iconPath,
+    icon: effectiveWindowIcon,
     autoHideMenuBar: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -1394,10 +1398,9 @@ function createWindow() {
     },
   });
 
-  if (process.platform === 'linux' && iconPath && typeof win.setIcon === 'function') {
-    const linuxIcon = nativeImage.createFromPath(iconPath);
-    if (!linuxIcon.isEmpty()) {
-      win.setIcon(linuxIcon);
+  if (process.platform === 'linux' && linuxRuntimeIcon && typeof win.setIcon === 'function') {
+    if (!linuxRuntimeIcon.isEmpty()) {
+      win.setIcon(linuxRuntimeIcon);
     }
   }
 
@@ -1542,7 +1545,9 @@ function listUnixProcessPairs() {
           pid: Number(tokens[0]),
           ppid: Number(tokens[1]),
         }))
-        .filter((entry) => Number.isInteger(entry.pid) && entry.pid > 0 && Number.isInteger(entry.ppid) && entry.ppid >= 0);
+        .filter(
+          (entry) => Number.isInteger(entry.pid) && entry.pid > 0 && Number.isInteger(entry.ppid) && entry.ppid >= 0
+        );
 
       resolve(pairs);
     });
