@@ -222,19 +222,29 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       .loadSite([lang])
       .pipe(take(1))
       .subscribe(() => {
-        this.activeLang.set(lang);
-        this.translate.use(lang);
+        const currentLang = this.activeLang();
 
         const pageId: string | undefined = this.routerHelper.getCurrentPageId();
         if (pageId) {
           const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
           if (nextPath) {
-            const query = globalThis.location.search.slice(1);
+            const query = this.buildLanguageSwitchQuery(pageId, currentLang, lang);
             const targetUrl = query ? `${nextPath}?${query}` : nextPath;
-            void this.router.navigateByUrl(targetUrl);
+
+            void this.router.navigateByUrl(targetUrl).then(() => {
+              this.activeLang.set(lang);
+              this.translate.use(lang);
+              this.routerHelper.changeLanguage(lang);
+              console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
+              console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
+            });
+
+            return;
           }
         }
 
+        this.activeLang.set(lang);
+        this.translate.use(lang);
         this.routerHelper.changeLanguage(lang);
         console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
         console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
@@ -243,6 +253,42 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public trackByLang(_: number, l: Lang): AppLang {
     return l.code;
+  }
+
+  private buildLanguageSwitchQuery(pageId: string, currentLang: AppLang, nextLang: AppLang): string {
+    const params = new URLSearchParams(globalThis.location.search);
+    const activeTab = params.get('activeTab') ?? undefined;
+
+    if (!activeTab) {
+      return params.toString();
+    }
+
+    const tabsId = this.siteConfig.getTabsIdByPageId(pageId, currentLang);
+    if (!tabsId) {
+      return params.toString();
+    }
+
+    const currentTabSummaries = this.siteConfig.getTabNamesByTabsId(tabsId, currentLang);
+    const targetTabSummaries = this.siteConfig.getTabNamesByTabsId(tabsId, nextLang);
+    const normalizedActiveTab = activeTab.trim().toLowerCase();
+    const currentTabId = currentTabSummaries.find(
+      (summary) => summary.name.trim().toLowerCase() === normalizedActiveTab
+    )?.tabId;
+
+    if (!currentTabId) {
+      return params.toString();
+    }
+
+    const translatedTabName = targetTabSummaries.find(
+      (summary) => String(summary.tabId ?? '') === String(currentTabId)
+    )?.name;
+
+    if (!translatedTabName) {
+      return params.toString();
+    }
+
+    params.set('activeTab', translatedTabName);
+    return params.toString();
   }
 
   public toggleLangMenu(ev: MouseEvent): void {

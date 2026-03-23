@@ -52,6 +52,15 @@ describe('SiteConfigService', () => {
     expect(service.getPathByPageId(undefined, 'en')).toBeUndefined();
   });
 
+  it('should resolve tabs id by page id and language', () => {
+    service.configSitesByLanguage = {
+      en: [{ pageId: '10', path: '/en/results', tabsId: 'booking' }],
+    };
+
+    expect(service.getTabsIdByPageId('10', 'en')).toBe('booking');
+    expect(service.getTabsIdByPageId(undefined, 'en')).toBeUndefined();
+  });
+
   it('should collect unique tab names by tabsId from page tabs and layout tabs', () => {
     service.configSitesByLanguage = {
       en: [

@@ -147,4 +147,24 @@ describe('DsTabsComponent', () => {
 
     expect(component.activeId()).toBe('tab-2');
   });
+
+  it('should replace the activeTab query param with the translated active tab on language change', () => {
+    spyOn(globalThis.history, 'replaceState');
+
+    fixture.componentRef.setInput('tabsId', 'members-tabs');
+    tabSummaries = [
+      { name: 'Datos personales', tabId: 'tab-1' },
+      { name: 'Mis viajes', tabId: 'tab-2' },
+    ];
+
+    fixture.detectChanges();
+    globalThis.history.replaceState({}, '', '/context.html?activeTab=details');
+
+    component.select(tabsInput[1]);
+    languageChange$.next('es');
+    fixture.detectChanges();
+
+    expect(component.activeId()).toBe('tab-2');
+    expect(globalThis.history.replaceState).toHaveBeenCalledWith({}, '', '/context.html?activeTab=Mis%20viajes');
+  });
 });

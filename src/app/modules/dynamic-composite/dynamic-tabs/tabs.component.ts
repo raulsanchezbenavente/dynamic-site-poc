@@ -53,10 +53,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   public indicatorTransform = computed(() => `translateX(${this.indicatorLeft()}px)`);
 
   @ViewChild('tabsRoot', { static: true })
-  private tabsRoot?: ElementRef<HTMLElement>;
+  private readonly tabsRoot?: ElementRef<HTMLElement>;
 
   @ViewChildren('tabButton')
-  private tabButtons?: QueryList<ElementRef<HTMLElement>>;
+  private readonly tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
     const raw = this.tabs();
@@ -143,17 +143,20 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
+      const currentActiveTabId = this.activeId();
+
       if (this.tabsId()) {
         const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
         this.tabsOverride.set(overrides);
-        const tabName: string | undefined = overrides.find((o) => {
-          const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
-          return o.name === currentTab?.name;
-        })?.name;
+
+        const tabName: string | undefined = overrides.find(
+          (override) => String(override.tabId ?? '') === String(currentActiveTabId ?? '')
+        )?.name;
+
         this.setActiveTabName(tabName);
       }
 
-      const currentTab = this.viewTabs().find((t) => t.tabId === this.activeId());
+      const currentTab = this.viewTabs().find((t) => t.tabId === currentActiveTabId);
       this.setPageTitle(currentTab);
     });
 
@@ -233,7 +236,8 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
       .join('&');
 
-    const nextUrl = `${url.pathname}${normalizedQuery ? `?${normalizedQuery}` : ''}${url.hash}`;
+    const query = normalizedQuery ? `?${normalizedQuery}` : '';
+    const nextUrl = `${url.pathname}${query}${url.hash}`;
     const currentUrl = `${url.pathname}${url.search}${url.hash}`;
 
     if (nextUrl !== currentUrl) {

@@ -99,6 +99,17 @@ export class SiteConfigService {
     return page?.path;
   }
 
+  public getTabsIdByPageId(pageId: string | undefined, lang: AppLang): string | undefined {
+    if (pageId === undefined || pageId === null) return undefined;
+
+    const pages = this.configSitesByLanguage[lang] ?? [];
+    const idStr = String(pageId);
+    const page = pages.find((candidate) => String(candidate?.pageId ?? '') === idStr);
+    const tabsId = page?.tabsId;
+
+    return tabsId === undefined || tabsId === null ? undefined : String(tabsId);
+  }
+
   public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): SiteTabSummary[] {
     const tabsIdStr = String(tabsId);
     const pages = lang ? (this.configSitesByLanguage[lang] ?? []) : Object.values(this.configSitesByLanguage).flat();
