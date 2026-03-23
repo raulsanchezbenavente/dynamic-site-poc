@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -33,7 +33,6 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly pageNavigation = inject(PageNavigationService);
-  private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
@@ -232,7 +231,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
           if (nextPath) {
             const query = this.router.url.split('?')[1];
             const targetUrl = query ? `${nextPath}?${query}` : nextPath;
-            this.location.go(targetUrl);
+            void this.router.navigateByUrl(targetUrl);
           }
         }
 

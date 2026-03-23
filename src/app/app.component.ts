@@ -1,5 +1,12 @@
 import { Component, inject, Type } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { APP_LANGS, AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, take } from 'rxjs';
@@ -47,12 +54,24 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event): event is NavigationStart => event instanceof NavigationStart))
       .subscribe((event) => {
+        console.log('[ROUTER EVENT][NavigationStart]', {
+          id: event.id,
+          url: event.url,
+          trigger: event.navigationTrigger,
+        });
         this.shouldSyncLangFromUrl = event.navigationTrigger === 'popstate';
       });
 
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event) => {
+        console.log('[ROUTER EVENT][NavigationEnd]', {
+          id: event.id,
+          url: event.url,
+          urlAfterRedirects: event.urlAfterRedirects,
+          shouldSyncLangFromUrl: this.shouldSyncLangFromUrl,
+        });
+
         if (!this.shouldSyncLangFromUrl) {
           return;
         }
