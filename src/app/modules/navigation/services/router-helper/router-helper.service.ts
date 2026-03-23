@@ -42,7 +42,28 @@ export class RouterHelperService {
 
   public getCurrentPageId(): string | undefined {
     const leaf = this.getLeafRoute();
-    return leaf.snapshot.data?.['pageId'];
+    const pageIdFromSnapshot = leaf.snapshot.data?.['pageId'];
+    if (pageIdFromSnapshot !== undefined && pageIdFromSnapshot !== null) {
+      return String(pageIdFromSnapshot);
+    }
+
+    const normalizedCurrentPath = this.normalizePath(globalThis.location.pathname);
+    if (!normalizedCurrentPath) {
+      return undefined;
+    }
+
+    const matchingRoute = this.router.config.find((route) => {
+      const routePath = this.normalizePath(route.path ?? '');
+      const dataPath = this.normalizePath(String(route.data?.['path'] ?? ''));
+      return routePath === normalizedCurrentPath || dataPath === normalizedCurrentPath;
+    });
+
+    const fallbackPageId = matchingRoute?.data?.['pageId'];
+    if (fallbackPageId === undefined || fallbackPageId === null) {
+      return undefined;
+    }
+
+    return String(fallbackPageId);
   }
 
   public findRouteByPageId(pageId: string): Route | undefined {
@@ -89,5 +110,27 @@ export class RouterHelperService {
 
   public changeActiveTab(tabId: string): void {
     this.activeTabSubject.next(tabId);
+  }
+
+  private normalizePath(path: string): string {
+    const basePath = path.split('?')[0].split('#')[0].trim();
+    if (!basePath) {
+      return '';
+    }
+
+    const withoutLeadingSlash = basePath.startsWith('/') ? basePath.slice(1) : basePath;
+
+    let decodedPath = withoutLeadingSlash;
+    try {
+      decodedPath = decodeURIComponent(withoutLeadingSlash);
+    } catch {
+      decodedPath = withoutLeadingSlash;
+    }
+
+    if (decodedPath.length > 1 && decodedPath.endsWith('/')) {
+      return decodedPath.slice(0, -1);
+    }
+
+    return decodedPath;
   }
 }

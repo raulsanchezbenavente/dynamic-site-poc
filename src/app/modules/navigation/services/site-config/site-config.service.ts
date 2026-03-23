@@ -229,11 +229,19 @@ export class SiteConfigService {
     }
 
     const withoutLeadingSlash = basePath.startsWith('/') ? basePath.slice(1) : basePath;
-
-    if (withoutLeadingSlash.length > 1 && withoutLeadingSlash.endsWith('/')) {
-      return withoutLeadingSlash.slice(0, -1);
+    let decodedPath = withoutLeadingSlash;
+    try {
+      // Browser URLs may contain percent-encoded accents (e.g. r%C3%A9sultats).
+      // Decode before comparing with config paths that often come as unicode.
+      decodedPath = decodeURIComponent(withoutLeadingSlash);
+    } catch {
+      decodedPath = withoutLeadingSlash;
     }
 
-    return withoutLeadingSlash;
+    if (decodedPath.length > 1 && decodedPath.endsWith('/')) {
+      return decodedPath.slice(0, -1);
+    }
+
+    return decodedPath;
   }
 }

@@ -42,6 +42,17 @@ describe('RouterHelperService', () => {
     expect(service.getCurrentPageId()).toBe('42');
   });
 
+  it('should fallback to router config path when deepest route has no pageId and url is percent-encoded', () => {
+    const originalData = leafRoute.snapshot.data;
+    leafRoute.snapshot.data = {};
+    routerMock.config = [{ data: { pageId: '99', path: 'fr/résultats' }, path: 'fr/résultats' }];
+    globalThis.history.replaceState({}, '', '/fr/r%C3%A9sultats');
+
+    expect(service.getCurrentPageId()).toBe('99');
+
+    leafRoute.snapshot.data = originalData;
+  });
+
   it('should find route by page id', () => {
     const route = service.findRouteByPageId('42');
     expect(route?.path).toBe('en/test');

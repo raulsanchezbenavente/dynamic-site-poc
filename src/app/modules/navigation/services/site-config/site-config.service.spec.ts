@@ -118,6 +118,21 @@ describe('SiteConfigService', () => {
     expect(service.getPagesByLang('es').map((p) => p.path)).toEqual(['es/home']);
   });
 
+  it('should keep accented french route when visited url is percent-encoded', () => {
+    service.configSitesByLanguage = {
+      fr: [
+        { pageId: '1', path: 'fr/accueil' },
+        { pageId: '2', path: 'fr/résultats' },
+      ],
+    };
+
+    service.markRouteAsVisited('fr', '/fr/accueil');
+    service.markRouteAsVisited('fr', '/fr/r%C3%A9sultats');
+    service.pruneLanguageKeepingVisitedRoutes('fr');
+
+    expect(service.getPagesByLang('fr').map((p) => p.path)).toEqual(['fr/accueil', 'fr/résultats']);
+  });
+
   it('should remove language when pruning and no routes were visited', () => {
     service.configSitesByLanguage = {
       en: [
