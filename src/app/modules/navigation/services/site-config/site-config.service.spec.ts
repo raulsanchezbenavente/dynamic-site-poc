@@ -4,10 +4,13 @@ import { TestBed } from '@angular/core/testing';
 import { SiteConfigService } from './site-config.service';
 
 describe('SiteConfigService', () => {
+  const SESSION_STORAGE_KEY = 'dynamic-site.site-config-by-language.v1';
   let service: SiteConfigService;
   let httpMock: HttpTestingController;
 
   beforeEach(() => {
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
     });
@@ -18,6 +21,7 @@ describe('SiteConfigService', () => {
 
   afterEach(() => {
     httpMock.verify();
+    sessionStorage.removeItem(SESSION_STORAGE_KEY);
   });
 
   it('should create', () => {
