@@ -13,9 +13,15 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppLang, PageNavigationService, RouterHelperService, SiteConfigService } from '@navigation';
+import {
+  AppLang,
+  LanguageSwitchService,
+  PageNavigationService,
+  RouterHelperService,
+  SiteConfigService,
+} from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, take, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
 
@@ -32,8 +38,10 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
+  private readonly languageSwitch = inject(LanguageSwitchService);
   private readonly pageNavigation = inject(PageNavigationService);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
   private readonly destroy$ = new Subject<void>();
@@ -218,98 +226,18 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public setLang(lang: AppLang): void {
     this.langOpen.set(false);
-    const currentLang = this.activeLang();
-    this.siteConfig.markRouteAsVisited(currentLang, globalThis.location.pathname);
-
-    this.siteConfig
-      .loadSite([lang])
-      .pipe(take(1))
-      .subscribe(() => {
-        const pageId: string | undefined = this.routerHelper.getCurrentPageId();
-        if (pageId) {
-          const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
-          if (nextPath) {
-            const query = this.buildLanguageSwitchQuery(pageId, currentLang, lang);
-            const targetUrl = query ? `${nextPath}?${query}` : nextPath;
-
-            void this.router
-              .navigateByUrl(targetUrl)
-              .then((navigated) => {
-                if (!navigated) {
-                  console.warn('[LANG SWITCH] Navigation canceled, preserving current language routes', {
-                    currentLang,
-                    targetLang: lang,
-                    targetUrl,
-                  });
-                  return;
-                }
-
-                this.activeLang.set(lang);
-                this.translate.use(lang);
-                this.routerHelper.changeLanguage(lang);
-                if (currentLang !== lang) {
-                  this.siteConfig.pruneLanguageKeepingVisitedRoutes(currentLang);
-                }
-                console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
-                console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
-              })
-              .catch((error) => {
-                console.error('[LANG SWITCH] Navigation failed, preserving current language routes', error);
-              });
-
-            return;
-          }
-        }
-
+    this.languageSwitch.switchLanguage(lang).subscribe({
+      next: () => {
         this.activeLang.set(lang);
-        this.translate.use(lang);
-        this.routerHelper.changeLanguage(lang);
-        if (currentLang !== lang) {
-          this.siteConfig.pruneLanguageKeepingVisitedRoutes(currentLang);
-        }
-        console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
-        console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
-      });
+      },
+      error: (error) => {
+        console.error('[MAIN HEADER] Language switch error', error);
+      },
+    });
   }
 
   public trackByLang(_: number, l: Lang): AppLang {
     return l.code;
-  }
-
-  private buildLanguageSwitchQuery(pageId: string, currentLang: AppLang, nextLang: AppLang): string {
-    const params = new URLSearchParams(globalThis.location.search);
-    const activeTab = params.get('activeTab') ?? undefined;
-
-    if (!activeTab) {
-      return params.toString();
-    }
-
-    const tabsId = this.siteConfig.getTabsIdByPageId(pageId, currentLang);
-    if (!tabsId) {
-      return params.toString();
-    }
-
-    const currentTabSummaries = this.siteConfig.getTabNamesByTabsId(tabsId, currentLang);
-    const targetTabSummaries = this.siteConfig.getTabNamesByTabsId(tabsId, nextLang);
-    const normalizedActiveTab = activeTab.trim().toLowerCase();
-    const currentTabId = currentTabSummaries.find(
-      (summary) => summary.name.trim().toLowerCase() === normalizedActiveTab
-    )?.tabId;
-
-    if (!currentTabId) {
-      return params.toString();
-    }
-
-    const translatedTabName = targetTabSummaries.find(
-      (summary) => String(summary.tabId ?? '') === String(currentTabId)
-    )?.name;
-
-    if (!translatedTabName) {
-      return params.toString();
-    }
-
-    params.set('activeTab', translatedTabName);
-    return params.toString();
   }
 
   public toggleLangMenu(ev: MouseEvent): void {
@@ -323,8 +251,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public open = signal(false);
   public selectedMenuLabel = signal<string | null>(null);
-
-  private router = inject(Router);
 
   // Always returns a non-empty array if nothing is provided
   public items = computed(() => {
