@@ -44,7 +44,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly title = inject(Title);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
-  private readonly _tabsSubject = new BehaviorSubject<any | null>(null);
+  private readonly _tabsSubject = new BehaviorSubject<CmsTabContract | null>(null);
   public readonly tabs$ = this._tabsSubject.asObservable();
 
   public activeId = model<string | undefined>(undefined);
@@ -63,7 +63,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
-      .map((t: any) => {
+      .map((t: Partial<CmsTabContract> & { components?: unknown[] }) => {
         const tabId = String(t?.tabId ?? '').trim();
         const name = String(t?.name ?? '').trim();
         const title = String(t?.title ?? '').trim();
@@ -79,7 +79,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       title: string;
       secondaryText?: string;
       pageId: string;
-      components: any[];
+      components: unknown[];
     }>;
 
     const overrides = this.tabsOverride();
@@ -182,7 +182,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
       qpTab = tabs[0]?.name;
       requestAnimationFrame(() => {
-        this.setActiveTabName(tabs[0]?.name);
+        this.setActiveTabName(tabs[0]?.name, 'replace');
       });
     }
     if (!tabs.length) return;
@@ -196,7 +196,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
     if (this.activeId() === tab.tabId) return;
     this.activeId.set(tab.tabId);
-    this.setActiveTabName(tab.name);
+    this.setActiveTabName(tab.name, 'push');
     this.setPageTitle(tab);
     if (stopPropagation) return;
     this._tabsSubject.next(tab);
@@ -206,10 +206,25 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     globalThis.dispatchEvent(customEvent);
   }
 
-  private setActiveTabName(tabName: string | undefined): void {
+  private setActiveTabName(tabName: string | undefined, historyMode: 'push' | 'replace' = 'replace'): void {
     const url = new URL(globalThis.location.href);
-    url.searchParams.set('activeTab', tabName ?? '');
-    globalThis.history.pushState({}, '', url.toString());
+    const params = new URLSearchParams(url.search);
+    params.set('activeTab', tabName ?? '');
+
+    const normalizedQuery = Array.from(params.entries())
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&');
+
+    const nextUrl = `${url.pathname}${normalizedQuery ? `?${normalizedQuery}` : ''}${url.hash}`;
+    const currentUrl = `${url.pathname}${url.search}${url.hash}`;
+
+    if (nextUrl !== currentUrl) {
+      if (historyMode === 'push') {
+        globalThis.history.pushState({}, '', nextUrl);
+      } else {
+        globalThis.history.replaceState({}, '', nextUrl);
+      }
+    }
   }
 
   private setPageTitle(tab: CmsTabContract | undefined): void {
