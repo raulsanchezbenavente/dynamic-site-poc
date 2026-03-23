@@ -236,6 +236,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     });
   }
 
+  public logRouterAndSiteConfig(): void {
+    console.log('[HEADER][MANUAL LOG] router.config', this.router.config);
+    console.log('[HEADER][MANUAL LOG] site config', this.siteConfig.siteSnapshot);
+  }
+
   public trackByLang(_: number, l: Lang): AppLang {
     return l.code;
   }

@@ -16,14 +16,20 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class SiteConfigService {
+  private static readonly SESSION_STORAGE_KEY = 'dynamic-site.site-config-by-language.v1';
   private readonly http = inject(HttpClient);
   private readonly _siteSubject = new BehaviorSubject<SiteConfigResponse | null>(null);
   public readonly site$ = this._siteSubject.asObservable();
   public configSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
   private readonly fullConfigSitesByLanguage: Partial<Record<AppLang, SitePage[]>> = {};
   private readonly visitedPathsByLanguage = new Map<AppLang, Set<string>>();
+  private hasHydratedFromSessionStorage = false;
+
+  constructor() {}
 
   public loadSite(langs: AppLang[] | string[]): Observable<SiteConfigResponse> {
+    this.hydrateFromSessionStorageOnce();
+
     const uniqueLangs = Array.from(new Set(langs)); // evita duplicados por si acaso
 
     // Rehydrate requested languages from full cache.
@@ -35,6 +41,7 @@ export class SiteConfigService {
         this.configSitesByLanguage[appLang] = [...fullPages];
       }
     });
+    this.persistConfigToSessionStorage();
 
     const missingLangs = uniqueLangs.filter((lang) => {
       const appLang = lang as AppLang;
@@ -42,11 +49,7 @@ export class SiteConfigService {
     });
 
     if (!missingLangs.length) {
-      return of(this.getMergedSiteConfig()).pipe(
-        tap((mergedSite) => {
-          this._siteSubject.next(mergedSite);
-        })
-      );
+      return of(this.getMergedSiteConfig()).pipe(tap((mergedSite) => this.publishMergedSiteConfig(mergedSite)));
     }
 
     const requests = missingLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
@@ -70,9 +73,7 @@ export class SiteConfigService {
         this.updateFullLanguageCache(loadedSitesByLanguage as Partial<Record<AppLang, SitePage[]>>);
       }),
       map(() => this.getMergedSiteConfig()),
-      tap((mergedSite) => {
-        this._siteSubject.next(mergedSite);
-      })
+      tap((mergedSite) => this.publishMergedSiteConfig(mergedSite))
     );
   }
 
@@ -198,12 +199,12 @@ export class SiteConfigService {
 
     if (!keptPages.length) {
       delete this.configSitesByLanguage[lang];
-      this._siteSubject.next(this.getMergedSiteConfig());
+      this.publishMergedSiteConfig(this.getMergedSiteConfig());
       return;
     }
 
     this.configSitesByLanguage[lang] = keptPages;
-    this._siteSubject.next(this.getMergedSiteConfig());
+    this.publishMergedSiteConfig(this.getMergedSiteConfig());
   }
 
   public removeLanguage(lang: AppLang): void {
@@ -212,7 +213,63 @@ export class SiteConfigService {
     }
 
     delete this.configSitesByLanguage[lang];
-    this._siteSubject.next(this.getMergedSiteConfig());
+    this.publishMergedSiteConfig(this.getMergedSiteConfig());
+  }
+
+  private publishMergedSiteConfig(mergedSite: SiteConfigResponse): void {
+    this._siteSubject.next(mergedSite);
+    this.persistConfigToSessionStorage();
+  }
+
+  private persistConfigToSessionStorage(): void {
+    if (typeof sessionStorage === 'undefined') {
+      return;
+    }
+
+    try {
+      sessionStorage.setItem(
+        SiteConfigService.SESSION_STORAGE_KEY,
+        JSON.stringify({ configSitesByLanguage: this.configSitesByLanguage })
+      );
+    } catch {
+      // Ignore storage quota and serialization failures.
+    }
+  }
+
+  private restoreConfigFromSessionStorage(): void {
+    if (typeof sessionStorage === 'undefined') {
+      return;
+    }
+
+    try {
+      const raw = sessionStorage.getItem(SiteConfigService.SESSION_STORAGE_KEY);
+      if (!raw) {
+        return;
+      }
+
+      const parsed = JSON.parse(raw) as {
+        configSitesByLanguage?: Partial<Record<AppLang, SitePage[]>>;
+      };
+
+      if (!parsed?.configSitesByLanguage || typeof parsed.configSitesByLanguage !== 'object') {
+        return;
+      }
+
+      this.configSitesByLanguage = parsed.configSitesByLanguage;
+      this.updateFullLanguageCache(this.configSitesByLanguage);
+      this._siteSubject.next(this.getMergedSiteConfig());
+    } catch {
+      // Ignore malformed persisted data.
+    }
+  }
+
+  private hydrateFromSessionStorageOnce(): void {
+    if (this.hasHydratedFromSessionStorage) {
+      return;
+    }
+
+    this.hasHydratedFromSessionStorage = true;
+    this.restoreConfigFromSessionStorage();
   }
 
   private updateFullLanguageCache(loadedSitesByLanguage: Partial<Record<AppLang, SitePage[]>>): void {

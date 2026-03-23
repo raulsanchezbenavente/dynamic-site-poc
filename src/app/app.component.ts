@@ -1,11 +1,11 @@
 import { Component, HostListener, inject, Type } from '@angular/core';
 import {
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router,
-  RouterOutlet,
+    NavigationCancel,
+    NavigationEnd,
+    NavigationError,
+    NavigationStart,
+    Router,
+    RouterOutlet,
 } from '@angular/router';
 import { LanguageSwitchService, SiteConfigService } from '@navigation';
 import { filter, take } from 'rxjs';
@@ -30,6 +30,8 @@ export class AppComponent {
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
 
   constructor() {
+    this.logDirectBrowserEntry();
+
     const bootStartedAt = Date.now();
 
     this.router.events
@@ -102,6 +104,20 @@ export class AppComponent {
         console.log('[SITE LOAD][INIT] site config', this.siteSvc.siteSnapshot);
       }
     });
+  }
+
+  private logDirectBrowserEntry(): void {
+    const navigationEntry = globalThis.performance
+      ?.getEntriesByType?.('navigation')
+      ?.at(0) as PerformanceNavigationTiming | undefined;
+    const navigationType = navigationEntry?.type;
+
+    if (navigationType === 'navigate' || navigationType === 'reload') {
+      console.log('[APP ENTRY][BROWSER]', {
+        type: navigationType,
+        url: `${globalThis.location.pathname}${globalThis.location.search}${globalThis.location.hash}`,
+      });
+    }
   }
 
   @HostListener('window:popstate')
