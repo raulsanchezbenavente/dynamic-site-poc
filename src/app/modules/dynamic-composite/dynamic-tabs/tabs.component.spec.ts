@@ -97,4 +97,17 @@ describe('DsTabsComponent', () => {
     expect(component.activeId()).toBe('tab-2');
     expect(globalThis.history.pushState).toHaveBeenCalled();
   });
+
+  it('should activate the tab from the URL on browser back', () => {
+    fixture.detectChanges();
+
+    component.select(tabsInput[1]);
+    expect(component.activeId()).toBe('tab-2');
+
+    globalThis.history.replaceState({}, '', '/context.html?activeTab=overview');
+    globalThis.dispatchEvent(new PopStateEvent('popstate'));
+    fixture.detectChanges();
+
+    expect(component.activeId()).toBe('tab-1');
+  });
 });

@@ -173,6 +173,12 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     queueMicrotask(() => this.updateIndicator());
   }
 
+  @HostListener('window:popstate')
+  public onPopState(): void {
+    const activeTab = new URLSearchParams(globalThis.location.search).get('activeTab') ?? undefined;
+    this.navigateToTab(activeTab);
+  }
+
   private navigateToTab(qpTab: string | undefined): void {
     const tabs = this.viewTabs();
     if (!qpTab) {
