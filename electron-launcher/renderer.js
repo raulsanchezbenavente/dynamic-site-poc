@@ -1022,7 +1022,7 @@ function updateInteractiveTerminalInputMode() {
     : TERMINAL_DEFAULT_PLACEHOLDER;
 
   if (interactiveTerminalRunButton && sessionId) {
-    interactiveTerminalRunButton.disabled = running && !awaitingPassword;
+    interactiveTerminalRunButton.disabled = false;
   }
 }
 
@@ -1171,7 +1171,7 @@ function updateConsoleSurface() {
   interactiveTerminalBar.hidden = false;
   interactiveTerminalBar.setAttribute('aria-hidden', 'false');
   interactiveTerminalInput.disabled = false;
-  interactiveTerminalRunButton.disabled = isTerminalSessionRunning(activeSession.id);
+  interactiveTerminalRunButton.disabled = false;
   updateInteractiveTerminalInputMode();
 
   setTerminalCwd(activeSession.id, activeSession.cwd);
@@ -2637,9 +2637,7 @@ interactiveTerminalForm.addEventListener('submit', (event) => {
   interactiveTerminalInput.value = '';
 
   if (isTerminalSessionRunning(sessionId)) {
-    if (isAwaitingTerminalPassword(sessionId)) {
-      void submitInteractiveTerminalInput(sessionId, command);
-    }
+    void submitInteractiveTerminalInput(sessionId, command);
     return;
   }
 
@@ -2647,15 +2645,6 @@ interactiveTerminalForm.addEventListener('submit', (event) => {
 });
 interactiveTerminalInput.addEventListener('keydown', (event) => {
   if (!isTerminalTab(activeLogTab) || !activeTerminalSessionId) {
-    return;
-  }
-
-  if (
-    (event.key === 'Enter' || event.key === 'NumpadEnter') &&
-    isTerminalSessionRunning(activeTerminalSessionId) &&
-    !isAwaitingTerminalPassword(activeTerminalSessionId)
-  ) {
-    event.preventDefault();
     return;
   }
 
