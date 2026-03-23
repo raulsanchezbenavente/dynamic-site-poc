@@ -19,11 +19,14 @@ describe('RouterHelperService', () => {
     },
   } as unknown as ActivatedRoute;
 
-  const routerMock = {
+  const routerMock: { config: Array<{ data: Record<string, string>; path: string }> } = {
     config: [{ data: { pageId: '42' }, path: 'en/test' }],
   };
 
   beforeEach(() => {
+    leafRoute.snapshot.data = { pageId: '42' };
+    routerMock.config = [{ data: { pageId: '42' }, path: 'en/test' }];
+
     TestBed.configureTestingModule({
       providers: [
         { provide: ActivatedRoute, useValue: rootRoute },
@@ -43,14 +46,11 @@ describe('RouterHelperService', () => {
   });
 
   it('should fallback to router config path when deepest route has no pageId and url is percent-encoded', () => {
-    const originalData = leafRoute.snapshot.data;
     leafRoute.snapshot.data = {};
     routerMock.config = [{ data: { pageId: '99', path: 'fr/résultats' }, path: 'fr/résultats' }];
     globalThis.history.replaceState({}, '', '/fr/r%C3%A9sultats');
 
     expect(service.getCurrentPageId()).toBe('99');
-
-    leafRoute.snapshot.data = originalData;
   });
 
   it('should find route by page id', () => {
