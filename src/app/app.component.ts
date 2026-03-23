@@ -1,5 +1,12 @@
-import { Component, inject, Type } from '@angular/core';
-import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterOutlet } from '@angular/router';
+import { Component, HostListener, inject, Type } from '@angular/core';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { APP_LANGS, AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateService } from '@ngx-translate/core';
 import { filter, take } from 'rxjs';
@@ -57,14 +64,7 @@ export class AppComponent {
           return;
         }
 
-        const langFromUrl = this.getLangFromPath(event.urlAfterRedirects);
-        if (this.routerHelper.language !== langFromUrl) {
-          this.routerHelper.changeLanguage(langFromUrl);
-        }
-
-        if (this.translate.currentLang !== langFromUrl) {
-          this.translate.use(langFromUrl);
-        }
+        this.syncLanguageFromPath(event.urlAfterRedirects);
 
         this.shouldSyncLangFromUrl = false;
       });
@@ -100,6 +100,31 @@ export class AppComponent {
         console.log('[SITE LOAD][INIT] site config', this.siteSvc.siteSnapshot);
       }
     });
+  }
+
+  @HostListener('window:popstate')
+  public onPopState(): void {
+    this.syncLanguageFromPath(`${globalThis.location.pathname}${globalThis.location.search}`);
+  }
+
+  private syncLanguageFromPath(path: string): void {
+    const langFromUrl = this.getLangFromPath(path);
+    if (this.routerHelper.language === langFromUrl && this.translate.currentLang === langFromUrl) {
+      return;
+    }
+
+    this.siteSvc
+      .loadSite([langFromUrl])
+      .pipe(take(1))
+      .subscribe(() => {
+        if (this.routerHelper.language !== langFromUrl) {
+          this.routerHelper.changeLanguage(langFromUrl);
+        }
+
+        if (this.translate.currentLang !== langFromUrl) {
+          this.translate.use(langFromUrl);
+        }
+      });
   }
 
   private getLangFromPath(path: string): AppLang {
