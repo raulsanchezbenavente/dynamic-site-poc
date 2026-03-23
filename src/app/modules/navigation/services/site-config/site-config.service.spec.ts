@@ -87,4 +87,16 @@ describe('SiteConfigService', () => {
 
     expect(tabs.map((t) => t.name)).toEqual(['overview', 'details']);
   });
+
+  it('should remove a language from config sites', () => {
+    service.configSitesByLanguage = {
+      en: [{ pageId: '1', path: '/en/home' }],
+      es: [{ pageId: '1', path: '/es/home' }],
+    };
+
+    service.removeLanguage('en');
+
+    expect(service.getPagesByLang('en')).toEqual([]);
+    expect(service.getPagesByLang('es').length).toBe(1);
+  });
 });

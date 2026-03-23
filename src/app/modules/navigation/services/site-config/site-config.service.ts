@@ -156,4 +156,13 @@ export class SiteConfigService {
 
     return Array.from(tabMap.values());
   }
+
+  public removeLanguage(lang: AppLang): void {
+    if (!this.configSitesByLanguage[lang]) {
+      return;
+    }
+
+    delete this.configSitesByLanguage[lang];
+    this._siteSubject.next(this.getMergedSiteConfig());
+  }
 }

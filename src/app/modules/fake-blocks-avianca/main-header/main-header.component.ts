@@ -218,12 +218,12 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public setLang(lang: AppLang): void {
     this.langOpen.set(false);
+    const currentLang = this.activeLang();
+
     this.siteConfig
       .loadSite([lang])
       .pipe(take(1))
       .subscribe(() => {
-        const currentLang = this.activeLang();
-
         const pageId: string | undefined = this.routerHelper.getCurrentPageId();
         if (pageId) {
           const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
@@ -235,6 +235,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
               this.activeLang.set(lang);
               this.translate.use(lang);
               this.routerHelper.changeLanguage(lang);
+              if (currentLang !== lang) {
+                this.siteConfig.removeLanguage(currentLang);
+              }
               console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
               console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
             });
@@ -246,6 +249,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
         this.activeLang.set(lang);
         this.translate.use(lang);
         this.routerHelper.changeLanguage(lang);
+        if (currentLang !== lang) {
+          this.siteConfig.removeLanguage(currentLang);
+        }
         console.log('[SITE LOAD][LANG CHANGE END] router.config', this.router.config);
         console.log('[SITE LOAD][LANG CHANGE END] site config', this.siteConfig.siteSnapshot);
       });
