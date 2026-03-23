@@ -30,6 +30,8 @@ describe('DsTabsComponent', () => {
   const routerHelperMock = {
     languageChange$: languageChange$.asObservable(),
     activeTab$: activeTab$.asObservable(),
+    syncActiveTabUrl: jasmine.createSpy('syncActiveTabUrl'),
+    setCurrentTabId: jasmine.createSpy('setCurrentTabId'),
   };
 
   const siteConfigMock = {
@@ -92,15 +94,13 @@ describe('DsTabsComponent', () => {
   });
 
   it('should activate selected tab on click', () => {
-    spyOn(globalThis.history, 'pushState');
-
     fixture.detectChanges();
     const buttons = fixture.nativeElement.querySelectorAll('.tab');
     (buttons[1] as HTMLButtonElement).click();
     fixture.detectChanges();
 
     expect(component.activeId()).toBe('tab-2');
-    expect(globalThis.history.pushState).toHaveBeenCalled();
+    expect(routerHelperMock.syncActiveTabUrl).toHaveBeenCalledWith('details', 'push');
   });
 
   it('should activate the tab from the URL on browser back', () => {
@@ -149,8 +149,6 @@ describe('DsTabsComponent', () => {
   });
 
   it('should replace the activeTab query param with the translated active tab on language change', () => {
-    spyOn(globalThis.history, 'replaceState');
-
     fixture.componentRef.setInput('tabsId', 'members-tabs');
     tabSummaries = [
       { name: 'Datos personales', tabId: 'tab-1' },
@@ -165,6 +163,16 @@ describe('DsTabsComponent', () => {
     fixture.detectChanges();
 
     expect(component.activeId()).toBe('tab-2');
-    expect(globalThis.history.replaceState).toHaveBeenCalledWith({}, '', '/context.html?activeTab=Mis%20viajes');
+    expect(routerHelperMock.syncActiveTabUrl).toHaveBeenCalledWith('Mis viajes', 'replace');
+  });
+
+  it('should use the same push-history flow when a tab is activated externally', () => {
+    fixture.detectChanges();
+
+    activeTab$.next('tab-2');
+    fixture.detectChanges();
+
+    expect(component.activeId()).toBe('tab-2');
+    expect(routerHelperMock.syncActiveTabUrl).toHaveBeenCalledWith('details', 'push');
   });
 });

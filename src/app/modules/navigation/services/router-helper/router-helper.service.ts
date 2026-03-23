@@ -8,8 +8,8 @@ import { AppLang } from '../site-config/models/langs.model';
   providedIn: 'root',
 })
 export class RouterHelperService {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private tabsId: Record<string, string> = {};
   private readonly languageChangeSubject = new Subject<AppLang>();
   public readonly languageChange$ = this.languageChangeSubject.asObservable();
@@ -27,7 +27,7 @@ export class RouterHelperService {
   }
 
   constructor() {
-    const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
+    const segment = globalThis.location.pathname.split('/').find(Boolean);
     const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
   }
@@ -60,6 +60,31 @@ export class RouterHelperService {
   public changeLanguage(lang: AppLang): void {
     this._language = lang;
     this.languageChangeSubject.next(lang);
+  }
+
+  public syncActiveTabUrl(tabName: string | undefined, historyMode: 'push' | 'replace' = 'replace'): void {
+    const url = new URL(globalThis.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set('activeTab', tabName ?? '');
+
+    const normalizedQuery = Array.from(params.entries())
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&');
+
+    const query = normalizedQuery ? `?${normalizedQuery}` : '';
+    const nextUrl = `${url.pathname}${query}${url.hash}`;
+    const currentUrl = `${url.pathname}${url.search}${url.hash}`;
+
+    if (nextUrl === currentUrl) {
+      return;
+    }
+
+    if (historyMode === 'push') {
+      globalThis.history.pushState({}, '', nextUrl);
+      return;
+    }
+
+    globalThis.history.replaceState({}, '', nextUrl);
   }
 
   public changeActiveTab(tabId: string): void {

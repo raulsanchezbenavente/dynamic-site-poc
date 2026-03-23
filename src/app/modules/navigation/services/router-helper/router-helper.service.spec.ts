@@ -70,4 +70,26 @@ describe('RouterHelperService', () => {
 
     service.changeLanguage('es');
   });
+
+  it('should push a new history entry when syncing the active tab with push mode', () => {
+    globalThis.history.replaceState({}, '', '/en/test?foo=bar');
+    spyOn(globalThis.history, 'pushState');
+    spyOn(globalThis.history, 'replaceState');
+
+    service.syncActiveTabUrl('details', 'push');
+
+    expect(globalThis.history.pushState).toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+    expect(globalThis.history.replaceState).not.toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+  });
+
+  it('should replace the current history entry when syncing the active tab with replace mode', () => {
+    globalThis.history.replaceState({}, '', '/en/test?foo=bar');
+    spyOn(globalThis.history, 'pushState');
+    spyOn(globalThis.history, 'replaceState');
+
+    service.syncActiveTabUrl('details');
+
+    expect(globalThis.history.replaceState).toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+    expect(globalThis.history.pushState).not.toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+  });
 });
