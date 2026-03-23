@@ -7,8 +7,7 @@ import {
   Router,
   RouterOutlet,
 } from '@angular/router';
-import { APP_LANGS, AppLang, RouterHelperService, SiteConfigService } from '@navigation';
-import { TranslateService } from '@ngx-translate/core';
+import { LanguageSwitchService, SiteConfigService } from '@navigation';
 import { filter, take } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -25,8 +24,7 @@ import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 export class AppComponent {
   private router = inject(Router);
   private siteSvc = inject(SiteConfigService);
-  private routerHelper = inject(RouterHelperService);
-  private translate = inject(TranslateService);
+  private languageSwitch = inject(LanguageSwitchService);
   private hasLoggedInitialSiteLoad = false;
   private shouldSyncLangFromUrl = false;
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
@@ -60,7 +58,7 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event): event is NavigationEnd => event instanceof NavigationEnd))
       .subscribe((event) => {
-        const langFromUrl = this.getLangFromPath(event.urlAfterRedirects);
+        const langFromUrl = this.languageSwitch.getLangFromPath(event.urlAfterRedirects);
         const visitedPath = event.urlAfterRedirects.split('?')[0].split('#')[0] ?? '';
         this.siteSvc.markRouteAsVisited(langFromUrl, visitedPath);
 
@@ -68,7 +66,7 @@ export class AppComponent {
           return;
         }
 
-        this.syncLanguageFromPath(event.urlAfterRedirects);
+        this.languageSwitch.syncLanguageFromPath(event.urlAfterRedirects);
 
         this.shouldSyncLangFromUrl = false;
       });
@@ -108,31 +106,6 @@ export class AppComponent {
 
   @HostListener('window:popstate')
   public onPopState(): void {
-    this.syncLanguageFromPath(`${globalThis.location.pathname}${globalThis.location.search}`);
-  }
-
-  private syncLanguageFromPath(path: string): void {
-    const langFromUrl = this.getLangFromPath(path);
-    if (this.routerHelper.language === langFromUrl && this.translate.currentLang === langFromUrl) {
-      return;
-    }
-
-    this.siteSvc
-      .loadSite([langFromUrl])
-      .pipe(take(1))
-      .subscribe(() => {
-        if (this.routerHelper.language !== langFromUrl) {
-          this.routerHelper.changeLanguage(langFromUrl);
-        }
-
-        if (this.translate.currentLang !== langFromUrl) {
-          this.translate.use(langFromUrl);
-        }
-      });
-  }
-
-  private getLangFromPath(path: string): AppLang {
-    const segment = path.split('?')[0].split('/').filter(Boolean)[0];
-    return APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
+    this.languageSwitch.syncLanguageFromPath(`${globalThis.location.pathname}${globalThis.location.search}`);
   }
 }

@@ -6,7 +6,7 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 
 import { PageNavigationService } from '../page-navigation/page-navigation.service';
 import { RouterHelperService } from '../router-helper/router-helper.service';
-import { AppLang } from '../site-config/models/langs.model';
+import { APP_LANGS, AppLang } from '../site-config/models/langs.model';
 import { SiteConfigService } from '../site-config/site-config.service';
 
 /**
@@ -26,6 +26,31 @@ export class LanguageSwitchService {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly router = inject(Router);
   private readonly translate = inject(TranslateService);
+
+  public syncLanguageFromPath(path: string): void {
+    const langFromUrl = this.getLangFromPath(path);
+    if (this.routerHelper.language === langFromUrl && this.translate.currentLang === langFromUrl) {
+      return;
+    }
+
+    this.siteConfig
+      .loadSite([langFromUrl])
+      .pipe(take(1))
+      .subscribe(() => {
+        if (this.routerHelper.language !== langFromUrl) {
+          this.routerHelper.changeLanguage(langFromUrl);
+        }
+
+        if (this.translate.currentLang !== langFromUrl) {
+          this.translate.use(langFromUrl);
+        }
+      });
+  }
+
+  public getLangFromPath(path: string): AppLang {
+    const segment = path.split('?')[0].split('/').filter(Boolean)[0];
+    return APP_LANGS.includes(segment as AppLang) ? (segment as AppLang) : 'en';
+  }
 
   /**
    * Switches to a new language with intelligent routing and route cleanup

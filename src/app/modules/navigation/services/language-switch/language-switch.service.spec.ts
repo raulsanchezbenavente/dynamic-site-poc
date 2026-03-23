@@ -28,7 +28,9 @@ describe('LanguageSwitchService', () => {
       language: 'en' as AppLang,
     });
     const routerSpy = jasmine.createSpyObj('Router', ['navigateByUrl']);
-    const translateSpy = jasmine.createSpyObj('TranslateService', ['use']);
+    const translateSpy = jasmine.createSpyObj('TranslateService', ['use'], {
+      currentLang: 'en' as AppLang,
+    });
 
     TestBed.configureTestingModule({
       providers: [
@@ -56,6 +58,30 @@ describe('LanguageSwitchService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  it('should extract language from path', () => {
+    expect(service.getLangFromPath('/es/home?foo=bar')).toBe('es');
+    expect(service.getLangFromPath('/unknown/path')).toBe('en');
+  });
+
+  it('should sync language from path when language differs', () => {
+    service.syncLanguageFromPath('/es/home');
+
+    expect(siteConfigService.loadSite).toHaveBeenCalledWith(['es']);
+    expect(routerHelperService.changeLanguage).toHaveBeenCalledWith('es');
+    expect(translateService.use).toHaveBeenCalledWith('es');
+  });
+
+  it('should not sync language from path when language already matches', () => {
+    Object.defineProperty(routerHelperService, 'language', { value: 'en' as AppLang });
+    Object.defineProperty(translateService, 'currentLang', { value: 'en' as AppLang });
+
+    service.syncLanguageFromPath('/en/home');
+
+    expect(siteConfigService.loadSite).not.toHaveBeenCalled();
+    expect(routerHelperService.changeLanguage).not.toHaveBeenCalled();
+    expect(translateService.use).not.toHaveBeenCalled();
   });
 
   it('should load site with target language', (done) => {
