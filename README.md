@@ -10,6 +10,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON site config
 - 🧭 Router initialization centralized in `RouterInitService`
+- 🧩 Strict tab contract based on `layout.rows[].cols[]` with span support inside tabs
 - ⚡ Route-level lazy loading (`loadComponent`) for dynamic pages
 - ⚡ Block-level lazy loading with dynamic `import()` per CMS component
 - 🚦 Route asset preloading guard to reduce navigation flicker
@@ -81,6 +82,7 @@ src/
 │       │   │   ├── progress.guard.ts
 │       │   │   └── progress-async.guard.ts
 │       │   └── services/
+│       │       ├── auth/
 │       │       ├── booking-progress/
 │       │       ├── page-navigation/
 │       │       ├── router-helper/
@@ -429,12 +431,50 @@ The double-click installers at the repo root handle everything:
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-2. `RouterInitService` (invoked by `AppComponent`) builds routes from config and uses route-level lazy loading (`loadComponent`).
-3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
-4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
-5. Booking progress is tracked locally and validated against the API on port 3000.
-6. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
-7. Some blocks also fetch runtime payloads outside the main site config. Example: `loyaltyOverviewCard_uiplus` resolves its block config by `pageId` + language, fetches `/assets/config/loyalty/{lang}`, and publishes the resulting tone through `LoyaltyToneService` so the main header stays visually aligned.
+2. Tabs now use the same layout contract as pages: each tab declares `layout.rows[].cols[]`, so nested tab content supports the same `span` behavior as normal page composition.
+3. `RouterInitService` (invoked by `AppComponent`) builds routes from config and uses route-level lazy loading (`loadComponent`).
+4. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
+5. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
+6. `DsTabsComponent` renders tab layouts with the same row/column grid as page layouts, including per-column spans.
+7. Booking progress is tracked locally and validated against the API on port 3000.
+8. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
+9. Some blocks also fetch runtime payloads outside the main site config. Example: `loyaltyOverviewCard_uiplus` resolves its block config by `pageId` + language, fetches `/assets/config/loyalty/{lang}`, and publishes the resulting tone through `LoyaltyToneService` so the main header stays visually aligned.
+
+---
+
+## 🧩 Tabs Contract
+
+- Tab content is defined strictly with `layout.rows[].cols[]`.
+- The previous `tab.components` shape is no longer supported.
+- Each tab column supports the same `span` semantics as page layout columns.
+
+Example:
+
+```json
+{
+  "component": "tabs",
+  "span": 12,
+  "tabs": [
+    {
+      "tabId": "22",
+      "name": "Personal data",
+      "title": "Personal data",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "accountProfile_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
+```
 
 ---
 
