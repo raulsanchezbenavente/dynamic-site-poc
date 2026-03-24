@@ -1,5 +1,7 @@
 const crypto = require('crypto');
+const fs = require('fs');
 const http = require('http');
+const path = require('path');
 const { URL, URLSearchParams } = require('url');
 
 const port = Number(process.env.SSO_BYPASS_PORT || 4500);
@@ -8,11 +10,14 @@ const authBasePath = '/auth';
 const defaultRealm = process.env.SSO_BYPASS_REALM || 'lm-uat';
 const sessionCookieName = 'SSO_BYPASS_SESSION';
 const sessionTtlMs = Number(process.env.SSO_BYPASS_SESSION_TTL_MS || 8 * 60 * 60 * 1000);
+const loginTemplatePath = path.join(__dirname, 'templates', 'sso-login.html');
+const useTemplateCache = String(process.env.SSO_BYPASS_TEMPLATE_CACHE || 'false').toLowerCase() === 'true';
 
 const authorizationCodes = new Map();
 const refreshTokens = new Map();
 const sessions = new Map();
 const clientSessions = new Map();
+let cachedLoginTemplate = null;
 
 const sendJson = (res, status, payload) => {
   const body = JSON.stringify(payload);
@@ -213,92 +218,40 @@ const createOidcMetadata = (realm) => {
   };
 };
 
+const escapeHtmlAttr = (value) =>
+  String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+const loadLoginTemplate = () => {
+  if (useTemplateCache && cachedLoginTemplate) {
+    return cachedLoginTemplate;
+  }
+
+  const template = fs.readFileSync(loginTemplatePath, 'utf8');
+  if (useTemplateCache) {
+    cachedLoginTemplate = template;
+  }
+  return template;
+};
+
 const buildLoginPage = (params) => {
   const hiddenFields = Object.entries(params)
     .filter(([, value]) => value !== undefined)
     .map(
       ([key, value]) =>
-        `<input type="hidden" name="${String(key)}" value="${String(value).replace(/"/g, '&quot;')}">`
+        `<input type="hidden" name="${escapeHtmlAttr(key)}" value="${escapeHtmlAttr(value)}">`
     )
     .join('\n');
 
-  return `<!doctype html>
-<html lang="es">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SSO Bypass Login</title>
-    <style>
-      :root {
-        color-scheme: light;
-      }
-      body {
-        margin: 0;
-        min-height: 100dvh;
-        display: grid;
-        place-items: center;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        background: linear-gradient(145deg, #f5f1e8, #dfe7ed);
-      }
-      .card {
-        width: min(420px, 92vw);
-        padding: 24px;
-        border-radius: 16px;
-        background: #fff;
-        box-shadow: 0 12px 40px rgba(22, 28, 45, 0.15);
-      }
-      h1 {
-        margin: 0 0 8px;
-        font-size: 22px;
-      }
-      p {
-        margin: 0 0 18px;
-        color: #3d4957;
-      }
-      label {
-        display: block;
-        margin: 12px 0 6px;
-        font-weight: 600;
-      }
-      input {
-        box-sizing: border-box;
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid #c8d3df;
-        border-radius: 8px;
-      }
-      button {
-        margin-top: 16px;
-        width: 100%;
-        border: 0;
-        border-radius: 10px;
-        padding: 12px;
-        font-weight: 700;
-        color: #fff;
-        background: #0f355e;
-        cursor: pointer;
-      }
-      .hint {
-        margin-top: 12px;
-        font-size: 12px;
-        color: #55606f;
-      }
-    </style>
-  </head>
-  <body>
-    <form class="card" method="post" action="${authBasePath}/dev-login">
-      <h1>SSO Bypass</h1>
-      <p>Entorno local: se acepta cualquier credencial.</p>
-      ${hiddenFields}
-      <label for="username">Usuario</label>
-      <input id="username" name="username" type="text" value="developer" autocomplete="username">
-      <label for="password">Password</label>
-      <input id="password" name="password" type="password" value="dev" autocomplete="current-password">
-      <button type="submit">Entrar</button>
-      <div class="hint">Tras login se redirige automáticamente al redirect_uri recibido.</div>
-    </form>
-  </body>
-</html>`;
+  return loadLoginTemplate()
+    .replace('__AUTH_ACTION__', `${authBasePath}/dev-login`)
+    .replace('{{AUTH_ACTION}}', `${authBasePath}/dev-login`)
+    .replace('__HIDDEN_FIELDS__', hiddenFields)
+    .replace('{{HIDDEN_FIELDS}}', hiddenFields);
 };
 
 const appendQueryToUri = (uri, params) => {

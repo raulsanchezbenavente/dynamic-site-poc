@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FakeMiles Access</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --lm-navy: #072b5a;
+        --lm-navy-deep: #041832;
+        --lm-cyan: #20c9f3;
+        --lm-red: #d9303e;
+        --lm-text: #1d2a39;
+        --lm-muted: #5b6b7f;
+        --lm-border: #cfdae7;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        font-family: 'Montserrat', 'Segoe UI', sans-serif;
+        background:
+          radial-gradient(circle at 10% 10%, rgba(32, 201, 243, 0.22), transparent 44%),
+          radial-gradient(circle at 86% 84%, rgba(217, 48, 62, 0.2), transparent 40%),
+          linear-gradient(160deg, var(--lm-navy) 0%, var(--lm-navy-deep) 100%);
+        padding: 22px;
+      }
+      .card {
+        width: min(440px, 92vw);
+        padding: 30px 28px 24px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.34);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 250, 255, 0.96));
+        box-shadow: 0 22px 48px rgba(2, 10, 24, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+      }
+      .brand {
+        display: inline-block;
+        align-items: baseline;
+        margin-bottom: 10px;
+        font-size: 38px;
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.01em;
+        color: var(--lm-navy);
+      }
+      .brand em {
+        font-style: normal;
+        color: var(--lm-red);
+      }
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        line-height: 1.2;
+        color: var(--lm-text);
+      }
+      p {
+        margin: 8px 0 20px;
+        color: var(--lm-muted);
+        font-size: 14px;
+      }
+      label {
+        display: block;
+        margin: 14px 0 7px;
+        color: #213247;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.01em;
+      }
+      input {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid var(--lm-border);
+        border-radius: 10px;
+        outline: 0;
+        transition: border-color 120ms ease, box-shadow 120ms ease;
+      }
+      input:focus {
+        border-color: var(--lm-cyan);
+        box-shadow: 0 0 0 3px rgba(32, 201, 243, 0.2);
+      }
+      button {
+        margin-top: 18px;
+        width: 100%;
+        border: 0;
+        border-radius: 999px;
+        padding: 12px 16px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 0.01em;
+        color: #fff;
+        background: linear-gradient(135deg, var(--lm-red), #c82635);
+        cursor: pointer;
+        box-shadow: 0 9px 18px rgba(217, 48, 62, 0.34);
+      }
+      button:hover {
+        filter: brightness(1.03);
+      }
+      .hint {
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px dashed #d7e1eb;
+        font-size: 12px;
+        color: #5f7084;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/auth/dev-login" class="card" method="post">
+      <div class="brand">Fake<em>Miles</em></div>
+      <h1>Sign in to your account</h1>
+      <p>SSO local dev. Any username and password are accepted in this local bypass mode.</p>
+
+      {{HIDDEN_FIELDS}}
+
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" value="developer" autocomplete="username" />
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" value="dev" autocomplete="current-password" />
+      <button type="submit">Sign In</button>
+      <div class="hint">After sign-in, you will be redirected automatically to the provided redirect_uri.</div>
+    </form>
+  </body>
+</html>
