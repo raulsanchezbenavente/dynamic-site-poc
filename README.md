@@ -320,7 +320,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
 - 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
-- 🎨 **ANSI Color Parsing Across Platforms**: Terminal output preserves ANSI color sequences on Windows so colorized output behaves closer to macOS/Linux
+- 🎨 **ANSI Color Parsing Across Platforms**: Script/session logs render ANSI SGR colors and styles from the real process output (including standard, 256-color, and RGB sequences) instead of hardcoded keyword rules
 - ⚡ **Windows Startup Optimizations**: Terminal capability detection is cached to reduce command startup overhead
 - 🧷 **Session Quick Actions**: Toolbar button to close the active terminal session (same behavior as the tab close `x`)
 - ➕ **Updated Session Icons**: New Session uses a larger `+`, and Close Session uses a larger plain `x` icon (without box outline) for better legibility
@@ -354,6 +354,18 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Closing a session tab stops active child processes for that session.
 - Closing the launcher app also stops active terminal session child processes before exit.
 - Press the **Expand** button (right of the theme selector) to make the terminal panel fill the app. Press it again to return to the split layout. The expanded/collapsed state is saved and restored automatically on next launch.
+
+### ANSI Colors in Script Logs
+
+- Launcher script logs are rendered from the ANSI escape sequences emitted by each process (`stdout`/`stderr`).
+- The launcher forces color-capable environment variables for spawned scripts (for example `FORCE_COLOR`, `CLICOLOR_FORCE`, and npm color settings) so tools do not disable colors just because output is piped.
+- If a line contains ANSI sequences, ANSI styling is prioritized during render. This avoids losing colors in messages that also include URLs.
+- When a tool emits plain text without ANSI, launcher shows default stream colors (`stdout`/`stderr`) by theme.
+
+Troubleshooting:
+
+- If a specific script still shows no ANSI colors, that script/tool is likely disabling colors internally; run that command with its own color flag (for example `--color=always`) or set equivalent tool-specific env vars.
+- Restart the launcher after changing script/env color settings so new child processes inherit the updated environment.
 
 ### Launcher Shortcuts
 
