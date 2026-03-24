@@ -4,74 +4,78 @@
   role="navigation"
   aria-label="Locale bar">
   <div class="lm-topbar-inner">
-    <div class="lm-lang">
+    <div class="lm-topbar-left">
       <button
         type="button"
-        class="lm-lang-trigger"
-        aria-haspopup="menu"
-        [class.is-open]="langOpen()"
-        [attr.aria-expanded]="langOpen()"
-        (click)="toggleLangMenu($event)">
-        <span
-          class="lm-lang-ico"
-          aria-hidden="true"
-          >🌐</span
-        >
-        <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
-      </button>
-      @if (langOpen()) {
-        <div
-          class="lm-lang-menu"
-          role="menu"
-          aria-label="Language menu"
-          (click)="$event.stopPropagation()">
-          @for (lang of langs; track trackByLang($index, lang)) {
-            <button
-              type="button"
-              class="lm-lang-item"
-              role="menuitem"
-              [class.is-active]="activeLang() === lang.code"
-              (click)="setLang(lang.code)">
-              {{ lang.label | translate }}
-            </button>
-          }
-        </div>
-      }
-    </div>
-
-    <span
-      class="lm-topbar-sep"
-      aria-hidden="true"
-      >|</span
-    >
-
-    <div class="lm-market">
-      <button
-        type="button"
-        class="lm-market-trigger"
-        aria-haspopup="menu"
-        [class.is-open]="marketOpen()"
-        [attr.aria-expanded]="marketOpen()"
-        (click)="toggleMarketMenu($event)">
-        <span
-          class="lm-market-flag"
-          aria-hidden="true">
-          <img
-            class="lm-market-flag-img"
-            alt=""
-            [src]="selectedMarketFlagUrl()" />
-        </span>
-        <span class="lm-market-label">{{ selectedMarketLabel() }}</span>
-        <span class="lm-market-currency">{{ selectedCurrency() }}</span>
+        class="lm-debug-trigger"
+        (click)="logRouterAndSiteConfig()">
+        Log Router/Site
       </button>
     </div>
 
-    <button
-      type="button"
-      class="lm-lang-trigger"
-      (click)="logRouterAndSiteConfig()">
-      Log Router/Site
-    </button>
+    <div class="lm-topbar-right">
+      <div class="lm-lang">
+        <button
+          type="button"
+          class="lm-lang-trigger"
+          aria-haspopup="menu"
+          [class.is-open]="langOpen()"
+          [attr.aria-expanded]="langOpen()"
+          (click)="toggleLangMenu($event)">
+          <span
+            class="lm-lang-ico"
+            aria-hidden="true"
+            >🌐</span
+          >
+          <span class="lm-lang-label">{{ activeLangLabelKey() | translate }}</span>
+        </button>
+        @if (langOpen()) {
+          <div
+            class="lm-lang-menu"
+            role="menu"
+            aria-label="Language menu"
+            (click)="$event.stopPropagation()">
+            @for (lang of langs; track trackByLang($index, lang)) {
+              <button
+                type="button"
+                class="lm-lang-item"
+                role="menuitem"
+                [class.is-active]="activeLang() === lang.code"
+                (click)="setLang(lang.code)">
+                {{ lang.label | translate }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <span
+        class="lm-topbar-sep"
+        aria-hidden="true"
+        >|</span
+      >
+
+      <div class="lm-market">
+        <button
+          type="button"
+          class="lm-market-trigger"
+          aria-haspopup="menu"
+          [class.is-open]="marketOpen()"
+          [attr.aria-expanded]="marketOpen()"
+          (click)="toggleMarketMenu($event)">
+          <span
+            class="lm-market-flag"
+            aria-hidden="true">
+            <img
+              class="lm-market-flag-img"
+              alt=""
+              [src]="selectedMarketFlagUrl()" />
+          </span>
+          <span class="lm-market-label">{{ selectedMarketLabel() }}</span>
+          <span class="lm-market-currency">{{ selectedCurrency() }}</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 
