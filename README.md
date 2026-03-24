@@ -392,7 +392,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 
 - Launcher script logs are rendered from the ANSI escape sequences emitted by each process (`stdout`/`stderr`).
 - The launcher forces color-capable environment variables for spawned scripts (for example `FORCE_COLOR`, `CLICOLOR_FORCE`, and npm color settings) so tools do not disable colors just because output is piped.
-- If a line contains ANSI sequences, ANSI styling is prioritized during render. This avoids losing colors in messages that also include URLs.
+- ANSI styling remains active for colored lines, including lines that contain URLs.
+- URL tokens are normalized when ANSI SGR codes are injected inside the URL itself, so links like `http://localhost:4200/` stay clickable as a single link (host + port).
 - When a tool emits plain text without ANSI, launcher shows default stream colors (`stdout`/`stderr`) by theme.
 
 Troubleshooting:
