@@ -9,6 +9,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - ✨ Dynamic architecture driven by configuration (`assets/config-site`)
 - 📄 Page composition via reusable blocks
 - 📍 Dynamic routing based on JSON site config
+- 🧭 Router initialization centralized in `RouterInitService`
 - ⚡ Route-level lazy loading (`loadComponent`) for dynamic pages
 - ⚡ Block-level lazy loading with dynamic `import()` per CMS component
 - 🚦 Route asset preloading guard to reduce navigation flicker
@@ -66,9 +67,9 @@ src/
 │   ├── app.config.ts
 │   ├── app.routes.ts
 │   ├── component-map.ts       # Maps block names to lazy component loaders
+│   ├── router-init/
+│   │   └── router-init.service.ts # Centralized router initialization orchestration
 │   ├── guards/
-│   │   ├── progress.guard.ts
-│   │   ├── progress-async.guard.ts
 │   │   └── route-assets-preload.guard.ts
 │   └── modules/               # All feature and shared modules
 │       ├── dynamic-composite/ # (@dynamic-composite) Dynamic page/block/tabs infrastructure
@@ -76,6 +77,9 @@ src/
 │       │   ├── dynamic-page/
 │       │   └── dynamic-tabs/
 │       ├── navigation/        # (@navigation) All app services + barrel index
+│       │   ├── guards/
+│       │   │   ├── progress.guard.ts
+│       │   │   └── progress-async.guard.ts
 │       │   └── services/
 │       │       ├── booking-progress/
 │       │       ├── page-navigation/
@@ -425,7 +429,7 @@ The double-click installers at the repo root handle everything:
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-2. `AppComponent` builds routes from config and uses route-level lazy loading (`loadComponent`).
+2. `RouterInitService` (invoked by `AppComponent`) builds routes from config and uses route-level lazy loading (`loadComponent`).
 3. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
 4. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
 5. Booking progress is tracked locally and validated against the API on port 3000.
@@ -493,7 +497,7 @@ This is expected optimization behavior:
 
 - The first paint loader is rendered directly in `src/index.html` (outside Angular) for immediate display.
 - Loader image is served locally from `src/assets/loader/plane-loader.gif`.
-- `AppComponent` removes `#boot-loader` after the first navigation event is completed.
+- `RouterInitService` removes `#boot-loader` after the first navigation event is completed.
 - The minimum display time is environment-based:
   - `development`: `0ms` (`src/environments/environment.ts`)
   - `production`: `1000ms` (`src/environments/environment.prod.ts`)
