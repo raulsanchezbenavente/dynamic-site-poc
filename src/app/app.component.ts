@@ -1,18 +1,17 @@
 import { Component, HostListener, inject, Type } from '@angular/core';
 import {
-    NavigationCancel,
-    NavigationEnd,
-    NavigationError,
-    NavigationStart,
-    Router,
-    RouterOutlet,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+  RouterOutlet,
 } from '@angular/router';
-import { LanguageSwitchService, SiteConfigService } from '@navigation';
+import { LanguageSwitchService, ProgressAsynGuard, SiteConfigService } from '@navigation';
 import { filter, take } from 'rxjs';
 
 import { environment } from '../environments/environment';
 
-import { ProgressAsynGuard } from './guards/progress-async.guard';
 import { RouteAssetsPreloadGuard } from './guards/route-assets-preload.guard';
 
 @Component({
@@ -107,9 +106,9 @@ export class AppComponent {
   }
 
   private logDirectBrowserEntry(): void {
-    const navigationEntry = globalThis.performance
-      ?.getEntriesByType?.('navigation')
-      ?.at(0) as PerformanceNavigationTiming | undefined;
+    const navigationEntry = globalThis.performance?.getEntriesByType?.('navigation')?.at(0) as
+      | PerformanceNavigationTiming
+      | undefined;
     const navigationType = navigationEntry?.type;
 
     if (navigationType === 'navigate' || navigationType === 'reload') {

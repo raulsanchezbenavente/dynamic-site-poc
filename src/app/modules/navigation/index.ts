@@ -1,3 +1,5 @@
+export * from './guards/progress-async.guard';
+export * from './guards/progress.guard';
 export * from './services/booking-progress/booking-progress.service';
 export * from './services/language-switch/language-switch.service';
 export * from './services/page-navigation/page-navigation.service';
