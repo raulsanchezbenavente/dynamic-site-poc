@@ -290,48 +290,72 @@
                     "name": "Datos personales",
                     "title": "Datos personales",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "accountProfile_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "accountProfile_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "tabId": "33",
                     "name": "Mis viajes",
                     "title": "Mis viajes",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "findBookings_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "findBookings_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "tabId": "44",
                     "name": "Configuración de la cuenta",
                     "title": "Configuración de la cuenta",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "accountSettings_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "accountSettings_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "tabId": "55",
                     "name": "Mi estado élite",
                     "title": "Mi estado élite",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "eliteStatus_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "eliteStatus_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   }
                 ]
               }

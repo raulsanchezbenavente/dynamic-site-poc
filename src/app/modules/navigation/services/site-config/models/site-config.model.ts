@@ -23,6 +23,7 @@ export interface SiteTab {
   title?: string;
   secondaryText?: string;
   components?: SiteLayoutCol[];
+  layout?: SiteLayout | SiteLayoutRow[];
   // [key: string]: unknown;
 }
 

@@ -33,48 +33,72 @@
                     "name": "Dados Pessoais",
                     "title": "Dados Pessoais",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "accountProfile_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "accountProfile_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "pageId": "3",
                     "name": "Meus Viagens",
                     "title": "Meus Viagens",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "findBookings_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "findBookings_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "pageId": "4",
                     "name": "Configurações da conta",
                     "title": "Configurações da conta",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "accountSettings_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "accountSettings_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   },
                   {
                     "pageId": "5",
                     "name": "Status Elite",
                     "title": "Status Elite",
                     "secondaryText": "",
-                    "components": [
-                      {
-                        "component": "eliteStatus_uiplus",
-                        "span": 12
-                      }
-                    ]
+                    "layout": {
+                      "rows": [
+                        {
+                          "cols": [
+                            {
+                              "component": "eliteStatus_uiplus",
+                              "span": 12
+                            }
+                          ]
+                        }
+                      ]
+                    }
                   }
                 ]
               }

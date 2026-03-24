@@ -24,7 +24,7 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
 import { DynamicBlocksComponent } from '../dynamic-blocks/dynamic-blocks.component';
 
-import { CmsTabContract } from './models/cms-tab-contract.model';
+import { CmsTabContract, CmsTabLayout, CmsTabLayoutCol, CmsTabLayoutRow } from './models/cms-tab-contract.model';
 
 @Component({
   selector: 'tabs',
@@ -63,13 +63,13 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
-      .map((t: Partial<CmsTabContract> & { components?: unknown[] }) => {
-        const tabId = String(t?.tabId ?? '').trim();
-        const name = String(t?.name ?? '').trim();
-        const title = String(t?.title ?? '').trim();
-        const secondaryText = String(t?.secondaryText ?? '').trim();
-        const pageId = String(t?.pageId ?? '').trim();
-        const components = Array.isArray(t?.components) ? t.components : [];
+      .map((tab: Partial<CmsTabContract>) => {
+        const tabId = String(tab?.tabId ?? '').trim();
+        const name = String(tab?.name ?? '').trim();
+        const title = String(tab?.title ?? '').trim();
+        const secondaryText = String(tab?.secondaryText ?? '').trim();
+        const pageId = String(tab?.pageId ?? '').trim();
+        const components = this.resolveTabComponents(tab);
         if (!tabId || !name) return null;
         return { tabId, name, title, secondaryText, pageId, components };
       })
@@ -79,7 +79,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       title: string;
       secondaryText?: string;
       pageId: string;
-      components: unknown[];
+      components: CmsTabLayoutCol[];
     }>;
 
     const overrides = this.tabsOverride();
@@ -96,6 +96,23 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       };
     });
   });
+
+  private resolveTabComponents(tab: Partial<CmsTabContract>): CmsTabLayoutCol[] {
+    if (Array.isArray(tab.components)) {
+      return tab.components;
+    }
+
+    const rows = this.resolveTabLayoutRows(tab.layout);
+    return rows.flatMap((row) => row.cols ?? []);
+  }
+
+  private resolveTabLayoutRows(layout: CmsTabLayout | CmsTabLayoutRow[] | undefined): CmsTabLayoutRow[] {
+    if (Array.isArray(layout)) {
+      return layout;
+    }
+
+    return layout?.rows ?? [];
+  }
 
   // public activeTab = computed(() => {
   //   const tabs = this.viewTabs();

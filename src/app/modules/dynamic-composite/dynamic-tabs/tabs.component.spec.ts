@@ -93,6 +93,28 @@ describe('DsTabsComponent', () => {
     expect(buttons.length).toBe(2);
   });
 
+  it('should support layout-based tab content format', () => {
+    fixture.componentRef.setInput('tabs', [
+      {
+        tabId: 'tab-1',
+        name: 'overview',
+        title: 'Overview',
+        layout: {
+          rows: [
+            {
+              cols: [{ component: 'header' }],
+            },
+          ],
+        },
+      },
+    ] as CmsTabContract[]);
+
+    fixture.detectChanges();
+
+    const renderedBlock = fixture.nativeElement.querySelector('block-outlet');
+    expect(renderedBlock).toBeTruthy();
+  });
+
   it('should activate selected tab on click', () => {
     fixture.detectChanges();
     const buttons = fixture.nativeElement.querySelectorAll('.tab');
