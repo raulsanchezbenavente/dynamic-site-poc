@@ -1,29 +1,31 @@
-import { CommonModule, Location } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-    AppLang,
-    KeycloakAuthService,
-    PageNavigationService,
-    RouterHelperService,
-    SiteConfigService,
+  AppLang,
+  KeycloakAuthService,
+  LanguageSwitchService,
+  PageNavigationService,
+  RouterHelperService,
+  SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
+
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -37,10 +39,11 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 })
 export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
+  private readonly languageSwitch = inject(LanguageSwitchService);
   private readonly pageNavigation = inject(PageNavigationService);
-  private readonly location = inject(Location);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly auth = inject(KeycloakAuthService);
+  private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
   private readonly destroy$ = new Subject<void>();
@@ -179,8 +182,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
-      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang) : null;
-      const url = String(blockConfig?.url ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+      const blockConfig = pageId
+        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
+        : null;
+      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
         this.headerTone.set(null);
@@ -223,18 +228,20 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   public setLang(lang: AppLang): void {
-    this.activeLang.set(lang);
-    this.translate.use(lang);
     this.langOpen.set(false);
-    const pageId: string | undefined = this.routerHelper.getCurrentPageId();
-    if (pageId) {
-      const nextPath: string = this.pageNavigation.resolvePagePath(pageId, lang);
-      if (nextPath) {
-        const query = this.router.url.split('?')[1];
-        this.location.replaceState(query ? `${nextPath}?${query}` : nextPath);
-        this.routerHelper.changeLanguage(lang);
-      }
-    }
+    this.languageSwitch.switchLanguage(lang).subscribe({
+      next: () => {
+        this.activeLang.set(lang);
+      },
+      error: (error) => {
+        console.error('[MAIN HEADER] Language switch error', error);
+      },
+    });
+  }
+
+  public logRouterAndSiteConfig(): void {
+    console.log('[HEADER][MANUAL LOG] router.config', this.router.config);
+    console.log('[HEADER][MANUAL LOG] site config', this.siteConfig.siteSnapshot);
   }
 
   public trackByLang(_: number, l: Lang): AppLang {
@@ -256,7 +263,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private buildLogoutRedirectUri(): string {
     const lang = this.activeLang();
     const homePath = this.pageNavigation.resolvePagePath('0', lang) || `/${lang}/home`;
-    const currentPath = String(this.router.url || '').split('?')[0].split('#')[0].trim();
+    const currentPath = String(this.router.url || '')
+      .split('?')[0]
+      .split('#')[0]
+      .trim();
     const path = currentPath && currentPath.startsWith('/') ? currentPath : homePath;
     return `${globalThis.location.origin}${path}`;
   }
@@ -272,8 +282,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   public open = signal(false);
   public selectedMenuLabel = signal<string | null>(null);
-
-  private router = inject(Router);
 
   // Always returns a non-empty array if nothing is provided
   public items = computed(() => {

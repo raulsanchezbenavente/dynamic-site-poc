@@ -206,13 +206,6 @@ export class SearchComponent implements AfterViewInit {
   }
 
   public goToResults(): void {
-    console.log('Searching flights with:', {
-      from: this.from,
-      to: this.to,
-      departure: this.departure,
-      returnDate: this.returnDate,
-    });
-
     void this.pageNavigation.navigateByPageId('1');
   }
 

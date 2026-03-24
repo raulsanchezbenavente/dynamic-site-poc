@@ -19,11 +19,14 @@ describe('RouterHelperService', () => {
     },
   } as unknown as ActivatedRoute;
 
-  const routerMock = {
+  const routerMock: { config: Array<{ data: Record<string, string>; path: string }> } = {
     config: [{ data: { pageId: '42' }, path: 'en/test' }],
   };
 
   beforeEach(() => {
+    leafRoute.snapshot.data = { pageId: '42' };
+    routerMock.config = [{ data: { pageId: '42' }, path: 'en/test' }];
+
     TestBed.configureTestingModule({
       providers: [
         { provide: ActivatedRoute, useValue: rootRoute },
@@ -40,6 +43,14 @@ describe('RouterHelperService', () => {
 
   it('should read the current page id from the deepest route', () => {
     expect(service.getCurrentPageId()).toBe('42');
+  });
+
+  it('should fallback to router config path when deepest route has no pageId and url is percent-encoded', () => {
+    leafRoute.snapshot.data = {};
+    routerMock.config = [{ data: { pageId: '99', path: 'fr/résultats' }, path: 'fr/résultats' }];
+    globalThis.history.replaceState({}, '', '/fr/r%C3%A9sultats');
+
+    expect(service.getCurrentPageId()).toBe('99');
   });
 
   it('should find route by page id', () => {
@@ -69,5 +80,27 @@ describe('RouterHelperService', () => {
     });
 
     service.changeLanguage('es');
+  });
+
+  it('should push a new history entry when syncing the active tab with push mode', () => {
+    globalThis.history.replaceState({}, '', '/en/test?foo=bar');
+    spyOn(globalThis.history, 'pushState');
+    spyOn(globalThis.history, 'replaceState');
+
+    service.syncActiveTabUrl('details', 'push');
+
+    expect(globalThis.history.pushState).toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+    expect(globalThis.history.replaceState).not.toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+  });
+
+  it('should replace the current history entry when syncing the active tab with replace mode', () => {
+    globalThis.history.replaceState({}, '', '/en/test?foo=bar');
+    spyOn(globalThis.history, 'pushState');
+    spyOn(globalThis.history, 'replaceState');
+
+    service.syncActiveTabUrl('details');
+
+    expect(globalThis.history.replaceState).toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
+    expect(globalThis.history.pushState).not.toHaveBeenCalledWith({}, '', '/en/test?foo=bar&activeTab=details');
   });
 });

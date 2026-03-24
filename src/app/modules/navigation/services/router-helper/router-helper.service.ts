@@ -8,8 +8,8 @@ import { AppLang } from '../site-config/models/langs.model';
   providedIn: 'root',
 })
 export class RouterHelperService {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private tabsId: Record<string, string> = {};
   private readonly languageChangeSubject = new Subject<AppLang>();
   public readonly languageChange$ = this.languageChangeSubject.asObservable();
@@ -27,7 +27,7 @@ export class RouterHelperService {
   }
 
   constructor() {
-    const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
+    const segment = globalThis.location.pathname.split('/').find(Boolean);
     const lang = segment === 'en' || segment === 'es' || segment === 'fr' || segment === 'pt' ? segment : 'en';
     this._language = lang;
   }
@@ -42,7 +42,28 @@ export class RouterHelperService {
 
   public getCurrentPageId(): string | undefined {
     const leaf = this.getLeafRoute();
-    return leaf.snapshot.data?.['pageId'];
+    const pageIdFromSnapshot = leaf.snapshot.data?.['pageId'];
+    if (pageIdFromSnapshot !== undefined && pageIdFromSnapshot !== null) {
+      return String(pageIdFromSnapshot);
+    }
+
+    const normalizedCurrentPath = this.normalizePath(globalThis.location.pathname);
+    if (!normalizedCurrentPath) {
+      return undefined;
+    }
+
+    const matchingRoute = this.router.config.find((route) => {
+      const routePath = this.normalizePath(route.path ?? '');
+      const dataPath = this.normalizePath(String(route.data?.['path'] ?? ''));
+      return routePath === normalizedCurrentPath || dataPath === normalizedCurrentPath;
+    });
+
+    const fallbackPageId = matchingRoute?.data?.['pageId'];
+    if (fallbackPageId === undefined || fallbackPageId === null) {
+      return undefined;
+    }
+
+    return String(fallbackPageId);
   }
 
   public findRouteByPageId(pageId: string): Route | undefined {
@@ -62,7 +83,54 @@ export class RouterHelperService {
     this.languageChangeSubject.next(lang);
   }
 
+  public syncActiveTabUrl(tabName: string | undefined, historyMode: 'push' | 'replace' = 'replace'): void {
+    const url = new URL(globalThis.location.href);
+    const params = new URLSearchParams(url.search);
+    params.set('activeTab', tabName ?? '');
+
+    const normalizedQuery = Array.from(params.entries())
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&');
+
+    const query = normalizedQuery ? `?${normalizedQuery}` : '';
+    const nextUrl = `${url.pathname}${query}${url.hash}`;
+    const currentUrl = `${url.pathname}${url.search}${url.hash}`;
+
+    if (nextUrl === currentUrl) {
+      return;
+    }
+
+    if (historyMode === 'push') {
+      globalThis.history.pushState({}, '', nextUrl);
+      return;
+    }
+
+    globalThis.history.replaceState({}, '', nextUrl);
+  }
+
   public changeActiveTab(tabId: string): void {
     this.activeTabSubject.next(tabId);
+  }
+
+  private normalizePath(path: string): string {
+    const basePath = path.split('?')[0].split('#')[0].trim();
+    if (!basePath) {
+      return '';
+    }
+
+    const withoutLeadingSlash = basePath.startsWith('/') ? basePath.slice(1) : basePath;
+
+    let decodedPath = withoutLeadingSlash;
+    try {
+      decodedPath = decodeURIComponent(withoutLeadingSlash);
+    } catch {
+      decodedPath = withoutLeadingSlash;
+    }
+
+    if (decodedPath.length > 1 && decodedPath.endsWith('/')) {
+      return decodedPath.slice(0, -1);
+    }
+
+    return decodedPath;
   }
 }

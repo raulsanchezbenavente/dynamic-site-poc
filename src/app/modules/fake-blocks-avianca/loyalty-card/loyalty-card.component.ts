@@ -60,7 +60,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
       const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus', lang) : null;
-      const url = String(blockConfig?.url ?? this.config()?.url ?? '').trim();
+      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? '').trim();
 
       if (!url) {
         this.loyaltyTone.set(null);
