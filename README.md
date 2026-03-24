@@ -272,6 +272,38 @@ npm run lint:styles       # Stylelint for SCSS/CSS
 npm run format            # Prettier formatting
 ```
 
+### Script Reference
+
+Each script includes a short description in `package.json` under `scriptDescriptions`.
+The Electron launcher uses these descriptions as a custom tooltip when you hover or focus a script name.
+That tooltip is anchored from the left edge of the script title for easier reading.
+
+| Script | Description |
+| --- | --- |
+| `ng` | Executes Angular CLI directly. |
+| `start:serve` | Starts Angular dev server with the default environment. |
+| `start:serve:bypass` | Starts Angular dev server using the bypass environment (fake SSO setup). |
+| `start:proxy` | Starts the local index/SEO proxy server on port 4300. |
+| `start:sso-bypass` | Starts the fake local SSO/OIDC server on port 4500. |
+| `start:serve-proxy` | Runs Angular dev server and proxy together. |
+| `start:serve-proxy-bypass` | Runs Angular bypass mode, proxy, and fake SSO together. |
+| `linux:enable-port-443` | Enables Linux capability to bind port 443 without running the app as root. |
+| `build` | Builds the Angular application for production. |
+| `start:backend` | Starts the backend server entrypoint. |
+| `start:api` | Starts the booking flow API service on port 3000. |
+| `launcher:open` | Opens the Electron launcher in development mode. |
+| `launcher:build:win` | Builds the Windows launcher installer (NSIS). |
+| `launcher:build:mac` | Builds the macOS launcher artifacts (DMG and ZIP). |
+| `launcher:build:linux` | Builds Linux launcher artifacts (AppImage and DEB). |
+| `launcher:build:all` | Builds launcher artifacts for Windows, macOS, and Linux. |
+| `launcher:build:run` | Builds (or reuses) the launcher artifact for the current OS and runs it. |
+| `watch` | Builds Angular in watch mode using the development configuration. |
+| `test` | Runs unit tests once in headless Chrome. |
+| `test:watch` | Runs unit tests in watch mode. |
+| `lint` | Runs ESLint on TypeScript and Angular HTML templates. |
+| `lint:styles` | Runs Stylelint on SCSS and CSS source files. |
+| `format` | Formats source files with Prettier. |
+
 ### Launcher Scripts
 
 For launcher builds and deployment, see **🚀 Electron Launcher** section below.
@@ -316,6 +348,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
 - ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `build`, `start:backend`, and `test`.
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), the Favorites filter is initialized as enabled.
+- 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
