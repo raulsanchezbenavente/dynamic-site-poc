@@ -36,11 +36,17 @@ export class KeycloakAuthService {
       throw new Error('Keycloak requires HTTPS (or localhost) because PKCE needs Web Crypto API.');
     }
 
+    const useSilentCheckSso = Boolean(environment.keycloak.useSilentCheckSso);
+    const silentCheckSsoPath = String(environment.keycloak.silentCheckSsoRedirectUri || '/silent-check-sso.html').trim();
+    const silentCheckSsoUri = `${globalThis.location.origin}${
+      silentCheckSsoPath.startsWith('/') ? silentCheckSsoPath : `/${silentCheckSsoPath}`
+    }`;
+
     this.initPromise = this.keycloak
       .init({
         onLoad: 'check-sso',
-        silentCheckSsoRedirectUri: `${globalThis.location.origin}/silent-check-sso.html`,
-        silentCheckSsoFallback: true,
+        ...(useSilentCheckSso ? { silentCheckSsoRedirectUri: silentCheckSsoUri } : {}),
+        silentCheckSsoFallback: useSilentCheckSso,
         pkceMethod: 'S256',
         checkLoginIframe: false,
         enableLogging: environment.keycloak.enableLogging,

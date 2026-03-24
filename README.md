@@ -257,10 +257,13 @@ SEO proxy shell runs on:
 
 ```bash
 npm run start:serve       # Dev server (port 4200)
+npm run start:serve:bypass # Dev server with fake SSO environment
 npm run start:api         # Booking flow API (port 3000)
 npm run start:backend     # Backend server (port 3000)
 npm run start:proxy       # SEO proxy shell (port 4300)
+npm run start:sso-bypass  # Fake local SSO server (port 4500)
 npm run start:serve-proxy # Angular + proxy concurrently (recommended)
+npm run start:serve-proxy-bypass # Angular bypass + proxy + fake SSO
 npm run build             # Production build
 npm run watch             # Development build in watch mode
 npm run test              # Unit tests (Karma)
