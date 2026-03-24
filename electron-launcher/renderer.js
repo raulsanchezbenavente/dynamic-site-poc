@@ -62,8 +62,8 @@ const TERMINAL_THEMES = new Set([
   'solarized-light',
   'tokion-night-light',
   'red',
-  'solarized-dark',
   'kimbie-dark',
+  'solarized-dark',
   'dark',
 ]);
 const TERMINAL_FONT_SIZE_DEFAULT = 17.6;
@@ -76,8 +76,8 @@ const TERMINAL_THEME_LABELS = {
   'solarized-light': 'Solarized Light',
   'tokion-night-light': 'Tokion Night Light',
   red: 'Red',
-  'solarized-dark': 'Solarized Dark',
   'kimbie-dark': 'Kimbie Dark',
+  'solarized-dark': 'Solarized Dark',
   dark: 'Dark',
 };
 const PACKAGE_SOURCE_LABELS = {
