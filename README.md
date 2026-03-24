@@ -346,7 +346,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
-- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `build`, `start:backend`, and `test`.
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `start:serve-proxy-bypass`, `build`, `start:backend`, and `test`.
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), the Favorites filter is initialized as enabled.
 - 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
