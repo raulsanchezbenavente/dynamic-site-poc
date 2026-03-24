@@ -1440,10 +1440,21 @@ function readScripts() {
   const raw = fs.readFileSync(packageJsonPath, 'utf8');
   const parsed = JSON.parse(raw);
   const scripts = parsed?.scripts ?? {};
+  const scriptDescriptions = parsed?.scriptDescriptions ?? {};
+
+  const toDescription = (scriptName, scriptCommand) => {
+    const configuredDescription = scriptDescriptions?.[scriptName];
+    if (typeof configuredDescription === 'string' && configuredDescription.trim()) {
+      return configuredDescription.trim();
+    }
+
+    return `Runs: ${scriptCommand}`;
+  };
 
   return Object.entries(scripts).map(([name, command]) => ({
     name,
     command,
+    description: toDescription(name, command),
     running: runningScripts.has(name),
   }));
 }

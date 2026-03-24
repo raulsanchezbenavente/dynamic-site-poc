@@ -1004,10 +1004,11 @@ function positionLogTabTooltipPortal(target) {
   const tooltipRect = tooltip.getBoundingClientRect();
   const minLeft = 8;
   const maxLeft = Math.max(minLeft, window.innerWidth - tooltipRect.width - 8);
+  const tooltipAlign = String(target?.getAttribute('data-tooltip-align') || 'center').trim().toLowerCase();
   const targetCenterX = targetRect.left + targetRect.width / 2;
   // Keep arrow center (0.76rem + 0.23rem ~= 16px) right under the terminal icon.
   const arrowCenterOffsetPx = 16;
-  const preferredLeft = targetCenterX - arrowCenterOffsetPx;
+  const preferredLeft = tooltipAlign === 'start' ? targetRect.left : targetCenterX - arrowCenterOffsetPx;
   const left = Math.min(maxLeft, Math.max(minLeft, preferredLeft));
 
   let top = targetRect.bottom + gap;
@@ -2618,6 +2619,24 @@ function renderScripts() {
 
     const name = document.createElement('strong');
     name.textContent = script.name;
+    if (script.description) {
+      name.setAttribute('data-tooltip', script.description);
+      name.setAttribute('data-tooltip-align', 'start');
+      name.setAttribute('aria-label', `${script.name}: ${script.description}`);
+      name.tabIndex = 0;
+      name.addEventListener('mouseenter', () => {
+        showLogTabTooltipPortal(name);
+      });
+      name.addEventListener('mouseleave', () => {
+        hideLogTabTooltipPortal();
+      });
+      name.addEventListener('focus', () => {
+        showLogTabTooltipPortal(name);
+      });
+      name.addEventListener('blur', () => {
+        hideLogTabTooltipPortal();
+      });
+    }
 
     title.appendChild(name);
 
