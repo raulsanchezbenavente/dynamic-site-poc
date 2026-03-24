@@ -33,7 +33,19 @@
       [attr.aria-labelledby]="tabButtonId(tab.tabId)"
       [attr.aria-hidden]="tab.tabId !== activeId()"
       [hidden]="tab.tabId !== activeId()">
-      <dynamic-blocks [blocks]="tab.components"></dynamic-blocks>
+      <div class="page">
+        @for (row of tab.layout; track row) {
+          <div class="row-grid">
+            @for (col of row.cols ?? []; track col) {
+              <div
+                class="col"
+                [style.gridColumn]="'span ' + (col.span ?? 12)">
+                <block-outlet [block]="col"></block-outlet>
+              </div>
+            }
+          </div>
+        }
+      </div>
     </section>
   }
 </div>

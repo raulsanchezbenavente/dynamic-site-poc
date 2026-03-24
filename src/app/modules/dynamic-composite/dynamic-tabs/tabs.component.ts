@@ -22,14 +22,22 @@ import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
-import { DynamicBlocksComponent } from '../dynamic-blocks/dynamic-blocks.component';
+import { BlockOutletComponent } from '../dynamic-page/block-outlet.component';
 
-import { CmsTabContract, CmsTabLayout, CmsTabLayoutCol, CmsTabLayoutRow } from './models/cms-tab-contract.model';
+import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow } from './models/cms-tab-contract.model';
+
+type ViewTab = CmsTabContract & {
+  tabId: string;
+  name: string;
+  title: string;
+  pageId: string;
+  layout: CmsTabLayoutRow[];
+};
 
 @Component({
   selector: 'tabs',
   standalone: true,
-  imports: [CommonModule, DynamicBlocksComponent],
+  imports: [CommonModule, BlockOutletComponent],
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -69,18 +77,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
         const title = String(tab?.title ?? '').trim();
         const secondaryText = String(tab?.secondaryText ?? '').trim();
         const pageId = String(tab?.pageId ?? '').trim();
-        const components = this.resolveTabComponents(tab);
+        const layout = this.resolveTabLayoutRows(tab.layout);
         if (!tabId || !name) return null;
-        return { tabId, name, title, secondaryText, pageId, components };
+        return { tabId, name, title, secondaryText, pageId, layout };
       })
-      .filter(Boolean) as Array<{
-      tabId: string;
-      name: string;
-      title: string;
-      secondaryText?: string;
-      pageId: string;
-      components: CmsTabLayoutCol[];
-    }>;
+      .filter(Boolean) as ViewTab[];
 
     const overrides = this.tabsOverride();
     if (!overrides.length) return normalized;
@@ -96,11 +97,6 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       };
     });
   });
-
-  private resolveTabComponents(tab: Partial<CmsTabContract>): CmsTabLayoutCol[] {
-    const rows = this.resolveTabLayoutRows(tab.layout);
-    return rows.flatMap((row) => row.cols ?? []);
-  }
 
   private resolveTabLayoutRows(layout: CmsTabLayout | CmsTabLayoutRow[] | undefined): CmsTabLayoutRow[] {
     if (Array.isArray(layout)) {
@@ -174,7 +170,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
 
     this.routerHelper.activeTab$.pipe(takeUntil(this.destroy$)).subscribe((tabId: string) => {
-      const tab: CmsTabContract | undefined = this.viewTabs().find((t) => t.tabId === tabId);
+      const tab = this.viewTabs().find((t) => t.tabId === tabId);
       if (!tab) return;
       this.activateTab(tab, { historyMode: 'push', emitEvent: true, allowReselect: true });
     });
@@ -206,7 +202,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     }
     if (!tabs.length) return;
-    let tab: CmsTabContract | undefined = tabs.find((t) => t.name === qpTab);
+    let tab = tabs.find((t) => t.name === qpTab);
 
     if (!tab && qpTab && this.tabsId()) {
       const normalizedTabName = qpTab.trim().toLowerCase();

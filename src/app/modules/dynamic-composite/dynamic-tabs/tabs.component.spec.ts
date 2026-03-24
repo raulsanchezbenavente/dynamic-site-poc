@@ -127,6 +127,33 @@ describe('DsTabsComponent', () => {
     expect(renderedBlock).toBeTruthy();
   });
 
+  it('should preserve span values when rendering tab layout columns', () => {
+    fixture.componentRef.setInput('tabs', [
+      {
+        tabId: 'tab-1',
+        name: 'overview',
+        title: 'Overview',
+        layout: {
+          rows: [
+            {
+              cols: [
+                { component: 'header', span: 7 },
+                { component: 'footer', span: 5 },
+              ],
+            },
+          ],
+        },
+      },
+    ] as CmsTabContract[]);
+
+    fixture.detectChanges();
+
+    const cols = fixture.nativeElement.querySelectorAll('.tab-panel .col');
+    expect(cols.length).toBe(2);
+    expect((cols[0] as HTMLElement).style.gridColumn).toBe('span 7');
+    expect((cols[1] as HTMLElement).style.gridColumn).toBe('span 5');
+  });
+
   it('should activate selected tab on click', () => {
     fixture.detectChanges();
     const buttons = fixture.nativeElement.querySelectorAll('.tab');
