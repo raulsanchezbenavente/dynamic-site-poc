@@ -1,6 +1,7 @@
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
+const net = require('net');
 const path = require('path');
 const express = require('express');
 const { createIndexProxyMiddleware } = require('./index-rendering/proxy-middleware');
@@ -75,6 +76,30 @@ function checkPublicHostReachability(baseUrl, timeoutMs = 3500) {
   });
 }
 
+function checkPortInUse(port, host = '0.0.0.0') {
+  return new Promise((resolve) => {
+    const tester = net.createServer();
+
+    tester.once('error', (error) => {
+      const code = error && typeof error === 'object' && 'code' in error ? error.code : undefined;
+
+      if (code === 'EADDRINUSE') {
+        resolve({ inUse: true });
+        return;
+      }
+
+      const message = error instanceof Error ? error.message : String(error);
+      resolve({ inUse: false, error: message });
+    });
+
+    tester.once('listening', () => {
+      tester.close(() => resolve({ inUse: false }));
+    });
+
+    tester.listen(port, host);
+  });
+}
+
 async function warnIfPublicHostIsUnreachable() {
   const result = await checkPublicHostReachability(httpsBaseUrl);
   if (result.ok) {
@@ -106,12 +131,35 @@ app.use(
   })
 );
 
-http.createServer(app).listen(httpPort, () => {
-  console.log(`Index server running on ${httpBaseUrl}`);
-  console.log(`Forwarding assets/chunks to http://${targetHost}:${targetPort}`);
-});
+async function startProxyServers() {
+  const httpPortCheck = await checkPortInUse(httpPort);
+  if (httpPortCheck.inUse) {
+    logError(`[Proxy startup] HTTP port ${httpPort} is already in use (${httpBaseUrl}).`);
+    return;
+  }
+  if (httpPortCheck.error) {
+    logError(`[Proxy startup] HTTP port check failed (${httpPort}): ${httpPortCheck.error}`);
+  }
 
-if (hasHttpsConfig) {
+  http.createServer(app).listen(httpPort, () => {
+    console.log(`Index server running on ${httpBaseUrl}`);
+    console.log(`Forwarding assets/chunks to http://${targetHost}:${targetPort}`);
+  });
+
+  if (!hasHttpsConfig) {
+    console.log('HTTPS disabled: server/cert/newshoreGeneral.pem or server/cert/newshoreGeneral.pfx not found.');
+    return;
+  }
+
+  const httpsPortCheck = await checkPortInUse(httpsPort);
+  if (httpsPortCheck.inUse) {
+    logError(`[Proxy startup] HTTPS port ${httpsPort} is already in use (${httpsBaseUrl}).`);
+    return;
+  }
+  if (httpsPortCheck.error) {
+    logError(`[Proxy startup] HTTPS port check failed (${httpsPort}): ${httpsPortCheck.error}`);
+  }
+
   try {
     let httpsOptions;
 
@@ -156,6 +204,6 @@ if (hasHttpsConfig) {
     console.error('Continuing with HTTP only.');
     console.error('If using PFX, verify the configured passphrase matches the certificate password.');
   }
-} else {
-  console.log('HTTPS disabled: server/cert/newshoreGeneral.pem or server/cert/newshoreGeneral.pfx not found.');
 }
+
+void startProxyServers();
