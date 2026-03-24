@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import Keycloak from 'keycloak-js';
 
 import { environment } from '../../../../../environments/environment';
@@ -37,7 +37,9 @@ export class KeycloakAuthService {
     }
 
     const useSilentCheckSso = Boolean(environment.keycloak.useSilentCheckSso);
-    const silentCheckSsoPath = String(environment.keycloak.silentCheckSsoRedirectUri || '/silent-check-sso.html').trim();
+    const silentCheckSsoPath = String(
+      environment.keycloak.silentCheckSsoRedirectUri || '/silent-check-sso.html'
+    ).trim();
     const silentCheckSsoUri = `${globalThis.location.origin}${
       silentCheckSsoPath.startsWith('/') ? silentCheckSsoPath : `/${silentCheckSsoPath}`
     }`;

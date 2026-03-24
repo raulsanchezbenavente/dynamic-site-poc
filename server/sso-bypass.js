@@ -6,9 +6,13 @@ const port = Number(process.env.SSO_BYPASS_PORT || 4500);
 const issuerHost = process.env.SSO_BYPASS_HOST || `http://localhost:${port}`;
 const authBasePath = '/auth';
 const defaultRealm = process.env.SSO_BYPASS_REALM || 'lm-uat';
+const sessionCookieName = 'SSO_BYPASS_SESSION';
+const sessionTtlMs = Number(process.env.SSO_BYPASS_SESSION_TTL_MS || 8 * 60 * 60 * 1000);
 
 const authorizationCodes = new Map();
 const refreshTokens = new Map();
+const sessions = new Map();
+const clientSessions = new Map();
 
 const sendJson = (res, status, payload) => {
   const body = JSON.stringify(payload);
@@ -34,6 +38,15 @@ const sendHtml = (res, status, html) => {
 const redirect = (res, to) => {
   res.writeHead(302, { Location: to });
   res.end();
+};
+
+const setCookie = (res, name, value, maxAgeSeconds) => {
+  const cookie = `${name}=${encodeURIComponent(value)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${maxAgeSeconds}`;
+  res.setHeader('Set-Cookie', cookie);
+};
+
+const clearCookie = (res, name) => {
+  res.setHeader('Set-Cookie', `${name}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`);
 };
 
 const readRequestBody = (req) =>
@@ -62,19 +75,123 @@ const createUnsignedJwt = (payload) => {
   return `${base64UrlEncode(header)}.${base64UrlEncode(payload)}.`;
 };
 
+const createRefreshTokenJwt = ({ realm, clientId, subject, username, expiresInSeconds }) => {
+  const nowSec = Math.floor(Date.now() / 1000);
+  return createUnsignedJwt({
+    iss: `${issuerHost}${authBasePath}/realms/${realm}`,
+    aud: clientId,
+    sub: subject,
+    preferred_username: username,
+    typ: 'Refresh',
+    iat: nowSec,
+    exp: nowSec + expiresInSeconds,
+    jti: crypto.randomUUID(),
+  });
+};
+
 const applyCorsHeaders = (req, res) => {
   const origin = req.headers.origin;
-  const allowOrigin = origin || '*';
+  const allowOrigin = origin || 'http://localhost:4200';
 
   res.setHeader('Access-Control-Allow-Origin', allowOrigin);
   res.setHeader('Vary', 'Origin');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, Accept, Origin, X-Requested-With');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.setHeader('Access-Control-Max-Age', '600');
 };
 
 const resolveRealm = (pathname) => {
   const match = pathname.match(/^\/auth\/realms\/([^/]+)/);
   return match?.[1] || defaultRealm;
+};
+
+const parseCookies = (req) => {
+  const raw = req.headers.cookie || '';
+  if (!raw) return {};
+
+  return raw.split(';').reduce((acc, token) => {
+    const [name, ...rest] = token.trim().split('=');
+    if (!name) return acc;
+    acc[name] = decodeURIComponent(rest.join('=') || '');
+    return acc;
+  }, {});
+};
+
+const getActiveSession = (req) => {
+  const cookies = parseCookies(req);
+  const sessionId = cookies[sessionCookieName];
+  if (!sessionId) {
+    return null;
+  }
+
+  const session = sessions.get(sessionId);
+  if (!session) {
+    return null;
+  }
+
+  if (session.expiresAt < Date.now()) {
+    sessions.delete(sessionId);
+    return null;
+  }
+
+  return { sessionId, session };
+};
+
+const buildClientSessionKey = (realm, clientId) => `${String(realm || defaultRealm)}::${String(clientId || '')}`;
+
+const getActiveClientSession = ({ realm, clientId }) => {
+  const key = buildClientSessionKey(realm, clientId);
+  const sessionId = clientSessions.get(key);
+  if (!sessionId) {
+    return null;
+  }
+
+  const session = sessions.get(sessionId);
+  if (!session || session.expiresAt < Date.now()) {
+    clientSessions.delete(key);
+    if (sessionId) {
+      sessions.delete(sessionId);
+    }
+    return null;
+  }
+
+  return { sessionId, session };
+};
+
+const getActiveSessionForRequest = (req, { realm, clientId }) => {
+  const cookieSession = getActiveSession(req);
+  if (cookieSession) {
+    return cookieSession;
+  }
+
+  return getActiveClientSession({ realm, clientId });
+};
+
+const createAuthorizationCodeForSession = ({
+  username,
+  clientId,
+  redirectUri,
+  scope,
+  nonce,
+  codeChallenge,
+  codeChallengeMethod,
+  realm,
+}) => {
+  const code = crypto.randomBytes(16).toString('hex');
+  authorizationCodes.set(code, {
+    username,
+    clientId,
+    redirectUri,
+    scope,
+    nonce,
+    codeChallenge,
+    codeChallengeMethod,
+    realm,
+    expiresAt: Date.now() + 5 * 60 * 1000,
+  });
+
+  return code;
 };
 
 const createOidcMetadata = (realm) => {
@@ -217,6 +334,24 @@ const appendAuthResponseToUri = (uri, params, responseMode) => {
   return appendQueryToUri(uri, params);
 };
 
+const normalizeUriForComparison = (rawUri) => {
+  const input = String(rawUri || '').trim();
+  if (!input) {
+    return '';
+  }
+
+  try {
+    const parsed = new URL(input);
+    parsed.hash = '';
+    if (parsed.pathname.length > 1 && parsed.pathname.endsWith('/')) {
+      parsed.pathname = parsed.pathname.slice(0, -1);
+    }
+    return parsed.toString();
+  } catch {
+    return input;
+  }
+};
+
 const build3pCookiesProbePage = (step, realm) => {
   const step2Path = `${authBasePath}/realms/${realm}/protocol/openid-connect/3p-cookies/step2.html`;
 
@@ -259,6 +394,7 @@ const handleAuthorizeRequest = (req, res, urlObj) => {
   const responseMode = query.get('response_mode') || 'query';
   const realm = resolveRealm(urlObj.pathname);
   const prompt = query.get('prompt') || '';
+  const activeSession = getActiveSessionForRequest(req, { realm, clientId });
 
   if (!redirectUri) {
     sendJson(res, 400, { error: 'invalid_request', error_description: 'redirect_uri is required' });
@@ -266,7 +402,47 @@ const handleAuthorizeRequest = (req, res, urlObj) => {
   }
 
   if (prompt === 'none') {
+    if (activeSession) {
+      const code = createAuthorizationCodeForSession({
+        username: activeSession.session.username,
+        clientId,
+        redirectUri,
+        scope,
+        nonce,
+        codeChallenge,
+        codeChallengeMethod,
+        realm,
+      });
+      const redirectTo = appendAuthResponseToUri(
+        redirectUri,
+        { code, state, session_state: activeSession.sessionId },
+        responseMode
+      );
+      redirect(res, redirectTo);
+      return;
+    }
+
     const redirectTo = appendAuthResponseToUri(redirectUri, { error: 'login_required', state }, responseMode);
+    redirect(res, redirectTo);
+    return;
+  }
+
+  if (activeSession) {
+    const code = createAuthorizationCodeForSession({
+      username: activeSession.session.username,
+      clientId,
+      redirectUri,
+      scope,
+      nonce,
+      codeChallenge,
+      codeChallengeMethod,
+      realm,
+    });
+    const redirectTo = appendAuthResponseToUri(
+      redirectUri,
+      { code, state, session_state: activeSession.sessionId },
+      responseMode
+    );
     redirect(res, redirectTo);
     return;
   }
@@ -306,8 +482,18 @@ const handleDevLoginPost = async (req, res) => {
     return;
   }
 
-  const code = crypto.randomBytes(16).toString('hex');
-  authorizationCodes.set(code, {
+  const sessionId = crypto.randomUUID();
+  sessions.set(sessionId, {
+    username,
+    realm,
+    clientId,
+    scope,
+    expiresAt: Date.now() + sessionTtlMs,
+  });
+  clientSessions.set(buildClientSessionKey(realm, clientId), sessionId);
+  setCookie(res, sessionCookieName, sessionId, Math.floor(sessionTtlMs / 1000));
+
+  const code = createAuthorizationCodeForSession({
     username,
     clientId,
     redirectUri,
@@ -316,10 +502,9 @@ const handleDevLoginPost = async (req, res) => {
     codeChallenge,
     codeChallengeMethod,
     realm,
-    expiresAt: Date.now() + 5 * 60 * 1000,
   });
 
-  const redirectTo = appendAuthResponseToUri(redirectUri, { code, state, session_state: crypto.randomUUID() }, responseMode);
+  const redirectTo = appendAuthResponseToUri(redirectUri, { code, state, session_state: sessionId }, responseMode);
   redirect(res, redirectTo);
 };
 
@@ -345,10 +530,23 @@ const handleTokenRequest = async (req, res) => {
       exp: nowSec + 300,
       iat: nowSec,
     });
+    const renewedRefreshToken = createRefreshTokenJwt({
+      realm: existing.realm,
+      clientId: existing.clientId,
+      subject: existing.subject,
+      username: existing.username,
+      expiresInSeconds: 3600,
+    });
+
+    refreshTokens.delete(refreshToken);
+    refreshTokens.set(renewedRefreshToken, {
+      ...existing,
+      expiresAt: Date.now() + 3600 * 1000,
+    });
 
     sendJson(res, 200, {
       access_token: accessToken,
-      refresh_token: refreshToken,
+      refresh_token: renewedRefreshToken,
       token_type: 'Bearer',
       expires_in: 300,
       refresh_expires_in: 3600,
@@ -375,12 +573,17 @@ const handleTokenRequest = async (req, res) => {
 
   authorizationCodes.delete(code);
 
-  if (authData.redirectUri !== redirectUri || authData.clientId !== clientId) {
+  const authRedirectUri = normalizeUriForComparison(authData.redirectUri);
+  const requestRedirectUri = normalizeUriForComparison(redirectUri);
+  const isClientCompatible = !clientId || authData.clientId === clientId;
+  const isRedirectCompatible = !requestRedirectUri || authRedirectUri === requestRedirectUri;
+
+  if (!isRedirectCompatible || !isClientCompatible) {
     sendJson(res, 400, { error: 'invalid_grant', error_description: 'Mismatched client or redirect URI' });
     return;
   }
 
-  if (authData.codeChallenge && authData.codeChallengeMethod === 'S256') {
+  if (authData.codeChallenge && authData.codeChallengeMethod === 'S256' && codeVerifier) {
     const hashed = crypto.createHash('sha256').update(codeVerifier).digest('base64url');
     if (hashed !== authData.codeChallenge) {
       sendJson(res, 400, { error: 'invalid_grant', error_description: 'PKCE validation failed' });
@@ -407,7 +610,13 @@ const handleTokenRequest = async (req, res) => {
     exp: nowSec + 300,
     iat: nowSec,
   });
-  const refreshToken = crypto.randomBytes(24).toString('hex');
+  const refreshToken = createRefreshTokenJwt({
+    realm: authData.realm,
+    clientId: authData.clientId,
+    subject,
+    username: authData.username,
+    expiresInSeconds: 3600,
+  });
 
   refreshTokens.set(refreshToken, {
     username: authData.username,
@@ -430,7 +639,22 @@ const handleTokenRequest = async (req, res) => {
   });
 };
 
-const handleLogoutRequest = (res, urlObj) => {
+const handleLogoutRequest = (req, res, urlObj) => {
+  const realm = resolveRealm(urlObj.pathname);
+  const clientId =
+    urlObj.searchParams.get('client_id') ||
+    urlObj.searchParams.get('clientId') ||
+    urlObj.searchParams.get('azp') ||
+    '';
+  const activeSession = getActiveSessionForRequest(req, { realm, clientId });
+  if (activeSession) {
+    sessions.delete(activeSession.sessionId);
+    if (clientId) {
+      clientSessions.delete(buildClientSessionKey(realm, clientId));
+    }
+  }
+  clearCookie(res, sessionCookieName);
+
   const redirectUri =
     urlObj.searchParams.get('redirect_uri') || urlObj.searchParams.get('post_logout_redirect_uri') || '/';
   redirect(res, redirectUri);
@@ -506,7 +730,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     if (req.method === 'GET' && pathname === `${authBasePath}/realms/${realm}/protocol/openid-connect/logout`) {
-      handleLogoutRequest(res, urlObj);
+      handleLogoutRequest(req, res, urlObj);
       return;
     }
 
