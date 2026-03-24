@@ -481,6 +481,14 @@ function normalizeRenderedLogText(value) {
     .replace(/\r/g, '');
 }
 
+function normalizeAnsiSgrInsideUrls(value) {
+  return String(value ?? '').replace(/https?:\/\/[^\s<>"]+/gi, (urlToken) => {
+    // Keep ANSI rendering globally, but remove SGR codes injected inside URL tokens
+    // so link parsing does not split host/port segments.
+    return urlToken.replace(/\u001b\[[0-9;]*m/g, '');
+  });
+}
+
 function clampAnsiRgbChannel(value) {
   const channel = Number(value);
   if (!Number.isFinite(channel)) {
@@ -660,7 +668,7 @@ function appendStyledTextWithLinks(container, text, styleState) {
 }
 
 function appendAnsiStyledText(container, text) {
-  const normalized = normalizeRenderedLogText(text);
+  const normalized = normalizeAnsiSgrInsideUrls(normalizeRenderedLogText(text));
   const styleState = {
     color: null,
     backgroundColor: null,
