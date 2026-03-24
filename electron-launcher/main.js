@@ -1468,6 +1468,19 @@ function buildSpawnEnv() {
     env[key] = String(value);
   }
 
+  // Child scripts run with piped stdio (not a TTY), so many tools disable ANSI by default.
+  // Force ANSI output so the renderer can reflect the process' real color intent.
+  delete env.NO_COLOR;
+  env.FORCE_COLOR = env.FORCE_COLOR && env.FORCE_COLOR !== '0' ? env.FORCE_COLOR : '1';
+  env.CLICOLOR = '1';
+  env.CLICOLOR_FORCE = '1';
+  env.npm_config_color = 'always';
+  env.NPM_CONFIG_COLOR = 'always';
+
+  if (!env.TERM || env.TERM === 'dumb') {
+    env.TERM = 'xterm-256color';
+  }
+
   if (process.platform === 'win32') {
     // Keep Windows PATH semantics (semicolon + case-insensitive variable name).
     const pathKey = Object.keys(env).find((key) => key.toLowerCase() === 'path') || 'Path';

@@ -481,43 +481,82 @@ function normalizeRenderedLogText(value) {
     .replace(/\r/g, '');
 }
 
-function ansiCodeToColor(code) {
-  switch (code) {
-    case 30:
-      return '#111827';
-    case 31:
-      return '#ef4444';
-    case 32:
-      return '#22c55e';
-    case 33:
-      return '#f59e0b';
-    case 34:
-      return '#3b82f6';
-    case 35:
-      return '#d946ef';
-    case 36:
-      return '#06b6d4';
-    case 37:
-      return '#e5e7eb';
-    case 90:
-      return '#9ca3af';
-    case 91:
-      return '#f87171';
-    case 92:
-      return '#4ade80';
-    case 93:
-      return '#fbbf24';
-    case 94:
-      return '#60a5fa';
-    case 95:
-      return '#e879f9';
-    case 96:
-      return '#22d3ee';
-    case 97:
-      return '#f9fafb';
-    default:
-      return null;
+function clampAnsiRgbChannel(value) {
+  const channel = Number(value);
+  if (!Number.isFinite(channel)) {
+    return 0;
   }
+  return Math.max(0, Math.min(255, Math.trunc(channel)));
+}
+
+function rgbToHex(red, green, blue) {
+  const r = clampAnsiRgbChannel(red);
+  const g = clampAnsiRgbChannel(green);
+  const b = clampAnsiRgbChannel(blue);
+  return `#${[r, g, b]
+    .map((channel) => channel.toString(16).padStart(2, '0'))
+    .join('')}`;
+}
+
+function ansiIndexedColorToHex(index) {
+  const normalized = Number(index);
+  if (!Number.isFinite(normalized)) {
+    return null;
+  }
+
+  const value = Math.max(0, Math.min(255, Math.trunc(normalized)));
+
+  const basePalette = [
+    '#000000',
+    '#aa0000',
+    '#00aa00',
+    '#aa5500',
+    '#0000aa',
+    '#aa00aa',
+    '#00aaaa',
+    '#aaaaaa',
+    '#555555',
+    '#ff5555',
+    '#55ff55',
+    '#ffff55',
+    '#5555ff',
+    '#ff55ff',
+    '#55ffff',
+    '#ffffff',
+  ];
+
+  if (value < 16) {
+    return basePalette[value];
+  }
+
+  if (value >= 16 && value <= 231) {
+    const cube = value - 16;
+    const red = Math.floor(cube / 36);
+    const green = Math.floor((cube % 36) / 6);
+    const blue = cube % 6;
+    const levels = [0, 95, 135, 175, 215, 255];
+    return rgbToHex(levels[red], levels[green], levels[blue]);
+  }
+
+  const gray = 8 + (value - 232) * 10;
+  return rgbToHex(gray, gray, gray);
+}
+
+function ansiCodeToColor(code) {
+  const numericCode = Number(code);
+  if (!Number.isFinite(numericCode)) {
+    return null;
+  }
+
+  if (numericCode >= 30 && numericCode <= 37) {
+    return ansiIndexedColorToHex(numericCode - 30);
+  }
+
+  if (numericCode >= 90 && numericCode <= 97) {
+    return ansiIndexedColorToHex(numericCode - 90 + 8);
+  }
+
+  return null;
 }
 
 function appendStyledTextWithLinks(container, text, styleState) {
@@ -533,8 +572,19 @@ function appendStyledTextWithLinks(container, text, styleState) {
       return;
     }
 
-    if (styleState.color) {
-      element.style.color = styleState.color;
+    const resolvedColor = styleState.inverse
+      ? styleState.backgroundColor || 'currentColor'
+      : styleState.color;
+    const resolvedBackgroundColor = styleState.inverse
+      ? styleState.color || 'currentColor'
+      : styleState.backgroundColor;
+
+    if (resolvedColor) {
+      element.style.color = resolvedColor;
+    }
+
+    if (resolvedBackgroundColor) {
+      element.style.backgroundColor = resolvedBackgroundColor;
     }
 
     if (styleState.bold) {
@@ -543,6 +593,21 @@ function appendStyledTextWithLinks(container, text, styleState) {
 
     if (styleState.dim) {
       element.style.opacity = '0.75';
+    }
+
+    if (styleState.italic) {
+      element.style.fontStyle = 'italic';
+    }
+
+    const textDecorations = [];
+    if (styleState.underline) {
+      textDecorations.push('underline');
+    }
+    if (styleState.strikethrough) {
+      textDecorations.push('line-through');
+    }
+    if (textDecorations.length > 0) {
+      element.style.textDecoration = textDecorations.join(' ');
     }
   };
 
@@ -598,8 +663,13 @@ function appendAnsiStyledText(container, text) {
   const normalized = normalizeRenderedLogText(text);
   const styleState = {
     color: null,
+    backgroundColor: null,
     bold: false,
     dim: false,
+    italic: false,
+    underline: false,
+    inverse: false,
+    strikethrough: false,
   };
 
   let cursor = 0;
@@ -616,15 +686,21 @@ function appendAnsiStyledText(container, text) {
       .split(';')
       .map((value) => Number(value || '0'));
 
-    for (const code of codes) {
+    for (let codeIndex = 0; codeIndex < codes.length; codeIndex += 1) {
+      const code = codes[codeIndex];
       if (!Number.isFinite(code)) {
         continue;
       }
 
       if (code === 0) {
         styleState.color = null;
+        styleState.backgroundColor = null;
         styleState.bold = false;
         styleState.dim = false;
+        styleState.italic = false;
+        styleState.underline = false;
+        styleState.inverse = false;
+        styleState.strikethrough = false;
         continue;
       }
 
@@ -644,8 +720,105 @@ function appendAnsiStyledText(container, text) {
         continue;
       }
 
+      if (code === 3) {
+        styleState.italic = true;
+        continue;
+      }
+
+      if (code === 23) {
+        styleState.italic = false;
+        continue;
+      }
+
+      if (code === 4) {
+        styleState.underline = true;
+        continue;
+      }
+
+      if (code === 24) {
+        styleState.underline = false;
+        continue;
+      }
+
+      if (code === 7) {
+        styleState.inverse = true;
+        continue;
+      }
+
+      if (code === 27) {
+        styleState.inverse = false;
+        continue;
+      }
+
+      if (code === 9) {
+        styleState.strikethrough = true;
+        continue;
+      }
+
+      if (code === 29) {
+        styleState.strikethrough = false;
+        continue;
+      }
+
       if (code === 39) {
         styleState.color = null;
+        continue;
+      }
+
+      if (code === 49) {
+        styleState.backgroundColor = null;
+        continue;
+      }
+
+      if (code >= 40 && code <= 47) {
+        styleState.backgroundColor = ansiIndexedColorToHex(code - 40);
+        continue;
+      }
+
+      if (code >= 100 && code <= 107) {
+        styleState.backgroundColor = ansiIndexedColorToHex(code - 100 + 8);
+        continue;
+      }
+
+      if (code === 38 || code === 48) {
+        const isBackground = code === 48;
+        const mode = codes[codeIndex + 1];
+
+        if (mode === 5) {
+          const indexedColor = ansiIndexedColorToHex(codes[codeIndex + 2]);
+          if (indexedColor) {
+            if (isBackground) {
+              styleState.backgroundColor = indexedColor;
+            } else {
+              styleState.color = indexedColor;
+            }
+          }
+          codeIndex += 2;
+        } else if (mode === 2) {
+          const red = codes[codeIndex + 2];
+          const green = codes[codeIndex + 3];
+          const blue = codes[codeIndex + 4];
+          if ([red, green, blue].every((value) => Number.isFinite(value))) {
+            const rgbColor = rgbToHex(red, green, blue);
+            if (isBackground) {
+              styleState.backgroundColor = rgbColor;
+            } else {
+              styleState.color = rgbColor;
+            }
+          }
+          codeIndex += 4;
+        }
+
+        continue;
+      }
+
+      if (code >= 30 && code <= 37) {
+        styleState.color = ansiIndexedColorToHex(code - 30);
+        continue;
+      }
+
+      if (code >= 90 && code <= 97) {
+        styleState.color = ansiIndexedColorToHex(code - 90 + 8);
         continue;
       }
 
@@ -669,10 +842,12 @@ function createLogLineElement(className, text) {
 
   const normalized = normalizeRenderedLogText(text);
   const plainWithoutSgr = normalized.replace(/\u001b\[[0-9;]*m/g, '');
+  const hasSgrCodes = /\u001b\[[0-9;]*m/.test(normalized);
 
   // Some Windows tools inject ANSI SGR codes in the middle of URLs (e.g. before :4200),
   // which breaks link parsing into partial links like http://localhost.
-  if (/https?:\/\//i.test(plainWithoutSgr)) {
+  // If ANSI is present, prioritize preserving terminal styling over linkification.
+  if (/https?:\/\//i.test(plainWithoutSgr) && !hasSgrCodes) {
     appendTextWithLinks(line, plainWithoutSgr);
     return line;
   }
