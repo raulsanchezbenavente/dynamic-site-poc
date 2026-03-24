@@ -17,7 +17,6 @@ export type CmsTabContract = {
   name?: string;
   title?: string;
   secondaryText?: string;
-  components?: CmsTabLayoutCol[];
   layout?: CmsTabLayout | CmsTabLayoutRow[];
   pageId?: string;
 };

@@ -98,10 +98,6 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   });
 
   private resolveTabComponents(tab: Partial<CmsTabContract>): CmsTabLayoutCol[] {
-    if (Array.isArray(tab.components)) {
-      return tab.components;
-    }
-
     const rows = this.resolveTabLayoutRows(tab.layout);
     return rows.flatMap((row) => row.cols ?? []);
   }

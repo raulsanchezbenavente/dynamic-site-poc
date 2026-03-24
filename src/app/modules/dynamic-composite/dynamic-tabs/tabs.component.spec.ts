@@ -43,13 +43,25 @@ describe('DsTabsComponent', () => {
       tabId: 'tab-1',
       name: 'overview',
       title: 'Overview',
-      components: [{ component: 'header' }],
+      layout: {
+        rows: [
+          {
+            cols: [{ component: 'header' }],
+          },
+        ],
+      },
     },
     {
       tabId: 'tab-2',
       name: 'details',
       title: 'Details',
-      components: [{ component: 'footer' }],
+      layout: {
+        rows: [
+          {
+            cols: [{ component: 'footer' }],
+          },
+        ],
+      },
     },
   ];
 
@@ -145,13 +157,25 @@ describe('DsTabsComponent', () => {
         tabId: 'tab-1',
         name: 'Datos personales',
         title: 'Datos personales',
-        components: [{ component: 'header' }],
+        layout: {
+          rows: [
+            {
+              cols: [{ component: 'header' }],
+            },
+          ],
+        },
       },
       {
         tabId: 'tab-2',
         name: 'Mis viajes',
         title: 'Mis viajes',
-        components: [{ component: 'footer' }],
+        layout: {
+          rows: [
+            {
+              cols: [{ component: 'footer' }],
+            },
+          ],
+        },
       },
     ] as CmsTabContract[]);
     tabSummaries = [
