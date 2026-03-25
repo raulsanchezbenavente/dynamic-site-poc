@@ -1,3 +1,5 @@
-<section
-  class="rte-injector"
-  [innerHTML]="htmlContent()"></section>
+@if (hasContent()) {
+  <section
+    class="rte-injector"
+    [innerHTML]="htmlContent()"></section>
+}
