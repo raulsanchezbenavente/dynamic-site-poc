@@ -408,15 +408,15 @@
                 "span": 6,
                 "config": {
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
-                  "htmlContentURLs": "assets/rte-fragments/allowed-cabin/en"
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en"
                 }
               },
               {
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css",
-                  "htmlContentURLs": "assets/rte-fragments/allowed-cellar/en"
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en"
                 }
               }
             ]

@@ -396,7 +396,7 @@
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Itens permitidos e proibidos na sua bagagem</h2>\n<p class=\"intro\">Itens restritos podem colocar em risco a saúde e a segurança das pessoas, o meio ambiente ou as aeronaves.</p>\n</div>",
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css"
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
             ]
@@ -407,7 +407,7 @@
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
                   "htmlContentURLs": "assets/rte-fragments/allowed-cabin/pt"
                 }
               },
@@ -415,8 +415,8 @@
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css",
-                  "htmlContentURLs": "assets/rte-fragments/allowed-cellar/pt"
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/pt"
                 }
               }
             ]
@@ -428,7 +428,7 @@
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Proibido em qualquer tipo de bagagem</h2>\n</div>\n<div class=\"dangerous-good_content dangerous-good_content--restricted\">\n<div class=\"dangerous-good_block-1--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Sólidos inflamáveis</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Substâncias oxidantes</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Materiais perigosos ou infecciosos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Produtos químicos corrosivos e produtos de limpeza doméstica</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-2--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Fogos de artifício e fósforos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Líquidos inflamáveis</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Baterias de lítio defeituosas ou danificadas</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Skates elétricos autoequilibrados (hoverboards, selfbalancing, scooter)</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-3--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Gases inflamáveis</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Produtos radioativos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Armas de eletrochoque (tasers)</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Itens incapacitantes (spray de pimenta, substâncias químicas-mace)</li>\n</ul>\n</div>\n</div>\n</div>",
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css"
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
             ]
@@ -440,7 +440,7 @@
                 "span": 12,
                 "config": {
                   "htmlContent": "<p>Ao clicar em \"Continuar\", você indica que concorda com as <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">políticas da companhia aérea sobre o transporte de itens restritos</a>.</p>",
-                  "cssURLs": "/assets/rte-fragments/allowed-cellar/dangerous-goods.css"
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
             ]

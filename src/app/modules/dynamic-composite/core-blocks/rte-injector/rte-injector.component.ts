@@ -11,6 +11,8 @@ import { RteInjectorConfig } from './models/rte-injector-config.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RteInjectorComponent {
+  private static readonly loadedStylesheetUrls = new Set<string>();
+
   private readonly document = inject(DOCUMENT);
   private readonly fetchedContent = signal('');
 
@@ -65,20 +67,26 @@ export class RteInjectorComponent {
         return;
       }
 
-      const createdNodes: Array<HTMLLinkElement | HTMLStyleElement> = [];
+      const createdStyleNodes: HTMLStyleElement[] = [];
 
       for (const entry of entries) {
         if (this.looksLikeStylesheetUrl(entry)) {
-          if (this.findExistingStylesheetLink(entry)) {
+          const normalizedEntry = this.normalizeStylesheetUrl(entry);
+
+          if (
+            RteInjectorComponent.loadedStylesheetUrls.has(normalizedEntry) ||
+            this.findExistingStylesheetLink(normalizedEntry)
+          ) {
+            RteInjectorComponent.loadedStylesheetUrls.add(normalizedEntry);
             continue;
           }
 
           const link = this.document.createElement('link');
           link.rel = 'stylesheet';
-          link.href = entry;
+          link.href = normalizedEntry;
           link.setAttribute('data-rte-injector', 'true');
           this.document.head.appendChild(link);
-          createdNodes.push(link);
+          RteInjectorComponent.loadedStylesheetUrls.add(normalizedEntry);
           continue;
         }
 
@@ -91,11 +99,11 @@ export class RteInjectorComponent {
         style.setAttribute('data-rte-injector', 'true');
         style.textContent = entry;
         this.document.head.appendChild(style);
-        createdNodes.push(style);
+        createdStyleNodes.push(style);
       }
 
       onCleanup(() => {
-        for (const node of createdNodes) {
+        for (const node of createdStyleNodes) {
           node.remove();
         }
       });
@@ -157,16 +165,16 @@ export class RteInjectorComponent {
   }
 
   private findExistingStylesheetLink(entry: string): boolean {
-    const resolvedEntry = this.resolveUrl(entry);
-    const links = this.document.head.querySelectorAll('link[rel="stylesheet"]');
+    const resolvedEntry = this.normalizeStylesheetUrl(entry);
+    const links = this.document.head.querySelectorAll<HTMLLinkElement>('link[rel="stylesheet"]');
 
     for (const link of Array.from(links)) {
-      const href = link.getAttribute('href') ?? '';
+      const href = link.getAttribute('href') ?? link.href;
       if (!href) {
         continue;
       }
 
-      if (this.resolveUrl(href) === resolvedEntry) {
+      if (this.normalizeStylesheetUrl(href) === resolvedEntry) {
         return true;
       }
     }
@@ -192,6 +200,18 @@ export class RteInjectorComponent {
       return new URL(value, this.document.baseURI).href;
     } catch {
       return value;
+    }
+  }
+
+  private normalizeStylesheetUrl(value: string): string {
+    const resolved = this.resolveUrl(value);
+
+    try {
+      const parsed = new URL(resolved);
+      parsed.hash = '';
+      return parsed.href;
+    } catch {
+      return resolved;
     }
   }
 }
