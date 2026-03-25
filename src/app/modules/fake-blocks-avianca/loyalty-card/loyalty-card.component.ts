@@ -17,6 +17,8 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
 
+import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
+
 @Component({
   selector: 'loyalty-overview-card',
   standalone: true,
@@ -26,7 +28,7 @@ import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
-  public config = input<{ url?: string } | null>(null);
+  public config = input<LoyaltyCardConfig | null>(null);
   public name = input<string>('Perico');
 
   public memberNumber = input<string>('13440242314');

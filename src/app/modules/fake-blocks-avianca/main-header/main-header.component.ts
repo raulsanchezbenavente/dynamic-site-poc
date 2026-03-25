@@ -26,6 +26,7 @@ import { Subject, takeUntil } from 'rxjs';
 
 import { LoyaltyTone } from '../loyalty-tone.service';
 
+import { MainHeaderConfig } from './models/main-header-config.model';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
 import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
 
@@ -49,7 +50,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
   private readonly headerTone = signal<LoyaltyTone | null>(null);
 
-  public config = input<{ url?: string } | null>(null);
+  public config = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
