@@ -12,6 +12,46 @@ const sessionCookieName = 'SSO_BYPASS_SESSION';
 const sessionTtlMs = Number(process.env.SSO_BYPASS_SESSION_TTL_MS || 8 * 60 * 60 * 1000);
 const loginTemplatePath = path.join(__dirname, 'templates', 'sso-login.html');
 const useTemplateCache = String(process.env.SSO_BYPASS_TEMPLATE_CACHE || 'false').toLowerCase() === 'true';
+const supportedLoginLangs = new Set(['en', 'es', 'fr', 'pt']);
+const defaultLoginLang = 'en';
+const loginI18n = {
+  en: {
+    pageTitle: 'FakeMiles Access',
+    heading: 'Sign in to your account',
+    subtitle: 'SSO local dev. Any username and password are accepted in this local bypass mode.',
+    usernameLabel: 'Username',
+    passwordLabel: 'Password',
+    signInLabel: 'Sign In',
+    hint: 'After sign-in, you will be redirected automatically to the provided redirect_uri.',
+  },
+  es: {
+    pageTitle: 'Acceso FakeMiles',
+    heading: 'Inicia sesion en tu cuenta',
+    subtitle: 'SSO local de desarrollo. En este modo bypass local se acepta cualquier usuario y contrasena.',
+    usernameLabel: 'Usuario',
+    passwordLabel: 'Contrasena',
+    signInLabel: 'Iniciar sesion',
+    hint: 'Despues del inicio de sesion seras redirigido automaticamente al redirect_uri indicado.',
+  },
+  fr: {
+    pageTitle: 'Acces FakeMiles',
+    heading: 'Connectez-vous a votre compte',
+    subtitle: 'SSO local de developpement. Tout identifiant et mot de passe sont acceptes dans ce mode bypass local.',
+    usernameLabel: 'Identifiant',
+    passwordLabel: 'Mot de passe',
+    signInLabel: 'Se connecter',
+    hint: 'Apres connexion, vous serez redirige automatiquement vers le redirect_uri fourni.',
+  },
+  pt: {
+    pageTitle: 'Acesso FakeMiles',
+    heading: 'Entre na sua conta',
+    subtitle: 'SSO local de desenvolvimento. Qualquer usuario e senha sao aceitos neste modo de bypass local.',
+    usernameLabel: 'Usuario',
+    passwordLabel: 'Senha',
+    signInLabel: 'Entrar',
+    hint: 'Apos o login, voce sera redirecionado automaticamente para o redirect_uri informado.',
+  },
+};
 
 const authorizationCodes = new Map();
 const refreshTokens = new Map();
@@ -238,7 +278,74 @@ const loadLoginTemplate = () => {
   return template;
 };
 
-const buildLoginPage = (params) => {
+const normalizeLanguageCode = (value) => {
+  const input = String(value || '')
+    .trim()
+    .toLowerCase();
+
+  if (!input) {
+    return null;
+  }
+
+  const normalized = input.replace('_', '-').split('-')[0];
+  return supportedLoginLangs.has(normalized) ? normalized : null;
+};
+
+const pickLanguageFromList = (value) => {
+  const raw = String(value || '').trim();
+  if (!raw) {
+    return null;
+  }
+
+  const candidates = raw
+    .split(/[\s,]+/)
+    .map((entry) => entry.trim())
+    .filter(Boolean);
+
+  for (const candidate of candidates) {
+    const normalized = normalizeLanguageCode(candidate);
+    if (normalized) {
+      return normalized;
+    }
+  }
+
+  return null;
+};
+
+const resolveLanguageFromRedirectUri = (redirectUri) => {
+  const uri = String(redirectUri || '').trim();
+  if (!uri) {
+    return null;
+  }
+
+  try {
+    const parsed = new URL(uri);
+    const segment = parsed.pathname.split('/').filter(Boolean)[0] || '';
+    return normalizeLanguageCode(segment);
+  } catch {
+    return null;
+  }
+};
+
+const resolveLoginLanguage = ({ uiLocales, kcLocale, redirectUri, acceptLanguage }) => {
+  return (
+    pickLanguageFromList(uiLocales) ||
+    normalizeLanguageCode(kcLocale) ||
+    resolveLanguageFromRedirectUri(redirectUri) ||
+    pickLanguageFromList(
+      String(acceptLanguage || '')
+        .split(',')
+        .map((entry) => entry.split(';')[0])
+        .join(' ')
+    ) ||
+    defaultLoginLang
+  );
+};
+
+const buildLoginPage = (params, options = {}) => {
+  const lang = normalizeLanguageCode(options.lang) || defaultLoginLang;
+  const i18n = loginI18n[lang] || loginI18n[defaultLoginLang];
+
   const hiddenFields = Object.entries(params)
     .filter(([, value]) => value !== undefined)
     .map(([key, value]) => `<input type="hidden" name="${escapeHtmlAttr(key)}" value="${escapeHtmlAttr(value)}">`)
@@ -248,7 +355,15 @@ const buildLoginPage = (params) => {
     .replace('__AUTH_ACTION__', `${authBasePath}/dev-login`)
     .replace('{{AUTH_ACTION}}', `${authBasePath}/dev-login`)
     .replace('__HIDDEN_FIELDS__', hiddenFields)
-    .replace('{{HIDDEN_FIELDS}}', hiddenFields);
+    .replace('{{HIDDEN_FIELDS}}', hiddenFields)
+    .replace(/{{I18N_LANG}}/g, escapeHtmlAttr(lang))
+    .replace(/{{I18N_PAGE_TITLE}}/g, escapeHtmlAttr(i18n.pageTitle))
+    .replace(/{{I18N_HEADING}}/g, escapeHtmlAttr(i18n.heading))
+    .replace(/{{I18N_SUBTITLE}}/g, escapeHtmlAttr(i18n.subtitle))
+    .replace(/{{I18N_USERNAME_LABEL}}/g, escapeHtmlAttr(i18n.usernameLabel))
+    .replace(/{{I18N_PASSWORD_LABEL}}/g, escapeHtmlAttr(i18n.passwordLabel))
+    .replace(/{{I18N_SIGNIN_LABEL}}/g, escapeHtmlAttr(i18n.signInLabel))
+    .replace(/{{I18N_HINT}}/g, escapeHtmlAttr(i18n.hint));
 };
 
 const appendQueryToUri = (uri, params) => {
@@ -344,8 +459,16 @@ const handleAuthorizeRequest = (req, res, urlObj) => {
   const codeChallenge = query.get('code_challenge') || '';
   const codeChallengeMethod = query.get('code_challenge_method') || '';
   const responseMode = query.get('response_mode') || 'query';
+  const uiLocales = query.get('ui_locales') || '';
+  const kcLocale = query.get('kc_locale') || '';
   const realm = resolveRealm(urlObj.pathname);
   const prompt = query.get('prompt') || '';
+  const loginLang = resolveLoginLanguage({
+    uiLocales,
+    kcLocale,
+    redirectUri,
+    acceptLanguage: req.headers['accept-language'] || '',
+  });
   const activeSession = getActiveSessionForRequest(req, { realm, clientId });
 
   if (!redirectUri) {
@@ -408,9 +531,11 @@ const handleAuthorizeRequest = (req, res, urlObj) => {
     response_type: responseType,
     nonce,
     response_mode: responseMode,
+    ui_locales: uiLocales,
+    kc_locale: kcLocale,
     code_challenge: codeChallenge,
     code_challenge_method: codeChallengeMethod,
-  });
+  }, { lang: loginLang });
   sendHtml(res, 200, loginPage);
 };
 

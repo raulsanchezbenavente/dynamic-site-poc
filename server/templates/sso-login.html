@@ -121,27 +121,152 @@
       class="card"
       method="post">
       <div class="brand">Fake<em>Miles</em></div>
-      <h1>Sign in to your account</h1>
-      <p>SSO local dev. Any username and password are accepted in this local bypass mode.</p>
+      <h1 id="loginHeading">Sign in to your account</h1>
+      <p id="loginSubtitle">SSO local dev. Any username and password are accepted in this local bypass mode.</p>
 
       {{HIDDEN_FIELDS}}
 
-      <label for="username">Username</label>
+      <label
+        id="usernameLabel"
+        for="username"
+        >Username</label
+      >
       <input
         id="username"
         name="username"
         type="text"
         value="developer"
         autocomplete="username" />
-      <label for="password">Password</label>
+      <label
+        id="passwordLabel"
+        for="password"
+        >Password</label
+      >
       <input
         id="password"
         name="password"
         type="password"
         value="dev"
         autocomplete="current-password" />
-      <button type="submit">Sign In</button>
-      <div class="hint">After sign-in, you will be redirected automatically to the provided redirect_uri.</div>
+      <button
+        id="signinButton"
+        type="submit"
+        >Sign In</button
+      >
+      <div
+        id="loginHint"
+        class="hint">
+        After sign-in, you will be redirected automatically to the provided redirect_uri.
+      </div>
     </form>
+    <script>
+      (function () {
+        var dictionaries = {
+          en: {
+            pageTitle: 'FakeMiles Access',
+            heading: 'Sign in to your account',
+            subtitle: 'SSO local dev. Any username and password are accepted in this local bypass mode.',
+            usernameLabel: 'Username',
+            passwordLabel: 'Password',
+            signInLabel: 'Sign In',
+            hint: 'After sign-in, you will be redirected automatically to the provided redirect_uri.',
+          },
+          es: {
+            pageTitle: 'Acceso FakeMiles',
+            heading: 'Inicia sesion en tu cuenta',
+            subtitle: 'SSO local de desarrollo. En este modo bypass local se acepta cualquier usuario y contrasena.',
+            usernameLabel: 'Usuario',
+            passwordLabel: 'Contrasena',
+            signInLabel: 'Iniciar sesion',
+            hint: 'Despues del inicio de sesion seras redirigido automaticamente al redirect_uri indicado.',
+          },
+          fr: {
+            pageTitle: 'Acces FakeMiles',
+            heading: 'Connectez-vous a votre compte',
+            subtitle:
+              'SSO local de developpement. Tout identifiant et mot de passe sont acceptes dans ce mode bypass local.',
+            usernameLabel: 'Identifiant',
+            passwordLabel: 'Mot de passe',
+            signInLabel: 'Se connecter',
+            hint: 'Apres connexion, vous serez redirige automatiquement vers le redirect_uri fourni.',
+          },
+          pt: {
+            pageTitle: 'Acesso FakeMiles',
+            heading: 'Entre na sua conta',
+            subtitle: 'SSO local de desenvolvimento. Qualquer usuario e senha sao aceitos neste modo de bypass local.',
+            usernameLabel: 'Usuario',
+            passwordLabel: 'Senha',
+            signInLabel: 'Entrar',
+            hint: 'Apos o login, voce sera redirecionado automaticamente para o redirect_uri informado.',
+          },
+        };
+
+        function normalizeLang(value) {
+          var input = String(value || '').trim().toLowerCase();
+          if (!input) return null;
+          var normalized = input.replace('_', '-').split('-')[0];
+          return dictionaries[normalized] ? normalized : null;
+        }
+
+        function pickFromList(value) {
+          var raw = String(value || '').trim();
+          if (!raw) return null;
+          var parts = raw.split(/[\s,]+/);
+          for (var i = 0; i < parts.length; i += 1) {
+            var lang = normalizeLang(parts[i]);
+            if (lang) return lang;
+          }
+          return null;
+        }
+
+        function resolveLangFromRedirectUri(value) {
+          var uri = String(value || '').trim();
+          if (!uri) return null;
+          try {
+            var parsed = new URL(uri, window.location.origin);
+            var segment = (parsed.pathname.split('/').filter(Boolean)[0] || '').trim();
+            return normalizeLang(segment);
+          } catch (_) {
+            return null;
+          }
+        }
+
+        var search = new URLSearchParams(window.location.search || '');
+        var hiddenUiLocales = document.querySelector('input[name="ui_locales"]');
+        var hiddenKcLocale = document.querySelector('input[name="kc_locale"]');
+        var hiddenRedirectUri = document.querySelector('input[name="redirect_uri"]');
+
+        var uiLocales = (hiddenUiLocales && hiddenUiLocales.value) || search.get('ui_locales') || '';
+        var kcLocale = (hiddenKcLocale && hiddenKcLocale.value) || search.get('kc_locale') || '';
+        var redirectUri = (hiddenRedirectUri && hiddenRedirectUri.value) || search.get('redirect_uri') || '';
+
+        var lang =
+          pickFromList(uiLocales) || normalizeLang(kcLocale) || resolveLangFromRedirectUri(redirectUri) || 'en';
+        var copy = dictionaries[lang] || dictionaries.en;
+
+        var title = document.querySelector('title');
+        if (title) title.textContent = copy.pageTitle;
+
+        var heading = document.getElementById('loginHeading');
+        if (heading) heading.textContent = copy.heading;
+
+        var subtitle = document.getElementById('loginSubtitle');
+        if (subtitle) subtitle.textContent = copy.subtitle;
+
+        var usernameLabel = document.getElementById('usernameLabel');
+        if (usernameLabel) usernameLabel.textContent = copy.usernameLabel;
+
+        var passwordLabel = document.getElementById('passwordLabel');
+        if (passwordLabel) passwordLabel.textContent = copy.passwordLabel;
+
+        var signinButton = document.getElementById('signinButton');
+        if (signinButton) signinButton.textContent = copy.signInLabel;
+
+        var hint = document.getElementById('loginHint');
+        if (hint) hint.textContent = copy.hint;
+
+        document.documentElement.lang = lang;
+      })();
+    </script>
   </body>
 </html>
