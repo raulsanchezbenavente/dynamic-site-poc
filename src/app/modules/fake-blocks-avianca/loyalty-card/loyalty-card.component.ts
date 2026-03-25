@@ -42,7 +42,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   private readonly routerHelper = inject(RouterHelperService);
   private readonly siteConfig = inject(SiteConfigService);
   private readonly loyaltyToneSvc = inject(LoyaltyToneService);
-  private readonly loyaltyTone = signal<LoyaltyTone | null>(null);
+  private readonly loyaltyTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
   private readonly activeLang = signal<AppLang>(this.routerHelper.language);
   private readonly destroy$ = new Subject<void>();
 
@@ -65,20 +65,21 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       const url = String(blockConfig?.['url'] ?? this.config()?.url ?? '').trim();
 
       if (!url) {
-        this.loyaltyTone.set(null);
-        this.loyaltyToneSvc.tone.set(null);
+        // Keep the previous tone if URL is temporarily unavailable while language/config settles.
         return;
       }
 
       const subscription = this.http.get(url, { responseType: 'text' }).subscribe({
         next: (responseText) => {
           const tone = this.resolveTone(this.parseLoyaltyPayload(responseText));
-          this.loyaltyTone.set(tone);
-          this.loyaltyToneSvc.tone.set(tone);
+          // Only replace tone when payload provides a valid one; this avoids momentary color flicker.
+          if (tone) {
+            this.loyaltyTone.set(tone);
+            this.loyaltyToneSvc.tone.set(tone);
+          }
         },
         error: () => {
-          this.loyaltyTone.set(null);
-          this.loyaltyToneSvc.tone.set(null);
+          // Keep previous tone on transient request errors.
         },
       });
 
@@ -127,9 +128,9 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     return null;
   }
 
-  private getToneColor(tone: LoyaltyTone | null): string | null {
+  private getToneColor(tone: LoyaltyTone | null): string {
     if (!tone) {
-      return null;
+      return '#e2007a';
     }
 
     if (tone === 'gold') {
@@ -147,9 +148,9 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     return '#e2007a';
   }
 
-  private getGradientStops(tone: LoyaltyTone | null): { start: string | null; end: string | null } {
+  private getGradientStops(tone: LoyaltyTone | null): { start: string; end: string } {
     if (!tone) {
-      return { start: null, end: null };
+      return { start: '#b50080', end: '#ff0000' };
     }
 
     if (tone === 'gold') {

@@ -5,13 +5,13 @@
 @property --lm-grad-start {
   syntax: '<color>';
   inherits: false;
-  initial-value: transparent;
+  initial-value: #b50080;
 }
 
 @property --lm-grad-end {
   syntax: '<color>';
   inherits: false;
-  initial-value: transparent;
+  initial-value: #ff0000;
 }
 
 .lm-shell {
@@ -25,9 +25,6 @@
   padding: 22px 26px 26px;
   color: #fff;
   background: linear-gradient(180deg, var(--lm-grad-start), var(--lm-grad-end));
-  transition:
-    --lm-grad-start 180ms ease,
-    --lm-grad-end 180ms ease;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   max-width: 1100px;
   margin-left: auto;
@@ -168,7 +165,6 @@
   font-size: 12px;
   text-transform: lowercase;
   flex: 0 0 auto;
-  transition: background-color 180ms ease;
 }
 
 .lm-copy {
