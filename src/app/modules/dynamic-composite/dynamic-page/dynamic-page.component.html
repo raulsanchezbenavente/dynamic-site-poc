@@ -1,6 +1,8 @@
 <div class="page">
   @for (row of rows; track row) {
-    <div class="row-grid">
+    <div
+      class="row-grid"
+      [class.row-grid--with-rte]="hasRteInjector(row)">
       @for (col of row.cols; track col) {
         <div
           class="col"

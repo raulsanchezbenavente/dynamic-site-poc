@@ -54,4 +54,8 @@ export class DynamicPageComponent implements OnInit {
     const { component, span, ...inputs } = col;
     return inputs;
   }
+
+  public hasRteInjector(row: PageLayoutRow): boolean {
+    return (row?.cols ?? []).some((col) => col?.component === 'RTEinjector_uiplus');
+  }
 }
