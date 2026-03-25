@@ -45,6 +45,8 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
 - 🧱 RTE layout rules in Dynamic Composite: proportional `max-width` by `span` using a 1200px base, mirrored left/right alignment on desktop rows, and full-width centered RTE on mobile
 - 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
+- 🧭 Dangerous goods route slug localized by language while preserving `check-in` prefix (e.g., `es/check-in/articulos-peligrosos`, `fr/check-in/articles-dangereux`, `pt/check-in/artigos-perigosos`)
+- 🧭 Main header user menu now includes a localized Dangerous Goods entry (removed previous “Book a flight with LM” item)
 
 ---
 
