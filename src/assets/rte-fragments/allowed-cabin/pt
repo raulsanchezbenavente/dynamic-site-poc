@@ -1,0 +1,19 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Permitido apenas na cabine</h2>
+  </div>
+  <div class="dangerous-good_content">
+    <ul class="dangerous-good_list dangerous-good_list--cabin ds-list_list">
+      <li class="dangerous-good_list-item">Carregadores externos (power banks)*</li>
+      <li class="dangerous-good_list-item">Cigarros eletrônicos</li>
+      <li class="dangerous-good_list-item">Baterias soltas/de reposição, incluindo baterias de lítio</li>
+    </ul>
+    <p class="dangerous-good_note">*Baterias acima de 160 Wh são proibidas</p>
+  </div>
+</div>

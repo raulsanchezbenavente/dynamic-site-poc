@@ -1,0 +1,19 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Autorisé uniquement en cabine</h2>
+  </div>
+  <div class="dangerous-good_content">
+    <ul class="dangerous-good_list dangerous-good_list--cabin ds-list_list">
+      <li class="dangerous-good_list-item">Chargeurs externes (batteries externes)*</li>
+      <li class="dangerous-good_list-item">Cigarettes électroniques</li>
+      <li class="dangerous-good_list-item">Batteries en vrac/de rechange, y compris les batteries au lithium</li>
+    </ul>
+    <p class="dangerous-good_note">*Les batteries de plus de 160 Wh sont interdites</p>
+  </div>
+</div>

@@ -36,6 +36,9 @@ export class ProgressAsynGuard implements CanActivate {
     'fr/merci',
     'pt/obrigado',
     'en/dangerous-goods',
+    'es/dangerous-goods',
+    'fr/dangerous-goods',
+    'pt/dangerous-goods',
   ]);
 
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {

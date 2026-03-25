@@ -371,6 +371,90 @@
           }
         ]
       }
+    },
+    {
+      "pageId": "3",
+      "path": "es/dangerous-goods",
+      "name": "Artículos peligrosos",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/es"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 12,
+                "config": {
+                  "content": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Artículos permitidos y prohibidos en tu equipaje</h2>\n<p class=\"intro\">Los elementos restringidos pueden poner en riesgo la salud y seguridad de las personas, el medioambiente o los aviones.</p>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 6,
+                "config": {
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ],
+                  "contentUrls": [
+                    "assets/rte-fragments/allowed-cabin/es"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 6,
+                "config": {
+                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/lpcdcwts/ilustracion.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Permitido solo en bodega</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item\">Algunos tipos de alimentos</li>\n<li class=\"dangerous-good_list-item\">Herramientas o elementos de trabajo</li>\n<li class=\"dangerous-good_list-item\">Aerosoles de más de 100 ml</li>\n<li class=\"dangerous-good_list-item\">Líquidos de más de 100 ml</li>\n</ul>\n</div>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 12,
+                "config": {
+                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Prohibido en cualquier tipo de equipaje</h2>\n</div>\n<div class=\"dangerous-good_content dangerous-good_content--restricted\">\n<div class=\"dangerous-good_block-1--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Sólidos inflamables</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Sustancias oxidantes</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Materiales peligrosos o infecciosos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Químicos corrosivos y productos de limpieza para el hogar</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-2--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Fuegos artificiales y fósforos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Líquidos inflamables</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Baterías de litio defectuosas o dañadas</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Patinetas eléctricas autoequilibradas (hoverboards, selfbalancing, scooter)</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-3--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Gases inflamables</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Productos radiactivos</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Armas de electrochoque (táseres)</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Elementos incapacitantes (gas pimienta, sustancias químicas-mace)</li>\n</ul>\n</div>\n</div>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 12,
+                "config": {
+                  "content": "<p>Al hacer clic en \"Continuar\", indicas que estás de acuerdo con las <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">políticas de la aerolínea sobre el transporte de artículos restringidos</a>.</p>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
