@@ -47,6 +47,8 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
 - 🧭 Dangerous goods route slug localized by language while preserving `check-in` prefix (e.g., `es/check-in/articulos-peligrosos`, `fr/check-in/articles-dangereux`, `pt/check-in/artigos-perigosos`)
 - 🧭 Main header user menu now includes a localized Dangerous Goods entry (removed previous “Book a flight with LM” item)
+- 🎨 Dangerous goods RTE style extraction available at `src/assets/rte-fragments/allowed-cabin/dangerous-goods.css` (scoped version for fragment rendering)
+- 🌍 `allowed-cellar` RTE fragment localized in all supported languages (`en/es/fr/pt`)
 
 ---
 
@@ -146,6 +148,7 @@ src/
 │   ├── config/                # Runtime payloads consumed by dynamic blocks
 │   ├── i18n/                  # Translations (en/es/fr/pt)
 │   ├── illustrations/         # UI SVGs (extras, payment)
+│   ├── rte-fragments/         # HTML/CSS fragments consumed by rte-injector (en/es/fr/pt)
 │   └── loader/                # Local boot loader GIF
 └── styles.scss
 ```

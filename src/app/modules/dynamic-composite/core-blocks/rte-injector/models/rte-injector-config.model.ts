@@ -1,6 +1,6 @@
 export interface RteInjectorConfig {
-  content?: string;
-  contentURLs?: string[];
-  css?: string[];
-  styles?: string[];
+  htmlContent?: string | string[];
+  htmlContentURLs?: string | string[];
+  styles?: string | string[];
+  cssURLs?: string | string[];
 }

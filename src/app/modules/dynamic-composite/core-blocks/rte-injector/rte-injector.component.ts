@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+
 import { RteInjectorConfig } from './models/rte-injector-config.model';
 
 @Component({
@@ -102,12 +103,16 @@ export class RteInjectorComponent {
   }
 
   private getStaticContent(config: RteInjectorConfig | null | undefined): string {
-    return (config?.content ?? '').trim();
+    const legacyContent = (config as { content?: string | string[] } | null | undefined)?.content;
+
+    return [...this.normalizeToStringArray(config?.htmlContent), ...this.normalizeToStringArray(legacyContent)].join(
+      '\n'
+    );
   }
 
   private getContentUrls(config: RteInjectorConfig | null | undefined): string[] {
-    const values = [...(config?.contentURLs ?? [])];
-    return values.map((item) => item.trim()).filter((item) => item.length > 0);
+    const legacyContentUrls = (config as { contentURLs?: string | string[] } | null | undefined)?.contentURLs;
+    return [...this.normalizeToStringArray(config?.htmlContentURLs), ...this.normalizeToStringArray(legacyContentUrls)];
   }
 
   private hasRenderableContentSource(config: RteInjectorConfig | null | undefined): boolean {
@@ -115,7 +120,17 @@ export class RteInjectorComponent {
   }
 
   private getCssEntries(config: RteInjectorConfig | null | undefined): string[] {
-    const values = [...(config?.css ?? []), ...(config?.styles ?? [])];
+    const legacyCss = (config as { css?: string | string[] } | null | undefined)?.css;
+    const legacyStyles = (config as { styles?: string | string[] } | null | undefined)?.styles;
+
+    const inlineStyles = [...this.normalizeToStringArray(config?.styles), ...this.normalizeToStringArray(legacyCss)];
+    const cssUrls = [...this.normalizeToStringArray(config?.cssURLs), ...this.normalizeToStringArray(legacyStyles)];
+
+    return [...cssUrls, ...inlineStyles];
+  }
+
+  private normalizeToStringArray(value: string | string[] | null | undefined): string[] {
+    const values = Array.isArray(value) ? value : value ? [value] : [];
     return values.map((item) => item.trim()).filter((item) => item.length > 0);
   }
 
