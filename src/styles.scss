@@ -1,15 +1,31 @@
 .page {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .row-grid {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    gap: 0;
-    margin-bottom: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 0;
+  margin-bottom: 0;
 }
 
 .col {
-    min-width: 0;
+  min-width: 0;
+}
+
+@media (max-width: 766px) {
+  .row-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .row-grid > .col {
+    grid-column: 1 / -1 !important;
+  }
+
+  .row-grid > .col.rte-col {
+    max-width: 100% !important;
+    justify-self: center !important;
+    text-align: center !important;
+  }
 }

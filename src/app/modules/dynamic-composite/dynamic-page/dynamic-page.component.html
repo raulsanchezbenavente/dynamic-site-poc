@@ -4,6 +4,7 @@
       @for (col of row.cols; track col; let colIndex = $index) {
         <div
           class="col"
+          [class.rte-col]="isRteCol(col)"
           [style.gridColumn]="'span ' + (col.span ?? 12)"
           [style.maxWidth]="getRteColMaxWidth(col)"
           [style.width]="getRteColWidth(col)"

@@ -104,7 +104,7 @@ export class DynamicPageComponent implements OnInit {
     return null;
   }
 
-  private isRteCol(col: PageLayoutCol): boolean {
+  public isRteCol(col: PageLayoutCol): boolean {
     return col.component === 'RTEinjector_uiplus';
   }
 
