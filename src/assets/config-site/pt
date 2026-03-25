@@ -412,7 +412,7 @@
                   "styles": [
                     "https://av-static-dev.newshore.es/ui/styles.css"
                   ],
-                  "contentUrls": [
+                  "contentURLs": [
                     "assets/rte-fragments/allowed-cabin/pt"
                   ]
                 }

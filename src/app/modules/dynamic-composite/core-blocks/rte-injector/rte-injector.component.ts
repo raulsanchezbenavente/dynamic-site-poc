@@ -1,13 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
-
-interface RteInjectorConfig {
-  content?: string;
-  contentURLs?: string[];
-  contentUrls?: string[];
-  css?: string[];
-  styles?: string[];
-}
+import { RteInjectorConfig } from './models/rte-injector-config.model';
 
 @Component({
   selector: 'rte-injector',
@@ -113,7 +106,7 @@ export class RteInjectorComponent {
   }
 
   private getContentUrls(config: RteInjectorConfig | null | undefined): string[] {
-    const values = [...(config?.contentURLs ?? []), ...(config?.contentUrls ?? [])];
+    const values = [...(config?.contentURLs ?? [])];
     return values.map((item) => item.trim()).filter((item) => item.length > 0);
   }
 
