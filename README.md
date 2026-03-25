@@ -282,31 +282,31 @@ Each script includes a short description in `package.json` under `scriptDescript
 The Electron launcher uses these descriptions as a custom tooltip when you hover or focus a script name.
 That tooltip is anchored from the left edge of the script title for easier reading.
 
-| Script | Description |
-| --- | --- |
-| `ng` | Executes Angular CLI directly. |
-| `start:serve` | Starts Angular dev server with the default environment. |
-| `start:serve:bypass` | Starts Angular dev server using the bypass environment (fake SSO setup). |
-| `start:proxy` | Starts the local index/SEO proxy server on port 4300. |
-| `start:sso-bypass` | Starts the fake local SSO/OIDC server on port 4500. |
-| `start:serve-proxy` | Runs Angular dev server and proxy together. |
-| `start:serve-proxy-bypass` | Runs Angular bypass mode, proxy, and fake SSO together. |
-| `linux:enable-port-443` | Enables Linux capability to bind port 443 without running the app as root. |
-| `build` | Builds the Angular application for production. |
-| `start:backend` | Starts the backend server entrypoint. |
-| `start:api` | Starts the booking flow API service on port 3000. |
-| `launcher:open` | Opens the Electron launcher in development mode. |
-| `launcher:build:win` | Builds the Windows launcher installer (NSIS). |
-| `launcher:build:mac` | Builds the macOS launcher artifacts (DMG and ZIP). |
-| `launcher:build:linux` | Builds Linux launcher artifacts (AppImage and DEB). |
-| `launcher:build:all` | Builds launcher artifacts for Windows, macOS, and Linux. |
-| `launcher:build:run` | Builds (or reuses) the launcher artifact for the current OS and runs it. |
-| `watch` | Builds Angular in watch mode using the development configuration. |
-| `test` | Runs unit tests once in headless Chrome. |
-| `test:watch` | Runs unit tests in watch mode. |
-| `lint` | Runs ESLint on TypeScript and Angular HTML templates. |
-| `lint:styles` | Runs Stylelint on SCSS and CSS source files. |
-| `format` | Formats source files with Prettier. |
+| Script                     | Description                                                                |
+| -------------------------- | -------------------------------------------------------------------------- |
+| `ng`                       | Executes Angular CLI directly.                                             |
+| `start:serve`              | Starts Angular dev server with the default environment.                    |
+| `start:serve:bypass`       | Starts Angular dev server using the bypass environment (fake SSO setup).   |
+| `start:proxy`              | Starts the local index/SEO proxy server on port 4300.                      |
+| `start:sso-bypass`         | Starts the fake local SSO/OIDC server on port 4500.                        |
+| `start:serve-proxy`        | Runs Angular dev server and proxy together.                                |
+| `start:serve-proxy-bypass` | Runs Angular bypass mode, proxy, and fake SSO together.                    |
+| `linux:enable-port-443`    | Enables Linux capability to bind port 443 without running the app as root. |
+| `build`                    | Builds the Angular application for production.                             |
+| `start:backend`            | Starts the backend server entrypoint.                                      |
+| `start:api`                | Starts the booking flow API service on port 3000.                          |
+| `launcher:open`            | Opens the Electron launcher in development mode.                           |
+| `launcher:build:win`       | Builds the Windows launcher installer (NSIS).                              |
+| `launcher:build:mac`       | Builds the macOS launcher artifacts (DMG and ZIP).                         |
+| `launcher:build:linux`     | Builds Linux launcher artifacts (AppImage and DEB).                        |
+| `launcher:build:all`       | Builds launcher artifacts for Windows, macOS, and Linux.                   |
+| `launcher:build:run`       | Builds (or reuses) the launcher artifact for the current OS and runs it.   |
+| `watch`                    | Builds Angular in watch mode using the development configuration.          |
+| `test`                     | Runs unit tests once in headless Chrome.                                   |
+| `test:watch`               | Runs unit tests in watch mode.                                             |
+| `lint`                     | Runs ESLint on TypeScript and Angular HTML templates.                      |
+| `lint:styles`              | Runs Stylelint on SCSS and CSS source files.                               |
+| `format`                   | Formats source files with Prettier.                                        |
 
 ### Launcher Scripts
 

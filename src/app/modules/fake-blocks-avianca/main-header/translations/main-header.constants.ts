@@ -13,5 +13,5 @@ export const DEFAULT_MENU: HeaderMenuItem[] = [
   { label: 'HEADER.MENU_MY_TRIPS', externalTab: true, pageId: '2', tabsId: '111', tabId: '33' },
   { label: 'HEADER.MENU_ACCOUNT_SETTINGS', externalTab: true, pageId: '2', tabsId: '111', tabId: '44' },
   { label: 'HEADER.MENU_MY_ELITE_STATUS', externalTab: true, pageId: '2', tabsId: '111', tabId: '55' },
-  { label: 'HEADER.MENU_BOOK_LM' },
+  { label: 'HEADER.MENU_DANGEROUS_GOODS', pageId: '3' },
 ];
