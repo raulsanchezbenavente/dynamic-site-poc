@@ -395,7 +395,47 @@
                 "component": "RTEinjector_uiplus",
                 "span": 12,
                 "config": {
-                  "content": "<div class=\"grid-col col-12 col-md-6 col-lg-6 col-xl-6\">\n\n\n<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Permitidos solo en cabina</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list dangerous-good_list--cabin ds-list_list\">\n<li class=\"dangerous-good_list-item\">Cargadores externos (Power bank)*</li>\n<li class=\"dangerous-good_list-item\">Cigarrillos electrónicos</li>\n<li class=\"dangerous-good_list-item\">Baterías sueltas / repuesto, incluyendo las de litio</li>\n</ul>\n<p class=\"dangerous-good_note\">*Las baterías de más de 160 Whs son artículos prohibidos</p>\n</div>\n</div>\n                        </div>",
+                  "content": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Items allowed and prohibited in your luggage</h2>\n<p class=\"intro\">Restricted items may endanger the health and safety of people, the environment, or aircraft.</p>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 6,
+                "config": {
+                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Allowed only in the cabin</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list dangerous-good_list--cabin ds-list_list\">\n<li class=\"dangerous-good_list-item\">External chargers (Power banks)*</li>\n<li class=\"dangerous-good_list-item\">Electronic cigarettes</li>\n<li class=\"dangerous-good_list-item\">Loose/spare batteries, including lithium batteries</li>\n</ul>\n<p class=\"dangerous-good_note\">*Batteries over 160 Whs are prohibited</p>\n</div>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 6,
+                "config": {
+                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/lpcdcwts/ilustracion.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Allowed only in the cellar</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item\">Some types of foods</li>\n<li class=\"dangerous-good_list-item\">Tools or work elements</li>\n<li class=\"dangerous-good_list-item\">Aerosols with more than 100 ml</li>\n<li class=\"dangerous-good_list-item\">Liquids over 100 ml</li>\n</ul>\n</div>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 12,
+                "config": {
+                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Prohibited in any type of luggage</h2>\n</div>\n<div class=\"dangerous-good_content dangerous-good_content--restricted\">\n<div class=\"dangerous-good_block-1--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable solids</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Oxidizing substances</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Hazardous or infectious materials</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Corrosive chemicals and household cleaning products</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-2--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Fireworks and matches</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable liquids</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Defective or damaged lithium batteries</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Self-balancing electric skateboards (Hoverboards, selfbalancing, scooter)</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-3--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable gases</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Radioactive products</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Electroshock weapons (tasers)</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Disabling elements (pepper spray, chemical substances-mace)</li>\n</ul>\n</div>\n</div>\n</div>",
+                  "styles": [
+                    "https://av-static-dev.newshore.es/ui/styles.css"
+                  ]
+                }
+              },
+              {
+                "component": "RTEinjector_uiplus",
+                "span": 12,
+                "config": {
+                  "content": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
                   "styles": [
                     "https://av-static-dev.newshore.es/ui/styles.css"
                   ]
