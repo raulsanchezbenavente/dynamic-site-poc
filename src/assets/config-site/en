@@ -397,7 +397,7 @@
                 "config": {
                   "content": "<div class=\"grid-col col-12 col-md-6 col-lg-6 col-xl-6\">\n\n\n<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Permitidos solo en cabina</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list dangerous-good_list--cabin ds-list_list\">\n<li class=\"dangerous-good_list-item\">Cargadores externos (Power bank)*</li>\n<li class=\"dangerous-good_list-item\">Cigarrillos electrónicos</li>\n<li class=\"dangerous-good_list-item\">Baterías sueltas / repuesto, incluyendo las de litio</li>\n</ul>\n<p class=\"dangerous-good_note\">*Las baterías de más de 160 Whs son artículos prohibidos</p>\n</div>\n</div>\n                        </div>",
                   "styles": [
-                    "https://av-booking-local.newshore.es/styles.css"
+                    "https://av-static-dev.newshore.es/ui/styles.css"
                   ]
                 }
               }
