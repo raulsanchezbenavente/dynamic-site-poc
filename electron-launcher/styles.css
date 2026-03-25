@@ -1156,14 +1156,23 @@ body:has(.layout.terminal-fullscreen) .layout {
   font-size: 1.55rem;
   font-weight: 900;
   line-height: 1;
+  transition:
+    color 140ms ease,
+    transform 140ms ease,
+    text-shadow 140ms ease;
 }
 .favorite-toggle:hover:not(:disabled) {
-  color: #f0b80f;
+  color: #f4c220;
   box-shadow: none;
-  transform: none;
+  transform: translateY(-1px) scale(1.08);
+  text-shadow: 0 0 10px rgba(240, 184, 15, 0.38);
 }
 .favorite-toggle.active {
   color: #f0b80f;
+}
+.favorite-toggle.active:hover:not(:disabled) {
+  color: #ffd24d;
+  text-shadow: 0 0 12px rgba(240, 184, 15, 0.44);
 }
 .scripts-empty-state {
   margin: 0;
