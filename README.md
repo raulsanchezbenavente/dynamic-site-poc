@@ -40,6 +40,8 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 - 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
 - 🎨 Loyalty card resolves per-page config from `assets/config-site`, loads its tone from `assets/config/loyalty/{lang}`, and syncs that color with the main header badge/button
+- 🛡️ Loyalty card and main header tone updates preserve the last valid tone with fallback colors during language switches to avoid transient white/unstyled states
+- 🧱 `rte-injector` keeps previous remote fragment HTML visible while localized content is revalidated (stale-while-revalidate) to reduce flicker
 - 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
 - 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
 - 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
@@ -373,6 +375,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
+- 🎛️ **Hover Refresh (Border Accent)**: Launcher button and tab hover feedback uses border/background emphasis (no vertical jump), while semantic actions like Start/Stop keep their green/red identity on hover
 - 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
 - 🧰 **Unclipped Tab Tooltips**: Terminal tab shell tooltips (including the session close `x`) are rendered in a floating portal outside the tabs container so they are never cut by overflow
@@ -497,6 +500,7 @@ The double-click installers at the repo root handle everything:
 7. Booking progress is tracked locally and validated against the API on port 3000.
 8. `SeoService` updates metadata per page transition (title, description, canonical, OG/Twitter and robots).
 9. Some blocks also fetch runtime payloads outside the main site config. Example: `loyaltyOverviewCard_uiplus` resolves its block config by `pageId` + language, fetches `/assets/config/loyalty/{lang}`, and publishes the resulting tone through `LoyaltyToneService` so the main header stays visually aligned.
+10. Language-switch rendering is hardened to reduce flicker: loyalty/header keep the previous valid tone until fresh data is available, and `rte-injector` keeps previously fetched remote HTML visible while localized fragments are being refreshed.
 
 ---
 
