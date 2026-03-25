@@ -1,10 +1,14 @@
 <div class="page">
   @for (row of rows; track row) {
     <div class="row-grid">
-      @for (col of row.cols; track col) {
+      @for (col of row.cols; track col; let colIndex = $index) {
         <div
           class="col"
-          [style.gridColumn]="'span ' + (col.span ?? 12)">
+          [style.gridColumn]="'span ' + (col.span ?? 12)"
+          [style.maxWidth]="getRteColMaxWidth(col)"
+          [style.width]="getRteColWidth(col)"
+          [style.justifySelf]="getRteColJustifySelf(row, colIndex, col)"
+          [style.textAlign]="getRteColTextAlign(row, colIndex, col)">
           <block-outlet [block]="col"></block-outlet>
         </div>
       }

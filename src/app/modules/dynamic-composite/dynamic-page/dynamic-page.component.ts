@@ -36,6 +36,7 @@ type DynamicPageRouteData = {
 })
 export class DynamicPageComponent implements OnInit {
   public rows: PageLayoutRow[] = [];
+  private readonly rteBaseMaxWidthPx = 1200;
 
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
@@ -53,5 +54,85 @@ export class DynamicPageComponent implements OnInit {
   public getInputs(col: PageLayoutCol): Record<string, any> {
     const { component, span, ...inputs } = col;
     return inputs;
+  }
+
+  public getRteColMaxWidth(col: PageLayoutCol): string | null {
+    if (!this.isRteCol(col)) {
+      return null;
+    }
+
+    const span = this.normalizeSpan(col.span);
+    const proportionalMaxWidth = (this.rteBaseMaxWidthPx * span) / 12;
+    return `${proportionalMaxWidth}px`;
+  }
+
+  public getRteColWidth(col: PageLayoutCol): string | null {
+    return this.isRteCol(col) ? '100%' : null;
+  }
+
+  public getRteColJustifySelf(row: PageLayoutRow, colIndex: number, col: PageLayoutCol): string | null {
+    if (!this.isRteCol(col)) {
+      return null;
+    }
+
+    const position = this.getRtePosition(row, colIndex);
+    if (position === 'left') {
+      return 'end';
+    }
+
+    if (position === 'right') {
+      return 'start';
+    }
+
+    return 'center';
+  }
+
+  public getRteColTextAlign(row: PageLayoutRow, colIndex: number, col: PageLayoutCol): string | null {
+    if (!this.isRteCol(col)) {
+      return null;
+    }
+
+    const position = this.getRtePosition(row, colIndex);
+    if (position === 'left') {
+      return 'right';
+    }
+
+    if (position === 'right') {
+      return 'left';
+    }
+
+    return null;
+  }
+
+  private isRteCol(col: PageLayoutCol): boolean {
+    return col.component === 'RTEinjector_uiplus';
+  }
+
+  private normalizeSpan(span?: number): number {
+    const raw = Number(span ?? 12);
+    if (!Number.isFinite(raw)) {
+      return 12;
+    }
+
+    return Math.min(Math.max(Math.round(raw), 1), 12);
+  }
+
+  private getRtePosition(row: PageLayoutRow, colIndex: number): 'left' | 'right' | 'single' {
+    const cols = Array.isArray(row?.cols) ? row.cols : [];
+    const rteIndexes = cols
+      .map((item, index) => ({ item, index }))
+      .filter(({ item }) => this.isRteCol(item))
+      .map(({ index }) => index);
+
+    if (rteIndexes.length <= 1) {
+      return 'single';
+    }
+
+    const rteOrderIndex = rteIndexes.indexOf(colIndex);
+    if (rteOrderIndex < 0) {
+      return 'single';
+    }
+
+    return rteOrderIndex < rteIndexes.length / 2 ? 'left' : 'right';
   }
 }
