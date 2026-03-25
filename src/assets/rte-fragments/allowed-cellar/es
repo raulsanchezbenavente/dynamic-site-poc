@@ -1,0 +1,19 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/lpcdcwts/ilustracion.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Permitido solo en bodega</h2>
+  </div>
+  <div class="dangerous-good_content">
+    <ul class="dangerous-good_list ds-list_list">
+      <li class="dangerous-good_list-item">Algunos tipos de alimentos</li>
+      <li class="dangerous-good_list-item">Herramientas o elementos de trabajo</li>
+      <li class="dangerous-good_list-item">Aerosoles de más de 100 ml</li>
+      <li class="dangerous-good_list-item">Líquidos de más de 100 ml</li>
+    </ul>
+  </div>
+</div>

@@ -410,7 +410,7 @@
                 "span": 6,
                 "config": {
                   "styles": [
-                    "/assets/rte-fragments/allowed-cabin/dangerous-goods-extracted.css"
+                    "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                   ],
                   "contentURLs": [
                     "assets/rte-fragments/allowed-cabin/en"
@@ -421,9 +421,11 @@
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/lpcdcwts/ilustracion.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Allowed only in the cellar</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item\">Some types of foods</li>\n<li class=\"dangerous-good_list-item\">Tools or work elements</li>\n<li class=\"dangerous-good_list-item\">Aerosols with more than 100 ml</li>\n<li class=\"dangerous-good_list-item\">Liquids over 100 ml</li>\n</ul>\n</div>\n</div>",
                   "styles": [
-                    "/assets/rte-fragments/allowed-cabin/dangerous-goods-extracted.css"
+                    "/assets/rte-fragments/allowed-cellar/dangerous-goods.css"
+                  ],
+                  "contentURLs": [
+                    "assets/rte-fragments/allowed-cellar/en"
                   ]
                 }
               }

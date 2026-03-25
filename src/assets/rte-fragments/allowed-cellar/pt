@@ -1,0 +1,19 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/lpcdcwts/ilustracion.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Permitido apenas no porão</h2>
+  </div>
+  <div class="dangerous-good_content">
+    <ul class="dangerous-good_list ds-list_list">
+      <li class="dangerous-good_list-item">Alguns tipos de alimentos</li>
+      <li class="dangerous-good_list-item">Ferramentas ou itens de trabalho</li>
+      <li class="dangerous-good_list-item">Aerossóis com mais de 100 ml</li>
+      <li class="dangerous-good_list-item">Líquidos acima de 100 ml</li>
+    </ul>
+  </div>
+</div>
