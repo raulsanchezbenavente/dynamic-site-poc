@@ -1073,7 +1073,7 @@ body:has(.layout.terminal-fullscreen) .layout {
   transition: transform 160ms ease;
 }
 .clear-icon-button:hover:not(:disabled) .clear-logs-icon {
-  transform: translateY(-0.04rem);
+  transform: none;
 }
 .export-logs-icon {
   width: 1.2rem;
@@ -1083,7 +1083,7 @@ body:has(.layout.terminal-fullscreen) .layout {
   transition: transform 160ms ease;
 }
 .export-icon-button:hover:not(:disabled) .export-logs-icon {
-  transform: translateY(-0.04rem);
+  transform: none;
 }
 .toggle-terminal-button {
   background: #eef5ff;
@@ -1104,7 +1104,7 @@ body:has(.layout.terminal-fullscreen) .layout {
   transition: transform 160ms ease;
 }
 .session-icon-button:hover:not(:disabled) .toggle-terminal-icon {
-  transform: scale(1.08);
+  transform: none;
 }
 .scripts-list {
   padding: 0.9rem;
@@ -1160,7 +1160,7 @@ body:has(.layout.terminal-fullscreen) .layout {
 .favorite-toggle:hover:not(:disabled) {
   color: #f0b80f;
   box-shadow: none;
-  transform: scale(1.05);
+  transform: none;
 }
 .favorite-toggle.active {
   color: #f0b80f;
@@ -1221,7 +1221,9 @@ button {
   font-weight: 700;
   font-size: 1rem;
   transition:
-    transform 120ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease,
+    color 140ms ease,
     box-shadow 120ms ease;
 }
 button:disabled {
@@ -1229,8 +1231,11 @@ button:disabled {
   cursor: not-allowed;
 }
 button:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.14);
+  border-color: #9ab7e2;
+  background: #f7fbff;
+  box-shadow:
+    inset 0 0 0 1px rgba(11, 91, 211, 0.14),
+    0 1px 2px rgba(15, 23, 42, 0.08);
 }
 .refresh-button {
   background: var(--brand);
@@ -1265,10 +1270,26 @@ button:hover:not(:disabled) {
   border-color: #bfe6cd;
   color: #0f6238;
 }
+.run-btn:hover:not(:disabled) {
+  background: #e3f4ea;
+  border-color: #9fd9b8;
+  color: #0f6238;
+  box-shadow:
+    inset 0 0 0 1px rgba(15, 122, 68, 0.2),
+    0 1px 2px rgba(15, 23, 42, 0.08);
+}
 .stop-btn {
   background: #fff1f1;
   border-color: #f3c9c9;
   color: #9f2323;
+}
+.stop-btn:hover:not(:disabled) {
+  background: #ffe8e8;
+  border-color: #efb4b4;
+  color: #9f2323;
+  box-shadow:
+    inset 0 0 0 1px rgba(180, 35, 24, 0.18),
+    0 1px 2px rgba(15, 23, 42, 0.08);
 }
 .logs-shell {
   display: grid;
@@ -1303,14 +1324,14 @@ button:hover:not(:disabled) {
   line-height: 1;
   white-space: nowrap;
   transition:
-    transform 120ms ease,
     border-color 120ms ease,
     background-color 120ms ease,
     box-shadow 120ms ease;
 }
 .log-tab:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.14);
+  border-color: color-mix(in oklab, var(--terminal-tab-active-border) 72%, #ffffff 28%);
+  background: color-mix(in oklab, var(--terminal-tab-bg) 72%, var(--terminal-tab-active-bg) 28%);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--terminal-tab-active-border) 62%, #ffffff 38%);
 }
 .log-tab:focus,
 .log-tab:focus-visible {
