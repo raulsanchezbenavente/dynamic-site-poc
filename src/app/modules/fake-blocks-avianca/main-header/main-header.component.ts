@@ -24,7 +24,7 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
-import { LoyaltyTone } from '../loyalty-tone.service';
+import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
 
 import { MainHeaderConfig } from './models/main-header-config.model';
 import { HeaderMenuItem, Lang } from './models/main-header.models';
@@ -47,8 +47,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
+  private readonly loyaltyToneSvc = inject(LoyaltyToneService);
   private readonly destroy$ = new Subject<void>();
-  private readonly headerTone = signal<LoyaltyTone | null>(null);
+  private readonly headerTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
 
   public config = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
@@ -189,17 +190,20 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
-        this.headerTone.set(null);
+        // Keep previous tone while config/url settles to avoid UI flicker.
         return;
       }
 
       const subscription = this.http.get(url, { responseType: 'text' }).subscribe({
         next: (responseText) => {
           const tone = this.resolveTone(this.parseTonePayload(responseText));
-          this.headerTone.set(tone);
+          if (tone) {
+            this.headerTone.set(tone);
+            this.loyaltyToneSvc.tone.set(tone);
+          }
         },
         error: () => {
-          this.headerTone.set(null);
+          // Keep previous tone on transient request errors.
         },
       });
 
@@ -503,9 +507,9 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getToneColor(tone: LoyaltyTone | null): string | null {
+  private getToneColor(tone: LoyaltyTone | null): string {
     if (!tone) {
-      return null;
+      return '#e2007a';
     }
 
     if (tone === 'gold') {
