@@ -241,10 +241,7 @@ const loadLoginTemplate = () => {
 const buildLoginPage = (params) => {
   const hiddenFields = Object.entries(params)
     .filter(([, value]) => value !== undefined)
-    .map(
-      ([key, value]) =>
-        `<input type="hidden" name="${escapeHtmlAttr(key)}" value="${escapeHtmlAttr(value)}">`
-    )
+    .map(([key, value]) => `<input type="hidden" name="${escapeHtmlAttr(key)}" value="${escapeHtmlAttr(value)}">`)
     .join('\n');
 
   return loadLoginTemplate()
@@ -280,7 +277,9 @@ const appendFragmentToUri = (uri, params) => {
 };
 
 const appendAuthResponseToUri = (uri, params, responseMode) => {
-  const mode = String(responseMode || 'query').trim().toLowerCase();
+  const mode = String(responseMode || 'query')
+    .trim()
+    .toLowerCase();
   if (mode === 'fragment') {
     return appendFragmentToUri(uri, params);
   }
@@ -595,10 +594,7 @@ const handleTokenRequest = async (req, res) => {
 const handleLogoutRequest = (req, res, urlObj) => {
   const realm = resolveRealm(urlObj.pathname);
   const clientId =
-    urlObj.searchParams.get('client_id') ||
-    urlObj.searchParams.get('clientId') ||
-    urlObj.searchParams.get('azp') ||
-    '';
+    urlObj.searchParams.get('client_id') || urlObj.searchParams.get('clientId') || urlObj.searchParams.get('azp') || '';
   const activeSession = getActiveSessionForRequest(req, { realm, clientId });
   if (activeSession) {
     sessions.delete(activeSession.sessionId);
@@ -647,12 +643,18 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    if (req.method === 'GET' && pathname === `${authBasePath}/realms/${realm}/protocol/openid-connect/3p-cookies/step1.html`) {
+    if (
+      req.method === 'GET' &&
+      pathname === `${authBasePath}/realms/${realm}/protocol/openid-connect/3p-cookies/step1.html`
+    ) {
       sendHtml(res, 200, build3pCookiesProbePage('step1', realm));
       return;
     }
 
-    if (req.method === 'GET' && pathname === `${authBasePath}/realms/${realm}/protocol/openid-connect/3p-cookies/step2.html`) {
+    if (
+      req.method === 'GET' &&
+      pathname === `${authBasePath}/realms/${realm}/protocol/openid-connect/3p-cookies/step2.html`
+    ) {
       sendHtml(res, 200, build3pCookiesProbePage('step2', realm));
       return;
     }
@@ -696,6 +698,8 @@ const server = http.createServer(async (req, res) => {
 
 server.listen(port, () => {
   console.log(`[SSO BYPASS] running on ${issuerHost}`);
-  console.log(`[SSO BYPASS] auth endpoint: ${issuerHost}${authBasePath}/realms/${defaultRealm}/protocol/openid-connect/auth`);
+  console.log(
+    `[SSO BYPASS] auth endpoint: ${issuerHost}${authBasePath}/realms/${defaultRealm}/protocol/openid-connect/auth`
+  );
   console.log('[SSO BYPASS] accepts any credentials and redirects to redirect_uri');
 });

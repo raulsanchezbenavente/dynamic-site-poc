@@ -108,7 +108,9 @@ async function warnIfPublicHostIsUnreachable() {
 
   const reason = result.error || `HTTP ${result.status || 'unknown'}`;
   logError(`[Proxy health] ${httpsBaseUrl} is not reachable (${reason}).`);
-  logError('[Proxy health] Please verify DNS/hosts mapping and local certificate trust for av-booking-local.newshore.es.');
+  logError(
+    '[Proxy health] Please verify DNS/hosts mapping and local certificate trust for av-booking-local.newshore.es.'
+  );
 }
 
 const renderIndexHtml = createRenderIndexHtml({
