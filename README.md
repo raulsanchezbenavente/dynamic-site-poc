@@ -21,6 +21,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
 - 🧠 Optional SEO proxy shell (`server/index-proxy.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
 - 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
+- 🌐 Fake SSO login form localization (EN/ES/FR/PT) with language detection from OIDC params and redirect path
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
 - 🧭 Booking flow guard with local progress + API token
@@ -327,6 +328,26 @@ npm run launcher:build:mac    # Build macOS (DMG + ZIP)
 npm run launcher:build:linux  # Build Linux (AppImage + DEB)
 npm run launcher:build:all    # Build all OS targets
 ```
+
+### Fake SSO Login i18n
+
+The fake SSO login page (`/auth/dev-login`) supports localized UI copy for `en`, `es`, `fr`, and `pt`.
+
+Language resolution priority:
+
+1. `ui_locales`
+2. `kc_locale`
+3. language segment in `redirect_uri` path (for example `/es/...`)
+4. `Accept-Language` header
+5. fallback to `en`
+
+Translation keys are stored in:
+
+- `server/templates/sso-login.i18n.json`
+
+Template used by the fake SSO login form:
+
+- `server/templates/sso-login.html`
 
 ---
 
