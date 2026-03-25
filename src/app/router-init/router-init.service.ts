@@ -120,6 +120,7 @@ export class RouterInitService {
         components: this.getPageComponents(page),
         pageId: page.pageId,
         pageName: page.name,
+        seo: page.seo,
         tabsId: page.tabId ?? null,
         tabNamesById: this.buildTabNamesById(page),
       },

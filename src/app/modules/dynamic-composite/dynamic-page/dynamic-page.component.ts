@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { SeoService, SiteConfigService } from '@navigation';
+import { SeoService } from '@navigation';
 
 import { BlockOutletComponent } from './block-outlet.component';
 
@@ -20,11 +20,11 @@ type SeoConfig = {
   robots?: string;
   canonical?: string;
 };
-type SitePage = {
-  pageId?: string;
+type DynamicPageRouteData = {
+  components?: PageLayoutRow[];
   path?: string;
-  name?: string;
-  layout?: { rows?: PageLayoutRow[] } | PageLayoutRow[];
+  pageName?: string;
+  pageId?: string;
   seo?: SeoConfig;
 };
 
@@ -39,25 +39,14 @@ export class DynamicPageComponent implements OnInit {
 
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
-  private siteSvc = inject(SiteConfigService);
   private seoSvc = inject(SeoService);
 
   public ngOnInit(): void {
-    const path = this.route.snapshot.routeConfig?.path;
-
-    this.siteSvc.site$.subscribe((site) => {
-      const pages = Array.isArray(site?.pages) ? (site.pages as SitePage[]) : [];
-      const page = pages.find((p) => p.path === path);
-
-      if (page) {
-        const layout = page.layout;
-        const rows = Array.isArray(layout) ? layout : layout?.rows;
-        this.rows = Array.isArray(rows) ? rows : [];
-        this.titleService.setTitle(String(page.name ?? ''));
-        this.seoSvc.applyPageSeo(page.path, page.name, page.seo, page.pageId);
-      } else {
-        this.rows = [];
-      }
+    this.route.data.subscribe((data) => {
+      const routeData = data as DynamicPageRouteData;
+      this.rows = Array.isArray(routeData.components) ? routeData.components : [];
+      this.titleService.setTitle(String(routeData.pageName ?? ''));
+      this.seoSvc.applyPageSeo(routeData.path, routeData.pageName, routeData.seo, routeData.pageId);
     });
   }
 
