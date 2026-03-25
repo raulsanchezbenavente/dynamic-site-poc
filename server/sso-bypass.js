@@ -531,6 +531,7 @@ const handleAuthorizeRequest = (req, res, urlObj) => {
     response_type: responseType,
     nonce,
     response_mode: responseMode,
+    login_lang: loginLang,
     ui_locales: uiLocales,
     kc_locale: kcLocale,
     code_challenge: codeChallenge,

@@ -235,13 +235,19 @@
         var hiddenUiLocales = document.querySelector('input[name="ui_locales"]');
         var hiddenKcLocale = document.querySelector('input[name="kc_locale"]');
         var hiddenRedirectUri = document.querySelector('input[name="redirect_uri"]');
+        var hiddenLoginLang = document.querySelector('input[name="login_lang"]');
 
         var uiLocales = (hiddenUiLocales && hiddenUiLocales.value) || search.get('ui_locales') || '';
         var kcLocale = (hiddenKcLocale && hiddenKcLocale.value) || search.get('kc_locale') || '';
         var redirectUri = (hiddenRedirectUri && hiddenRedirectUri.value) || search.get('redirect_uri') || '';
+        var loginLang = (hiddenLoginLang && hiddenLoginLang.value) || '';
 
         var lang =
-          pickFromList(uiLocales) || normalizeLang(kcLocale) || resolveLangFromRedirectUri(redirectUri) || 'en';
+          normalizeLang(loginLang) ||
+          pickFromList(uiLocales) ||
+          normalizeLang(kcLocale) ||
+          resolveLangFromRedirectUri(redirectUri) ||
+          'en';
         var copy = dictionaries[lang] || dictionaries.en;
 
         var title = document.querySelector('title');
