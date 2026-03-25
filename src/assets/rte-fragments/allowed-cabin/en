@@ -1,0 +1,19 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Allowed only in the cabin</h2>
+  </div>
+  <div class="dangerous-good_content">
+    <ul class="dangerous-good_list dangerous-good_list--cabin ds-list_list">
+      <li class="dangerous-good_list-item">External chargers (Power banks)*</li>
+      <li class="dangerous-good_list-item">Electronic cigarettes</li>
+      <li class="dangerous-good_list-item">Loose/spare batteries, including lithium batteries</li>
+    </ul>
+    <p class="dangerous-good_note">*Batteries over 160 Whs are prohibited</p>
+  </div>
+</div>

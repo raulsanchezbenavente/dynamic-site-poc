@@ -405,9 +405,11 @@
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "content": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/m4tkh2vz/wci-icon-warned-green.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Allowed only in the cabin</h2>\n</div>\n<div class=\"dangerous-good_content\">\n<ul class=\"dangerous-good_list dangerous-good_list--cabin ds-list_list\">\n<li class=\"dangerous-good_list-item\">External chargers (Power banks)*</li>\n<li class=\"dangerous-good_list-item\">Electronic cigarettes</li>\n<li class=\"dangerous-good_list-item\">Loose/spare batteries, including lithium batteries</li>\n</ul>\n<p class=\"dangerous-good_note\">*Batteries over 160 Whs are prohibited</p>\n</div>\n</div>",
                   "styles": [
                     "https://av-static-dev.newshore.es/ui/styles.css"
+                  ],
+                  "contentUrls": [
+                    "assets/rte-fragments/allowed-cabin/en"
                   ]
                 }
               },
