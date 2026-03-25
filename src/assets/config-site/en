@@ -374,7 +374,7 @@
     },
     {
       "pageId": "3",
-      "path": "en/dangerous-goods",
+      "path": "en/check-in/dangerous-goods",
       "name": "Dangerous Goods",
       "layout": {
         "rows": [

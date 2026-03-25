@@ -374,7 +374,7 @@
     },
     {
       "pageId": "3",
-      "path": "pt/dangerous-goods",
+      "path": "pt/check-in/dangerous-goods",
       "name": "Artigos perigosos",
       "layout": {
         "rows": [
