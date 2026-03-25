@@ -17,6 +17,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🛫 Initial boot loader (plane GIF) rendered from `index.html`
 - 🎯 Visual components styled with Bootstrap 5 + custom Avianca UI
 - 🌍 i18n with per-language site configs (ngx-translate)
+- 🌍 i18n language switch hardened to preload target translations before navigation to reduce UI flicker
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
 - 🧠 Optional SEO proxy shell (`server/index-proxy.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
 - 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
@@ -41,6 +42,9 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🎨 Loyalty card resolves per-page config from `assets/config-site`, loads its tone from `assets/config/loyalty/{lang}`, and syncs that color with the main header badge/button
 - 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
 - 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
+- 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
+- 🧱 RTE layout rules in Dynamic Composite: proportional `max-width` by `span` using a 1200px base, mirrored left/right alignment on desktop rows, and full-width centered RTE on mobile
+- 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
 
 ---
 
