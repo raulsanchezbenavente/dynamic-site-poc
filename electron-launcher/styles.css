@@ -1041,11 +1041,31 @@ body:has(.layout.terminal-fullscreen) .layout {
   font-weight: 700;
   color: #314a6a;
   user-select: none;
+  cursor: pointer;
+  transition: color 140ms ease;
 }
 .filter-toggle input {
   margin: 0;
   width: 0.92rem;
   height: 0.92rem;
+  border-radius: 0.2rem;
+  accent-color: #1f4f91;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    filter 120ms ease;
+}
+.filter-toggle:hover {
+  color: #1f4f91;
+}
+.filter-toggle:hover input:not(:disabled) {
+  transform: scale(1.06);
+  box-shadow: 0 0 0 3px rgba(31, 79, 145, 0.15);
+  filter: saturate(1.1);
+}
+.filter-toggle input:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(31, 79, 145, 0.22);
 }
 .clear-logs-button {
   background: #eef5ff;
