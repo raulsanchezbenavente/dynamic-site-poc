@@ -12,6 +12,7 @@ import { RteInjectorConfig } from './models/rte-injector-config.model';
 })
 export class RteInjectorComponent {
   private static readonly loadedStylesheetUrls = new Set<string>();
+  private static readonly contentCache = new Map<string, string>();
 
   private readonly document = inject(DOCUMENT);
   private readonly fetchedContent = signal('');
@@ -32,10 +33,19 @@ export class RteInjectorComponent {
   constructor() {
     effect((onCleanup) => {
       const urls = this.getContentUrls(this.config());
-      this.fetchedContent.set('');
 
       if (urls.length === 0) {
+        this.fetchedContent.set('');
         return;
+      }
+
+      const cacheKey = this.getContentCacheKey(urls, false);
+      const localeAgnosticCacheKey = this.getContentCacheKey(urls, true);
+      const cachedContent =
+        RteInjectorComponent.contentCache.get(cacheKey) ?? RteInjectorComponent.contentCache.get(localeAgnosticCacheKey);
+
+      if (cachedContent && cachedContent.trim().length > 0) {
+        this.fetchedContent.set(cachedContent);
       }
 
       const controller = new AbortController();
@@ -48,7 +58,11 @@ export class RteInjectorComponent {
         }
 
         const mergedContent = contents.filter((entry) => entry.length > 0).join('\n');
-        this.fetchedContent.set(mergedContent);
+        if (mergedContent.trim().length > 0) {
+          this.fetchedContent.set(mergedContent);
+          RteInjectorComponent.contentCache.set(cacheKey, mergedContent);
+          RteInjectorComponent.contentCache.set(localeAgnosticCacheKey, mergedContent);
+        }
       })();
 
       onCleanup(() => {
@@ -142,6 +156,12 @@ export class RteInjectorComponent {
     return values.map((item) => item.trim()).filter((item) => item.length > 0);
   }
 
+  private getContentCacheKey(urls: string[], localeAgnostic = false): string {
+    return urls
+      .map((url) => (localeAgnostic ? this.normalizeContentUrlForCache(url) : this.normalizeStylesheetUrl(url)))
+      .join('|');
+  }
+
   private async fetchContent(url: string, signal: AbortSignal): Promise<string> {
     try {
       const response = await fetch(url, { signal });
@@ -200,6 +220,28 @@ export class RteInjectorComponent {
       return new URL(value, this.document.baseURI).href;
     } catch {
       return value;
+    }
+  }
+
+  private normalizeContentUrlForCache(value: string): string {
+    const resolved = this.resolveUrl(value);
+
+    try {
+      const parsed = new URL(resolved);
+      parsed.hash = '';
+
+      const segments = parsed.pathname.split('/');
+      const lastSegmentIndex = segments.length - 1;
+      const lastSegment = (segments[lastSegmentIndex] || '').toLowerCase();
+
+      if (lastSegment === 'en' || lastSegment === 'es' || lastSegment === 'fr' || lastSegment === 'pt') {
+        segments[lastSegmentIndex] = ':lang';
+        parsed.pathname = segments.join('/');
+      }
+
+      return parsed.href;
+    } catch {
+      return resolved.replace(/\/(en|es|fr|pt)(?=\/?$)/i, '/:lang');
     }
   }
 
