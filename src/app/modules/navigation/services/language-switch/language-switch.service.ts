@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { from, Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 
 import { PageNavigationService } from '../page-navigation/page-navigation.service';
 import { RouterHelperService } from '../router-helper/router-helper.service';
@@ -37,12 +37,27 @@ export class LanguageSwitchService {
       .loadSite([langFromUrl])
       .pipe(take(1))
       .subscribe(() => {
-        if (this.routerHelper.language !== langFromUrl) {
-          this.routerHelper.changeLanguage(langFromUrl);
+        if (this.translate.currentLang !== langFromUrl) {
+          this.translate
+            .use(langFromUrl)
+            .pipe(take(1))
+            .subscribe({
+              next: () => {
+                if (this.routerHelper.language !== langFromUrl) {
+                  this.routerHelper.changeLanguage(langFromUrl);
+                }
+              },
+              error: () => {
+                if (this.routerHelper.language !== langFromUrl) {
+                  this.routerHelper.changeLanguage(langFromUrl);
+                }
+              },
+            });
+          return;
         }
 
-        if (this.translate.currentLang !== langFromUrl) {
-          this.translate.use(langFromUrl);
+        if (this.routerHelper.language !== langFromUrl) {
+          this.routerHelper.changeLanguage(langFromUrl);
         }
       });
   }
@@ -102,8 +117,9 @@ export class LanguageSwitchService {
     if (pageId) {
       this._navigateToPageInNewLanguage(pageId, currentLang, targetLang);
     } else {
-      // No page context: just update language state
-      this._updateLanguageState(currentLang, targetLang);
+      this.ensureTranslationLanguage(targetLang).subscribe(() => {
+        this._updateLanguageState(currentLang, targetLang);
+      });
     }
   }
 
@@ -123,32 +139,45 @@ export class LanguageSwitchService {
     const query = this._buildLanguageSwitchQuery(pageId, currentLang, targetLang);
     const targetUrl = query ? `${nextPath}?${query}` : nextPath;
 
-    void this.router
-      .navigateByUrl(targetUrl)
-      .then((navigated) => {
-        if (!navigated) {
-          console.warn('[LANG SWITCH] Navigation canceled, preserving current language routes', {
-            currentLang,
-            targetLang,
-            targetUrl,
-          });
-          return;
-        }
+    this.ensureTranslationLanguage(targetLang).subscribe(() => {
+      void this.router
+        .navigateByUrl(targetUrl)
+        .then((navigated) => {
+          if (!navigated) {
+            console.warn('[LANG SWITCH] Navigation canceled, preserving current language routes', {
+              currentLang,
+              targetLang,
+              targetUrl,
+            });
+            return;
+          }
 
-        this._updateLanguageState(currentLang, targetLang);
-        this._pruneAndLogRoutes(currentLang);
-      })
-      .catch((error) => {
-        console.error('[LANG SWITCH] Navigation failed, preserving current language routes', error);
-      });
+          this._updateLanguageState(currentLang, targetLang);
+          this._pruneAndLogRoutes(currentLang);
+        })
+        .catch((error) => {
+          console.error('[LANG SWITCH] Navigation failed, preserving current language routes', error);
+        });
+    });
   }
 
   /**
    * Updates language state across all related services
    */
   private _updateLanguageState(currentLang: AppLang, targetLang: AppLang): void {
-    this.translate.use(targetLang);
     this.routerHelper.changeLanguage(targetLang);
+  }
+
+  private ensureTranslationLanguage(targetLang: AppLang): Observable<void> {
+    if (this.translate.currentLang === targetLang) {
+      return of(undefined);
+    }
+
+    return this.translate.use(targetLang).pipe(
+      take(1),
+      map(() => undefined),
+      catchError(() => of(undefined))
+    );
   }
 
   /**
