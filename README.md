@@ -41,8 +41,9 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🔗 Main header top navigation wired to real external URLs (opens in new tab)
 - 🔄 Home logo + Home menu option + Thank You CTA can be configured to force full page reload
 - 🎨 Loyalty card resolves per-page config from `assets/config-site`, loads its tone from `assets/config/loyalty/{lang}`, and syncs that color with the main header badge/button
-- 🛡️ Loyalty card and main header tone updates preserve the last valid tone with fallback colors during language switches to avoid transient white/unstyled states
-- 🧱 `rte-injector` keeps previous remote fragment HTML visible while localized content is revalidated (stale-while-revalidate) to reduce flicker
+- 🛡️ Loyalty card and main header no longer apply a default accent/gradient fallback color when no valid tone is provided
+- 🧱 `rte-injector` keeps the last rendered HTML and reuses cached remote fragment content/stylesheet URLs across language switches to reduce flicker and duplicate requests
+- 🧩 `rte-injector` config contract supports `string | string[]` for all entries and uses renamed keys in `config-site`: `htmlContent`, `htmlContentURLs`, `styles`, `cssURLs`
 - 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
 - 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
 - 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
@@ -50,8 +51,9 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
 - 🧭 Dangerous goods route slug localized by language while preserving `check-in` prefix (e.g., `es/check-in/articulos-peligrosos`, `fr/check-in/articles-dangereux`, `pt/check-in/artigos-perigosos`)
 - 🧭 Main header user menu now includes a localized Dangerous Goods entry (removed previous “Book a flight with LM” item)
-- 🎨 Dangerous goods RTE style extraction available at `src/assets/rte-fragments/allowed-cabin/dangerous-goods.css` (scoped version for fragment rendering)
+- 🎨 Dangerous goods RTE style extraction available at `src/assets/rte-fragments/allowed-cabin/dangerous-goods-extracted.css` (scoped version for fragment rendering)
 - 🌍 `allowed-cellar` RTE fragment localized in all supported languages (`en/es/fr/pt`)
+- 🌍 `prohibited-luggage` RTE fragment localized in all supported languages (`en/es/fr/pt`)
 
 ---
 
