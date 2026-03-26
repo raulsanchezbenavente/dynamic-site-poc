@@ -12,7 +12,6 @@ import {
 import { filter, fromEvent, take } from 'rxjs';
 
 import { environment } from '../../environments/environment';
-
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
 
 @Injectable({ providedIn: 'root' })
@@ -54,7 +53,7 @@ export class RouterInitService {
       )
       .subscribe(() => {
         const elapsed = Date.now() - bootStartedAt;
-        const waitMs = Math.max(0, this.bootLoaderMinDurationMs - elapsed);
+        const waitMs = Math.max(100, this.bootLoaderMinDurationMs - elapsed);
 
         globalThis.setTimeout(() => {
           globalThis.document?.getElementById('boot-loader')?.remove();
