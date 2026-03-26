@@ -509,7 +509,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
   private getToneColor(tone: LoyaltyTone | null): string {
     if (!tone) {
-      return '#e2007a';
+      return 'transparent';
     }
 
     if (tone === 'gold') {
@@ -524,6 +524,6 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       return '#2e86ff';
     }
 
-    return '#e2007a';
+    return 'transparent';
   }
 }
