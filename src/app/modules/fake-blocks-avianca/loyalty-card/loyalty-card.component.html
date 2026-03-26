@@ -1,14 +1,14 @@
 <div class="lm-shell">
   <section
     class="lm-wrap"
-    [style.--lm-grad-start]="gradientStartColor()"
-    [style.--lm-grad-end]="gradientEndColor()"
     role="region"
-    aria-label="Account summary">
+    aria-label="Account summary"
+    [style.--lm-grad-start]="gradientStartColor()"
+    [style.--lm-grad-end]="gradientEndColor()">
     <header class="lm-header">
       <div class="lm-title">
         <span class="lm-hello">{{ 'LOYALTY.HELLO' | translate }},</span>
-        <span class="lm-name">{{ name() }}</span>
+        <span class="lm-name">{{ displayName() }}</span>
       </div>
 
       <div
@@ -23,14 +23,14 @@
       <div class="lm-cell lm-cell--main">
         <div class="lm-label">{{ 'LOYALTY.TITLE' | translate }}</div>
         <div class="lm-value-row">
-          <div class="lm-value">{{ memberNumber() }}</div>
+          <div class="lm-value">{{ displayMemberNumber() }}</div>
 
           <button
             type="button"
             class="lm-copy"
             aria-label="Copy Lifemiles number"
             title="Copy"
-            (click)="copy(memberNumber())">
+            (click)="copy(displayMemberNumber())">
             ⧉
           </button>
         </div>
@@ -45,11 +45,11 @@
         <div class="lm-value-row">
           <span
             class="lm-badge"
-            [style.background]="accentColor()"
             aria-hidden="true"
+            [style.background]="accentColor()"
             >lm</span
           >
-          <div class="lm-value">{{ totalMiles() }}</div>
+          <div class="lm-value">{{ displayTotalMiles() }}</div>
         </div>
       </div>
 
@@ -59,7 +59,7 @@
 
       <div class="lm-cell">
         <div class="lm-label">{{ 'LOYALTY.EXPIRATION' | translate }}</div>
-        <div class="lm-subvalue">{{ expirationDate() }}</div>
+        <div class="lm-subvalue">{{ displayExpirationDate() }}</div>
       </div>
     </div>
   </section>

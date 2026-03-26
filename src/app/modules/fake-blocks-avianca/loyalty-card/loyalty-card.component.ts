@@ -1,20 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
 } from '@angular/core';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
+import { SessionApiService } from '../account-profile/services/session-api.service';
 import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
 
 import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
@@ -34,22 +35,33 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public memberNumber = input<string>('13440242314');
   public totalMiles = input<string>('600,700');
   public expirationDate = input<string>('31 de mayo de 2026');
+  public displayName = computed(() => this.sessionName() || this.name());
+  public displayMemberNumber = computed(() => this.sessionMemberNumber() || this.memberNumber());
+  public displayTotalMiles = computed(() => this.sessionTotalMiles() || this.totalMiles());
+  public displayExpirationDate = computed(() => this.sessionExpirationDate() || this.expirationDate());
   public accentColor = computed(() => this.getToneColor(this.loyaltyTone()));
   public gradientStartColor = computed(() => this.getGradientStops(this.loyaltyTone()).start);
   public gradientEndColor = computed(() => this.getGradientStops(this.loyaltyTone()).end);
 
   private readonly http = inject(HttpClient);
   private readonly routerHelper = inject(RouterHelperService);
+  private readonly sessionApi = inject(SessionApiService);
   private readonly siteConfig = inject(SiteConfigService);
   private readonly loyaltyToneSvc = inject(LoyaltyToneService);
   private readonly loyaltyTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
   private readonly activeLang = signal<AppLang>(this.routerHelper.language);
+  private readonly sessionName = signal('');
+  private readonly sessionMemberNumber = signal('');
+  private readonly sessionTotalMiles = signal('');
+  private readonly sessionExpirationDate = signal('');
   private readonly destroy$ = new Subject<void>();
 
   public ngOnInit(): void {
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
       this.activeLang.set(lang);
     });
+
+    void this.loadSessionData();
   }
 
   public ngOnDestroy(): void {
@@ -93,6 +105,42 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     } catch {
       // Silencioso; si quieres, aquí puedes emitir un toast/evento
     }
+  }
+
+  private async loadSessionData(): Promise<void> {
+    const data = await this.sessionApi.getSessionData();
+    if (!data) {
+      return;
+    }
+
+    const fullName = [data.firstName, data.middleName, data.lastName]
+      .filter((part) => String(part || '').trim().length > 0)
+      .join(' ')
+      .trim();
+    const milesAmount = Number(data.balance?.lifemiles?.amount || 0);
+
+    this.sessionName.set(fullName);
+    this.sessionMemberNumber.set(String(data.customerNumber || '').trim());
+    this.sessionTotalMiles.set(new Intl.NumberFormat('es-CO').format(milesAmount));
+    this.sessionExpirationDate.set(this.formatSessionDate(data.balance?.lastUpdate));
+  }
+
+  private formatSessionDate(value: string | undefined): string {
+    const trimmed = String(value || '').trim();
+    if (!trimmed) {
+      return '';
+    }
+
+    const date = new Date(trimmed);
+    if (Number.isNaN(date.getTime())) {
+      return '';
+    }
+
+    return new Intl.DateTimeFormat('es-CO', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+    }).format(date);
   }
 
   private resolveTone(payload: unknown): LoyaltyTone | null {
