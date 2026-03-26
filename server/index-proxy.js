@@ -6,6 +6,7 @@ const path = require('path');
 const express = require('express');
 const { createIndexProxyMiddleware } = require('./index-rendering/proxy-middleware');
 const { createRenderIndexHtml } = require('./index-rendering/render-context');
+const { createFakeApiRouter } = require('./fake-api/router');
 
 const app = express();
 const httpPort = 4300;
@@ -17,6 +18,7 @@ const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
 const healthCheckPath = '/__proxy-health';
+const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
 const sslPemPath = path.join(__dirname, 'cert', 'newshoreGeneral.pem');
@@ -124,6 +126,11 @@ const renderIndexHtml = createRenderIndexHtml({
 app.get(healthCheckPath, (_req, res) => {
   res.status(200).type('text/plain').send('ok');
 });
+
+if (enableFakeApi) {
+  app.use(express.json(), createFakeApiRouter());
+  console.log('[Fake API] Enabled without prefix');
+}
 
 app.use(
   createIndexProxyMiddleware({

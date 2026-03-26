@@ -1,0 +1,218 @@
+{
+  "error": {
+    "code": "",
+    "description": "",
+    "trace": ""
+  },
+  "success": true,
+  "result": {
+    "result": true,
+    "data": {
+      "username": "LUISTEST",
+      "status": "Active",
+      "title": "MR",
+      "gender": "Unspecified",
+      "firstName": "AUGUSTO",
+      "middleName": "",
+      "lastName": "WALLT",
+      "dateOfBirth": "2005-12-18T00:00:00",
+      "weight": "Unknown",
+      "nationality": "CO",
+      "documents": [
+        {
+          "type": "I",
+          "number": "10175684743",
+          "issuedCountry": "AL",
+          "expirationDate": "0001-01-01T00:00:00",
+          "issuedDate": "0001-01-01T00:00:00",
+          "isDefault": false
+        },
+        {
+          "type": "P",
+          "number": "k98798kj",
+          "issuedCountry": "CO",
+          "expirationDate": "2035-12-31T00:00:00",
+          "issuedDate": "0001-01-01T00:00:00",
+          "isDefault": false
+        }
+      ],
+      "communicationChannels": [
+        {
+          "type": "Email",
+          "scope": "Personal",
+          "info": "pepitoooddd@accept.pepe"
+        },
+        {
+          "type": "Phone",
+          "scope": "Personal",
+          "info": "32088888897",
+          "prefix": "54"
+        }
+      ],
+      "addressCountry": "FK",
+      "addressProvince": "",
+      "addressCity": "",
+      "addressZipCode": "",
+      "addressLine": "Colombia 34",
+      "addressLine2": "",
+      "customerNumber": "00000167580",
+      "customerPrograms": {
+        "av": {
+          "programNumber": "00000167580",
+          "tier": "Gold Cenit One Million"
+        }
+      },
+      "contacts": [
+        {
+          "type": "Booking",
+          "mktOption": false,
+          "id": "4155475553544F7E57414C4C547E426F6F6B696E677E",
+          "name": {
+            "first": "AUGUSTO",
+            "middle": "",
+            "last": "WALLT"
+          },
+          "address": {
+            "country": "FK"
+          },
+          "documents": [
+            {
+              "type": "K",
+              "number": "1021564685",
+              "issuedCountry": "CO",
+              "expirationDate": "0001-01-01T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            },
+            {
+              "type": "T",
+              "number": "1034652890",
+              "issuedCountry": "AR",
+              "expirationDate": "0001-01-01T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            },
+            {
+              "type": "D",
+              "number": "1234567",
+              "issuedCountry": "AO",
+              "expirationDate": "0001-01-01T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            },
+            {
+              "type": "E",
+              "number": "A456789",
+              "issuedCountry": "DE",
+              "expirationDate": "0001-01-01T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            },
+            {
+              "type": "I",
+              "number": "10175684743",
+              "issuedCountry": "AL",
+              "expirationDate": "0001-01-01T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            },
+            {
+              "type": "P",
+              "number": "k98798kj",
+              "issuedCountry": "CO",
+              "expirationDate": "2035-12-31T00:00:00",
+              "issuedDate": "0001-01-01T00:00:00",
+              "isDefault": false
+            }
+          ],
+          "channels": []
+        },
+        {
+          "type": "Emergency",
+          "mktOption": false,
+          "id": "43616D696C6F20526F6A617320746573747E556E6B6E6F776E7E456D657267656E63797E6361744140636174612E636F6D",
+          "name": {
+            "first": "Camilo Rojas test",
+            "last": "Unknown"
+          },
+          "documents": [],
+          "channels": [
+            {
+              "type": "Email",
+              "scope": "Default",
+              "info": "catA@cata.com"
+            },
+            {
+              "type": "Phone",
+              "scope": "Default",
+              "info": "32267705645",
+              "prefix": "57"
+            }
+          ]
+        }
+      ],
+      "frequentTravelers": [
+        {
+          "loyaltyId": "",
+          "companionId": "15146881",
+          "name": {
+            "first": "Pedro",
+            "last": "Sanchez"
+          },
+          "address": {
+            "country": "AF"
+          },
+          "documents": [],
+          "personInfo": {
+            "gender": "Female",
+            "weight": "Unknown",
+            "dateOfBirth": "2016-08-25"
+          },
+          "channels": []
+        },
+        {
+          "loyaltyId": "",
+          "companionId": "15161361",
+          "name": {
+            "first": "Padro",
+            "last": "Perez"
+          },
+          "address": {
+            "country": ""
+          },
+          "documents": [],
+          "personInfo": {
+            "gender": "Male",
+            "weight": "Unknown",
+            "dateOfBirth": "2015-08-25"
+          },
+          "channels": []
+        }
+      ],
+      "memberships": {},
+      "balance": {
+        "lastUpdate": "2026-03-26T20:21:49.35002Z",
+        "lifemiles": {
+          "amount": 0
+        },
+        "qualifyingMiles": {
+          "totalAccrual": 0
+        }
+      },
+      "eliteProgress": {
+        "status": "cenitgold",
+        "miles": 0,
+        "star": 390
+      },
+      "accountSettings": {
+        "language": "ES",
+        "services": [],
+        "privacySettings": {
+          "receiveExclusiveOffers": true,
+          "shareInfoWithAccount": true,
+          "shareInfoWithPartners": true
+        }
+      }
+    }
+  }
+}
