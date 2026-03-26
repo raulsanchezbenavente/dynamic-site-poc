@@ -1,0 +1,47 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Proibido em qualquer tipo de bagagem</h2>
+  </div>
+  <div class="dangerous-good_content dangerous-good_content--restricted">
+    <div class="dangerous-good_block-1--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Sólidos inflamáveis</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Substâncias oxidantes</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Materiais perigosos ou infecciosos
+        </li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Produtos químicos corrosivos e produtos de limpeza doméstica
+        </li>
+      </ul>
+    </div>
+    <div class="dangerous-good_block-2--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Fogos de artifício e fósforos</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Líquidos inflamáveis</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Baterias de lítio defeituosas ou danificadas
+        </li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Skates elétricos autoequilibrados (hoverboards, selfbalancing, scooter)
+        </li>
+      </ul>
+    </div>
+    <div class="dangerous-good_block-3--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Gases inflamáveis</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Produtos radioativos</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Armas de eletrochoque (tasers)</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Itens incapacitantes (spray de pimenta, substâncias químicas-mace)
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

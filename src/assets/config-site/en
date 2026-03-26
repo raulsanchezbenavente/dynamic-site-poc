@@ -407,16 +407,16 @@
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
-                  "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en"
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               },
               {
                 "component": "RTEinjector_uiplus",
                 "span": 6,
                 "config": {
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css",
-                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en"
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
             ]
@@ -427,7 +427,7 @@
                 "component": "RTEinjector_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<div class=\"dangerous-good\">\n<div class=\"dangerous-good_image-wrapper\"><img class=\"dangerous-good_image\" src=\"https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg\" alt=\"\"></div>\n<div class=\"dangerous-good_title-wrapper\">\n<h2 class=\"dangerous-good_title\">Prohibited in any type of luggage</h2>\n</div>\n<div class=\"dangerous-good_content dangerous-good_content--restricted\">\n<div class=\"dangerous-good_block-1--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable solids</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Oxidizing substances</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Hazardous or infectious materials</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Corrosive chemicals and household cleaning products</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-2--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Fireworks and matches</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable liquids</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Defective or damaged lithium batteries</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Self-balancing electric skateboards (Hoverboards, selfbalancing, scooter)</li>\n</ul>\n</div>\n<div class=\"dangerous-good_block-3--restricted\">\n<ul class=\"dangerous-good_list ds-list_list\">\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Flammable gases</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Radioactive products</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Electroshock weapons (tasers)</li>\n<li class=\"dangerous-good_list-item dangerous-good_list-item--restricted\">Disabling elements (pepper spray, chemical substances-mace)</li>\n</ul>\n</div>\n</div>\n</div>",
+                  "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/en",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }

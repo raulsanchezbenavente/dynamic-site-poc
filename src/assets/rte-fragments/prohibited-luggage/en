@@ -1,0 +1,45 @@
+<div class="dangerous-good">
+  <div class="dangerous-good_image-wrapper">
+    <img
+      class="dangerous-good_image"
+      src="https://av-static-test2.newshore.es/media/txslgv4c/wci-icon-denieds.svg"
+      alt="" />
+  </div>
+  <div class="dangerous-good_title-wrapper">
+    <h2 class="dangerous-good_title">Prohibited in any type of luggage</h2>
+  </div>
+  <div class="dangerous-good_content dangerous-good_content--restricted">
+    <div class="dangerous-good_block-1--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Flammable solids</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Oxidizing substances</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Hazardous or infectious materials</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Corrosive chemicals and household cleaning products
+        </li>
+      </ul>
+    </div>
+    <div class="dangerous-good_block-2--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Fireworks and matches</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Flammable liquids</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Defective or damaged lithium batteries
+        </li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Self-balancing electric skateboards (Hoverboards, selfbalancing, scooter)
+        </li>
+      </ul>
+    </div>
+    <div class="dangerous-good_block-3--restricted">
+      <ul class="dangerous-good_list ds-list_list">
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Flammable gases</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Radioactive products</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">Electroshock weapons (tasers)</li>
+        <li class="dangerous-good_list-item dangerous-good_list-item--restricted">
+          Disabling elements (pepper spray, chemical substances-mace)
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
