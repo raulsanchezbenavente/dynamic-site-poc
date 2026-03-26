@@ -40,11 +40,21 @@ export class DynamicPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private titleService = inject(Title);
   private seoSvc = inject(SeoService);
+  private currentPageId: string | undefined;
 
   public ngOnInit(): void {
     this.route.data.subscribe((data) => {
       const routeData = data as DynamicPageRouteData;
-      this.rows = Array.isArray(routeData.components) ? routeData.components : [];
+
+      // When the router reuses this component across a language switch (same pageId,
+      // different language prefix), route.data still emits with structurally identical
+      // components. Avoid reassigning `rows` in that case to prevent `@for` from
+      // destroying and recreating every block outlet (visible rerender).
+      if (this.currentPageId !== routeData.pageId) {
+        this.currentPageId = routeData.pageId;
+        this.rows = Array.isArray(routeData.components) ? routeData.components : [];
+      }
+
       this.titleService.setTitle(String(routeData.pageName ?? ''));
       this.seoSvc.applyPageSeo(routeData.path, routeData.pageName, routeData.seo, routeData.pageId);
     });
