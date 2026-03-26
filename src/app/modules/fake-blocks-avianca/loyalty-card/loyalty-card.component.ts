@@ -113,10 +113,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const fullName = [data.firstName, data.middleName, data.lastName]
-      .filter((part) => String(part || '').trim().length > 0)
-      .join(' ')
-      .trim();
+    const fullName = this.sessionApi.formatPersonName([data.firstName, data.middleName, data.lastName]);
     const milesAmount = Number(data.balance?.lifemiles?.amount || 0);
 
     this.sessionName.set(fullName);

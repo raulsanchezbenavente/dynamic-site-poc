@@ -148,10 +148,7 @@ export class AccountProfileComponent {
   }
 
   private buildSectionsFromSession(data: SessionData): Section[] {
-    const fullName = [data.firstName, data.middleName, data.lastName]
-      .filter((part) => String(part || '').trim().length > 0)
-      .join(' ')
-      .trim();
+    const fullName = this.sessionApi.formatPersonName([data.firstName, data.middleName, data.lastName]);
 
     const gender = this.mapGender(data.gender);
     const dob = this.normalizeIsoDate(data.dateOfBirth) || '2005-12-18';
@@ -165,10 +162,11 @@ export class AccountProfileComponent {
     const phone = phoneValue ? (phonePrefix ? `${phonePrefix} ${phoneValue}` : phoneValue) : '-';
 
     const emergencyContact = (data.contacts || []).find((contact) => contact.type === 'Emergency');
-    const emergencyName = [emergencyContact?.name?.first, emergencyContact?.name?.middle, emergencyContact?.name?.last]
-      .filter((part) => String(part || '').trim().length > 0)
-      .join(' ')
-      .trim();
+    const emergencyName = this.sessionApi.formatPersonName([
+      emergencyContact?.name?.first,
+      emergencyContact?.name?.middle,
+      emergencyContact?.name?.last,
+    ]);
     const emergencyPhoneChannel = (emergencyContact?.channels || []).find((channel) => channel.type === 'Phone');
     const emergencyPhonePrefix = String(emergencyPhoneChannel?.prefix || '').trim();
     const emergencyPhoneValue = String(emergencyPhoneChannel?.info || '').trim();

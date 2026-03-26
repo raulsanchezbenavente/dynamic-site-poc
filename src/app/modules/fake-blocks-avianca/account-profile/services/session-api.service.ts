@@ -47,9 +47,37 @@ export type SessionContact = {
 
 @Injectable({ providedIn: 'root' })
 export class SessionApiService {
+  private static readonly LOWERCASE_PARTICLES = new Set([
+    'de',
+    'del',
+    'la',
+    'las',
+    'los',
+    'y',
+    'da',
+    'das',
+    'do',
+    'dos',
+    'van',
+    'von',
+    'di',
+  ]);
+
   private readonly http = inject(HttpClient);
   private cachedSession: SessionData | null = null;
   private inFlightRequest: Promise<SessionData | null> | null = null;
+
+  public formatPersonName(parts: Array<string | undefined>): string {
+    return parts
+      .map((part, index) => this.toTitleCaseNamePart(part, index === 0))
+      .filter((part) => part.length > 0)
+      .join(' ')
+      .trim();
+  }
+
+  public formatSingleName(value: string | undefined): string {
+    return this.toTitleCaseNamePart(value, true);
+  }
 
   public getSessionData(forceRefresh = false): Promise<SessionData | null> {
     if (!forceRefresh && this.cachedSession) {
@@ -104,5 +132,44 @@ export class SessionApiService {
     }
 
     return Array.from(urls);
+  }
+
+  private toTitleCaseNamePart(value: string | undefined, isFirstToken: boolean): string {
+    const normalized = String(value || '')
+      .trim()
+      .replace(/\s+/g, ' ');
+
+    if (!normalized) {
+      return '';
+    }
+
+    const tokens = normalized.split(' ');
+    return tokens
+      .map((token, tokenIndex) => {
+        const lowered = token.toLowerCase();
+        const shouldKeepLowercase =
+          (isFirstToken ? tokenIndex > 0 : true) && SessionApiService.LOWERCASE_PARTICLES.has(lowered);
+
+        if (shouldKeepLowercase) {
+          return lowered;
+        }
+
+        return this.capitalizeToken(lowered);
+      })
+      .join(' ');
+  }
+
+  private capitalizeToken(token: string): string {
+    return token
+      .split(/([\-'’])/)
+      .map((piece) => {
+        if (!piece || piece === '-' || piece === "'" || piece === '’') {
+          return piece;
+        }
+
+        const [first = '', ...rest] = piece;
+        return first.toUpperCase() + rest.join('');
+      })
+      .join('');
   }
 }
