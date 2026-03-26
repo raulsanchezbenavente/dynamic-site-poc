@@ -130,6 +130,10 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
   private getToneColor(tone: LoyaltyTone | null): string {
     if (!tone) {
+      return 'transparent';
+    }
+
+    if (tone === 'red') {
       return '#e2007a';
     }
 
@@ -145,12 +149,16 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
       return '#2e86ff';
     }
 
-    return '#e2007a';
+    return 'transparent';
   }
 
   private getGradientStops(tone: LoyaltyTone | null): { start: string; end: string } {
     if (!tone) {
       return { start: 'transparent', end: 'transparent' };
+    }
+
+    if (tone === 'red') {
+      return { start: '#b50080', end: '#ff0000' };
     }
 
     if (tone === 'gold') {

@@ -512,6 +512,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
       return 'transparent';
     }
 
+    if (tone === 'red') {
+      return '#e2007a';
+    }
+
     if (tone === 'gold') {
       return '#d4a52a';
     }
