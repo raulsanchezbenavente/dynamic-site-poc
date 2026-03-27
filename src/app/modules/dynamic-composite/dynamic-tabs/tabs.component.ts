@@ -76,6 +76,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private deferredComponentIds = new Set<string>();
   private skeletonShownAtByTab = new Map<string, number>();
   private skeletonHideTimerByTab = new Map<string, ReturnType<typeof setTimeout>>();
+  private initialSkeletonSuppressedTabId: string | null = null;
   public readonly tabs$ = this._tabsSubject.asObservable();
 
   public activeId = model<string | undefined>(undefined);
@@ -150,6 +151,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       const current = this.activeId();
       if (!tabs.length) return;
       if (!current || !tabs.some((t) => t.tabId === current)) {
+        const hasDeepLinkActiveTab = Boolean(this.route.snapshot.queryParamMap.get('activeTab'));
+        if (!current && hasDeepLinkActiveTab) {
+          return;
+        }
+
         this.activeId.set(tabs[0].tabId);
         this.setPageTitle(tabs[0]);
       }
@@ -171,7 +177,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.ensureTabRendered(activeTabId);
       }
 
-      this.emitDeferredReadyForUnrenderedTabs(activeTabId);
+      if (activeTabId && this.isTabRendered(activeTabId)) {
+        this.emitDeferredReadyForUnrenderedTabs(activeTabId);
+      }
     });
   }
 
@@ -257,6 +265,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       this.activeId.set(tab.tabId);
       this.ensureTabRendered(tab.tabId);
       this.setPageTitle(tab);
+      return;
     }
   }
 
@@ -339,6 +348,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   public isTabLoading(tabId: string): boolean {
+    if (this.initialSkeletonSuppressedTabId === tabId) {
+      return false;
+    }
+
     return this.tabLoadingState()[tabId] === true;
   }
 
@@ -402,6 +415,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (current[tabId]) {
       this.updateTabLoadingState(tabId);
       return;
+    }
+
+    if (!this.initialSkeletonSuppressedTabId && Object.keys(current).length === 0) {
+      this.initialSkeletonSuppressedTabId = tabId;
     }
 
     this.renderedTabState.set({
@@ -503,6 +520,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private updateTabLoadingState(tabId: string): void {
     const current = this.tabLoadingState();
     const isLoading = this.shouldTabBeLoading(tabId);
+
+    if (this.initialSkeletonSuppressedTabId === tabId) {
+      return;
+    }
 
     if (isLoading) {
       this.clearSkeletonHideTimer(tabId);
