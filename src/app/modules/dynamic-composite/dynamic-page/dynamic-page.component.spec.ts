@@ -69,4 +69,62 @@ describe('DynamicPageComponent', () => {
     const result = component.getInputs({ component: 'header', span: 6, title: 't' });
     expect(result).toEqual({ title: 't' });
   });
+
+  it('should refresh rte block config on same pageId updates', () => {
+    const enRows = [
+      {
+        cols: [
+          {
+            component: 'RTEinjector_uiplus',
+            htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/en'],
+          },
+        ],
+      },
+    ];
+    const esRows = [
+      {
+        cols: [
+          {
+            component: 'RTEinjector_uiplus',
+            htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/es'],
+          },
+        ],
+      },
+    ];
+
+    fixture.detectChanges();
+    routeDataSubject.next({ pageId: '0', components: enRows });
+
+    const originalRowRef = component.rows[0];
+
+    routeDataSubject.next({ pageId: '0', components: esRows });
+
+    expect(component.rows[0]).not.toBe(originalRowRef);
+    expect(component.rows[0]?.cols[0]?.['htmlContentURLs']).toEqual(['/assets/rte-fragments/allowed-cabin/es']);
+  });
+
+  it('should preserve non-localized blocks on same pageId updates', () => {
+    const firstRows = [
+      {
+        cols: [{ component: 'mainHeader_uiplus', title: 'EN title' }],
+      },
+    ];
+    const secondRows = [
+      {
+        cols: [{ component: 'mainHeader_uiplus', title: 'ES title' }],
+      },
+    ];
+
+    fixture.detectChanges();
+    routeDataSubject.next({ pageId: '0', components: firstRows });
+
+    const originalRowRef = component.rows[0];
+    const originalColRef = component.rows[0]?.cols[0];
+
+    routeDataSubject.next({ pageId: '0', components: secondRows });
+
+    expect(component.rows[0]).toBe(originalRowRef);
+    expect(component.rows[0]?.cols[0]).toBe(originalColRef);
+    expect(component.rows[0]?.cols[0]?.['title']).toBe('EN title');
+  });
 });
