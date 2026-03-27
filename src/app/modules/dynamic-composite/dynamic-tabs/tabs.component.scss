@@ -95,8 +95,13 @@
     position: relative;
 }
 
+.tab-panel-body.is-loading {
+    /* keep enough reserved space so lower sections don't jump while the tab content mounts */
+    min-height: clamp(260px, 42vh, 420px);
+}
+
 .tab-panel-body.is-loading .page {
-    opacity: 0;
+    display: none;
 }
 
 .tab-skeleton {

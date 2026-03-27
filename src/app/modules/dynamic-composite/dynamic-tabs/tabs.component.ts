@@ -57,6 +57,7 @@ type TrackedTabComponent = {
 })
 export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly MIN_SKELETON_VISIBLE_MS = 1000;
+  private static readonly TAB_REVEAL_DELAY_MS = 80;
 
   public tabsId = input<string | null | undefined>(undefined);
   public tabs = input<CmsTabContract[] | null | undefined>(undefined);
@@ -71,11 +72,13 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly _tabsSubject = new BehaviorSubject<CmsTabContract | null>(null);
   private readonly renderedTabState = signal<Record<string, boolean>>({});
   private readonly tabLoadingState = signal<Record<string, boolean>>({});
+  private readonly tabRevealState = signal<Record<string, boolean>>({});
   private expectedComponentsByTab = new Map<string, TrackedTabComponent[]>();
   private readyComponentIdsByTab = new Map<string, Set<string>>();
   private deferredComponentIds = new Set<string>();
   private skeletonShownAtByTab = new Map<string, number>();
   private skeletonHideTimerByTab = new Map<string, ReturnType<typeof setTimeout>>();
+  private revealTimerByTab = new Map<string, ReturnType<typeof setTimeout>>();
   private initialSkeletonSuppressedTabId: string | null = null;
   public readonly tabs$ = this._tabsSubject.asObservable();
 
@@ -156,7 +159,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
           return;
         }
 
-        this.activeId.set(tabs[0].tabId);
+        this.openTab(tabs[0].tabId);
         this.setPageTitle(tabs[0]);
       }
     });
@@ -262,8 +265,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (tab) {
-      this.activeId.set(tab.tabId);
-      this.ensureTabRendered(tab.tabId);
+      this.openTab(tab.tabId);
       this.setPageTitle(tab);
       return;
     }
@@ -294,8 +296,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       return;
     }
 
-    this.activeId.set(tabId);
-    this.ensureTabRendered(tabId);
+    this.openTab(tabId);
     this.syncActiveTabName(tab.name, options.historyMode);
     this.setPageTitle(tab);
 
@@ -339,6 +340,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       clearTimeout(timer);
     }
     this.skeletonHideTimerByTab.clear();
+    for (const timer of this.revealTimerByTab.values()) {
+      clearTimeout(timer);
+    }
+    this.revealTimerByTab.clear();
     this.destroy$.next();
     this.destroy$.complete();
   }
@@ -352,7 +357,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
       return false;
     }
 
-    return this.tabLoadingState()[tabId] === true;
+    return this.tabLoadingState()[tabId] === true || !this.isTabRevealed(tabId);
+  }
+
+  public isTabRevealed(tabId: string): boolean {
+    return this.tabRevealState()[tabId] === true;
   }
 
   @HostListener('window:resize')
@@ -419,6 +428,12 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     if (!this.initialSkeletonSuppressedTabId && Object.keys(current).length === 0) {
       this.initialSkeletonSuppressedTabId = tabId;
+      this.tabRevealState.set({
+        ...this.tabRevealState(),
+        [tabId]: true,
+      });
+    } else {
+      this.scheduleTabReveal(tabId);
     }
 
     this.renderedTabState.set({
@@ -658,5 +673,62 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
         this.skeletonShownAtByTab.delete(tabId);
       }
     }
+
+    const currentRevealState = this.tabRevealState();
+    const nextRevealState: Record<string, boolean> = {};
+    let revealStateChanged = false;
+    for (const [tabId, isRevealed] of Object.entries(currentRevealState)) {
+      if (!validTabIds.has(tabId)) {
+        revealStateChanged = true;
+        continue;
+      }
+      nextRevealState[tabId] = isRevealed;
+    }
+
+    if (revealStateChanged) {
+      this.tabRevealState.set(nextRevealState);
+    }
+
+    for (const [tabId] of this.revealTimerByTab) {
+      if (validTabIds.has(tabId)) {
+        continue;
+      }
+
+      const timer = this.revealTimerByTab.get(tabId);
+      if (timer) {
+        clearTimeout(timer);
+      }
+      this.revealTimerByTab.delete(tabId);
+    }
+  }
+
+  private scheduleTabReveal(tabId: string): void {
+    const currentReveal = this.tabRevealState();
+    if (currentReveal[tabId] !== false) {
+      this.tabRevealState.set({
+        ...currentReveal,
+        [tabId]: false,
+      });
+    }
+
+    const existingTimer = this.revealTimerByTab.get(tabId);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+    }
+
+    const timer = setTimeout(() => {
+      this.revealTimerByTab.delete(tabId);
+      this.tabRevealState.set({
+        ...this.tabRevealState(),
+        [tabId]: true,
+      });
+    }, DsTabsComponent.TAB_REVEAL_DELAY_MS);
+
+    this.revealTimerByTab.set(tabId, timer);
+  }
+
+  private openTab(tabId: string): void {
+    this.ensureTabRendered(tabId);
+    this.activeId.set(tabId);
   }
 }
