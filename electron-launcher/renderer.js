@@ -2707,6 +2707,29 @@ function createScriptActionButton(kind, label, onClick, disabled = false) {
   return button;
 }
 
+function bindScriptActionTooltip(button, tooltipText) {
+  if (!button) {
+    return;
+  }
+
+  button.title = tooltipText;
+  button.setAttribute('data-tooltip', tooltipText);
+  button.setAttribute('data-tooltip-align', 'center');
+
+  button.addEventListener('mouseenter', () => {
+    showLogTabTooltipPortal(button);
+  });
+  button.addEventListener('mouseleave', () => {
+    hideLogTabTooltipPortal();
+  });
+  button.addEventListener('focus', () => {
+    showLogTabTooltipPortal(button);
+  });
+  button.addEventListener('blur', () => {
+    hideLogTabTooltipPortal();
+  });
+}
+
 function renderScripts() {
   scriptsList.replaceChildren();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
@@ -2788,7 +2811,7 @@ function renderScripts() {
     actions.className = 'actions';
 
     const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), script.running);
-    startBtn.title = script.running ? 'Script is already running' : 'Start script';
+    bindScriptActionTooltip(startBtn, 'Start script');
 
     const restartBtn = createScriptActionButton(
       'restart',
@@ -2796,10 +2819,10 @@ function renderScripts() {
       () => restartScript(script.name),
       !script.running
     );
-    restartBtn.title = script.running ? 'Restart script' : 'Start script first';
+    bindScriptActionTooltip(restartBtn, 'Restart script');
 
     const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
-    stopBtn.title = script.running ? 'Stop script' : 'Script is not running';
+    bindScriptActionTooltip(stopBtn, 'Stop script');
 
     const bottom = document.createElement('div');
     bottom.className = 'script-bottom';
