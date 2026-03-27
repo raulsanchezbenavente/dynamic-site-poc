@@ -568,10 +568,11 @@ document.dispatchEvent(
 
 - `DynamicPageComponent`
   - Creates a new `batchId` per render.
-  - Counts mapped blocks for that batch.
+  - Counts tracked leaf blocks for that batch (including components nested inside `tabs` layouts).
   - Listens to `dynamic-page:component-ready` events.
   - Filters by current `batchId`.
   - Deduplicates by `componentId`.
+  - Ignores unexpected `componentId` values not registered in the current batch.
   - When all are ready, logs once and removes `#boot-loader`.
 
 - `BlockOutletComponent`
@@ -584,6 +585,11 @@ document.dispatchEvent(
 
   - If component is not self-managed: emits auto-ready immediately after component creation.
   - If component is self-managed: passes tracking metadata via config inputs and does not auto-emit.
+
+`tabs` wrapper behavior:
+
+- The `tabs` container itself is not counted as a final leaf readiness unit.
+- Its internal layout blocks are tracked individually and must report ready before page completion.
 
 - Self-managed components (examples: `rte-injector`, `loyalty-card`, `main-header`)
   - Own their async lifecycle.

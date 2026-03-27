@@ -9,11 +9,18 @@ import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 type PageLayoutCol = {
   component: string;
   span?: number;
-  tabs?: any[];
-  config?: any;
-  [key: string]: any;
+  tabs?: PageTab[];
+  config?: Record<string, unknown>;
+  __dynamicPageBatchId?: string;
+  __dynamicPageComponentId?: string;
+  __dynamicPageComponentName?: string;
+  [key: string]: unknown;
 };
 type PageLayoutRow = { cols: PageLayoutCol[] };
+type PageTab = {
+  layout?: { rows?: PageLayoutRow[] } | PageLayoutRow[];
+  [key: string]: unknown;
+};
 type SeoConfig = {
   title?: string;
   description?: string;
@@ -43,6 +50,7 @@ type ComponentReadyDetail = {
 })
 export class DynamicPageComponent implements OnInit, OnDestroy {
   private static readonly LOCALIZED_COMPONENTS = new Set(['RTEinjector_uiplus']);
+  private static readonly TABS_COMPONENT = 'tabs';
 
   public rows: PageLayoutRow[] = [];
 
@@ -54,13 +62,10 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private currentBatchId = '';
   private currentBatchPageId = '';
   private expectedCompletions = 0;
+  private expectedComponentIds = new Set<string>();
   private completedCompletions = 0;
   private completedComponentIds = new Set<string>();
   private batchSequence = 0;
-
-  public ngOnDestroy(): void {
-    this.document.removeEventListener('dynamic-page:component-ready', this.onComponentReady);
-  }
 
   public ngOnInit(): void {
     this.document.addEventListener('dynamic-page:component-ready', this.onComponentReady);
@@ -89,9 +94,15 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getInputs(col: PageLayoutCol): Record<string, any> {
-    const { component, span, ...inputs } = col;
-    return inputs;
+  public ngOnDestroy(): void {
+    this.document.removeEventListener('dynamic-page:component-ready', this.onComponentReady);
+  }
+
+  public getInputs(col: PageLayoutCol): Record<string, unknown> {
+    return Object.fromEntries(Object.entries(col).filter(([key]) => key !== 'component' && key !== 'span')) as Record<
+      string,
+      unknown
+    >;
   }
 
   public hasRteInjector(row: PageLayoutRow): boolean {
@@ -105,7 +116,11 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
 
     const componentId = String(detail.componentId ?? '').trim();
-    if (componentId.length === 0 || this.completedComponentIds.has(componentId)) {
+    if (componentId.length === 0 || !this.expectedComponentIds.has(componentId)) {
+      return;
+    }
+
+    if (this.completedComponentIds.has(componentId)) {
       return;
     }
 
@@ -137,43 +152,106 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private resetBatchTracking(batchId: string, pageId: string, rows: PageLayoutRow[]): void {
     this.currentBatchId = batchId;
     this.currentBatchPageId = pageId;
-    this.expectedCompletions = this.countMappableComponents(rows);
+    this.expectedComponentIds = this.collectTrackedComponentIds(rows);
+    this.expectedCompletions = this.expectedComponentIds.size;
     this.completedCompletions = 0;
     this.completedComponentIds.clear();
   }
 
   private attachComponentTracking(rows: PageLayoutRow[], batchId: string): PageLayoutRow[] {
-    return rows.map((row, rowIndex) => {
-      const cols = (row?.cols ?? []).map((col, colIndex) => {
-        const componentName = String(col?.component ?? '').trim();
-        if (!componentName) {
-          return col;
-        }
+    let sequence = 0;
 
-        return {
-          ...col,
-          __dynamicPageBatchId: batchId,
-          __dynamicPageComponentId: `${rowIndex}:${colIndex}`,
-          __dynamicPageComponentName: componentName,
-        };
-      });
+    const nextComponentId = (): string => {
+      sequence += 1;
+      return `component:${sequence}`;
+    };
 
+    return this.attachRowsTracking(rows, batchId, nextComponentId);
+  }
+
+  private attachRowsTracking(rows: PageLayoutRow[], batchId: string, nextComponentId: () => string): PageLayoutRow[] {
+    return rows.map((row) => {
+      const cols = (row?.cols ?? []).map((col) => this.attachColTracking(col, batchId, nextComponentId));
       return { ...row, cols };
     });
   }
 
-  private countMappableComponents(rows: PageLayoutRow[]): number {
-    let total = 0;
+  private attachColTracking(col: PageLayoutCol, batchId: string, nextComponentId: () => string): PageLayoutCol {
+    const componentName = String(col?.component ?? '').trim();
+    if (!componentName) {
+      return col;
+    }
 
+    if (componentName === DynamicPageComponent.TABS_COMPONENT) {
+      return {
+        ...col,
+        tabs: this.attachTabsTracking(col.tabs, batchId, nextComponentId),
+      };
+    }
+
+    return {
+      ...col,
+      __dynamicPageBatchId: batchId,
+      __dynamicPageComponentId: nextComponentId(),
+      __dynamicPageComponentName: componentName,
+    };
+  }
+
+  private attachTabsTracking(tabs: PageTab[] | undefined, batchId: string, nextComponentId: () => string): PageTab[] {
+    if (!Array.isArray(tabs)) {
+      return [];
+    }
+
+    return tabs.map((tab) => {
+      const layoutRows = this.resolveTabLayoutRows(tab.layout);
+      const trackedRows = this.attachRowsTracking(layoutRows, batchId, nextComponentId);
+
+      if (Array.isArray(tab.layout)) {
+        return { ...tab, layout: trackedRows };
+      }
+
+      return {
+        ...tab,
+        layout: {
+          ...(tab.layout ?? {}),
+          rows: trackedRows,
+        },
+      };
+    });
+  }
+
+  private resolveTabLayoutRows(layout: PageTab['layout']): PageLayoutRow[] {
+    if (Array.isArray(layout)) {
+      return layout;
+    }
+
+    return Array.isArray(layout?.rows) ? layout.rows : [];
+  }
+
+  private collectTrackedComponentIds(rows: PageLayoutRow[]): Set<string> {
+    const trackedIds = new Set<string>();
+    this.collectTrackedIdsFromRows(rows, trackedIds);
+    return trackedIds;
+  }
+
+  private collectTrackedIdsFromRows(rows: PageLayoutRow[], trackedIds: Set<string>): void {
     for (const row of rows) {
       for (const col of row?.cols ?? []) {
-        if (String(col?.component ?? '').trim()) {
-          total += 1;
+        const componentId = String(col?.__dynamicPageComponentId ?? '').trim();
+        if (componentId.length > 0) {
+          trackedIds.add(componentId);
+        }
+
+        const componentName = String(col?.component ?? '').trim();
+        if (componentName !== DynamicPageComponent.TABS_COMPONENT || !Array.isArray(col.tabs)) {
+          continue;
+        }
+
+        for (const tab of col.tabs) {
+          this.collectTrackedIdsFromRows(this.resolveTabLayoutRows(tab.layout), trackedIds);
         }
       }
     }
-
-    return total;
   }
 
   private refreshLocalizedBlocks(nextRowsCandidate: PageLayoutRow[] | undefined): void {
