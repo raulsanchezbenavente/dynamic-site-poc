@@ -501,9 +501,7 @@ function rgbToHex(red, green, blue) {
   const r = clampAnsiRgbChannel(red);
   const g = clampAnsiRgbChannel(green);
   const b = clampAnsiRgbChannel(blue);
-  return `#${[r, g, b]
-    .map((channel) => channel.toString(16).padStart(2, '0'))
-    .join('')}`;
+  return `#${[r, g, b].map((channel) => channel.toString(16).padStart(2, '0')).join('')}`;
 }
 
 function ansiIndexedColorToHex(index) {
@@ -580,9 +578,7 @@ function appendStyledTextWithLinks(container, text, styleState) {
       return;
     }
 
-    const resolvedColor = styleState.inverse
-      ? styleState.backgroundColor || 'currentColor'
-      : styleState.color;
+    const resolvedColor = styleState.inverse ? styleState.backgroundColor || 'currentColor' : styleState.color;
     const resolvedBackgroundColor = styleState.inverse
       ? styleState.color || 'currentColor'
       : styleState.backgroundColor;
@@ -1012,7 +1008,9 @@ function positionLogTabTooltipPortal(target) {
   const tooltipRect = tooltip.getBoundingClientRect();
   const minLeft = 8;
   const maxLeft = Math.max(minLeft, window.innerWidth - tooltipRect.width - 8);
-  const tooltipAlign = String(target?.getAttribute('data-tooltip-align') || 'center').trim().toLowerCase();
+  const tooltipAlign = String(target?.getAttribute('data-tooltip-align') || 'center')
+    .trim()
+    .toLowerCase();
   const targetCenterX = targetRect.left + targetRect.width / 2;
   // Keep arrow center (0.76rem + 0.23rem ~= 16px) right under the terminal icon.
   const arrowCenterOffsetPx = 16;
@@ -2594,6 +2592,74 @@ async function stopScript(scriptName) {
   }
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
+}
+
+function isScriptRunning(scriptName) {
+  return scriptsState.some((script) => script.name === scriptName && script.running);
+}
+
+async function waitForScriptRunningState(scriptName, expectedRunning, timeoutMs = 5000) {
+  const startedAt = Date.now();
+
+  while (Date.now() - startedAt < timeoutMs) {
+    if (isScriptRunning(scriptName) === expectedRunning) {
+      return true;
+    }
+
+    await sleep(120);
+  }
+
+  return false;
+}
+
+async function restartScript(scriptName) {
+  focusScriptLogTab(scriptName);
+
+  if (!isScriptRunning(scriptName)) {
+    await runScript(scriptName);
+    return;
+  }
+
+  const stopResult = await window.launcherApi.stopScript(scriptName);
+  if (!stopResult.ok) {
+    appendLog({ script: scriptName, stream: 'stderr', message: `${stopResult.error}\n` });
+    return;
+  }
+
+  const stopped = await waitForScriptRunningState(scriptName, false, 7000);
+  if (!stopped) {
+    appendLog({
+      script: scriptName,
+      stream: 'stderr',
+      message: `Restart timeout: ${scriptName} did not stop in time.\n`,
+    });
+    return;
+  }
+
+  await runScript(scriptName);
+}
+
+function createScriptActionButton(kind, label, onClick, disabled = false) {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `script-action-btn ${kind}-btn`;
+  button.disabled = disabled;
+  button.setAttribute('aria-label', label);
+
+  const icon = document.createElement('span');
+  icon.className = 'script-action-icon';
+  icon.setAttribute('aria-hidden', 'true');
+  icon.textContent = kind === 'start' ? '▶' : kind === 'restart' ? '↻' : '■';
+
+  button.append(icon);
+  button.addEventListener('click', onClick);
+  return button;
+}
+
 function renderScripts() {
   scriptsList.replaceChildren();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
@@ -2621,6 +2687,9 @@ function renderScripts() {
 
     const info = document.createElement('div');
     info.className = 'script-info';
+
+    const top = document.createElement('div');
+    top.className = 'script-top';
 
     const title = document.createElement('div');
     title.className = 'script-title';
@@ -2659,33 +2728,40 @@ function renderScripts() {
     title.appendChild(favoriteButton);
 
     const command = document.createElement('span');
+    command.className = 'script-command';
     command.textContent = script.command;
 
     const status = document.createElement('span');
     status.className = `status ${script.running ? 'running' : 'stopped'}`;
     status.textContent = script.running ? 'running' : 'stopped';
 
-    info.append(title, command, status);
+    top.append(title, command);
 
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const runBtn = document.createElement('button');
-    runBtn.type = 'button';
-    runBtn.className = 'run-btn';
-    runBtn.textContent = 'Run';
-    runBtn.disabled = script.running;
-    runBtn.addEventListener('click', () => runScript(script.name));
+    const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), script.running);
+    startBtn.title = script.running ? 'Script is already running' : 'Start script';
 
-    const stopBtn = document.createElement('button');
-    stopBtn.type = 'button';
-    stopBtn.className = 'stop-btn';
-    stopBtn.textContent = 'Stop';
-    stopBtn.disabled = !script.running;
-    stopBtn.addEventListener('click', () => stopScript(script.name));
+    const restartBtn = createScriptActionButton(
+      'restart',
+      'Restart',
+      () => restartScript(script.name),
+      !script.running
+    );
+    restartBtn.title = script.running ? 'Restart script' : 'Start script first';
 
-    actions.append(runBtn, stopBtn);
-    row.append(info, actions);
+    const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
+    stopBtn.title = script.running ? 'Stop script' : 'Script is not running';
+
+    const bottom = document.createElement('div');
+    bottom.className = 'script-bottom';
+
+    actions.append(startBtn, restartBtn, stopBtn);
+    bottom.append(status, actions);
+
+    info.append(top, bottom);
+    row.append(info);
     scriptsList.appendChild(row);
   }
 }
