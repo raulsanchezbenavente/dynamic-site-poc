@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, input, signal, Type } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, input, signal, Type } from '@angular/core';
 import { loadBlockComponent } from 'src/app/component-map';
 
 @Component({
@@ -26,6 +26,18 @@ export class BlockOutletComponent {
   public isLoading = signal(false);
   private readonly resolvedComponent = signal<Type<unknown> | null>(null);
   private loadSequence = 0;
+
+  @HostBinding('attr.data-dynamic-component-map-name')
+  public get dynamicComponentMapName(): string | null {
+    const mapName = this.block()?.component;
+    return this.normalizeAttributeValue(mapName);
+  }
+
+  @HostBinding('attr.data-dynamic-component-class-name')
+  public get dynamicComponentClassName(): string | null {
+    const className = this.resolvedComponent()?.name;
+    return this.normalizeAttributeValue(className);
+  }
 
   constructor() {
     effect(() => {
@@ -61,4 +73,9 @@ export class BlockOutletComponent {
     const { component, span, ...rest } = b;
     return rest;
   });
+
+  private normalizeAttributeValue(value: unknown): string | null {
+    const text = String(value ?? '').trim().replace(/^_+/, '');
+    return text.length > 0 ? text : null;
+  }
 }
