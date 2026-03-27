@@ -2,6 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, input, signal, Type } from '@angular/core';
 import { loadBlockComponent } from 'src/app/component-map';
 
+type DynamicBlockInput = {
+  component?: string;
+  span?: number;
+  [key: string]: unknown;
+};
+
 @Component({
   selector: 'block-outlet',
   standalone: true,
@@ -22,7 +28,7 @@ import { loadBlockComponent } from 'src/app/component-map';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockOutletComponent {
-  public block = input<any | null | undefined>(undefined);
+  public block = input<DynamicBlockInput | null | undefined>(undefined);
   public isLoading = signal(false);
   private readonly resolvedComponent = signal<Type<unknown> | null>(null);
   private loadSequence = 0;
@@ -67,15 +73,19 @@ export class BlockOutletComponent {
 
   public cmp = computed(() => this.resolvedComponent());
 
-  public inputs = computed<Record<string, any>>(() => {
+  public inputs = computed<Record<string, unknown>>(() => {
     const b = this.block();
     if (!b) return {};
-    const { component, span, ...rest } = b;
+    const rest = { ...b };
+    delete rest.component;
+    delete rest.span;
     return rest;
   });
 
   private normalizeAttributeValue(value: unknown): string | null {
-    const text = String(value ?? '').trim().replace(/^_+/, '');
+    const text = String(value ?? '')
+      .trim()
+      .replace(/^_+/, '');
     return text.length > 0 ? text : null;
   }
 }

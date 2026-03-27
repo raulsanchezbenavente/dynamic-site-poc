@@ -1,28 +1,28 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  HostListener,
-  inject,
-  input,
-  model,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  signal,
-  ViewChild,
-  ViewChildren,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    ElementRef,
+    HostListener,
+    inject,
+    input,
+    model,
+    OnDestroy,
+    OnInit,
+    QueryList,
+    signal,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
-import { BlockOutletComponent } from '../dynamic-page/block-outlet.component';
+import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow } from './models/cms-tab-contract.model';
 

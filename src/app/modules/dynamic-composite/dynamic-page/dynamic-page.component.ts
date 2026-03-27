@@ -4,7 +4,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { SeoService } from '@navigation';
 
-import { BlockOutletComponent } from './block-outlet.component';
+import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 type PageLayoutCol = {
   component: string;
