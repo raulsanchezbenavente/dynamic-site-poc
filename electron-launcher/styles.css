@@ -1144,6 +1144,7 @@ body:has(.layout.terminal-fullscreen) .layout {
 .script-row.running {
   border-color: #9fd9b8;
   box-shadow: 0 0 0 1px rgba(15, 122, 68, 0.2);
+  animation: runningActionsFramePulse 1.9s ease-in-out infinite;
 }
 .script-info {
   display: grid;
@@ -1217,32 +1218,76 @@ body:has(.layout.terminal-fullscreen) .layout {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 2.3rem;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  font-weight: 800;
-  padding: 0 0.68rem;
+  position: relative;
+  width: calc(2.3rem + 0.84rem + 2px);
+  min-width: calc(2.3rem + 0.84rem + 2px);
+  height: calc(2.3rem + 0.84rem + 2px);
+  padding: 0;
   border-radius: 999px;
   border: 1px solid transparent;
 }
+.status::before,
+.status::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .status.running {
-  color: var(--run);
   background: #e9f9f0;
   border-color: #bde7cc;
 }
+.status.running::before {
+  width: calc(100% - 1rem);
+  height: calc(100% - 1rem);
+  border-radius: 999px;
+  border: 2px solid rgba(15, 122, 68, 0.26);
+  border-top-color: var(--run);
+  border-right-color: var(--run);
+  animation: statusSpin 2.6s linear infinite;
+}
+.status.running::after {
+  width: 0.56rem;
+  height: 0.56rem;
+  border-radius: 999px;
+  background: rgba(15, 122, 68, 0.9);
+}
 .status.stopped {
-  color: var(--stop);
   background: #fff1f1;
   border-color: #f3c8c8;
 }
+.status.stopped::before {
+  width: 0.78rem;
+  height: 0.78rem;
+  border-radius: 0.12rem;
+  background: var(--stop);
+}
+
+@keyframes statusSpin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
 .actions {
+  position: relative;
   display: flex;
   flex-direction: row;
   gap: 0.55rem;
   align-items: center;
   min-width: auto;
+  padding: 0.42rem 0.5rem;
+  border: 1px solid #d6e2ef;
+  border-radius: 0.72rem;
+  background: #fdfefe;
+}
+.script-row.running .actions {
+  border-color: #9fd9b8;
+  animation: runningActionsFramePulse 1.9s ease-in-out infinite;
 }
 .actions .start-btn,
 .actions .restart-btn,
@@ -1252,6 +1297,20 @@ body:has(.layout.terminal-fullscreen) .layout {
   height: 2.3rem;
   padding: 0;
   font-size: 0.89rem;
+}
+
+@keyframes runningActionsFramePulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 rgba(15, 122, 68, 0),
+      inset 0 0 0 0 rgba(15, 122, 68, 0);
+  }
+  50% {
+    box-shadow:
+      0 0 0 3px rgba(15, 122, 68, 0.2),
+      inset 0 0 0 1px rgba(15, 122, 68, 0.18);
+  }
 }
 .script-action-btn {
   display: inline-flex;
