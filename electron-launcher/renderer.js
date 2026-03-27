@@ -1041,7 +1041,15 @@ function showLogTabTooltipPortal(target) {
     return;
   }
 
+  const forceOpaque = tooltipText.toLowerCase() === 'script is running';
+
+  const isDisabled =
+    target instanceof HTMLButtonElement
+      ? target.disabled
+      : String(target?.getAttribute('aria-disabled') || '').toLowerCase() === 'true';
+
   tooltip.textContent = tooltipText;
+  tooltip.dataset.sourceDisabled = String(isDisabled && !forceOpaque);
   activeLogTabTooltipTarget = target;
   positionLogTabTooltipPortal(target);
 }
@@ -2785,7 +2793,7 @@ function renderScripts() {
       });
     }
 
-    title.appendChild(name);
+    title.append(name);
 
     const favoriteButton = document.createElement('button');
     favoriteButton.type = 'button';
@@ -2801,19 +2809,13 @@ function renderScripts() {
     command.className = 'script-command';
     command.textContent = script.command;
 
-    const status = document.createElement('span');
-    status.className = `status ${script.running ? 'running' : 'stopped'}`;
-    status.setAttribute('role', 'status');
-    status.setAttribute('aria-label', script.running ? 'Script is running' : 'Script is stopped');
-    bindScriptActionTooltip(status, script.running ? 'Script is running' : 'Script is stopped');
-
     top.append(title, command);
 
     const actions = document.createElement('div');
     actions.className = 'actions';
 
     const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), script.running);
-    bindScriptActionTooltip(startBtn, 'Start script');
+    bindScriptActionTooltip(startBtn, script.running ? 'Script is running' : 'Start script');
 
     const restartBtn = createScriptActionButton(
       'restart',
@@ -2827,10 +2829,10 @@ function renderScripts() {
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
     const bottom = document.createElement('div');
-    bottom.className = 'script-bottom';
+    bottom.className = 'script-bottom actions-only';
 
     actions.append(startBtn, restartBtn, stopBtn);
-    bottom.append(status, actions);
+    bottom.append(actions);
 
     info.append(top, bottom);
     row.append(info);
