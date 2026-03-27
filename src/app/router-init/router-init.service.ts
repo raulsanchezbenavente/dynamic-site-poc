@@ -53,7 +53,7 @@ export class RouterInitService {
       )
       .subscribe(() => {
         const elapsed = Date.now() - bootStartedAt;
-        const waitMs = Math.max(150, this.bootLoaderMinDurationMs - elapsed);
+        const waitMs = Math.max(250, this.bootLoaderMinDurationMs - elapsed);
 
         globalThis.setTimeout(() => {
           globalThis.document?.getElementById('boot-loader')?.remove();
