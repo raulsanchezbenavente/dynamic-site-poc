@@ -1217,25 +1217,60 @@ body:has(.layout.terminal-fullscreen) .layout {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  position: relative;
+  width: 2.3rem;
+  min-width: 2.3rem;
   height: 2.3rem;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-  line-height: 1;
-  letter-spacing: 0.06em;
-  font-weight: 800;
-  padding: 0 0.68rem;
+  padding: 0;
   border-radius: 999px;
   border: 1px solid transparent;
 }
+.status::before,
+.status::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 .status.running {
-  color: var(--run);
   background: #e9f9f0;
   border-color: #bde7cc;
 }
+.status.running::before {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 999px;
+  border: 2px solid rgba(15, 122, 68, 0.26);
+  border-top-color: var(--run);
+  border-right-color: var(--run);
+  animation: statusSpin 3.2s linear infinite;
+}
+.status.running::after {
+  width: 0.36rem;
+  height: 0.36rem;
+  border-radius: 999px;
+  background: rgba(15, 122, 68, 0.9);
+}
 .status.stopped {
-  color: var(--stop);
   background: #fff1f1;
   border-color: #f3c8c8;
+}
+.status.stopped::before {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 0.12rem;
+  background: var(--stop);
+}
+
+@keyframes statusSpin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 .actions {
   display: flex;

@@ -2803,7 +2803,9 @@ function renderScripts() {
 
     const status = document.createElement('span');
     status.className = `status ${script.running ? 'running' : 'stopped'}`;
-    status.textContent = script.running ? 'running' : 'stopped';
+    status.setAttribute('role', 'status');
+    status.setAttribute('aria-label', script.running ? 'Running script' : 'Stopped script');
+    bindScriptActionTooltip(status, script.running ? 'Running script' : 'Stopped script');
 
     top.append(title, command);
 
