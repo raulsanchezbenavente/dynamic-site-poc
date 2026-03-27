@@ -2662,15 +2662,15 @@ function createScriptActionIcon(kind) {
 
   if (kind === 'restart') {
     const bar = document.createElementNS(svgNs, 'rect');
-    bar.setAttribute('x', '6.2');
-    bar.setAttribute('y', '4.8');
+    bar.setAttribute('x', '5.8');
+    bar.setAttribute('y', '5.8');
     bar.setAttribute('width', '2.2');
-    bar.setAttribute('height', '14.4');
-    bar.setAttribute('rx', '1.1');
+    bar.setAttribute('height', '12.4');
+    bar.setAttribute('rx', '1');
     bar.setAttribute('fill', 'currentColor');
 
     const play = document.createElementNS(svgNs, 'path');
-    play.setAttribute('d', 'M10.2 7.2L18.6 12L10.2 16.8V7.2Z');
+    play.setAttribute('d', 'M10.2 5.8L18.6 12L10.2 18.2V5.8Z');
     play.setAttribute('fill', 'currentColor');
 
     svg.append(bar, play);
