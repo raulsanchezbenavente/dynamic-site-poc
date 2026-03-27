@@ -91,6 +91,55 @@
     box-sizing: border-box;
 }
 
+.tab-panel-body {
+    position: relative;
+}
+
+.tab-panel-body.is-loading .page {
+    opacity: 0;
+}
+
+.tab-skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 12px;
+    padding: 4px 0;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.tab-skeleton__line {
+    height: 16px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #eceff2 25%, #f7f9fb 37%, #eceff2 63%);
+    background-size: 400% 100%;
+    animation: tabs-skeleton-shimmer 1.2s ease infinite;
+}
+
+.tab-skeleton__line--lg {
+    width: min(100%, 560px);
+}
+
+.tab-skeleton__line--md {
+    width: min(100%, 420px);
+}
+
+.tab-skeleton__line--sm {
+    width: min(100%, 300px);
+}
+
+@keyframes tabs-skeleton-shimmer {
+    0% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
 @media (max-width: 900px) {
     .tabs {
         gap: 24px;
