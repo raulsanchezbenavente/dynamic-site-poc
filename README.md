@@ -21,6 +21,7 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🔎 SEO service with dynamic title, description, canonical, Open Graph/Twitter tags, and robots policy by page/language
 - 🧠 Optional SEO proxy shell (`server/index-proxy.js`) that renders dynamic SEO tags on the server using `src/index.html` as template
 - 📊 Optional dynamic analytics scripts injection in proxy mode via `<!-- DYNAMIC_ANALYTICS_SCRIPTS -->` placeholder
+- 🧪 Optional fake API module mounted by the proxy (`server/fake-api/router.js`) with file-based responses under `server/fake-api/responses/`
 - 🌐 Fake SSO login form localization (EN/ES/FR/PT) with language detection from OIDC params and redirect path
 - 🧭 Language-aware navigation using `pageId` → path mapping
 - 🧭 Centralized navigation service (`PageNavigationService`) for `pageId` and direct-path navigation
@@ -62,6 +63,9 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 ```text
 server/
 ├── api.js                     # Booking flow API (token + steps)
+├── fake-api/
+│   ├── router.js              # Fake API router mounted by index-proxy
+│   └── responses/             # File-based JSON responses
 ├── index-proxy.js             # Composition root for index proxy (port 4300)
 └── index-rendering/
     ├── analytics-provider.js  # Reads analytics scripts from src/assets/analytics/scripts
@@ -87,6 +91,7 @@ src/
 │   │   └── route-assets-preload.guard.ts
 │   └── modules/               # All feature and shared modules
 │       ├── dynamic-composite/ # (@dynamic-composite) Dynamic page/block/tabs infrastructure
+│       │   ├── block-outlet/
 │       │   ├── dynamic-blocks/
 │       │   ├── dynamic-page/
 │       │   └── dynamic-tabs/
@@ -589,6 +594,25 @@ Notes:
 - If `src/assets/analytics/scripts` does not exist, the analytics placeholder is replaced with an empty string.
 
 For non-document requests (assets/chunks), it proxies directly to Angular dev server on `http://localhost:4200`.
+
+### Fake API in Proxy Mode
+
+When `start:proxy` (or `start:serve-proxy`) runs, `server/index-proxy.js` can also mount a fake API router for local frontend integration.
+
+- Enable/disable flag: `ENABLE_FAKE_API` (enabled by default, disabled only when set to `false`).
+- Current fake API health endpoint: `GET /health`.
+- Current fake session endpoint: `GET /accounts/api/v2/session`.
+- Session payload source file: `server/fake-api/responses/accounts/api/v2/session.json`.
+
+Examples:
+
+```bash
+# Default behavior: fake API enabled
+npm run start:proxy
+
+# Disable fake API explicitly
+ENABLE_FAKE_API=false npm run start:proxy
+```
 
 ---
 
