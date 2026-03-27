@@ -1248,7 +1248,8 @@ body:has(.layout.terminal-fullscreen) .layout {
 .actions .stop-btn {
   width: 2.3rem;
   min-width: 2.3rem;
-  padding: 0.45rem 0;
+  height: 2.3rem;
+  padding: 0;
   font-size: 0.89rem;
 }
 .script-action-btn {
@@ -1260,9 +1261,14 @@ body:has(.layout.terminal-fullscreen) .layout {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1rem;
+  width: 2.05rem;
+  height: 1.75rem;
   line-height: 1;
-  font-size: 0.92rem;
+}
+.script-action-icon-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 button {
   border: 1px solid var(--line);

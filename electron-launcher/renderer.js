@@ -2643,17 +2643,64 @@ async function restartScript(scriptName) {
   await runScript(scriptName);
 }
 
+function createScriptActionIcon(kind) {
+  const svgNs = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNs, 'svg');
+  svg.setAttribute('class', 'script-action-icon-svg');
+  svg.setAttribute('viewBox', '0 0 24 24');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+
+  if (kind === 'start') {
+    const play = document.createElementNS(svgNs, 'path');
+    play.setAttribute('d', 'M8 6.5L18.5 12L8 17.5V6.5Z');
+    play.setAttribute('fill', 'currentColor');
+    svg.append(play);
+    return svg;
+  }
+
+  if (kind === 'restart') {
+    const bar = document.createElementNS(svgNs, 'rect');
+    bar.setAttribute('x', '6.2');
+    bar.setAttribute('y', '4.8');
+    bar.setAttribute('width', '2.2');
+    bar.setAttribute('height', '14.4');
+    bar.setAttribute('rx', '1.1');
+    bar.setAttribute('fill', 'currentColor');
+
+    const play = document.createElementNS(svgNs, 'path');
+    play.setAttribute('d', 'M10.2 7.2L18.6 12L10.2 16.8V7.2Z');
+    play.setAttribute('fill', 'currentColor');
+
+    svg.append(bar, play);
+    return svg;
+  }
+
+  const stop = document.createElementNS(svgNs, 'rect');
+  stop.setAttribute('x', '7.5');
+  stop.setAttribute('y', '7.5');
+  stop.setAttribute('width', '9');
+  stop.setAttribute('height', '9');
+  stop.setAttribute('rx', '1.6');
+  stop.setAttribute('fill', 'currentColor');
+  svg.append(stop);
+
+  return svg;
+}
+
 function createScriptActionButton(kind, label, onClick, disabled = false) {
   const button = document.createElement('button');
   button.type = 'button';
   button.className = `script-action-btn ${kind}-btn`;
   button.disabled = disabled;
   button.setAttribute('aria-label', label);
+  button.title = label;
 
   const icon = document.createElement('span');
   icon.className = 'script-action-icon';
   icon.setAttribute('aria-hidden', 'true');
-  icon.textContent = kind === 'start' ? '▶' : kind === 'restart' ? '↻' : '■';
+  icon.appendChild(createScriptActionIcon(kind));
 
   button.append(icon);
   button.addEventListener('click', onClick);
