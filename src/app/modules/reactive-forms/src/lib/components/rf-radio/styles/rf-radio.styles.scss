@@ -1,0 +1,33 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-checkbox-radio.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+// Checkbox styles share rules with radio styles
+// located at: common/rf-common-checkbox-radio.styles.scss
+:host {
+    // Position the validation message absolutely relative to its input field
+    position: relative;
+}
+.rf-checkbox-radio_input[type='radio'] {
+    + .rf-checkbox-radio_label {
+        --rf-checkbox-radio-border-radius: 50%;
+        &::before {
+            border-radius: var(--rf-checkbox-radio-border-radius);
+        }
+
+        // checked radio inside circle
+        &::after {
+            left: calculateRem(10px);
+            top: 48%;
+            transform: translate(-50%, -50%);
+            width: calculateRem(8px);
+            height: calculateRem(8px);
+            border-radius: var(--rf-checkbox-radio-border-radius);
+            background-color: var(--rf-checkbox-radio-checked-elem-color);
+        }
+    }
+}

@@ -1,0 +1,8 @@
+@if (showErrorMessages() && firstErrorMessage) {
+    <div
+        class="rf-field-message"
+        [attr.id]="id()"
+        [ngClass]="classes()?.message || ''">
+        {{ firstErrorMessage }}
+    </div>
+}

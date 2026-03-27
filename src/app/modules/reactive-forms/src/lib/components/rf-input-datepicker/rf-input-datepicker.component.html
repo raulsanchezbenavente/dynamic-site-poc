@@ -1,0 +1,87 @@
+<form
+    [formGroup]="form"
+    [ngClass]="classes()?.container || ''"
+    (focusout)="handleFocusOut($event)">
+    <rf-drop
+        #drop
+        (open)="onOpen($event)">
+        <div
+            (focusin)="onFocus()"
+            (focusout)="onBlur()">
+            <rf-generic-drop-button
+                #genericbutton
+                [value]="value()"
+                [placeholder]="placeholder()"
+                [appearance]="appearance()"
+                [animatedLabel]="animatedLabel() + (isRequired ? MANDATORY_SYMBOL : '')"
+                [floatingLabel]="floatingLabel"
+                [errorMessagesShouldBeDisplayed]="errorMessagesShouldBeDisplayed"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+                [classes]="classes()?.button"
+                [dropIsOpen]="dropIsOpen"
+                [rightIcon]="rightIcon()"
+                [leftIcon]="leftIcon()"
+                [hideCaret]="hideCaret()"
+                [ariaId]="errorMessagesShouldBeDisplayed || hintMessages() ? ariaId() : null"
+                [e2eId]="autoId"
+                [ariaLabelledBy]="ariaLabelledBy()"
+                [required]="isRequired"
+                [invalid]="control?.errors ? true : false"
+                [activeDescendant]="selectedDate?.day ? getFullFormControlName() + '-' + selectedDate?.day : null"
+                [controls]="autoId">
+                {{ formattedValue || '&nbsp;' }}
+            </rf-generic-drop-button>
+
+            <div
+                contentdrop
+                class="container-calendar">
+                <rf-datepicker
+                    #datepicker
+                    formControlName="datepicker"
+                    [parentId]="getFullFormControlName()"
+                    [parentAutoId]="autoId"
+                    [dateSelected]="selectedDate"
+                    [readonly]="readonly()"
+                    [displayErrorsMode]="displayErrorsMode()"
+                    [rangeEnabled]="rangeEnabled()"
+                    [rangeStartDate]="rangeStartDate()"
+                    [rangeEndDate]="rangeEndDate()"
+                    [specificStartDateRange]="specificStartDateRange()"
+                    [specificEndDateRange]="specificEndDateRange()"
+                    [specificDate]="specificDate()"
+                    [minDate]="minDate()"
+                    [maxDate]="maxDate()"
+                    [displayMonths]="displayMonths()"
+                    [culture]="culture()"
+                    [classes]="classes()?.calendar"
+                    [showErrorMessages]="false"
+                    [showWeekNumbers]="showWeekNumbers()"
+                    [outsideDays]="outsideDays()"
+                    (dateSelectedChange)="onSelectDate($event)"
+                    (keyDown)="onKeyPressed($event)"></rf-datepicker>
+            </div>
+        </div>
+    </rf-drop>
+
+    <rf-hint-messages
+        [id]="ariaId()"
+        [showHintMessages]="showHintMessages()"
+        [hintMessage]="hintMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.calendar?.hintMessages || ''" />
+    <rf-error-messages
+        [id]="ariaId()"
+        [showErrorMessages]="showErrorMessages()"
+        [errorMessages]="errorMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.calendar?.errorMessages || ''">
+    </rf-error-messages>
+</form>
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()"></rf-debug-state>

@@ -1,0 +1,47 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-fields.styles' as *;
+
+// COMPONENT STYLES
+// -------
+.rf-field-group_grid {
+    --rf-field-control-pad-right: 4px;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: calculateRem(16px);
+}
+.rf-field-group--integrated-appearance {
+    .rf-field-group_grid {
+        --ds-dropdown-content-minwidth: 140px;
+
+        column-gap: calculateRem(4px);
+    }
+    ::ng-deep {
+        .rf-select_value-container {
+            top: var(--rf-field-control-pad-top);
+        }
+    }
+}
+
+@media #{$until-mobile} {
+    :host ::ng-deep {
+        .rf-select:last-of-type {
+            /* stylelint-disable-next-line selector-max-compound-selectors */
+            .rf-select_list {
+                right: 0;
+            }
+        }
+    }
+}
+
+@media (max-width: 380px) {
+    .rf-field-group--integrated-appearance {
+        ::ng-deep {
+            .rf-drop-button_button {
+                --rf-field-control-pad-left: #{calculateRem(2px)};
+            }
+        }
+    }
+}

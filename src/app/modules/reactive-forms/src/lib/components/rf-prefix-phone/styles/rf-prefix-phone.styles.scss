@@ -1,0 +1,40 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-fields.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.rf-field-group_grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rf-prefix-phone-grid-gap, #{$spacer-medium});
+}
+
+// give a 'fixed' style size for prefix flag images
+:host ::ng-deep {
+    .rf-list_dropdown_item_option,
+    .rf-select_value {
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        img {
+            width: var(--#{$ds}dropdown-option-image-width);
+            border-radius: var(--#{$ds}dropdown-option-image-border-radius);
+        }
+    }
+}
+
+// Responsive
+@media #{$mobile-sm} {
+    .rf-field-group_grid {
+        flex-direction: row;
+    }
+    .rf-prefix-phone-input {
+        flex: 1 1 100%;
+    }
+    .rf-prefix-phone-select {
+        flex: 1 1 100%;
+        min-width: calculateRem(120px);
+        max-width: calculateRem(180px);
+    }
+}

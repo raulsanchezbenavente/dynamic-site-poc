@@ -1,0 +1,48 @@
+<form
+    class="rf-ip-input"
+    [formGroup]="form"
+    [ngClass]="classes()?.container || ''">
+    <div class="input-group">
+        @for (i of [1, 2, 3, 4]; track i; let last = $last) {
+            <rf-input-text
+                #inputip
+                [formControlName]="'ip' + i"
+                [name]="'ip' + i"
+                [autocomplete]="autocompleteTypes.ON"
+                [classes]="{
+                    input: 'text-center ip-input-text ' + (classes()?.input || ''),
+                }"
+                [maxLength]="3"
+                [readonly]="readonly()"
+                [inputPattern]="inputPattern"
+                [placeholder]="placeholder() ? placeholder() + ' ' + i : ''"
+                [animatedLabel]="animatedLabel() ? animatedLabel() + ' ' + i : ''"
+                [showErrorMessages]="false"
+                [ariaLabelledBy]="getAriaAttributesByKey(i)"
+                [displayErrorsMode]="displayErrorsMode()">
+            </rf-input-text>
+            @if (!last) {
+                <span
+                    class="ip-input-text-dot"
+                    [ngClass]="[classes()?.dot || '']"
+                    >&bull;</span
+                >
+            }
+        }
+    </div>
+
+    <rf-hint-messages
+        [id]="ariaId()"
+        [showHintMessages]="showHintMessages()"
+        [hintMessage]="hintMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="{ ip1: form.get('ip1'), ip2: form.get('ip2'), ip3: form.get('ip3'), ip4: form.get('ip4') }"
+        [classes]="classes()?.hintMessages || ''" />
+
+    <rf-error-messages
+        [showErrorMessages]="showErrorMessages()"
+        [errorMessages]="errorMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="{ ip1: form.get('ip1'), ip2: form.get('ip2'), ip3: form.get('ip3'), ip4: form.get('ip4') }"
+        [classes]="classes()?.errorMessages || ''"></rf-error-messages>
+</form>

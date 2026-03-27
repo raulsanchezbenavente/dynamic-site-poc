@@ -1,0 +1,91 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Input Datepicker left icon</div>
+            <rf-input-datepicker
+                formControlName="inputdatepicker"
+                [leftIcon]="'calendar'"
+                [animatedLabel]="'Pick a date'"
+                [validators]="[Validators.required]"
+                [ariaLabelledBy]="'test-aria-describedby'" />
+            <em
+                id="test-aria-describedby"
+                hoverOpacity
+                >This is just a test to read automatically
+            </em>
+            <div class="stbook-title">Input Datepicker validations</div>
+            <rf-input-datepicker
+                formControlName="inputdatepicker2"
+                [animatedLabel]="'Pick a date'"
+                [hintMessages]="'Select a valid date'" />
+
+            <div class="stbook-title">Input Datepicker double / range</div>
+            <rf-input-datepicker
+                formControlName="rangeinputdatepicker"
+                [animatedLabel]="'Pick a date in a range'"
+                [rangeEnabled]="true"
+                [displayMonths]="2" />
+
+            <div class="stbook-title">Input Datepicker readonly</div>
+            <rf-input-datepicker
+                formControlName="readonlydatepicker"
+                [readonly]="true"
+                [animatedLabel]="'readonly input datepicker'" />
+
+            <div class="stbook-title">Input Datepicker disabled</div>
+            <rf-input-datepicker
+                formControlName="disableddatepicker"
+                [animatedLabel]="'disabled input datepicker'" />
+        </form>
+
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <div class="stbook-title">Input Datepicker left icon</div>
+        <rf-input-datepicker
+            #inputdatepicker1
+            [value]="inputdatepickerValue"
+            [validators]="[Validators.required]"
+            [leftIcon]="'calendar'"
+            [animatedLabel]="'Pick a date'"
+            [ariaLabelledBy]="'test-aria-describedby'" />
+        <em
+            id="test-aria-describedby"
+            hoverOpacity
+            >This is just a test to read automatically
+        </em>
+        <div class="stbook-title">Input Datepicker validations</div>
+        <rf-input-datepicker
+            #inputdatepicker2
+            [validators]="[Validators.required]"
+            [animatedLabel]="'Pick a date'"
+            [hintMessages]="'Select a valid date'">
+        </rf-input-datepicker>
+
+        <div class="stbook-title">Input Datepicker double / range</div>
+        <rf-input-datepicker
+            #inputdatepicker3
+            [validators]="[Validators.required]"
+            [value]="rangeinputdatepickerValue"
+            [animatedLabel]="'Pick a date in a range'"
+            [rangeEnabled]="true"
+            [displayMonths]="2" />
+
+        <div class="stbook-title">Input Datepicker readonly</div>
+        <rf-input-datepicker
+            #inputdatepicker4
+            [value]="todayValue"
+            [readonly]="true"
+            [animatedLabel]="'readonly input datepicker'" />
+
+        <div class="stbook-title">Input Datepicker disabled</div>
+        <rf-input-datepicker
+            #inputdatepicker5
+            [value]="todayValue"
+            [disabled]="true"
+            [animatedLabel]="'disabled input datepicker'" />
+
+        <standalone-validation-features
+            [components]="[inputdatepicker1, inputdatepicker2, inputdatepicker3, inputdatepicker4, inputdatepicker5]" />
+    </div>
+</tab-presentation>

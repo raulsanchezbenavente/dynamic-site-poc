@@ -1,0 +1,107 @@
+<div class="rf-field-group-wrapper">
+    <div
+        class="rf-field-group"
+        [ngClass]="{
+            'has-label-on-top': isLabelOnTop,
+            'has-icon--left': leftIcon(),
+            'has-icon--right': rightIcon(),
+            'is-readonly': readonly(),
+            'is-disabled': disabled(),
+            'has-error': errorMessagesShouldBeDisplayed,
+        }">
+        @if (animatedLabel()) {
+            <rf-animated-label
+                [for]="autoId"
+                [e2eId]="autoId"
+                [floating]="isLabelOnTop"
+                [hide]="appearance() === appearanceTypes.INTEGRATED && (value() || placeholder()) ? true : false"
+                [focused]="floatingLabel"
+                [error]="errorMessagesShouldBeDisplayed"
+                [disabled]="disabled()">
+                {{ animatedLabel() + (isRequired && appearance() === appearanceTypes.DEFAULT ? MANDATORY_SYMBOL : '') }}
+            </rf-animated-label>
+        }
+        @if (leftIcon()) {
+            <div class="rf-field-icon">
+                <icon [config]="{ name: leftIcon() }"></icon>
+            </div>
+        }
+        <input
+            #input
+            class="rf-field-control"
+            [type]="type()"
+            [ngClass]="classes()?.input || ''"
+            [attr.placeholder]="placeholder() || null"
+            [disabled]="disabled()"
+            [autocomplete]="autocomplete() || null"
+            [attr.readonly]="readonly() || null"
+            [attr.aria-describedby]="
+                errorMessagesShouldBeDisplayed || hintMessages() || hasGeneralHint() ? ariaId() : null
+            "
+            [attr.aria-labelledby]="ariaLabelledBy()"
+            [attr.required]="isRequired || null"
+            [attr.aria-invalid]="errorMessagesShouldBeDisplayed ? errorMessagesShouldBeDisplayed : null"
+            [attr.id]="autoId"
+            [attr.data-qe-id]="autoId + '::text'"
+            [attr.maxlength]="maxLength()"
+            [attr.minlength]="minLength()"
+            [attr.name]="name()"
+            [(value)]="value"
+            (input)="updateValue($event)"
+            (focus)="onFocus()"
+            (blur)="onBlur()"
+            (paste)="onPaste($event)"
+            (drop)="getDragableInfo($event)"
+            (dragover)="getDragableInfo($event)" />
+
+        @if (rightIcon()) {
+            <div
+                class="rf-field-icon rf-field-icon--right"
+                [ngClass]="{
+                    'rf-field-icon--type-button': passwordTransformation,
+                }">
+                @if (passwordTransformation) {
+                    <icon-button
+                        class="rf-right-icon rf-right-icon-password isDisabled"
+                        [config]="{
+                            isDisabled: disabled(),
+                            ariaAttributes: {
+                                ariaDisabled: disabled(),
+                                ariaLabel: passwordShown
+                                    ? (messages() && messages().hidePassword) || ''
+                                    : (messages() && messages().showPassword) || '',
+                            },
+                            icon: {
+                                name: rightIcon(),
+                            },
+                        }"
+                        (clickEvent)="toggleIconPassword()">
+                    </icon-button>
+                } @else {
+                    <icon [config]="{ name: rightIcon() }"></icon>
+                }
+            </div>
+        }
+    </div>
+    <rf-hint-messages
+        [id]="ariaId()"
+        [showHintMessages]="showHintMessages()"
+        [hintMessage]="hintMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.hintMessages || ''" />
+
+    <rf-error-messages
+        [id]="ariaId()"
+        [showErrorMessages]="showErrorMessages()"
+        [errorMessages]="errorMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.errorMessages || ''" />
+</div>
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [hide]="hideDebug()"
+    [displayErrorsMode]="displayErrorsMode()" />

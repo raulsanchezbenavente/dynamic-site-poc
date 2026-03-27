@@ -1,0 +1,84 @@
+<form
+    [formGroup]="form"
+    [ngClass]="[
+        appearance() === appearanceTypes.INTEGRATED ? 'rf-field-group--integrated-appearance' : '',
+        readonly() ? 'is-readonly' : '',
+        hasGroupError ? 'group-has-error' : '',
+        control?.disabled ? 'is-disabled' : '',
+    ]">
+    <fieldset class="rf-field_fieldset">
+        <legend
+            class="rf-field_legend"
+            [class.hide-visually]="appearance() !== appearanceTypes.INTEGRATED">
+            {{ title() + (isRequired ? MANDATORY_SYMBOL : '') }}
+        </legend>
+
+        <div class="rf-field-group_grid">
+            <rf-select
+                #firstControl
+                formControlName="prefix"
+                [placeholder]="placeholderPrefix()"
+                [animatedLabel]="animatedLabelPrefix()"
+                [readonly]="readonly()"
+                [appearance]="appearance()"
+                [showErrorMessages]="separatedErrors()"
+                [errorMessages]="errorMessages()?.prefix"
+                [hintMessages]="hintMessages()?.specific?.prefix"
+                [displayErrorsMode]="displayErrorsMode()"
+                [hasGeneralHint]="!!hintMessages()?.general"
+                [ariaId]="separatedErrors() || !hintMessages()?.general ? null : ariaIdCombined"
+                [ariaLabelledBy]="ariaLabelledBy()?.phone"
+                [parentId]="autoIdPrefix"
+                [options]="options()"
+                [hideDebug]="false"
+                [mask]="mask()"
+                [typeaheadIncludes]="typeaheadIncludes()"
+                [classes]="classes()?.prefix || { container: 'rf-prefix-phone-select' }">
+            </rf-select>
+            <rf-input-text
+                formControlName="phone"
+                [name]="phoneName()"
+                [autocomplete]="autocompletePhone()"
+                [placeholder]="placeholderPhone()"
+                [animatedLabel]="animatedLabelPhone()"
+                [readonly]="readonly()"
+                [appearance]="appearance()"
+                [maxLength]="maxLength()"
+                [minLength]="minLength()"
+                [inputPattern]="inputPatternPhone()"
+                [parentId]="autoIdPhone"
+                [ariaLabelledBy]="ariaLabelledBy()?.prefix"
+                [hasGeneralHint]="!!hintMessages()?.general"
+                [ariaId]="separatedErrors() || !hintMessages()?.general ? null : ariaIdCombined"
+                [showErrorMessages]="separatedErrors()"
+                [errorMessages]="errorMessages()?.phone"
+                [hintMessages]="hintMessages()?.specific?.phone"
+                [displayErrorsMode]="displayErrorsMode()"
+                [hideDebug]="false"
+                [classes]="classes()?.phone || { container: 'rf-prefix-phone-input' }"
+                (pasteInputText)="onPaste($event)"
+                (dragleaveInputText)="onDragleave($event)">
+            </rf-input-text>
+        </div>
+    </fieldset>
+</form>
+<rf-hint-messages
+    [id]="ariaIdCombined"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()?.general"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="{ prefix: form.get('prefix'), phone: form.get('phone') }"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages() && !separatedErrors()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="{ prefix: form.get('prefix'), phone: form.get('phone') }"
+    [classes]="classes()?.errorMessages || ''"></rf-error-messages>
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()"></rf-debug-state>

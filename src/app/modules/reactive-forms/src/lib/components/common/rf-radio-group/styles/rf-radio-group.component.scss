@@ -1,0 +1,15 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.rf-radio-group_legend {
+    font-size: var(--rf-radio-group-legend-fontsize, var(--f-size));
+    font-weight: var(--rf-radio-group-legend-fontweight, var(--f-weight-bold));
+    margin-bottom: var(--rf-radio-group-legend-margin-bottom, $spacer-small);
+}
+.rf-radio-group_content {
+    display: inline-flex;
+    flex-direction: var(--rf-radio-group-direction, column);
+    gap: var(--rf-radio-group-gap, calculateRem(8px));
+}

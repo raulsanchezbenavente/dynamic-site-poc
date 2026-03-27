@@ -1,0 +1,43 @@
+<rf-form-builder
+    #myForm
+    [name]="'MyDynamicForm'"
+    [config]="bypassedConfig"
+    [displayErrorsMode]="currentDisplayErrorMode">
+    <grid-builder
+        [config]="formConfig"
+        [columns]="columns()"
+        (configChange)="bypassedConfig = $event" />
+</rf-form-builder>
+<br />
+<form-validation-features
+    [form]="myForm?.form!"
+    (changeErrorDisplayMode)="updateChangeValidationMode($event)"></form-validation-features>
+
+<div class="container-validation-tool">
+    <button
+        class="stbook-btn stbook-btn-light"
+        (click)="reloadForm1()">
+        Load CONFIG 1
+    </button>
+    <button
+        class="stbook-btn stbook-btn-light"
+        (click)="reloadForm2()">
+        Load CONFIG 2
+    </button>
+    <button
+        class="stbook-btn stbook-btn-light"
+        (click)="loadCheckboxes1()">
+        Load CONFIG 3
+    </button>
+    <button
+        class="stbook-btn stbook-btn-light"
+        (click)="loadCheckboxes2()">
+        Load CONFIG 4
+    </button>
+    <br />
+    <button
+        class="stbook-btn stbook-btn-danger"
+        (click)="removeForm()">
+        Remove form
+    </button>
+</div>

@@ -1,0 +1,11 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// --------
+// COMPONENT STYLES
+// --------
+.rf-field-message {
+    font-size: var(--rf-field-message-font-size, var(--f-size-small));
+    color: var(--rf-field-message-color, var(--c-text-secondary));
+    margin-top: var(--rf-field-message-margin-top, $spacer-tiny);
+    line-height: var(--f-line-height);
+}

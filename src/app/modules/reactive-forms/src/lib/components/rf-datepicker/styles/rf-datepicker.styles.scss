@@ -1,0 +1,211 @@
+@use 'sass:math';
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// Edited Angular Boostrap file.
+// Source: https://github.com/ng-bootstrap/ng-bootstrap/blob/master/src/datepicker/datepicker.scss
+
+// -------
+// STYLE
+// -------
+:host {
+    --dp-day-border-radius: 100vh;
+}
+
+.rf-datepicker-inner {
+    position: relative;
+    &.has-error {
+        border: 1px solid var(--c-error);
+    }
+}
+ngb-datepicker {
+    display: inline-flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+// style for :before and :after element of a start and end range date
+%range-after-elem {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    background-color: var(--c-calendar-bg-hover);
+}
+.dp-day {
+    position: relative;
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    // modifiers
+    &.today {
+        --dp-day-border-color: var(--c-primary);
+    }
+    &.range {
+        background-color: var(--c-calendar-bg-hover);
+    }
+    &.selected,
+    &.selected-start,
+    &.selected-end,
+    &:hover {
+        --dp-day-color: var(--c-text-lighter);
+        --dp-day-background: var(--c-calendar-bg-selected);
+    }
+    &.selected-start.range {
+        background: none;
+        &::after {
+            @extend %range-after-elem;
+
+            right: 0;
+        }
+    }
+    &.selected-end.range,
+    &.hovered-end {
+        background: none;
+        &::before {
+            @extend %range-after-elem;
+
+            left: 0;
+        }
+    }
+
+    // Hides the range indicator when hovering the same day as the selected start date.
+    // This prevents the appearance of a range background on a single-day hover
+    &.selected-start.hovered-end {
+        &::before {
+            display: none;
+        }
+    }
+}
+
+// circle
+.dp-day-inner {
+    position: relative;
+    z-index: 1; // need to show day circle over range color
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--dp-day-width, calculateRem(32px));
+    height: var(--dp-day-height, calculateRem(32px));
+    font-size: var(--dp-day-fontsize, var(--f-size-small));
+    color: var(--dp-day-color, var(--c-text));
+    border: var(--dp-day-border-width, 2px) solid var(--dp-day-border-color, transparent);
+    background-color: var(--dp-day-background, transparent);
+    border-radius: var(--dp-day-border-radius);
+    box-sizing: border-box;
+}
+
+// styles
+:host ::ng-deep {
+    // header
+    .ngb-dp-header {
+        padding-top: 0;
+        &:empty {
+            display: none;
+        }
+    }
+    .ngb-dp-months {
+        // space between months
+        gap: var(--dp-months-gap, calculateRem(32px));
+    }
+    .ngb-dp-month-name {
+        height: var(--dp-month-name-height, auto);
+        font-size: var(--dp-month-name-fontsize, var(--f-size-medium));
+        font-weight: var(--dp-month-name-fontweight, var(--f-weight-medium));
+        line-height: var(--dp-month-name-line-height, 1.1);
+        text-transform: var(--dp-month-name-text-transform, uppercase);
+    }
+    .ngb-dp-navigation-chevron {
+        display: none;
+    }
+    .ngb-dp-arrow-btn {
+        @include iconfont($icon-arrow-single-left);
+
+        font-size: var(--dp-arrows-fontsize, var(--f-iconsize));
+    }
+    /* stylelint-disable-next-line selector-max-compound-selectors */
+    .ngb-dp-arrow-next .ngb-dp-arrow-btn::before {
+        content: $icon-arrow-single-right;
+    }
+
+    // content
+    .ngb-dp-day,
+    .ngb-dp-weekday,
+    .ngb-dp-week-number {
+        width: var(--dp-cells-width, calc(100% / 7));
+    }
+
+    // days
+    .ngb-dp-day {
+        display: flex;
+        justify-content: center;
+        height: var(--dp-day-heigth, auto);
+        &:focus-visible {
+            outline: none;
+            box-shadow: none;
+            .dp-day-inner {
+                @include accessibility-outline($outline-border-radius: var(--dp-day-border-radius));
+            }
+        }
+        &.disabled {
+            --dp-day-color: #969696;
+        }
+    }
+
+    // months
+    .ngb-dp-month {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: var(--dp-month-gap, $spacer-medium); // gap between month and week/days
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        .ngb-dp-week:last-child {
+            padding-bottom: 0;
+        }
+    }
+
+    // week name's row
+    .ngb-dp-weekdays {
+        padding-bottom: var(--dp-week-padding-bottom, calculateRem(4px));
+        margin-bottom: var(--dp-week-margin-botom, calculateRem(8px));
+        border-bottom: var(--dp-week-border-bottom, 1px solid var(--c-border));
+    }
+
+    // week letters: Mo, Tu, We, Th, Fr, Sa, Su
+    .ngb-dp-weekday {
+        align-items: flex-start;
+        height: var(--dp-weekday-height, auto);
+        font-size: var(--dp-weekday-fontsize, var(--f-size-small));
+        font-weight: var(--dp-weekday-fontweight, var(--f-weight-bold));
+        font-style: var(--dp-weekday-fontstyle, normal); // reset ngb bootstrap style
+        line-height: var(--dp-weekday-line-height, 1.1);
+    }
+
+    // days' row (this class is also used for week name's row
+    .ngb-dp-week {
+        gap: var(--dp-week-gap, 0);
+        margin: var(--dp-week-margin, calculateRem(4px));
+    }
+
+    // inner days
+    [ngbDatepickerDayView] {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--dp-day-inside-width, calculateRem(28px));
+        height: var(--dp-day-inside-height, calculateRem(28px));
+        line-height: 1;
+        background: var(--dp-day-inside-background, var(--c-white));
+        border-radius: var(--dp-day-inside-border-radius, 50%);
+        border: var(--dp-day-inside-border-width, 2px) solid transparent;
+    }
+
+    // today
+    .ngb-dp-today {
+        [ngbdatepickerdayview] {
+            border-color: var(--dp-day-inside-today-border-color, var(--c-primary));
+        }
+    }
+}

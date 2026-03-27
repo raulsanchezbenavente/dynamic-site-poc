@@ -1,0 +1,15 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+:host {
+    position: relative;
+}
+
+[contentdrop] {
+    position: absolute;
+    left: 0;
+    z-index: 1000;
+}

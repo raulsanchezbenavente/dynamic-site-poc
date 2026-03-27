@@ -1,0 +1,39 @@
+<div
+    class="rf-grid-builder"
+    [ngClass]="'rf-grid-builder--' + appearance().toLowerCase()">
+    <div
+        class="rf-grid"
+        [ngClass]="'rf-grid-cols-' + columns()">
+        @for (controlContainer of configIteration; track controlContainer) {
+            @if (typeof controlContainer === 'string' || !hasMultipleKeys(controlContainer)) {
+                <ng-container
+                    *ngTemplateOutlet="
+                        fcContainer;
+                        context: { $implicit: getFirstKey(controlContainer), extra: controlContainer }
+                    "></ng-container>
+            } @else {
+                <div
+                    class="rf-inner-grid"
+                    [ngClass]="classMap.get(controlContainer)">
+                    @for (control of getKeys(controlContainer); track control) {
+                        <ng-container *ngTemplateOutlet="fcContainer; context: { $implicit: control }"></ng-container>
+                    }
+                </div>
+            }
+        }
+    </div>
+    <ng-content></ng-content>
+</div>
+
+<ng-template
+    #fcContainer
+    let-container
+    let-extra="extra">
+    <div
+        class="rf-grid_col"
+        [ngClass]="containerClassesMap().get(container)"
+        [attr.data-form-control-name-id]="formName() ? formName() + '-' + container : null"
+        [attr.form-control-name-container]="container">
+        {{ container }}
+    </div>
+</ng-template>

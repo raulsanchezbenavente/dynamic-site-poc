@@ -1,0 +1,211 @@
+<tab-presentation class="stbook-radio-form">
+    <div form>
+        <form [formGroup]="myForm">
+            <rf-radio-group [legend]="'Radios / AriaLabelledBy'">
+                <rf-radio
+                    #radios1Rf
+                    formControlName="radios1"
+                    [label]="'Radio 1'"
+                    [value]="'RADIO_1'"
+                    [ariaLabelledBy]="'radio-1'" />
+                <rf-radio
+                    formControlName="radios1"
+                    [label]="'Radio 2'"
+                    [value]="'RADIO_2'" />
+                <rf-radio
+                    formControlName="radios1"
+                    [label]="'Radio 3'"
+                    [value]="'RADIO_3'" />
+            </rf-radio-group>
+            <div hoverOpacity>
+                <em id="radio-1">Select radio 1</em>&nbsp; <em id="radio-2">Select radio 2</em>&nbsp;
+                <em id="radio-3">Select radio 3</em>
+            </div>
+            <button
+                class="btn-link"
+                (click)="setRadioRf()">
+                Set Radio 3
+            </button>
+            <br /><br />
+            <button
+                class="btn-link"
+                (click)="setSelectedRf()">
+                Switch Radio 1
+            </button>
+            ( {{ radios1Rf?.isSelected }}) <br /><br />
+            <rf-radio-group [legend]="'Radios / Radio readonly / Hint message / Validation required'">
+                <rf-radio
+                    formControlName="radios2"
+                    [label]="'Radio 1'"
+                    [value]="'RADIO_1'"
+                    [errorMessages]="errorRadio" />
+                <rf-radio
+                    formControlName="radios2"
+                    [label]="'Radio 2'"
+                    [value]="'RADIO_2'"
+                    [readonly]="true" />
+                <rf-radio
+                    formControlName="radios2"
+                    [label]="'Radio 3'"
+                    [value]="'RADIO_3'"
+                    [hintMessages]="'Select a valid option'" />
+            </rf-radio-group>
+            <br />
+            <button
+                class="btn-link"
+                (click)="unselectRadioRf()">
+                Unselect radios
+            </button>
+            <br /><br />
+            <fieldset class="stbook-radio-fieldset">
+                <legend>Radios / Group disabled / Radios disabled</legend>
+                <div class="stbook-radio-form-group">
+                    <rf-radio
+                        formControlName="radios3"
+                        [label]="'Radio 1'"
+                        [value]="'RADIO_1'" />
+                    <rf-radio
+                        formControlName="radios3"
+                        [label]="'Radio 2'"
+                        [value]="'RADIO_2'"
+                        [disabledRadio]="true" />
+                    <rf-radio
+                        formControlName="radios3"
+                        [label]="'Radio 3'"
+                        [value]="'RADIO_3'" />
+                </div>
+            </fieldset>
+
+            <br /><br />
+            <fieldset class="stbook-radio-fieldset">
+                <legend>Radios / Custom classes</legend>
+                <div class="stbook-radio-form-group">
+                    <rf-radio
+                        formControlName="radios4"
+                        [label]="'Radio 1'"
+                        [value]="'RADIO_1'"
+                        [classes]="radioCustomClasses" />
+                    <rf-radio
+                        formControlName="radios4"
+                        [label]="'Radio 2'"
+                        [value]="'RADIO_2'"
+                        [classes]="radioCustomClasses" />
+                    <rf-radio
+                        formControlName="radios4"
+                        [label]="'Radio 3'"
+                        [value]="'RADIO_3'"
+                        [classes]="radioCustomClasses" />
+                </div>
+            </fieldset>
+        </form>
+
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <rf-radio-group [legend]="'Radios / AriaLabelledBy'">
+            <rf-radio
+                #radios1
+                name="radios1"
+                [label]="'Radio 1'"
+                [value]="'RADIO_1'"
+                [checked]="true"
+                [ariaLabelledBy]="'radio-1'" />
+            <rf-radio
+                name="radios1"
+                [label]="'Radio 2'"
+                [value]="'RADIO_2'" />
+            <rf-radio
+                name="radios1"
+                [label]="'Radio 3'"
+                [value]="'RADIO_3'" />
+        </rf-radio-group>
+        <div hoverOpacity>
+            <em id="radio-1">Select radio 1</em>&nbsp; <em id="radio-2">Select radio 2</em>&nbsp;
+            <em id="radio-3">Select radio 3</em>
+        </div>
+        <button
+            class="btn-link"
+            (click)="fillRadioStandalone()">
+            Set Radio 3
+        </button>
+        <br /><br />
+        <button
+            class="btn-link"
+            (click)="setSelectedStandalone()">
+            Switch Radio 1
+        </button>
+        ( {{ radios1?.isSelected }}) <br /><br />
+        <rf-radio-group [legend]="'Radios / Radio readonly / Validation required'">
+            <rf-radio
+                #radios2
+                name="radios2"
+                [label]="'Radio 1'"
+                [value]="'RADIO_1'"
+                [validators]="[Validators.required]"
+                [errorMessages]="errorRadio" />
+            <rf-radio
+                name="radios2"
+                [label]="'Radio 2'"
+                [value]="'RADIO_2'"
+                [readonly]="true" />
+            <rf-radio
+                name="radios2"
+                [label]="'Radio 3'"
+                [value]="'RADIO_3'"
+                [hintMessages]="'Select a valid option'" />
+        </rf-radio-group>
+        <br />
+        <button
+            class="btn-link"
+            (click)="unselectRadioStandalone()">
+            Unselect radios
+        </button>
+        <br /><br />
+        <fieldset class="stbook-radio-fieldset">
+            <legend>Radios / Group disabled / Radios disabled</legend>
+            <div class="stbook-radio-form-group">
+                <rf-radio
+                    #radios3
+                    name="radios3"
+                    [disabled]="true"
+                    [label]="'Radio 1'"
+                    [value]="'RADIO_1'" />
+                <rf-radio
+                    name="radios3"
+                    [label]="'Radio 2'"
+                    [value]="'RADIO_2'"
+                    [disabledRadio]="true" />
+                <rf-radio
+                    name="radios3"
+                    [checked]="true"
+                    [label]="'Radio 3'"
+                    [value]="'RADIO_3'" />
+            </div>
+        </fieldset>
+
+        <br /><br />
+        <fieldset class="stbook-radio-fieldset">
+            <legend>Radios / Custom classes</legend>
+            <div class="stbook-radio-form-group">
+                <rf-radio
+                    #radios4
+                    name="radios4"
+                    [label]="'Radio 1'"
+                    [value]="'RADIO_1'"
+                    [classes]="radioCustomClasses" />
+                <rf-radio
+                    name="radios4"
+                    [label]="'Radio 2'"
+                    [value]="'RADIO_2'"
+                    [checked]="true"
+                    [classes]="radioCustomClasses" />
+                <rf-radio
+                    name="radios4"
+                    [label]="'Radio 3'"
+                    [value]="'RADIO_3'"
+                    [classes]="radioCustomClasses" />
+            </div>
+        </fieldset>
+        <standalone-validation-features [components]="[radios1, radios2, radios3, radios4]" />
+    </div>
+</tab-presentation>

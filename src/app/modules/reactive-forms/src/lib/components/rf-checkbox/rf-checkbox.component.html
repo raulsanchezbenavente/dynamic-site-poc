@@ -1,0 +1,60 @@
+<div
+    class="rf-checkbox-radio-inner"
+    [ngClass]="[readonly() ? 'is-readonly' : '', disabled() || disabledCheckbox() ? 'is-disabled' : '']"
+    [attr.data-checkbox-group]="checkFormName"
+    (focusout)="handleBlur($event)">
+    <input
+        #checkbox
+        type="checkbox"
+        class="rf-checkbox-radio_input"
+        [ngClass]="[errorMessagesShouldBeDisplayed ? 'has-error' : '', classes()?.checkbox || '']"
+        [attr.id]="autoId"
+        [attr.data-qe-id]="autoId + '::checkbox'"
+        [checked]="isChecked"
+        [disabled]="disabledCheckbox() || control?.disabled ? true : null"
+        [readonly]="readonly()"
+        [attr.aria-describedby]="
+            disabledCheckbox() || control?.disabled
+                ? null
+                : errorMessagesShouldBeDisplayed || hintMessages()
+                  ? ariaId()
+                  : null
+        "
+        [attr.aria-invalid]="disabledCheckbox() || control?.disabled ? null : errorMessagesShouldBeDisplayed"
+        [attr.data-checkbox-group]="checkFormName"
+        [attr.formControlName]="formControlName()"
+        [attr.name]="formControlName() || name() || null"
+        [attr.required]="isRequired || null"
+        (keydown)="restrictKeyboardActions($event)"
+        (change)="onCheckboxChange($event)" />
+    <label
+        tabindex="-1"
+        class="rf-checkbox-radio_label"
+        [ngClass]="[classes()?.label || '']"
+        [attr.data-checkbox-group]="checkFormName"
+        [attr.for]="autoId"
+        [attr.data-qe-id]="autoId + '::label'"
+        [innerHTML]="label()">
+    </label>
+</div>
+
+<rf-hint-messages
+    [id]="ariaId()"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages() && isLastCheckboxInGroup()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.errorMessages || ''" />
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()"></rf-debug-state>

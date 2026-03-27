@@ -1,0 +1,66 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    position: relative;
+}
+.rf-list_dropdown {
+    --#{$ds}dropdown-content-position: static;
+
+    @include dropdown-content-style;
+
+    // all list is readonly
+    &.is-readonly {
+        pointer-events: none;
+    }
+}
+.rf-list_dropdown_item_option {
+    @include dropdown-item-style;
+
+    // image default style
+    ::ng-deep img {
+        position: relative;
+        top: var(--#{$ds}dropdown-option-image-position-top, 2px);
+    }
+}
+
+// filter input
+.rf-list_dropdown-list_filter {
+    width: 100%;
+    color: var(--c-text);
+    border: solid 1px var(--c-border);
+    border-radius: var(--#{$ds}border-radius-md);
+    margin: $spacer-tiny 0;
+    padding: $pad-medium;
+    box-sizing: border-box;
+}
+
+// list item
+.rf-list_dropdown-list_item {
+    display: flex;
+    align-items: center;
+    padding: $pad-medium $pad-small;
+    line-height: 1;
+    &:active {
+        color: var(--c-text);
+        background-color: var(--c-color20);
+    }
+    &.active {
+        @include iconfont($icon-check, after, var(--c-text));
+
+        color: var(--color-dark);
+        font-weight: var(--f-weight-bold);
+        background-color: transparent;
+        &::after {
+            margin-left: $spacer-x-small;
+        }
+    }
+    &.active:hover {
+        background-color: var(--c-color4);
+    }
+}
+.rf-list_dropdown_separator-item {
+    border-top: calculateRem(1px) solid var(--c-border);
+}

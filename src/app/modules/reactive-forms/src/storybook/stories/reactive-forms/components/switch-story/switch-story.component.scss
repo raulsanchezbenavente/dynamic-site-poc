@@ -1,0 +1,30 @@
+@use '../../styles/stories-styles' as *;
+
+// COMPONENT CUSTOM CLASSES
+// -------
+:host .switch-story ::ng-deep {
+    .switch-custom-big {
+        width: 250px;
+        height: 40px;
+        border: 1px solid var(--color-gray-light);
+    }
+    .switch-custom-big:hover,
+    .switch-custom-big:focus,
+    .switch-custom-big:active {
+        border: solid 1px rgb(224, 0, 213);
+    }
+    .switch-custom-big:visited {
+        border-color: var(--color-gray-light);
+    }
+    .switch-custom-big:checked {
+        + .label-custom-switch {
+            &::before {
+                background-color: rgb(224, 0, 213);
+                border-radius: 4px;
+            }
+            &::after {
+                border-radius: 4px;
+            }
+        }
+    }
+}

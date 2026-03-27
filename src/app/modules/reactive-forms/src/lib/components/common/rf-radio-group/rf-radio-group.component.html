@@ -1,0 +1,11 @@
+<fieldset
+    class="rf-radio-group_fieldset"
+    role="radiogroup"
+    [attr.data-radio-group]="radio.radioFormName"
+    [attr.form-control-name]="radio.formControlName() || radio.name() || null">
+    <legend class="rf-radio-group_legend">{{ legend() + (radio.isRequired ? ' *' : '') }}</legend>
+
+    <div class="rf-radio-group_content">
+        <ng-content></ng-content>
+    </div>
+</fieldset>

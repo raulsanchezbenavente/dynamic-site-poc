@@ -1,0 +1,12 @@
+<rf-form-builder
+    #myForm
+    [name]="'MyDynamicForm'"
+    [config]="bypassedConfig"
+    [displayErrorsMode]="currentDisplayErrorMode">
+    <grid-builder
+        [config]="config()"
+        [customFields]="customFields()"
+        [columns]="columns()"
+        [appearance]="appearance()"
+        (configChange)="bypassedConfig = $event" />
+</rf-form-builder>

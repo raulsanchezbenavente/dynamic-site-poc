@@ -1,0 +1,108 @@
+<rf-form-builder
+    #formAviation
+    [name]="'formAviation'"
+    [config]="FORM_CONFIG_AFTER"
+    [displayErrorsMode]="currentDisplayErrorMode">
+    <div class="container-wrap">
+        <div class="grid">
+            <div class="grid-col col-12 col-lg-12 text-center">
+                <h1 class="context-h2">✈️ Official Flight Application Form</h1>
+                <p class="intro">Federal Aviation Authority</p>
+                <img
+                    src="https://baatraining.com/wp-content/uploads/2023/03/Cover_takeoff.webp"
+                    alt="Airplane"
+                    style="object-fit: cover; width: 100%; height: 300px; border-radius: 20px" />
+            </div>
+
+            <div class="grid grid--no-padding-bottom">
+                <div class="grid-col col-12 col-lg-12">
+                    <div class="grid">
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-4"
+                            form-control-name-container="name"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-4"
+                            form-control-name-container="surname"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-4"
+                            form-control-name-container="email"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-3"
+                            form-control-name-container="password"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-3"
+                            form-control-name-container="number"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-3"
+                            form-control-name-container="number2"></div>
+                        <div
+                            class="grid-col col-12 col-sm-6 col-md-3"
+                            form-control-name-container="switch1"></div>
+                    </div>
+                </div>
+                <div class="grid-col col-12 col-lg-12">
+                    <div class="grid">
+                        <div class="grid-col col-12 col-md-4">
+                            <h5 class="stbook-title">Seat Preference</h5>
+                            <div form-control-name-container="radios"></div>
+                        </div>
+                        <div class="grid-col col-12 col-md-4">
+                            <h5 class="stbook-title">Travel Extras</h5>
+                            <div form-control-name-container="checkboxes"></div>
+                        </div>
+                        <div class="grid-col col-12 col-md-4">
+                            <img
+                                src="https://images.unsplash.com/photo-1529070538774-1843cb3265df?w=800&h=200&fit=crop"
+                                alt="Airport Seal"
+                                style="object-fit: cover; width: 100%; height: 220px; border-radius: 20px" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-col col-12 col-lg-12">
+                <div class="grid">
+                    <div class="grid-col col-12 col-sm-6">
+                        <div form-control-name-container="phoneNumber"></div>
+                    </div>
+                    <div class="grid-col col-12 col-sm-6">
+                        <div form-control-name-container="phoneNumber2"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-col col-12 col-lg-12">
+                <div class="grid">
+                    <div class="grid-col col-12 col-sm-4">
+                        <div form-control-name-container="datepicker"></div>
+                    </div>
+                    <div class="grid-col col-12 col-sm-4">
+                        <div form-control-name-container="inputdatepicker"></div>
+                    </div>
+                    <div class="grid-col col-12 col-sm-4">
+                        <div form-control-name-container="inputdatepickerrange"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-col col-12 col-lg-12">
+                <div class="grid">
+                    <div class="grid-col col-12 col-sm-12">
+                        <div class="text-center">
+                            <button
+                                type="submit"
+                                class="ds-button ds-btn-action"
+                                style="width: auto"
+                                (click)="form_validation?.submitForm()">
+                                ✈️ Submit Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</rf-form-builder>
+
+<form-validation-features
+    #form_validation
+    [form]="formAviation.form!" />

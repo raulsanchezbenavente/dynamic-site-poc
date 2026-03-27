@@ -1,0 +1,107 @@
+<div [attr.role]="parentId() ? null : 'grid'">
+    <div [attr.role]="parentId() ? null : 'row'">
+        <div
+            #datepickerRef
+            class="rf-datepicker-inner"
+            [attr.role]="parentId() ? null : 'gridcell'"
+            [attr.aria-label]="dateSelected()"
+            [ngClass]="[
+                classes()?.container || '',
+                readonly() ? 'is-readonly' : '',
+                errorMessagesShouldBeDisplayed ? 'has-error' : '',
+            ]"
+            [tabindex]="parentId() || disabled() ? -1 : 0"
+            [attr.id]="parentId() ?? autoId"
+            [attr.data-qe-id]="autoId + '::datepicker'"
+            [attr.aria-describedby]="
+                !parentId() && (errorMessagesShouldBeDisplayed || hintMessages()) ? ariaId() : null
+            "
+            [attr.aria-labelledby]="parentId() ? null : ariaLabelledBy()"
+            [attr.aria-invalid]="
+                parentId() ? null : errorMessagesShouldBeDisplayed ? errorMessagesShouldBeDisplayed : null
+            "
+            [attr.aria-required]="parentId() ? null : isRequired ? isRequired : null"
+            (focusout)="handleFocusOut($event)">
+            <ngb-datepicker
+                #datepicker
+                [displayMonths]="displayMonths()"
+                [firstDayOfWeek]="culture()?.firstDayOfWeek || 1"
+                [showWeekNumbers]="showWeekNumbers()"
+                [outsideDays]="outsideDays()"
+                [navigation]="readonly() ? 'none' : 'select'"
+                [minDate]="minDate() ?? { year: 1900, month: 1, day: 1 }"
+                [maxDate]="maxDate() ?? { year: 2100, month: 12, day: 31 }"
+                [markDisabled]="disableDate"
+                [disabled]="disabled()"
+                [dayTemplate]="rangeEnabled() ? customDayTemplate : defaultDayTemplate"
+                [(ngModel)]="dateSelected"
+                (dateSelect)="onSelectDate($event)">
+            </ngb-datepicker>
+
+            <ng-template
+                #defaultDayTemplate
+                let-date="date"
+                let-focused="focused">
+                <!-- [class.focused]="focused" -->
+                <div
+                    class="dp-day"
+                    [id]="formatDateId(date)"
+                    [attr.data-qe-id]="formatE2EId(date)"
+                    [class.today]="isToday(date)"
+                    [class.selected]="
+                        dateSelected() &&
+                        dateSelected()!.day === date.day &&
+                        dateSelected()!.month === date.month &&
+                        dateSelected()!.year === date.year
+                    ">
+                    <div class="dp-day-inner">{{ date.day }}</div>
+                </div>
+            </ng-template>
+
+            <ng-template
+                #customDayTemplate
+                let-date="date"
+                let-currentMonth="currentMonth"
+                let-focused="focused">
+                <div
+                    class="dp-day dp-range-day"
+                    today-day
+                    [id]="formatDateId(date)"
+                    [attr.data-qe-id]="formatE2EId(date)"
+                    [class.readonly]="readonly()"
+                    [class.range]="isRange(date)"
+                    [class.faded]="isHovered(date) || isInside(date)"
+                    [class.today]="isToday(date)"
+                    [class.selected-start]="rangeStartDate() && date.equals(rangeStartDate())"
+                    [class.selected-end]="rangeEndDate() && date.equals(rangeEndDate())"
+                    [class.hovered-end]="isHoveredEndDate(date)"
+                    (mouseenter)="hoveredDate.set(date)"
+                    (mouseleave)="hoveredDate.set(null)">
+                    <div class="dp-day-inner">{{ date.day }}</div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+
+    <rf-hint-messages
+        [id]="ariaId()"
+        [showHintMessages]="showHintMessages()"
+        [hintMessage]="hintMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.hintMessages || ''" />
+
+    <rf-error-messages
+        [id]="ariaId()"
+        [showErrorMessages]="showErrorMessages()"
+        [errorMessages]="errorMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.errorMessages || ''"></rf-error-messages>
+
+    <rf-debug-state
+        [control]="control"
+        [debug]="debug"
+        [hide]="hideDebug()"
+        [displayErrorsMode]="displayErrorsMode()"></rf-debug-state>
+</div>

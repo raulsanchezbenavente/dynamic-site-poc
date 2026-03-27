@@ -1,0 +1,78 @@
+<tab-presentation class="switch-story">
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Switch aria described by</div>
+            <rf-switch
+                formControlName="switch1"
+                [label]="'Switch 1'"
+                [ariaLabelledBy]="'switch-1'"></rf-switch>
+            <div hoverOpacity>
+                <em id="switch-1">Select switch 1</em>
+                <br />
+            </div>
+            <div class="stbook-title">Switch / Hint message / Validation true</div>
+            <rf-switch
+                formControlName="switch2"
+                [label]="'Switch 2'"
+                [errorMessages]="errorSwitch1"
+                [hintMessages]="'Select it if X'"></rf-switch>
+            <div class="stbook-title">Switch custom classes / custom validation false</div>
+            <rf-switch
+                formControlName="switch3"
+                [label]="'Switch 3'"
+                [classes]="swithCustomClasses"
+                [errorMessages]="errorSwitch2"></rf-switch>
+            <div class="stbook-title">Switch readonly</div>
+            <rf-switch
+                formControlName="switch4"
+                [label]="'Switch 4'"
+                [readonly]="true"></rf-switch>
+            <div class="stbook-title">Switch disabled</div>
+            <rf-switch
+                formControlName="switch5"
+                [label]="'Switch 5'"></rf-switch>
+        </form>
+        <form-validation-features [form]="myForm"></form-validation-features>
+    </div>
+    <div standalone>
+        <div class="stbook-title">Switch aria described by</div>
+        <rf-switch
+            #switch1
+            [label]="'Switch 1'"
+            [value]="true"
+            [ariaLabelledBy]="'switch-1'"></rf-switch>
+        <div hoverOpacity>
+            <em id="switch-1">Select switch 1</em>
+        </div>
+        <div class="stbook-title">Switch / Hint message / Validation true</div>
+        <rf-switch
+            #switch2
+            [label]="'Switch 2'"
+            [value]="false"
+            [validators]="[switchRequired({ requiredValue: true })]"
+            [hintMessages]="'Select it if X'"
+            [errorMessages]="errorSwitch1"></rf-switch>
+        <div class="stbook-title">Switch custom classes / custom validation false</div>
+        <rf-switch
+            #switch3
+            [label]="'Switch 3'"
+            [classes]="swithCustomClasses"
+            [value]="true"
+            [validators]="[switchRequired({ requiredValue: false })]"
+            [errorMessages]="errorSwitch2"></rf-switch>
+        <div class="stbook-title">Switch readonly</div>
+        <rf-switch
+            #switch4
+            [label]="'Switch 4'"
+            [readonly]="true"
+            [value]="false"></rf-switch>
+        <div class="stbook-title">Switch disabled</div>
+        <rf-switch
+            #switch5
+            [label]="'Switch 5'"
+            [value]="true"
+            [disabled]="true"></rf-switch>
+        <standalone-validation-features
+            [components]="[switch1, switch2, switch3, switch4, switch5]"></standalone-validation-features>
+    </div>
+</tab-presentation>

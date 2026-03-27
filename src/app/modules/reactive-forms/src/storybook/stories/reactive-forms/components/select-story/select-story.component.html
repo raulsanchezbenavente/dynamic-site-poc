@@ -1,0 +1,175 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Select / Large list</div>
+            <rf-select
+                formControlName="formControlDays"
+                [options]="listNumber"
+                [animatedLabel]="'Days'"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+            <div class="stbook-title">Select / Hint message / Validation required</div>
+            <rf-select
+                formControlName="flightClass"
+                [options]="flightClassOptions"
+                [animatedLabel]="'Flight class'"
+                [errorMessages]="SELECT_ERROR_MESSAGES"
+                [hintMessages]="'Select a valid flight class'" />
+
+            <div class="stbook-title">Select icon left</div>
+            <rf-select
+                formControlName="payMethods"
+                [animatedLabel]="'Payment methods'"
+                [leftIcon]="'language'"
+                [hideCaret]="false"
+                [options]="paymentMethodsOptions"
+                [placeholder]="'Select payment method'"
+                [typeaheadIncludes]="true"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+            <div class="stbook-title">Select icon right</div>
+            <rf-select
+                formControlName="payMethods2"
+                [animatedLabel]="'Payment methods'"
+                [rightIcon]="'home'"
+                [hideCaret]="true"
+                [options]="paymentMethodsOptions"
+                [placeholder]="'Select payment method'"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+            <div class="stbook-title">Select with options filter</div>
+            <rf-select
+                formControlName="airlines"
+                [leftIcon]="'email'"
+                [animatedLabel]="'Airlines'"
+                [filter]="{ enabled: true, placeholder: 'Search airline' }"
+                [options]="airlineOptions"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+            <div class="stbook-title">Select mask selected</div>
+            <rf-select
+                formControlName="prefix"
+                [animatedLabel]="'Prefix'"
+                [mask]="prefixMask"
+                [options]="prefixOptions"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+            <div class="stbook-title">Select readonly</div>
+            <rf-select
+                formControlName="readonly"
+                [options]="flightClassOptions"
+                [animatedLabel]="'Flight class'"
+                [leftIcon]="'user'"
+                [readonly]="true"
+                [placeholder]="'ReadOnly select'" />
+
+            <div class="stbook-title">Select disabled</div>
+            <rf-select
+                formControlName="disabled"
+                [animatedLabel]="'Flight class'"
+                [leftIcon]="'user'"
+                [options]="flightClassOptions" />
+
+            <div class="stbook-title">Select custom classes / Dynamic content / Validation / Filter</div>
+            <rf-select
+                formControlName="routes"
+                [options]="routeOptions"
+                [classes]="customClasses"
+                [placeholder]="'Select route'"
+                [filter]="{ enabled: true, placeholder: 'Filter by route', type: fiterType.MARKED }"
+                [errorMessages]="SELECT_ERROR_MESSAGES" />
+        </form>
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <div class="stbook-title">Select / Large list</div>
+        <rf-select
+            #select1
+            [options]="listNumber"
+            [animatedLabel]="'Days'"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <div class="stbook-title">Select / Hint message / Validation required</div>
+        <rf-select
+            #select2
+            [options]="flightClassOptions"
+            [animatedLabel]="'Flight class'"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES"
+            [hintMessages]="'Select a valid flight class'" />
+
+        <div class="stbook-title">Select icon left</div>
+        <rf-select
+            #select3
+            [animatedLabel]="'Payment methods'"
+            [leftIcon]="'language'"
+            [hideCaret]="false"
+            [options]="paymentMethodsOptions"
+            [placeholder]="'Select payment method'"
+            [typeaheadIncludes]="true"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <div class="stbook-title">Select icon right</div>
+        <rf-select
+            #select4
+            [animatedLabel]="'Payment methods'"
+            [rightIcon]="'home'"
+            [hideCaret]="true"
+            [options]="paymentMethodsOptions"
+            [placeholder]="'Select payment method'"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <div class="stbook-title">Select with options filter</div>
+        <rf-select
+            #select5
+            [leftIcon]="'email'"
+            [animatedLabel]="'Airlines'"
+            [filter]="{ enabled: true, placeholder: 'Search airline' }"
+            [options]="airlineOptions"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <div class="stbook-title">Select mask selected</div>
+        <rf-select
+            #select6
+            [animatedLabel]="'Prefix'"
+            [mask]="prefixMask"
+            [options]="prefixOptions"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <div class="stbook-title">Select readonly</div>
+        <rf-select
+            #select7
+            [options]="flightClassOptions"
+            [animatedLabel]="'Flight class'"
+            [leftIcon]="'user'"
+            [readonly]="true"
+            [value]="'business'"
+            [placeholder]="'ReadOnly select'" />
+
+        <div class="stbook-title">Select disabled</div>
+        <rf-select
+            #select8
+            [animatedLabel]="'Flight class'"
+            [leftIcon]="'user'"
+            [options]="flightClassOptions"
+            [value]="'economy'"
+            [disabled]="true" />
+
+        <div class="stbook-title">Select custom classes / Dynamic content / Validation / Filter</div>
+        <rf-select
+            #select9
+            [options]="routeOptions"
+            [classes]="customClasses"
+            [placeholder]="'Select route'"
+            [filter]="{ enabled: true, placeholder: 'Filter by route', type: fiterType.MARKED }"
+            [validators]="[Validators.required]"
+            [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+        <standalone-validation-features
+            [components]="[select1, select2, select3, select4, select5, select6, select7, select8, select9]" />
+    </div>
+</tab-presentation>

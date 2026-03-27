@@ -1,0 +1,10 @@
+<fieldset
+    class="rf-checkbox-group_fieldset"
+    [attr.data-checkbox-group]="checkbox.checkFormName || null"
+    [attr.form-control-name]="checkbox.formControlName() || checkbox.name() || null">
+    <legend class="rf-checkbox-group_legend">{{ legend() }}</legend>
+
+    <div class="rf-checkbox-group_content">
+        <ng-content></ng-content>
+    </div>
+</fieldset>

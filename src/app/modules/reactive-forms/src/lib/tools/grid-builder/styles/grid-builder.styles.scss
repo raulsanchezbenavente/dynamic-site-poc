@@ -1,0 +1,129 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.rf-grid-builder--inline {
+    --ds-btn-width: 100%;
+    --rf-grid-content-gap-vertical: #{$spacer-medium};
+    --rf-grid-content-gap-horizontal: #{$spacer-medium};
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--rf-grid-content-gap-vertical) var(--rf-grid-content-gap-horizontal);
+}
+.rf-grid {
+    --rf-grid-gap-horizontal: #{$spacer-medium};
+    --rf-grid-gap-vertical: #{$spacer-medium};
+
+    display: grid;
+    grid-template-columns: repeat(var(--rf-grid-columns, 1), var(--rf-grid-columns-width, 1fr));
+    gap: var(--rf-grid-gap-vertical) var(--rf-grid-gap-horizontal);
+}
+.rf-inner-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--rf-grid-gap-vertical) var(--rf-grid-gap-horizontal);
+}
+.rf-grid_col--hidden {
+    display: none;
+}
+
+// Responsive
+// leave it at 414px for better usability on small phones
+@media (width >= 414px) {
+    .rf-inner-grid {
+        flex-direction: row;
+        .rf-grid_col {
+            &:first-child {
+                min-width: var(--prefix-width, calculateRem(120px));
+            }
+            &:last-child {
+                flex: 1;
+            }
+        }
+    }
+}
+
+@media #{$mobile-sm} {
+    .rf-inner-grid {
+        .rf-grid_col {
+            flex: 1 1 100%;
+            &:first-child {
+                flex: 0 0 var(--rf-inner-grid-first-field-width, calculateRem(180px));
+            }
+        }
+    }
+}
+
+@media #{$tablet-portrait} {
+    .rf-grid-cols-2,
+    .rf-grid-cols-3,
+    .rf-grid-cols-4 {
+        --rf-grid-columns: 2;
+
+        // colspan
+        .rf-grid-colspan-2 {
+            grid-column: span 1;
+        }
+    }
+    .rf-grid-cols-4 {
+        .rf-grid-colspan-2 {
+            grid-column: span 2;
+        }
+    }
+
+    // inline grid
+    .rf-grid-builder--inline {
+        --ds-btn-width: auto;
+
+        flex-flow: row nowrap;
+
+        // Avoid using align-items: center to prevent layout issues with validation message elements in form fields
+        // Buttons are vertically aligned by applying `position: relative` and adjusting with `top` value
+        align-items: flex-start;
+        .rf-grid {
+            flex: 1 1 100%;
+        }
+        ::ng-deep .#{$ds}button-container {
+            position: relative;
+
+            // Vertically centers the button inside the input by using half the height difference
+            // Formula: (input height - button height) / 2
+            top: calculateRem(7px);
+        }
+        .rf-grid-cols-3 {
+            --rf-grid-columns: 3;
+        }
+    }
+
+    // colspan
+    .rf-grid-colspan {
+        grid-template-columns: none;
+    }
+    .rf-grid-colspan-full {
+        grid-column: 1 / -1;
+    }
+}
+
+@media #{$tablet-landscape} {
+    .rf-grid-cols-3 {
+        --rf-grid-columns: 3;
+
+        // colspan
+        .rf-grid-colspan-2 {
+            grid-column: span 2;
+        }
+    }
+    .rf-grid-cols-4 {
+        --rf-grid-columns: 4;
+
+        // colspan
+        .rf-grid-colspan-2 {
+            grid-column: span 2;
+        }
+        .rf-grid-colspan-3 {
+            grid-column: span 3;
+        }
+    }
+}

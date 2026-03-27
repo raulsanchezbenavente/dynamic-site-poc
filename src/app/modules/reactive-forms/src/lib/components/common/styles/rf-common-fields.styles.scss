@@ -1,0 +1,212 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+
+// form field group - elements: control, input, icon, label
+.rf-field-group-wrapper,
+.rf-field-group {
+    position: relative;
+}
+
+// form field contol: input, textarea and select button
+.rf-field-control {
+    // Ensures the field is fully visible when brought into view (e.g. via focus + scroll)
+    // by adding a top offset equal to the fixed header height.
+    // Effective only when the header is fixed (using main o flow header).
+    scroll-margin-top: $scroll-margin-top-fixed-header-mobile;
+
+    width: 100%;
+    height: var(--rf-field-control-height);
+    box-sizing: border-box;
+    font-size: var(--f-size);
+    font-weight: var(--f-weight-bold);
+    padding: var(--rf-field-control-pad-top) var(--rf-field-control-pad-right) var(--rf-field-control-pad-bottom)
+        var(--rf-field-control-pad-left);
+    text-align: left;
+    color: var(--rf-field-control-color);
+    border-radius: var(--rf-field-control-border-radius);
+    border: var(--rf-field-control-border-width) solid var(--rf-field-control-border-color);
+    background-color: var(--rf-field-control-bg);
+
+    // when label is on top
+    .has-label-on-top & {
+        padding-top: var(--rf-field-has-label-on-top-padding-top, #{calculateRem(30px)});
+    }
+
+    // states
+    &:hover,
+    &:focus,
+    &:active {
+        --rf-field-control-border-color: var(--rf-field-control-border-color-hover);
+    }
+    // in this case, readonly and disabled states have same styles
+    // when it is not the case, just separated them
+    &:disabled {
+        --rf-field-control-bg: var(--rf-field-control-disabled-bg);
+        --rf-field-control-color: var(--rf-field-control-disabled-color);
+
+        pointer-events: none;
+    }
+}
+
+// form field icon: left and right
+.rf-field-icon {
+    --icon-fontsize: var(--rf-field-control-icon-size);
+
+    position: absolute;
+    display: inline-flex;
+    top: 0;
+    left: var(--rf-field-control-pad-left);
+    height: 100%;
+    align-items: center;
+    z-index: 1; // to be on top of the field control
+}
+.rf-field-icon--right {
+    left: auto;
+    right: var(--rf-field-control-pad-right);
+}
+.rf-field-icon--type-button {
+    &:hover {
+        color: var(--c-active);
+    }
+}
+
+// states
+.has-error {
+    --rf-field-control-border-color: var(--rf-field-control-border-color-error);
+    --rf-field-control-border-color-hover: var(--rf-field-control-border-color-error);
+}
+.is-disabled,
+.is-readonly {
+    --rf-field-control-bg: var(--rf-field-control-disabled-bg);
+    --rf-field-control-color: var(--rf-field-control-disabled-color);
+    --rf-field-control-border-color: var(--rf-field-control-disabled-border-color);
+    --icon-color: var(--rf-field-control-disabled-color);
+
+    pointer-events: none;
+}
+.is-readonly {
+    --rf-field-control-border-color-hover: var(--rf-field-control-border-color);
+    --rf-field-control-color: var(--rf-field-control-readonly-color);
+    --icon-color: var(--rf-field-control-readonly-color);
+}
+
+// modifiers
+.has-icon--left {
+    --rf-animated-label-padding-left: var(--rf-field-control-has-icon-padding);
+    .rf-field-control {
+        --rf-field-control-pad-left: var(--rf-field-control-has-icon-padding);
+    }
+}
+.has-icon--right {
+    --icon-fontsize: --rf-field-control-icon-right-size;
+    --rf-animated-label-padding-right: var(--rf-field-control-has-icon-right-padding);
+    .rf-field-control {
+        --rf-field-control-pad-right: var(--rf-field-control-has-icon-right-padding);
+    }
+}
+
+// layout
+// leave it at 360px for better usability on small phones
+@media (width >= 360px) {
+    :host(.prefix-field-group--always-inline) {
+        .rf-field-group_grid {
+            flex-direction: row;
+            > :first-child {
+                min-width: var(--prefix-width, calculateRem(120px));
+            }
+            > :last-child {
+                flex: 1;
+            }
+        }
+    }
+}
+
+// field group appearances
+// integrated
+.rf-field-group--integrated-appearance {
+    // field control height and paddings
+    --rf-field-control-pad-top: #{calculateRem(4px)};
+    --rf-field-control-pad-bottom: #{calculateRem(4px)};
+    --rf-field-control-pad-left: #{calculateRem(8px)};
+    --rf-field-control-pad-right: #{calculateRem(8px)};
+
+    // field label
+    --rf-animated-label-line-height: var(--f-line-height);
+    --rf-animated-label-top-position-active: #{calculateRem(4px)};
+    --rf-animated-label-top-font-size: var(--f-size);
+    --rf-animated-label-padding-left: var(--rf-field-control-pad-left);
+    --rf-field-has-label-on-top-padding-top: var(--rf-field-control-pad-top);
+
+    position: relative;
+    height: var(--rf-field-control-height);
+    padding: calculateRem(29px) var(--rf-field-control-pad-right) var(--rf-field-control-pad-bottom)
+        var(--rf-field-control-pad-left);
+    border: var(--rf-field-control-border-width) solid var(--rf-field-control-border-color);
+    border-radius: var(--rf-field-control-border-radius);
+    background-color: var(--rf-field-control-bg);
+    box-sizing: border-box;
+
+    // legend
+    legend {
+        position: absolute;
+        top: #{calculateRem(12px)};
+        left: var(--rf-field-control-pad-left);
+        font-size: var(--f-size-tiny);
+        font-weight: var(--f-weight-normal);
+        text-align: left;
+        color: var(--c-text-secondary);
+        cursor: text;
+        user-select: none;
+    }
+
+    // affects field-controls height inside fieldset
+    fieldset {
+        --rf-prefix-phone-grid-gap: #{$spacer-tiny};
+        --rf-field-control-height: #{calculateRem(32px)};
+        --rf-field-control-border-color: transparent;
+        --accessibility-outline-offset: #{calculateRem(-2px)};
+
+        // field message
+        --rf-field-message-margin-top: #{calculateRem(14px)};
+
+        height: 100%;
+        ::ng-deep {
+            .has-error:not(:hover) {
+                --rf-field-control-border-width: 0;
+            }
+            .is-readonly {
+                --rf-field-control-disabled-border-color: transparent;
+            }
+        }
+    }
+    &.group-has-error {
+        border-color: var(--rf-field-control-border-color-error);
+        legend {
+            color: var(--rf-field-control-label-color-error);
+        }
+    }
+    &.is-readonly {
+        --rf-animated-label-color: var(--rf-field-control-readonly-color);
+        --rf-field-control-bg: var(--rf-field-control-readonly-bg);
+        legend {
+            color: var(--c-text-secondary);
+        }
+    }
+}
+
+@media #{$tablet-landscape} {
+    .rf-field-group--integrated-appearance {
+        --rf-field-control-pad-left: #{calculateRem(12px)};
+        --rf-field-control-pad-right: #{calculateRem(12px)};
+    }
+}
+
+// Header layout breakpoint
+@media #{$mobile} {
+    .rf-field-control {
+        scroll-margin-top: $scroll-margin-top-fixed-header;
+    }
+}

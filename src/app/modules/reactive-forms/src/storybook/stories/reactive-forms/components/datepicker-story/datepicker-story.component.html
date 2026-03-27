@@ -1,0 +1,97 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Datepicker</div>
+            <rf-datepicker formControlName="datepicker1"></rf-datepicker>
+            <br />
+            <div class="stbook-title">Datepicker / Range</div>
+            <rf-datepicker
+                formControlName="rangedatepicker"
+                [rangeEnabled]="true"
+                [errorMessages]="errorMessagesDatePicker"
+                [specificStartDateRange]="'6/3/2025'"
+                [specificEndDateRange]="'10/3/2025'">
+            </rf-datepicker>
+            <br />
+            <div class="stbook-title">Datepicker / Multiple Months / Validation</div>
+            <rf-datepicker
+                formControlName="multiplemonthsdatepicker"
+                [displayMonths]="2"
+                [errorMessages]="errorMessagesDatePicker"
+                [specificDate]="'6/3/2025'"
+                [hintMessages]="'Select a valid date'"></rf-datepicker>
+            <br />
+            <div class="stbook-title">Datepicker / Disabled Days</div>
+            <rf-datepicker
+                formControlName="disabledaysdatepicker"
+                [minDate]="{ year: 2025, month: 4, day: 6 }"
+                [maxDate]="{ year: 2025, month: 4, day: 25 }"></rf-datepicker>
+            <br />
+            <div class="stbook-title">Datepicker / ReadOnly</div>
+            <rf-datepicker
+                formControlName="readonlydatepicker"
+                [readonly]="true"></rf-datepicker>
+            <br />
+            <div class="stbook-title">Datepicker / Disabled</div>
+            <rf-datepicker formControlName="disableddatepicker"></rf-datepicker>
+        </form>
+        <br />
+        <form-validation-features [form]="myForm"></form-validation-features>
+    </div>
+    <div standalone>
+        <div class="stbook-title">Datepicker</div>
+        <rf-datepicker
+            #datepicker1
+            [value]="datepicker1Value"
+            [validators]="[Validators.required]" />
+        <br />
+        <div class="stbook-title">Datepicker / Range</div>
+        <rf-datepicker
+            #datepicker2
+            [value]="rangedatepickerValue"
+            [rangeEnabled]="true"
+            [errorMessages]="errorMessagesDatePicker"
+            [specificStartDateRange]="'6/3/2025'"
+            [specificEndDateRange]="'10/3/2025'">
+        </rf-datepicker>
+        <br />
+        <div class="stbook-title">Datepicker / Multiple Months / Validation</div>
+        <rf-datepicker
+            #datepicker3
+            [displayMonths]="2"
+            [errorMessages]="errorMessagesDatePicker"
+            [specificDate]="'6/3/2025'"
+            [validators]="[Validators.required]"
+            [hintMessages]="'Select a valid date'" />
+        <br />
+        <div class="stbook-title">Datepicker / Disabled Days</div>
+        <rf-datepicker
+            #datepicker4
+            [minDate]="{ year: 2025, month: 4, day: 6 }"
+            [maxDate]="{ year: 2025, month: 4, day: 25 }"
+            [validators]="[Validators.required]" />
+        <br />
+        <div class="stbook-title">Datepicker / ReadOnly</div>
+        <rf-datepicker
+            #datepicker5
+            [readonly]="true"
+            [value]="todayValue"
+            [validators]="[Validators.required]" />
+        <br />
+        <div class="stbook-title">Datepicker / Disabled</div>
+        <rf-datepicker
+            #datepicker6
+            [disabled]="true"
+            [validators]="[Validators.required]" />
+        <br />
+        <standalone-validation-features
+            [components]="[
+                datepicker1,
+                datepicker2,
+                datepicker3,
+                datepicker4,
+                datepicker5,
+                datepicker6,
+            ]"></standalone-validation-features>
+    </div>
+</tab-presentation>

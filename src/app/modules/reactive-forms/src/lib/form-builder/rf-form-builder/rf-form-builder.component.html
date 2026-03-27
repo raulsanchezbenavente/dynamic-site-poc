@@ -1,0 +1,278 @@
+<ng-template
+    #formBuilderTemplate
+    let-formTmplt="form"
+    let-formKeysTmplt="formKeys"
+    let-configTmplt="config"
+    let-htmlMapTmplt="htmlMap">
+    <form
+        [formGroup]="formTmplt"
+        [attr.id]="'form-builder-container-' + labelId">
+        @for (key of formKeysTmplt; track key) {
+            @switch (configTmplt[key].type) {
+                @case (formBuilderType.HTML_INJECTION) {
+                    <div
+                        [attr.form-control-name]="key"
+                        [innerHTML]="htmlMapTmplt[key]"></div>
+                }
+                @case (formBuilderType.INPUT) {
+                    <rf-input-text
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [type]="configTmplt[key]?.inputType || RfInputTypes.TEXT"
+                        [name]="configTmplt[key]?.name || null"
+                        [placeholder]="configTmplt[key]?.placeholder || null"
+                        [animatedLabel]="configTmplt[key]?.animatedLabel || null"
+                        [maxLength]="configTmplt[key]?.maxLength || null"
+                        [autocomplete]="configTmplt[key]?.autocomplete || autocompleteTypes.ON"
+                        [readonly]="configTmplt[key]?.readonly || false"
+                        [inputPattern]="configTmplt[key]?.inputPattern || undefined"
+                        [appearance]="configTmplt[key]?.appearance || RfAppearanceTypes.DEFAULT"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [messages]="configTmplt[key]?.messages || null"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [rightIcon]="configTmplt[key]?.rightIcon || null"
+                        [leftIcon]="configTmplt[key]?.leftIcon || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"
+                        (blurInputText)="
+                            configTmplt[key]?.blurInputText ? configTmplt[key]?.blurInputText($event) : null
+                        "
+                        (pasteInputText)="
+                            configTmplt[key]?.pasteInputText ? configTmplt[key]?.pasteInputText($event) : null
+                        "
+                        (dragleaveInputText)="
+                            configTmplt[key]?.dragleaveInputText ? configTmplt[key]?.dragleaveInputText($event) : null
+                        ">
+                    </rf-input-text>
+                }
+                @case (formBuilderType.RADIO) {
+                    <rf-radio-group [legend]="configTmplt[key].legend || ''">
+                        @for (item of configTmplt[key].radios; track item) {
+                            <rf-radio
+                                [formControlName]="key"
+                                [label]="item?.label || null"
+                                [readonly]="item?.readonly || null"
+                                [disabledRadio]="item?.disabled || null"
+                                [checked]="item?.checked || null"
+                                [value]="item?.value || null"
+                                [errorMessages]="configTmplt[key]?.errorMessages || ''"
+                                [hintMessages]="configTmplt[key]?.hintMessages || null"
+                                [ariaLabelledBy]="item?.ariaLabelledBy || null">
+                            </rf-radio>
+                        }
+                    </rf-radio-group>
+                }
+                @case (formBuilderType.CHECKBOX) {
+                    @if (configTmplt[key].checkboxes.length === 1) {
+                        <rf-checkbox
+                            [formControlName]="key"
+                            [label]="configTmplt[key].checkboxes[0]?.label || null"
+                            [disabledCheckbox]="configTmplt[key].checkboxes[0]?.disabled || false"
+                            [readonly]="configTmplt[key].checkboxes[0]?.readonly || false"
+                            [checked]="configTmplt[key].checkboxes[0]?.checked || false"
+                            [value]="configTmplt[key].checkboxes[0]?.value || null"
+                            [errorMessages]="configTmplt[key]?.errorMessages || ''"
+                            [hintMessages]="configTmplt[key]?.hintMessages || null"
+                            [ariaLabelledBy]="configTmplt[key].checkboxes[0]?.ariaLabelledBy || null">
+                        </rf-checkbox>
+                    } @else {
+                        <rf-checkbox-group [legend]="configTmplt[key].legend || ''">
+                            @for (item of configTmplt[key].checkboxes; track item) {
+                                <rf-checkbox
+                                    [formControlName]="key"
+                                    [label]="item?.label || null"
+                                    [disabledCheckbox]="item?.disabled || false"
+                                    [readonly]="item?.readonly || false"
+                                    [checked]="item?.checked || false"
+                                    [value]="item?.value || null"
+                                    [errorMessages]="configTmplt[key]?.errorMessages || ''"
+                                    [hintMessages]="configTmplt[key]?.hintMessages || null"
+                                    [ariaLabelledBy]="item?.ariaLabelledBy || null">
+                                </rf-checkbox>
+                            }
+                        </rf-checkbox-group>
+                    }
+                }
+
+                @case (formBuilderType.SWITCH) {
+                    <rf-switch
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [label]="configTmplt[key]?.label || null"
+                        [readonly]="configTmplt[key]?.readonly || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null">
+                    </rf-switch>
+                }
+                @case (formBuilderType.LIST) {
+                    <rf-list
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [options]="configTmplt[key]?.options"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [readonly]="configTmplt[key]?.readonly || null"
+                        [filter]="configTmplt[key]?.filter || null"
+                        [typeaheadIncludes]="configTmplt[key]?.typeaheadIncludes || false"
+                        [errorMessages]="configTmplt[key]?.errorMessages || ''"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null">
+                    </rf-list>
+                }
+                @case (formBuilderType.SELECT) {
+                    <rf-select
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [placeholder]="configTmplt[key]?.placeholder || null"
+                        [animatedLabel]="configTmplt[key]?.animatedLabel || null"
+                        [options]="configTmplt[key]?.options"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [rightIcon]="configTmplt[key]?.rightIcon || null"
+                        [leftIcon]="configTmplt[key]?.leftIcon || null"
+                        [hideCaret]="configTmplt[key]?.hideCaret || false"
+                        [readonly]="configTmplt[key]?.readonly || null"
+                        [filter]="configTmplt[key]?.filter || null"
+                        [mask]="configTmplt[key]?.mask || null"
+                        [typeaheadIncludes]="configTmplt[key]?.typeaheadIncludes || false"
+                        [appearance]="configTmplt[key]?.appearance || RfAppearanceTypes.DEFAULT"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null">
+                    </rf-select>
+                }
+                @case (formBuilderType.IP) {
+                    <rf-ip-input
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [title]="configTmplt[key]?.title || null"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [placeholder]="configTmplt[key]?.placeholder || null"
+                        [animatedLabel]="configTmplt[key]?.animatedLabel || null"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [attr.readonly]="configTmplt[key]?.readonly || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"></rf-ip-input>
+                }
+                @case (formBuilderType.PREFIX_PHONE) {
+                    <rf-prefix-phone
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [title]="configTmplt[key]?.title || null"
+                        [phoneName]="configTmplt[key]?.phoneName || null"
+                        [autocompletePhone]="configTmplt[key]?.autocompletePhone || autocompleteTypes.ON"
+                        [maxLength]="configTmplt[key]?.maxLength || null"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [readonly]="configTmplt[key]?.readonly || null"
+                        [placeholderPrefix]="configTmplt[key]?.placeholderPrefix || null"
+                        [placeholderPhone]="configTmplt[key]?.placeholderPhone || null"
+                        [animatedLabelPrefix]="configTmplt[key]?.animatedLabelPrefix || null"
+                        [animatedLabelPhone]="configTmplt[key]?.animatedLabelPhone || null"
+                        [options]="configTmplt[key]?.options"
+                        [mask]="configTmplt[key]?.mask || null"
+                        [inputPatternPhone]="configTmplt[key]?.inputPatternPhone || undefined"
+                        [appearance]="configTmplt[key]?.appearance || RfAppearanceTypes.DEFAULT"
+                        [errorMessages]="configTmplt[key]?.errorMessages || ''"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [separatedErrors]="configTmplt[key]?.separatedErrors || false"
+                        [typeaheadIncludes]="configTmplt[key]?.typeaheadIncludes || false"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"
+                        (pasteInputText)="
+                            configTmplt[key]?.pasteInputText ? configTmplt[key]?.pasteInputText($event) : null
+                        "
+                        (dragleaveInputText)="
+                            configTmplt[key]?.dragleaveInputText ? configTmplt[key]?.dragleaveInputText($event) : null
+                        ">
+                    </rf-prefix-phone>
+                }
+                @case (formBuilderType.SELECT_DATE_PICKER) {
+                    <rf-select-date-picker
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [title]="configTmplt[key]?.title || null"
+                        [appearance]="configTmplt[key]?.appearance || RfAppearanceTypes.DEFAULT"
+                        [separatedErrors]="configTmplt[key]?.separatedErrors || false"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"
+                        [selectsLabels]="configTmplt[key]?.selectsLabels || null"
+                        [yearRange]="configTmplt[key]?.yearRange || null"
+                        [culture]="configTmplt[key]?.culture || null"
+                        [abbreviationMonth]="configTmplt[key]?.abbreviationMonth || null"
+                        [readonly]="configTmplt[key]?.readonly || false"
+                        [disabled]="configTmplt[key]?.disabled || false"></rf-select-date-picker>
+                }
+                @case (formBuilderType.DATEPICKER) {
+                    <rf-datepicker
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [readonly]="configTmplt[key]?.readonly || false"
+                        [disabled]="configTmplt[key]?.disabled || false"
+                        [rangeEnabled]="configTmplt[key]?.rangeEnabled || false"
+                        [rangeStartDate]="configTmplt[key]?.rangeStartDate || null"
+                        [rangeEndDate]="configTmplt[key]?.rangeEndDate || null"
+                        [specificStartDateRange]="configTmplt[key]?.specificStartDateRange || ''"
+                        [specificEndDateRange]="configTmplt[key]?.specificEndDateRange || ''"
+                        [specificDate]="configTmplt[key]?.specificDate || undefined"
+                        [minDate]="configTmplt[key]?.minDate || null"
+                        [maxDate]="configTmplt[key]?.maxDate || null"
+                        [displayMonths]="configTmplt[key]?.displayMonths || 1"
+                        [culture]="configTmplt[key]?.culture || null"
+                        [showWeekNumbers]="configTmplt[key]?.showWeekNumbers || false"
+                        [outsideDays]="configTmplt[key]?.outsideDays || 'hidden'"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"></rf-datepicker>
+                }
+                @case (formBuilderType.INPUT_DATEPICKER) {
+                    <rf-input-datepicker
+                        [attr.form-control-name]="key"
+                        [formControlName]="key"
+                        [animatedLabel]="configTmplt[key]?.animatedLabel || null"
+                        [classes]="configTmplt[key]?.classes || {}"
+                        [errorMessages]="configTmplt[key]?.errorMessages || null"
+                        [hintMessages]="configTmplt[key]?.hintMessages || null"
+                        [readonly]="configTmplt[key]?.readonly || null"
+                        [disabled]="configTmplt[key]?.disabled || false"
+                        [placeholder]="configTmplt[key]?.placeholder || null"
+                        [appearance]="configTmplt[key]?.appearance || RfAppearanceTypes.DEFAULT"
+                        [rangeEnabled]="configTmplt[key]?.rangeEnabled || false"
+                        [rangeStartDate]="configTmplt[key]?.rangeStartDate || null"
+                        [rangeEndDate]="configTmplt[key]?.rangeEndDate || null"
+                        [specificStartDateRange]="configTmplt[key]?.specificStartDateRange || ''"
+                        [specificEndDateRange]="configTmplt[key]?.specificEndDateRange || ''"
+                        [specificDate]="configTmplt[key]?.specificDate || undefined"
+                        [minDate]="configTmplt[key]?.minDate || null"
+                        [maxDate]="configTmplt[key]?.maxDate || null"
+                        [displayMonths]="configTmplt[key]?.displayMonths || 1"
+                        [culture]="configTmplt[key]?.culture || null"
+                        [showWeekNumbers]="configTmplt[key]?.showWeekNumbers || false"
+                        [outsideDays]="configTmplt[key]?.outsideDays || 'hidden'"
+                        [rightIcon]="configTmplt[key]?.rightIcon || null"
+                        [leftIcon]="configTmplt[key]?.leftIcon || null"
+                        [hideCaret]="configTmplt[key]?.hideCaret || false"
+                        [ariaLabelledBy]="configTmplt[key]?.ariaLabelledBy || null"></rf-input-datepicker>
+                }
+                <!-- TO ADD COMPONENTS -->
+            }
+        }
+        <div [id]="'form-builder-projection-' + labelId">
+            <ng-content></ng-content>
+        </div>
+    </form>
+</ng-template>
+
+@for (form of _formsCollection; track form; let index = $index) {
+    @if (index === templateKey - 1) {
+        <ng-container
+            *ngTemplateOutlet="
+                formBuilderTemplate;
+                context: {
+                    form: form,
+                    formKeys: _formKeys[index],
+                    config: _formConfigTemplate[index],
+                    htmlMap: _sanitizedHtmlMap[index],
+                }
+            ">
+        </ng-container>
+    }
+}
