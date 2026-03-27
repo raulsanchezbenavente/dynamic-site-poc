@@ -3,6 +3,22 @@ import { ChangeDetectionStrategy, Component, computed, effect, inject, input, si
 
 import { RteInjectorConfig } from './models/rte-injector-config.model';
 
+type ContentFetchResult = {
+  url: string;
+  content: string;
+  ok: boolean;
+};
+
+type ContentRequestsFinishedDetail = {
+  batchId: string;
+  componentId: string;
+  requested: number;
+  succeeded: number;
+  failed: number;
+  durationMs: number;
+  requestedUrls: string[];
+};
+
 @Component({
   selector: 'rte-injector',
   standalone: true,
@@ -52,12 +68,15 @@ export class RteInjectorComponent {
       let isDisposed = false;
 
       void (async (): Promise<void> => {
+        const startedAt = Date.now();
         const contents = await Promise.all(urls.map(async (url) => this.fetchContent(url, controller.signal)));
         if (isDisposed) {
           return;
         }
 
-        const mergedContent = contents.filter((entry) => entry.length > 0).join('\n');
+        this.logContentRequestCompletion(contents, startedAt);
+
+        const mergedContent = contents.map((entry) => entry.content).filter((entry) => entry.length > 0).join('\n');
         if (mergedContent.trim().length > 0) {
           this.fetchedContent.set(mergedContent);
           RteInjectorComponent.contentCache.set(cacheKey, mergedContent);
@@ -162,21 +181,54 @@ export class RteInjectorComponent {
       .join('|');
   }
 
-  private async fetchContent(url: string, signal: AbortSignal): Promise<string> {
+  private logContentRequestCompletion(results: ContentFetchResult[], startedAt: number): void {
+    const requestedUrls = results.map((entry) => entry.url);
+    const succeeded = results.filter((entry) => entry.ok).length;
+    const failed = results.length - succeeded;
+    const tracking = this.getTrackingInfo(this.config());
+    const detail: ContentRequestsFinishedDetail = {
+      batchId: tracking.batchId,
+      componentId: tracking.componentId,
+      requested: results.length,
+      succeeded,
+      failed,
+      durationMs: Math.max(0, Date.now() - startedAt),
+      requestedUrls,
+    };
+
+    this.dispatchContentRequestsFinishedEvent(detail);
+  }
+
+  private getTrackingInfo(config: RteInjectorConfig | null | undefined): { batchId: string; componentId: string } {
+    const maybeConfig = (config ?? null) as Record<string, unknown> | null;
+    const batchId = String(maybeConfig?.['__rteRequestBatchId'] ?? '').trim() || 'unknown-batch';
+    const componentId = String(maybeConfig?.['__rteRequestComponentId'] ?? '').trim() || 'unknown-component';
+    return { batchId, componentId };
+  }
+
+  private dispatchContentRequestsFinishedEvent(detail: ContentRequestsFinishedDetail): void {
+    this.document.dispatchEvent(
+      new CustomEvent<ContentRequestsFinishedDetail>('rte-injector:content-requests-finished', {
+        detail,
+      })
+    );
+  }
+
+  private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {
     try {
       const response = await fetch(url, { signal });
       if (!response.ok) {
         console.warn(`[rte-injector] Unable to fetch content URL: ${url} (${response.status})`);
-        return '';
+        return { url, content: '', ok: false };
       }
 
-      return await response.text();
+      return { url, content: await response.text(), ok: true };
     } catch {
       if (!signal.aborted) {
         console.warn(`[rte-injector] Unable to fetch content URL: ${url}`);
       }
 
-      return '';
+      return { url, content: '', ok: false };
     }
   }
 

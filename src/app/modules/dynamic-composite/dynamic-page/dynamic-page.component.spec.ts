@@ -127,4 +127,78 @@ describe('DynamicPageComponent', () => {
     expect(component.rows[0]?.cols[0]).toBe(originalColRef);
     expect(component.rows[0]?.cols[0]?.['title']).toBe('EN title');
   });
+
+  it('should log once when all rte injector requests are finished', () => {
+    const consoleLogSpy = spyOn(console, 'log');
+
+    fixture.detectChanges();
+    routeDataSubject.next({
+      pageId: 'rte-page',
+      components: [
+        {
+          cols: [
+            {
+              component: 'RTEinjector_uiplus',
+              htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/en'],
+            },
+            {
+              component: 'RTEinjector_uiplus',
+              htmlContentURLs: ['/assets/rte-fragments/allowed-cellar/en'],
+            },
+          ],
+        },
+      ],
+    });
+
+    const firstConfig = component.rows[0]?.cols[0]?.['config'] as Record<string, unknown>;
+    const secondConfig = component.rows[0]?.cols[1]?.['config'] as Record<string, unknown>;
+    const batchId = String(firstConfig?.['__rteRequestBatchId'] ?? '');
+
+    document.dispatchEvent(
+      new CustomEvent('rte-injector:content-requests-finished', {
+        detail: {
+          batchId,
+          componentId: String(firstConfig?.['__rteRequestComponentId'] ?? ''),
+          requested: 1,
+          succeeded: 1,
+          failed: 0,
+          durationMs: 30,
+          requestedUrls: ['/assets/rte-fragments/allowed-cabin/en'],
+        },
+      })
+    );
+
+    expect(consoleLogSpy).not.toHaveBeenCalledWith(
+      '[dynamic-page] all RTE injector requests finished',
+      jasmine.any(Object)
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('rte-injector:content-requests-finished', {
+        detail: {
+          batchId,
+          componentId: String(secondConfig?.['__rteRequestComponentId'] ?? ''),
+          requested: 1,
+          succeeded: 1,
+          failed: 0,
+          durationMs: 50,
+          requestedUrls: ['/assets/rte-fragments/allowed-cellar/en'],
+        },
+      })
+    );
+
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '[dynamic-page] all RTE injector requests finished',
+      jasmine.objectContaining({
+        pageId: 'rte-page',
+        injectorsExpected: 2,
+        injectorsCompleted: 2,
+        requested: 2,
+        succeeded: 2,
+        failed: 0,
+      })
+    );
+  });
+
 });
