@@ -532,6 +532,72 @@ The double-click installers at the repo root handle everything:
 
 ---
 
+## ✅ Dynamic Readiness Process (Single Completion Signal)
+
+The dynamic page now uses a generic, decoupled readiness contract so `DynamicPageComponent` can emit a single completion point for the current render batch.
+
+### Objective
+
+- Avoid hardcoded component-name coupling for async blocks.
+- Wait for all mapped blocks to be considered ready.
+- Emit one final completion signal from `DynamicPageComponent`.
+- Remove `#boot-loader` only when the page is truly ready.
+
+### Contract
+
+- Event name: `dynamic-page:component-ready`
+- Event target: `document`
+- Required payload fields:
+  - `batchId`: identifies the current render cycle and prevents stale events from prior renders.
+  - `componentId`: stable per-block identifier used to deduplicate readiness.
+
+Minimal payload example:
+
+```ts
+document.dispatchEvent(
+  new CustomEvent('dynamic-page:component-ready', {
+    detail: {
+      batchId,
+      componentId,
+    },
+  }),
+);
+```
+
+### Who Does What
+
+- `DynamicPageComponent`
+  - Creates a new `batchId` per render.
+  - Counts mapped blocks for that batch.
+  - Listens to `dynamic-page:component-ready` events.
+  - Filters by current `batchId`.
+  - Deduplicates by `componentId`.
+  - When all are ready, logs once and removes `#boot-loader`.
+
+- `BlockOutletComponent`
+  - Resolves each mapped block component.
+  - Detects if a component self-manages readiness via static marker:
+
+    ```ts
+    static dynamicPageReadiness = 'self-managed';
+    ```
+
+  - If component is not self-managed: emits auto-ready immediately after component creation.
+  - If component is self-managed: passes tracking metadata via config inputs and does not auto-emit.
+
+- Self-managed components (examples: `rte-injector`, `loyalty-card`, `main-header`)
+  - Own their async lifecycle.
+  - Dispatch `dynamic-page:component-ready` when async work is complete (including success/error handled states).
+
+### Why `batchId` and `componentId` Are Mandatory
+
+- `batchId` avoids counting late events from a previous page/render.
+- `componentId` ensures each block counts only once, even if it emits multiple times.
+
+Without these two fields, aggregated completion can be wrong (premature completion or never completing).
+
+---
+
 ## 🧩 Tabs Contract
 
 - Tab content is defined strictly with `layout.rows[].cols[]`.
@@ -646,7 +712,7 @@ This is expected optimization behavior:
 
 - The first paint loader is rendered directly in `src/index.html` (outside Angular) for immediate display.
 - Loader image is served locally from `src/assets/loader/plane-loader.gif`.
-- `RouterInitService` removes `#boot-loader` after the first navigation event is completed.
+- `DynamicPageComponent` removes `#boot-loader` only after all mapped components in the current render batch report ready.
 - The minimum display time is environment-based:
   - `development`: `0ms` (`src/environments/environment.ts`)
   - `production`: `1000ms` (`src/environments/environment.prod.ts`)
