@@ -1334,39 +1334,107 @@ body:has(.layout.terminal-fullscreen) .layout {
   border-color: #9fd9b8;
   animation: runningActionsFramePulse 1.9s ease-in-out infinite;
 }
-.script-row.running .start-btn {
+.actions .start-btn {
   position: relative;
   overflow: visible;
-  opacity: 1;
-  border-color: #7ec89c;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
 }
-.script-row.running .start-btn::before,
-.script-row.running .start-btn::after {
+.actions .start-btn::before,
+.actions .start-btn::after {
   content: '';
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%, -50%);
   pointer-events: none;
+  opacity: 0;
+  transition:
+    opacity 650ms ease,
+    transform 900ms ease;
 }
-.script-row.running .start-btn::before {
+.actions .start-btn::before {
   width: calc(100% - 0.58rem);
   height: calc(100% - 0.58rem);
   border-radius: 999px;
   border: 2px solid rgba(15, 122, 68, 0.24);
   border-top-color: var(--run);
   border-right-color: var(--run);
-  animation: statusSpin 2.8s linear infinite;
+  transform: translate(-50%, -50%) scale(0.9);
 }
-.script-row.running .start-btn::after {
+.actions .start-btn::after {
   width: 0.38rem;
   height: 0.38rem;
   background: rgba(15, 122, 68, 0.88);
   clip-path: polygon(18% 10%, 88% 50%, 18% 90%);
-  transform: translate(-46%, -50%);
+  transform: translate(-46%, -50%) scale(0.8);
+}
+.script-row.running .start-btn {
+  opacity: 1;
+  border-color: #7ec89c;
+}
+.script-row.running .start-btn::before,
+.script-row.running .start-btn::after {
+  opacity: 1;
+}
+.script-row.running .start-btn::before {
+  transform: translate(-50%, -50%) scale(1);
+  animation: statusSpin 2.8s linear infinite;
+}
+.script-row.running .start-btn::after {
+  transform: translate(-46%, -50%) scale(1);
+}
+.script-row:not(.running) .start-btn .script-action-icon {
+  opacity: 1;
+  transform: scale(1);
+  animation: startIconGrowOnIdle 1000ms cubic-bezier(0.2, 0.78, 0.2, 1) both;
 }
 .script-row.running .start-btn .script-action-icon {
   opacity: 0.2;
+  transform: scale(0.7);
+  animation: startIconShrinkOnRunning 1000ms cubic-bezier(0.2, 0.78, 0.2, 1) both;
+}
+.actions .start-btn .script-action-icon {
+  transform: scale(1);
+  transform-origin: center;
+  transition:
+    opacity 650ms ease,
+    transform 900ms ease;
+}
+
+@keyframes startIconShrinkOnRunning {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  62% {
+    opacity: 0.38;
+    transform: scale(0.6);
+  }
+
+  100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+}
+
+@keyframes startIconGrowOnIdle {
+  0% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+
+  62% {
+    opacity: 0.72;
+    transform: scale(1.08);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 .actions .start-btn,
 .actions .restart-btn,
