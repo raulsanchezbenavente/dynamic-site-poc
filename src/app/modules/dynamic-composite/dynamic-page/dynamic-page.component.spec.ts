@@ -53,7 +53,9 @@ describe('DynamicPageComponent', () => {
       seo: { title: 'SEO Home' },
     });
 
-    expect(component.rows).toEqual(rows);
+    expect(component.rows.length).toBe(1);
+    expect(component.rows[0]?.cols.length).toBe(1);
+    expect(component.rows[0]?.cols[0]?.['component']).toBe('header');
     expect(titleSpy.setTitle).toHaveBeenCalledWith('Home');
     expect(seoSpy.applyPageSeo).toHaveBeenCalledWith('en/home', 'Home', { title: 'SEO Home' }, '0');
   });
@@ -128,7 +130,7 @@ describe('DynamicPageComponent', () => {
     expect(component.rows[0]?.cols[0]?.['title']).toBe('EN title');
   });
 
-  it('should log once when all rte injector requests are finished', () => {
+  it('should log once when all mapped components are ready', () => {
     const consoleLogSpy = spyOn(console, 'log');
 
     fixture.detectChanges();
@@ -150,53 +152,44 @@ describe('DynamicPageComponent', () => {
       ],
     });
 
-    const firstConfig = component.rows[0]?.cols[0]?.['config'] as Record<string, unknown>;
-    const secondConfig = component.rows[0]?.cols[1]?.['config'] as Record<string, unknown>;
-    const batchId = String(firstConfig?.['__rteRequestBatchId'] ?? '');
+    const firstBlock = component.rows[0]?.cols[0] as Record<string, unknown>;
+    const secondBlock = component.rows[0]?.cols[1] as Record<string, unknown>;
+    const batchId = String(firstBlock?.['__dynamicPageBatchId'] ?? '');
 
     document.dispatchEvent(
-      new CustomEvent('rte-injector:content-requests-finished', {
+      new CustomEvent('dynamic-page:component-ready', {
         detail: {
           batchId,
-          componentId: String(firstConfig?.['__rteRequestComponentId'] ?? ''),
-          requested: 1,
-          succeeded: 1,
-          failed: 0,
-          durationMs: 30,
-          requestedUrls: ['/assets/rte-fragments/allowed-cabin/en'],
+          componentId: String(firstBlock?.['__dynamicPageComponentId'] ?? ''),
+          component: 'RTEinjector_uiplus',
+          state: 'loaded',
         },
       })
     );
 
     expect(consoleLogSpy).not.toHaveBeenCalledWith(
-      '[dynamic-page] all RTE injector requests finished',
+      '[dynamic-page] all mapped components ready',
       jasmine.any(Object)
     );
 
     document.dispatchEvent(
-      new CustomEvent('rte-injector:content-requests-finished', {
+      new CustomEvent('dynamic-page:component-ready', {
         detail: {
           batchId,
-          componentId: String(secondConfig?.['__rteRequestComponentId'] ?? ''),
-          requested: 1,
-          succeeded: 1,
-          failed: 0,
-          durationMs: 50,
-          requestedUrls: ['/assets/rte-fragments/allowed-cellar/en'],
+          componentId: String(secondBlock?.['__dynamicPageComponentId'] ?? ''),
+          component: 'RTEinjector_uiplus',
+          state: 'loaded',
         },
       })
     );
 
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
     expect(consoleLogSpy).toHaveBeenCalledWith(
-      '[dynamic-page] all RTE injector requests finished',
+      '[dynamic-page] all mapped components ready',
       jasmine.objectContaining({
         pageId: 'rte-page',
-        injectorsExpected: 2,
-        injectorsCompleted: 2,
-        requested: 2,
-        succeeded: 2,
-        failed: 0,
+        expected: 2,
+        completed: 2,
       })
     );
   });

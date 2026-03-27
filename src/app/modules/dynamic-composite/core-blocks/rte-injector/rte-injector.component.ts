@@ -12,6 +12,7 @@ type ContentFetchResult = {
 type ContentRequestsFinishedDetail = {
   batchId: string;
   componentId: string;
+  component: string;
   requested: number;
   succeeded: number;
   failed: number;
@@ -27,6 +28,8 @@ type ContentRequestsFinishedDetail = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RteInjectorComponent {
+  public static readonly dynamicPageReadiness = 'self-managed' as const;
+
   private static readonly loadedStylesheetUrls = new Set<string>();
   private static readonly contentCache = new Map<string, string>();
 
@@ -49,16 +52,26 @@ export class RteInjectorComponent {
   constructor() {
     effect((onCleanup) => {
       const urls = this.getContentUrls(this.config());
+      const tracking = this.getTrackingInfo(this.config());
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
+        this.dispatchContentRequestsFinishedEvent({
+          ...tracking,
+          requested: 0,
+          succeeded: 0,
+          failed: 0,
+          durationMs: 0,
+          requestedUrls: [],
+        });
         return;
       }
 
       const cacheKey = this.getContentCacheKey(urls, false);
       const localeAgnosticCacheKey = this.getContentCacheKey(urls, true);
       const cachedContent =
-        RteInjectorComponent.contentCache.get(cacheKey) ?? RteInjectorComponent.contentCache.get(localeAgnosticCacheKey);
+        RteInjectorComponent.contentCache.get(cacheKey) ??
+        RteInjectorComponent.contentCache.get(localeAgnosticCacheKey);
 
       if (cachedContent && cachedContent.trim().length > 0) {
         this.fetchedContent.set(cachedContent);
@@ -76,7 +89,10 @@ export class RteInjectorComponent {
 
         this.logContentRequestCompletion(contents, startedAt);
 
-        const mergedContent = contents.map((entry) => entry.content).filter((entry) => entry.length > 0).join('\n');
+        const mergedContent = contents
+          .map((entry) => entry.content)
+          .filter((entry) => entry.length > 0)
+          .join('\n');
         if (mergedContent.trim().length > 0) {
           this.fetchedContent.set(mergedContent);
           RteInjectorComponent.contentCache.set(cacheKey, mergedContent);
@@ -189,6 +205,7 @@ export class RteInjectorComponent {
     const detail: ContentRequestsFinishedDetail = {
       batchId: tracking.batchId,
       componentId: tracking.componentId,
+      component: tracking.component,
       requested: results.length,
       succeeded,
       failed,
@@ -199,18 +216,21 @@ export class RteInjectorComponent {
     this.dispatchContentRequestsFinishedEvent(detail);
   }
 
-  private getTrackingInfo(config: RteInjectorConfig | null | undefined): { batchId: string; componentId: string } {
+  private getTrackingInfo(config: RteInjectorConfig | null | undefined): {
+    batchId: string;
+    componentId: string;
+    component: string;
+  } {
     const maybeConfig = (config ?? null) as Record<string, unknown> | null;
-    const batchId = String(maybeConfig?.['__rteRequestBatchId'] ?? '').trim() || 'unknown-batch';
-    const componentId = String(maybeConfig?.['__rteRequestComponentId'] ?? '').trim() || 'unknown-component';
-    return { batchId, componentId };
+    const batchId = String(maybeConfig?.['__dynamicPageBatchId'] ?? '').trim() || 'unknown-batch';
+    const componentId = String(maybeConfig?.['__dynamicPageComponentId'] ?? '').trim() || 'unknown-component';
+    const component = String(maybeConfig?.['__dynamicPageComponentName'] ?? 'RTEinjector_uiplus').trim();
+    return { batchId, componentId, component };
   }
 
   private dispatchContentRequestsFinishedEvent(detail: ContentRequestsFinishedDetail): void {
     this.document.dispatchEvent(
-      new CustomEvent<ContentRequestsFinishedDetail>('rte-injector:content-requests-finished', {
-        detail,
-      })
+      new CustomEvent<ContentRequestsFinishedDetail>('dynamic-page:component-ready', { detail })
     );
   }
 

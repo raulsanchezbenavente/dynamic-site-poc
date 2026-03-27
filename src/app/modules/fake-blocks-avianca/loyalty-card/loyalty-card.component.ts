@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
     ChangeDetectionStrategy,
@@ -29,6 +29,8 @@ import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
+  public static readonly dynamicPageReadiness = 'self-managed' as const;
+
   public config = input<LoyaltyCardConfig | null>(null);
   public name = input<string>('Perico');
 
@@ -44,6 +46,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public gradientEndColor = computed(() => this.getGradientStops(this.loyaltyTone()).end);
 
   private readonly http = inject(HttpClient);
+  private readonly document = inject(DOCUMENT);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly sessionApi = inject(SessionApiService);
   private readonly siteConfig = inject(SiteConfigService);
@@ -55,6 +58,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   private readonly sessionTotalMiles = signal('');
   private readonly sessionExpirationDate = signal('');
   private readonly destroy$ = new Subject<void>();
+  private lastReadyKey = '';
 
   public ngOnInit(): void {
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
@@ -78,6 +82,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
       if (!url) {
         // Keep the previous tone if URL is temporarily unavailable while language/config settles.
+        this.emitDynamicPageReady('rendered');
         return;
       }
 
@@ -89,9 +94,12 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
             this.loyaltyTone.set(tone);
             this.loyaltyToneSvc.tone.set(tone);
           }
+
+          this.emitDynamicPageReady('loaded');
         },
         error: () => {
           // Keep previous tone on transient request errors.
+          this.emitDynamicPageReady('error');
         },
       });
 
@@ -256,5 +264,33 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     } catch {
       return trimmed;
     }
+  }
+
+  private emitDynamicPageReady(state: 'rendered' | 'loaded' | 'error'): void {
+    const cfg = (this.config() ?? null) as Record<string, unknown> | null;
+    const batchId = String(cfg?.['__dynamicPageBatchId'] ?? '').trim();
+    const componentId = String(cfg?.['__dynamicPageComponentId'] ?? '').trim();
+    const component = String(cfg?.['__dynamicPageComponentName'] ?? 'loyaltyOverviewCard_uiplus').trim();
+
+    if (!batchId || !componentId) {
+      return;
+    }
+
+    const readyKey = `${batchId}::${componentId}`;
+    if (this.lastReadyKey === readyKey) {
+      return;
+    }
+
+    this.lastReadyKey = readyKey;
+    this.document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId,
+          component,
+          state,
+        },
+      })
+    );
   }
 }

@@ -28,14 +28,11 @@ type DynamicPageRouteData = {
   seo?: SeoConfig;
 };
 
-type RteRequestsFinishedDetail = {
+type ComponentReadyDetail = {
   batchId?: string;
   componentId?: string;
-  requested: number;
-  succeeded: number;
-  failed: number;
-  durationMs: number;
-  requestedUrls: string[];
+  component?: string;
+  state?: string;
 };
 
 @Component({
@@ -46,7 +43,6 @@ type RteRequestsFinishedDetail = {
 })
 export class DynamicPageComponent implements OnInit, OnDestroy {
   private static readonly LOCALIZED_COMPONENTS = new Set(['RTEinjector_uiplus']);
-  private static readonly RTE_COMPONENT = 'RTEinjector_uiplus';
 
   public rows: PageLayoutRow[] = [];
 
@@ -55,34 +51,27 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private titleService = inject(Title);
   private seoSvc = inject(SeoService);
   private currentPageId: string | undefined;
-  private currentRteBatchId = '';
-  private currentRtePageId = '';
-  private expectedRteCompletions = 0;
-  private completedRteCompletions = 0;
-  private currentRteSummary = {
-    requested: 0,
-    succeeded: 0,
-    failed: 0,
-    maxDurationMs: 0,
-    requestedUrls: new Set<string>(),
-  };
-  private completedRteComponentIds = new Set<string>();
-  private rteBatchSequence = 0;
+  private currentBatchId = '';
+  private currentBatchPageId = '';
+  private expectedCompletions = 0;
+  private completedCompletions = 0;
+  private completedComponentIds = new Set<string>();
+  private batchSequence = 0;
 
   public ngOnDestroy(): void {
-    this.document.removeEventListener('rte-injector:content-requests-finished', this.onRteRequestsFinished);
+    this.document.removeEventListener('dynamic-page:component-ready', this.onComponentReady);
   }
 
   public ngOnInit(): void {
-    this.document.addEventListener('rte-injector:content-requests-finished', this.onRteRequestsFinished);
+    this.document.addEventListener('dynamic-page:component-ready', this.onComponentReady);
 
     this.route.data.subscribe((data) => {
       const routeData = data as DynamicPageRouteData;
       const pageId = String(routeData.pageId ?? '');
       const sourceRows = Array.isArray(routeData.components) ? routeData.components : [];
-      const nextBatchId = this.createRteBatchId(pageId);
-      const trackedRows = this.attachRteTracking(sourceRows, nextBatchId);
-      this.resetRteBatchTracking(nextBatchId, pageId, trackedRows);
+      const nextBatchId = this.createBatchId(pageId);
+      const trackedRows = this.attachComponentTracking(sourceRows, nextBatchId);
+      this.resetBatchTracking(nextBatchId, pageId, trackedRows);
 
       // When the router reuses this component across a language switch (same pageId,
       // different language prefix), route.data still emits with structurally identical
@@ -109,84 +98,63 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     return (row?.cols ?? []).some((col) => col?.component === 'RTEinjector_uiplus');
   }
 
-  private onRteRequestsFinished = (event: Event): void => {
-    const detail = (event as CustomEvent<RteRequestsFinishedDetail>).detail;
-    if (!detail || detail.batchId !== this.currentRteBatchId) {
+  private onComponentReady = (event: Event): void => {
+    const detail = (event as CustomEvent<ComponentReadyDetail>).detail;
+    if (!detail || detail.batchId !== this.currentBatchId) {
       return;
     }
 
     const componentId = String(detail.componentId ?? '').trim();
-    if (componentId.length === 0 || this.completedRteComponentIds.has(componentId)) {
+    if (componentId.length === 0 || this.completedComponentIds.has(componentId)) {
       return;
     }
 
-    this.completedRteComponentIds.add(componentId);
-    this.completedRteCompletions += 1;
-    this.currentRteSummary.requested += detail.requested;
-    this.currentRteSummary.succeeded += detail.succeeded;
-    this.currentRteSummary.failed += detail.failed;
-    this.currentRteSummary.maxDurationMs = Math.max(this.currentRteSummary.maxDurationMs, detail.durationMs);
-
-    for (const url of detail.requestedUrls ?? []) {
-      this.currentRteSummary.requestedUrls.add(String(url));
-    }
-
-    if (this.completedRteCompletions < this.expectedRteCompletions) {
+    this.completedComponentIds.add(componentId);
+    this.completedCompletions += 1;
+    if (this.completedCompletions < this.expectedCompletions) {
       return;
     }
 
-    console.log('[dynamic-page] all RTE injector requests finished', {
-      pageId: this.currentRtePageId,
-      batchId: this.currentRteBatchId,
-      injectorsExpected: this.expectedRteCompletions,
-      injectorsCompleted: this.completedRteCompletions,
-      requested: this.currentRteSummary.requested,
-      succeeded: this.currentRteSummary.succeeded,
-      failed: this.currentRteSummary.failed,
-      durationMs: this.currentRteSummary.maxDurationMs,
-      requestedUrls: Array.from(this.currentRteSummary.requestedUrls),
+    this.logAndFinalizePageReady();
+  };
+
+  private logAndFinalizePageReady(): void {
+    console.log('[dynamic-page] all mapped components ready', {
+      pageId: this.currentBatchPageId,
+      batchId: this.currentBatchId,
+      expected: this.expectedCompletions,
+      completed: this.completedCompletions,
     });
 
     this.removeBootLoader();
-  };
-
-  private createRteBatchId(pageId: string): string {
-    this.rteBatchSequence += 1;
-    return `${pageId || 'no-page'}::${this.rteBatchSequence}`;
   }
 
-  private resetRteBatchTracking(batchId: string, pageId: string, rows: PageLayoutRow[]): void {
-    this.currentRteBatchId = batchId;
-    this.currentRtePageId = pageId;
-    this.expectedRteCompletions = this.countRteInjectorsWithFetches(rows);
-    this.completedRteCompletions = 0;
-    this.completedRteComponentIds.clear();
-    this.currentRteSummary = {
-      requested: 0,
-      succeeded: 0,
-      failed: 0,
-      maxDurationMs: 0,
-      requestedUrls: new Set<string>(),
-    };
+  private createBatchId(pageId: string): string {
+    this.batchSequence += 1;
+    return `${pageId || 'no-page'}::${this.batchSequence}`;
   }
 
-  private attachRteTracking(rows: PageLayoutRow[], batchId: string): PageLayoutRow[] {
+  private resetBatchTracking(batchId: string, pageId: string, rows: PageLayoutRow[]): void {
+    this.currentBatchId = batchId;
+    this.currentBatchPageId = pageId;
+    this.expectedCompletions = this.countMappableComponents(rows);
+    this.completedCompletions = 0;
+    this.completedComponentIds.clear();
+  }
+
+  private attachComponentTracking(rows: PageLayoutRow[], batchId: string): PageLayoutRow[] {
     return rows.map((row, rowIndex) => {
       const cols = (row?.cols ?? []).map((col, colIndex) => {
-        if (String(col?.component ?? '') !== DynamicPageComponent.RTE_COMPONENT) {
+        const componentName = String(col?.component ?? '').trim();
+        if (!componentName) {
           return col;
         }
 
-        const config = this.getRteConfigFromCol(col);
-        const trackedConfig = {
-          ...config,
-          __rteRequestBatchId: batchId,
-          __rteRequestComponentId: `${rowIndex}:${colIndex}`,
-        };
-
         return {
           ...col,
-          config: trackedConfig,
+          __dynamicPageBatchId: batchId,
+          __dynamicPageComponentId: `${rowIndex}:${colIndex}`,
+          __dynamicPageComponentName: componentName,
         };
       });
 
@@ -194,18 +162,12 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     });
   }
 
-  private countRteInjectorsWithFetches(rows: PageLayoutRow[]): number {
+  private countMappableComponents(rows: PageLayoutRow[]): number {
     let total = 0;
 
     for (const row of rows) {
       for (const col of row?.cols ?? []) {
-        if (String(col?.component ?? '') !== DynamicPageComponent.RTE_COMPONENT) {
-          continue;
-        }
-
-        const config = this.getRteConfigFromCol(col);
-        const hasFetches = this.getContentUrlEntries(config).length > 0;
-        if (hasFetches) {
+        if (String(col?.component ?? '').trim()) {
           total += 1;
         }
       }
@@ -256,29 +218,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
       this.rows = updatedRows;
     }
   }
-
-  private getRteConfigFromCol(col: PageLayoutCol): Record<string, unknown> {
-    const nestedConfig = (col?.config ?? null) as Record<string, unknown> | null;
-    const flatConfig = col as Record<string, unknown>;
-    return nestedConfig ? { ...flatConfig, ...nestedConfig } : flatConfig;
-  }
-
-  private getContentUrlEntries(config: Record<string, unknown>): string[] {
-    const htmlContentUrls = this.normalizeToStringArray(config['htmlContentURLs']);
-    const legacyContentUrls = this.normalizeToStringArray(config['contentURLs']);
-    return [...htmlContentUrls, ...legacyContentUrls];
-  }
-
-  private normalizeToStringArray(value: unknown): string[] {
-    const values = Array.isArray(value) ? value : typeof value === 'string' ? [value] : [];
-    return values
-      .filter((entry): entry is string => typeof entry === 'string')
-      .map((entry) => entry.trim())
-      .filter((entry) => entry.length > 0);
-  }
-
   private removeBootLoader(): void {
     this.document.getElementById('boot-loader')?.remove();
   }
-
 }
