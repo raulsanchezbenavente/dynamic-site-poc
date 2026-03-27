@@ -35,6 +35,8 @@ type DynamicPageRouteData = {
   templateUrl: './dynamic-page.component.html',
 })
 export class DynamicPageComponent implements OnInit {
+  private static readonly LOCALIZED_COMPONENTS = new Set(['RTEinjector_uiplus']);
+
   public rows: PageLayoutRow[] = [];
 
   private route = inject(ActivatedRoute);
@@ -53,6 +55,8 @@ export class DynamicPageComponent implements OnInit {
       if (this.currentPageId !== routeData.pageId) {
         this.currentPageId = routeData.pageId;
         this.rows = Array.isArray(routeData.components) ? routeData.components : [];
+      } else {
+        this.refreshLocalizedBlocks(routeData.components);
       }
 
       this.titleService.setTitle(String(routeData.pageName ?? ''));
@@ -67,5 +71,48 @@ export class DynamicPageComponent implements OnInit {
 
   public hasRteInjector(row: PageLayoutRow): boolean {
     return (row?.cols ?? []).some((col) => col?.component === 'RTEinjector_uiplus');
+  }
+
+  private refreshLocalizedBlocks(nextRowsCandidate: PageLayoutRow[] | undefined): void {
+    const nextRows = Array.isArray(nextRowsCandidate) ? nextRowsCandidate : [];
+    if (this.rows.length === 0 || nextRows.length === 0) {
+      return;
+    }
+
+    let anyRowChanged = false;
+
+    const updatedRows = this.rows.map((currentRow, rowIndex) => {
+      const nextRow = nextRows[rowIndex];
+      if (!nextRow || !Array.isArray(nextRow.cols) || !Array.isArray(currentRow.cols)) {
+        return currentRow;
+      }
+
+      let rowChanged = false;
+
+      const updatedCols = currentRow.cols.map((currentCol, colIndex) => {
+        const nextCol = nextRow.cols[colIndex];
+        if (!nextCol || nextCol.component !== currentCol.component) {
+          return currentCol;
+        }
+
+        if (!DynamicPageComponent.LOCALIZED_COMPONENTS.has(String(nextCol.component ?? ''))) {
+          return currentCol;
+        }
+
+        rowChanged = true;
+        return nextCol;
+      });
+
+      if (!rowChanged) {
+        return currentRow;
+      }
+
+      anyRowChanged = true;
+      return { ...currentRow, cols: updatedCols };
+    });
+
+    if (anyRowChanged) {
+      this.rows = updatedRows;
+    }
   }
 }
