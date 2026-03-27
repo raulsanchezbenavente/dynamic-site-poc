@@ -4,18 +4,18 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
-import { SeoService, SiteConfigService } from '@navigation';
+import { SeoService } from '@navigation';
 import { DynamicPageComponent } from './dynamic-page.component';
 
 describe('DynamicPageComponent', () => {
   let fixture: ComponentFixture<DynamicPageComponent>;
   let component: DynamicPageComponent;
-  let siteSubject: BehaviorSubject<{ pages: Array<Record<string, unknown>> }>;
+  let routeDataSubject: BehaviorSubject<Record<string, unknown>>;
   let titleSpy: jasmine.SpyObj<Title>;
   let seoSpy: jasmine.SpyObj<SeoService>;
 
   beforeEach(async () => {
-    siteSubject = new BehaviorSubject<{ pages: Array<Record<string, unknown>> }>({ pages: [] });
+    routeDataSubject = new BehaviorSubject<Record<string, unknown>>({});
     titleSpy = jasmine.createSpyObj<Title>('Title', ['setTitle']);
     seoSpy = jasmine.createSpyObj<SeoService>('SeoService', ['applyPageSeo']);
 
@@ -25,19 +25,11 @@ describe('DynamicPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            snapshot: {
-              routeConfig: { path: 'en/home' },
-            },
+            data: routeDataSubject.asObservable(),
           },
         },
         { provide: Title, useValue: titleSpy },
         { provide: SeoService, useValue: seoSpy },
-        {
-          provide: SiteConfigService,
-          useValue: {
-            site$: siteSubject.asObservable(),
-          },
-        },
       ],
     }).compileComponents();
 
@@ -53,16 +45,12 @@ describe('DynamicPageComponent', () => {
     const rows = [{ cols: [{ component: 'header', span: 12 }] }];
 
     fixture.detectChanges();
-    siteSubject.next({
-      pages: [
-        {
-          path: 'en/home',
-          name: 'Home',
-          pageId: '0',
-          layout: { rows },
-          seo: { title: 'SEO Home' },
-        },
-      ],
+    routeDataSubject.next({
+      path: 'en/home',
+      pageName: 'Home',
+      pageId: '0',
+      components: rows,
+      seo: { title: 'SEO Home' },
     });
 
     expect(component.rows).toEqual(rows);
@@ -72,7 +60,7 @@ describe('DynamicPageComponent', () => {
 
   it('should clear rows when route page does not exist', () => {
     fixture.detectChanges();
-    siteSubject.next({ pages: [{ path: 'en/other', layout: { rows: [{ cols: [] }] } }] });
+    routeDataSubject.next({});
 
     expect(component.rows).toEqual([]);
   });

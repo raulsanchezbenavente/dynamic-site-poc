@@ -51,6 +51,7 @@ describe('LanguageSwitchService', () => {
     translateService = TestBed.inject(TranslateService) as jasmine.SpyObj<TranslateService>;
 
     siteConfigService.loadSite.and.returnValue(of({ pages: [] }));
+    translateService.use.and.returnValue(of({} as any));
     routerHelperService.getCurrentPageId.and.returnValue('home-page');
     pageNavigationService.resolvePagePath.and.returnValue('/es/home');
     router.navigateByUrl.and.returnValue(Promise.resolve(true));
