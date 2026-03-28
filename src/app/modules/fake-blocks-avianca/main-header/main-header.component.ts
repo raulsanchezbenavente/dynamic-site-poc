@@ -1,26 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  HostListener,
-  inject,
-  input,
-  OnDestroy,
-  OnInit,
-  signal,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    HostListener,
+    inject,
+    input,
+    OnDestroy,
+    OnInit,
+    signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
-  AppLang,
-  KeycloakAuthService,
-  LanguageSwitchService,
-  PageNavigationService,
-  RouterHelperService,
-  SiteConfigService,
+    AppLang,
+    KeycloakAuthService,
+    LanguageSwitchService,
+    PageNavigationService,
+    RouterHelperService,
+    SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -272,13 +272,18 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
   private buildLogoutRedirectUri(): string {
     const lang = this.activeLang();
+    const currentUrl = new URL(globalThis.location.href);
     const homePath = this.pageNavigation.resolvePagePath('0', lang) || `/${lang}/home`;
-    const currentPath = String(this.router.url || '')
-      .split('?')[0]
-      .split('#')[0]
-      .trim();
+    const currentPath = currentUrl.pathname.trim();
     const path = currentPath && currentPath.startsWith('/') ? currentPath : homePath;
-    return `${globalThis.location.origin}${path}`;
+
+    const redirectUrl = new URL(path, globalThis.location.origin);
+    const activeTab = currentUrl.searchParams.get('activeTab')?.trim();
+    if (activeTab) {
+      redirectUrl.searchParams.set('activeTab', activeTab);
+    }
+
+    return redirectUrl.toString();
   }
 
   public toggleLangMenu(ev: MouseEvent): void {
