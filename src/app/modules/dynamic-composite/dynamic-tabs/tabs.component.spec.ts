@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
 import { RouterHelperService, SiteConfigService } from '@navigation';
-import { CmsTabContract } from './models/cms-tab-contract.model';
+import { TabStructure } from './models/tab-layout-structure.model';
 import { DsTabsComponent } from './tabs.component';
 
 describe('DsTabsComponent', () => {
@@ -38,7 +38,7 @@ describe('DsTabsComponent', () => {
     getTabNamesByTabsId: (_tabsId: string): Array<{ name: string; tabId?: string }> => tabSummaries,
   };
 
-  const tabsInput: CmsTabContract[] = [
+  const tabsInput: TabStructure[] = [
     {
       tabId: 'tab-1',
       name: 'overview',
@@ -119,7 +119,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[] });
+    ] as TabStructure[] });
 
     fixture.detectChanges();
 
@@ -144,7 +144,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[] });
+    ] as TabStructure[] });
 
     fixture.detectChanges();
 
@@ -203,7 +203,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[] });
+    ] as TabStructure[] });
     tabSummaries = [
       { name: 'Personal data', tabId: 'tab-1' },
       { name: 'Datos personales', tabId: 'tab-1' },

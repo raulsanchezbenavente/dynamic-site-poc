@@ -25,19 +25,19 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 import {
-  CmsTabContract,
-  CmsTabLayout,
-  CmsTabLayoutCol,
-  CmsTabLayoutRow,
-  CmsTabsBlockConfig,
-} from './models/cms-tab-contract.model';
+  TabLayout,
+  TabLayoutCol,
+  TabLayoutRow,
+  TabsLayoutConfig,
+  TabStructure,
+} from './models/tab-layout-structure.model';
 
-type ViewTab = CmsTabContract & {
+type ViewTab = TabStructure & {
   tabId: string;
   name: string;
   title: string;
   pageId: string;
-  layout: CmsTabLayoutRow[];
+  layout: TabLayoutRow[];
 };
 
 type ComponentReadyDetail = {
@@ -57,7 +57,7 @@ type TrackedTabLayoutCol = {
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
-} & CmsTabLayoutCol;
+} & TabLayoutCol;
 
 @Component({
   selector: 'tabs',
@@ -71,7 +71,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly MIN_SKELETON_VISIBLE_MS = 1000;
   private static readonly TAB_REVEAL_DELAY_MS = 80;
 
-  public config = input<CmsTabsBlockConfig | null | undefined>(undefined);
+  public config = input<TabsLayoutConfig | null | undefined>(undefined);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
@@ -80,7 +80,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly document = inject(DOCUMENT);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
-  private readonly _tabsSubject = new BehaviorSubject<CmsTabContract | null>(null);
+  private readonly _tabsSubject = new BehaviorSubject<TabStructure | null>(null);
   private readonly renderedTabState = signal<Record<string, boolean>>({});
   private readonly tabLoadingState = signal<Record<string, boolean>>({});
   private readonly tabRevealState = signal<Record<string, boolean>>({});
@@ -109,7 +109,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
-      .map((tab: Partial<CmsTabContract>) => {
+      .map((tab: Partial<TabStructure>) => {
         const tabId = String(tab?.tabId ?? '').trim();
         const name = String(tab?.name ?? '').trim();
         const title = String(tab?.title ?? '').trim();
@@ -136,7 +136,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   });
 
-  private resolveTabLayoutRows(layout: CmsTabLayout | CmsTabLayoutRow[] | undefined): CmsTabLayoutRow[] {
+  private resolveTabLayoutRows(layout: TabLayout | TabLayoutRow[] | undefined): TabLayoutRow[] {
     if (Array.isArray(layout)) {
       return layout;
     }
@@ -147,7 +147,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   // public activeTab = computed(() => {
   //   const tabs = this.viewTabs();
   //   const tabId = this.activeId();
-  //   const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
+  //   const activeTab: TabStructure | undefined = tabs.find(t => t.tabId === tabId);
   //   if (!tabs.length) return undefined;
   //   return tabs.find(t => t.tabId === tabId) ?? tabs[0];
   // });
@@ -284,7 +284,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
+  public select(tab: TabStructure, stopPropagation: boolean = false): void {
     this.activateTab(tab, {
       historyMode: 'push',
       emitEvent: !stopPropagation,
@@ -297,7 +297,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private activateTab(
-    tab: CmsTabContract,
+    tab: TabStructure,
     options: { historyMode: 'push' | 'replace'; emitEvent: boolean; allowReselect: boolean }
   ): void {
     const tabId = String(tab.tabId ?? '').trim();
@@ -323,13 +323,13 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this._tabsSubject.next(tab);
-    const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
+    const customEvent: CustomEvent<{ tab: TabStructure }> = new CustomEvent('activeChange', {
       detail: { tab },
     });
     globalThis.dispatchEvent(customEvent);
   }
 
-  private setPageTitle(tab: CmsTabContract | undefined): void {
+  private setPageTitle(tab: TabStructure | undefined): void {
     if (!tab) return;
     const nextTitle = (tab.title ?? tab.name ?? '').trim();
     if (!nextTitle) return;
@@ -525,7 +525,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private collectTrackedComponentsFromRows(rows: CmsTabLayoutRow[]): TrackedTabComponent[] {
+  private collectTrackedComponentsFromRows(rows: TabLayoutRow[]): TrackedTabComponent[] {
     const components: TrackedTabComponent[] = [];
 
     for (const row of rows) {

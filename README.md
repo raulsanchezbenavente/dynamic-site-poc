@@ -684,8 +684,8 @@ Without these two fields, aggregated completion can be wrong (premature completi
 - The previous `tab.components` shape is no longer supported.
 - The previous root-level `tabsId` / `tabs` fields (outside `config`) are no longer supported.
 - Each tab column supports the same `span` semantics as page layout columns.
-- Tabs contract models are defined as interfaces (`CmsTabsBlockConfig`, `CmsTabContract`, `CmsTabLayout`, `CmsTabLayoutRow`, `CmsTabLayoutCol`).
-- `CmsTabLayoutCol` is intentionally closed (`component`, `span`). Runtime tracking metadata is injected internally by dynamic-page readiness and is not part of the CMS contract.
+- Tabs contract models are defined as interfaces (`TabsLayoutConfig`, `TabStructure`, `TabLayout`, `TabLayoutRow`, `TabLayoutCol`).
+- `TabLayoutCol` is intentionally closed (`component`, `span`). Runtime tracking metadata is injected internally by dynamic-page readiness and is not part of the contract.
 
 Example:
 
