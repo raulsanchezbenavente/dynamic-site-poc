@@ -1,9 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import {
-    DynamicPageReadinessBase,
-    DynamicPageReadyState,
-} from './dynamic-page-readiness.base';
+import { DynamicPageReadinessBase } from './dynamic-page-readiness.base';
+import { DynamicPageReadyState } from './models/dynamic-page-ready-state.enum';
 
 class TestDynamicPageReadiness extends DynamicPageReadinessBase {
   public emit(options: {
@@ -37,7 +35,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentId: 'cmp-1',
       },
       fallbackComponent: 'fallback-block',
-      state: 'loaded',
+      state: DynamicPageReadyState.LOADED,
       extraDetail: {
         requested: 3,
         failed: 0,
@@ -54,7 +52,7 @@ describe('DynamicPageReadinessBase', () => {
         batchId: 'batch-1',
         componentId: 'cmp-1',
         component: 'fallback-block',
-        state: 'loaded',
+        state: DynamicPageReadyState.LOADED,
         requested: 3,
         failed: 0,
       })
@@ -71,7 +69,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentName: 'configured-block',
       },
       fallbackComponent: 'fallback-block',
-      state: 'rendered',
+      state: DynamicPageReadyState.RENDERED,
     });
 
     expect(emitted).toBeTrue();
@@ -88,7 +86,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentId: 'cmp-3',
       },
       fallbackComponent: 'fallback-block',
-      state: 'missing',
+      state: DynamicPageReadyState.MISSING,
     });
 
     const missingComponent = subject.emit({
@@ -96,7 +94,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageBatchId: 'batch-3',
       },
       fallbackComponent: 'fallback-block',
-      state: 'missing',
+      state: DynamicPageReadyState.MISSING,
     });
 
     expect(missingBatch).toBeFalse();
@@ -113,7 +111,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentId: 'cmp-4',
       },
       fallbackComponent: 'fallback-block',
-      state: 'loaded',
+      state: DynamicPageReadyState.LOADED,
     });
 
     const duplicate = subject.emit({
@@ -122,7 +120,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentId: 'cmp-4',
       },
       fallbackComponent: 'fallback-block',
-      state: 'error',
+      state: DynamicPageReadyState.ERROR,
     });
 
     const differentComponent = subject.emit({
@@ -131,7 +129,7 @@ describe('DynamicPageReadinessBase', () => {
         __dynamicPageComponentId: 'cmp-5',
       },
       fallbackComponent: 'fallback-block',
-      state: 'loaded',
+      state: DynamicPageReadyState.LOADED,
     });
 
     expect(first).toBeTrue();

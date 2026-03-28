@@ -13,7 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { DynamicPageReadinessBase } from '@dynamic-composite';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
   AppLang,
   KeycloakAuthService,
@@ -193,7 +193,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
       if (!url) {
         // Keep previous tone while config/url settles to avoid UI flicker.
-        this.emitDynamicPageReady('rendered');
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -204,11 +204,11 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
             this.headerTone.set(tone);
             this.loyaltyToneSvc.tone.set(tone);
           }
-          this.emitDynamicPageReady('loaded');
+          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
         },
         error: () => {
           // Keep previous tone on transient request errors.
-          this.emitDynamicPageReady('error');
+          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
         },
       });
 
@@ -512,7 +512,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
     }
   }
 
-  private emitDynamicPageReady(state: 'rendered' | 'loaded' | 'error'): void {
+  private emitDynamicPageReady(state: DynamicPageReadyState): void {
     this.emitDynamicPageReadyEvent({
       config: (this.config() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'CorporateMainHeaderBlock_uiplus',

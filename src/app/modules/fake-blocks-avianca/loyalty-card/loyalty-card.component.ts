@@ -11,7 +11,7 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { DynamicPageReadinessBase } from '@dynamic-composite';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -80,7 +80,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
 
       if (!url) {
         // Keep the previous tone if URL is temporarily unavailable while language/config settles.
-        this.emitDynamicPageReady('rendered');
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -93,11 +93,11 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
             this.loyaltyToneSvc.tone.set(tone);
           }
 
-          this.emitDynamicPageReady('loaded');
+          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
         },
         error: () => {
           // Keep previous tone on transient request errors.
-          this.emitDynamicPageReady('error');
+          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
         },
       });
 
@@ -264,7 +264,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
     }
   }
 
-  private emitDynamicPageReady(state: 'rendered' | 'loaded' | 'error'): void {
+  private emitDynamicPageReady(state: DynamicPageReadyState): void {
     this.emitDynamicPageReadyEvent({
       config: (this.config() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'loyaltyOverviewCard_uiplus',

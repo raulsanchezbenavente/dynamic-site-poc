@@ -52,7 +52,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
-        this.emitDynamicPageReady('rendered', {
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED, {
           requested: 0,
           succeeded: 0,
           failed: 0,
@@ -204,7 +204,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
       requestedUrls,
     };
 
-    this.emitDynamicPageReady('loaded', detail);
+    this.emitDynamicPageReady(DynamicPageReadyState.LOADED, detail);
   }
 
   private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {

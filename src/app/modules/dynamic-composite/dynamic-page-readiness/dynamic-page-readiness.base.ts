@@ -1,7 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { inject } from '@angular/core';
 
-export type DynamicPageReadyState = 'rendered' | 'loaded' | 'error' | 'missing';
+import { DynamicPageReadyState } from './models/dynamic-page-ready-state.enum';
 
 export type DynamicPageReadyTrackingConfig = {
   __dynamicPageBatchId?: string;
