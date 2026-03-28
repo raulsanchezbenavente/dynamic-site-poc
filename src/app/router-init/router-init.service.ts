@@ -120,7 +120,6 @@ export class RouterInitService {
         pageId: page.pageId,
         pageName: page.name,
         seo: page.seo,
-        tabsId: page.tabId ?? null,
         tabNamesById: this.buildTabNamesById(page),
       },
       canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],

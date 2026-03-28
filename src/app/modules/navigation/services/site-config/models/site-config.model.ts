@@ -50,9 +50,6 @@ export interface SitePage {
   pageId?: string;
   path?: string;
   name?: string;
-  tabsId?: string | number;
-  tabId?: string;
-  tabs?: SiteTab[];
   layout?: SiteLayout | SiteLayoutRow[];
   seo?: SiteSeoConfig;
   // [key: string]: unknown;
