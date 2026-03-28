@@ -4,37 +4,27 @@ const coverageMode = document.getElementById('coverageMode');
 const statusEl = document.getElementById('status');
 const runButton = document.getElementById('runButton');
 const cancelButton = document.getElementById('cancelButton');
-const SELECTION_STORAGE_KEY = 'test-by-module.selection.v1';
+let persistedSelection = { moduleName: '', watch: false, coverage: false };
 
 function readSavedSelection() {
-  try {
-    const raw = window.localStorage.getItem(SELECTION_STORAGE_KEY);
-    if (!raw) {
-      return { moduleName: '', watch: false, coverage: false };
-    }
-
-    const parsed = JSON.parse(raw);
-    return {
-      moduleName: String(parsed?.moduleName || '').trim(),
-      watch: Boolean(parsed?.watch),
-      coverage: Boolean(parsed?.coverage),
-    };
-  } catch {
-    return { moduleName: '', watch: false, coverage: false };
-  }
+  return {
+    moduleName: String(persistedSelection?.moduleName || '').trim(),
+    watch: Boolean(persistedSelection?.watch),
+    coverage: Boolean(persistedSelection?.coverage),
+  };
 }
 
 function saveSelection() {
-  try {
-    const payload = {
-      moduleName: String(moduleSelect.value || '').trim(),
-      watch: Boolean(watchMode.checked),
-      coverage: Boolean(coverageMode.checked),
-    };
-    window.localStorage.setItem(SELECTION_STORAGE_KEY, JSON.stringify(payload));
-  } catch {
-    // Ignore storage write failures.
-  }
+  const previous = readSavedSelection();
+  const currentModuleName = String(moduleSelect.value || '').trim();
+  const payload = {
+    moduleName: currentModuleName || previous.moduleName,
+    watch: Boolean(watchMode.checked),
+    coverage: Boolean(coverageMode.checked),
+  };
+
+  persistedSelection = payload;
+  void window.testByModuleApi.setPrefs(payload);
 }
 
 function setStatus(message, isError = false) {
@@ -63,7 +53,11 @@ function renderModules(modules) {
   }
 
   if (modules.length > 0) {
-    moduleSelect.value = modules.includes(saved.moduleName) ? saved.moduleName : modules[0];
+    const savedNormalized = String(saved.moduleName || '').trim().toLowerCase();
+    const exactMatch = modules.includes(saved.moduleName);
+    const insensitiveMatch =
+      modules.find((name) => String(name || '').trim().toLowerCase() === savedNormalized) || '';
+    moduleSelect.value = exactMatch ? saved.moduleName : insensitiveMatch || modules[0];
   }
 
   runButton.disabled = modules.length === 0;
@@ -93,6 +87,26 @@ async function loadModules() {
     setStatus(error?.message || String(error), true);
   } finally {
     setBusy(false);
+  }
+}
+
+async function loadPrefs() {
+  try {
+    const result = await window.testByModuleApi.getPrefs();
+    if (!result?.ok) {
+      return;
+    }
+
+    persistedSelection = {
+      moduleName: String(result?.prefs?.moduleName || '').trim(),
+      watch: Boolean(result?.prefs?.watch),
+      coverage: Boolean(result?.prefs?.coverage),
+    };
+
+    watchMode.checked = persistedSelection.watch;
+    coverageMode.checked = persistedSelection.coverage;
+  } catch {
+    // Keep defaults when prefs cannot be loaded.
   }
 }
 
@@ -135,6 +149,10 @@ moduleSelect.addEventListener('change', () => {
   saveSelection();
 });
 
+moduleSelect.addEventListener('input', () => {
+  saveSelection();
+});
+
 watchMode.addEventListener('change', () => {
   saveSelection();
 });
@@ -144,12 +162,14 @@ coverageMode.addEventListener('change', () => {
 });
 
 cancelButton.addEventListener('click', () => {
+  saveSelection();
   void window.testByModuleApi.closeApp();
 });
 
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     event.preventDefault();
+    saveSelection();
     void window.testByModuleApi.closeApp();
     return;
   }
@@ -157,6 +177,7 @@ document.addEventListener('keydown', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
     if (document.activeElement === cancelButton) {
+      saveSelection();
       void window.testByModuleApi.closeApp();
       return;
     }
@@ -165,10 +186,13 @@ document.addEventListener('keydown', (event) => {
   }
 });
 
-setTimeout(() => {
-  const initialSelection = readSavedSelection();
-  watchMode.checked = initialSelection.watch;
-  coverageMode.checked = initialSelection.coverage;
-}, 100);
+window.addEventListener('beforeunload', () => {
+  saveSelection();
+});
 
-void loadModules();
+async function init() {
+  await loadPrefs();
+  await loadModules();
+}
+
+void init();

@@ -5,9 +5,49 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
+const prefsFileName = 'test-by-module-prefs.json';
 
 let mainWindow = null;
 let activeChild = null;
+
+function getPrefsFilePath() {
+  return path.join(app.getPath('userData'), prefsFileName);
+}
+
+function normalizePrefs(raw) {
+  return {
+    moduleName: String(raw?.moduleName || '').trim(),
+    watch: Boolean(raw?.watch),
+    coverage: Boolean(raw?.coverage),
+  };
+}
+
+function readPrefsFromDisk() {
+  try {
+    const filePath = getPrefsFilePath();
+    if (!fs.existsSync(filePath)) {
+      return normalizePrefs({});
+    }
+
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return normalizePrefs(parsed);
+  } catch {
+    return normalizePrefs({});
+  }
+}
+
+function writePrefsToDisk(rawPrefs) {
+  const prefs = normalizePrefs(rawPrefs);
+
+  try {
+    const filePath = getPrefsFilePath();
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, `${JSON.stringify(prefs, null, 2)}\n`, 'utf8');
+    return { ok: true, prefs };
+  } catch (error) {
+    return { ok: false, prefs, error: error?.message || 'Could not persist preferences' };
+  }
+}
 
 function moduleHasSpecFiles(moduleDir) {
   const pending = [moduleDir];
@@ -88,6 +128,19 @@ ipcMain.handle('modules:list', async () => {
   }
 
   return { ok: true, modules };
+});
+
+ipcMain.handle('prefs:get', async () => {
+  return { ok: true, prefs: readPrefsFromDisk() };
+});
+
+ipcMain.handle('prefs:set', async (_event, payload) => {
+  const result = writePrefsToDisk(payload);
+  if (!result.ok) {
+    return { ok: false, error: result.error, prefs: result.prefs };
+  }
+
+  return { ok: true, prefs: result.prefs };
 });
 
 ipcMain.handle('tests:run', async (_event, payload) => {
