@@ -1,5 +1,6 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 
 import { RteInjectorConfig } from './models/rte-injector-config.model';
 
@@ -10,9 +11,6 @@ type ContentFetchResult = {
 };
 
 type ContentRequestsFinishedDetail = {
-  batchId: string;
-  componentId: string;
-  component: string;
   requested: number;
   succeeded: number;
   failed: number;
@@ -27,13 +25,11 @@ type ContentRequestsFinishedDetail = {
   styleUrl: './rte-injector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RteInjectorComponent {
-  public static readonly dynamicPageReadiness = 'self-managed' as const;
-
+export class RteInjectorComponent extends DynamicPageReadinessBase {
   private static readonly loadedStylesheetUrls = new Set<string>();
   private static readonly contentCache = new Map<string, string>();
-
   private readonly document = inject(DOCUMENT);
+
   private readonly fetchedContent = signal('');
 
   public readonly config = input<RteInjectorConfig | null | undefined>(undefined);
@@ -50,14 +46,13 @@ export class RteInjectorComponent {
   public readonly hasContent = computed(() => this.htmlContent().trim().length > 0);
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const urls = this.getContentUrls(this.config());
-      const tracking = this.getTrackingInfo(this.config());
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
-        this.dispatchContentRequestsFinishedEvent({
-          ...tracking,
+        this.emitDynamicPageReady('rendered', {
           requested: 0,
           succeeded: 0,
           failed: 0,
@@ -201,11 +196,7 @@ export class RteInjectorComponent {
     const requestedUrls = results.map((entry) => entry.url);
     const succeeded = results.filter((entry) => entry.ok).length;
     const failed = results.length - succeeded;
-    const tracking = this.getTrackingInfo(this.config());
     const detail: ContentRequestsFinishedDetail = {
-      batchId: tracking.batchId,
-      componentId: tracking.componentId,
-      component: tracking.component,
       requested: results.length,
       succeeded,
       failed,
@@ -213,25 +204,16 @@ export class RteInjectorComponent {
       requestedUrls,
     };
 
-    this.dispatchContentRequestsFinishedEvent(detail);
+    this.emitDynamicPageReady('loaded', detail);
   }
 
-  private getTrackingInfo(config: RteInjectorConfig | null | undefined): {
-    batchId: string;
-    componentId: string;
-    component: string;
-  } {
-    const maybeConfig = (config ?? null) as Record<string, unknown> | null;
-    const batchId = String(maybeConfig?.['__dynamicPageBatchId'] ?? '').trim() || 'unknown-batch';
-    const componentId = String(maybeConfig?.['__dynamicPageComponentId'] ?? '').trim() || 'unknown-component';
-    const component = String(maybeConfig?.['__dynamicPageComponentName'] ?? 'RTEinjector_uiplus').trim();
-    return { batchId, componentId, component };
-  }
-
-  private dispatchContentRequestsFinishedEvent(detail: ContentRequestsFinishedDetail): void {
-    this.document.dispatchEvent(
-      new CustomEvent<ContentRequestsFinishedDetail>('dynamic-page:component-ready', { detail })
-    );
+  private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'RTEinjector_uiplus',
+      state,
+      extraDetail,
+    });
   }
 
   private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {

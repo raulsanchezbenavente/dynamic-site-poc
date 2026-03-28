@@ -1,4 +1,4 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
@@ -13,6 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { DynamicPageReadinessBase } from '@dynamic-composite';
 import {
   AppLang,
   KeycloakAuthService,
@@ -38,9 +39,7 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent implements OnInit, OnDestroy {
-  public static readonly dynamicPageReadiness = 'self-managed' as const;
-
+export class MainHeaderComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly languageSwitch = inject(LanguageSwitchService);
   private readonly pageNavigation = inject(PageNavigationService);
@@ -48,12 +47,10 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   private readonly auth = inject(KeycloakAuthService);
   private readonly router = inject(Router);
   private readonly http = inject(HttpClient);
-  private readonly document = inject(DOCUMENT);
   private readonly translate = inject(TranslateService);
   private readonly loyaltyToneSvc = inject(LoyaltyToneService);
   private readonly destroy$ = new Subject<void>();
   private readonly headerTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
-  private lastReadyKey = '';
 
   public config = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
@@ -185,6 +182,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
@@ -515,31 +513,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   private emitDynamicPageReady(state: 'rendered' | 'loaded' | 'error'): void {
-    const cfg = (this.config() ?? null) as Record<string, unknown> | null;
-    const batchId = String(cfg?.['__dynamicPageBatchId'] ?? '').trim();
-    const componentId = String(cfg?.['__dynamicPageComponentId'] ?? '').trim();
-    const component = String(cfg?.['__dynamicPageComponentName'] ?? 'CorporateMainHeaderBlock_uiplus').trim();
-
-    if (!batchId || !componentId) {
-      return;
-    }
-
-    const readyKey = `${batchId}::${componentId}`;
-    if (this.lastReadyKey === readyKey) {
-      return;
-    }
-
-    this.lastReadyKey = readyKey;
-    this.document.dispatchEvent(
-      new CustomEvent('dynamic-page:component-ready', {
-        detail: {
-          batchId,
-          componentId,
-          component,
-          state,
-        },
-      })
-    );
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
+      state,
+    });
   }
 
   private getToneColor(tone: LoyaltyTone | null): string {

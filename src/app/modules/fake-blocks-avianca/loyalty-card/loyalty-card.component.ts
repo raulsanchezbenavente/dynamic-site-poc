@@ -1,16 +1,17 @@
-import { CommonModule, DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
+import { DynamicPageReadinessBase } from '@dynamic-composite';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -28,9 +29,7 @@ import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
   styleUrl: './loyalty-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
-  public static readonly dynamicPageReadiness = 'self-managed' as const;
-
+export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
   public config = input<LoyaltyCardConfig | null>(null);
   public name = input<string>('Perico');
 
@@ -46,7 +45,6 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   public gradientEndColor = computed(() => this.getGradientStops(this.loyaltyTone()).end);
 
   private readonly http = inject(HttpClient);
-  private readonly document = inject(DOCUMENT);
   private readonly routerHelper = inject(RouterHelperService);
   private readonly sessionApi = inject(SessionApiService);
   private readonly siteConfig = inject(SiteConfigService);
@@ -58,7 +56,6 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   private readonly sessionTotalMiles = signal('');
   private readonly sessionExpirationDate = signal('');
   private readonly destroy$ = new Subject<void>();
-  private lastReadyKey = '';
 
   public ngOnInit(): void {
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
@@ -74,6 +71,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
@@ -267,30 +265,10 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   }
 
   private emitDynamicPageReady(state: 'rendered' | 'loaded' | 'error'): void {
-    const cfg = (this.config() ?? null) as Record<string, unknown> | null;
-    const batchId = String(cfg?.['__dynamicPageBatchId'] ?? '').trim();
-    const componentId = String(cfg?.['__dynamicPageComponentId'] ?? '').trim();
-    const component = String(cfg?.['__dynamicPageComponentName'] ?? 'loyaltyOverviewCard_uiplus').trim();
-
-    if (!batchId || !componentId) {
-      return;
-    }
-
-    const readyKey = `${batchId}::${componentId}`;
-    if (this.lastReadyKey === readyKey) {
-      return;
-    }
-
-    this.lastReadyKey = readyKey;
-    this.document.dispatchEvent(
-      new CustomEvent('dynamic-page:component-ready', {
-        detail: {
-          batchId,
-          componentId,
-          component,
-          state,
-        },
-      })
-    );
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'loyaltyOverviewCard_uiplus',
+      state,
+    });
   }
 }
