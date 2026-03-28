@@ -205,32 +205,34 @@ describe('DynamicPageComponent', () => {
           cols: [
             {
               component: 'tabs',
-              tabs: [
-                {
-                  tabId: 'a',
-                  name: 'A',
-                  title: 'A',
-                  layout: {
-                    rows: [
-                      {
-                        cols: [{ component: 'RTEinjector_uiplus' }],
-                      },
-                    ],
+              config: {
+                tabs: [
+                  {
+                    tabId: 'a',
+                    name: 'A',
+                    title: 'A',
+                    layout: {
+                      rows: [
+                        {
+                          cols: [{ component: 'RTEinjector_uiplus' }],
+                        },
+                      ],
+                    },
                   },
-                },
-                {
-                  tabId: 'b',
-                  name: 'B',
-                  title: 'B',
-                  layout: {
-                    rows: [
-                      {
-                        cols: [{ component: 'mainHeader_uiplus' }],
-                      },
-                    ],
+                  {
+                    tabId: 'b',
+                    name: 'B',
+                    title: 'B',
+                    layout: {
+                      rows: [
+                        {
+                          cols: [{ component: 'mainHeader_uiplus' }],
+                        },
+                      ],
+                    },
                   },
-                },
-              ],
+                ],
+              },
             },
           ],
         },
@@ -238,7 +240,8 @@ describe('DynamicPageComponent', () => {
     });
 
     const tabsBlock = component.rows[0]?.cols[0] as Record<string, unknown>;
-    const trackedTabs = (tabsBlock?.['tabs'] as Array<Record<string, unknown>>) ?? [];
+    const tabsConfig = (tabsBlock?.['config'] as Record<string, unknown> | undefined) ?? {};
+    const trackedTabs = (tabsConfig['tabs'] as Array<Record<string, unknown>>) ?? [];
     const firstTabLayout = trackedTabs[0]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };
     const secondTabLayout = trackedTabs[1]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };
     const firstNestedBlock = firstTabLayout?.rows?.[0]?.cols?.[0] as Record<string, unknown>;

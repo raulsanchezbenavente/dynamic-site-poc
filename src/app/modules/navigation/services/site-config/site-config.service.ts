@@ -137,9 +137,22 @@ export class SiteConfigService {
     const pages = this.configSitesByLanguage[lang] ?? [];
     const idStr = String(pageId);
     const page = pages.find((candidate) => String(candidate?.pageId ?? '') === idStr);
-    const tabsId = page?.tabsId;
+    if (!page) {
+      return undefined;
+    }
 
-    return tabsId === undefined || tabsId === null ? undefined : String(tabsId);
+    const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+    const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
+
+    for (const col of cols) {
+      const tabsConfig = (col?.config ?? null) as { tabsId?: string | number } | null;
+      const tabsId = tabsConfig?.tabsId;
+      if (tabsId !== undefined && tabsId !== null && String(tabsId).trim().length > 0) {
+        return String(tabsId);
+      }
+    }
+
+    return undefined;
   }
 
   public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): SiteTabSummary[] {
@@ -149,28 +162,13 @@ export class SiteConfigService {
     const tabMap = new Map<string, SiteTabSummary>();
 
     for (const page of pages) {
-      if (String(page?.tabsId ?? '') === tabsIdStr) {
-        const pageTabs = Array.isArray(page?.tabs) ? page.tabs : [];
-        pageTabs.forEach((tab: SiteTab) => {
-          const name = tab?.name ? String(tab.name) : '';
-          if (!name) return;
-          if (!tabMap.has(name)) {
-            tabMap.set(name, {
-              name,
-              title: tab?.title ? String(tab.title) : undefined,
-              secondaryText: tab?.secondaryText ? String(tab.secondaryText) : undefined,
-              tabId: tab?.tabId ? String(tab.tabId) : undefined,
-            });
-          }
-        });
-      }
-
       const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
-        if (String(col?.tabsId ?? '') !== tabsIdStr) continue;
-        const tabs = Array.isArray(col?.tabs) ? col.tabs : [];
+        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: SiteTab[] } | null;
+        if (String(tabsConfig?.tabsId ?? '') !== tabsIdStr) continue;
+        const tabs = Array.isArray(tabsConfig?.tabs) ? tabsConfig.tabs : [];
         tabs.forEach((tab: SiteTab) => {
           const name = tab?.name ? String(tab.name) : '';
           if (!name) return;

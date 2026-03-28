@@ -110,14 +110,14 @@
     left: 0;
     right: 0;
     display: grid;
-    gap: 12px;
+    gap: 16px;
     padding: 4px 0;
     z-index: 1;
     pointer-events: none;
 }
 
 .tab-skeleton__line {
-    height: 16px;
+    height: 26px;
     border-radius: 999px;
     background: linear-gradient(90deg, #eceff2 25%, #f7f9fb 37%, #eceff2 63%);
     background-size: 400% 100%;

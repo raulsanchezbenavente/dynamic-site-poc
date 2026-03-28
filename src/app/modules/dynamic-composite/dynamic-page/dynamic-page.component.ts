@@ -9,7 +9,6 @@ import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 type PageLayoutCol = {
   component: string;
   span?: number;
-  tabs?: PageTab[];
   config?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
@@ -183,9 +182,14 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
 
     if (componentName === DynamicPageComponent.TABS_COMPONENT) {
+      const tabsConfig = this.resolveTabsConfig(col.config);
       return {
         ...col,
-        tabs: this.attachTabsTracking(col.tabs, batchId, nextComponentId),
+        config: {
+          ...(col.config ?? {}),
+          ...tabsConfig,
+          tabs: this.attachTabsTracking(tabsConfig.tabs, batchId, nextComponentId),
+        },
       };
     }
 
@@ -195,6 +199,15 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
       __dynamicPageComponentId: nextComponentId(),
       __dynamicPageComponentName: componentName,
     };
+  }
+
+  private resolveTabsConfig(config: Record<string, unknown> | undefined): {
+    tabsId?: string;
+    tabs: PageTab[];
+  } {
+    const tabsId = String(config?.['tabsId'] ?? '').trim() || undefined;
+    const tabs = Array.isArray(config?.['tabs']) ? (config?.['tabs'] as PageTab[]) : [];
+    return { tabsId, tabs };
   }
 
   private attachTabsTracking(tabs: PageTab[] | undefined, batchId: string, nextComponentId: () => string): PageTab[] {
@@ -243,11 +256,12 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
         }
 
         const componentName = String(col?.component ?? '').trim();
-        if (componentName !== DynamicPageComponent.TABS_COMPONENT || !Array.isArray(col.tabs)) {
+        const tabs = this.resolveTabsConfig(col?.config).tabs;
+        if (componentName !== DynamicPageComponent.TABS_COMPONENT || tabs.length === 0) {
           continue;
         }
 
-        for (const tab of col.tabs) {
+        for (const tab of tabs) {
           this.collectTrackedIdsFromRows(this.resolveTabLayoutRows(tab.layout), trackedIds);
         }
       }

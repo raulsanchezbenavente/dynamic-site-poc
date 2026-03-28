@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
 
 import { RouterHelperService, SiteConfigService } from '@navigation';
-import { CmsTabContract } from './models/cms-tab-contract.model';
+import { TabStructure } from './models/tab-layout-structure.model';
 import { DsTabsComponent } from './tabs.component';
 
 describe('DsTabsComponent', () => {
@@ -38,7 +38,7 @@ describe('DsTabsComponent', () => {
     getTabNamesByTabsId: (_tabsId: string): Array<{ name: string; tabId?: string }> => tabSummaries,
   };
 
-  const tabsInput: CmsTabContract[] = [
+  const tabsInput: TabStructure[] = [
     {
       tabId: 'tab-1',
       name: 'overview',
@@ -90,7 +90,7 @@ describe('DsTabsComponent', () => {
 
     fixture = TestBed.createComponent(DsTabsComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('tabs', tabsInput);
+    fixture.componentRef.setInput('config', { tabs: tabsInput });
   });
 
   it('should create', () => {
@@ -106,7 +106,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should support layout-based tab content format', () => {
-    fixture.componentRef.setInput('tabs', [
+    fixture.componentRef.setInput('config', { tabs: [
       {
         tabId: 'tab-1',
         name: 'overview',
@@ -119,7 +119,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[]);
+    ] as TabStructure[] });
 
     fixture.detectChanges();
 
@@ -128,7 +128,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should preserve span values when rendering tab layout columns', () => {
-    fixture.componentRef.setInput('tabs', [
+    fixture.componentRef.setInput('config', { tabs: [
       {
         tabId: 'tab-1',
         name: 'overview',
@@ -144,7 +144,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[]);
+    ] as TabStructure[] });
 
     fixture.detectChanges();
 
@@ -178,8 +178,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should activate the current-language tab when browser back restores a tab name from another language', () => {
-    fixture.componentRef.setInput('tabsId', 'members-tabs');
-    fixture.componentRef.setInput('tabs', [
+    fixture.componentRef.setInput('config', { tabsId: 'members-tabs', tabs: [
       {
         tabId: 'tab-1',
         name: 'Datos personales',
@@ -204,7 +203,7 @@ describe('DsTabsComponent', () => {
           ],
         },
       },
-    ] as CmsTabContract[]);
+    ] as TabStructure[] });
     tabSummaries = [
       { name: 'Personal data', tabId: 'tab-1' },
       { name: 'Datos personales', tabId: 'tab-1' },
@@ -222,7 +221,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should replace the activeTab query param with the translated active tab on language change', () => {
-    fixture.componentRef.setInput('tabsId', 'members-tabs');
+    fixture.componentRef.setInput('config', { tabsId: 'members-tabs', tabs: tabsInput });
     tabSummaries = [
       { name: 'Datos personales', tabId: 'tab-1' },
       { name: 'Mis viajes', tabId: 'tab-2' },

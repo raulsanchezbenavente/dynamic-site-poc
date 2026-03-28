@@ -58,26 +58,52 @@ describe('SiteConfigService', () => {
 
   it('should resolve tabs id by page id and language', () => {
     service.configSitesByLanguage = {
-      en: [{ pageId: '10', path: '/en/results', tabsId: 'booking' }],
+      en: [
+        {
+          pageId: '10',
+          path: '/en/results',
+          layout: {
+            rows: [
+              {
+                cols: [
+                  {
+                    component: 'tabs',
+                    config: {
+                      tabsId: 'booking',
+                      tabs: [],
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
     };
 
     expect(service.getTabsIdByPageId('10', 'en')).toBe('booking');
     expect(service.getTabsIdByPageId(undefined, 'en')).toBeUndefined();
   });
 
-  it('should collect unique tab names by tabsId from page tabs and layout tabs', () => {
+  it('should collect unique tab names by tabsId from layout tab config', () => {
     service.configSitesByLanguage = {
       en: [
         {
-          tabsId: 'booking',
-          tabs: [{ name: 'overview', title: 'Overview', tabId: '1' }],
           layout: {
             rows: [
               {
                 cols: [
                   {
-                    tabsId: 'booking',
-                    tabs: [{ name: 'details', title: 'Details', tabId: '2' }],
+                    config: {
+                      tabsId: 'booking',
+                      tabs: [{ name: 'overview', title: 'Overview', tabId: '1' }],
+                    },
+                  },
+                  {
+                    config: {
+                      tabsId: 'booking',
+                      tabs: [{ name: 'details', title: 'Details', tabId: '2' }],
+                    },
                   },
                 ],
               },

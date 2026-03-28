@@ -120,7 +120,6 @@ export class RouterInitService {
         pageId: page.pageId,
         pageName: page.name,
         seo: page.seo,
-        tabsId: page.tabId ?? null,
         tabNamesById: this.buildTabNamesById(page),
       },
       canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],
@@ -140,7 +139,7 @@ export class RouterInitService {
   private buildTabNamesById(page: SitePage): Record<string, string> {
     return this.getLayoutRows(page.layout)
       .flatMap((row) => row.cols ?? [])
-      .flatMap((col) => col.tabs ?? [])
+      .flatMap((col) => (col.config?.['tabs'] as SiteTab[] | undefined) ?? [])
       .reduce((accumulator: Record<string, string>, tab: SiteTab) => {
         if (tab.pageId) {
           accumulator[tab.pageId] = tab.name ?? '';

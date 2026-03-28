@@ -1,21 +1,21 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    model,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    signal,
-    ViewChild,
-    ViewChildren,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  model,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -24,14 +24,20 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
-import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow } from './models/cms-tab-contract.model';
+import {
+  TabLayout,
+  TabLayoutCol,
+  TabLayoutRow,
+  TabsLayoutConfig,
+  TabStructure,
+} from './models/tab-layout-structure.model';
 
-type ViewTab = CmsTabContract & {
+type ViewTab = TabStructure & {
   tabId: string;
   name: string;
   title: string;
   pageId: string;
-  layout: CmsTabLayoutRow[];
+  layout: TabLayoutRow[];
 };
 
 type ComponentReadyDetail = {
@@ -47,6 +53,12 @@ type TrackedTabComponent = {
   component: string;
 };
 
+type TrackedTabLayoutCol = {
+  __dynamicPageBatchId?: string;
+  __dynamicPageComponentId?: string;
+  __dynamicPageComponentName?: string;
+} & TabLayoutCol;
+
 @Component({
   selector: 'tabs',
   standalone: true,
@@ -59,8 +71,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly MIN_SKELETON_VISIBLE_MS = 1000;
   private static readonly TAB_REVEAL_DELAY_MS = 80;
 
-  public tabsId = input<string | null | undefined>(undefined);
-  public tabs = input<CmsTabContract[] | null | undefined>(undefined);
+  public config = input<TabsLayoutConfig | null | undefined>(undefined);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
@@ -69,7 +80,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly document = inject(DOCUMENT);
   private readonly destroy$ = new Subject<void>();
   private readonly tabsOverride = signal<Array<{ name: string; title?: string; secondaryText?: string }>>([]);
-  private readonly _tabsSubject = new BehaviorSubject<CmsTabContract | null>(null);
+  private readonly _tabsSubject = new BehaviorSubject<TabStructure | null>(null);
   private readonly renderedTabState = signal<Record<string, boolean>>({});
   private readonly tabLoadingState = signal<Record<string, boolean>>({});
   private readonly tabRevealState = signal<Record<string, boolean>>({});
@@ -94,11 +105,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
-    const raw = this.tabs();
+    const raw = this.config()?.tabs;
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
-      .map((tab: Partial<CmsTabContract>) => {
+      .map((tab: Partial<TabStructure>) => {
         const tabId = String(tab?.tabId ?? '').trim();
         const name = String(tab?.name ?? '').trim();
         const title = String(tab?.title ?? '').trim();
@@ -125,7 +136,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   });
 
-  private resolveTabLayoutRows(layout: CmsTabLayout | CmsTabLayoutRow[] | undefined): CmsTabLayoutRow[] {
+  private resolveTabLayoutRows(layout: TabLayout | TabLayoutRow[] | undefined): TabLayoutRow[] {
     if (Array.isArray(layout)) {
       return layout;
     }
@@ -136,7 +147,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   // public activeTab = computed(() => {
   //   const tabs = this.viewTabs();
   //   const tabId = this.activeId();
-  //   const activeTab: CmsTabContract | undefined = tabs.find(t => t.tabId === tabId);
+  //   const activeTab: TabStructure | undefined = tabs.find(t => t.tabId === tabId);
   //   if (!tabs.length) return undefined;
   //   return tabs.find(t => t.tabId === tabId) ?? tabs[0];
   // });
@@ -202,9 +213,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
       const currentActiveTabId = this.activeId();
+      const tabsId = this.getTabsId();
 
-      if (this.tabsId()) {
-        const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
+      if (tabsId) {
+        const overrides = this.siteConfig.getTabNamesByTabsId(tabsId, lang);
         this.tabsOverride.set(overrides);
 
         const tabName: string | undefined = overrides.find(
@@ -253,10 +265,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!tabs.length) return;
     let tab = tabs.find((t) => t.name === qpTab);
 
-    if (!tab && qpTab && this.tabsId()) {
+    const tabsId = this.getTabsId();
+    if (!tab && qpTab && tabsId) {
       const normalizedTabName = qpTab.trim().toLowerCase();
       const matchedTabSummary = this.siteConfig
-        .getTabNamesByTabsId(this.tabsId()!)
+        .getTabNamesByTabsId(tabsId)
         .find((summary) => summary.name.trim().toLowerCase() === normalizedTabName);
 
       if (matchedTabSummary?.tabId) {
@@ -271,7 +284,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  public select(tab: CmsTabContract, stopPropagation: boolean = false): void {
+  public select(tab: TabStructure, stopPropagation: boolean = false): void {
     this.activateTab(tab, {
       historyMode: 'push',
       emitEvent: !stopPropagation,
@@ -284,7 +297,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private activateTab(
-    tab: CmsTabContract,
+    tab: TabStructure,
     options: { historyMode: 'push' | 'replace'; emitEvent: boolean; allowReselect: boolean }
   ): void {
     const tabId = String(tab.tabId ?? '').trim();
@@ -300,8 +313,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.syncActiveTabName(tab.name, options.historyMode);
     this.setPageTitle(tab);
 
-    if (this.tabsId()) {
-      this.routerHelper.setCurrentTabId(this.tabsId()!, tabId);
+    const tabsId = this.getTabsId();
+    if (tabsId) {
+      this.routerHelper.setCurrentTabId(tabsId, tabId);
     }
 
     if (!options.emitEvent) {
@@ -309,17 +323,22 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     this._tabsSubject.next(tab);
-    const customEvent: CustomEvent<{ tab: CmsTabContract }> = new CustomEvent('activeChange', {
+    const customEvent: CustomEvent<{ tab: TabStructure }> = new CustomEvent('activeChange', {
       detail: { tab },
     });
     globalThis.dispatchEvent(customEvent);
   }
 
-  private setPageTitle(tab: CmsTabContract | undefined): void {
+  private setPageTitle(tab: TabStructure | undefined): void {
     if (!tab) return;
     const nextTitle = (tab.title ?? tab.name ?? '').trim();
     if (!nextTitle) return;
     this.title.setTitle(nextTitle);
+  }
+
+  private getTabsId(): string | undefined {
+    const tabsId = String(this.config()?.tabsId ?? '').trim();
+    return tabsId || undefined;
   }
 
   public trackById(_: number, tab: { tabId: string }): string {
@@ -470,7 +489,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.expectedComponentsByTab = nextExpected;
     this.readyComponentIdsByTab = nextReady;
-    this.deferredComponentIds = new Set(Array.from(this.deferredComponentIds).filter((id) => nextAllExpectedIds.has(id)));
+    this.deferredComponentIds = new Set(
+      Array.from(this.deferredComponentIds).filter((id) => nextAllExpectedIds.has(id))
+    );
 
     const validTabIds = new Set(tabs.map((tab) => tab.tabId));
     this.pruneSkeletonState(validTabIds);
@@ -504,14 +525,15 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
-  private collectTrackedComponentsFromRows(rows: CmsTabLayoutRow[]): TrackedTabComponent[] {
+  private collectTrackedComponentsFromRows(rows: TabLayoutRow[]): TrackedTabComponent[] {
     const components: TrackedTabComponent[] = [];
 
     for (const row of rows) {
       for (const col of row?.cols ?? []) {
-        const batchId = String(col?.['__dynamicPageBatchId'] ?? '').trim();
-        const componentId = String(col?.['__dynamicPageComponentId'] ?? '').trim();
-        const component = String(col?.['__dynamicPageComponentName'] ?? col?.component ?? '').trim();
+        const trackedCol = col as TrackedTabLayoutCol;
+        const batchId = String(trackedCol.__dynamicPageBatchId ?? '').trim();
+        const componentId = String(trackedCol.__dynamicPageComponentId ?? '').trim();
+        const component = String(trackedCol.__dynamicPageComponentName ?? trackedCol.component ?? '').trim();
 
         if (batchId && componentId && component) {
           components.push({ batchId, componentId, component });

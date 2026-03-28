@@ -1,11 +1,24 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, HostBinding, inject, input, signal, Type } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostBinding,
+  inject,
+  input,
+  signal,
+  Type,
+} from '@angular/core';
 import { loadBlockComponent } from 'src/app/component-map';
 
 type DynamicBlockInput = {
   component?: string;
   span?: number;
-  [key: string]: unknown;
+  config?: Record<string, unknown>;
+  __dynamicPageBatchId?: string;
+  __dynamicPageComponentId?: string;
+  __dynamicPageComponentName?: string;
 };
 
 type ReadyManagedComponentType = Type<unknown> & {
@@ -98,13 +111,13 @@ export class BlockOutletComponent {
     const b = this.block();
     if (!b) return {};
 
-    const rest = { ...b };
+    const rest: Record<string, unknown> = { ...(b as Record<string, unknown>) };
     const batchId = String(rest['__dynamicPageBatchId'] ?? '').trim();
     const componentId = String(rest['__dynamicPageComponentId'] ?? '').trim();
     const componentName = String(rest['__dynamicPageComponentName'] ?? '').trim();
 
-    delete rest.component;
-    delete rest.span;
+    delete rest['component'];
+    delete rest['span'];
     delete rest['__dynamicPageBatchId'];
     delete rest['__dynamicPageComponentId'];
     delete rest['__dynamicPageComponentName'];
