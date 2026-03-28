@@ -53,7 +53,9 @@ describe('DynamicPageComponent', () => {
       seo: { title: 'SEO Home' },
     });
 
-    expect(component.rows).toEqual(rows);
+    expect(component.rows.length).toBe(1);
+    expect(component.rows[0]?.cols.length).toBe(1);
+    expect(component.rows[0]?.cols[0]?.['component']).toBe('header');
     expect(titleSpy.setTitle).toHaveBeenCalledWith('Home');
     expect(seoSpy.applyPageSeo).toHaveBeenCalledWith('en/home', 'Home', { title: 'SEO Home' }, '0');
   });
@@ -127,4 +129,182 @@ describe('DynamicPageComponent', () => {
     expect(component.rows[0]?.cols[0]).toBe(originalColRef);
     expect(component.rows[0]?.cols[0]?.['title']).toBe('EN title');
   });
+
+  it('should log once when all mapped components are ready', () => {
+    const consoleLogSpy = spyOn(console, 'log');
+
+    fixture.detectChanges();
+    routeDataSubject.next({
+      pageId: 'rte-page',
+      components: [
+        {
+          cols: [
+            {
+              component: 'RTEinjector_uiplus',
+              htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/en'],
+            },
+            {
+              component: 'RTEinjector_uiplus',
+              htmlContentURLs: ['/assets/rte-fragments/allowed-cellar/en'],
+            },
+          ],
+        },
+      ],
+    });
+
+    const firstBlock = component.rows[0]?.cols[0] as Record<string, unknown>;
+    const secondBlock = component.rows[0]?.cols[1] as Record<string, unknown>;
+    const batchId = String(firstBlock?.['__dynamicPageBatchId'] ?? '');
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId: String(firstBlock?.['__dynamicPageComponentId'] ?? ''),
+          component: 'RTEinjector_uiplus',
+          state: 'loaded',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).not.toHaveBeenCalledWith(
+      '[dynamic-page] all mapped components ready',
+      jasmine.any(Object)
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId: String(secondBlock?.['__dynamicPageComponentId'] ?? ''),
+          component: 'RTEinjector_uiplus',
+          state: 'loaded',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '[dynamic-page] all mapped components ready',
+      jasmine.objectContaining({
+        pageId: 'rte-page',
+        expected: 2,
+        completed: 2,
+      })
+    );
+  });
+
+  it('should wait for nested tab components before finalizing page readiness', () => {
+    const consoleLogSpy = spyOn(console, 'log');
+
+    fixture.detectChanges();
+    routeDataSubject.next({
+      pageId: 'tabs-page',
+      components: [
+        {
+          cols: [
+            {
+              component: 'tabs',
+              tabs: [
+                {
+                  tabId: 'a',
+                  name: 'A',
+                  title: 'A',
+                  layout: {
+                    rows: [
+                      {
+                        cols: [{ component: 'RTEinjector_uiplus' }],
+                      },
+                    ],
+                  },
+                },
+                {
+                  tabId: 'b',
+                  name: 'B',
+                  title: 'B',
+                  layout: {
+                    rows: [
+                      {
+                        cols: [{ component: 'mainHeader_uiplus' }],
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    const tabsBlock = component.rows[0]?.cols[0] as Record<string, unknown>;
+    const trackedTabs = (tabsBlock?.['tabs'] as Array<Record<string, unknown>>) ?? [];
+    const firstTabLayout = trackedTabs[0]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };
+    const secondTabLayout = trackedTabs[1]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };
+    const firstNestedBlock = firstTabLayout?.rows?.[0]?.cols?.[0] as Record<string, unknown>;
+    const secondNestedBlock = secondTabLayout?.rows?.[0]?.cols?.[0] as Record<string, unknown>;
+
+    const batchId = String(firstNestedBlock?.['__dynamicPageBatchId'] ?? '');
+    const firstNestedComponentId = String(firstNestedBlock?.['__dynamicPageComponentId'] ?? '');
+    const secondNestedComponentId = String(secondNestedBlock?.['__dynamicPageComponentId'] ?? '');
+
+    expect(batchId.length).toBeGreaterThan(0);
+    expect(firstNestedComponentId.length).toBeGreaterThan(0);
+    expect(secondNestedComponentId.length).toBeGreaterThan(0);
+
+    // Event from tabs wrapper must be ignored because tabs itself is not tracked as a leaf component.
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId: 'tabs-wrapper',
+          component: 'tabs',
+          state: 'rendered',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).not.toHaveBeenCalledWith(
+      '[dynamic-page] all mapped components ready',
+      jasmine.any(Object)
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId: firstNestedComponentId,
+          component: 'RTEinjector_uiplus',
+          state: 'loaded',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).not.toHaveBeenCalledWith(
+      '[dynamic-page] all mapped components ready',
+      jasmine.any(Object)
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:component-ready', {
+        detail: {
+          batchId,
+          componentId: secondNestedComponentId,
+          component: 'mainHeader_uiplus',
+          state: 'loaded',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    expect(consoleLogSpy).toHaveBeenCalledWith(
+      '[dynamic-page] all mapped components ready',
+      jasmine.objectContaining({
+        pageId: 'tabs-page',
+        expected: 2,
+        completed: 2,
+      })
+    );
+  });
+
 });

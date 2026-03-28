@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { AppLang, RouterHelperService, SiteConfigService } from '@navigation';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -28,7 +29,7 @@ import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
   styleUrl: './loyalty-card.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
+export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
   public config = input<LoyaltyCardConfig | null>(null);
   public name = input<string>('Perico');
 
@@ -70,6 +71,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
@@ -78,6 +80,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
 
       if (!url) {
         // Keep the previous tone if URL is temporarily unavailable while language/config settles.
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -89,9 +92,12 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
             this.loyaltyTone.set(tone);
             this.loyaltyToneSvc.tone.set(tone);
           }
+
+          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
         },
         error: () => {
           // Keep previous tone on transient request errors.
+          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
         },
       });
 
@@ -256,5 +262,13 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
     } catch {
       return trimmed;
     }
+  }
+
+  private emitDynamicPageReady(state: DynamicPageReadyState): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'loyaltyOverviewCard_uiplus',
+      state,
+    });
   }
 }

@@ -13,6 +13,7 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
   AppLang,
   KeycloakAuthService,
@@ -38,7 +39,7 @@ import { DEFAULT_MENU, LANGS } from './translations/main-header.constants';
   templateUrl: './main-header.component.html',
   styleUrls: ['./main-header.component.scss'],
 })
-export class MainHeaderComponent implements OnInit, OnDestroy {
+export class MainHeaderComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
   private readonly siteConfig = inject(SiteConfigService);
   private readonly languageSwitch = inject(LanguageSwitchService);
   private readonly pageNavigation = inject(PageNavigationService);
@@ -181,6 +182,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
   }
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
@@ -191,6 +193,7 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
 
       if (!url) {
         // Keep previous tone while config/url settles to avoid UI flicker.
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -201,9 +204,11 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
             this.headerTone.set(tone);
             this.loyaltyToneSvc.tone.set(tone);
           }
+          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
         },
         error: () => {
           // Keep previous tone on transient request errors.
+          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
         },
       });
 
@@ -505,6 +510,14 @@ export class MainHeaderComponent implements OnInit, OnDestroy {
     } catch {
       return trimmed;
     }
+  }
+
+  private emitDynamicPageReady(state: DynamicPageReadyState): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
+      state,
+    });
   }
 
   private getToneColor(tone: LoyaltyTone | null): string {

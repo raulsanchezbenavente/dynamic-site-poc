@@ -92,6 +92,8 @@ src/
 │   └── modules/               # All feature and shared modules
 │       ├── dynamic-composite/ # (@dynamic-composite) Dynamic page/block/tabs infrastructure
 │       │   ├── block-outlet/
+│       │   ├── dynamic-page-readiness/
+│       │   │   └── models/
 │       │   ├── dynamic-blocks/
 │       │   ├── dynamic-page/
 │       │   └── dynamic-tabs/
@@ -532,6 +534,149 @@ The double-click installers at the repo root handle everything:
 
 ---
 
+## ✅ Dynamic Readiness Process (Single Completion Signal)
+
+The dynamic page uses a generic, decoupled readiness contract so `DynamicPageComponent` can emit a single completion point for the current render batch.
+
+### Objective
+
+- Avoid hardcoded component-name coupling for async blocks.
+- Wait for all mapped blocks to be considered ready.
+- Emit one final completion signal from `DynamicPageComponent`.
+- Remove `#boot-loader` only when the page is truly ready.
+
+### Architecture (Who Does What)
+
+- `DynamicPageComponent`
+  - Creates a new render `batchId` on each page composition.
+  - Registers expected leaf component IDs for that batch.
+  - Includes nested tab leaf blocks in the expected set.
+  - Listens to `dynamic-page:component-ready` on `document`.
+  - Accepts only events from current `batchId` and known `componentId` values.
+  - Completes once all expected components are ready and then removes `#boot-loader`.
+
+- `BlockOutletComponent`
+  - Instantiates block components from CMS config.
+  - Detects readiness ownership using the static marker:
+
+    ```ts
+    static dynamicPageReadiness = 'self-managed';
+    ```
+
+  - If the block is not self-managed, auto-emits ready right after creation.
+  - If the block is self-managed, injects tracking metadata in the block config and lets the block emit when its async work finishes.
+
+- Self-managed blocks (for example `rte-injector`, `loyalty-card`, `main-header`)
+  - Extend `DynamicPageReadinessBase`.
+  - Emit readiness after their own async lifecycle (success/error/rendered fallback).
+  - Reuse centralized dedupe and payload normalization.
+
+### Shared Base + State Model
+
+- Base class location:
+  - `src/app/modules/dynamic-composite/dynamic-page-readiness/dynamic-page-readiness.base.ts`
+
+- Enum location:
+  - `src/app/modules/dynamic-composite/dynamic-page-readiness/models/dynamic-page-ready-state.enum.ts`
+
+- Enum values:
+  - `DynamicPageReadyState.RENDERED` (`'rendered'`)
+  - `DynamicPageReadyState.LOADED` (`'loaded'`)
+  - `DynamicPageReadyState.ERROR` (`'error'`)
+  - `DynamicPageReadyState.MISSING` (`'missing'`)
+
+- Re-exported from:
+  - `src/app/modules/dynamic-composite/index.ts`
+
+### Event Contract
+
+- Event name: `dynamic-page:component-ready`
+- Event target: `document`
+- Required fields:
+  - `batchId`: identifies the current render cycle and prevents stale events from prior renders.
+  - `componentId`: stable per-block identifier used to deduplicate readiness.
+- Common optional fields:
+  - `component`: logical component name.
+  - `state`: one of `DynamicPageReadyState` values.
+  - Additional metrics/details (for example request counters, duration).
+
+Example payload:
+
+```ts
+document.dispatchEvent(
+  new CustomEvent('dynamic-page:component-ready', {
+    detail: {
+      batchId,
+      componentId,
+      component,
+      state: DynamicPageReadyState.LOADED,
+    },
+  }),
+);
+```
+
+### Self-Managed Usage Pattern
+
+Every self-managed block should follow this shape:
+
+```ts
+export class SomeAsyncBlockComponent extends DynamicPageReadinessBase {
+  private emitReady(state: DynamicPageReadyState): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'someAsyncBlock_uiplus',
+      state,
+    });
+  }
+}
+```
+
+This keeps marker + dispatch behavior standardized and avoids duplicated readiness code.
+
+### Tabs Behavior
+
+- The `tabs` container itself is not counted as a final leaf readiness unit.
+- Internal tab layout blocks are tracked individually and must report ready before page completion.
+- Events emitted by a tabs wrapper ID that is not in expected leaf set are ignored.
+
+### Dedupe and Why You Can See Multiple States
+
+- Base-class dedupe key is `batchId::componentId`.
+- Repeated emits with same key are ignored after first accepted event.
+- You may still see multiple state values in logs because:
+  - A new render creates a new `batchId`.
+  - Different components emit in same page.
+  - Different lifecycle branches run across renders (`RENDERED`, `LOADED`, `ERROR`).
+
+### Why `batchId` and `componentId` Are Mandatory
+
+- `batchId` avoids counting late events from a previous page/render.
+- `componentId` ensures each block counts only once, even if it emits multiple times.
+
+Without these two fields, aggregated completion can be wrong (premature completion or never completing).
+
+### Troubleshooting Checklist
+
+- Boot loader does not disappear:
+  - Verify every expected self-managed block emits with current `batchId` + `componentId`.
+  - Verify tabs nested blocks are emitting (not only tabs wrapper).
+
+- Boot loader disappears too early:
+  - Verify only leaf components are marked complete.
+  - Verify unknown component IDs are not accidentally treated as expected.
+
+- Same component appears to emit many times:
+  - Confirm if logs span multiple `batchId` values.
+  - Confirm whether logs include different components sharing same page.
+
+- New async block integration steps:
+  - Extend `DynamicPageReadinessBase`.
+  - Emit via `emitDynamicPageReadyEvent(...)` using injected config tracking.
+  - Use `DynamicPageReadyState` enum values.
+  - Ensure block is mapped as self-managed and tested.
+
+---
+
 ## 🧩 Tabs Contract
 
 - Tab content is defined strictly with `layout.rows[].cols[]`.
@@ -646,7 +791,7 @@ This is expected optimization behavior:
 
 - The first paint loader is rendered directly in `src/index.html` (outside Angular) for immediate display.
 - Loader image is served locally from `src/assets/loader/plane-loader.gif`.
-- `RouterInitService` removes `#boot-loader` after the first navigation event is completed.
+- `DynamicPageComponent` removes `#boot-loader` only after all mapped components in the current render batch report ready.
 - The minimum display time is environment-based:
   - `development`: `0ms` (`src/environments/environment.ts`)
   - `production`: `1000ms` (`src/environments/environment.prod.ts`)

@@ -1,7 +1,22 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 
 import { RteInjectorConfig } from './models/rte-injector-config.model';
+
+type ContentFetchResult = {
+  url: string;
+  content: string;
+  ok: boolean;
+};
+
+type ContentRequestsFinishedDetail = {
+  requested: number;
+  succeeded: number;
+  failed: number;
+  durationMs: number;
+  requestedUrls: string[];
+};
 
 @Component({
   selector: 'rte-injector',
@@ -10,11 +25,11 @@ import { RteInjectorConfig } from './models/rte-injector-config.model';
   styleUrl: './rte-injector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RteInjectorComponent {
+export class RteInjectorComponent extends DynamicPageReadinessBase {
   private static readonly loadedStylesheetUrls = new Set<string>();
   private static readonly contentCache = new Map<string, string>();
-
   private readonly document = inject(DOCUMENT);
+
   private readonly fetchedContent = signal('');
 
   public readonly config = input<RteInjectorConfig | null | undefined>(undefined);
@@ -31,18 +46,27 @@ export class RteInjectorComponent {
   public readonly hasContent = computed(() => this.htmlContent().trim().length > 0);
 
   constructor() {
+    super();
     effect((onCleanup) => {
       const urls = this.getContentUrls(this.config());
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
+        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED, {
+          requested: 0,
+          succeeded: 0,
+          failed: 0,
+          durationMs: 0,
+          requestedUrls: [],
+        });
         return;
       }
 
       const cacheKey = this.getContentCacheKey(urls, false);
       const localeAgnosticCacheKey = this.getContentCacheKey(urls, true);
       const cachedContent =
-        RteInjectorComponent.contentCache.get(cacheKey) ?? RteInjectorComponent.contentCache.get(localeAgnosticCacheKey);
+        RteInjectorComponent.contentCache.get(cacheKey) ??
+        RteInjectorComponent.contentCache.get(localeAgnosticCacheKey);
 
       if (cachedContent && cachedContent.trim().length > 0) {
         this.fetchedContent.set(cachedContent);
@@ -52,12 +76,18 @@ export class RteInjectorComponent {
       let isDisposed = false;
 
       void (async (): Promise<void> => {
+        const startedAt = Date.now();
         const contents = await Promise.all(urls.map(async (url) => this.fetchContent(url, controller.signal)));
         if (isDisposed) {
           return;
         }
 
-        const mergedContent = contents.filter((entry) => entry.length > 0).join('\n');
+        this.logContentRequestCompletion(contents, startedAt);
+
+        const mergedContent = contents
+          .map((entry) => entry.content)
+          .filter((entry) => entry.length > 0)
+          .join('\n');
         if (mergedContent.trim().length > 0) {
           this.fetchedContent.set(mergedContent);
           RteInjectorComponent.contentCache.set(cacheKey, mergedContent);
@@ -162,21 +192,45 @@ export class RteInjectorComponent {
       .join('|');
   }
 
-  private async fetchContent(url: string, signal: AbortSignal): Promise<string> {
+  private logContentRequestCompletion(results: ContentFetchResult[], startedAt: number): void {
+    const requestedUrls = results.map((entry) => entry.url);
+    const succeeded = results.filter((entry) => entry.ok).length;
+    const failed = results.length - succeeded;
+    const detail: ContentRequestsFinishedDetail = {
+      requested: results.length,
+      succeeded,
+      failed,
+      durationMs: Math.max(0, Date.now() - startedAt),
+      requestedUrls,
+    };
+
+    this.emitDynamicPageReady(DynamicPageReadyState.LOADED, detail);
+  }
+
+  private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'RTEinjector_uiplus',
+      state,
+      extraDetail,
+    });
+  }
+
+  private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {
     try {
       const response = await fetch(url, { signal });
       if (!response.ok) {
         console.warn(`[rte-injector] Unable to fetch content URL: ${url} (${response.status})`);
-        return '';
+        return { url, content: '', ok: false };
       }
 
-      return await response.text();
+      return { url, content: await response.text(), ok: true };
     } catch {
       if (!signal.aborted) {
         console.warn(`[rte-injector] Unable to fetch content URL: ${url}`);
       }
 
-      return '';
+      return { url, content: '', ok: false };
     }
   }
 

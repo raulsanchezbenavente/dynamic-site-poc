@@ -33,7 +33,7 @@ export class RouterInitService {
     this.isInitialized = true;
 
     this.logDirectBrowserEntry();
-    this.removeBootLoaderAfterFirstNavigation();
+    // this.removeBootLoaderAfterFirstNavigation();
     this.trackBrowserNavigationTrigger();
     this.syncLanguageOnNavigationEnd();
     this.resetRoutesFromSiteConfig();
@@ -53,7 +53,7 @@ export class RouterInitService {
       )
       .subscribe(() => {
         const elapsed = Date.now() - bootStartedAt;
-        const waitMs = Math.max(100, this.bootLoaderMinDurationMs - elapsed);
+        const waitMs = Math.max(0, this.bootLoaderMinDurationMs - elapsed);
 
         globalThis.setTimeout(() => {
           globalThis.document?.getElementById('boot-loader')?.remove();

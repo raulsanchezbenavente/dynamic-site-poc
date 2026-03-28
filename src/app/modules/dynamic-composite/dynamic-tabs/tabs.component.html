@@ -26,26 +26,45 @@
   </div>
 
   @for (tab of viewTabs(); track trackById($index, tab)) {
-    <section
-      class="tab-panel"
-      role="tabpanel"
-      [attr.id]="tabPanelId(tab.tabId)"
-      [attr.aria-labelledby]="tabButtonId(tab.tabId)"
-      [attr.aria-hidden]="tab.tabId !== activeId()"
-      [hidden]="tab.tabId !== activeId()">
-      <div class="page">
-        @for (row of tab.layout; track row) {
-          <div class="row-grid">
-            @for (col of row.cols ?? []; track col) {
-              <div
-                class="col"
-                [style.gridColumn]="'span ' + (col.span ?? 12)">
-                <block-outlet [block]="col"></block-outlet>
+    @if (isTabRendered(tab.tabId)) {
+      <section
+        class="tab-panel"
+        role="tabpanel"
+        [attr.id]="tabPanelId(tab.tabId)"
+        [attr.aria-labelledby]="tabButtonId(tab.tabId)"
+        [attr.aria-hidden]="tab.tabId !== activeId()"
+        [hidden]="tab.tabId !== activeId()">
+        <div
+          class="tab-panel-body"
+          [class.is-loading]="isTabLoading(tab.tabId)">
+          @if (isTabLoading(tab.tabId)) {
+            <div
+              class="tab-skeleton"
+              aria-hidden="true">
+              <div class="tab-skeleton__line tab-skeleton__line--lg"></div>
+              <div class="tab-skeleton__line tab-skeleton__line--md"></div>
+              <div class="tab-skeleton__line tab-skeleton__line--sm"></div>
+              <div class="tab-skeleton__line tab-skeleton__line--md"></div>
+              <div class="tab-skeleton__line tab-skeleton__line--lg"></div>
+              <div class="tab-skeleton__line tab-skeleton__line--sm"></div>
+            </div>
+          }
+
+          <div class="page">
+            @for (row of tab.layout; track row) {
+              <div class="row-grid">
+                @for (col of row.cols ?? []; track col) {
+                  <div
+                    class="col"
+                    [style.gridColumn]="'span ' + (col.span ?? 12)">
+                    <block-outlet [block]="col"></block-outlet>
+                  </div>
+                }
               </div>
             }
           </div>
-        }
-      </div>
-    </section>
+        </div>
+      </section>
+    }
   }
 </div>
