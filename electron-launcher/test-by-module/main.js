@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeImage } = require('electron');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
@@ -9,6 +9,53 @@ const prefsFileName = 'test-by-module-prefs.json';
 
 let mainWindow = null;
 let activeChild = null;
+let cachedIconPath = null;
+
+function getTestByModuleIconPath() {
+  if (cachedIconPath && fs.existsSync(cachedIconPath)) {
+    return cachedIconPath;
+  }
+
+  const candidates = [path.join(__dirname, 'assets', 'modal-icon.png')];
+
+  if (process.platform === 'darwin') {
+    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.icns'));
+    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'));
+  }
+
+  if (process.platform === 'linux') {
+    candidates.push(path.join(__dirname, '..', 'assets', 'linux', 'avianca-icon.png'));
+    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'));
+  }
+
+  if (process.platform === 'win32') {
+    candidates.push(path.join(__dirname, '..', 'assets', 'windows', 'avianca-icon.png'));
+  }
+
+  for (const candidatePath of candidates) {
+    if (fs.existsSync(candidatePath)) {
+      cachedIconPath = candidatePath;
+      return cachedIconPath;
+    }
+  }
+
+  return null;
+}
+
+function applyAppIcon() {
+  if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
+    return;
+  }
+
+  try {
+    const iconPath = getTestByModuleIconPath();
+    if (iconPath) {
+      app.dock.setIcon(iconPath);
+    }
+  } catch {
+    // Ignore dock icon failures.
+  }
+}
 
 function getPrefsFilePath() {
   return path.join(app.getPath('userData'), prefsFileName);
@@ -96,6 +143,9 @@ function listModules() {
 }
 
 function createWindow() {
+  const iconPath = getTestByModuleIconPath();
+  const windowIcon = iconPath ? nativeImage.createFromPath(iconPath) : null;
+
   mainWindow = new BrowserWindow({
     width: 520,
     height: 360,
@@ -103,12 +153,21 @@ function createWindow() {
     minimizable: false,
     maximizable: false,
     title: 'Test by module',
+    ...(iconPath ? { icon: iconPath } : {}),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
     },
   });
+
+  if (process.platform === 'linux' && windowIcon && !windowIcon.isEmpty() && typeof mainWindow.setIcon === 'function') {
+    try {
+      mainWindow.setIcon(windowIcon);
+    } catch {
+      // Ignore runtime icon failures.
+    }
+  }
 
   mainWindow.setMenuBarVisibility(false);
   mainWindow.loadFile(path.join(__dirname, 'index.html'));
@@ -207,7 +266,10 @@ ipcMain.handle('app:close', async () => {
   return { ok: true };
 });
 
-app.whenReady().then(createWindow);
+app.whenReady().then(() => {
+  applyAppIcon();
+  createWindow();
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
