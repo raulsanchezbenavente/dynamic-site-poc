@@ -1,26 +1,26 @@
-export type CmsTabLayoutCol = {
+export interface CmsTabLayoutCol {
   component?: string;
   span?: number;
-};
+}
 
-export type CmsTabLayoutRow = {
+export interface CmsTabLayoutRow {
   cols?: CmsTabLayoutCol[];
-};
+}
 
-export type CmsTabLayout = {
+export interface CmsTabLayout {
   rows?: CmsTabLayoutRow[];
-};
+}
 
-export type CmsTabContract = {
+export interface CmsTabContract {
   tabId?: string;
   name?: string;
   title?: string;
   secondaryText?: string;
   layout?: CmsTabLayout | CmsTabLayoutRow[];
   pageId?: string;
-};
+}
 
-export type CmsTabsBlockConfig = {
+export interface CmsTabsBlockConfig {
   tabsId?: string;
   tabs?: CmsTabContract[];
-};
+}
