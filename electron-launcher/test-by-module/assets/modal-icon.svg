@@ -5,13 +5,15 @@
       <stop offset="100%" stop-color="#1b4f9d"/>
     </linearGradient>
   </defs>
-  <rect x="28" y="28" width="456" height="456" rx="92" fill="url(#bg)"/>
-  <rect x="108" y="124" width="296" height="264" rx="34" fill="#eef5ff"/>
-  <rect x="108" y="124" width="296" height="58" rx="34" fill="#cfe0ff"/>
-  <circle cx="146" cy="153" r="10" fill="#5f86c9"/>
-  <circle cx="176" cy="153" r="10" fill="#5f86c9"/>
-  <circle cx="206" cy="153" r="10" fill="#5f86c9"/>
-  <rect x="146" y="222" width="220" height="28" rx="14" fill="#7aa2df"/>
-  <rect x="146" y="270" width="184" height="28" rx="14" fill="#9ab7ea"/>
-  <rect x="286" y="330" width="80" height="34" rx="17" fill="#2f6fde"/>
+  <rect x="44" y="44" width="424" height="424" rx="86" fill="url(#bg)"/>
+  <g transform="translate(256 256) scale(0.92) translate(-256 -256)">
+    <rect x="108" y="124" width="296" height="264" rx="34" fill="#eef5ff"/>
+    <rect x="108" y="124" width="296" height="58" rx="34" fill="#cfe0ff"/>
+    <circle cx="146" cy="153" r="10" fill="#5f86c9"/>
+    <circle cx="176" cy="153" r="10" fill="#5f86c9"/>
+    <circle cx="206" cy="153" r="10" fill="#5f86c9"/>
+    <rect x="146" y="222" width="220" height="28" rx="14" fill="#7aa2df"/>
+    <rect x="146" y="270" width="184" height="28" rx="14" fill="#9ab7ea"/>
+    <rect x="286" y="330" width="80" height="34" rx="17" fill="#2f6fde"/>
+  </g>
 </svg>
