@@ -1,5 +1,7 @@
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
+const { execFileSync } = require('child_process');
 const { app, BrowserWindow } = require('electron');
 
 const rootDir = path.resolve(__dirname, '..');
@@ -9,7 +11,7 @@ const basePngPath = path.join(assetsDir, 'modal-icon.png');
 const macDir = path.join(assetsDir, 'mac');
 const linuxDir = path.join(assetsDir, 'linux');
 const windowsDir = path.join(assetsDir, 'windows');
-const iconsetDir = path.join(macDir, 'modal-icon.iconset');
+const macIcnsPath = path.join(macDir, 'modal-icon.icns');
 
 function ensureDir(dirPath) {
   fs.mkdirSync(dirPath, { recursive: true });
@@ -75,7 +77,7 @@ async function renderSvgImage(svgText) {
   return image;
 }
 
-function buildIconset(baseImage) {
+function buildIconset(baseImage, iconsetDir) {
   const files = [
     ['icon_16x16.png', 16],
     ['icon_16x16@2x.png', 32],
@@ -96,6 +98,18 @@ function buildIconset(baseImage) {
   }
 }
 
+function buildMacIcns(baseImage) {
+  const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'test-by-module-icon-'));
+  const tempIconsetDir = path.join(tempRoot, 'modal-icon.iconset');
+
+  try {
+    buildIconset(baseImage, tempIconsetDir);
+    execFileSync('iconutil', ['-c', 'icns', tempIconsetDir, '-o', macIcnsPath], { stdio: 'ignore' });
+  } finally {
+    fs.rmSync(tempRoot, { recursive: true, force: true });
+  }
+}
+
 async function main() {
   const svg = fs.readFileSync(svgPath, 'utf8');
   const rendered = await renderSvgImage(svg);
@@ -106,7 +120,7 @@ async function main() {
   writePng(baseImage.resize({ width: 512, height: 512, quality: 'best' }), path.join(linuxDir, 'modal-icon.png'));
   writePng(baseImage.resize({ width: 256, height: 256, quality: 'best' }), path.join(windowsDir, 'modal-icon.png'));
 
-  buildIconset(baseImage);
+  buildMacIcns(baseImage);
 
   console.log('Icon PNGs regenerated with Electron renderer.');
 }
