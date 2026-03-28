@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Test by module</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Run Unit Tests by Module</h1>
+      <p class="subtitle">Select a module and run its specs from the terminal.</p>
+
+      <label for="moduleSelect">Module</label>
+      <select id="moduleSelect"></select>
+
+      <label class="check-row">
+        <input id="watchMode" type="checkbox" />
+        Watch mode
+      </label>
+
+      <label class="check-row">
+        <input id="coverageMode" type="checkbox" />
+        Coverage
+      </label>
+
+      <p id="status" class="status" aria-live="polite">Loading modules...</p>
+
+      <div class="actions">
+        <button id="cancelButton" type="button">Cancel</button>
+        <button id="runButton" type="button" class="primary">Run tests</button>
+      </div>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>

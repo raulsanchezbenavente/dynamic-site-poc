@@ -42,6 +42,15 @@ const packageSourceMenu = document.getElementById('packageSourceMenu');
 const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
+const runModuleTestsButton = document.getElementById('runModuleTestsButton');
+const moduleTestsModal = document.getElementById('moduleTestsModal');
+const moduleTestsCloseButton = document.getElementById('moduleTestsCloseButton');
+const moduleTestsCancelButton = document.getElementById('moduleTestsCancelButton');
+const moduleTestsRunButton = document.getElementById('moduleTestsRunButton');
+const moduleTestsSelect = document.getElementById('moduleTestsSelect');
+const moduleTestsWatch = document.getElementById('moduleTestsWatch');
+const moduleTestsCoverage = document.getElementById('moduleTestsCoverage');
+const moduleTestsStatus = document.getElementById('moduleTestsStatus');
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
@@ -115,6 +124,7 @@ let logTabTooltipPortalEl = null;
 let activeLogTabTooltipTarget = null;
 let launcherToastHideTimer = null;
 let isQuitInProgress = false;
+let moduleTestOptionsCache = [];
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 
@@ -1867,6 +1877,228 @@ async function onPackageSourceChange(mode = 'dev') {
   closePackageSourceMenu();
 }
 
+function setModuleTestsStatus(message, isError = false) {
+  if (!moduleTestsStatus) {
+    return;
+  }
+
+  moduleTestsStatus.textContent = String(message || '').trim();
+  moduleTestsStatus.style.color = isError ? '#9f2323' : '#2b527c';
+}
+
+function setModuleTestsBusy(isBusy, statusMessage = '') {
+  const hasModules = moduleTestOptionsCache.length > 0;
+
+  if (moduleTestsSelect) {
+    moduleTestsSelect.disabled = isBusy || !hasModules;
+  }
+
+  if (moduleTestsWatch) {
+    moduleTestsWatch.disabled = isBusy || !hasModules;
+  }
+
+  if (moduleTestsCoverage) {
+    moduleTestsCoverage.disabled = isBusy || !hasModules;
+  }
+
+  if (moduleTestsCancelButton) {
+    moduleTestsCancelButton.disabled = isBusy;
+  }
+
+  if (moduleTestsCloseButton) {
+    moduleTestsCloseButton.disabled = isBusy;
+  }
+
+  if (moduleTestsRunButton) {
+    moduleTestsRunButton.disabled = isBusy || !hasModules;
+    moduleTestsRunButton.textContent = isBusy ? 'Loading...' : 'Run tests';
+  }
+
+  if (statusMessage) {
+    setModuleTestsStatus(statusMessage, false);
+  }
+}
+
+function closeModuleTestsModal() {
+  if (!moduleTestsModal) {
+    return;
+  }
+
+  moduleTestsModal.hidden = true;
+  document.body.classList.remove('modal-open');
+  runModuleTestsButton?.focus();
+}
+
+function openModuleTestsModal() {
+  if (!moduleTestsModal) {
+    return;
+  }
+
+  moduleTestsModal.hidden = false;
+  document.body.classList.add('modal-open');
+  void refreshModuleTestOptions().then(() => {
+    if (moduleTestsSelect && moduleTestOptionsCache.length > 0) {
+      moduleTestsSelect.focus();
+    }
+  });
+}
+
+function normalizeModuleList(modules) {
+  if (!Array.isArray(modules)) {
+    return [];
+  }
+
+  return modules
+    .map((entry) => String(entry || '').trim())
+    .filter(Boolean)
+    .filter((name) => !name.startsWith('.'))
+    .sort((a, b) => a.localeCompare(b));
+}
+
+function renderModuleTestOptions() {
+  if (!moduleTestsSelect) {
+    return;
+  }
+
+  const selectedBeforeRender = String(moduleTestsSelect.value || '').trim();
+  moduleTestsSelect.replaceChildren();
+
+  for (const moduleName of moduleTestOptionsCache) {
+    const option = document.createElement('option');
+    option.value = moduleName;
+    option.textContent = moduleName;
+    moduleTestsSelect.appendChild(option);
+  }
+
+  if (moduleTestOptionsCache.length === 0) {
+    moduleTestsSelect.disabled = true;
+    if (moduleTestsRunButton) {
+      moduleTestsRunButton.disabled = true;
+    }
+    return;
+  }
+
+  moduleTestsSelect.disabled = false;
+  if (moduleTestsRunButton) {
+    moduleTestsRunButton.disabled = false;
+  }
+
+  const restoreValue = moduleTestOptionsCache.includes(selectedBeforeRender)
+    ? selectedBeforeRender
+    : moduleTestOptionsCache[0];
+  moduleTestsSelect.value = restoreValue;
+}
+
+async function refreshModuleTestOptions() {
+  if (!window.launcherApi?.listTestModules) {
+    setModuleTestsStatus('This launcher build does not support module listing yet.', true);
+    return;
+  }
+
+  setModuleTestsBusy(true, 'Loading modules...');
+
+  try {
+    const result = await window.launcherApi.listTestModules();
+    if (!result?.ok) {
+      moduleTestOptionsCache = [];
+      renderModuleTestOptions();
+      setModuleTestsStatus(result?.error || 'Could not load modules.', true);
+      return;
+    }
+
+    moduleTestOptionsCache = normalizeModuleList(result.modules);
+    renderModuleTestOptions();
+
+    if (moduleTestOptionsCache.length === 0) {
+      setModuleTestsStatus('No modules were found in src/app/modules.', true);
+      return;
+    }
+
+    setModuleTestsStatus(`${moduleTestOptionsCache.length} modules available.`);
+  } catch (error) {
+    moduleTestOptionsCache = [];
+    renderModuleTestOptions();
+    setModuleTestsStatus(error?.message || String(error), true);
+  } finally {
+    setModuleTestsBusy(false);
+  }
+}
+
+function buildModuleTestCommand(moduleName, options = {}) {
+  const normalizedModule = String(moduleName || '').trim();
+  if (!normalizedModule) {
+    return '';
+  }
+
+  if (!/^[a-z0-9._-]+$/i.test(normalizedModule)) {
+    return '';
+  }
+
+  const watch = Boolean(options.watch);
+  const coverage = Boolean(options.coverage);
+  const includeGlob = `src/app/modules/${normalizedModule}/**/*.spec.ts`;
+  const args = [
+    'npm run ng -- test',
+    `--include="${includeGlob}"`,
+    watch ? '--watch=true' : '--watch=false',
+  ];
+
+  if (!watch) {
+    args.push('--browsers=ChromeHeadless');
+  }
+
+  if (coverage) {
+    args.push('--code-coverage=true');
+  }
+
+  return args.join(' ');
+}
+
+function activateTerminalSession(sessionId) {
+  if (!sessionId || !terminalSessions.has(sessionId)) {
+    return;
+  }
+
+  activeTerminalSessionId = sessionId;
+  activeLogTab = `${TERMINAL_TAB_PREFIX}${sessionId}`;
+  renderLogTabs();
+  renderLogs();
+}
+
+async function runSelectedModuleTests() {
+  const selectedModule = String(moduleTestsSelect?.value || '').trim();
+  if (!selectedModule) {
+    setModuleTestsStatus('Choose a module first.', true);
+    return;
+  }
+
+  const command = buildModuleTestCommand(selectedModule, {
+    watch: Boolean(moduleTestsWatch?.checked),
+    coverage: Boolean(moduleTestsCoverage?.checked),
+  });
+
+  if (!command) {
+    setModuleTestsStatus('Module name is not valid.', true);
+    return;
+  }
+
+  let session = getActiveTerminalSession();
+  if (!session) {
+    session = await createNewTerminalSession();
+  }
+
+  if (!session) {
+    setModuleTestsStatus('Could not create a terminal session.', true);
+    return;
+  }
+
+  activateTerminalSession(session.id);
+  closeModuleTestsModal();
+
+  showLauncherToast(`Running tests for module ${selectedModule}`);
+  void runInteractiveTerminalCommand(command);
+}
+
 function openPackageSourceMenu() {
   if (!packageSourceMenu || !packageSourceTrigger) {
     return;
@@ -2935,6 +3167,18 @@ clearLogsButton.addEventListener('click', clearLogs);
 exportLogsButton?.addEventListener('click', () => {
   void exportActiveLogs();
 });
+runModuleTestsButton?.addEventListener('click', () => {
+  openModuleTestsModal();
+});
+moduleTestsCloseButton?.addEventListener('click', () => {
+  closeModuleTestsModal();
+});
+moduleTestsCancelButton?.addEventListener('click', () => {
+  closeModuleTestsModal();
+});
+moduleTestsRunButton?.addEventListener('click', () => {
+  void runSelectedModuleTests();
+});
 interruptTerminalButton.addEventListener('click', () => {
   interruptActiveTerminalSession();
 });
@@ -3035,6 +3279,11 @@ for (const option of packageSourceOptions) {
 document.addEventListener('click', (event) => {
   const target = event.target;
   if (!(target instanceof Node)) {
+    return;
+  }
+
+  if (moduleTestsModal && !moduleTestsModal.hidden && target === moduleTestsModal) {
+    closeModuleTestsModal();
     return;
   }
 
@@ -3194,6 +3443,7 @@ document.addEventListener('keydown', (event) => {
   }
 
   if (event.key === 'Escape') {
+    closeModuleTestsModal();
     closeThemeMenu();
     closeTerminalTypeMenu();
     closeTerminalFontMenu();
@@ -3230,6 +3480,18 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 
 async function init() {
   const savedActiveLogTab = readSavedActiveLogTab();
+
+  if (moduleTestsStatus) {
+    setModuleTestsStatus('Choose a module to run tests.');
+  }
+
+  if (moduleTestsWatch) {
+    moduleTestsWatch.checked = false;
+  }
+
+  if (moduleTestsCoverage) {
+    moduleTestsCoverage.checked = false;
+  }
 
   ensureDefaultFilterStateStorage();
   ensureDefaultFavoritesStorage();

@@ -1781,6 +1781,35 @@ ipcMain.handle('package-source:set', async (_event, payload) => {
   return getPackageSourceStatus();
 });
 
+ipcMain.handle('modules:list', async () => {
+  try {
+    const { projectRoot } = getProjectContext();
+    const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
+
+    if (!fs.existsSync(modulesRoot)) {
+      return {
+        ok: false,
+        modules: [],
+        error: `Modules directory was not found at ${modulesRoot}`,
+      };
+    }
+
+    const modules = fs
+      .readdirSync(modulesRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+      .map((entry) => entry.name)
+      .sort((a, b) => a.localeCompare(b));
+
+    return { ok: true, modules };
+  } catch (error) {
+    return {
+      ok: false,
+      modules: [],
+      error: error?.message || 'Could not list modules',
+    };
+  }
+});
+
 ipcMain.handle('scripts:start', async (_event, scriptName) => {
   if (runningScripts.has(scriptName)) {
     return { ok: false, error: `Script ${scriptName} is already running.` };
