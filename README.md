@@ -522,7 +522,7 @@ The double-click installers at the repo root handle everything:
 ## 🧰 How it Works
 
 1. JSON files in `assets/config-site/` define the site's structure, routing, and tabs per language. Page IDs are consistent across languages to enable language-aware navigation.
-2. Tabs now use the same layout contract as pages: each tab declares `layout.rows[].cols[]`, so nested tab content supports the same `span` behavior as normal page composition.
+2. Tabs use the same layout contract as pages and are declared under the tabs block config (`config.tabsId` / `config.tabs`): each tab declares `layout.rows[].cols[]`, so nested tab content supports the same `span` behavior as normal page composition.
 3. `RouterInitService` (invoked by `AppComponent`) builds routes from config and uses route-level lazy loading (`loadComponent`).
 4. `route-assets-preload.guard.ts` preloads required dynamic blocks before route activation to avoid flicker.
 5. `DynamicPageComponent` renders page rows/cols dynamically via `block-outlet`, and each block resolves from `component-map.ts` using lazy imports with cache.
@@ -679,9 +679,13 @@ Without these two fields, aggregated completion can be wrong (premature completi
 
 ## 🧩 Tabs Contract
 
+- Tabs block data lives under `config` (`config.tabsId`, `config.tabs`).
 - Tab content is defined strictly with `layout.rows[].cols[]`.
 - The previous `tab.components` shape is no longer supported.
+- The previous root-level `tabsId` / `tabs` fields (outside `config`) are no longer supported.
 - Each tab column supports the same `span` semantics as page layout columns.
+- Tabs contract models are defined as interfaces (`CmsTabsBlockConfig`, `CmsTabContract`, `CmsTabLayout`, `CmsTabLayoutRow`, `CmsTabLayoutCol`).
+- `CmsTabLayoutCol` is intentionally closed (`component`, `span`). Runtime tracking metadata is injected internally by dynamic-page readiness and is not part of the CMS contract.
 
 Example:
 
@@ -689,25 +693,28 @@ Example:
 {
   "component": "tabs",
   "span": 12,
-  "tabs": [
-    {
-      "tabId": "22",
-      "name": "Personal data",
-      "title": "Personal data",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "accountProfile_uiplus",
-                "span": 12
-              }
-            ]
-          }
-        ]
+  "config": {
+    "tabsId": "111",
+    "tabs": [
+      {
+        "tabId": "22",
+        "name": "Personal data",
+        "title": "Personal data",
+        "layout": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "accountProfile_uiplus",
+                  "span": 12
+                }
+              ]
+            }
+          ]
+        }
       }
-    }
-  ]
+    ]
+  }
 }
 ```
 
