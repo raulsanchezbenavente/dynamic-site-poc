@@ -76,8 +76,10 @@ describe('SiteConfigService', () => {
               {
                 cols: [
                   {
-                    tabsId: 'booking',
-                    tabs: [{ name: 'details', title: 'Details', tabId: '2' }],
+                    config: {
+                      tabsId: 'booking',
+                      tabs: [{ name: 'details', title: 'Details', tabId: '2' }],
+                    },
                   },
                 ],
               },

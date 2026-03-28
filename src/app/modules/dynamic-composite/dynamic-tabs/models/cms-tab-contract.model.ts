@@ -20,3 +20,8 @@ export type CmsTabContract = {
   layout?: CmsTabLayout | CmsTabLayoutRow[];
   pageId?: string;
 };
+
+export type CmsTabsBlockConfig = {
+  tabsId?: string;
+  tabs?: CmsTabContract[];
+};

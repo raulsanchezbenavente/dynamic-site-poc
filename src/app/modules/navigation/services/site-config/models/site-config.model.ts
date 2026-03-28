@@ -29,9 +29,10 @@ export interface SiteTab {
 export interface SiteLayoutCol {
   component?: string;
   span?: number;
-  tabsId?: string | number;
-  tabs?: SiteTab[];
-  config?: SiteBlockConfig;
+  config?: SiteBlockConfig & {
+    tabsId?: string | number;
+    tabs?: SiteTab[];
+  };
   // [key: string]: unknown;
 }
 

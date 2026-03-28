@@ -140,7 +140,7 @@ export class RouterInitService {
   private buildTabNamesById(page: SitePage): Record<string, string> {
     return this.getLayoutRows(page.layout)
       .flatMap((row) => row.cols ?? [])
-      .flatMap((col) => col.tabs ?? [])
+      .flatMap((col) => col.config?.tabs ?? [])
       .reduce((accumulator: Record<string, string>, tab: SiteTab) => {
         if (tab.pageId) {
           accumulator[tab.pageId] = tab.name ?? '';

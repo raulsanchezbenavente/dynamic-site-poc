@@ -24,7 +24,7 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
-import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow } from './models/cms-tab-contract.model';
+import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow, CmsTabsBlockConfig } from './models/cms-tab-contract.model';
 
 type ViewTab = CmsTabContract & {
   tabId: string;
@@ -59,8 +59,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly MIN_SKELETON_VISIBLE_MS = 1000;
   private static readonly TAB_REVEAL_DELAY_MS = 80;
 
-  public tabsId = input<string | null | undefined>(undefined);
-  public tabs = input<CmsTabContract[] | null | undefined>(undefined);
+  public config = input<CmsTabsBlockConfig | null | undefined>(undefined);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
@@ -94,7 +93,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
-    const raw = this.tabs();
+    const raw = this.config()?.tabs;
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
@@ -202,9 +201,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
       const currentActiveTabId = this.activeId();
+      const tabsId = this.getTabsId();
 
-      if (this.tabsId()) {
-        const overrides = this.siteConfig.getTabNamesByTabsId(this.tabsId()!, lang);
+      if (tabsId) {
+        const overrides = this.siteConfig.getTabNamesByTabsId(tabsId, lang);
         this.tabsOverride.set(overrides);
 
         const tabName: string | undefined = overrides.find(
@@ -253,10 +253,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     if (!tabs.length) return;
     let tab = tabs.find((t) => t.name === qpTab);
 
-    if (!tab && qpTab && this.tabsId()) {
+    const tabsId = this.getTabsId();
+    if (!tab && qpTab && tabsId) {
       const normalizedTabName = qpTab.trim().toLowerCase();
       const matchedTabSummary = this.siteConfig
-        .getTabNamesByTabsId(this.tabsId()!)
+        .getTabNamesByTabsId(tabsId)
         .find((summary) => summary.name.trim().toLowerCase() === normalizedTabName);
 
       if (matchedTabSummary?.tabId) {
@@ -300,8 +301,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.syncActiveTabName(tab.name, options.historyMode);
     this.setPageTitle(tab);
 
-    if (this.tabsId()) {
-      this.routerHelper.setCurrentTabId(this.tabsId()!, tabId);
+    const tabsId = this.getTabsId();
+    if (tabsId) {
+      this.routerHelper.setCurrentTabId(tabsId, tabId);
     }
 
     if (!options.emitEvent) {
@@ -320,6 +322,11 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     const nextTitle = (tab.title ?? tab.name ?? '').trim();
     if (!nextTitle) return;
     this.title.setTitle(nextTitle);
+  }
+
+  private getTabsId(): string | undefined {
+    const tabsId = String(this.config()?.tabsId ?? '').trim();
+    return tabsId || undefined;
   }
 
   public trackById(_: number, tab: { tabId: string }): string {

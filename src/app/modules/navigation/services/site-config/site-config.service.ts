@@ -5,13 +5,13 @@ import { map, tap } from 'rxjs/operators';
 
 import { AppLang } from './models/langs.model';
 import {
-  SiteBlockConfig,
-  SiteConfigResponse,
-  SiteLayoutCol,
-  SiteLayoutRow,
-  SitePage,
-  SiteTab,
-  SiteTabSummary,
+    SiteBlockConfig,
+    SiteConfigResponse,
+    SiteLayoutCol,
+    SiteLayoutRow,
+    SitePage,
+    SiteTab,
+    SiteTabSummary,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
@@ -169,8 +169,9 @@ export class SiteConfigService {
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
-        if (String(col?.tabsId ?? '') !== tabsIdStr) continue;
-        const tabs = Array.isArray(col?.tabs) ? col.tabs : [];
+        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: SiteTab[] } | null;
+        if (String(tabsConfig?.tabsId ?? '') !== tabsIdStr) continue;
+        const tabs = Array.isArray(tabsConfig?.tabs) ? tabsConfig.tabs : [];
         tabs.forEach((tab: SiteTab) => {
           const name = tab?.name ? String(tab.name) : '';
           if (!name) return;
