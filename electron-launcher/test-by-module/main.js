@@ -16,7 +16,23 @@ function getTestByModuleIconPath() {
     return cachedIconPath;
   }
 
-  const candidates = [path.join(__dirname, 'assets', 'modal-icon.png')];
+  const candidates = [];
+
+  if (process.platform === 'darwin') {
+    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.icns'));
+    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.png'));
+  }
+
+  if (process.platform === 'linux') {
+    candidates.push(path.join(__dirname, 'assets', 'linux', 'modal-icon.png'));
+    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.png'));
+  }
+
+  if (process.platform === 'win32') {
+    candidates.push(path.join(__dirname, 'assets', 'windows', 'modal-icon.png'));
+  }
+
+  candidates.push(path.join(__dirname, 'assets', 'modal-icon.png'));
 
   if (process.platform === 'darwin') {
     candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.icns'));
@@ -47,13 +63,29 @@ function applyAppIcon() {
     return;
   }
 
-  try {
-    const iconPath = getTestByModuleIconPath();
-    if (iconPath) {
+  const iconCandidates = [
+    path.join(__dirname, 'assets', 'mac', 'modal-icon.png'),
+    path.join(__dirname, 'assets', 'mac', 'modal-icon.icns'),
+    path.join(__dirname, 'assets', 'modal-icon.png'),
+    path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'),
+    path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.icns'),
+  ].filter((candidatePath) => fs.existsSync(candidatePath));
+
+  for (const iconPath of iconCandidates) {
+    try {
+      if (path.extname(iconPath).toLowerCase() === '.png') {
+        const runtimeIcon = nativeImage.createFromPath(iconPath);
+        if (!runtimeIcon.isEmpty()) {
+          app.dock.setIcon(runtimeIcon);
+          return;
+        }
+      }
+
       app.dock.setIcon(iconPath);
+      return;
+    } catch {
+      // Try the next available icon candidate.
     }
-  } catch {
-    // Ignore dock icon failures.
   }
 }
 
@@ -269,6 +301,7 @@ ipcMain.handle('app:close', async () => {
 app.whenReady().then(() => {
   applyAppIcon();
   createWindow();
+  applyAppIcon();
 });
 
 app.on('window-all-closed', () => {
