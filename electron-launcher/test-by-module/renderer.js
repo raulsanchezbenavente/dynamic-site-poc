@@ -4,6 +4,38 @@ const coverageMode = document.getElementById('coverageMode');
 const statusEl = document.getElementById('status');
 const runButton = document.getElementById('runButton');
 const cancelButton = document.getElementById('cancelButton');
+const SELECTION_STORAGE_KEY = 'test-by-module.selection.v1';
+
+function readSavedSelection() {
+  try {
+    const raw = window.localStorage.getItem(SELECTION_STORAGE_KEY);
+    if (!raw) {
+      return { moduleName: '', watch: false, coverage: false };
+    }
+
+    const parsed = JSON.parse(raw);
+    return {
+      moduleName: String(parsed?.moduleName || '').trim(),
+      watch: Boolean(parsed?.watch),
+      coverage: Boolean(parsed?.coverage),
+    };
+  } catch {
+    return { moduleName: '', watch: false, coverage: false };
+  }
+}
+
+function saveSelection() {
+  try {
+    const payload = {
+      moduleName: String(moduleSelect.value || '').trim(),
+      watch: Boolean(watchMode.checked),
+      coverage: Boolean(coverageMode.checked),
+    };
+    window.localStorage.setItem(SELECTION_STORAGE_KEY, JSON.stringify(payload));
+  } catch {
+    // Ignore storage write failures.
+  }
+}
 
 function setStatus(message, isError = false) {
   statusEl.textContent = String(message || '').trim();
@@ -20,6 +52,7 @@ function setBusy(isBusy) {
 }
 
 function renderModules(modules) {
+  const saved = readSavedSelection();
   moduleSelect.replaceChildren();
 
   for (const name of modules) {
@@ -27,6 +60,10 @@ function renderModules(modules) {
     option.value = name;
     option.textContent = name;
     moduleSelect.appendChild(option);
+  }
+
+  if (modules.length > 0) {
+    moduleSelect.value = modules.includes(saved.moduleName) ? saved.moduleName : modules[0];
   }
 
   runButton.disabled = modules.length === 0;
@@ -68,6 +105,7 @@ async function runTests() {
 
   setBusy(true);
   setStatus(`Starting tests for ${moduleName}...`);
+  saveSelection();
 
   try {
     const result = await window.testByModuleApi.runTests({
@@ -93,6 +131,18 @@ runButton.addEventListener('click', () => {
   void runTests();
 });
 
+moduleSelect.addEventListener('change', () => {
+  saveSelection();
+});
+
+watchMode.addEventListener('change', () => {
+  saveSelection();
+});
+
+coverageMode.addEventListener('change', () => {
+  saveSelection();
+});
+
 cancelButton.addEventListener('click', () => {
   void window.testByModuleApi.closeApp();
 });
@@ -109,5 +159,9 @@ document.addEventListener('keydown', (event) => {
     void runTests();
   }
 });
+
+const initialSelection = readSavedSelection();
+watchMode.checked = initialSelection.watch;
+coverageMode.checked = initialSelection.coverage;
 
 void loadModules();

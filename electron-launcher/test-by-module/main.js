@@ -9,6 +9,39 @@ const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
 let mainWindow = null;
 let activeChild = null;
 
+function moduleHasSpecFiles(moduleDir) {
+  const pending = [moduleDir];
+
+  while (pending.length > 0) {
+    const currentDir = pending.pop();
+    let entries = [];
+
+    try {
+      entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) {
+        continue;
+      }
+
+      const absolutePath = path.join(currentDir, entry.name);
+      if (entry.isDirectory()) {
+        pending.push(absolutePath);
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.spec.ts')) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 function listModules() {
   if (!fs.existsSync(modulesRoot)) {
     return [];
@@ -17,6 +50,7 @@ function listModules() {
   return fs
     .readdirSync(modulesRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+    .filter((entry) => moduleHasSpecFiles(path.join(modulesRoot, entry.name)))
     .map((entry) => entry.name)
     .sort((a, b) => a.localeCompare(b));
 }
@@ -49,7 +83,7 @@ ipcMain.handle('modules:list', async () => {
     return {
       ok: false,
       modules: [],
-      error: `No modules found in ${modulesRoot}`,
+      error: `No modules with .spec.ts files were found in ${modulesRoot}`,
     };
   }
 

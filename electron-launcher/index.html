@@ -119,14 +119,6 @@
           <div class="scripts-title-group">
             <h2>Scripts</h2>
             <button
-              id="runModuleTestsButton"
-              class="module-tests-button"
-              type="button"
-              data-tooltip="Run module tests"
-              aria-label="Run module tests">
-              Module tests
-            </button>
-            <button
               id="refreshButton"
               class="refresh-icon-button"
               type="button"
@@ -668,72 +660,6 @@
         </div>
       </section>
     </main>
-
-    <div
-      id="moduleTestsModal"
-      class="modal-shell"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="moduleTestsTitle"
-      hidden>
-      <div class="modal-card">
-        <div class="modal-head">
-          <h3 id="moduleTestsTitle">Run Module Unit Tests</h3>
-          <button
-            id="moduleTestsCloseButton"
-            class="modal-close-button"
-            type="button"
-            aria-label="Close module tests dialog">
-            x
-          </button>
-        </div>
-
-        <p class="modal-subtitle">Choose a module and run tests in the integrated terminal.</p>
-
-        <label
-          class="modal-label"
-          for="moduleTestsSelect"
-          >Module</label
-        >
-        <select
-          id="moduleTestsSelect"
-          class="modal-select"></select>
-
-        <label class="modal-checkbox">
-          <input
-            id="moduleTestsWatch"
-            type="checkbox" />
-          Watch mode
-        </label>
-
-        <label class="modal-checkbox">
-          <input
-            id="moduleTestsCoverage"
-            type="checkbox" />
-          Coverage
-        </label>
-
-        <p
-          id="moduleTestsStatus"
-          class="modal-status"
-          aria-live="polite"></p>
-
-        <div class="modal-actions">
-          <button
-            id="moduleTestsCancelButton"
-            class="modal-cancel-button"
-            type="button">
-            Cancel
-          </button>
-          <button
-            id="moduleTestsRunButton"
-            class="modal-run-button"
-            type="button">
-            Run tests
-          </button>
-        </div>
-      </div>
-    </div>
 
     <div
       id="launcherToast"
