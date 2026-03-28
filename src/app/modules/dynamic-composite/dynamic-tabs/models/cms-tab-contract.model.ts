@@ -1,7 +1,6 @@
 export type CmsTabLayoutCol = {
   component?: string;
   span?: number;
-  [key: string]: unknown;
 };
 
 export type CmsTabLayoutRow = {

@@ -1,4 +1,8 @@
 export interface SiteBlockConfig {
+  // Open CMS contract: each block component defines and validates its own
+  // config interface at the component boundary.
+  // Example: tabs uses its own config model (tabsId/tabs inside config),
+  // while other blocks (loyalty, main-header, rte, etc.) use their own.
   [key: string]: unknown;
 }
 
@@ -23,27 +27,20 @@ export interface SiteTab {
   title?: string;
   secondaryText?: string;
   layout?: SiteLayout | SiteLayoutRow[];
-  // [key: string]: unknown;
 }
 
 export interface SiteLayoutCol {
   component?: string;
   span?: number;
-  config?: SiteBlockConfig & {
-    tabsId?: string | number;
-    tabs?: SiteTab[];
-  };
-  // [key: string]: unknown;
+  config?: SiteBlockConfig;
 }
 
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
-  // [key: string]: unknown;
 }
 
 export interface SiteLayout {
   rows?: SiteLayoutRow[];
-  // [key: string]: unknown;
 }
 
 export interface SitePage {
@@ -52,7 +49,6 @@ export interface SitePage {
   name?: string;
   layout?: SiteLayout | SiteLayoutRow[];
   seo?: SiteSeoConfig;
-  // [key: string]: unknown;
 }
 
 export interface SiteConfigResponse {

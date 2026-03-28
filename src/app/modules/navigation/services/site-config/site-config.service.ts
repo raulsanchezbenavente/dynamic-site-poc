@@ -5,13 +5,13 @@ import { map, tap } from 'rxjs/operators';
 
 import { AppLang } from './models/langs.model';
 import {
-    SiteBlockConfig,
-    SiteConfigResponse,
-    SiteLayoutCol,
-    SiteLayoutRow,
-    SitePage,
-    SiteTab,
-    SiteTabSummary,
+  SiteBlockConfig,
+  SiteConfigResponse,
+  SiteLayoutCol,
+  SiteLayoutRow,
+  SitePage,
+  SiteTab,
+  SiteTabSummary,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })

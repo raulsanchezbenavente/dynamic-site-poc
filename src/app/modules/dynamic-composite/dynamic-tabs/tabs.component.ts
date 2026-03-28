@@ -1,21 +1,21 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    model,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    signal,
-    ViewChild,
-    ViewChildren,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  model,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -24,7 +24,13 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
-import { CmsTabContract, CmsTabLayout, CmsTabLayoutRow, CmsTabsBlockConfig } from './models/cms-tab-contract.model';
+import {
+  CmsTabContract,
+  CmsTabLayout,
+  CmsTabLayoutCol,
+  CmsTabLayoutRow,
+  CmsTabsBlockConfig,
+} from './models/cms-tab-contract.model';
 
 type ViewTab = CmsTabContract & {
   tabId: string;
@@ -46,6 +52,12 @@ type TrackedTabComponent = {
   componentId: string;
   component: string;
 };
+
+type TrackedTabLayoutCol = {
+  __dynamicPageBatchId?: string;
+  __dynamicPageComponentId?: string;
+  __dynamicPageComponentName?: string;
+} & CmsTabLayoutCol;
 
 @Component({
   selector: 'tabs',
@@ -477,7 +489,9 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.expectedComponentsByTab = nextExpected;
     this.readyComponentIdsByTab = nextReady;
-    this.deferredComponentIds = new Set(Array.from(this.deferredComponentIds).filter((id) => nextAllExpectedIds.has(id)));
+    this.deferredComponentIds = new Set(
+      Array.from(this.deferredComponentIds).filter((id) => nextAllExpectedIds.has(id))
+    );
 
     const validTabIds = new Set(tabs.map((tab) => tab.tabId));
     this.pruneSkeletonState(validTabIds);
@@ -516,9 +530,10 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
 
     for (const row of rows) {
       for (const col of row?.cols ?? []) {
-        const batchId = String(col?.['__dynamicPageBatchId'] ?? '').trim();
-        const componentId = String(col?.['__dynamicPageComponentId'] ?? '').trim();
-        const component = String(col?.['__dynamicPageComponentName'] ?? col?.component ?? '').trim();
+        const trackedCol = col as TrackedTabLayoutCol;
+        const batchId = String(trackedCol.__dynamicPageBatchId ?? '').trim();
+        const componentId = String(trackedCol.__dynamicPageComponentId ?? '').trim();
+        const component = String(trackedCol.__dynamicPageComponentName ?? trackedCol.component ?? '').trim();
 
         if (batchId && componentId && component) {
           components.push({ batchId, componentId, component });
