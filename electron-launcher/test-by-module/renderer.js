@@ -154,14 +154,21 @@ document.addEventListener('keydown', (event) => {
     return;
   }
 
-  if ((event.ctrlKey || event.metaKey) && event.key === 'Enter') {
+  if (event.key === 'Enter') {
     event.preventDefault();
+    if (document.activeElement === cancelButton) {
+      void window.testByModuleApi.closeApp();
+      return;
+    }
+
     void runTests();
   }
 });
 
-const initialSelection = readSavedSelection();
-watchMode.checked = initialSelection.watch;
-coverageMode.checked = initialSelection.coverage;
+setTimeout(() => {
+  const initialSelection = readSavedSelection();
+  watchMode.checked = initialSelection.watch;
+  coverageMode.checked = initialSelection.coverage;
+}, 100);
 
 void loadModules();
