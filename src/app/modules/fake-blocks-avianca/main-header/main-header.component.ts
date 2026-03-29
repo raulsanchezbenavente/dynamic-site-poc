@@ -25,6 +25,7 @@ import {
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
+import { SessionApiService } from '../account-profile/services/session-api.service';
 import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
 
 import { MainHeaderConfig } from './models/main-header-config.model';
@@ -49,13 +50,18 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
   private readonly http = inject(HttpClient);
   private readonly translate = inject(TranslateService);
   private readonly loyaltyToneSvc = inject(LoyaltyToneService);
+  private readonly sessionApi = inject(SessionApiService);
   private readonly destroy$ = new Subject<void>();
   private readonly headerTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
+  private readonly sessionUserName = signal('');
+  private readonly sessionUserMiles = signal('');
 
   public config = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
+  public displayUserName = computed(() => this.sessionUserName() || this.userName());
+  public displayUserMiles = computed(() => this.sessionUserMiles() || this.userMiles());
   public headerAccentColor = computed(() => this.getToneColor(this.headerTone()));
 
   public marketOpen = signal(false);
@@ -179,6 +185,8 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
         this.markMenuItemAsActive(tabName);
       }
     });
+
+    void this.loadSessionData();
   }
 
   constructor() {
@@ -523,6 +531,19 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
       fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
       state,
     });
+  }
+
+  private async loadSessionData(): Promise<void> {
+    const data = await this.sessionApi.getSessionData();
+    if (!data) {
+      return;
+    }
+
+    const fullName = this.sessionApi.formatPersonName([data.firstName, data.middleName, data.lastName]);
+    const milesAmount = Number(data.balance?.lifemiles?.amount || 0);
+
+    this.sessionUserName.set(fullName);
+    this.sessionUserMiles.set(new Intl.NumberFormat('es-CO').format(milesAmount));
   }
 
   private getToneColor(tone: LoyaltyTone | null): string {
