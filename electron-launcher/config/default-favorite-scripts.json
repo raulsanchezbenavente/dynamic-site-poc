@@ -2,7 +2,7 @@
   "defaultTerminalTheme": "dark",
   "defaultFavoriteScripts": [
     "start:serve-proxy",
-    "start:serve-proxy-bypass",
+    "start:serve-proxy-sso-bypass",
     "build",
     "start:backend",
     "test",
