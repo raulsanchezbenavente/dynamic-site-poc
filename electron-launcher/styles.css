@@ -1182,7 +1182,7 @@ body:has(.layout.terminal-fullscreen) .layout {
 .script-command {
   color: var(--muted);
   font-size: 0.9rem;
-  word-break: break-word;
+  word-break: break-all;
 }
 .script-bottom {
   display: flex;
