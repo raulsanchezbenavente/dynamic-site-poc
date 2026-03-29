@@ -2908,8 +2908,51 @@ function renderScripts() {
     const split = splitCommandByFirstLine(script.command, firstLine);
     firstLine.textContent = split.firstLine;
     restCommand.textContent = split.rest;
-    secondRow.classList.toggle('has-rest', Boolean(split.rest));
+    const hasRest = Boolean(split.rest);
+    secondRow.classList.toggle('has-rest', hasRest);
+
+    const canInlineWithButtons =
+      !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
+    bottom.classList.toggle('single-line-inline', canInlineWithButtons);
   }
+}
+
+function canPlaceActionsBesideFirstLine(commandText, referenceElement, actionsElement, containerElement) {
+  if (!referenceElement || !actionsElement || !containerElement) {
+    return false;
+  }
+
+  const availableWidth = Math.floor(containerElement.clientWidth || containerElement.getBoundingClientRect().width || 0);
+  if (availableWidth <= 0) {
+    return false;
+  }
+
+  const actionsWidth = Math.ceil(actionsElement.getBoundingClientRect().width || 0);
+  if (actionsWidth <= 0) {
+    return false;
+  }
+
+  const styles = window.getComputedStyle(referenceElement);
+  const measurer = document.createElement('span');
+  measurer.className = 'script-command script-command-measure';
+  measurer.style.position = 'absolute';
+  measurer.style.visibility = 'hidden';
+  measurer.style.pointerEvents = 'none';
+  measurer.style.zIndex = '-1';
+  measurer.style.whiteSpace = 'nowrap';
+  measurer.style.font = styles.font;
+  measurer.style.fontSize = styles.fontSize;
+  measurer.style.fontWeight = styles.fontWeight;
+  measurer.style.fontFamily = styles.fontFamily;
+  measurer.style.letterSpacing = styles.letterSpacing;
+  measurer.textContent = String(commandText || '');
+
+  document.body.appendChild(measurer);
+  const commandWidth = Math.ceil(measurer.getBoundingClientRect().width || 0);
+  document.body.removeChild(measurer);
+
+  const gapWidth = 12;
+  return commandWidth + actionsWidth + gapWidth <= availableWidth;
 }
 
 function splitCommandByFirstLine(text, referenceElement) {
