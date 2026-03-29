@@ -1478,6 +1478,14 @@ function normalizeDefaultTerminalTheme(value) {
   return value.trim().toLowerCase();
 }
 
+function normalizeDefaultFilterMode(value) {
+  const normalized = String(value || '')
+    .trim()
+    .toLowerCase();
+
+  return normalized === 'and' ? 'and' : 'or';
+}
+
 function readLauncherDefaultsConfig() {
   try {
     const raw = fs.readFileSync(DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH, 'utf8');
@@ -1486,11 +1494,13 @@ function readLauncherDefaultsConfig() {
     return {
       defaultFavoriteScripts: normalizeFavoriteScripts(parsed?.defaultFavoriteScripts),
       defaultTerminalTheme: normalizeDefaultTerminalTheme(parsed?.defaultTerminalTheme),
+      defaultFilterMode: normalizeDefaultFilterMode(parsed?.defaultFilterMode),
     };
   } catch {
     return {
       defaultFavoriteScripts: [],
       defaultTerminalTheme: '',
+      defaultFilterMode: 'or',
     };
   }
 }
@@ -1501,6 +1511,10 @@ function readDefaultFavoriteScripts() {
 
 function readDefaultTerminalTheme() {
   return readLauncherDefaultsConfig().defaultTerminalTheme;
+}
+
+function readDefaultFilterMode() {
+  return readLauncherDefaultsConfig().defaultFilterMode;
 }
 
 function broadcast(channel, payload) {
@@ -1782,6 +1796,10 @@ ipcMain.handle('scripts:default-favorites', async () => {
 
 ipcMain.handle('theme:default', async () => {
   return readDefaultTerminalTheme();
+});
+
+ipcMain.handle('filters:default-mode', async () => {
+  return readDefaultFilterMode();
 });
 
 ipcMain.handle('package-source:get', async () => {

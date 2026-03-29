@@ -42,10 +42,11 @@ const packageSourceMenu = document.getElementById('packageSourceMenu');
 const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
+const filterModeToggleButton = document.getElementById('filterModeToggleButton');
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
-const DEFAULT_FILTER_STATE = { running: false, favorites: true };
+const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'or' };
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
@@ -89,6 +90,8 @@ let scriptsState = [];
 let activeLogTab = 'all';
 const logsByScript = new Map([['all', []]]);
 let favoriteScripts = new Set();
+let filterMode = 'or';
+let defaultFilterMode = DEFAULT_FILTER_STATE.mode;
 
 let packageSourceState = null;
 const urlPattern = /https?:\/\/[^\s<>"]+/gi;
@@ -1930,16 +1933,18 @@ function readSavedFilters() {
   try {
     const raw = window.localStorage.getItem(FILTER_STATE_STORAGE_KEY);
     if (!raw) {
-      return { running: false, favorites: false };
+      return { ...DEFAULT_FILTER_STATE, mode: defaultFilterMode };
     }
 
     const parsed = JSON.parse(raw);
+    const parsedMode = String(parsed?.mode || '').trim().toLowerCase();
     return {
       running: Boolean(parsed?.running),
       favorites: Boolean(parsed?.favorites),
+      mode: parsedMode === 'and' ? 'and' : 'or',
     };
   } catch {
-    return { running: false, favorites: false };
+    return { ...DEFAULT_FILTER_STATE, mode: defaultFilterMode };
   }
 }
 
@@ -1947,9 +1952,26 @@ function saveFilters() {
   const payload = {
     running: Boolean(filterRunningCheckbox?.checked),
     favorites: Boolean(filterFavoritesCheckbox?.checked),
+    mode: filterMode,
   };
 
   window.localStorage.setItem(FILTER_STATE_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function applyFilterMode(nextMode) {
+  filterMode = nextMode === 'and' ? 'and' : 'or';
+
+  if (filterModeToggleButton) {
+    const isAnd = filterMode === 'and';
+    filterModeToggleButton.textContent = isAnd ? '&' : 'Ø';
+    filterModeToggleButton.setAttribute('aria-label', `Filter mode ${isAnd ? 'AND' : 'OR'}`);
+    filterModeToggleButton.setAttribute(
+      'data-tooltip',
+      isAnd
+        ? 'Filter mode: & (must be Running and Favorites). Click to switch to OR.'
+        : 'Filter mode: Ø (Running or Favorites). Click to switch to AND.'
+    );
+  }
 }
 
 function restoreFilters() {
@@ -1962,6 +1984,8 @@ function restoreFilters() {
   if (filterFavoritesCheckbox) {
     filterFavoritesCheckbox.checked = saved.favorites;
   }
+
+  applyFilterMode(saved.mode);
 }
 
 function ensureDefaultFilterStateStorage() {
@@ -1971,9 +1995,25 @@ function ensureDefaultFilterStateStorage() {
       return;
     }
 
-    window.localStorage.setItem(FILTER_STATE_STORAGE_KEY, JSON.stringify(DEFAULT_FILTER_STATE));
+    window.localStorage.setItem(
+      FILTER_STATE_STORAGE_KEY,
+      JSON.stringify({ ...DEFAULT_FILTER_STATE, mode: defaultFilterMode })
+    );
   } catch {
     // Ignore storage failures.
+  }
+}
+
+async function loadDefaultFilterMode() {
+  try {
+    if (typeof window.launcherApi?.getDefaultFilterMode !== 'function') {
+      return DEFAULT_FILTER_STATE.mode;
+    }
+
+    const configuredMode = await window.launcherApi.getDefaultFilterMode();
+    return String(configuredMode || '').trim().toLowerCase() === 'and' ? 'and' : 'or';
+  } catch {
+    return DEFAULT_FILTER_STATE.mode;
   }
 }
 
@@ -2809,7 +2849,21 @@ function renderScripts() {
       return true;
     }
 
-    return (runningOnly && script.running) || (favoritesOnly && isFavoriteScript(script.name));
+    if (runningOnly && favoritesOnly) {
+      return filterMode === 'and'
+        ? script.running && isFavoriteScript(script.name)
+        : script.running || isFavoriteScript(script.name);
+    }
+
+    if (runningOnly) {
+      return script.running;
+    }
+
+    if (favoritesOnly) {
+      return isFavoriteScript(script.name);
+    }
+
+    return true;
   });
 
   if (visibleScripts.length === 0) {
@@ -2866,11 +2920,7 @@ function renderScripts() {
     favoriteButton.addEventListener('click', () => toggleFavoriteScript(script.name));
     title.appendChild(favoriteButton);
 
-    const command = document.createElement('span');
-    command.className = 'script-command';
-    command.textContent = script.command;
-
-    top.append(title, command);
+    top.append(title);
 
     const actions = document.createElement('div');
     actions.className = 'actions';
@@ -2890,15 +2940,151 @@ function renderScripts() {
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
     const bottom = document.createElement('div');
-    bottom.className = 'script-bottom actions-only';
+    bottom.className = 'script-bottom';
+
+    const firstLine = document.createElement('span');
+    firstLine.className = 'script-command script-command-first-line';
+
+    const secondRow = document.createElement('div');
+    secondRow.className = 'script-command-second-row';
+
+    const restCommand = document.createElement('span');
+    restCommand.className = 'script-command script-command-rest';
 
     actions.append(startBtn, restartBtn, stopBtn);
-    bottom.append(actions);
 
+    secondRow.append(restCommand, actions);
+    bottom.append(firstLine, secondRow);
     info.append(top, bottom);
     row.append(info);
     scriptsList.appendChild(row);
+
+    const split = splitCommandByFirstLine(script.command, firstLine);
+    firstLine.textContent = split.firstLine;
+    restCommand.textContent = split.rest;
+    const hasRest = Boolean(split.rest);
+    secondRow.classList.toggle('has-rest', hasRest);
+
+    const canInlineWithButtons =
+      !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
+    bottom.classList.toggle('single-line-inline', canInlineWithButtons);
   }
+}
+
+function canPlaceActionsBesideFirstLine(commandText, referenceElement, actionsElement, containerElement) {
+  if (!referenceElement || !actionsElement || !containerElement) {
+    return false;
+  }
+
+  const availableWidth = Math.floor(containerElement.clientWidth || containerElement.getBoundingClientRect().width || 0);
+  if (availableWidth <= 0) {
+    return false;
+  }
+
+  const actionsWidth = Math.ceil(actionsElement.getBoundingClientRect().width || 0);
+  if (actionsWidth <= 0) {
+    return false;
+  }
+
+  const styles = window.getComputedStyle(referenceElement);
+  const measurer = document.createElement('span');
+  measurer.className = 'script-command script-command-measure';
+  measurer.style.position = 'absolute';
+  measurer.style.visibility = 'hidden';
+  measurer.style.pointerEvents = 'none';
+  measurer.style.zIndex = '-1';
+  measurer.style.whiteSpace = 'nowrap';
+  measurer.style.font = styles.font;
+  measurer.style.fontSize = styles.fontSize;
+  measurer.style.fontWeight = styles.fontWeight;
+  measurer.style.fontFamily = styles.fontFamily;
+  measurer.style.letterSpacing = styles.letterSpacing;
+  measurer.textContent = String(commandText || '');
+
+  document.body.appendChild(measurer);
+  const commandWidth = Math.ceil(measurer.getBoundingClientRect().width || 0);
+  document.body.removeChild(measurer);
+
+  const gapWidth = 12;
+  return commandWidth + actionsWidth + gapWidth <= availableWidth;
+}
+
+function splitCommandByFirstLine(text, referenceElement) {
+  const fullText = String(text || '').trim();
+  if (!fullText || !referenceElement) {
+    return { firstLine: fullText, rest: '' };
+  }
+
+  const availableWidth = Math.floor(referenceElement.clientWidth || referenceElement.getBoundingClientRect().width || 0);
+  if (availableWidth <= 0) {
+    return { firstLine: fullText, rest: '' };
+  }
+
+  const styles = window.getComputedStyle(referenceElement);
+  const measurer = document.createElement('span');
+  measurer.className = 'script-command script-command-measure';
+  measurer.style.position = 'absolute';
+  measurer.style.visibility = 'hidden';
+  measurer.style.pointerEvents = 'none';
+  measurer.style.zIndex = '-1';
+  measurer.style.width = `${availableWidth}px`;
+  measurer.style.whiteSpace = 'normal';
+  measurer.style.wordBreak = 'break-all';
+  measurer.style.overflowWrap = 'anywhere';
+  measurer.style.font = styles.font;
+  measurer.style.fontSize = styles.fontSize;
+  measurer.style.fontWeight = styles.fontWeight;
+  measurer.style.fontFamily = styles.fontFamily;
+  measurer.style.letterSpacing = styles.letterSpacing;
+
+  document.body.appendChild(measurer);
+
+  const getRenderedLineCount = (value) => {
+    measurer.textContent = value;
+    const textNode = measurer.firstChild;
+    if (!(textNode instanceof Text)) {
+      return 0;
+    }
+
+    const range = document.createRange();
+    range.selectNodeContents(textNode);
+    const lines = range.getClientRects().length;
+    range.detach?.();
+    return lines;
+  };
+
+  const fitsInFirstRenderedLine = (value) => {
+    return getRenderedLineCount(value) <= 1;
+  };
+
+  if (fitsInFirstRenderedLine(fullText)) {
+    document.body.removeChild(measurer);
+    return { firstLine: fullText, rest: '' };
+  }
+
+  let low = 1;
+  let high = fullText.length;
+  let best = 1;
+
+  while (low <= high) {
+    const mid = Math.floor((low + high) / 2);
+    const candidate = fullText.slice(0, mid);
+    if (fitsInFirstRenderedLine(candidate)) {
+      best = mid;
+      low = mid + 1;
+    } else {
+      high = mid - 1;
+    }
+  }
+
+  const splitIndex = best;
+
+  document.body.removeChild(measurer);
+
+  return {
+    firstLine: fullText.slice(0, splitIndex).trim(),
+    rest: fullText.slice(splitIndex).trim(),
+  };
 }
 
 async function refreshScripts() {
@@ -3265,6 +3451,11 @@ filterRunningCheckbox.addEventListener('change', renderScripts);
 filterFavoritesCheckbox.addEventListener('change', renderScripts);
 filterRunningCheckbox.addEventListener('change', saveFilters);
 filterFavoritesCheckbox.addEventListener('change', saveFilters);
+filterModeToggleButton?.addEventListener('click', () => {
+  applyFilterMode(filterMode === 'and' ? 'or' : 'and');
+  saveFilters();
+  renderScripts();
+});
 
 window.launcherApi.onScriptLog((payload) => {
   appendLog(payload);
@@ -3293,6 +3484,7 @@ async function init() {
   const savedActiveLogTab = readSavedActiveLogTab();
   const defaultFavoriteScripts = await loadDefaultFavoriteScripts();
   const defaultTerminalTheme = await loadDefaultTerminalTheme();
+  defaultFilterMode = await loadDefaultFilterMode();
 
   ensureDefaultFilterStateStorage();
   ensureDefaultFavoritesStorage(defaultFavoriteScripts);
