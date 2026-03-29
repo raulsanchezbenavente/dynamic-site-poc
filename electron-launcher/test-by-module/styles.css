@@ -48,8 +48,12 @@ select {
   border-radius: 10px;
   background: #f8fbff;
   color: #16365a;
-  font-size: 0.95rem;
+  font-size: 1.08rem;
   font-weight: 700;
+}
+
+select option {
+  font-size: 1.08rem;
 }
 
 .check-row {
