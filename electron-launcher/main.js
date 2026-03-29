@@ -16,6 +16,7 @@ const DEFAULT_WINDOW_STATE = {
   minWidth: 960,
   minHeight: 640,
 };
+const DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH = path.join(__dirname, 'config', 'default-favorite-scripts.json');
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -1459,6 +1460,49 @@ function readScripts() {
   }));
 }
 
+function normalizeFavoriteScripts(value) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return Array.from(
+    new Set(value.filter((entry) => typeof entry === 'string').map((entry) => entry.trim()).filter(Boolean))
+  );
+}
+
+function normalizeDefaultTerminalTheme(value) {
+  if (typeof value !== 'string') {
+    return '';
+  }
+
+  return value.trim().toLowerCase();
+}
+
+function readLauncherDefaultsConfig() {
+  try {
+    const raw = fs.readFileSync(DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH, 'utf8');
+    const parsed = JSON.parse(raw);
+
+    return {
+      defaultFavoriteScripts: normalizeFavoriteScripts(parsed?.defaultFavoriteScripts),
+      defaultTerminalTheme: normalizeDefaultTerminalTheme(parsed?.defaultTerminalTheme),
+    };
+  } catch {
+    return {
+      defaultFavoriteScripts: [],
+      defaultTerminalTheme: '',
+    };
+  }
+}
+
+function readDefaultFavoriteScripts() {
+  return readLauncherDefaultsConfig().defaultFavoriteScripts;
+}
+
+function readDefaultTerminalTheme() {
+  return readLauncherDefaultsConfig().defaultTerminalTheme;
+}
+
 function broadcast(channel, payload) {
   const windows = BrowserWindow.getAllWindows();
   for (const win of windows) {
@@ -1730,6 +1774,14 @@ ipcMain.handle('scripts:list', async () => {
     });
     return [];
   }
+});
+
+ipcMain.handle('scripts:default-favorites', async () => {
+  return readDefaultFavoriteScripts();
+});
+
+ipcMain.handle('theme:default', async () => {
+  return readDefaultTerminalTheme();
 });
 
 ipcMain.handle('package-source:get', async () => {

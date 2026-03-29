@@ -46,14 +46,6 @@ const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const DEFAULT_FILTER_STATE = { running: false, favorites: true };
-const DEFAULT_FAVORITE_SCRIPTS = [
-  'start:serve-proxy',
-  'start:serve-proxy-bypass',
-  'build',
-  'start:backend',
-  'test',
-  'test-by-module',
-];
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
@@ -2004,16 +1996,35 @@ function readSavedFavorites() {
   }
 }
 
-function ensureDefaultFavoritesStorage() {
+function ensureDefaultFavoritesStorage(defaultFavoriteScripts = []) {
   try {
     const raw = window.localStorage.getItem(FAVORITES_STORAGE_KEY);
     if (raw !== null) {
       return;
     }
 
-    window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(DEFAULT_FAVORITE_SCRIPTS));
+    window.localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(defaultFavoriteScripts));
   } catch {
     // Ignore storage failures.
+  }
+}
+
+async function loadDefaultFavoriteScripts() {
+  try {
+    if (typeof window.launcherApi?.getDefaultFavoriteScripts !== 'function') {
+      return [];
+    }
+
+    const configured = await window.launcherApi.getDefaultFavoriteScripts();
+    if (!Array.isArray(configured)) {
+      return [];
+    }
+
+    return Array.from(
+      new Set(configured.filter((name) => typeof name === 'string').map((name) => name.trim()).filter(Boolean))
+    );
+  } catch {
+    return [];
   }
 }
 
@@ -2565,6 +2576,49 @@ function readSavedTerminalTheme() {
     return raw;
   } catch {
     return 'ocean';
+  }
+}
+
+function hasSavedTerminalTheme() {
+  try {
+    const raw = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
+    return typeof raw === 'string' && raw.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function normalizeTerminalTheme(themeName) {
+  const normalizedTheme = String(themeName || '')
+    .trim()
+    .toLowerCase();
+  return TERMINAL_THEMES.has(normalizedTheme) ? normalizedTheme : '';
+}
+
+function ensureDefaultTerminalThemeStorage(defaultThemeName = '') {
+  try {
+    if (hasSavedTerminalTheme()) {
+      return;
+    }
+
+    const normalizedTheme = normalizeTerminalTheme(defaultThemeName);
+    const themeToPersist = normalizedTheme || 'ocean';
+    window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, themeToPersist);
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+async function loadDefaultTerminalTheme() {
+  try {
+    if (typeof window.launcherApi?.getDefaultTerminalTheme !== 'function') {
+      return '';
+    }
+
+    const configuredTheme = await window.launcherApi.getDefaultTerminalTheme();
+    return normalizeTerminalTheme(configuredTheme);
+  } catch {
+    return '';
   }
 }
 
@@ -3237,9 +3291,12 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 
 async function init() {
   const savedActiveLogTab = readSavedActiveLogTab();
+  const defaultFavoriteScripts = await loadDefaultFavoriteScripts();
+  const defaultTerminalTheme = await loadDefaultTerminalTheme();
 
   ensureDefaultFilterStateStorage();
-  ensureDefaultFavoritesStorage();
+  ensureDefaultFavoritesStorage(defaultFavoriteScripts);
+  ensureDefaultTerminalThemeStorage(defaultTerminalTheme);
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
   applyTerminalFontSize(readSavedTerminalFontSize());

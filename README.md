@@ -387,7 +387,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
-- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized to `start:serve-proxy`, `start:serve-proxy-bypass`, `build`, `start:backend`, and `test`.
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized from `electron-launcher/config/default-favorite-scripts.json` (current defaults: `start:serve-proxy`, `start:serve-proxy-bypass`, `build`, `start:backend`, `test`, and `test-by-module`).
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), the Favorites filter is initialized as enabled.
 - 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
@@ -404,7 +404,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🚪 **Closing State Overlay**: On app exit, a transparent blocker with `Closing launcher...` and a loading icon is shown so users get immediate feedback during shutdown delays
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
-- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally.
+- 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally. On first launch (when no theme key exists), the default is initialized from `electron-launcher/config/default-favorite-scripts.json` (`defaultTerminalTheme`, currently `dark`).
 - 🎛️ **Hover Refresh (Border Accent)**: Launcher button and tab hover feedback uses border/background emphasis (no vertical jump), while semantic actions like Start/Stop keep their green/red identity on hover
 - 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
