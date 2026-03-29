@@ -42,10 +42,11 @@ const packageSourceMenu = document.getElementById('packageSourceMenu');
 const packageSourceOptions = Array.from(document.querySelectorAll('.package-source-option'));
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
+const filterModeToggleButton = document.getElementById('filterModeToggleButton');
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
-const DEFAULT_FILTER_STATE = { running: false, favorites: true };
+const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'or' };
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
@@ -89,6 +90,8 @@ let scriptsState = [];
 let activeLogTab = 'all';
 const logsByScript = new Map([['all', []]]);
 let favoriteScripts = new Set();
+let filterMode = 'or';
+let defaultFilterMode = DEFAULT_FILTER_STATE.mode;
 
 let packageSourceState = null;
 const urlPattern = /https?:\/\/[^\s<>"]+/gi;
@@ -1930,16 +1933,18 @@ function readSavedFilters() {
   try {
     const raw = window.localStorage.getItem(FILTER_STATE_STORAGE_KEY);
     if (!raw) {
-      return { running: false, favorites: false };
+      return { ...DEFAULT_FILTER_STATE, mode: defaultFilterMode };
     }
 
     const parsed = JSON.parse(raw);
+    const parsedMode = String(parsed?.mode || '').trim().toLowerCase();
     return {
       running: Boolean(parsed?.running),
       favorites: Boolean(parsed?.favorites),
+      mode: parsedMode === 'and' ? 'and' : 'or',
     };
   } catch {
-    return { running: false, favorites: false };
+    return { ...DEFAULT_FILTER_STATE, mode: defaultFilterMode };
   }
 }
 
@@ -1947,9 +1952,26 @@ function saveFilters() {
   const payload = {
     running: Boolean(filterRunningCheckbox?.checked),
     favorites: Boolean(filterFavoritesCheckbox?.checked),
+    mode: filterMode,
   };
 
   window.localStorage.setItem(FILTER_STATE_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function applyFilterMode(nextMode) {
+  filterMode = nextMode === 'and' ? 'and' : 'or';
+
+  if (filterModeToggleButton) {
+    const isAnd = filterMode === 'and';
+    filterModeToggleButton.textContent = isAnd ? '&' : 'Ø';
+    filterModeToggleButton.setAttribute('aria-label', `Filter mode ${isAnd ? 'AND' : 'OR'}`);
+    filterModeToggleButton.setAttribute(
+      'data-tooltip',
+      isAnd
+        ? 'Filter mode: & (must be Running and Favorites). Click to switch to OR.'
+        : 'Filter mode: Ø (Running or Favorites). Click to switch to AND.'
+    );
+  }
 }
 
 function restoreFilters() {
@@ -1962,6 +1984,8 @@ function restoreFilters() {
   if (filterFavoritesCheckbox) {
     filterFavoritesCheckbox.checked = saved.favorites;
   }
+
+  applyFilterMode(saved.mode);
 }
 
 function ensureDefaultFilterStateStorage() {
@@ -1971,9 +1995,25 @@ function ensureDefaultFilterStateStorage() {
       return;
     }
 
-    window.localStorage.setItem(FILTER_STATE_STORAGE_KEY, JSON.stringify(DEFAULT_FILTER_STATE));
+    window.localStorage.setItem(
+      FILTER_STATE_STORAGE_KEY,
+      JSON.stringify({ ...DEFAULT_FILTER_STATE, mode: defaultFilterMode })
+    );
   } catch {
     // Ignore storage failures.
+  }
+}
+
+async function loadDefaultFilterMode() {
+  try {
+    if (typeof window.launcherApi?.getDefaultFilterMode !== 'function') {
+      return DEFAULT_FILTER_STATE.mode;
+    }
+
+    const configuredMode = await window.launcherApi.getDefaultFilterMode();
+    return String(configuredMode || '').trim().toLowerCase() === 'and' ? 'and' : 'or';
+  } catch {
+    return DEFAULT_FILTER_STATE.mode;
   }
 }
 
@@ -2809,7 +2849,21 @@ function renderScripts() {
       return true;
     }
 
-    return (runningOnly && script.running) || (favoritesOnly && isFavoriteScript(script.name));
+    if (runningOnly && favoritesOnly) {
+      return filterMode === 'and'
+        ? script.running && isFavoriteScript(script.name)
+        : script.running || isFavoriteScript(script.name);
+    }
+
+    if (runningOnly) {
+      return script.running;
+    }
+
+    if (favoritesOnly) {
+      return isFavoriteScript(script.name);
+    }
+
+    return true;
   });
 
   if (visibleScripts.length === 0) {
@@ -3397,6 +3451,11 @@ filterRunningCheckbox.addEventListener('change', renderScripts);
 filterFavoritesCheckbox.addEventListener('change', renderScripts);
 filterRunningCheckbox.addEventListener('change', saveFilters);
 filterFavoritesCheckbox.addEventListener('change', saveFilters);
+filterModeToggleButton?.addEventListener('click', () => {
+  applyFilterMode(filterMode === 'and' ? 'or' : 'and');
+  saveFilters();
+  renderScripts();
+});
 
 window.launcherApi.onScriptLog((payload) => {
   appendLog(payload);
@@ -3425,6 +3484,7 @@ async function init() {
   const savedActiveLogTab = readSavedActiveLogTab();
   const defaultFavoriteScripts = await loadDefaultFavoriteScripts();
   const defaultTerminalTheme = await loadDefaultTerminalTheme();
+  defaultFilterMode = await loadDefaultFilterMode();
 
   ensureDefaultFilterStateStorage();
   ensureDefaultFavoritesStorage(defaultFavoriteScripts);
