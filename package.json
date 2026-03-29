@@ -26,7 +26,9 @@
     "test:watch": "ng test",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
-    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\""
+    "format": "prettier --write \"src/**/*.{ts,html,scss,css,json,md}\"",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build -o dist-storybook"
   },
   "scriptDescriptions": {
     "ng": "Executes Angular CLI directly.",
@@ -111,6 +113,9 @@
     "@ngx-translate/http-loader": "^17.0.0",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
+    "@ng-bootstrap/ng-bootstrap": "^18.0.0",
+    "@ngrx/signals": "^19.0.0",
+    "dayjs": "^1.11.9",
     "flatpickr": "^4.6.13",
     "http-server": "^14.1.1",
     "keycloak-js": "^26.2.3",
