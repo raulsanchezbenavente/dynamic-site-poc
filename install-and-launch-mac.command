@@ -1,8 +1,8 @@
 #!/bin/zsh
 cd "$(dirname "$0")"
 node build-launcher-and-run.js
-status=$?
-if [ "$status" -eq 0 ]; then
+exit_code=$?
+if [ "$exit_code" -eq 0 ]; then
   echo ""
   echo "Done. Exiting in 5 seconds..."
   sleep 5
@@ -10,6 +10,6 @@ if [ "$status" -eq 0 ]; then
 fi
 
 echo ""
-echo "Failed (exit code $status). Press any key to close..."
+echo "Failed (exit code $exit_code). Press any key to close..."
 read -k 1
-exit $status
+exit $exit_code
