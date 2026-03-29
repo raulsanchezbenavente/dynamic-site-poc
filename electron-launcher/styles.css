@@ -1210,9 +1210,9 @@ body:has(.layout.terminal-fullscreen) .layout {
 .script-command-second-row .script-command-rest {
   flex: 1 1 auto;
   min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
 }
 .script-command-second-row .actions {
   margin-left: auto;
