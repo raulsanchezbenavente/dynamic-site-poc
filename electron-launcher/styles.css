@@ -1924,6 +1924,9 @@ button.log-tab:hover:not(:disabled) {
     flex-direction: column;
     padding: 0.9rem 1rem;
   }
+  .scripts-title-group {
+    flex-wrap: wrap;
+  }
   .panel-header {
     flex-direction: row;
     flex-wrap: nowrap;

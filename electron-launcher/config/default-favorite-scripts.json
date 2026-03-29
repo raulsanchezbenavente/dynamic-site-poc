@@ -1,0 +1,11 @@
+{
+  "defaultTerminalTheme": "dark",
+  "defaultFavoriteScripts": [
+    "start:serve-proxy",
+    "start:serve-proxy-bypass",
+    "build",
+    "start:backend",
+    "test",
+    "test-by-module"
+  ]
+}
