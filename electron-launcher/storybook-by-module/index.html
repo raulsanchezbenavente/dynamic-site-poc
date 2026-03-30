@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Storybook by module</title>
+    <link
+      rel="stylesheet"
+      href="./styles.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>Run Storybook by Module</h1>
+      <p class="subtitle">Select a module and start its Storybook target from the terminal.</p>
+
+      <label for="moduleSelect">Module</label>
+      <select id="moduleSelect"></select>
+
+      <p
+        id="status"
+        class="status"
+        aria-live="polite">
+        Loading modules...
+      </p>
+
+      <div class="actions">
+        <button
+          id="cancelButton"
+          type="button">
+          Cancel
+        </button>
+        <button
+          id="runButton"
+          type="button"
+          class="primary">
+          Run Storybook
+        </button>
+      </div>
+    </main>
+
+    <script src="./renderer.js"></script>
+  </body>
+</html>
