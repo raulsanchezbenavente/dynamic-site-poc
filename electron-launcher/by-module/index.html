@@ -5,18 +5,24 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Storybook by module</title>
+    <title>By module</title>
     <link
       rel="stylesheet"
       href="./styles.css" />
   </head>
   <body>
     <main class="card">
-      <h1>Run Storybook by Module</h1>
-      <p class="subtitle">Select a module and start its Storybook target from the terminal.</p>
+      <h1 id="title">Run by module</h1>
+      <p
+        id="subtitle"
+        class="subtitle"></p>
 
       <label for="moduleSelect">Module</label>
       <select id="moduleSelect"></select>
+
+      <div
+        id="options"
+        class="options"></div>
 
       <p
         id="status"
@@ -35,7 +41,7 @@
           id="runButton"
           type="button"
           class="primary">
-          Run Storybook
+          Run
         </button>
       </div>
     </main>
