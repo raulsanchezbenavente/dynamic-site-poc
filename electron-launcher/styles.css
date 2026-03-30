@@ -2111,10 +2111,8 @@ button.log-tab:hover:not(:disabled) {
   .script-row {
     padding: 0.85rem;
   }
-  .script-command-second-row {
-    flex-wrap: wrap;
-  }
-  .script-command-second-row .actions {
-    margin-left: 0;
+  .script-command-line .actions {
+    float: right;
+    margin-left: 0.35rem;
   }
 }
