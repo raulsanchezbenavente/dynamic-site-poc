@@ -7,6 +7,7 @@
     "build",
     "start:backend",
     "test",
-    "test-by-module"
+    "test-by-module",
+    "storybook-by-module"
   ]
 }
