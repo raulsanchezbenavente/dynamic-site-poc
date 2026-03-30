@@ -120,13 +120,6 @@ let isQuitInProgress = false;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
-const LOW_RES_SCRIPTS_MEDIA_QUERY = '(max-width: 1260px)';
-const lowResScriptsMedia =
-  typeof window.matchMedia === 'function' ? window.matchMedia(LOW_RES_SCRIPTS_MEDIA_QUERY) : null;
-
-function isLowResolutionScriptsLayout() {
-  return Boolean(lowResScriptsMedia?.matches);
-}
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
@@ -2860,9 +2853,9 @@ function bindScriptActionTooltip(button, tooltipText) {
 
 function renderScripts() {
   scriptsList.replaceChildren();
-  const useSimpleCommandLayout = isLowResolutionScriptsLayout();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
-  const favoritesOnly = Boolean(filterFavoritesCheckbox?.checked);
+  const favoritesChecked = Boolean(filterFavoritesCheckbox?.checked);
+  const favoritesOnly = favoritesChecked && favoriteScripts.size > 0;
 
   const visibleScripts = scriptsState.filter((script) => {
     if (!runningOnly && !favoritesOnly) {
@@ -2959,189 +2952,21 @@ function renderScripts() {
     const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
-    const bottom = document.createElement('div');
-    bottom.className = 'script-bottom';
+    const commandLine = document.createElement('div');
+    commandLine.className = 'script-command-line';
 
-    const firstLine = document.createElement('span');
-    firstLine.className = 'script-command script-command-first-line';
-
-    const secondRow = document.createElement('div');
-    secondRow.className = 'script-command-second-row';
-
-    const restCommand = document.createElement('span');
-    restCommand.className = 'script-command script-command-rest';
+    const commandText = document.createElement('div');
+    commandText.className = 'script-command script-command-inline-text';
+    commandText.textContent = String(script.command || '').trim();
 
     actions.append(startBtn, restartBtn, stopBtn);
 
-    secondRow.append(restCommand, actions);
-    bottom.append(firstLine, secondRow);
-    info.append(top, bottom);
+    commandText.append(' ', actions);
+    commandLine.append(commandText);
+    info.append(top, commandLine);
     row.append(info);
     scriptsList.appendChild(row);
-
-    if (useSimpleCommandLayout) {
-      firstLine.textContent = String(script.command || '').trim();
-      restCommand.textContent = '';
-      secondRow.classList.remove('has-rest');
-      bottom.classList.remove('single-line-inline');
-    } else {
-      const split = splitCommandByFirstLine(script.command, firstLine);
-      firstLine.textContent = split.firstLine;
-      restCommand.textContent = split.rest;
-      const hasRest = Boolean(split.rest);
-      secondRow.classList.toggle('has-rest', hasRest);
-
-      const canInlineWithButtons =
-        !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
-      bottom.classList.toggle('single-line-inline', canInlineWithButtons);
-    }
   }
-}
-
-function canPlaceActionsBesideFirstLine(commandText, referenceElement, actionsElement, containerElement) {
-  if (!referenceElement || !actionsElement || !containerElement) {
-    return false;
-  }
-
-  const availableWidth = Math.floor(
-    containerElement.clientWidth || containerElement.getBoundingClientRect().width || 0
-  );
-  if (availableWidth <= 0) {
-    return false;
-  }
-
-  const actionsWidth = Math.ceil(actionsElement.getBoundingClientRect().width || 0);
-  if (actionsWidth <= 0) {
-    return false;
-  }
-
-  const styles = window.getComputedStyle(referenceElement);
-  const measurer = document.createElement('span');
-  measurer.className = 'script-command script-command-measure';
-  measurer.style.position = 'absolute';
-  measurer.style.visibility = 'hidden';
-  measurer.style.pointerEvents = 'none';
-  measurer.style.zIndex = '-1';
-  measurer.style.whiteSpace = 'nowrap';
-  measurer.style.font = styles.font;
-  measurer.style.fontSize = styles.fontSize;
-  measurer.style.fontWeight = styles.fontWeight;
-  measurer.style.fontFamily = styles.fontFamily;
-  measurer.style.letterSpacing = styles.letterSpacing;
-  measurer.textContent = String(commandText || '');
-
-  document.body.appendChild(measurer);
-  const commandWidth = Math.ceil(measurer.getBoundingClientRect().width || 0);
-  document.body.removeChild(measurer);
-
-  const gapWidth = 12;
-  return commandWidth + actionsWidth + gapWidth <= availableWidth;
-}
-
-function splitCommandByFirstLine(text, referenceElement) {
-  const fullText = String(text || '').trim();
-  if (!fullText || !referenceElement) {
-    return { firstLine: fullText, rest: '' };
-  }
-
-  const availableWidth = referenceElement.clientWidth || referenceElement.getBoundingClientRect().width || 0;
-  if (availableWidth <= 0) {
-    return { firstLine: fullText, rest: '' };
-  }
-
-  const styles = window.getComputedStyle(referenceElement);
-  const measurer = document.createElement('span');
-  measurer.className = 'script-command script-command-measure';
-  measurer.style.position = 'absolute';
-  measurer.style.visibility = 'hidden';
-  measurer.style.pointerEvents = 'none';
-  measurer.style.zIndex = '-1';
-  measurer.style.display = 'block';
-  measurer.style.width = `${availableWidth}px`;
-  measurer.style.whiteSpace = 'normal';
-  measurer.style.wordBreak = 'break-all';
-  measurer.style.overflowWrap = 'anywhere';
-  measurer.style.boxSizing = styles.boxSizing;
-  measurer.style.padding = styles.padding;
-  measurer.style.border = styles.border;
-  measurer.style.margin = '0';
-  measurer.style.lineHeight = styles.lineHeight;
-  measurer.style.font = styles.font;
-  measurer.style.fontSize = styles.fontSize;
-  measurer.style.fontWeight = styles.fontWeight;
-  measurer.style.fontFamily = styles.fontFamily;
-  measurer.style.fontStyle = styles.fontStyle;
-  measurer.style.fontVariant = styles.fontVariant;
-  measurer.style.fontStretch = styles.fontStretch;
-  measurer.style.fontKerning = styles.fontKerning;
-  measurer.style.fontFeatureSettings = styles.fontFeatureSettings;
-  measurer.style.fontVariationSettings = styles.fontVariationSettings;
-  measurer.style.letterSpacing = styles.letterSpacing;
-  measurer.style.wordSpacing = styles.wordSpacing;
-  measurer.style.textTransform = styles.textTransform;
-  measurer.style.textIndent = styles.textIndent;
-  measurer.style.textRendering = styles.textRendering;
-  measurer.textContent = fullText;
-
-  document.body.appendChild(measurer);
-
-  const textNode = measurer.firstChild;
-  if (!(textNode instanceof Text)) {
-    document.body.removeChild(measurer);
-    return { firstLine: fullText, rest: '' };
-  }
-
-  const range = document.createRange();
-
-  const fitsInFirstLine = (charCount) => {
-    const safeCharCount = Math.max(0, Math.min(fullText.length, charCount));
-    if (safeCharCount <= 0) {
-      return true;
-    }
-
-    range.setStart(textNode, 0);
-    range.setEnd(textNode, safeCharCount);
-    return range.getClientRects().length <= 1;
-  };
-
-  if (fitsInFirstLine(fullText.length)) {
-    document.body.removeChild(measurer);
-    return { firstLine: fullText, rest: '' };
-  }
-
-  let low = 1;
-  let high = fullText.length;
-  let splitIndex = 1;
-
-  while (low <= high) {
-    const mid = Math.floor((low + high) / 2);
-    if (fitsInFirstLine(mid)) {
-      splitIndex = mid;
-      low = mid + 1;
-    } else {
-      high = mid - 1;
-    }
-  }
-
-  while (splitIndex > 1 && !fitsInFirstLine(splitIndex)) {
-    splitIndex -= 1;
-  }
-
-  if (IS_WINDOWS) {
-    splitIndex = Math.max(1, splitIndex - 3);
-    while (splitIndex > 1 && !fitsInFirstLine(splitIndex)) {
-      splitIndex -= 1;
-    }
-  }
-
-  range.detach?.();
-
-  document.body.removeChild(measurer);
-
-  return {
-    firstLine: fullText.slice(0, splitIndex),
-    rest: fullText.slice(splitIndex),
-  };
 }
 
 async function refreshScripts() {
@@ -3373,18 +3198,6 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
 window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
-
-if (lowResScriptsMedia) {
-  const handleLowResScriptsLayoutChange = () => {
-    renderScripts();
-  };
-
-  if (typeof lowResScriptsMedia.addEventListener === 'function') {
-    lowResScriptsMedia.addEventListener('change', handleLowResScriptsLayoutChange);
-  } else if (typeof lowResScriptsMedia.addListener === 'function') {
-    lowResScriptsMedia.addListener(handleLowResScriptsLayoutChange);
-  }
-}
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
