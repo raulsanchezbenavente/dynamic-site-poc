@@ -1,0 +1,40 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+
+// -------------------------------------------------------------
+// SPACING TOKENS
+// -------------------------------------------------------------
+// Base spacing values are defined using Sass variables.
+// We don't use CSS custom properties here because these values
+// are not expected to change at runtime.
+// ----
+// If runtime flexibility is needed, use a custom property that
+// references the Sass variable:
+// Example: --box-padding: #{$spacer-small};
+// ----
+// Sass handles the static token, while the custom property
+// remains dynamic and overrideable.
+// -------------------------------------------------------------
+
+// Spacing Tokens
+$spacer-x-tiny: 0.125rem !default; // 2px
+$spacer-tiny: 0.25rem !default; // 4px
+$spacer-x-small: 0.5rem !default; // 8px
+$spacer-small: 0.75rem !default; // 12px
+$spacer-medium: 1rem !default; // 16px
+$spacer-large: 1.25rem !default; // 20px
+$spacer-x-large: 1.5rem !default; // 24px
+$spacer-x-x-large: 1.75rem !default; // 28px
+$spacer-huge: 2.25rem !default; // 36px
+$spacer-x-huge: 3rem !default; // 48px
+
+// Padding Tokens
+$pad-x-tiny: 0.125rem !default; // 2px
+$pad-tiny: 0.25rem !default; // 4px
+$pad-small: 0.5rem !default; // 8px
+$pad-medium: 0.75rem !default; // 12px
+$pad-x-medium: 1rem !default; // 16px
+$pad-large: 1.25rem !default; // 20px
+$pad-x-large: 1.5rem !default; // 24px
+$pad-x-x-large: 2rem !default; // 32px
+$pad-huge: 2.25rem !default; // 36px
+$pad-x-huge: 4rem !default; // 64px

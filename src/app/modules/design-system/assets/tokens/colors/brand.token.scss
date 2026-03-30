@@ -1,0 +1,28 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Brand Colors
+// These colors are related to company logo colors and should be used accordingly.
+
+// CSS Variables for Global Use
+:root {
+    --c-brand-primary: #{$red-500};
+    --c-brand-secondary: #{$gray-1200};
+    --c-brand-light: #{$gray-0};
+
+    // Background Colors
+    --c-brand-bg-gradient: linear-gradient(180deg, $red-500, $magenta-700);
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     // No changes in dark mode as logo colors remain the same
+//     --c-brand-primary: #{$red-500};
+//     --c-brand-secondary: #{$gray-1200};
+//     --c-brand-light: #{$gray-0};
+
+//     // Background Gradient Colors - Dark Mode
+//     --c-brand-bg-gradient: linear-gradient(180deg, $red-500, $magenta-700);
+// }

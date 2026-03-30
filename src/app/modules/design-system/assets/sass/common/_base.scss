@@ -1,0 +1,219 @@
+/* NS BASE STYLES */
+// ==============
+
+@use 'design-system/assets/sass/utils/configs' as *;
+@use 'design-system/assets/sass/utils/functions' as *;
+@use 'design-system/assets/sass/utils/mixins' as *;
+@use 'design-system/assets/ui_plus/icons/webfonts/icomoon/variables' as *;
+
+// STYLES
+html {
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    height: 100%;
+}
+body {
+    height: 100%;
+    font-size: var(--f-size);
+    font-family: var(--f-body);
+    color: var(--c-text);
+    line-height: var(--f-body-line-height, var(--f-line-height));
+    padding: 0;
+    margin: 0;
+    min-width: calculateRem(320px);
+    background-color: var(--c-page-bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* stylelint-disable-next-line value-keyword-case */
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+}
+[tabindex='-1']:focus {
+    outline: 0;
+}
+a {
+    text-decoration: var(--link-text-decoration, underline);
+    text-underline-offset: var(--link-text-underline-offset);
+    color: var(--c-link);
+    cursor: pointer;
+    &:hover {
+        --link-text-decoration: var(--link-text-decoration-hover, inherit);
+        --c-link: var(--c-link-hover);
+        font-weight: var(--link-hover-font-weight, inherit);
+    }
+}
+[role='button'] {
+    cursor: pointer;
+}
+
+// class from acessible-link directive
+.link--target-blank {
+    --link-text-decoration: none;
+    --link-text-decoration-hover: none;
+
+    @include iconfont($icon-external, after);
+
+    display: inline-flex;
+    align-items: var(--accessible-link-valign, center);
+    gap: var(--accessible-link-gap, calculateRem(4px));
+}
+
+@include selection(
+    $color: var(--text-selection-color, var(--c-white)),
+    $background: var(--text-selection-background, var(--c-primary))
+);
+p {
+    margin-top: 0;
+    margin-bottom: var(--paragraph-margin);
+    &:last-child {
+        margin-bottom: var(--paragraph-margin-bottom-last-child, 0);
+    }
+}
+em {
+    font-style: italic;
+}
+sup,
+sub {
+    font-size: var(--sup-sub-text-fontsize, 0.75em); // better use of em unit so text size is relative to its context
+}
+sup {
+    vertical-align: top;
+    /* stylelint-disable-next-line no-descending-specificity, selector-max-type */
+    a {
+        vertical-align: top;
+    }
+}
+sub {
+    vertical-align: bottom;
+    /* stylelint-disable-next-line no-descending-specificity, selector-max-type */
+    a {
+        vertical-align: bottom;
+    }
+}
+fieldset {
+    width: 100%;
+}
+input {
+    font-family: var(--f-body); // needed for input
+    background-clip: padding-box;
+    &::placeholder {
+        font-weight: var(--rf-field-control-placeholder-fontweight);
+        color: var(--rf-field-control-placeholder-color);
+    }
+}
+
+// keyboard focus
+:focus-visible {
+    @include accessibility-outline;
+}
+
+// Hide focus outlines for mouse/touch; only show when navigating via keyboard
+body:not(.keyboard-focus-mode) {
+    :focus-visible {
+        outline: none;
+    }
+}
+
+// skip to main
+.skip-main {
+    font-size: var(--skipmain-button-fontsize, var(--f-size-small));
+    z-index: 100000;
+    position: absolute;
+    top: var(--skipmain-button-position-top, calculateRem(10px));
+    left: var(--skipmain-button-position-left, calculateRem(20px));
+    display: inline-block;
+    color: var(--skipmain-button-color, var(--c-secondary));
+    text-decoration: none;
+    padding: var(--skipmain-button-padding, calculateRem(2px) calculateRem(4px));
+    background-color: var(--skipmain-button-background, var(--c-white));
+    transform: translateY(-400%);
+    &:focus-visible {
+        transform: translateY(0);
+        transition: all 0.2s;
+    }
+}
+
+// Stretched hit area — makes the entire container clickable via a pseudo-element
+// overlay anchored to the nearest positioned ancestor (position: relative).
+// The button or anchor inside expands its ::after to cover the full card/container area,
+// giving users a larger tap/click target without wrapping everything in an <a>.
+//
+// USAGE:
+//   Add `.stretched-hit-area` to the parent container and ensure it has `position: relative`.
+//   The first <button> or <a> inside will stretch its clickable area to fill the container.
+//
+// DO NOT USE when the container has:
+//   - Multiple interactive elements (links, buttons, tooltips, dropdowns)
+//   - Selectable text that the user might need to copy
+//   - Nested links pointing to different destinations
+//   The overlay captures pointer events and will block interaction with other clickable elements.
+//   In those cases, prefer explicit click handlers or a wrapper <a> only around the intended target.
+.stretched-hit-area {
+    button::after,
+    a::after {
+        z-index: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        pointer-events: auto;
+        background-color: transparent;
+    }
+}
+
+// Template
+.page-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column; // the flex column is needed to keep footer at page bottom
+    height: 100vh;
+    padding-top: 0;
+}
+#maincontent {
+    // to sticky footer at bottom page
+    flex: 1 0 auto; // set `flex-shrink` to `0` to prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size.
+}
+.content-wrap {
+    position: relative;
+}
+.intro {
+    @include intro-styles;
+}
+.context-footnote {
+    position: relative;
+    font-size: var(--footnote-fontsize, var(--f-size-small));
+    color: var(--footnote-color, var(--c-text-normal));
+    text-align: left;
+    padding-top: calculateRem(9px);
+    margin-top: var(--footnote-margin-top, calculateRem(24px));
+    &::before {
+        // border line on top
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+        height: 1px;
+        width: calculateRem(80px);
+        background: var(--c-border-darker);
+    }
+    .list-style1 {
+        li {
+            margin: var(--footnote-list-item-margin, 0.4em 0);
+            &::before {
+                line-height: 0;
+                top: 1em;
+            }
+        }
+    }
+}
+
+// angular bootstrap ngbDropdown support
+.dropdown-menu {
+    display: none;
+    &.show {
+        display: block;
+    }
+}

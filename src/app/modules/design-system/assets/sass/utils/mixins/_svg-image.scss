@@ -1,0 +1,27 @@
+// ********************
+//  SVG Images
+//	-------
+//	Mixins to help the use of svg images.
+//	Images must be svg format and we advice to be inside folder: /imgs/svgs/
+// ********************
+
+@mixin svg-images(
+    $width,
+    $height,
+    $bg-size: contain,
+    $position-x: center,
+    $position-y: center,
+    $path: '../imgs/svgs/',
+    $filename: ''
+) {
+    width: $width;
+    height: $height;
+    background-size: $bg-size;
+    background-repeat: no-repeat;
+    background-position-y: $position-y;
+    background-position-x: $position-x;
+
+    @if $path != '' and $filename != '' {
+        background-image: url(#{$path}#{$filename}.svg);
+    }
+}

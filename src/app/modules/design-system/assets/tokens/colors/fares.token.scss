@@ -1,0 +1,83 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Fare Colors
+// Defines colors for different fare types and tiers, including text, borders, and backgrounds.
+
+// Fare Tiers (Fare Classes)
+// Fare tiers categorize tickets based on service level, flexibility, and perks.
+// They typically align with cabin classes (e.g., Economy, Business) and group fares by service level.
+// Each tier contains different fare types with specific rules.
+
+// Fare Types (Fare Rules)
+// Fare types define pricing conditions within a tier, such as refunds, baggage, and flexibility.
+
+// Example:
+// Business Class (Fare Tier)
+//   - Business Saver (Fare Type) – Limited changes, lower price
+//   - Business Flex (Fare Type) – Fully flexible, higher price
+
+// CSS Variables for Global Use
+:root {
+    // Fare Colors
+    // this red value is today in production
+    --c-fare-type-1: #{$red-500}; // Basic or Light
+    --c-fare-type-2: #{$magenta-700}; // Classic
+    --c-fare-type-3: #{$orange-700}; // Flex
+    --c-fare-type-4: #D7F1F7; // Business Classic
+    --c-fare-type-4-bg-strong: #5C6E71; // Business Classic
+    --c-fare-type-5: #{$mint-400}; // Business Flex
+
+    // tiers
+    // --c-fare-tier-1: #{$gray-1100}; // Economic
+    --c-fare-tier-2: #{$gray-1100}; // Business
+
+    // Fare Border Colors
+    --c-fare-type-1-border: #{$red-500};
+    --c-fare-type-2-border: #{$magenta-700};
+    --c-fare-type-3-border: #{$orange-700};
+
+    // business tier
+    --c-fare-tier-2-border: #{$gray-1100};
+
+    // Fare Background Colors
+    --c-fare-type-1-bg-strong: #{$red-500};
+    --c-fare-type-1-bg-light: #{$red-100};
+    --c-fare-type-2-bg-strong: #{$magenta-700};
+    --c-fare-type-2-bg-light: #{$magenta-100};
+    --c-fare-type-3-bg-strong: #{$orange-800};
+    --c-fare-type-3-bg-light: #{$orange-200};
+
+    // business tier
+    --c-fare-tier-2-bg-stronger: #{$gray-1200};
+    --c-fare-tier-2-bg-strong: #{$mint-400};
+    --c-fare-tier-2-bg-light: #{$mint-200};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     // Dark Mode Fare Colors
+//     --c-fare-type-1: #{$magenta-200};
+//     --c-fare-type-2: #{$magenta-400};
+//     --c-fare-type-3: #{$orange-300};
+//     --c-fare-type-4: #{$gray-700};
+
+//     // Dark Mode Fare Border Colors
+//     --c-fare-type-1-border: #{$red-400};
+//     --c-fare-type-2-border: #{$magenta-600};
+//     --c-fare-type-3-border: #{$orange-700};
+//     --c-fare-type-4-border: #{$gray-1000};
+
+//     // Dark Mode Fare Background Colors
+//     --c-fare-type-1-bg-strong: #{$red-400};
+//     --c-fare-type-1-bg-light: #{$red-1000};
+//     --c-fare-type-2-bg-strong: #{$magenta-600};
+//     --c-fare-type-2-bg-light: #{$magenta-1000};
+//     --c-fare-type-3-bg-strong: #{$orange-700};
+//     --c-fare-type-3-bg-light: #{$orange-1000};
+//     --c-fare-type-4-bg-stronger: #{$gray-1100};
+//     --c-fare-type-4-bg-strong: #{$mint-300};
+//     --c-fare-type-4-bg-light: #{$mint-1000};
+// }

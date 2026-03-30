@@ -1,0 +1,14 @@
+//  Outline Accessibility
+//	Define outline style to an element for a better accessibility.
+
+@mixin accessibility-outline(
+    $outline-width: var(--accessibility-outline-width),
+    $outline-style: var(--accessibility-outline-style),
+    $outline-color: var(--accessibility-outline-color),
+    $outline-offset: var(--accessibility-outline-offset),
+    $outline-border-radius: var(--accessibility-outline-border-radius)
+) {
+    outline: $outline-width $outline-style $outline-color;
+    outline-offset: $outline-offset;
+    border-radius: $outline-border-radius;
+}

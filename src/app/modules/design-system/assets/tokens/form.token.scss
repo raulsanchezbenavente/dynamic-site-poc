@@ -1,0 +1,52 @@
+@use 'design-system/assets/sass/utils/functions' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use '../tokens/scss/spacing.token' as *;
+
+// custom properties
+:root {
+    --rf-field-control-height: #{calculateRem(64px)};
+    --rf-field-control-color: var(--c-text);
+    --rf-field-control-color-error: var(--c-error-text);
+
+    // padding
+    --rf-field-control-pad-top: #{$spacer-small};
+    --rf-field-control-pad-bottom: #{$spacer-small};
+    --rf-field-control-pad-left: #{$spacer-medium};
+    --rf-field-control-pad-right: #{$spacer-medium};
+
+    // border
+    --rf-field-control-border-radius: var(--#{$ds}border-radius);
+    --rf-field-control-border-width: #{calculateRem(1px)};
+    --rf-field-control-border-color: #949494; // TODO: token
+    --rf-field-control-border-color-hover: var(--c-active-dark);
+    --rf-field-control-border-color-error: var(--c-error);
+
+    // background
+    --rf-field-control-bg: var(--c-white);
+
+    // label
+    --rf-field-control-label-color-error: var(--c-error-text);
+
+    // icon
+    --rf-field-control-icon-size: var(--f-size-large);
+    --rf-field-control-icon-right-size: var(--f-size);
+    --rf-field-control-icon-margin: #{$spacer-x-small};
+    --rf-field-control-has-icon-padding: calc(
+        var(--rf-field-control-pad-left) + var(--rf-field-control-icon-size) + var(--rf-field-control-icon-margin)
+    );
+    --rf-field-control-has-icon-right-padding: calc(
+        var(--rf-field-control-pad-right) + var(--rf-field-control-icon-right-size) +
+            var(--rf-field-control-icon-margin)
+    );
+
+    // states
+    --rf-field-control-readonly-color: var(--c-disable-text);
+    --rf-field-control-readonly-bg: var(--c-disable-bg);
+    --rf-field-control-disabled-color: #c4c8c5; // TODO: token
+    --rf-field-control-disabled-bg: var(--c-disable-bg);
+    --rf-field-control-disabled-border-color: var(--c-disable-border);
+
+    // placeholder
+    --rf-field-control-placeholder-color: var(--c-text-secondary);
+    --rf-field-control-placeholder-fontweight: var(--f-weight-normal);
+}

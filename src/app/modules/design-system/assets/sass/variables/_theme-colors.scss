@@ -1,0 +1,118 @@
+@use 'sass:string';
+
+// Primitive Colors
+// Green
+$green-100: #eefbf1;
+$green-200: #b8e6d4;
+$green-300: #8affa4;
+$green-400: #56f378;
+$green-500: #23c847; // In use
+$green-500-rgb: 35, 200, 71; // In use
+$green-600: #1ea93c; // In use
+$green-700: #07904c;
+$green-800: #107f28;
+$green-900: #106322;
+$green-1000: #3a5641; // In use
+
+// Mint
+$mint-100: #f8fcf8;
+$mint-200: #b4fce1;
+$mint-300: #60ffc3;
+$mint-400: #5af9bd; // In use
+$mint-500: #76eac7;
+$mint-600: #39ff94; // In use
+$mint-700: #38d982;
+$mint-800: #12ab70; // In use
+$mint-900: #585f5e; // In use
+$mint-1000: #06372c; // In use
+
+// Red
+$red-100: #fff3f3; // In use
+$red-200: #ffc3b6; // In use
+$red-300: #ff4769; // In use
+$red-400: #ff1c46; // In use
+$red-500: #f00; // In use
+$red-550: #eb1414; // In use // unicamente para gradientes por accessibilidad.
+$red-600: #d90000; // In use
+$red-700: #c20000;
+$red-800: #a52816;
+$red-900: #7c0005; // In use
+$red-1000: #683535; // In use
+
+// Orange
+$orange-100: #fefbf7; // In use
+$orange-200: #fff3e0; // In use
+$orange-300: #ffecb7;
+$orange-400: #f6c400; // In use
+$orange-500: #ffa625; // In use
+$orange-600: #f57c00;
+$orange-700: #ff5c00; // In use
+$orange-800: #ef5b06; // In use
+$orange-900: #ca6d2e; // In use
+$orange-1000: #88431c; // In use
+
+// Blue
+$blue-100: #f7fbfc; // In use
+$blue-200: #89d4e1; // In use
+$blue-300: #80caff;
+$blue-400: #1d9bf0; // In use
+$blue-500: #36c; // In use
+$blue-600: #11a1bf; // In use
+$blue-700: #00a7a7; // In use
+$blue-800: #177f8c; // In use
+$blue-900: #0e4c54; // In use
+$blue-1000: #2b3c46; // In use
+
+// Magenta
+$magenta-100: #fce4ec; // In use
+$magenta-200: #ffc9e3;
+$magenta-300: #ff76b7;
+$magenta-400: #ff3093; // In use
+$magenta-500: #ec4079; // In use
+$magenta-600: #c09;
+$magenta-700: #b50080;
+$magenta-800: #d71962; // In use
+$magenta-900: #4d0b39;
+$magenta-1000: #232021; // In use
+
+// Purple
+$purple-100: #f9d1ff;
+$purple-200: #f08fff;
+$purple-300: #da29f6;
+$purple-400: #b814d2;
+$purple-500: #90f; // In use
+$purple-600: #6939b5; // In use
+$purple-700: #5a2cbc;
+$purple-800: #4b1bbf; // In use
+$purple-900: #492969; // In use
+$purple-1000: #2f1c43;
+
+// Neutrals (Grays)
+$gray-0: #fff;
+$gray-0-rgb: 255, 255, 255;
+$gray-100: #fafafa;
+$gray-100-rgb: 250, 250, 250;
+$gray-200: #f5f5f5;
+$gray-200-rgb: 245, 245, 245;
+$gray-300: #e9e9e9;
+$gray-400: #d9d9d9;
+$gray-500: #c4c8d5;
+$gray-600: #b6b6b6;
+$gray-700: #969696;
+$gray-800: #6c6c6c;
+$gray-900: #5a5a5a;
+$gray-900-rgb: 90, 90, 90;
+$gray-1000: #494949;
+$gray-1000-rgb: 73, 73, 73;
+$gray-1100: #393838;
+$gray-1200: #1b1b1b;
+$gray-1200-rgb: 27, 27, 27;
+
+// Alpha Neutrals
+$gray-0a: string.unquote('rgba(#{$gray-0-rgb}, 0.4)'); // In use
+$gray-100a: string.unquote('rgba(#{$gray-100-rgb}, 0.15)'); // In use
+$gray-200a: string.unquote('rgba(#{$gray-200-rgb}, 0.7)');
+$gray-900a: string.unquote('rgba(#{$gray-900-rgb}, 0.2)');
+$gray-1000a: string.unquote('rgba(#{$gray-1000-rgb}, 0.3)'); // In use
+$gray-1200a: string.unquote('rgba(#{$gray-1200-rgb}, 0.4)'); // In use
+$gray-1200a-dark: string.unquote('rgba(#{$gray-1200-rgb}, 0.7)'); // In use

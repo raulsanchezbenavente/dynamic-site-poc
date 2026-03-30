@@ -1,0 +1,56 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// CSS Variables for Global Use
+:root {
+    // Disabled
+    --c-disable-text: #{$gray-900};
+    --c-disable-border: #{$gray-400};
+    --c-disable-bg: #{$gray-200};
+
+    // Active
+    --c-active: #{$green-500};
+    --c-active-rgb: #{$green-500-rgb};
+    --c-active-dark: #{$green-600};
+
+    // Alerts and States
+    --c-success: #{$green-800};
+    --c-success-light: #{$green-600};
+    --c-success-background: #{$green-100};
+
+    // warning
+    --c-warning: #{$orange-800};
+    --c-warning-light: #c55000;
+    --c-warning-background: #{$orange-200};
+    --c-warning-text: #{$orange-1000};
+
+    // error
+    --c-error: #{$red-400};
+    --c-error-text: #{$red-700};
+    --c-error-background: #{$red-100};
+
+    // info
+    --c-info: #{$blue-800};
+    --c-info-dark: #{$blue-900};
+    --c-info-background: #daf1f4;
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     // Disabled
+//     --c-disable-text: #{$gray-400};
+//     --c-disable-bg: #{$gray-200};
+
+//     // Alerts and States
+//     --c-success: #{$green-600};
+//     --c-success-background: #{$green-1000};
+//     --c-warning: #{$orange-700};
+//     --c-warning-background: #{$orange-1000};
+//     --c-warning-text: #{$orange-200};
+//     --c-error: #{$red-300};
+//     --c-error-background: #{$red-1000};
+//     --c-info: #{$blue-700};
+//     --c-info-background: #{$blue-1000};
+// }

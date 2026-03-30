@@ -1,0 +1,30 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Section Background Colors
+// Defines background colors for different sections like offers, reservations, and branding.
+
+// CSS Variables for Global Use
+:root {
+    --c-section-offers: #{$red-500};
+    --c-section-sky: #{$blue-200};
+    --c-section-booking: #{$blue-400}; // reservation
+    --c-section-info: #{$magenta-400};
+    --c-section-lifemiles: linear-gradient(180deg, #{$blue-1000}, #{$blue-800});
+    --c-section-credits: linear-gradient(180deg, #{$green-700}, #{$mint-600});
+    --c-section-avianca: linear-gradient(180deg, #{$red-500}, #{$magenta-700});
+    --c-section-fare-business: linear-gradient(180deg, #{$blue-1000}, #5a8098);
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-section-offers: #{$red-500};
+//     --c-section-sky: #{$blue-200};
+//     --c-section-booking: #{$blue-400};
+//     --c-section-info: #{$magenta-400};
+//     --c-section-lifemiles: linear-gradient(180deg, #{$blue-1000}, #{$blue-800});
+//     --c-section-credits: linear-gradient(180deg, #{$green-700}, #{$mint-600});
+//     --c-section-avianca: linear-gradient(180deg, #{$red-500}, #{$magenta-700});
+// }

@@ -1,0 +1,73 @@
+@use 'sass:string';
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// + Colors
+// -------
+:root {
+    // White
+    --c-white: #{$gray-0};
+    --c-white-rgb: #{$gray-0-rgb};
+
+    // Brand Colors
+    --c-brand: #{$red-600};
+
+    // Main Colors
+    --c-primary: #{$gray-1200};
+    --c-primary-rgb: #{$gray-1200-rgb};
+    --c-primary-lighter: #{$gray-700};
+    --c-secondary: #{$red-500};
+    --c-secondary-lighter: #{$red-200};
+    --c-secondary-darker: #{$red-600};
+    --c-secondary-darkest: #{$red-700};
+    --c-tertiary: #{$blue-600};
+    --c-tertiary-lighter: #{$blue-200};
+    --c-tertiary-darker: #{$blue-800};
+
+    // Neutral Colors
+    --c-color1: var(--c-primary);
+    --c-color2: #{$gray-900};
+    --c-color2-rgb: #{$gray-900-rgb};
+    --c-color3: #{$gray-400};
+    --c-color4: #{$gray-100};
+    --c-color4-rgb: #{$gray-100-rgb};
+    --c-color5: #{$gray-200};
+    --c-color5-rgb: #{$gray-200-rgb};
+
+    // Green / Mint
+    --c-color6: #{$green-500};
+    --c-color7: #{$mint-200};
+    --c-color8: #{$mint-800};
+    --c-color9: #{$mint-200};
+    --c-color10: #{$mint-100};
+
+    // Orange
+    --c-color11: #{$orange-400};
+    --c-color12: #{$orange-300};
+    --c-color13: #{$orange-200};
+
+    // Red
+    --c-color14: #{$red-400};
+    --c-color15: #{$red-200};
+    --c-color16: #{$red-100};
+    --c-color17: #{$magenta-400};
+    --c-color18: #{$magenta-100};
+
+    // Grays
+    --c-color19: #{$gray-700};
+    --c-color20: #{$gray-300};
+    --c-color21: #{$gray-1000};
+    --c-color21-rgb: #{$gray-1000-rgb};
+    --c-color22: #{$gray-800};
+
+    // Alpha Neutrals
+    --c-white-alpha: rgba(var(--c-white-rgb), 0.4);
+    --c-color4-alpha: rgba(var(--c-color4-rgb), 0.15);
+    --c-color21-alpha: rgba(var(--c-color21-rgb), 0.3);
+    --c-primary-alpha: rgba(var(--c-primary-rgb), 0.4);
+    --c-primary-alpha-dark: rgba(var(--c-primary-rgb), 0.7);
+
+    // Grid custom row background
+    --grid-bgcolor-1: var(--c-white);
+    --grid-bgcolor-2: #ddd;
+    --grid-bgcolor-3: #eee;
+}

@@ -1,0 +1,108 @@
+/* Helper classes */
+// ==============
+//  HELPERS
+// ==============
+//	+ Buttons
+//	+ Hide visually (for screen readers)
+//	+ Aria-hidden = true (collapse)
+//	+ Overlay
+//	+ Collapse trigger (with arrow)
+//	+ Input Focused (with arrow)
+//	+ Text-align
+//	+ Disabled state
+//	+ Object fit browsers compatibility
+// ==============
+
+// -------
+// helpers classes to be used in CMS RTE
+// -------
+@forward 'helpers/buttons';
+@forward 'helpers/headings';
+@forward 'helpers/lists';
+@use '../utils/mixins/hide-visually' as *;
+@use '../utils/mixins/overlay' as *;
+@use '../utils/configs/config-sass-vars' as *;
+
+// Hides an element visually while still allowing
+// the content to be accessible to assistive technology,
+// e.g. screen readers
+.hide-visually {
+    @include hide-visually;
+}
+.position-relative {
+    position: relative;
+}
+
+// + Text colors
+// -------
+.text-primary {
+    color: var(--c-primary);
+}
+.text-secondary {
+    color: var(--c-secondary);
+}
+.text-tertiary {
+    color: var(--c-tertiary);
+}
+.text-color1 {
+    color: var(--c-color1);
+}
+.text-color2 {
+    color: var(--c-color2);
+}
+
+// + Text align
+// -------
+.text-left {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+.text-right {
+    text-align: right;
+}
+
+// + Text styles
+// -------
+.text-uppercase {
+    text-transform: uppercase;
+}
+.text-underline {
+    text-decoration: underline;
+}
+.text-nounderline {
+    text-decoration: none;
+}
+.word-break {
+    word-break: break-all;
+}
+
+// + Padding
+// -------
+.pad-top {
+    padding-top: var(--default-pad);
+}
+.pad-bottom {
+    padding-bottom: var(--default-pad);
+}
+
+// CMS angular support  - NOT DELETE THIS LINE
+.hidden {
+    display: none;
+}
+
+// Angular animations support - NOT DELETE THIS LINE
+.overflow-hidden {
+    overflow: hidden;
+}
+
+// Add space between words
+// Helps NVDA to read correctly the content
+.text-space-gap {
+    &::after {
+        content: ' '; // empty spacing
+        width: 0;
+        height: 0;
+    }
+}

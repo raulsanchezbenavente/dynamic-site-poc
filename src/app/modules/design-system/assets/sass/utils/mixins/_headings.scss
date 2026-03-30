@@ -1,0 +1,57 @@
+@charset 'UTF-8';
+
+// ********************
+//  Headings
+//	-------
+//	Truncates text and adds an ellipsis to represent overflow.
+// ********************
+
+/// @argument {heading-style} $heading-style [h1]
+///   The heading tag style.
+///   Atention(!): NOT the heading html tag but its styles definied in the style guide.
+
+@use 'design-system/assets/sass/utils/configs/config-mediaqueries' as *;
+
+$headings-breakpoint: $mobile;
+
+@mixin title-style($heading-style: 'h1') {
+    @if $heading-style == 'h1' {
+        font-size: var(--f-size-h1-mobile);
+        color: var(--c-title-h1);
+        font-weight: var(--f-weight-h1);
+        margin-bottom: var(--h1-margin-bottom);
+        &:not(:first-of-type) {
+            margin-top: var(--h1-margin-top);
+        }
+
+        @media #{$headings-breakpoint} {
+            font-size: var(--f-size-h1);
+        }
+    } @else if $heading-style == 'h2' {
+        font-size: var(--f-size-h2-mobile);
+        color: var(--c-title-h2);
+        font-weight: var(--f-weight-h2);
+        margin-top: var(--h2-margin-top);
+        margin-bottom: var(--h2-margin-bottom);
+
+        @media #{$headings-breakpoint} {
+            font-size: var(--f-size-h2);
+        }
+    } @else if $heading-style == 'h3' {
+        font-size: var(--f-size-h3-mobile);
+        color: var(--c-title-h3);
+        font-weight: var(--f-weight-h3);
+        margin-top: var(--h3-margin-top);
+        margin-bottom: var(--h3-margin-bottom);
+
+        @media #{$headings-breakpoint} {
+            font-size: var(--f-size-h3);
+        }
+    } @else if $heading-style == 'h4' {
+        font-size: var(--f-size-h4);
+        color: var(--c-title-h4);
+        font-weight: var(--f-weight-h4);
+        margin-top: var(--h4-margin-top);
+        margin-bottom: var(--h4-margin-bottom);
+    }
+}

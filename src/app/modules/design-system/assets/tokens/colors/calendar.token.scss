@@ -1,0 +1,27 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Calendar Background Colors
+// Defines background colors for different price levels and selection states in the calendar.
+
+// CSS Variables for Global Use
+:root {
+    --c-calendar-bg-low-price: #{$green-200};
+    --c-calendar-bg-medium-price: #{$orange-300};
+    --c-calendar-bg-high-price: #{$red-200};
+    --c-calendar-bg-selected: #{$gray-1200};
+    --c-calendar-bg-light: #{$gray-0};
+    --c-calendar-bg-hover: #{$gray-200};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-calendar-bg-low-price: #{$green-900};
+//     --c-calendar-bg-medium-price: #{$orange-900};
+//     --c-calendar-bg-high-price: #{$red-900};
+//     --c-calendar-bg-selected: #{$gray-0};
+//     --c-calendar-bg-light: #{$gray-1200};
+//     --c-calendar-bg-hover: #{$gray-900};
+// }

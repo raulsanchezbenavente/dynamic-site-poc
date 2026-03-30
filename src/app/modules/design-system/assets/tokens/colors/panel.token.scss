@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Panel Background Colors
+// Defines background colors for panels and cards.
+
+// CSS Variables for Global Use
+:root {
+    --c-panel-bg-light: #{$gray-100};
+    --c-panel-bg: #{$gray-0};
+    --c-panel-bg-alpha: #{$gray-0a};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-panel-bg-light: #{$gray-1100};
+//     --c-panel-bg: #{$gray-1200};
+//     --c-panel-bg-alpha: #{$gray-1200a};
+// }

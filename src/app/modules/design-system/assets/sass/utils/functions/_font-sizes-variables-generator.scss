@@ -1,0 +1,30 @@
+// This function is not being used
+// --------
+///
+/// @param {*} $base-font-size [1rem]
+/// Accepts rem unit. The base font to generate variations from.
+///
+/// @param {*} $increment [0.125rem]
+/// Accepts rem unit. The increment font size variation.
+///
+/// @param {*} $increments [11]
+/// Number of typography variation classes generated. Starting from base var name 400.
+/// Creating 500, 600, 700 etc
+
+@function generateFontSizesVariables($base-font-size: 1rem, $increment: 0.125rem, $increments: 11) {
+    $font-sizes-variables: ();
+    $base-var-name: 400;
+
+    @for $i from 1 through $increments {
+        $var-name: --f-size-#{$base-var-name + ($i * 100)};
+        $font-size: $base-font-size + ($i * $increment);
+        $font-sizes-variables: map.merge(
+            $font-sizes-variables,
+            (
+                $var-name: $font-size,
+            )
+        );
+    }
+
+    @return $font-sizes-variables;
+}

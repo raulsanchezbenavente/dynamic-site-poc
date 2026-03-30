@@ -1,0 +1,16 @@
+:root {
+    --zindex-page-loader: 1090;
+    --zindex-modal: 1070;
+    --zindex-popover: 1050;
+    --zindex-main-header-toggle: 1070;
+    --zindex-offcanvas: 1070;
+    --zindex-main-header: 1051;
+    --zindex-modal-overlay: 1050; // this value come from ng-bootstrap and should not be modify
+    --zindex-scrolltop: 1024;
+    --zindex-tooltip: 1016;
+    --zindex-toast: 1016;
+    --zindex-flow-header-collapsed: 1008;
+    --zindex-amount-summary-when-cart-opened: 1008;
+    --zindex-overlay: 1004;
+    --zindex-dropdown: 1000;
+}

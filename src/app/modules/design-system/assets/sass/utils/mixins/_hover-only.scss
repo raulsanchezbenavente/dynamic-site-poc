@@ -1,0 +1,11 @@
+// Hover-only mixin
+// Applies hover styles only on devices that truly support hover interaction.
+// Prevents persistent hover states on touch devices (e.g. iOS Safari).
+
+@mixin hover-only {
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            @content;
+        }
+    }
+}

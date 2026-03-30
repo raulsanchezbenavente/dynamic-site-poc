@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Index values are coming from resources/account-loyalty-config.ts
+
+// LifeMiles Color Tokens
+$c-lifemiles-primary: $blue-1000;
+$c-lifemiles-secondary: $red-500;
+$c-lifemiles-light: $gray-700;
+$c-lifemiles-lighter: $gray-0;
+
+// Lifemiles Tier Colors
+// lifemiles
+$c-lifemiles-tier-1: $red-500;
+$c-lifemiles-tier-1-dark: $magenta-700;
+
+// lifemiles Red Plus
+$c-lifemiles-tier-2: $red-500;
+$c-lifemiles-tier-2-dark: $red-900;
+
+// lifemiles Diamond (Diamond One, Diamond Two, Cenit Diamond)
+$c-lifemiles-tier-3: $mint-900;
+$c-lifemiles-tier-3-dark: $magenta-1000;
+
+// lifemiles Gold (Cenit Gold, Gold Cenit One Million)
+$c-lifemiles-tier-4: $orange-400;
+$c-lifemiles-tier-4-dark: $orange-900;
+
+// lifemiles Silver
+$c-lifemiles-tier-5: $gray-500;
+$c-lifemiles-tier-5-dark: #6c6c6c;

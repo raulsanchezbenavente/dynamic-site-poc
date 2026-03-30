@@ -1,0 +1,9 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+:root {
+    --accessibility-outline-width: #{calculateRem(2px)};
+    --accessibility-outline-style: solid;
+    --accessibility-outline-color: #{$blue-400};
+    --accessibility-outline-offset: #{calculateRem(2px)};
+    --accessibility-outline-border-radius: #{calculateRem(2px)};
+}

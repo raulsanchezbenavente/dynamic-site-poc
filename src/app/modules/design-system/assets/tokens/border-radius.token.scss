@@ -1,0 +1,7 @@
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+:root {
+    --#{$ds}border-radius: #{calculateRem(4px)};
+    --#{$ds}border-radius-md: #{calculateRem(8px)};
+    --#{$ds}border-radius-lg: #{calculateRem(16px)};
+}
