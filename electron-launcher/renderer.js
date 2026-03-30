@@ -2860,7 +2860,6 @@ function bindScriptActionTooltip(button, tooltipText) {
 
 function renderScripts() {
   scriptsList.replaceChildren();
-  const useSimpleCommandLayout = isLowResolutionScriptsLayout();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
   const favoritesOnly = Boolean(filterFavoritesCheckbox?.checked);
 
@@ -2959,42 +2958,20 @@ function renderScripts() {
     const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
-    const bottom = document.createElement('div');
-    bottom.className = 'script-bottom';
+    const commandLine = document.createElement('div');
+    commandLine.className = 'script-command-line';
 
-    const firstLine = document.createElement('span');
-    firstLine.className = 'script-command script-command-first-line';
-
-    const secondRow = document.createElement('div');
-    secondRow.className = 'script-command-second-row';
-
-    const restCommand = document.createElement('span');
-    restCommand.className = 'script-command script-command-rest';
+    const commandText = document.createElement('div');
+    commandText.className = 'script-command script-command-inline-text';
+    commandText.textContent = String(script.command || '').trim();
 
     actions.append(startBtn, restartBtn, stopBtn);
 
-    secondRow.append(restCommand, actions);
-    bottom.append(firstLine, secondRow);
-    info.append(top, bottom);
+    commandText.append(' ', actions);
+    commandLine.append(commandText);
+    info.append(top, commandLine);
     row.append(info);
     scriptsList.appendChild(row);
-
-    if (useSimpleCommandLayout) {
-      firstLine.textContent = String(script.command || '').trim();
-      restCommand.textContent = '';
-      secondRow.classList.remove('has-rest');
-      bottom.classList.remove('single-line-inline');
-    } else {
-      const split = splitCommandByFirstLine(script.command, firstLine);
-      firstLine.textContent = split.firstLine;
-      restCommand.textContent = split.rest;
-      const hasRest = Boolean(split.rest);
-      secondRow.classList.toggle('has-rest', hasRest);
-
-      const canInlineWithButtons =
-        !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
-      bottom.classList.toggle('single-line-inline', canInlineWithButtons);
-    }
   }
 }
 

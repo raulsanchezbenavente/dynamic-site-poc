@@ -1135,6 +1135,7 @@ body:has(.layout.terminal-fullscreen) .layout {
   white-space: normal;
   text-align: center;
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
@@ -1275,6 +1276,28 @@ body:has(.layout.terminal-fullscreen) .layout {
   font-size: 0.9rem;
   word-break: break-all;
   overflow-wrap: anywhere;
+}
+.script-command-line {
+  width: 100%;
+  display: block;
+  min-width: 0;
+  word-break: break-all;
+  overflow-wrap: anywhere;
+}
+.script-command-inline-text {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+.script-command-line .actions {
+  position: static;
+  display: inline-flex;
+  float: right;
+  align-items: flex-start;
+  vertical-align: text-top;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+  align-self: auto;
 }
 .script-bottom {
   display: grid;
