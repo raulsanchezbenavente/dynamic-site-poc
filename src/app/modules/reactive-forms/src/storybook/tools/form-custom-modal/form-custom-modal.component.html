@@ -1,10 +1,8 @@
-<ds-modal-dialog
-    [modalDialogConfig]="modalDialogConfig"
-    (closeModal)="onClose()">
-    <h5
-        class="fs-2"
-        [ngClass]="config?.invalid ? 'stbook-text-danger' : 'stbook-text-success'">
-        {{ config?.invalid ? 'The form is invalid' : 'The form is valid!' }}
-    </h5>
-    <pre>{{ formatJsonForHtml(config?.raw) }}</pre>
-</ds-modal-dialog>
+<div class="p-3 border rounded bg-white">
+  <h5
+    class="fs-2"
+    [ngClass]="config?.invalid ? 'stbook-text-danger' : 'stbook-text-success'">
+    {{ config?.invalid ? 'The form is invalid' : 'The form is valid!' }}
+  </h5>
+  <pre>{{ formatJsonForHtml(config?.raw) }}</pre>
+</div>

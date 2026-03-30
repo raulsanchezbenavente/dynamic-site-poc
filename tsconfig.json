@@ -11,6 +11,7 @@
       "@dcx/ui/libs": ["src/app/modules/libs/index.ts"],
       "@dcx/ui/design-system": ["src/app/modules/design-system/index.ts"],
       "@reactive-forms": ["src/app/modules/reactive-forms/src/lib/index.ts"],
+      "reactive-forms": ["src/app/modules/reactive-forms/src/public-api.ts"],
       "@fake-blocks-test": ["src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["src/app/modules/fake-blocks-avianca/index.ts"],
       "fake-libs": ["src/app/modules/fake-libs/index.ts"],

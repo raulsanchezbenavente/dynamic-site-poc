@@ -1,18 +1,17 @@
 import { NgClass } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ModalDialogComponent, ModalDialogConfig } from '@dcx/ui/design-system';
 
 @Component({
   selector: 'form-custom-modal',
   templateUrl: './form-custom-modal.component.html',
   styleUrl: '../../stories/reactive-forms/styles/stories-styles.scss',
-  imports: [ModalDialogComponent, NgClass],
+  imports: [NgClass],
   standalone: true,
 })
 export class FormCustomModalComponent {
   @Output() public closeModal = new EventEmitter<void>();
 
-  @Input() public modalDialogConfig!: ModalDialogConfig;
+  @Input() public modalDialogConfig!: any;
   @Input() public config!: any;
 
   public onClose(): void {

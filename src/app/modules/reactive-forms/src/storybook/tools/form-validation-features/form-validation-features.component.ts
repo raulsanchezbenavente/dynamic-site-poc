@@ -1,16 +1,13 @@
 import { NgClass } from '@angular/common';
-import { Component, effect, ElementRef, HostListener, inject, input, OnInit, output, viewChild } from '@angular/core';
-import { ModalDialogConfig, ModalDialogService, ModalDialogSize } from '@dcx/ui/design-system';
-import { ButtonStyles, LayoutSize, UserCulture } from '@dcx/ui/libs';
+import { Component, effect, ElementRef, HostListener, input, OnInit, output, viewChild } from '@angular/core';
+import { UserCulture } from '@dcx/ui/libs';
 import dayjs from 'dayjs';
 import { RfBaseReactiveComponent, RfFormControl } from 'reactive-forms';
-import { Subject, takeUntil } from 'rxjs';
 
 import { DEFAULT_SHOW_ERRORS_MODE } from '../../../lib/abstract/constants/rf-default-values.constant';
 import { RfErrorDisplayModes } from '../../../lib/abstract/enums/rf-base-reactive-display-mode.enum';
 import { RfFormGroup } from '../../../lib/extensions/components/rf-form-group.component';
 import { RfFormBuilderComponent } from '../../../lib/form-builder/rf-form-builder/rf-form-builder.component';
-import { FormCustomModalComponent } from '../form-custom-modal/form-custom-modal.component';
 
 @Component({
   selector: 'form-validation-features',
@@ -38,24 +35,6 @@ export class FormValidationFeaturesComponent implements OnInit {
 
   public errorDisplayModes = Object.values(RfErrorDisplayModes);
   public selectedErrorDisplayMode: RfErrorDisplayModes = DEFAULT_SHOW_ERRORS_MODE;
-
-  public modalDialogConfig: ModalDialogConfig = {
-    title: 'Form validation info',
-    layoutConfig: {
-      size: ModalDialogSize.MEDIUM,
-    },
-    footerButtonsConfig: {
-      actionButton: {
-        label: 'Close',
-        layout: {
-          size: LayoutSize.MEDIUM,
-          style: ButtonStyles.ACTION,
-        },
-      },
-    },
-  };
-  private $unsubscribe: Subject<void> = new Subject<void>();
-  private dialogService: ModalDialogService = inject(ModalDialogService);
 
   constructor() {}
 
@@ -90,13 +69,7 @@ export class FormValidationFeaturesComponent implements OnInit {
       if (this._form.displayErrorsMode === RfErrorDisplayModes.SUBMITTED) {
         this._form.submitted = true;
       }
-      this.dialogService
-        .openModal(this.modalDialogConfig, FormCustomModalComponent, {
-          invalid: this._form?.invalid,
-          raw: this.normalizeDayjs(this._form?.getRawValue()),
-        })
-        .pipe(takeUntil(this.$unsubscribe));
-      console.log('Form info:', this._form?.getRawValue());
+      console.log('Form info:', this.normalizeDayjs(this._form?.getRawValue()));
     }
   }
 

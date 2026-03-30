@@ -35,15 +35,6 @@
                 [errorMessages]="errorMessagesPhone"
                 [classes]="prefixPhoneInlineCustomClasses" />
 
-            <div class="stbook-title">Native Select</div>
-            <select (change)="onSelectChange($event, false)">
-                @for (opt of options; track opt) {
-                    <option [value]="opt.prefix + '|' + opt.phone">
-                        {{ opt.prefix }} {{ opt.phone }} – {{ opt.country }}
-                    </option>
-                }
-            </select>
-
             <div class="stbook-title">
                 Prefix phone / Integrated appearance / Combined validation / Mask / Input pattern
             </div>
@@ -170,15 +161,6 @@
             [options]="allPrefix"
             [errorMessages]="errorMessagesPhone"
             [classes]="prefixPhoneInlineCustomClasses" />
-
-        <div class="stbook-title">Native Select</div>
-        <select (change)="onSelectChange($event, true)">
-            @for (opt of options; track opt) {
-                <option [value]="opt.prefix + '|' + opt.phone">
-                    {{ opt.prefix }} {{ opt.phone }} – {{ opt.country }}
-                </option>
-            }
-        </select>
 
         <div class="stbook-title">
             Prefix phone / Integrated appearance / Combined validation / Mask / Input pattern

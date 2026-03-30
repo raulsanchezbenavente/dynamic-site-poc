@@ -1,22 +1,4 @@
 import { importProvidersFrom } from '@angular/core';
-import { DEFAULT_CONFIG_FORM_SUMMARY_BUTTONS, FORM_SUMMARY_CONFIG } from '@dcx/ui/business-common';
-import { ModalDialogService } from '@dcx/ui/design-system';
-import {
-  BUTTON_CONFIG,
-  ComposerService,
-  ConfigService,
-  CookiesStore,
-  DEFAULT_CONFIG_BUTTON,
-  EventBusService,
-  EXCLUDE_SESSION_EXPIRED_URLS,
-  GenerateIdPipe,
-  LoggerService,
-  NotificationService,
-  RedirectService,
-  TIMEOUT_REDIRECT,
-} from '@dcx/ui/libs';
-import { CookieServiceFake, EventBusServiceFake, LoggerServiceFake } from '@dcx/ui/mock-repository';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 
@@ -29,42 +11,7 @@ class FakeTranslateLoader implements TranslateLoader {
 
 // Regular providers for component-level injection
 export const STORYBOOK_PROVIDERS = [
-  ConfigService,
-  ComposerService,
-  GenerateIdPipe,
-  NgbModal,
-  ModalDialogService,
-  NotificationService,
-  RedirectService,
-  CookiesStore,
-  {
-    provide: EXCLUDE_SESSION_EXPIRED_URLS,
-    useValue: [],
-  },
-  {
-    provide: TIMEOUT_REDIRECT,
-    useValue: '/',
-  },
-  {
-    provide: CookiesStore,
-    useClass: CookieServiceFake,
-  },
-  {
-    provide: EventBusService,
-    useClass: EventBusServiceFake,
-  },
-  {
-    provide: LoggerService,
-    useClass: LoggerServiceFake,
-  },
-  {
-    provide: BUTTON_CONFIG,
-    useValue: DEFAULT_CONFIG_BUTTON,
-  },
-  {
-    provide: FORM_SUMMARY_CONFIG,
-    useValue: DEFAULT_CONFIG_FORM_SUMMARY_BUTTONS,
-  },
+  // Keep this list lean for isolated Storybook rendering in this workspace.
 ];
 
 // Environment providers for application-level injection

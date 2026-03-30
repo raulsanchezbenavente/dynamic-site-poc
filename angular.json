@@ -127,6 +127,15 @@
             ],
             "scripts": []
           }
+        },
+        "storybook-reactive-forms": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "src/app/modules/reactive-forms/.storybook",
+            "browserTarget": "dynamic-site:build",
+            "port": 6007,
+            "compodoc": false
+          }
         }
       }
     }
