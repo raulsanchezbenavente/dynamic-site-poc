@@ -1,13 +1,21 @@
 import { NgClass } from '@angular/common';
-import { Component, effect, ElementRef, HostListener, input, OnInit, output, viewChild } from '@angular/core';
-import { UserCulture } from '@dcx/ui/libs';
+import { Component, effect, ElementRef, HostListener, inject, input, OnInit, output, viewChild } from '@angular/core';
 import dayjs from 'dayjs';
-import { RfBaseReactiveComponent, RfFormControl } from 'reactive-forms';
+import { Subject, takeUntil } from 'rxjs';
 
+import {
+  ModalDialogConfig,
+  ModalDialogService,
+  ModalDialogSize,
+} from '../../../../../design-system/src/lib/components/modal-dialog';
+import { ButtonStyles, LayoutSize, type UserCulture } from '../../../../../libs';
+import { RfBaseReactiveComponent } from '../../../lib/abstract/components/rf-base-reactive.component';
 import { DEFAULT_SHOW_ERRORS_MODE } from '../../../lib/abstract/constants/rf-default-values.constant';
 import { RfErrorDisplayModes } from '../../../lib/abstract/enums/rf-base-reactive-display-mode.enum';
+import { RfFormControl } from '../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../lib/extensions/components/rf-form-group.component';
 import { RfFormBuilderComponent } from '../../../lib/form-builder/rf-form-builder/rf-form-builder.component';
+import { FormCustomModalComponent } from '../form-custom-modal/form-custom-modal.component';
 
 @Component({
   selector: 'form-validation-features',
@@ -36,12 +44,30 @@ export class FormValidationFeaturesComponent implements OnInit {
   public errorDisplayModes = Object.values(RfErrorDisplayModes);
   public selectedErrorDisplayMode: RfErrorDisplayModes = DEFAULT_SHOW_ERRORS_MODE;
 
+  public modalDialogConfig: ModalDialogConfig = {
+    title: 'Form validation info',
+    layoutConfig: {
+      size: ModalDialogSize.MEDIUM,
+    },
+    footerButtonsConfig: {
+      actionButton: {
+        label: 'Close',
+        layout: {
+          size: LayoutSize.MEDIUM,
+          style: ButtonStyles.ACTION,
+        },
+      },
+    },
+  };
+  private readonly $unsubscribe: Subject<void> = new Subject<void>();
+  private readonly dialogService: ModalDialogService = inject(ModalDialogService);
+
   constructor() {}
 
   private readonly registerEffect = effect(() => {
     if (this.form() instanceof RfFormBuilderComponent) {
       this._formBuilder = this.form() as RfFormBuilderComponent;
-      this._form = this._formBuilder?.form as RfFormGroup;
+      this._form = this._formBuilder?.form;
     }
     if (this.form() instanceof RfFormGroup) {
       this._form = this.form() as RfFormGroup;
@@ -69,7 +95,13 @@ export class FormValidationFeaturesComponent implements OnInit {
       if (this._form.displayErrorsMode === RfErrorDisplayModes.SUBMITTED) {
         this._form.submitted = true;
       }
-      console.log('Form info:', this.normalizeDayjs(this._form?.getRawValue()));
+      this.dialogService
+        .openModal(this.modalDialogConfig, FormCustomModalComponent, {
+          invalid: this._form?.invalid,
+          raw: this.normalizeDayjs(this._form?.getRawValue()),
+        })
+        .pipe(takeUntil(this.$unsubscribe));
+      console.log('Form info:', this._form?.getRawValue());
     }
   }
 
@@ -85,20 +117,21 @@ export class FormValidationFeaturesComponent implements OnInit {
     this.changeErrorDisplayMode.emit(this.selectedErrorDisplayMode);
   }
 
-  private normalizeDayjs(obj: Record<string, any>): Record<string, any> {
+  private normalizeDayjs(obj: Record<string, unknown>): Record<string, unknown> {
     for (const key in obj) {
       if (obj[key] === undefined || obj[key] === null || obj[key] === '') {
         obj[key] = null;
       }
       const culture = this.getCulture(key);
       console.log(culture);
-      if (obj[key] && obj[key]['$d']) {
-        obj[key] = this.getDate(obj[key], culture);
+      const value = obj[key] as Record<string, unknown> | null;
+      if (value?.['$d']) {
+        obj[key] = this.getDate(value, culture);
       }
-      if (obj[key] && obj[key]['startDate']) {
+      if (value?.['startDate']) {
         obj[key] = {
-          startDate: this.getDate(obj[key]['startDate'], culture),
-          endDate: this.getDate(obj[key]['endDate'], culture),
+          startDate: this.getDate(value['startDate'] as Record<string, unknown>, culture),
+          endDate: this.getDate(value['endDate'] as Record<string, unknown>, culture),
         };
       }
     }
@@ -109,9 +142,9 @@ export class FormValidationFeaturesComponent implements OnInit {
     return ((this._form?.get(key) as RfFormControl)?.rfComponent as RfBaseReactiveComponent)?.culture();
   }
 
-  private getDate(obj: any, culture?: UserCulture): string {
+  private getDate(obj: Record<string, unknown>, culture?: UserCulture): string {
     const shortDateFormat: string = culture?.shortDateFormat || 'YYYY-MM-DD';
-    return dayjs(obj['$d']).format(shortDateFormat);
+    return dayjs(obj['$d'] as Date).format(shortDateFormat);
   }
 
   public setSubmitted(submitted: boolean): void {
