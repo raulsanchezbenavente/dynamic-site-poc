@@ -1299,62 +1299,6 @@ body:has(.layout.terminal-fullscreen) .layout {
   margin-left: 0.5rem;
   align-self: auto;
 }
-.script-bottom {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-}
-.script-bottom.single-line-inline {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-.script-command-first-line {
-  display: block;
-  width: 100%;
-}
-.script-bottom.single-line-inline .script-command-first-line {
-  width: auto;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-.script-command-second-row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-.script-bottom.single-line-inline .script-command-second-row {
-  display: block;
-  flex: 0 0 auto;
-}
-.script-bottom .script-command {
-  width: 100%;
-  min-width: 0;
-  align-self: flex-start;
-}
-.script-command-second-row .script-command-rest {
-  flex: 1 1 auto;
-  min-width: 0;
-  white-space: normal;
-  overflow: visible;
-  text-overflow: clip;
-}
-.script-command-second-row .actions {
-  margin-left: auto;
-  justify-self: flex-end;
-  align-self: flex-end;
-}
-.script-command-second-row:not(.has-rest) {
-  justify-content: flex-end;
-}
-.script-command-second-row:not(.has-rest) .script-command-rest {
-  display: none;
-}
-.script-bottom.actions-only {
-  justify-content: flex-end;
-}
 .favorite-toggle {
   border: 0;
   background: transparent;
