@@ -174,9 +174,18 @@ function listModules() {
   return fs
     .readdirSync(modulesRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
-    .filter((entry) => moduleHasSpecFiles(path.join(modulesRoot, entry.name)))
-    .map((entry) => entry.name)
-    .sort((a, b) => a.localeCompare(b));
+    .map((entry) => {
+      const name = entry.name;
+      const hasSpecs = moduleHasSpecFiles(path.join(modulesRoot, name));
+      return { name, hasSpecs };
+    })
+    .sort((a, b) => {
+      if (a.hasSpecs !== b.hasSpecs) {
+        return a.hasSpecs ? -1 : 1;
+      }
+
+      return a.name.localeCompare(b.name);
+    });
 }
 
 function buildSpawnEnv() {
@@ -269,11 +278,19 @@ ipcMain.handle('modules:list', async () => {
     return {
       ok: false,
       modules: [],
-      error: `No modules with .spec.ts files were found in ${modulesRoot}`,
+      error: `No modules were found in ${modulesRoot}`,
     };
   }
 
-  return { ok: true, modules };
+  return {
+    ok: true,
+    modules,
+    summary: {
+      total: modules.length,
+      withSpecs: modules.filter((moduleItem) => moduleItem.hasSpecs).length,
+      withoutSpecs: modules.filter((moduleItem) => !moduleItem.hasSpecs).length,
+    },
+  };
 });
 
 ipcMain.handle('prefs:get', async () => {
@@ -300,6 +317,11 @@ ipcMain.handle('tests:run', async (_event, payload) => {
 
   if (!/^[a-z0-9._-]+$/i.test(moduleName)) {
     return { ok: false, error: 'Invalid module name.' };
+  }
+
+  const modulePath = path.join(modulesRoot, moduleName);
+  if (!moduleHasSpecFiles(modulePath)) {
+    return { ok: false, error: `Module ${moduleName} does not contain .spec.ts files.` };
   }
 
   console.log(

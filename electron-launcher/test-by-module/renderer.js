@@ -36,31 +36,69 @@ function setBusy(isBusy) {
   moduleSelect.disabled = isBusy;
   watchMode.disabled = isBusy;
   coverageMode.disabled = isBusy;
-  runButton.disabled = isBusy || moduleSelect.options.length === 0;
+  const selectedOption = moduleSelect.selectedOptions?.[0] || null;
+  const canRunSelected = Boolean(selectedOption) && !selectedOption.disabled;
+  runButton.disabled = isBusy || !canRunSelected;
   cancelButton.disabled = isBusy;
   runButton.textContent = isBusy ? 'Running...' : 'Run tests';
 }
 
 function renderModules(modules) {
   const saved = readSavedSelection();
+  const normalizedModules = Array.isArray(modules)
+    ? modules
+        .map((item) => {
+          if (typeof item === 'string') {
+            return { name: item, hasSpecs: true };
+          }
+
+          const name = String(item?.name || '').trim();
+          if (!name) {
+            return null;
+          }
+
+          return {
+            name,
+            hasSpecs: Boolean(item?.hasSpecs),
+          };
+        })
+        .filter(Boolean)
+    : [];
+
+  const withSpecs = normalizedModules.filter((item) => item.hasSpecs).sort((a, b) => a.name.localeCompare(b.name));
+  const withoutSpecs = normalizedModules.filter((item) => !item.hasSpecs).sort((a, b) => a.name.localeCompare(b.name));
+  const ordered = [...withSpecs, ...withoutSpecs];
+
   moduleSelect.replaceChildren();
 
-  for (const name of modules) {
+  for (const moduleItem of ordered) {
     const option = document.createElement('option');
-    option.value = name;
-    option.textContent = name;
+    option.value = moduleItem.name;
+    option.textContent = moduleItem.name;
+    option.disabled = !moduleItem.hasSpecs;
     moduleSelect.appendChild(option);
   }
 
-  if (modules.length > 0) {
-    const savedNormalized = String(saved.moduleName || '').trim().toLowerCase();
-    const exactMatch = modules.includes(saved.moduleName);
+  if (ordered.length > 0) {
+    const savedNormalized = String(saved.moduleName || '')
+      .trim()
+      .toLowerCase();
+    const withSpecsNames = withSpecs.map((item) => item.name);
+    const exactMatch = withSpecsNames.includes(saved.moduleName);
     const insensitiveMatch =
-      modules.find((name) => String(name || '').trim().toLowerCase() === savedNormalized) || '';
-    moduleSelect.value = exactMatch ? saved.moduleName : insensitiveMatch || modules[0];
+      withSpecsNames.find(
+        (name) =>
+          String(name || '')
+            .trim()
+            .toLowerCase() === savedNormalized
+      ) || '';
+    const defaultValue = exactMatch ? saved.moduleName : insensitiveMatch || withSpecsNames[0] || '';
+    if (defaultValue) {
+      moduleSelect.value = defaultValue;
+    }
   }
 
-  runButton.disabled = modules.length === 0;
+  runButton.disabled = withSpecs.length === 0;
 }
 
 async function loadModules() {
@@ -75,13 +113,28 @@ async function loadModules() {
       return;
     }
 
-    renderModules(result.modules || []);
-    if ((result.modules || []).length === 0) {
+    const modules = result.modules || [];
+    renderModules(modules);
+    if (modules.length === 0) {
       setStatus('No modules available.', true);
       return;
     }
 
-    setStatus(`Ready. ${result.modules.length} modules available.`);
+    const withSpecs = modules.filter((item) => {
+      if (typeof item === 'string') {
+        return true;
+      }
+
+      return Boolean(item?.hasSpecs);
+    }).length;
+    const withoutSpecs = Math.max(0, modules.length - withSpecs);
+
+    if (withSpecs === 0) {
+      setStatus(`Ready. ${modules.length} modules found, but none have tests.`, true);
+      return;
+    }
+
+    setStatus(`Ready. ${withSpecs} modules with tests${withoutSpecs > 0 ? ` and ${withoutSpecs} without tests` : ''}.`);
   } catch (error) {
     renderModules([]);
     setStatus(error?.message || String(error), true);
