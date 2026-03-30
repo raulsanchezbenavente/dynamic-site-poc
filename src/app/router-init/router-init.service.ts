@@ -7,12 +7,12 @@ import {
   SiteLayout,
   SiteLayoutRow,
   SitePage,
-  SiteTab,
 } from '@navigation';
 import { filter, fromEvent, take } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
+import { TabConfigEntry } from '../modules/dynamic-composite/dynamic-tabs/models/tab-config.model';
 
 @Injectable({ providedIn: 'root' })
 export class RouterInitService {
@@ -139,8 +139,8 @@ export class RouterInitService {
   private buildTabNamesById(page: SitePage): Record<string, string> {
     return this.getLayoutRows(page.layout)
       .flatMap((row) => row.cols ?? [])
-      .flatMap((col) => (col.config?.['tabs'] as SiteTab[] | undefined) ?? [])
-      .reduce((accumulator: Record<string, string>, tab: SiteTab) => {
+      .flatMap((col) => (col.config?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
+      .reduce((accumulator: Record<string, string>, tab: TabConfigEntry) => {
         if (tab.pageId) {
           accumulator[tab.pageId] = tab.name ?? '';
         }

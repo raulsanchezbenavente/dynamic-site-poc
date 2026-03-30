@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+import { TabConfigEntry, TabSummary } from '../../../dynamic-composite/dynamic-tabs/models/tab-config.model';
+
 import { AppLang } from './models/langs.model';
 import {
   SiteBlockConfig,
@@ -10,8 +12,6 @@ import {
   SiteLayoutCol,
   SiteLayoutRow,
   SitePage,
-  SiteTab,
-  SiteTabSummary,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
@@ -155,21 +155,21 @@ export class SiteConfigService {
     return undefined;
   }
 
-  public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): SiteTabSummary[] {
+  public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): TabSummary[] {
     const tabsIdStr = String(tabsId);
     const pages = lang ? (this.configSitesByLanguage[lang] ?? []) : Object.values(this.configSitesByLanguage).flat();
 
-    const tabMap = new Map<string, SiteTabSummary>();
+    const tabMap = new Map<string, TabSummary>();
 
     for (const page of pages) {
       const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
-        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: SiteTab[] } | null;
+        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: TabConfigEntry[] } | null;
         if (String(tabsConfig?.tabsId ?? '') !== tabsIdStr) continue;
         const tabs = Array.isArray(tabsConfig?.tabs) ? tabsConfig.tabs : [];
-        tabs.forEach((tab: SiteTab) => {
+        tabs.forEach((tab: TabConfigEntry) => {
           const name = tab?.name ? String(tab.name) : '';
           if (!name) return;
           if (!tabMap.has(name)) {
