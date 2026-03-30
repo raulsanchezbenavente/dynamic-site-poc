@@ -1466,7 +1466,12 @@ function normalizeFavoriteScripts(value) {
   }
 
   return Array.from(
-    new Set(value.filter((entry) => typeof entry === 'string').map((entry) => entry.trim()).filter(Boolean))
+    new Set(
+      value
+        .filter((entry) => typeof entry === 'string')
+        .map((entry) => entry.trim())
+        .filter(Boolean)
+    )
   );
 }
 
@@ -1583,6 +1588,18 @@ function escapeShellArg(value) {
 function spawnScriptProcess(scriptName) {
   const { projectRoot } = getProjectContext();
   const env = buildSpawnEnv();
+
+  if (process.platform === 'win32' && scriptName === 'test-by-module') {
+    const launcherWindow =
+      BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows().find((win) => !win.isDestroyed());
+    if (launcherWindow && !launcherWindow.isDestroyed()) {
+      const bounds = launcherWindow.getBounds();
+      const centerX = Math.round(bounds.x + bounds.width / 2);
+      const centerY = Math.round(bounds.y + bounds.height / 2);
+      env.DYNAMIC_SITE_LAUNCHER_CENTER_X = String(centerX);
+      env.DYNAMIC_SITE_LAUNCHER_CENTER_Y = String(centerY);
+    }
+  }
 
   if (process.platform === 'win32') {
     return spawn('cmd.exe', ['/d', '/s', '/c', `npm run ${scriptName}`], {

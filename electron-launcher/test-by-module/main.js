@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
-const { app, BrowserWindow, ipcMain, nativeImage } = require('electron');
+const { app, BrowserWindow, ipcMain, nativeImage, screen } = require('electron');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
@@ -204,17 +204,42 @@ function buildSpawnEnv() {
   return env;
 }
 
+function getWindowPlacement(width, height) {
+  if (process.platform !== 'win32') {
+    return null;
+  }
+
+  const centerX = Number.parseInt(String(process.env.DYNAMIC_SITE_LAUNCHER_CENTER_X || ''), 10);
+  const centerY = Number.parseInt(String(process.env.DYNAMIC_SITE_LAUNCHER_CENTER_Y || ''), 10);
+  const hasLauncherPoint = Number.isFinite(centerX) && Number.isFinite(centerY);
+  const referencePoint = hasLauncherPoint ? { x: centerX, y: centerY } : screen.getCursorScreenPoint();
+  const targetDisplay = screen.getDisplayNearestPoint(referencePoint);
+  const area = targetDisplay?.workArea || targetDisplay?.bounds;
+
+  if (!area) {
+    return null;
+  }
+
+  return {
+    x: Math.round(area.x + Math.max(0, (area.width - width) / 2)),
+    y: Math.round(area.y + Math.max(0, (area.height - height) / 2)),
+  };
+}
+
 function createWindow() {
   const iconPath = getTestByModuleIconPath();
   const windowIcon = iconPath ? nativeImage.createFromPath(iconPath) : null;
+  const windowSize = { width: 520, height: 360 };
+  const placement = getWindowPlacement(windowSize.width, windowSize.height);
 
   mainWindow = new BrowserWindow({
-    width: 520,
-    height: 360,
+    width: windowSize.width,
+    height: windowSize.height,
     resizable: false,
     minimizable: false,
     maximizable: false,
     title: 'Test by module',
+    ...(placement ? { x: placement.x, y: placement.y } : {}),
     ...(iconPath ? { icon: iconPath } : {}),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
@@ -276,6 +301,12 @@ ipcMain.handle('tests:run', async (_event, payload) => {
   if (!/^[a-z0-9._-]+$/i.test(moduleName)) {
     return { ok: false, error: 'Invalid module name.' };
   }
+
+  console.log(
+    `[test-by-module] Selected module: ${moduleName} (watch=${watch ? 'true' : 'false'}, coverage=${
+      coverage ? 'true' : 'false'
+    })`
+  );
 
   const ngArgs = [
     'run',
