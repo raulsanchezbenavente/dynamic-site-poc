@@ -120,6 +120,13 @@ let isQuitInProgress = false;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
+const LOW_RES_SCRIPTS_MEDIA_QUERY = '(max-width: 1260px)';
+const lowResScriptsMedia =
+  typeof window.matchMedia === 'function' ? window.matchMedia(LOW_RES_SCRIPTS_MEDIA_QUERY) : null;
+
+function isLowResolutionScriptsLayout() {
+  return Boolean(lowResScriptsMedia?.matches);
+}
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
@@ -2853,6 +2860,7 @@ function bindScriptActionTooltip(button, tooltipText) {
 
 function renderScripts() {
   scriptsList.replaceChildren();
+  const useSimpleCommandLayout = isLowResolutionScriptsLayout();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
   const favoritesOnly = Boolean(filterFavoritesCheckbox?.checked);
 
@@ -2971,15 +2979,22 @@ function renderScripts() {
     row.append(info);
     scriptsList.appendChild(row);
 
-    const split = splitCommandByFirstLine(script.command, firstLine);
-    firstLine.textContent = split.firstLine;
-    restCommand.textContent = split.rest;
-    const hasRest = Boolean(split.rest);
-    secondRow.classList.toggle('has-rest', hasRest);
+    if (useSimpleCommandLayout) {
+      firstLine.textContent = String(script.command || '').trim();
+      restCommand.textContent = '';
+      secondRow.classList.remove('has-rest');
+      bottom.classList.remove('single-line-inline');
+    } else {
+      const split = splitCommandByFirstLine(script.command, firstLine);
+      firstLine.textContent = split.firstLine;
+      restCommand.textContent = split.rest;
+      const hasRest = Boolean(split.rest);
+      secondRow.classList.toggle('has-rest', hasRest);
 
-    const canInlineWithButtons =
-      !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
-    bottom.classList.toggle('single-line-inline', canInlineWithButtons);
+      const canInlineWithButtons =
+        !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
+      bottom.classList.toggle('single-line-inline', canInlineWithButtons);
+    }
   }
 }
 
@@ -3358,6 +3373,18 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
 window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
+
+if (lowResScriptsMedia) {
+  const handleLowResScriptsLayoutChange = () => {
+    renderScripts();
+  };
+
+  if (typeof lowResScriptsMedia.addEventListener === 'function') {
+    lowResScriptsMedia.addEventListener('change', handleLowResScriptsLayoutChange);
+  } else if (typeof lowResScriptsMedia.addListener === 'function') {
+    lowResScriptsMedia.addListener(handleLowResScriptsLayoutChange);
+  }
+}
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
