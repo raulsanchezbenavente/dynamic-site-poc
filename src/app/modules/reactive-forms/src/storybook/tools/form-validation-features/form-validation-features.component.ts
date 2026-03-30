@@ -139,7 +139,16 @@ export class FormValidationFeaturesComponent implements OnInit {
   }
 
   private getCulture(key: string): UserCulture | undefined {
-    return ((this._form?.get(key) as RfFormControl)?.rfComponent as RfBaseReactiveComponent)?.culture();
+    const rfComponent = (this._form?.get(key) as RfFormControl)?.rfComponent as
+      | (RfBaseReactiveComponent & { culture?: UserCulture | (() => UserCulture | undefined) })
+      | undefined;
+
+    const cultureValue = rfComponent?.culture;
+    if (typeof cultureValue === 'function') {
+      return cultureValue();
+    }
+
+    return cultureValue;
   }
 
   private getDate(obj: Record<string, unknown>, culture?: UserCulture): string {
