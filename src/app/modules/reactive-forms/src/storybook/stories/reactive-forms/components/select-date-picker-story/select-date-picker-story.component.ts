@@ -28,7 +28,7 @@ import { DayAgainstMonthAndYearValidator } from '../../../../../lib/components/r
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
 import { DateHelper } from '../../../../../lib/helpers/date.helper';
-import { RfReactiveFormsModule } from '../../../../../lib/reactive-forms.module';
+import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -54,7 +54,7 @@ import {
     FormValidationFeaturesComponent,
     HoverOpacityDirective,
     ReactiveFormsModule,
-    RfReactiveFormsModule,
+    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
     StandaloneValidationFeaturesComponent,
     TabPresentationComponent,
     TranslateModule,

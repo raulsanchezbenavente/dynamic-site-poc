@@ -13,7 +13,7 @@ import { RfInputDatepickerComponent } from '../../../../../lib/components/rf-inp
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
 import { DateHelper } from '../../../../../lib/helpers/date.helper';
-import { RfReactiveFormsModule } from '../../../../../lib/reactive-forms.module';
+import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -23,7 +23,7 @@ import { TabPresentationComponent } from '../../../../tools/tab-presentation/tab
   selector: 'input-datepicker-story',
   imports: [
     ReactiveFormsModule,
-    RfReactiveFormsModule,
+    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
     FormValidationFeaturesComponent,
     RfInputDatepickerComponent,
     TabPresentationComponent,

@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RfErrorDisplayModes } from '../../../../../lib/abstract/enums/rf-base-reactive-display-mode.enum';
 import { RfInputTypes } from '../../../../../lib/components/rf-input-text/models/rf-input-types.model';
 import { RfFormBuilderComponent } from '../../../../../lib/form-builder/rf-form-builder/rf-form-builder.component';
-import { RfReactiveFormsModule } from '../../../../../lib/reactive-forms.module';
+import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { GridBuilderComponent } from '../../../../../lib/tools/grid-builder/grid-builder.component';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import {
@@ -21,7 +21,7 @@ import {
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    RfReactiveFormsModule,
+    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
     RfFormBuilderComponent,
     FormValidationFeaturesComponent,
     GridBuilderComponent,

@@ -5,29 +5,20 @@
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
     "rootDir": "../../.."
   },
   "exclude": [
     "../src/test.ts",
     "../src/**/*.spec.ts",
     "../src/storybook/tools/**",
-    "../src/storybook/stories/reactive-forms/components/prefix-phone-story/**",
-    "../src/storybook/stories/reactive-forms/components/switch-story/**",
-    "../src/storybook/stories/reactive-forms/components/select-date-picker-story/**",
     "../src/storybook/stories/reactive-forms/form-builder/**",
     "../src/storybook/stories/reactive-forms/form-store-story/**"
   ],
   "include": [
     "../src/lib/**/*",
     "../src/storybook/providers/**/*",
-    "../src/storybook/stories/reactive-forms/components/abstract/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/checkbox-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/datepicker-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/input-datepicker-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/input-text-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/list-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/radio-story/**/*.ts",
-    "../src/storybook/stories/reactive-forms/components/select-story/**/*.ts",
+    "../src/storybook/stories/reactive-forms/components/**/*.ts",
     "./preview.ts",
     "../../design-system/.storybook/i18n/**/*",
     "../../design-system/.storybook/utils/**/*"

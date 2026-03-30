@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, Validators } from '@angular/forms';
-import { ModalDialogComponent } from '@dcx/ui/design-system';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { DEFAULT_SHOW_ERRORS_MODE } from '../../../../../lib/abstract/constants/rf-default-values.constant';
@@ -10,7 +9,7 @@ import type { RfSwitchClasses } from '../../../../../lib/components/rf-switch/mo
 import { switchRequired } from '../../../../../lib/components/rf-switch/validators/rf-switch-validators';
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
-import { RfReactiveFormsModule } from '../../../../../lib/reactive-forms.module';
+import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -24,9 +23,8 @@ import { ERROR_SWITCH_FALSE, ERROR_SWITCH_TRUE, SWITCH_CUSTOM_CLASSES } from './
   styleUrl: './switch-story.component.scss',
   standalone: true,
   imports: [
-    ModalDialogComponent,
     ReactiveFormsModule,
-    RfReactiveFormsModule,
+    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
     FormValidationFeaturesComponent,
     HoverOpacityDirective,
     TabPresentationComponent,

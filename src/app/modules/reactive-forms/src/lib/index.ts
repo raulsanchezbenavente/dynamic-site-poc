@@ -127,4 +127,5 @@ export * from './store/form.state';
 export * from './store/rf-form.store';
 export * from './tools/form-blocker.component';
 export * from './tools/grid-builder/grid-builder.component';
+export * from './standalone-imports';
 export * from './tools/summary-builder/summary-builder.service';
