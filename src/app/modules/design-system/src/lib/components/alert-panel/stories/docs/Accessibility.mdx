@@ -1,0 +1,120 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../alert-panel.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Alert Panel
+
+## Accessibility
+
+### ARIA Attributes
+
+The Alert Panel uses semantic roles and ARIA attributes to communicate status changes and relationships to assistive technologies.
+
+#### Implicit Attributes
+
+The component automatically applies `role="alert"` to announce changes to screen readers when the alert appears or updates.
+
+#### Optional Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabelledBy</code></td>
+      <td>
+        References an external element ID that provides a label for this alert.<br />
+        Use when another element on the page should serve as the alert's accessible name instead of its internal title.<br />
+        Pass via <code>config.ariaAttributes.ariaLabelledBy</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Custom ID for Parent Components
+
+The alert panel accepts an optional `id` input that allows parent components to reference the alert for accessibility purposes:
+
+```html
+<alert-panel
+  [id]="'important-notice'"
+  [config]="alertConfig">
+</alert-panel>
+
+<!-- Parent element can reference the alert -->
+<div aria-labelledby="important-notice">
+  Content that is labeled by the alert above
+</div>
+```
+
+**When to use:**
+- When a parent container needs to be labeled by the alert content
+- When other elements need to reference this alert via ARIA relationships (`aria-describedby`, `aria-labelledby`, `aria-controls`)
+- When you need a stable ID for automated testing or DOM manipulation
+
+**When not needed:**
+- The component does not auto-generate an ID
+- If no external element needs to reference the alert, omit the `id` input
+
+See the [With custom ID](?path=/story/atoms-alertpanel--with-custom-id) story for a working example.
+
+### Semantic Meaning
+
+The Alert Panel automatically maps visual status types to semantic meaning:
+
+- **WARNING**: Indicates an action is required or attention is needed
+- **ERROR**: Communicates a blocking problem that prevents progress
+- **SUCCESS**: Confirms successful completion of an action
+- **INFO**: Provides neutral informational updates
+- **NEUTRAL**: Shows a neutral or inactive state
+
+Screen readers will announce the alert content when it appears or changes, using the `role="alert"` live region.
+
+### HTML Content Considerations
+
+Both `title` and `description` properties accept HTML strings. When using HTML:
+
+- Ensure all HTML is properly sanitized to prevent XSS vulnerabilities
+- Maintain semantic heading hierarchy (the title is visually prominent but not a heading element)
+- Links within descriptions should have descriptive text, not "click here"
+- Avoid complex interactive elements within the description
+
+### Content Projection
+
+When projecting custom content (buttons, links, forms) into the alert panel:
+
+- Ensure projected interactive elements appear in a logical focus order
+- Maintain sufficient color contrast for projected content
+- Test keyboard navigation through all interactive elements
+- Provide appropriate ARIA labels for any icons or icon-only buttons
+
+### Best Practices
+
+- **Use appropriate alert types**: Match the visual status to the semantic meaning (don't use ERROR for informational messages)
+- **Provide clear, actionable content**: Titles should be concise; descriptions should explain what happened and what to do next
+- **Avoid auto-dismissing alerts**: Unlike toasts, alert panels should remain visible until the user addresses them or navigates away
+- **Test with screen readers**: Verify announcements are clear and appropriately timed, especially for dynamically inserted alerts
+- **Don't nest alerts**: Avoid placing alert panels inside other alert panels or live regions
+- **Pair with focus management**: When an error alert appears, consider moving focus to the first actionable element (like a form field or retry button)
+- **Use `styleDisabled` appropriately**: The disabled treatment is visual only—it doesn't change the alert's semantic role or prevent interaction with projected content
+
+### Keyboard Navigation
+
+Alert panels themselves are not interactive elements and do not respond to keyboard input. However:
+
+- Any projected content (links, buttons) must be keyboard accessible
+- Focus order should flow naturally through projected interactive elements
+- Ensure all interactive elements meet minimum touch target sizes (44x44px)
+
+### Screen Reader Support
+
+- The `role="alert"` ensures assistive technologies announce the alert when it appears or changes
+- Title and description content is read in order by screen readers
+- Icon aria-labels (loaded via translations) provide semantic meaning for the status icon
+- Projected content is announced in document order after the title and description

@@ -1,0 +1,10 @@
+@if (config.actionButton) {
+    <ds-button
+        [config]="config.actionButton"
+        (buttonClicked)="primaryAction()" />
+}
+@if (config.secondaryButton) {
+    <ds-button
+        [config]="config.secondaryButton"
+        (buttonClicked)="secondaryAction()" />
+}

@@ -1,0 +1,74 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.alert-panel {
+    display: flex;
+    gap: var(--alert-panel-gap, $spacer-x-small); // gap of icon and content
+    padding: var(--alert-panel-padding, $pad-x-medium);
+    color: var(--alert-panel-color, var(--c-text));
+    border: var(--alert-panel-border-width, 1px) solid var(--alert-panel-border-color, var(--c-color20));
+    background: var(--alert-panel-background, var(--c-color20));
+    border-radius: var(--alert-panel-border-radius, var(--#{$ds}border-radius-md));
+}
+.alert-panel-icon {
+    @include iconfont(
+        var(--alert-panel-icon, $icon-info-circle-filled),
+        before,
+        var(--alert-panel-icon-color, var(--c-color2))
+    );
+
+    position: relative;
+    display: flex;
+    align-self: flex-start;
+    top: calculateRem(-1px);
+    font-size: var(--alert-panel-icon-fontsize, var(--f-size-large));
+}
+.alert-panel_inner {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-tiny;
+    font-size: var(--f-size-small);
+}
+.alert-panel_title {
+    color: var(--alert-panel-title-color, inherit);
+    font-weight: var(--alert-panel-title-fontweight, var(--f-weight-bold));
+}
+.alert-panel_description {
+    --c-link: var(--alert-panel-link-color, inherit);
+    --c-link-hover: var(--alert-panel-link-color-hover, inherit);
+    --paragraph-margin: 0;
+
+    line-height: var(--f-line-height-large);
+    color: var(--alert-panel-description-color, inherit);
+}
+
+// types
+// warning is default type
+.alert-panel-type--warning {
+    --alert-panel-color: var(--c-warning-text);
+    --alert-panel-icon: #{$icon-error-circle-filled};
+    --alert-panel-icon-color: var(--c-warning-text);
+    --alert-panel-border-color: var(--c-warning-background);
+    --alert-panel-background: var(--c-warning-background);
+}
+.alert-panel-type--success {
+    --alert-panel-icon: #{$icon-check-circle-filled};
+    --alert-panel-icon-color: var(--c-success-light);
+    --alert-panel-border-color: var(--c-success-light);
+    --alert-panel-background: var(--c-white);
+}
+.alert-panel-type--error {
+    --alert-panel-icon: #{$icon-cross-circle-filled};
+    --alert-panel-icon-color: var(--c-error-text);
+    --alert-panel-border-color: var(--c-error);
+    --alert-panel-background: var(--c-white);
+}
+.alert-panel-type--info {
+    --alert-panel-color: var(--c-info-dark);
+    --alert-panel-icon: #{$icon-info-circle-filled};
+    --alert-panel-icon-color: var(--c-info-dark);
+    --alert-panel-border-color: var(--c-info-background);
+    --alert-panel-background: var(--c-info-background);
+}

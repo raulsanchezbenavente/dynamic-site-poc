@@ -1,32 +1,25 @@
+import { AriaAttributes, IconConfig } from '@dcx/ui/libs';
+
+import { AlertPanelConfig } from '../../alert-panel';
+
+import { ModalFooterButtonsConfig } from './modal-footer-buttons.config';
+import { ModalLayoutConfig } from './modal-layout.config';
+
 export interface ModalDialogConfig {
-  title?: string;
-  footerButtonsConfig?: {
-    actionButton?: {
-      label?: string;
-      layout?: {
-        size?: string;
-        style?: string;
-      };
-    };
-    secondaryButton?: {
-      label?: string;
-      layout?: {
-        size?: string;
-        style?: string;
-      };
-    };
-  };
-  layoutConfig?: {
-    centered?: boolean;
-    size?: string;
-    fullscreen?: boolean | string;
-    modalOverlayClass?: string;
-    modalWrapperClass?: string;
-    modalDialogClass?: string;
-    backdrop?: boolean | 'static';
-  };
-  ariaAttributes?: {
-    ariaLabelledBy?: string;
-    ariaDescribedBy?: string;
-  };
+  /**
+   * Title is obligatory on modals
+   */
+  title: string;
+  /**
+   * If modal uses an image as title, the title property will be used as img alt property
+   */
+  titleImageSrc?: string;
+  subtitle?: string;
+  introText?: string;
+  alertPanelConfig?: AlertPanelConfig;
+  icon?: IconConfig;
+  footerButtonsConfig?: ModalFooterButtonsConfig;
+  layoutConfig?: ModalLayoutConfig;
+  ariaAttributes?: AriaAttributes;
+  programmaticOpen?: boolean;
 }

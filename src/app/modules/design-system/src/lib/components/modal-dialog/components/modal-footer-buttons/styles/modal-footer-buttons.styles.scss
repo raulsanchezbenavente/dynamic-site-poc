@@ -1,0 +1,16 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.modal-footer-buttons {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: var(--modal-footer-buttons-halign, center);
+    width: 100%;
+    gap: var(--modal-footer-buttons-gap, $spacer-medium);
+}
+.modal-sm .modal-footer-buttons {
+    --#{$ds}btn-width: 100%;
+}
