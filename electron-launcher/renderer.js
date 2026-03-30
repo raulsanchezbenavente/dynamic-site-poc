@@ -119,6 +119,14 @@ let launcherToastHideTimer = null;
 let isQuitInProgress = false;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
+const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
+const LOW_RES_SCRIPTS_MEDIA_QUERY = '(max-width: 1260px)';
+const lowResScriptsMedia =
+  typeof window.matchMedia === 'function' ? window.matchMedia(LOW_RES_SCRIPTS_MEDIA_QUERY) : null;
+
+function isLowResolutionScriptsLayout() {
+  return Boolean(lowResScriptsMedia?.matches);
+}
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
@@ -1937,7 +1945,9 @@ function readSavedFilters() {
     }
 
     const parsed = JSON.parse(raw);
-    const parsedMode = String(parsed?.mode || '').trim().toLowerCase();
+    const parsedMode = String(parsed?.mode || '')
+      .trim()
+      .toLowerCase();
     return {
       running: Boolean(parsed?.running),
       favorites: Boolean(parsed?.favorites),
@@ -2011,7 +2021,11 @@ async function loadDefaultFilterMode() {
     }
 
     const configuredMode = await window.launcherApi.getDefaultFilterMode();
-    return String(configuredMode || '').trim().toLowerCase() === 'and' ? 'and' : 'or';
+    return String(configuredMode || '')
+      .trim()
+      .toLowerCase() === 'and'
+      ? 'and'
+      : 'or';
   } catch {
     return DEFAULT_FILTER_STATE.mode;
   }
@@ -2061,7 +2075,12 @@ async function loadDefaultFavoriteScripts() {
     }
 
     return Array.from(
-      new Set(configured.filter((name) => typeof name === 'string').map((name) => name.trim()).filter(Boolean))
+      new Set(
+        configured
+          .filter((name) => typeof name === 'string')
+          .map((name) => name.trim())
+          .filter(Boolean)
+      )
     );
   } catch {
     return [];
@@ -2841,6 +2860,7 @@ function bindScriptActionTooltip(button, tooltipText) {
 
 function renderScripts() {
   scriptsList.replaceChildren();
+  const useSimpleCommandLayout = isLowResolutionScriptsLayout();
   const runningOnly = Boolean(filterRunningCheckbox?.checked);
   const favoritesOnly = Boolean(filterFavoritesCheckbox?.checked);
 
@@ -2959,15 +2979,22 @@ function renderScripts() {
     row.append(info);
     scriptsList.appendChild(row);
 
-    const split = splitCommandByFirstLine(script.command, firstLine);
-    firstLine.textContent = split.firstLine;
-    restCommand.textContent = split.rest;
-    const hasRest = Boolean(split.rest);
-    secondRow.classList.toggle('has-rest', hasRest);
+    if (useSimpleCommandLayout) {
+      firstLine.textContent = String(script.command || '').trim();
+      restCommand.textContent = '';
+      secondRow.classList.remove('has-rest');
+      bottom.classList.remove('single-line-inline');
+    } else {
+      const split = splitCommandByFirstLine(script.command, firstLine);
+      firstLine.textContent = split.firstLine;
+      restCommand.textContent = split.rest;
+      const hasRest = Boolean(split.rest);
+      secondRow.classList.toggle('has-rest', hasRest);
 
-    const canInlineWithButtons =
-      !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
-    bottom.classList.toggle('single-line-inline', canInlineWithButtons);
+      const canInlineWithButtons =
+        !hasRest && canPlaceActionsBesideFirstLine(split.firstLine, firstLine, actions, bottom);
+      bottom.classList.toggle('single-line-inline', canInlineWithButtons);
+    }
   }
 }
 
@@ -2976,7 +3003,9 @@ function canPlaceActionsBesideFirstLine(commandText, referenceElement, actionsEl
     return false;
   }
 
-  const availableWidth = Math.floor(containerElement.clientWidth || containerElement.getBoundingClientRect().width || 0);
+  const availableWidth = Math.floor(
+    containerElement.clientWidth || containerElement.getBoundingClientRect().width || 0
+  );
   if (availableWidth <= 0) {
     return false;
   }
@@ -3015,7 +3044,7 @@ function splitCommandByFirstLine(text, referenceElement) {
     return { firstLine: fullText, rest: '' };
   }
 
-  const availableWidth = Math.floor(referenceElement.clientWidth || referenceElement.getBoundingClientRect().width || 0);
+  const availableWidth = referenceElement.clientWidth || referenceElement.getBoundingClientRect().width || 0;
   if (availableWidth <= 0) {
     return { firstLine: fullText, rest: '' };
   }
@@ -3027,63 +3056,91 @@ function splitCommandByFirstLine(text, referenceElement) {
   measurer.style.visibility = 'hidden';
   measurer.style.pointerEvents = 'none';
   measurer.style.zIndex = '-1';
+  measurer.style.display = 'block';
   measurer.style.width = `${availableWidth}px`;
   measurer.style.whiteSpace = 'normal';
   measurer.style.wordBreak = 'break-all';
   measurer.style.overflowWrap = 'anywhere';
+  measurer.style.boxSizing = styles.boxSizing;
+  measurer.style.padding = styles.padding;
+  measurer.style.border = styles.border;
+  measurer.style.margin = '0';
+  measurer.style.lineHeight = styles.lineHeight;
   measurer.style.font = styles.font;
   measurer.style.fontSize = styles.fontSize;
   measurer.style.fontWeight = styles.fontWeight;
   measurer.style.fontFamily = styles.fontFamily;
+  measurer.style.fontStyle = styles.fontStyle;
+  measurer.style.fontVariant = styles.fontVariant;
+  measurer.style.fontStretch = styles.fontStretch;
+  measurer.style.fontKerning = styles.fontKerning;
+  measurer.style.fontFeatureSettings = styles.fontFeatureSettings;
+  measurer.style.fontVariationSettings = styles.fontVariationSettings;
   measurer.style.letterSpacing = styles.letterSpacing;
+  measurer.style.wordSpacing = styles.wordSpacing;
+  measurer.style.textTransform = styles.textTransform;
+  measurer.style.textIndent = styles.textIndent;
+  measurer.style.textRendering = styles.textRendering;
+  measurer.textContent = fullText;
 
   document.body.appendChild(measurer);
 
-  const getRenderedLineCount = (value) => {
-    measurer.textContent = value;
-    const textNode = measurer.firstChild;
-    if (!(textNode instanceof Text)) {
-      return 0;
+  const textNode = measurer.firstChild;
+  if (!(textNode instanceof Text)) {
+    document.body.removeChild(measurer);
+    return { firstLine: fullText, rest: '' };
+  }
+
+  const range = document.createRange();
+
+  const fitsInFirstLine = (charCount) => {
+    const safeCharCount = Math.max(0, Math.min(fullText.length, charCount));
+    if (safeCharCount <= 0) {
+      return true;
     }
 
-    const range = document.createRange();
-    range.selectNodeContents(textNode);
-    const lines = range.getClientRects().length;
-    range.detach?.();
-    return lines;
+    range.setStart(textNode, 0);
+    range.setEnd(textNode, safeCharCount);
+    return range.getClientRects().length <= 1;
   };
 
-  const fitsInFirstRenderedLine = (value) => {
-    return getRenderedLineCount(value) <= 1;
-  };
-
-  if (fitsInFirstRenderedLine(fullText)) {
+  if (fitsInFirstLine(fullText.length)) {
     document.body.removeChild(measurer);
     return { firstLine: fullText, rest: '' };
   }
 
   let low = 1;
   let high = fullText.length;
-  let best = 1;
+  let splitIndex = 1;
 
   while (low <= high) {
     const mid = Math.floor((low + high) / 2);
-    const candidate = fullText.slice(0, mid);
-    if (fitsInFirstRenderedLine(candidate)) {
-      best = mid;
+    if (fitsInFirstLine(mid)) {
+      splitIndex = mid;
       low = mid + 1;
     } else {
       high = mid - 1;
     }
   }
 
-  const splitIndex = best;
+  while (splitIndex > 1 && !fitsInFirstLine(splitIndex)) {
+    splitIndex -= 1;
+  }
+
+  if (IS_WINDOWS) {
+    splitIndex = Math.max(1, splitIndex - 3);
+    while (splitIndex > 1 && !fitsInFirstLine(splitIndex)) {
+      splitIndex -= 1;
+    }
+  }
+
+  range.detach?.();
 
   document.body.removeChild(measurer);
 
   return {
-    firstLine: fullText.slice(0, splitIndex).trim(),
-    rest: fullText.slice(splitIndex).trim(),
+    firstLine: fullText.slice(0, splitIndex),
+    rest: fullText.slice(splitIndex),
   };
 }
 
@@ -3316,6 +3373,18 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
 window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
+
+if (lowResScriptsMedia) {
+  const handleLowResScriptsLayoutChange = () => {
+    renderScripts();
+  };
+
+  if (typeof lowResScriptsMedia.addEventListener === 'function') {
+    lowResScriptsMedia.addEventListener('change', handleLowResScriptsLayoutChange);
+  } else if (typeof lowResScriptsMedia.addListener === 'function') {
+    lowResScriptsMedia.addListener(handleLowResScriptsLayoutChange);
+  }
+}
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
