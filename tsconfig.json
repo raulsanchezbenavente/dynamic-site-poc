@@ -10,6 +10,7 @@
       "@dynamic-composite": ["src/app/modules/dynamic-composite/index.ts"],
       "@dcx/ui/libs": ["src/app/modules/libs/index.ts"],
       "@dcx/ui/design-system": ["src/app/modules/design-system/index.ts"],
+      "@dcx/storybook/design-system": ["src/app/modules/storybook-design-system/index.ts"],
       "@dcx/ui/mock-repository": ["src/app/modules/mock-repository/index.ts"],
       "@reactive-forms": ["src/app/modules/reactive-forms/src/lib/index.ts"],
       "reactive-forms": ["src/app/modules/reactive-forms/src/public-api.ts"],

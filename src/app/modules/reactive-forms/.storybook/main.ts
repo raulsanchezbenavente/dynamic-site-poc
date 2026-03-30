@@ -14,6 +14,8 @@ const config: StorybookConfig = {
     '../src/storybook/stories/reactive-forms/components/select-story/**/*.stories.@(js|jsx|ts|tsx)',
     '../src/storybook/stories/reactive-forms/components/select-date-picker-story/**/*.stories.@(js|jsx|ts|tsx)',
     '../src/storybook/stories/reactive-forms/components/switch-story/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/storybook/stories/reactive-forms/form-builder/**/*.stories.@(js|jsx|ts|tsx)',
+    '../src/storybook/stories/reactive-forms/form-store-story/**/*.stories.@(js|jsx|ts|tsx)',
   ],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
   framework: {

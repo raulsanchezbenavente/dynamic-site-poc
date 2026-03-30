@@ -8,17 +8,13 @@
     "sourceMap": true,
     "rootDir": "../../.."
   },
-  "exclude": [
-    "../src/test.ts",
-    "../src/**/*.spec.ts",
-    "../src/storybook/tools/**",
-    "../src/storybook/stories/reactive-forms/form-builder/**",
-    "../src/storybook/stories/reactive-forms/form-store-story/**"
-  ],
+  "exclude": ["../src/test.ts", "../src/**/*.spec.ts", "../src/storybook/tools/**"],
   "include": [
     "../src/lib/**/*",
     "../src/storybook/providers/**/*",
     "../src/storybook/stories/reactive-forms/components/**/*.ts",
+    "../src/storybook/stories/reactive-forms/form-builder/**/*.ts",
+    "../src/storybook/stories/reactive-forms/form-store-story/**/*.ts",
     "./preview.ts",
     "../../design-system/.storybook/i18n/**/*",
     "../../design-system/.storybook/utils/**/*"
