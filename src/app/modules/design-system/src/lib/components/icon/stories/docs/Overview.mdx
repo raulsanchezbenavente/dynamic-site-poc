@@ -1,0 +1,86 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../icon.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Icon
+
+<a href="FIGMA_LINK_HERE" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/icon" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `icon` in templates: how to configure it and how to provide accessible labeling when the icon conveys meaning.
+
+The component renders glyphs from the shared UI+ web font, so every icon requested in `config.name` must exist in that font file.
+
+> **Icon inventory**
+> - Design guidance: <a href="http://localhost:6006/?path=/docs/guidelines-iconography--docs" target="_blank" rel="noopener noreferrer">Iconography guidelines</a>
+> - Web font preview: <a href="http://localhost:6006/assets/ui_plus/icons/webfonts/icomoon/demo.html" target="_blank" rel="noopener noreferrer">UI+ icon catalog</a>
+
+## Basic usage
+
+The icon is configured through a `config` object. This object controls which glyph to display and how screen readers should interpret it.
+
+```html
+<icon [config]="iconConfig" />
+```
+
+```ts
+public iconConfig = {
+  name: 'email',
+  ariaAttributes: {
+    ariaLabel: 'Email notifications',
+  },
+};
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+      <td>Glyph identifier without the <code>icon-</code> prefix. Required.</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaLabel</code></td>
+      <td><code>string</code></td>
+      <td>Text announced by assistive tech. When omitted the icon becomes decorative.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Variants
+
+### All Icons
+
+Use this story to preview the full glyph catalog and quickly search by icon name.
+
+[View All Icons story](?path=/story/atoms-icon--all-icons)
+
+- Search by partial icon name to find available glyphs quickly.
+- Use the rendered label (`icon-{name}`) to copy the exact value for `config.name`.
+- Validate visual consistency when choosing icons for new UI states.
+
+## Accessibility
+
+- When `ariaLabel` is provided the component sets `role="img"` and exposes the trimmed label.
+- Without a label, the component sets `aria-hidden="true"` so decorative icons are ignored by assistive tech.
+- Keep color contrast at least 3:1 against the background. Icons inherit color from surrounding text unless you override via CSS.
+- Avoid conveying state solely with color; pair icons with text or tooltips for clarity.
+
+## Related components
+
+- [**IconButton**](?path=/docs/atoms-icon-button-overview--docs): Use when the icon is a direct action trigger with button semantics.
+- [**DsButton**](?path=/docs/atoms-button-overview--docs): Prefer when the action must expose text plus an optional icon.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-icon-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-icon-changelog--docs) tab for version history.

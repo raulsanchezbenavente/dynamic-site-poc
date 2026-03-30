@@ -41,10 +41,10 @@ export * from './components/rf-datepicker/models/rf-datepicker-classes.model';
 export * from './components/rf-datepicker/models/rf-datepicker-value.model';
 export * from './components/rf-input-datepicker/models/rf-input-date-picker-form.model';
 export * from './components/rf-input-datepicker/models/rf-input-datepciker-classes.model';
+export * from './components/rf-input-text/enums/rf-autocomplete-types.enum';
 export * from './components/rf-input-text/models/rf-input-classes.model';
 export * from './components/rf-input-text/models/rf-input-text-messages.model';
 export * from './components/rf-input-text/models/rf-input-types.model';
-export * from './components/rf-input-text/enums/rf-autocomplete-types.enum';
 export * from './components/rf-ip-input/models/rf-ip-input-aria.model';
 export * from './components/rf-ip-input/models/rf-ip-input-classes.model';
 export * from './components/rf-ip-input/models/rf-ip-input-error-messages.model';
@@ -104,16 +104,16 @@ export * from './components/rf-datepicker/validators/date-required.validator';
 export * from './components/rf-datepicker/validators/range-required.validator';
 export * from './components/rf-datepicker/validators/specific-date.validator';
 export * from './components/rf-datepicker/validators/specific-range-required.validator';
+export * from './components/rf-prefix-phone/validators/dynamic-phone-length.validator';
 export * from './components/rf-select-date-picker/validators/rf-select-date-picker-incorrect-day.validator';
 export * from './validators/async-validator.validator';
-export * from './components/rf-prefix-phone/validators/dynamic-phone-length.validator';
 // Utils
 export * from './components/rf-prefix-phone/utils/phone-mask.util';
 
 // TODO: Rename files
 export * from './components/rf-datepicker/validators/common-validators-fn';
-export * from './components/rf-switch/validators/rf-switch-validators';
 export * from './components/rf-input-text/validators/rf-input-text-validators';
+export * from './components/rf-switch/validators/rf-switch-validators';
 
 // TODO: Rename directories
 export * from './components/common/rf-error-messages/types/rf-error-messages.types';
@@ -125,7 +125,6 @@ export * from './services/filter/filter.enum';
 export * from './services/filter/filter.model';
 export * from './store/form.state';
 export * from './store/rf-form.store';
-export * from './store/rf-form-summary.store';
 export * from './tools/form-blocker.component';
 export * from './tools/grid-builder/grid-builder.component';
 export * from './tools/summary-builder/summary-builder.service';

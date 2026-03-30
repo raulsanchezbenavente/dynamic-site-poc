@@ -9,6 +9,7 @@
       "@navigation": ["src/app/modules/navigation/index.ts"],
       "@dynamic-composite": ["src/app/modules/dynamic-composite/index.ts"],
       "@dcx/ui/libs": ["src/app/modules/libs/index.ts"],
+      "@dcx/ui/design-system": ["src/app/modules/design-system/index.ts"],
       "@reactive-forms": ["src/app/modules/reactive-forms/src/lib/index.ts"],
       "@fake-blocks-test": ["src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["src/app/modules/fake-blocks-avianca/index.ts"],

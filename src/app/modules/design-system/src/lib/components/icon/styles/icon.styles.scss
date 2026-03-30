@@ -1,0 +1,6 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    display: inline-flex;
+    font-size: var(--icon-fontsize, inherit);
+    color: var(--icon-color, inherit);
+}

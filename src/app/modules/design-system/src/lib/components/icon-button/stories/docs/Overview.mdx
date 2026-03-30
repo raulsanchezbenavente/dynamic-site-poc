@@ -1,0 +1,193 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as IconButtonStories from '../icon-button.stories';
+
+<Meta of={IconButtonStories} name="01 Overview" />
+
+# Icon Button
+
+<a href="https://www.figma.com/design/lQu7MbeFT6BYUOXqfVZSXj/IBE%2B-v4-2024?node-id=1943-14733&t=tzgL5y6mT0C6BUQy-4" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/icon-button" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `<icon-button>` in templates: how to configure it, which variants to pick, and critical accessibility requirements for icon-only buttons.
+
+## Basic usage
+
+The icon button is configured through a `config` object. This object controls the icon displayed, visual appearance, size, and critically important ARIA attributes for accessibility.
+
+```html
+<icon-button [config]="homeButtonConfig" (clickEvent)="handleHomeClick()" />
+```
+
+```ts
+homeButtonConfig = {
+  icon: {
+    name: 'home',
+  },
+  ariaAttributes: {
+    ariaLabel: 'Go to home page', // REQUIRED for accessibility
+  },
+  layout: {
+    style: ButtonStyles.ACTION,
+    size: LayoutSize.MEDIUM,
+  },
+};
+```
+
+> **Doc style rules:**
+> - Prefer Angular's latest control-flow syntax (`@for`, `@if`, `@switch`) instead of legacy structural directives when writing template snippets.
+> - When listing property descriptions or defaults, use `<table>` markup (with `<th>`, `<td>`, etc.) rather than Markdown tables so Storybook renders them consistently.
+
+## Variants
+
+### Sizes
+
+Icon buttons come in three sizes to match different UI contexts.
+
+<Canvas of={IconButtonStories.SIZES} />
+
+- **Small**: Use in compact interfaces, data tables, or as secondary actions in dense layouts
+- **Medium** (default): Standard size for most use cases, toolbar actions, and card headers
+- **Large**: Use for primary actions or touch-optimized interfaces
+
+### Styles
+
+Icon buttons support four visual styles to establish hierarchy and context.
+
+<Canvas of={IconButtonStories.STYLES} />
+
+- **Action**: High-emphasis buttons for primary icon actions (e.g., submit, favorite, share)
+- **Secondary**: Medium-emphasis for secondary actions or grouped toolbar buttons
+- **Inverse**: For use on dark backgrounds or colored surfaces
+- **Link**: Minimal style that appears like a text link, for tertiary actions
+
+### States
+
+Icon buttons support various interaction states for accessibility and user feedback.
+
+<Canvas of={IconButtonStories.STATES} />
+
+- **Default**: Standard interactive button
+- **Disabled**: Removes button from tab order and prevents interaction (`isDisabled: true`)
+- **Aria-disabled**: Visually disabled but remains focusable and in tab order (use when user needs context about why it's disabled)
+- **Toggle** (`ariaPressed`): For buttons that represent an on/off state (e.g., favorite, mute, bookmark)
+- **Expandable** (`ariaExpanded`): For buttons that show/hide content panels or dropdowns
+- **Menu** (`ariaHaspopup`): For buttons that open popup menus, dialogs, or other overlays
+
+### Interactive Example
+
+This example demonstrates proper implementation of a menu button with `ariaHaspopup` and `ariaExpanded` states.
+
+<Canvas of={IconButtonStories.INTERACTIVE_MENU} />
+
+## Configuration Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Required</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>icon.name</code></td>
+      <td>string</td>
+      <td>Icon glyph name from design-system icon set</td>
+      <td>Yes</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaLabel</code></td>
+      <td>string</td>
+      <td>Accessible name describing the button's action. Required for screen reader users.</td>
+      <td><strong>Yes</strong></td>
+    </tr>
+    <tr>
+      <td><code>layout.style</code></td>
+      <td>ButtonStyles</td>
+      <td>Visual style: ACTION, SECONDARY, INVERSE, LINK</td>
+      <td>No (default: ACTION)</td>
+    </tr>
+    <tr>
+      <td><code>layout.size</code></td>
+      <td>LayoutSize</td>
+      <td>Button size: SMALL, MEDIUM, LARGE</td>
+      <td>No (default: MEDIUM)</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td>boolean</td>
+      <td>Native disabled state (removes from focus order)</td>
+      <td>No (default: false)</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaDisabled</code></td>
+      <td>boolean</td>
+      <td>Visually disabled but still focusable</td>
+      <td>No (default: false)</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaPressed</code></td>
+      <td>boolean</td>
+      <td>Toggle state for on/off buttons</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaExpanded</code></td>
+      <td>boolean</td>
+      <td>Expanded/collapsed state for buttons controlling content visibility</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaHaspopup</code></td>
+      <td>string</td>
+      <td>Type of popup: 'menu', 'dialog', 'listbox', 'tree', 'grid'</td>
+      <td>No</td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes.ariaControls</code></td>
+      <td>string</td>
+      <td>ID of controlled element (used with ariaExpanded)</td>
+      <td>No</td>
+    </tr>
+  </tbody>
+</table>
+
+## Events
+
+The component emits a `clickEvent` when clicked (unless disabled or aria-disabled prevents interaction).
+
+```html
+<icon-button
+  [config]="deleteConfig"
+  (clickEvent)="handleDelete()" />
+```
+
+## Critical Accessibility Requirement
+
+**Icon buttons MUST include `ariaLabel` in `ariaAttributes`.** Without it, screen readers announce only "button" with no context about the button's purpose. The component will warn in development mode if `ariaLabel` is missing.
+
+```typescript
+// ❌ BAD - No ariaLabel, inaccessible
+badConfig = {
+  icon: { name: 'trash' },
+};
+
+// ✅ GOOD - Clear ariaLabel
+goodConfig = {
+  icon: { name: 'trash' },
+  ariaAttributes: {
+    ariaLabel: 'Delete item',
+  },
+};
+```
+
+## Related components
+- [**Button**](?path=/docs/atoms-button--overview): Use for text-based buttons with labels
+- [**Icon**](?path=/docs/atoms-icon-icon--overview): Standalone icon component for decorative or informative use
+
+## References
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-button-icon-button-accessibility--docs) tab for detailed accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-button-icon-button-changelog--docs) tab for version history.

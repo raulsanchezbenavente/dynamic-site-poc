@@ -12,7 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { FormControlState, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { IconButtonComponent, IconComponent } from '@dcx/storybook/design-system';
+import { IconButtonComponent, IconComponent } from '@dcx/ui/design-system';
 
 import { RfBaseReactiveComponent } from '../../abstract/components/rf-base-reactive.component';
 import { RfFormControl } from '../../extensions/components/rf-form-control.component';

@@ -1,0 +1,18 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: inline-flex;
+    font-size: var(--icon-button-fontsize, var(--f-size-large));
+}
+.#{$ds}icon-button_button {
+    display: flex;
+    color: var(--icon-button-color, inherit);
+    padding: var(--icon-button-padding, $pad-tiny);
+    &[disabled],
+    &[aria-disabled='true'] {
+        color: var(--c-disable-text);
+    }
+}

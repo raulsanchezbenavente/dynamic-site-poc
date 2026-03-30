@@ -1,0 +1,288 @@
+import { Meta } from '@storybook/blocks';
+
+import * as IconButtonStories from '../icon-button.stories';
+
+<Meta of={IconButtonStories} name="02 Accessibility" />
+
+# Icon Button
+
+## Accessibility
+
+Icon buttons present unique accessibility challenges because they lack visible text labels. This guide covers the ARIA attributes, keyboard interactions, and best practices to ensure icon buttons are accessible to all users.
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Provides accessible name for screen reader users. Must describe the button's action, not the icon's appearance (e.g., "Delete item" not "Trash icon"). Without this, screen readers announce only "button" with no context.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaPressed</code></td>
+      <td>
+        Indicates toggle state (<code>true</code> / <code>false</code>).<br />
+        Use for toggle buttons and controls that can be on/off (e.g., favorite buttons, mute/unmute, bookmark, pin).
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaExpanded</code></td>
+      <td>
+        Indicates whether expandable content is shown (<code>true</code> / <code>false</code>).<br />
+        Pair with <code>ariaControls</code> to reference the controlled element ID. Use for accordion triggers, dropdown buttons, collapsible panels.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaHaspopup</code></td>
+      <td>
+        Indicates the presence and type of popup (<code>menu</code>, <code>dialog</code>, <code>listbox</code>, <code>tree</code>, <code>grid</code>).<br />
+        Often paired with <code>ariaExpanded</code> for menu buttons, context menus, modal triggers.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaControls</code></td>
+      <td>
+        References the ID of the element controlled by this component.<br />
+        Pair with <code>ariaExpanded</code> or popup triggers to link button to controlled content.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDisabled</code></td>
+      <td>
+        Indicates disabled state (<code>true</code> / <code>false</code>) while keeping element focusable and in tab order.<br />
+        Use when users need context about unavailability. Differs from native <code>disabled</code> which removes element from tab order completely.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+Icon buttons support standard button keyboard interactions:
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Move focus to/from the button</td>
+    </tr>
+    <tr>
+      <td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+      <td>Move focus backwards</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd></td>
+      <td>Activate the button</td>
+    </tr>
+    <tr>
+      <td><kbd>Space</kbd></td>
+      <td>Activate the button</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Focus Management
+
+- Icon buttons receive visible focus indicator matching design system styles
+- Disabled buttons (`isDisabled: true`) are removed from tab order
+- Aria-disabled buttons (`ariaDisabled: true`) remain focusable but prevent activation
+- When button opens a menu/dialog, focus should move to first interactive element in the popup
+
+### Screen Reader Support
+
+#### Announcement Patterns
+
+**Standard button:**
+```typescript
+config = {
+  icon: { name: 'home' },
+  ariaAttributes: { ariaLabel: 'Go to home page' },
+};
+```
+**Announces**: "Go to home page, button"
+
+**Toggle button:**
+```typescript
+config = {
+  icon: { name: 'heart' },
+  ariaAttributes: {
+    ariaLabel: 'Add to favorites',
+    ariaPressed: false,
+  },
+};
+```
+**Announces**: "Add to favorites, toggle button, not pressed"
+
+**Menu button:**
+```typescript
+config = {
+  icon: { name: 'menu-justify' },
+  ariaAttributes: {
+    ariaLabel: 'Open menu',
+    ariaHaspopup: 'menu',
+    ariaExpanded: false,
+  },
+};
+```
+**Announces**: "Open menu, button, has popup menu, collapsed"
+
+**Expandable button:**
+```typescript
+config = {
+  icon: { name: 'chevron-down' },
+  ariaAttributes: {
+    ariaLabel: 'Expand section',
+    ariaExpanded: false,
+    ariaControls: 'content-panel',
+  },
+};
+```
+**Announces**: "Expand section, button, collapsed, controls content-panel"
+
+#### State Changes
+
+When state changes occur (e.g., menu opens, content expands), screen readers automatically announce the new state:
+- `ariaPressed: false` → `ariaPressed: true`: "pressed"
+- `ariaExpanded: false` → `ariaExpanded: true`: "expanded"
+
+### Best Practices
+
+#### 1. Always Provide ariaLabel
+
+```typescript
+// ❌ BAD - Inaccessible
+{
+  icon: { name: 'trash' }
+}
+
+// ✅ GOOD - Clear accessible name
+{
+  icon: { name: 'trash' },
+  ariaAttributes: { ariaLabel: 'Delete item' }
+}
+```
+
+#### 2. Describe the Action, Not the Icon
+
+```typescript
+// ❌ BAD - Describes appearance
+ariaLabel: 'Trash can icon'
+
+// ✅ GOOD - Describes action
+ariaLabel: 'Delete item'
+```
+
+#### 3. Use ariaPressed for Toggles
+
+```typescript
+// ❌ BAD - No state indication
+{
+  icon: { name: 'heart' },
+  ariaAttributes: { ariaLabel: 'Favorite' }
+}
+
+// ✅ GOOD - Clear toggle state
+{
+  icon: { name: 'heart' },
+  ariaAttributes: {
+    ariaLabel: 'Add to favorites',
+    ariaPressed: false
+  }
+}
+```
+
+#### 4. Pair ariaExpanded with ariaControls
+
+```typescript
+// ❌ BAD - No reference to controlled element
+{
+  icon: { name: 'chevron-down' },
+  ariaAttributes: {
+    ariaLabel: 'Expand',
+    ariaExpanded: false
+  }
+}
+
+// ✅ GOOD - Links to controlled element
+{
+  icon: { name: 'chevron-down' },
+  ariaAttributes: {
+    ariaLabel: 'Expand filters',
+    ariaExpanded: false,
+    ariaControls: 'filter-panel'
+  }
+}
+```
+
+#### 5. Update Dynamic States
+
+When users interact with toggle or expandable buttons, update the ARIA attributes:
+
+```typescript
+toggleFavorite(): void {
+  const currentState = this.config.ariaAttributes.ariaPressed;
+  this.config = {
+    ...this.config,
+    ariaAttributes: {
+      ...this.config.ariaAttributes,
+      ariaPressed: !currentState
+    }
+  };
+}
+```
+
+#### 6. Use Contextual Labels
+
+Provide context when multiple similar buttons appear together:
+
+```typescript
+// ❌ BAD - Ambiguous when multiple delete buttons exist
+ariaLabel: 'Delete'
+
+// ✅ GOOD - Specific context
+ariaLabel: 'Delete flight segment 2'
+ariaLabel: 'Delete passenger John Smith'
+```
+
+### Testing Checklist
+
+Use this checklist when implementing icon buttons:
+
+- [ ] `ariaLabel` provided and describes the action
+- [ ] Focus indicator visible when button receives keyboard focus
+- [ ] Button activates with both <kbd>Enter</kbd> and <kbd>Space</kbd>
+- [ ] Screen reader announces button name and role correctly
+- [ ] If toggle: `ariaPressed` state updates and announces correctly
+- [ ] If expandable: `ariaExpanded` updates when content shows/hides
+- [ ] If menu: `ariaHaspopup` indicates popup type correctly
+- [ ] Disabled state prevents activation and announces correctly
+- [ ] Touch target size adequate for mobile users (minimum 44×44px)
