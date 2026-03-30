@@ -67,19 +67,39 @@ function renderModules(modules) {
 
   const withSpecs = normalizedModules.filter((item) => item.hasSpecs).sort((a, b) => a.name.localeCompare(b.name));
   const withoutSpecs = normalizedModules.filter((item) => !item.hasSpecs).sort((a, b) => a.name.localeCompare(b.name));
-  const ordered = [...withSpecs, ...withoutSpecs];
 
   moduleSelect.replaceChildren();
 
-  for (const moduleItem of ordered) {
-    const option = document.createElement('option');
-    option.value = moduleItem.name;
-    option.textContent = moduleItem.name;
-    option.disabled = !moduleItem.hasSpecs;
-    moduleSelect.appendChild(option);
+  if (withSpecs.length > 0) {
+    const withTestsGroup = document.createElement('optgroup');
+    withTestsGroup.label = 'Modules with tests';
+
+    for (const moduleItem of withSpecs) {
+      const option = document.createElement('option');
+      option.value = moduleItem.name;
+      option.textContent = moduleItem.name;
+      withTestsGroup.appendChild(option);
+    }
+
+    moduleSelect.appendChild(withTestsGroup);
   }
 
-  if (ordered.length > 0) {
+  if (withoutSpecs.length > 0) {
+    const withoutTestsGroup = document.createElement('optgroup');
+    withoutTestsGroup.label = 'Modules without tests';
+
+    for (const moduleItem of withoutSpecs) {
+      const option = document.createElement('option');
+      option.value = moduleItem.name;
+      option.textContent = moduleItem.name;
+      option.disabled = true;
+      withoutTestsGroup.appendChild(option);
+    }
+
+    moduleSelect.appendChild(withoutTestsGroup);
+  }
+
+  if (withSpecs.length > 0 || withoutSpecs.length > 0) {
     const savedNormalized = String(saved.moduleName || '')
       .trim()
       .toLowerCase();
