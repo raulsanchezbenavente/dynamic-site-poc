@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn } = require('child_process');
 const { app, BrowserWindow, ipcMain, nativeImage, screen } = require('electron');
+const { buildSharedModalIconConfig, createIconManager } = require('../shared/icon-manager');
 
 const projectRoot = path.resolve(__dirname, '..', '..');
 const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
@@ -14,85 +15,14 @@ if (process.platform === 'win32') {
 
 let mainWindow = null;
 let activeChild = null;
-let cachedIconPath = null;
+const sharedModalIconConfig = buildSharedModalIconConfig({ launcherDir: __dirname });
 
-function getTestByModuleIconPath() {
-  if (cachedIconPath && fs.existsSync(cachedIconPath)) {
-    return cachedIconPath;
-  }
-
-  const candidates = [];
-
-  if (process.platform === 'darwin') {
-    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.icns'));
-    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.png'));
-  }
-
-  if (process.platform === 'linux') {
-    candidates.push(path.join(__dirname, 'assets', 'linux', 'modal-icon.png'));
-    candidates.push(path.join(__dirname, 'assets', 'mac', 'modal-icon.png'));
-  }
-
-  if (process.platform === 'win32') {
-    candidates.push(path.join(__dirname, 'assets', 'windows', 'modal-icon.png'));
-  }
-
-  candidates.push(path.join(__dirname, 'assets', 'modal-icon.png'));
-
-  if (process.platform === 'darwin') {
-    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.icns'));
-    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'));
-  }
-
-  if (process.platform === 'linux') {
-    candidates.push(path.join(__dirname, '..', 'assets', 'linux', 'avianca-icon.png'));
-    candidates.push(path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'));
-  }
-
-  if (process.platform === 'win32') {
-    candidates.push(path.join(__dirname, '..', 'assets', 'windows', 'avianca-icon.png'));
-  }
-
-  for (const candidatePath of candidates) {
-    if (fs.existsSync(candidatePath)) {
-      cachedIconPath = candidatePath;
-      return cachedIconPath;
-    }
-  }
-
-  return null;
-}
-
-function applyAppIcon() {
-  if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
-    return;
-  }
-
-  const iconCandidates = [
-    path.join(__dirname, 'assets', 'mac', 'modal-icon.png'),
-    path.join(__dirname, 'assets', 'mac', 'modal-icon.icns'),
-    path.join(__dirname, 'assets', 'modal-icon.png'),
-    path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.png'),
-    path.join(__dirname, '..', 'assets', 'mac', 'avianca-icon.icns'),
-  ].filter((candidatePath) => fs.existsSync(candidatePath));
-
-  for (const iconPath of iconCandidates) {
-    try {
-      if (path.extname(iconPath).toLowerCase() === '.png') {
-        const runtimeIcon = nativeImage.createFromPath(iconPath);
-        if (!runtimeIcon.isEmpty()) {
-          app.dock.setIcon(runtimeIcon);
-          return;
-        }
-      }
-
-      app.dock.setIcon(iconPath);
-      return;
-    } catch {
-      // Try the next available icon candidate.
-    }
-  }
-}
+const { getIconPath: getTestByModuleIconPath, applyAppIcon } = createIconManager({
+  app,
+  nativeImage,
+  candidates: sharedModalIconConfig.candidates,
+  dockCandidates: sharedModalIconConfig.dockCandidates,
+});
 
 function getPrefsFilePath() {
   return path.join(app.getPath('userData'), prefsFileName);
@@ -266,7 +196,7 @@ function createWindow() {
   }
 
   mainWindow.setMenuBarVisibility(false);
-  mainWindow.loadFile(path.join(__dirname, 'index.html'));
+  mainWindow.loadFile(path.join(__dirname, '..', 'by-module', 'index.html'));
   mainWindow.on('closed', () => {
     mainWindow = null;
   });

@@ -49,16 +49,21 @@ select {
   border-radius: 10px;
   background: #f8fbff;
   color: #16365a;
-  font-size: 1.08rem;
+  font-size: 1.04rem;
   font-weight: 700;
 }
 
 select option {
-  font-size: 1.08rem;
+  font-size: 1.04rem;
 }
 
 #moduleSelect option:disabled {
   color: #8a97a9;
+}
+
+.options {
+  display: grid;
+  gap: 8px;
 }
 
 .check-row {
