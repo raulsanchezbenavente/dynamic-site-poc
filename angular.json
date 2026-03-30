@@ -41,6 +41,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
+              "src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -123,6 +124,7 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/bootstrap-icons/font/bootstrap-icons.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
+              "src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -133,7 +135,7 @@
           "options": {
             "configDir": "src/app/modules/reactive-forms/.storybook",
             "browserTarget": "dynamic-site:build",
-            "port": 6007,
+            "port": 6006,
             "compodoc": false
           }
         }
