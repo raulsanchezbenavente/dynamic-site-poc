@@ -54,3 +54,6 @@ Thumbs.db
 *.wmv
 
 *.zip
+
+# Migration paths
+_migration/
