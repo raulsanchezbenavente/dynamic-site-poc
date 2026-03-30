@@ -7,6 +7,11 @@ const projectRoot = path.resolve(__dirname, '..', '..');
 const modulesRoot = path.join(projectRoot, 'src', 'app', 'modules');
 const prefsFileName = 'test-by-module-prefs.json';
 
+if (process.platform === 'win32') {
+  const isolatedUserDataPath = path.join(app.getPath('appData'), 'dynamic-site-test-by-module');
+  app.setPath('userData', isolatedUserDataPath);
+}
+
 let mainWindow = null;
 let activeChild = null;
 let cachedIconPath = null;
@@ -174,6 +179,31 @@ function listModules() {
     .sort((a, b) => a.localeCompare(b));
 }
 
+function buildSpawnEnv() {
+  const env = {};
+  for (const [key, value] of Object.entries(process.env)) {
+    if (value == null) {
+      continue;
+    }
+    env[key] = String(value);
+  }
+
+  if (process.platform === 'win32') {
+    const pathKey = Object.keys(env).find((key) => key.toLowerCase() === 'path') || 'Path';
+    const currentPathEntries = String(env[pathKey] ?? env.PATH ?? '')
+      .split(';')
+      .filter(Boolean);
+    const fallbackPathEntries = ['C:\\Windows\\System32', 'C:\\Windows', 'C:\\Windows\\System32\\Wbem'];
+    const mergedPath = Array.from(new Set([...currentPathEntries, ...fallbackPathEntries]));
+    env[pathKey] = mergedPath.join(';');
+    if (pathKey !== 'PATH') {
+      env.PATH = env[pathKey];
+    }
+  }
+
+  return env;
+}
+
 function createWindow() {
   const iconPath = getTestByModuleIconPath();
   const windowIcon = iconPath ? nativeImage.createFromPath(iconPath) : null;
@@ -247,8 +277,7 @@ ipcMain.handle('tests:run', async (_event, payload) => {
     return { ok: false, error: 'Invalid module name.' };
   }
 
-  const npmExecutable = process.platform === 'win32' ? 'npm.cmd' : 'npm';
-  const args = [
+  const ngArgs = [
     'run',
     'ng',
     '--',
@@ -258,20 +287,36 @@ ipcMain.handle('tests:run', async (_event, payload) => {
   ];
 
   if (!watch) {
-    args.push('--browsers=ChromeHeadless');
+    ngArgs.push('--browsers=ChromeHeadless');
   }
 
   if (coverage) {
-    args.push('--code-coverage=true');
+    ngArgs.push('--code-coverage=true');
   }
 
-  console.log(`[test-by-module] Running: ${npmExecutable} ${args.join(' ')}`);
+  const env = buildSpawnEnv();
+  let child;
 
-  const child = spawn(npmExecutable, args, {
-    cwd: projectRoot,
-    stdio: 'inherit',
-    env: process.env,
-  });
+  if (process.platform === 'win32') {
+    const command = `npm ${ngArgs.join(' ')}`;
+    console.log(`[test-by-module] Running: cmd.exe /d /s /c ${command}`);
+    child = spawn('cmd.exe', ['/d', '/s', '/c', command], {
+      cwd: projectRoot,
+      stdio: 'inherit',
+      env,
+      windowsHide: true,
+      shell: false,
+    });
+  } else {
+    console.log(`[test-by-module] Running: npm ${ngArgs.join(' ')}`);
+    child = spawn('npm', ngArgs, {
+      cwd: projectRoot,
+      stdio: 'inherit',
+      env,
+      windowsHide: true,
+      shell: false,
+    });
+  }
 
   activeChild = child;
 
