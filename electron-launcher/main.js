@@ -1238,11 +1238,16 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
       const spawnConfig = resolveWindowsTerminalSpawn(effectiveTerminalType, commandToRun, cwd, env);
       child = spawn(spawnConfig.command, spawnConfig.args, spawnConfig.options);
     } else {
-      child = spawn(commandToRun, [], {
+      const shellBinary = process.env.SHELL || '/bin/zsh';
+      const shellName = path.basename(shellBinary).toLowerCase();
+      const usesInteractiveLogin = shellName === 'zsh' || shellName === 'bash';
+      const shellArgs = usesInteractiveLogin ? ['-ilc', commandToRun] : ['-lc', commandToRun];
+
+      child = spawn(shellBinary, shellArgs, {
         cwd,
         env,
         windowsHide: true,
-        shell: true,
+        shell: false,
       });
     }
 
