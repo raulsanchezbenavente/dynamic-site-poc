@@ -3409,8 +3409,12 @@ document.addEventListener('click', (event) => {
 window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
 window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
 window.addEventListener(TERMINAL_THEME_CHANGED_EVENT, () => {
+  if (isTerminalTab(activeLogTab)) {
+    renderTerminalOutput();
+    return;
+  }
+
   renderLogs();
-  renderTerminalOutput();
 });
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
