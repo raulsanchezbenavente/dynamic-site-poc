@@ -281,7 +281,7 @@
           {
             "cols": [
               {
-                "component": "tabs",
+                "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
                   "tabsId": "111",
@@ -394,7 +394,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Articles autorisés et interdits dans vos bagages</h2>\n<p class=\"intro\">Les articles restreints peuvent mettre en danger la santé et la sécurité des personnes, l’environnement ou les avions.</p>\n</div>",
@@ -406,7 +406,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/fr",
@@ -414,7 +414,7 @@
                 }
               },
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/fr",
@@ -426,7 +426,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/fr",
@@ -438,7 +438,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<p>En cliquant sur \"Continuer\", vous indiquez que vous acceptez les <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">politiques de la compagnie aérienne sur le transport d’articles restreints</a>.</p>",

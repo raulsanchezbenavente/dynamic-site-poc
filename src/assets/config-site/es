@@ -281,7 +281,7 @@
           {
             "cols": [
               {
-                "component": "tabs",
+                "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
                   "tabsId": "111",
@@ -394,7 +394,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Artículos permitidos y prohibidos en tu equipaje</h2>\n<p class=\"intro\">Los elementos restringidos pueden poner en riesgo la salud y seguridad de las personas, el medioambiente o los aviones.</p>\n</div>",
@@ -406,7 +406,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/es",
@@ -414,7 +414,7 @@
                 }
               },
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/es",
@@ -426,7 +426,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/es",
@@ -438,7 +438,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<p>Al hacer clic en \"Continuar\", indicas que estás de acuerdo con las <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">políticas de la aerolínea sobre el transporte de artículos restringidos</a>.</p>",

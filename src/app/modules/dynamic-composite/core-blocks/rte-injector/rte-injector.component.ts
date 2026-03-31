@@ -210,7 +210,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
   private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {
     this.emitDynamicPageReadyEvent({
       config: (this.config() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'RTEinjector_uiplus',
+      fallbackComponent: 'rteBlock_uiplus',
       state,
       extraDetail,
     });

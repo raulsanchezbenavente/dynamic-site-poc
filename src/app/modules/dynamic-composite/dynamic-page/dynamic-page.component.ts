@@ -48,8 +48,8 @@ type ComponentReadyDetail = {
   templateUrl: './dynamic-page.component.html',
 })
 export class DynamicPageComponent implements OnInit, OnDestroy {
-  private static readonly LOCALIZED_COMPONENTS = new Set(['RTEinjector_uiplus']);
-  private static readonly TABS_COMPONENT = 'tabs';
+  private static readonly LOCALIZED_COMPONENTS = new Set(['rteBlock_uiplus']);
+  private static readonly TABS_COMPONENT = 'multiTabBlock_uiplus';
 
   public rows: PageLayoutRow[] = [];
 
@@ -105,7 +105,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   }
 
   public hasRteInjector(row: PageLayoutRow): boolean {
-    return (row?.cols ?? []).some((col) => col?.component === 'RTEinjector_uiplus');
+    return (row?.cols ?? []).some((col) => col?.component === 'rteBlock_uiplus');
   }
 
   private onComponentReady = (event: Event): void => {

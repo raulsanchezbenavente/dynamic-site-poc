@@ -281,7 +281,7 @@
           {
             "cols": [
               {
-                "component": "tabs",
+                "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
                   "tabsId": "111",
@@ -394,7 +394,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Itens permitidos e proibidos na sua bagagem</h2>\n<p class=\"intro\">Itens restritos podem colocar em risco a saúde e a segurança das pessoas, o meio ambiente ou as aeronaves.</p>\n</div>",
@@ -406,7 +406,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "assets/rte-fragments/allowed-cabin/pt",
@@ -414,7 +414,7 @@
                 }
               },
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/pt",
@@ -426,7 +426,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/pt",
@@ -438,7 +438,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<p>Ao clicar em \"Continuar\", você indica que concorda com as <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">políticas da companhia aérea sobre o transporte de itens restritos</a>.</p>",

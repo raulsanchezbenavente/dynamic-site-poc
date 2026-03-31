@@ -77,7 +77,7 @@ describe('DynamicPageComponent', () => {
       {
         cols: [
           {
-            component: 'RTEinjector_uiplus',
+            component: 'rteBlock_uiplus',
             htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/en'],
           },
         ],
@@ -87,7 +87,7 @@ describe('DynamicPageComponent', () => {
       {
         cols: [
           {
-            component: 'RTEinjector_uiplus',
+            component: 'rteBlock_uiplus',
             htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/es'],
           },
         ],
@@ -140,11 +140,11 @@ describe('DynamicPageComponent', () => {
         {
           cols: [
             {
-              component: 'RTEinjector_uiplus',
+              component: 'rteBlock_uiplus',
               htmlContentURLs: ['/assets/rte-fragments/allowed-cabin/en'],
             },
             {
-              component: 'RTEinjector_uiplus',
+              component: 'rteBlock_uiplus',
               htmlContentURLs: ['/assets/rte-fragments/allowed-cellar/en'],
             },
           ],
@@ -161,23 +161,20 @@ describe('DynamicPageComponent', () => {
         detail: {
           batchId,
           componentId: String(firstBlock?.['__dynamicPageComponentId'] ?? ''),
-          component: 'RTEinjector_uiplus',
+          component: 'rteBlock_uiplus',
           state: 'loaded',
         },
       })
     );
 
-    expect(consoleLogSpy).not.toHaveBeenCalledWith(
-      '[dynamic-page] all mapped components ready',
-      jasmine.any(Object)
-    );
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[dynamic-page] all mapped components ready', jasmine.any(Object));
 
     document.dispatchEvent(
       new CustomEvent('dynamic-page:component-ready', {
         detail: {
           batchId,
           componentId: String(secondBlock?.['__dynamicPageComponentId'] ?? ''),
-          component: 'RTEinjector_uiplus',
+          component: 'rteBlock_uiplus',
           state: 'loaded',
         },
       })
@@ -204,7 +201,7 @@ describe('DynamicPageComponent', () => {
         {
           cols: [
             {
-              component: 'tabs',
+              component: 'multiTabBlock_uiplus',
               config: {
                 tabs: [
                   {
@@ -214,7 +211,7 @@ describe('DynamicPageComponent', () => {
                     layout: {
                       rows: [
                         {
-                          cols: [{ component: 'RTEinjector_uiplus' }],
+                          cols: [{ component: 'rteBlock_uiplus' }],
                         },
                       ],
                     },
@@ -261,32 +258,26 @@ describe('DynamicPageComponent', () => {
         detail: {
           batchId,
           componentId: 'tabs-wrapper',
-          component: 'tabs',
+          component: 'multiTabBlock_uiplus',
           state: 'rendered',
         },
       })
     );
 
-    expect(consoleLogSpy).not.toHaveBeenCalledWith(
-      '[dynamic-page] all mapped components ready',
-      jasmine.any(Object)
-    );
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[dynamic-page] all mapped components ready', jasmine.any(Object));
 
     document.dispatchEvent(
       new CustomEvent('dynamic-page:component-ready', {
         detail: {
           batchId,
           componentId: firstNestedComponentId,
-          component: 'RTEinjector_uiplus',
+          component: 'rteBlock_uiplus',
           state: 'loaded',
         },
       })
     );
 
-    expect(consoleLogSpy).not.toHaveBeenCalledWith(
-      '[dynamic-page] all mapped components ready',
-      jasmine.any(Object)
-    );
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[dynamic-page] all mapped components ready', jasmine.any(Object));
 
     document.dispatchEvent(
       new CustomEvent('dynamic-page:component-ready', {
@@ -309,5 +300,4 @@ describe('DynamicPageComponent', () => {
       })
     );
   });
-
 });
