@@ -1488,7 +1488,7 @@ function normalizeDefaultFilterMode(value) {
     .trim()
     .toLowerCase();
 
-  return normalized === 'and' ? 'and' : 'or';
+  return normalized === 'or' ? 'or' : 'and';
 }
 
 function readLauncherDefaultsConfig() {
@@ -1505,7 +1505,7 @@ function readLauncherDefaultsConfig() {
     return {
       defaultFavoriteScripts: [],
       defaultTerminalTheme: '',
-      defaultFilterMode: 'or',
+      defaultFilterMode: 'and',
     };
   }
 }
