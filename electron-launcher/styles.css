@@ -12,15 +12,15 @@
   --brand: #0b5bd3;
 
   --terminal-tabs-border: #4f79c9;
-  --terminal-tabs-bg-start: #4069be;
-  --terminal-tabs-bg-end: #365fb4;
+  --terminal-tabs-bg-start: #2f63b9;
+  --terminal-tabs-bg-end: #3569c0;
   --terminal-tab-border: #7fa0e3;
-  --terminal-tab-bg: #3f66b7;
+  --terminal-tab-bg: #3568be;
   --terminal-tab-ink: #e5efff;
   --terminal-tab-active-bg: #5f86d2;
   --terminal-tab-active-border: #bed1f7;
   --terminal-tab-active-ink: #f7fbff;
-  --terminal-body-bg: #3f66b7;
+  --terminal-body-bg: #356bc3;
   --terminal-body-ink: #f1f6ff;
   --terminal-stdout: #eef5ff;
   --terminal-stderr: #ffd9ce;
@@ -687,7 +687,7 @@ body {
   background: rgba(255, 255, 255, 0.55);
 }
 .theme-preview-ocean {
-  background: linear-gradient(180deg, #4069be 0%, #365fb4 45%, #2c4f96 100%);
+  background: linear-gradient(180deg, #2f63b9 0%, #356bc3 46%, #3c74cc 100%);
 }
 .theme-preview-red {
   background: linear-gradient(180deg, #b74444 0%, #9f3737 48%, #7f2b2b 100%);

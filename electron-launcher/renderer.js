@@ -48,6 +48,7 @@ const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'and' };
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
+const TERMINAL_THEME_CHANGED_EVENT = 'launcher:terminal-theme-changed';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
 const ACTIVE_LOG_TAB_STORAGE_KEY = 'launcher.active-log-tab.v1';
@@ -507,15 +508,65 @@ function rgbToHex(red, green, blue) {
   return `#${[r, g, b].map((channel) => channel.toString(16).padStart(2, '0')).join('')}`;
 }
 
-function ansiIndexedColorToHex(index) {
-  const normalized = Number(index);
-  if (!Number.isFinite(normalized)) {
+function parseCssColorToRgb(value) {
+  const raw = String(value || '').trim();
+  if (!raw) {
     return null;
   }
 
-  const value = Math.max(0, Math.min(255, Math.trunc(normalized)));
+  const hexMatch = raw.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (hexMatch) {
+    const hex = hexMatch[1];
+    if (hex.length === 3) {
+      return {
+        red: Number.parseInt(`${hex[0]}${hex[0]}`, 16),
+        green: Number.parseInt(`${hex[1]}${hex[1]}`, 16),
+        blue: Number.parseInt(`${hex[2]}${hex[2]}`, 16),
+      };
+    }
 
-  const basePalette = [
+    return {
+      red: Number.parseInt(hex.slice(0, 2), 16),
+      green: Number.parseInt(hex.slice(2, 4), 16),
+      blue: Number.parseInt(hex.slice(4, 6), 16),
+    };
+  }
+
+  const rgbMatch = raw.match(/^rgba?\(([^)]+)\)$/i);
+  if (!rgbMatch) {
+    return null;
+  }
+
+  const parts = rgbMatch[1]
+    .split(',')
+    .map((part) => Number.parseFloat(part.trim()))
+    .filter((part) => Number.isFinite(part));
+
+  if (parts.length < 3) {
+    return null;
+  }
+
+  return {
+    red: clampAnsiRgbChannel(parts[0]),
+    green: clampAnsiRgbChannel(parts[1]),
+    blue: clampAnsiRgbChannel(parts[2]),
+  };
+}
+
+function getRelativeLuminance(red, green, blue) {
+  const normalize = (channel) => {
+    const sRgb = clampAnsiRgbChannel(channel) / 255;
+    return sRgb <= 0.03928 ? sRgb / 12.92 : ((sRgb + 0.055) / 1.055) ** 2.4;
+  };
+
+  const r = normalize(red);
+  const g = normalize(green);
+  const b = normalize(blue);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+}
+
+function getThemeAwareAnsiBasePalette() {
+  const darkBackgroundPalette = [
     '#000000',
     '#aa0000',
     '#00aa00',
@@ -533,6 +584,63 @@ function ansiIndexedColorToHex(index) {
     '#55ffff',
     '#ffffff',
   ];
+
+  const lightBackgroundPalette = [
+    '#24292f',
+    '#cf222e',
+    '#1a7f37',
+    '#9a6700',
+    '#0969da',
+    '#8250df',
+    '#1b7c83',
+    '#57606a',
+    '#6e7781',
+    '#a40e26',
+    '#116329',
+    '#7d4e00',
+    '#0550ae',
+    '#6639ba',
+    '#0f5f66',
+    '#1f2328',
+  ];
+
+  const palettesByTheme = {
+    ocean: ['#0b1321', '#db3b50', '#2ec27e', '#d38f20', '#3f8cff', '#c061cb', '#2db8b8', '#d8e2f0', '#3e4f66', '#ff6b81', '#51e59a', '#f2b84a', '#78abff', '#e19be7', '#59d9d9', '#f3f7ff'],
+    dark: ['#11161f', '#e75b66', '#33c36e', '#d9a036', '#5a9bff', '#d17ae8', '#43c9cf', '#dbe6f5', '#3a475a', '#ff7f8e', '#54de8c', '#efbc58', '#82b5ff', '#e4a2f4', '#6edee2', '#f6faff'],
+    'solarized-dark': ['#073642', '#dc322f', '#859900', '#b58900', '#268bd2', '#d33682', '#2aa198', '#93a1a1', '#586e75', '#ff5f56', '#a3be3b', '#d7b45a', '#5ca9df', '#e56ea7', '#52c6be', '#dce6e8'],
+    'kimbie-dark': ['#1f1a14', '#f26a6a', '#9bcf6d', '#d9b35f', '#7aa6ff', '#d48be6', '#66c2b3', '#dbc7a8', '#5a4b37', '#ff8d8d', '#b4df88', '#e9c37b', '#9bc0ff', '#e4a6f0', '#83d4c7', '#f2e2cb'],
+    light: ['#2f3742', '#c92f3d', '#1e7f3f', '#946300', '#1767cc', '#7a4dcf', '#1a7c83', '#4f5f72', '#6a7380', '#ab1f2e', '#166431', '#7f5500', '#0f57ad', '#6841ba', '#12666b', '#232a33'],
+    'solarized-light': ['#586e75', '#dc322f', '#859900', '#b58900', '#268bd2', '#d33682', '#2aa198', '#657b83', '#93a1a1', '#cb4b16', '#6c8f0f', '#9a7b16', '#1f76b4', '#b84f8f', '#279489', '#3f5058'],
+    'tokion-night-light': ['#404a63', '#c14a6b', '#2a8a60', '#9b730e', '#3f6fca', '#7c5bc1', '#2a8191', '#58627a', '#737c97', '#a53c59', '#1f7550', '#87620f', '#325dae', '#6a48a7', '#226f7d', '#3b445a'],
+    red: ['#2e0f12', '#ff8c8c', '#ffd69a', '#ffe28f', '#ffb3c6', '#f0a7ff', '#ffb89e', '#ffe9e9', '#6b2a2a', '#ffacac', '#ffe4b8', '#ffeeb0', '#ffc8d6', '#f5bcff', '#ffd0b6', '#fff6f6'],
+  };
+
+  const themeName = String(document.body.dataset.terminalTheme || 'ocean').trim().toLowerCase();
+  const themePalette = palettesByTheme[themeName] || palettesByTheme[themeName === 'kdark' ? 'kimbie-dark' : ''];
+  if (Array.isArray(themePalette) && themePalette.length === 16) {
+    return themePalette;
+  }
+
+  const computedStyles = window.getComputedStyle(document.body);
+  const backgroundValue = computedStyles.getPropertyValue('--terminal-body-bg').trim();
+  const backgroundRgb = parseCssColorToRgb(backgroundValue);
+  if (!backgroundRgb) {
+    return darkBackgroundPalette;
+  }
+
+  const luminance = getRelativeLuminance(backgroundRgb.red, backgroundRgb.green, backgroundRgb.blue);
+  return luminance > 0.5 ? lightBackgroundPalette : darkBackgroundPalette;
+}
+
+function ansiIndexedColorToHex(index) {
+  const normalized = Number(index);
+  if (!Number.isFinite(normalized)) {
+    return null;
+  }
+
+  const value = Math.max(0, Math.min(255, Math.trunc(normalized)));
+
+  const basePalette = getThemeAwareAnsiBasePalette();
 
   if (value < 16) {
     return basePalette[value];
@@ -2581,6 +2689,12 @@ function applyTerminalTheme(themeName) {
   for (const option of terminalThemeOptions) {
     option.setAttribute('aria-selected', String(option.dataset.theme === normalizedTheme));
   }
+
+  window.dispatchEvent(
+    new CustomEvent(TERMINAL_THEME_CHANGED_EVENT, {
+      detail: { theme: normalizedTheme },
+    })
+  );
 }
 
 function openThemeMenu() {
@@ -3196,6 +3310,10 @@ document.addEventListener('click', (event) => {
 
 window.addEventListener('resize', refreshLogTabTooltipPortalPosition);
 window.addEventListener('scroll', refreshLogTabTooltipPortalPosition, true);
+window.addEventListener(TERMINAL_THEME_CHANGED_EVENT, () => {
+  renderLogs();
+  renderTerminalOutput();
+});
 
 logTabsEl?.addEventListener('wheel', handleLogTabsWheelScroll, { passive: false });
 
