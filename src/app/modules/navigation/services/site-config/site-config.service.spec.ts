@@ -67,7 +67,7 @@ describe('SiteConfigService', () => {
               {
                 cols: [
                   {
-                    component: 'tabs',
+                    component: 'multiTabBlock_uiplus',
                     config: {
                       tabsId: 'booking',
                       tabs: [],

@@ -204,7 +204,7 @@ describe('DynamicPageComponent', () => {
         {
           cols: [
             {
-              component: 'tabs',
+              component: 'multiTabBlock_uiplus',
               config: {
                 tabs: [
                   {
@@ -261,7 +261,7 @@ describe('DynamicPageComponent', () => {
         detail: {
           batchId,
           componentId: 'tabs-wrapper',
-          component: 'tabs',
+          component: 'multiTabBlock_uiplus',
           state: 'rendered',
         },
       })

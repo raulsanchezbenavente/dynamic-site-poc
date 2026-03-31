@@ -18,7 +18,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
   explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
   // Avianca
-  tabs: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
+  multiTabBlock_uiplus: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
   loyaltyOverviewCard_uiplus: () =>
     import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
       (m) => m.LoyaltyOverviewCardComponent

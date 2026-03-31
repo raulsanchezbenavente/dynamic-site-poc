@@ -281,7 +281,7 @@
           {
             "cols": [
               {
-                "component": "tabs",
+                "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
                   "tabsId": "111",
