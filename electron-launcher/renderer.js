@@ -2816,7 +2816,6 @@ function createScriptActionButton(kind, label, onClick, disabled = false) {
   button.className = `script-action-btn ${kind}-btn`;
   button.disabled = disabled;
   button.setAttribute('aria-label', label);
-  button.title = label;
 
   const icon = document.createElement('span');
   icon.className = 'script-action-icon';
@@ -2833,7 +2832,6 @@ function bindScriptActionTooltip(button, tooltipText) {
     return;
   }
 
-  button.title = tooltipText;
   button.setAttribute('data-tooltip', tooltipText);
   button.setAttribute('data-tooltip-align', 'center');
 
@@ -2927,8 +2925,8 @@ function renderScripts() {
     favoriteButton.type = 'button';
     favoriteButton.className = `favorite-toggle ${isFavoriteScript(script.name) ? 'active' : ''}`;
     favoriteButton.textContent = isFavoriteScript(script.name) ? '★' : '☆';
-    favoriteButton.title = isFavoriteScript(script.name) ? 'Remove from favorites' : 'Add to favorites';
-    favoriteButton.setAttribute('aria-label', favoriteButton.title);
+    const favoriteLabel = isFavoriteScript(script.name) ? 'Remove from favorites' : 'Add to favorites';
+    favoriteButton.setAttribute('aria-label', favoriteLabel);
     favoriteButton.setAttribute('aria-pressed', String(isFavoriteScript(script.name)));
     favoriteButton.addEventListener('click', () => toggleFavoriteScript(script.name));
     title.appendChild(favoriteButton);
