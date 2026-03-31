@@ -2728,6 +2728,49 @@ function toggleThemeMenu() {
   closeThemeMenu();
 }
 
+function getThemeMenuOptions() {
+  return Array.from(terminalThemeMenu?.querySelectorAll('.terminal-theme-option') || []).filter(
+    (option) => option instanceof HTMLButtonElement
+  );
+}
+
+function getSelectedThemeOptionIndex(options) {
+  if (!Array.isArray(options) || options.length === 0) {
+    return -1;
+  }
+
+  const selectedIndex = options.findIndex((option) => option.getAttribute('aria-selected') === 'true');
+  return selectedIndex >= 0 ? selectedIndex : 0;
+}
+
+function focusThemeOptionByOffset(offset) {
+  if (!terminalThemeMenu || terminalThemeMenu.hidden) {
+    return;
+  }
+
+  const options = getThemeMenuOptions();
+  if (options.length === 0) {
+    return;
+  }
+
+  const activeElement = document.activeElement;
+  const activeIndex = options.findIndex((option) => option === activeElement);
+  const baseIndex = activeIndex >= 0 ? activeIndex : getSelectedThemeOptionIndex(options);
+  const safeOffset = Number(offset) || 0;
+  const nextIndex = (baseIndex + safeOffset + options.length) % options.length;
+  const nextOption = options[nextIndex];
+  if (!nextOption) {
+    return;
+  }
+
+  selectTerminalTheme(nextOption.dataset.theme || 'ocean', {
+    persist: true,
+    closeMenu: false,
+    focusInput: false,
+  });
+  nextOption.focus();
+}
+
 function readSavedTerminalTheme() {
   try {
     const raw = window.localStorage.getItem(TERMINAL_THEME_STORAGE_KEY);
@@ -2793,10 +2836,33 @@ function saveTerminalTheme(themeName) {
   window.localStorage.setItem(TERMINAL_THEME_STORAGE_KEY, normalizedTheme);
 }
 
+function selectTerminalTheme(themeName, options = null) {
+  const normalizedTheme = TERMINAL_THEMES.has(themeName) ? themeName : 'ocean';
+  const persist = options?.persist !== false;
+  const closeMenu = options?.closeMenu === true;
+  const focusInput = options?.focusInput === true;
+
+  applyTerminalTheme(normalizedTheme);
+  if (persist) {
+    saveTerminalTheme(normalizedTheme);
+  }
+
+  if (closeMenu) {
+    closeThemeMenu();
+  }
+
+  if (focusInput && interactiveTerminalInput && !interactiveTerminalInput.disabled) {
+    interactiveTerminalInput.focus();
+    interactiveTerminalInput.select();
+  }
+}
+
 function onTerminalThemeChange(selectedTheme) {
-  applyTerminalTheme(selectedTheme);
-  saveTerminalTheme(selectedTheme);
-  closeThemeMenu();
+  selectTerminalTheme(selectedTheme, {
+    persist: true,
+    closeMenu: true,
+    focusInput: true,
+  });
 }
 
 function setRunning(scriptName, running) {
@@ -3262,9 +3328,41 @@ interactiveTerminalInput.addEventListener('input', () => {
   resetTerminalAutocompleteState();
 });
 terminalThemeTrigger.addEventListener('click', toggleThemeMenu);
+terminalThemeTrigger.addEventListener('keydown', (event) => {
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') {
+    return;
+  }
+
+  event.preventDefault();
+  if (terminalThemeMenu?.hidden) {
+    openThemeMenu();
+  }
+
+  focusThemeOptionByOffset(event.key === 'ArrowDown' ? 1 : -1);
+});
 for (const option of terminalThemeOptions) {
   option.addEventListener('click', () => {
     onTerminalThemeChange(option.dataset.theme || 'ocean');
+  });
+
+  option.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      focusThemeOptionByOffset(event.key === 'ArrowDown' ? 1 : -1);
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onTerminalThemeChange(option.dataset.theme || 'ocean');
+      return;
+    }
+
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeThemeMenu();
+      terminalThemeTrigger?.focus();
+    }
   });
 }
 packageSourceTrigger.addEventListener('click', togglePackageSourceMenu);
