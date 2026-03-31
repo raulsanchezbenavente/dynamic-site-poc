@@ -394,7 +394,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Items allowed and prohibited in your luggage</h2>\n<p class=\"intro\">Restricted items may endanger the health and safety of people, the environment, or aircraft.</p>\n</div>",
@@ -406,7 +406,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en",
@@ -414,7 +414,7 @@
                 }
               },
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 6,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en",
@@ -426,7 +426,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/en",
@@ -438,7 +438,7 @@
           {
             "cols": [
               {
-                "component": "RTEinjector_uiplus",
+                "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
                   "htmlContent": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",

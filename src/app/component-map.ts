@@ -59,7 +59,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
-  RTEinjector_uiplus: () =>
+  rteBlock_uiplus: () =>
     import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
       (m) => m.RteInjectorComponent
     ),
