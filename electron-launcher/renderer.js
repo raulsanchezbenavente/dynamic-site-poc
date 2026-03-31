@@ -46,7 +46,7 @@ const filterModeToggleButton = document.getElementById('filterModeToggleButton')
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
-const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'or' };
+const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'and' };
 const TERMINAL_THEME_STORAGE_KEY = 'launcher.terminal-theme.v1';
 const TERMINAL_FONT_SIZE_STORAGE_KEY = 'launcher.terminal-font-size.v1';
 const LOG_TAB_ORDER_STORAGE_KEY = 'launcher.log-tab-order.v1';
@@ -2016,9 +2016,9 @@ async function loadDefaultFilterMode() {
     const configuredMode = await window.launcherApi.getDefaultFilterMode();
     return String(configuredMode || '')
       .trim()
-      .toLowerCase() === 'and'
-      ? 'and'
-      : 'or';
+      .toLowerCase() === 'or'
+      ? 'or'
+      : 'and';
   } catch {
     return DEFAULT_FILTER_STATE.mode;
   }

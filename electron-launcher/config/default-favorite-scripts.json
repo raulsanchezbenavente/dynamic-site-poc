@@ -1,6 +1,6 @@
 {
   "defaultTerminalTheme": "dark",
-  "defaultFilterMode": "or",
+  "defaultFilterMode": "and",
   "defaultFavoriteScripts": [
     "start:serve-proxy",
     "start:serve-proxy-sso-bypass",
