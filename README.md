@@ -405,6 +405,9 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ⌨️ **Terminal Autocomplete**: Use `Tab` to complete and cycle suggestions, `Shift+Tab` to cycle backward
 - 🔠 **Terminal Font Size Controls**: Compact toolbar dropdown with `Aa` indicator and current size value; open it to increase, decrease, or reset terminal font size (persisted between launches)
 - 🎨 **Terminal Theme Selector**: Switch terminal colors from the launcher (Light, Tokion Night Light, Solarized Light, Red, Ocean, Solarized Dark, Kimbie Dark, Dark). The selected theme is saved locally. On first launch (when no theme key exists), the default is initialized from `electron-launcher/config/default-favorite-scripts.json` (`defaultTerminalTheme`, currently `dark`).
+- ⌨️ **Theme Selector Keyboard UX**: Use `ArrowUp` / `ArrowDown` to move across theme options; each move applies a live preview immediately while the menu stays open. Press `Enter`/`Space` to confirm, or `Escape` to close.
+- 🎯 **Theme Selection Focus Return**: After confirming a theme selection, focus is returned to the interactive terminal input so you can keep typing without extra clicks.
+- 🧱 **Theme Switch Rendering Stability**: Changing terminal theme re-renders the active view (script logs or terminal session) without clearing previously visible content.
 - 🎛️ **Hover Refresh (Border Accent)**: Launcher button and tab hover feedback uses border/background emphasis (no vertical jump), while semantic actions like Start/Stop keep their green/red identity on hover
 - 🖥️ **Terminal Fullscreen**: Expand the terminal panel to fill the whole app; icon changes to indicate collapse
 - 💾 **Active Tab Persistence**: The last active log tab is saved to local storage and restored automatically on next launch
@@ -419,6 +422,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - Each session keeps its own current directory (`cwd`) and command history.
 - Built-in command handling supports directory navigation (`cd`) without leaving the launcher.
 - Built-in command handling supports `clear` and `cls` to clear the current session output.
+- On macOS/Linux, launcher terminal commands run through the user shell in login+interactive mode when supported (`zsh`/`bash`), so profile-loaded tools like `nvm` are available in launcher sessions.
 - Git Bash sessions on Windows are launched with a faster startup profile (`--noprofile --norc`) to reduce command latency.
 - **Send SIGINT button behavior**: Enabled on terminal session tabs and disabled on script tabs or the `All scripts` tab.
 - Press `Tab` for autocomplete suggestions and `Shift+Tab` to go in reverse.
