@@ -387,8 +387,8 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ▶️ **Start/Stop**: Launch or stop running scripts easily
 - 📊 **Real-time Logs**: Stream output from each script in dedicated tabs
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
-- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized from `electron-launcher/config/default-favorite-scripts.json` (current defaults: `start:serve-proxy`, `start:serve-proxy-sso-bypass`, `build`, `start:backend`, `test`, and `test-by-module`).
-- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), defaults are initialized with Favorites enabled and filter mode loaded from `electron-launcher/config/default-favorite-scripts.json` (`defaultFilterMode`, currently `or`).
+- ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized from `electron-launcher/config/default-favorite-scripts.json` (current defaults: `start:serve-proxy`, `start:serve-proxy-sso-bypass`, `build`, `start:backend`, `test`, `test-by-module`, and `storybook-by-module`).
+- 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), defaults are initialized with Favorites enabled and filter mode loaded from `electron-launcher/config/default-favorite-scripts.json` (`defaultFilterMode`, currently `and`).
 - 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
