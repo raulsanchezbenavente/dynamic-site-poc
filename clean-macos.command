@@ -1,2 +1,3 @@
 #!/bin/sh
-rm -rf node_modules dist dist_electron
+cd "$(dirname "$0")"
+rm -rf node_modules dist dist-electron
