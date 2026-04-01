@@ -1,0 +1,130 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as TitleHeadingStories from '../title-heading.stories';
+
+<Meta of={TitleHeadingStories} name="01 Overview" />
+
+# Title Heading
+
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/title-heading" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `ds-title-heading` in templates: how to configure it, which heading levels and styles to pick, and how to separate semantic HTML from visual appearance.
+
+## Basic usage
+
+The title heading is configured through a `config` object of type `TitleHeadingConfig`. This object controls the heading level, visual style, alignment, intro text, and accessibility visibility.
+
+```html
+<ds-title-heading [config]="headingConfig" />
+```
+
+```ts
+import { TitleHeading, TitleHeadingConfig } from '@dcx/ui/design-system';
+
+const headingConfig: TitleHeadingConfig = {
+  title: 'Welcome to our site',
+  htmlTag: TitleHeading.H1,
+  styleClass: TitleHeading.H1,
+  introText: 'A brief introduction paragraph below the heading.',
+};
+```
+
+### Config properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>title</code></td>
+      <td><code>string</code></td>
+      <td>—</td>
+      <td>The heading text content (required).</td>
+    </tr>
+    <tr>
+      <td><code>introText</code></td>
+      <td><code>string</code></td>
+      <td><code>''</code></td>
+      <td>Optional introductory paragraph rendered below the heading. Supports HTML.</td>
+    </tr>
+    <tr>
+      <td><code>htmlTag</code></td>
+      <td><code>TitleHeading</code></td>
+      <td><code>H2</code></td>
+      <td>The semantic HTML heading tag (<code>h1</code>–<code>h6</code>).</td>
+    </tr>
+    <tr>
+      <td><code>styleClass</code></td>
+      <td><code>string</code></td>
+      <td><code>H1</code></td>
+      <td>The visual style class applied to the heading. Can differ from <code>htmlTag</code> for semantic/visual separation.</td>
+    </tr>
+    <tr>
+      <td><code>horizontalAlignment</code></td>
+      <td><code>HorizontalAlign</code></td>
+      <td><code>CENTER</code></td>
+      <td>Horizontal text alignment: <code>left</code>, <code>center</code>, or <code>right</code>.</td>
+    </tr>
+    <tr>
+      <td><code>isVisuallyHidden</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Hides the heading visually while keeping it accessible to screen readers.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Variants
+
+### Heading levels
+
+Each heading level (H1–H6) renders the appropriate semantic HTML tag with its own visual style.
+
+<Canvas of={TitleHeadingStories.HEADINGS} />
+
+- **H1**: Page title — use once per page for the primary heading.
+- **H2**: Section heading — for major content sections.
+- **H3**: Subsection heading — within an H2 section.
+- **H4–H6**: Deeper nesting levels for complex content hierarchies.
+
+### Semantic vs visual separation
+
+The `htmlTag` and `styleClass` can be set independently. This allows maintaining proper document outline (for accessibility and SEO) while achieving the desired visual design.
+
+<Canvas of={TitleHeadingStories.STYLE_OVERRIDE} />
+
+- Use this when the design requires a visually prominent heading, but the document structure needs a different semantic level.
+- Example: An `h2` tag styled as `h1` for visual prominence without breaking the heading hierarchy.
+
+### Alignment
+
+The heading text can be aligned left, center, or right using `horizontalAlignment`.
+
+<Canvas of={TitleHeadingStories.ALIGNMENTS} />
+
+- **Left**: Standard content alignment for LTR layouts.
+- **Center**: Centered headings, common for hero sections and landing pages (default).
+- **Right**: Right-aligned headings for specific layout needs.
+
+### Visually hidden
+
+When `isVisuallyHidden` is `true`, the heading is hidden from visual display but remains in the DOM for screen readers, maintaining accessibility.
+
+<Canvas of={TitleHeadingStories.VISUALLY_HIDDEN} />
+
+- Use for sections that need a heading for screen reader navigation but should not display one visually.
+
+## Related components
+
+- [**DsGroupOptions**](?path=/docs/molecules-group-options--docs): Uses title heading internally for group section headers.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-title-heading--02-accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-title-heading---changelog) tab for version history.

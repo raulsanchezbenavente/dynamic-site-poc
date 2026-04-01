@@ -1,0 +1,87 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../carousel.stories.ts';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Carousel
+
+<a href="https://www.figma.com/design/bb3lSmpJLS2dx8VuYxTm1O/AV-MEM-%7C-SHIPPED-%7C-Portal-Members?node-id=10413-38781&t=qtqdtvDqxrwUea7t-1Figma" target="_blank" rel="noopener noreferrer"> Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/carousel" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`ds-carousel` is a responsive slider that projects any content marked with the `carouselItem` directive. Configure it through a `CarouselConfig` object to control breakpoints, scrolling behavior, aria labels, and async item counts.
+
+## Basic usage
+
+`ds-carousel` expects a required `[config]` input plus projected slides. Breakpoints define how many items fit per view, the scroll step, and optional margins.
+
+```html
+<ds-carousel [config]="carouselConfig" (navigateNext)="onNext($event)">
+  @for (destination of destinations; track destination.name) {
+    <div carouselItem>
+      {{ destination.name }}
+    </div>
+  }
+</ds-carousel>
+```
+
+```ts
+carouselConfig: CarouselConfig = {
+  breakPointConfig: {
+    XS: { visibleItems: 1, itemsToScroll: 1 },
+    M: { visibleItems: 3, itemsToScroll: 3, itemsMargin: 12 },
+    XL: { visibleItems: 5, itemsToScroll: 2 },
+  },
+  ariaAttributes: {
+    ariaLabel: 'Featured destinations carousel',
+  },
+};
+```
+
+## Variants
+
+### Breakpoint density presets
+
+Tune the breakpoints to fit more cards on desktop while keeping a single-card layout on touch devices.
+
+<Canvas of={ComponentStories.BREAKPOINT_DENSITY} />
+
+<table>
+  <tr>
+    <th>Property</th>
+    <th>What it controls</th>
+    <th>Default</th>
+  </tr>
+  <tr>
+    <td><code>visibleItems</code></td>
+    <td>Keeps the slider aligned with layout columns for each breakpoint.</td>
+    <td><code>3</code> items when no breakpoint config is provided.</td>
+  </tr>
+  <tr>
+    <td><code>itemsToScroll</code></td>
+    <td>Defines how many cards move per click/tap or via keyboard interactions.</td>
+    <td><code>1</code> item per action by default.</td>
+  </tr>
+  <tr>
+    <td><code>itemsMargin</code></td>
+    <td>Adds gutter space between cards; useful for dense desktop layouts.</td>
+    <td><code>16px</code> margin until a breakpoint overrides it.</td>
+  </tr>
+</table>
+
+### ARIA customizations
+
+Provide explicit labels for the carousel and its controls to guide assistive technologies.
+
+<Canvas of={ComponentStories.ARIA_CUSTOMIZATION} />
+
+- Override root `ariaAttributes` for `ariaLabel`, `ariaRole`, or `ariaDescribedBy`.
+- Supply `next`/`prev` aria overrides to describe navigation intent.
+- Combine with translation keys exposed through the i18n mocks.
+
+## Related components
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-carousel-02-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-carousel-changelog--docs) tab for version history.

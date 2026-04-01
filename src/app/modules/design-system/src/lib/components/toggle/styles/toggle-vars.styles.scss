@@ -1,0 +1,22 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+$toggle-width: var(--toggle-width, calculateRem(36px));
+$toggle-height: var(--toggle-height, calculateRem(20px));
+$toggle-padding-vertical: var(--toggle-padding-vertical, calculateRem(4px));
+$toggle-padding-horizontal: var(--toggle-padding-horizontal, calculateRem(4px));
+$toggle-opacity-disabled: var(--toggle-opacity-disabled, 0.5);
+
+// thumb
+$toggle-thumb-size: var(--toggle-thumb-size, calc(#{$toggle-height} - #{$toggle-padding-vertical} * 2));
+$toggle-thumb-color: var(--toggle-thumb-color, var(--c-white));
+$toggle-thumb-background: var(--toggle-thumb-background, var(--c-color2));
+$toggle-thumb-background-checked: var(--toggle-thumb-background-checked, var(--c-primary));
+
+// label
+$toggle-label-fontsize: var(--f-size);
+$toggle-label-color: var(--toggle-label-color, var(--c-text));
+$toggle-label-margin: var(--toggle-label-margin, 0 0 0 calculateRem(4px));
+
+// transition
+$toggle-transition: var(--toggle-transition, ease-out 0.1s);
+$toggle-transition-checked: var(--toggle-transition-checked, 0.14s ease-in-out);

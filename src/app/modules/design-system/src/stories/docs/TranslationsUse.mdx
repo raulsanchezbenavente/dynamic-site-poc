@@ -1,0 +1,343 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Start/How-To/Translations/How To Use" />
+
+# Translations in Storybooks: How To Use
+
+Quick guide to add translations to your stories. For technical details, see [System Architecture](../?path=/docs/start-how-to-translations-system--docs).
+
+## TL;DR
+
+Every story needs two things:
+1. **Module preview.ts** configured with translation decorators (one-time setup)
+2. **Story parameters** declaring which translation modules to load
+
+---
+
+## 1. Configure preview.ts (once per module)
+
+### For Design System Components (without translationLoadStatus)
+
+```ts
+import { type Preview } from '@storybook/angular';
+import { setCompodocJson } from '@storybook/addon-docs/angular';
+import docJson from '../documentation.json';
+import { createSharedDecorators, sharedParameters, sharedInitialGlobals } from '@dcx/ui/storybook-utils';
+import { withI18nAutoHost } from '@dcx/ui/storybook-i18n';
+
+setCompodocJson(docJson);
+
+const decorators = createSharedDecorators([], [withI18nAutoHost]);
+
+const preview: Preview = {
+  decorators,
+  parameters: sharedParameters,
+  initialGlobals: sharedInitialGlobals,
+};
+
+export default preview;
+```
+
+### For Business Components (with translationLoadStatus)
+
+```ts
+import { type Preview } from '@storybook/angular';
+import { setCompodocJson } from '@storybook/addon-docs/angular';
+import docJson from '../documentation.json';
+import { createSharedDecorators, sharedParameters, sharedInitialGlobals } from '@dcx/ui/storybook-utils';
+import { withI18nAutoHost } from '@dcx/ui/storybook-i18n';
+import { STORYBOOK_PROVIDERS } from '../src/lib/stories/providers/storybook.provider';
+
+setCompodocJson(docJson);
+
+const decorators = createSharedDecorators(STORYBOOK_PROVIDERS, [withI18nAutoHost]);
+
+const preview: Preview = {
+  decorators,
+  parameters: sharedParameters,
+  initialGlobals: sharedInitialGlobals,
+};
+
+export default preview;
+```
+
+> **Key Points**:
+> - `createSharedDecorators()` automatically includes `withStoryTranslationsAuto`
+> - `withI18nAutoHost` is **required** for proper translation pre-loading
+> - Business components need module-specific providers (ConfigService mocks, etc.)
+> - Change `TRANSLATION_BASE_URL` token in providers if targeting different environment
+
+---
+
+## 2. Configure each story
+
+Add `parameters` to your story metadata:
+
+```ts
+const META: Meta<MyComponent> = {
+  title: 'Atoms/MyComponent',
+  component: MyComponent,
+  parameters: {
+    i18nModules: ['Common', 'MyModule'],  // Which translation modules to load
+    i18n: {
+      api: false,  // Use API endpoint or mock-only?
+      mock: {      // Mock translations (fallback or override)
+        'Common.Submit': 'Submit',
+        'Common.Cancel': 'Cancel',
+      },
+    },
+  },
+};
+```
+
+### API vs Mock
+
+<table>
+  <thead>
+    <tr>
+      <th>Mode</th>
+      <th>When to use</th>
+      <th>Behavior</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>api: true</code></td>
+      <td>Component uses real translations</td>
+      <td>Loads from API, then merges <code>mock</code> (mocks override API)</td>
+    </tr>
+    <tr>
+      <td><code>api: false</code></td>
+      <td>Isolated testing, offline work</td>
+      <td>Uses only <code>mock</code> dictionary, no network call</td>
+    </tr>
+  </tbody>
+</table>
+
+> **Recommendation**: Use `api: false` + mocks for most stories to avoid network dependencies and flakiness.
+
+---
+
+## 3. Understanding Component Types
+
+### Design System Components (no translationLoadStatus)
+
+Components in `projects/design-system` typically don't have the `translationLoadStatus` directive in their templates. They rely on:
+- `i18n-story-host` wrapper (added by `withI18nAutoHost`)
+- Direct `translate` pipe usage
+
+**Example**: Buttons, panels, accordions, breadcrumbs
+
+### Business Components (with translationLoadStatus)
+
+Components in business modules have `translationLoadStatus` directive in their templates:
+
+```html
+<ng-container
+  translationLoadStatus
+  [moduleKeys]="mappedKeys"
+  (translationsLoaded)="translationsLoaded()"></ng-container>
+```
+
+These components need:
+- `withI18nAutoHost` decorator to pre-load translations **before** component initialization
+- Mapped keys from `MODULE_TRANSLATION_MAP`
+
+**Why withI18nAutoHost is critical for business components:**
+- Business components execute `ngOnInit()` immediately
+- `ngOnInit()` calls initialization logic that may depend on translations
+- Without pre-loading, race condition occurs: component initializes before translations load
+- `withI18nAutoHost` wraps the story in `<i18n-story-host>` which:
+  1. Loads translations first
+  2. Waits with `@if(ready())`
+  3. Only then renders the component
+
+**Example**: main-header, booking-login, passengers, seatmap
+
+### For Business Module Stories
+
+Business components use the `translationLoadStatus` directive which reads from `MODULE_TRANSLATION_MAP`.
+
+**Instead of:**
+```ts
+parameters: {
+  i18nModules: ['CorporateMainHeader'],  // ❌ Wrong - CMS key, not module keys
+}
+```
+
+**Use the mapped keys:**
+```ts
+import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
+
+parameters: {
+  i18nModules: MODULE_TRANSLATION_MAP['CorporateMainHeader'],  // ✅ Correct - expands to actual module keys
+}
+```
+
+### Example: Main Header Story
+
+```ts
+import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
+import { type Meta, type StoryObj } from '@storybook/angular';
+import { CorporateMainHeaderComponent } from '../main-header.component';
+
+const META: Meta<CorporateMainHeaderComponent> = {
+  title: 'Main/Main Header',
+  component: CorporateMainHeaderComponent,
+  parameters: {
+    i18nModules: MODULE_TRANSLATION_MAP['CorporateMainHeader'],  // ✅ Expands to ['MainHeader', 'Auth', 'PointsOfSale', 'Common']
+    i18n: {
+      api: false,
+      mock: {
+        'Auth.AuthButton.SignIn': 'Sign In',
+        'MainHeader.MyAccount': 'My Account',
+      },
+    },
+  },
+};
+
+export default META;
+type Story = StoryObj<CorporateMainHeaderComponent>;
+
+export const LAYOUT_DEFAULT: Story = {
+  name: 'Layout Default',
+  args: {
+    config: { /* ... */ },
+  },
+};
+```
+
+---
+
+## 4. Best Practices
+
+### ✅ DO
+
+- **Use mocks for component-specific keys**: Fast, predictable, works offline
+- **Declare all needed modules**: Add to `i18nModules` array
+- **For business modules**: Use `MODULE_TRANSLATION_MAP['YourModuleCMSKey']` instead of the string key
+- **Test structure, not translated text**: In play functions, validate button count/behavior, not specific translations
+
+```ts
+// ✅ Good - validates structure
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  const buttons = canvas.getAllByRole('button');
+  expect(buttons.length).toBe(2);
+}
+```
+
+### ❌ DON'T
+
+- **Don't validate translated text in play functions**: Translations change, tests break
+- **Don't hard-code strings**: Use `| translate` pipe or `translate.instant()`
+- **Don't use `api: true` without mocks**: If API fails, story breaks
+
+```ts
+// ❌ Bad - fragile, depends on exact translation
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  await waitFor(() => {
+    expect(canvas.getByRole('button', { name: 'Submit' })).toBeInTheDocument();
+  });
+}
+```
+
+> **Why?** Translated text can change over time, different cultures have different text, and API delays cause timing issues. Test behavior and structure, not content.
+
+---
+
+## Quick Reference
+
+### Common Patterns
+
+**Basic button with translation:**
+```ts
+parameters: {
+  i18nModules: ['Common'],
+  i18n: {
+    api: false,
+    mock: { 'Common.Submit': 'Submit' },
+  },
+}
+```
+
+**Multiple modules:**
+```ts
+parameters: {
+  i18nModules: ['Common', 'Loyalty', 'Schedule'],
+  i18n: {
+    api: false,
+    mock: {
+      'Common.Close': 'Close',
+      'Loyalty.Points': 'Points',
+      'Schedule.Departure': 'Departure',
+    },
+  },
+}
+```
+
+**With interpolation:**
+```ts
+parameters: {
+  i18nModules: ['Common'],
+  i18n: {
+    api: false,
+    mock: {
+      'Common.Welcome': 'Welcome, {{name}}!',
+    },
+  },
+}
+
+// In template:
+{{ 'Common.Welcome' | translate: { name: 'John' } }}
+```
+
+---
+
+## Troubleshooting
+
+<table>
+  <thead>
+    <tr>
+      <th>Problem</th>
+      <th>Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Keys show literally (<code>Common.Submit</code>)</td>
+      <td>Add module to <code>i18nModules</code> and provide mock</td>
+    </tr>
+    <tr>
+      <td>Story renders before translations load</td>
+      <td>Ensure <code>withI18nAutoHost</code> is in decorators</td>
+    </tr>
+    <tr>
+      <td>Play function can't find translated button</td>
+      <td>Don't query by translated text; use <code>getAllByRole('button')</code></td>
+    </tr>
+    <tr>
+      <td>Translations work in Storybook but not tests</td>
+      <td>Tests need same decorators as Storybook</td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+## Checklist
+
+Before committing a new story:
+
+- [ ] `preview.ts` uses `createSharedDecorators()` with `[withI18nAutoHost]`
+- [ ] Story declares `i18nModules` parameter
+  - [ ] For business components: Uses `MODULE_TRANSLATION_MAP['YourModuleCMSKey']`
+  - [ ] For design-system: Uses string array `['Common', 'YourModule']`
+- [ ] Story has `i18n: { api, mock }` configuration
+- [ ] Mock dictionary covers all component translation keys
+- [ ] Play functions don't validate translated text (validate structure/behavior instead)
+
+---
+
+For technical details on how the system works, see [How It Works](../?path=/docs/start-how-to-translations-how-it-works--docs).

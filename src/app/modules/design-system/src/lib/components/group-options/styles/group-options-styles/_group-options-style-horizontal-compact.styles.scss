@@ -1,0 +1,56 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../group-options-vars' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+:host ::ng-deep {
+    .go-style--horizontal-compact {
+        --group-options-item-min-height: auto;
+
+        --go-item-padding-top: #{calculateRem(24px)};
+        --go-item-padding-right: #{calculateRem(24px)};
+        --go-item-padding-bottom: #{calculateRem(16px)};
+        --go-item-padding-left: #{calculateRem(16px)};
+
+        --group-options-item-image-size: #{calculateRem(80px)};
+
+        .group-options-item_inner {
+            align-items: center;
+            padding-right: calculateRem(24px);
+        }
+        .group-options-item_figure {
+            padding: calculateRem(31px) calculateRem(16px);
+        }
+        .group-options-item_content {
+            padding: calculateRem(24px) calculateRem(16px) calculateRem(24px) calculateRem(24px);
+        }
+        .group-options-item_description {
+            font-size: var(--f-size-small);
+            color: var(--c-text-secondary);
+        }
+
+        // item left edge aligned image
+        .group-options-item_inner--edge-aligned {
+            .group-options-item_figure {
+                padding-top: 0;
+            }
+        }
+
+        @media #{$tablet-portrait} {
+            .group-options-item_figure {
+                padding: calculateRem(14px) calculateRem(34px);
+            }
+        }
+
+        // Adjustments for very small screens
+        @media (width <= 390px) {
+            --group-options-item-image-size: 20.6vw;
+
+            .group-options-item_content {
+                padding-left: 4vw;
+            }
+        }
+    }
+}

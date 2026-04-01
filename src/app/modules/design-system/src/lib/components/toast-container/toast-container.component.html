@@ -1,0 +1,6 @@
+@for (toast_container_item of [].constructor(toastService.toastCount); track $index; let index = $index) {
+    <toast
+        [id]="'dynamicToast-' + index"
+        [config]="toastService.toastConfigs[index]"
+        (hidden)="hidden(index)" />
+}

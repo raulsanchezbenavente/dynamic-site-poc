@@ -1,0 +1,5 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+$group-options-breakpoint: $bp-desktop;
+$group-options-breakpoint-min: '(width >= #{$group-options-breakpoint})';
+$group-options-breakpoint-max: '(width < #{$group-options-breakpoint})';

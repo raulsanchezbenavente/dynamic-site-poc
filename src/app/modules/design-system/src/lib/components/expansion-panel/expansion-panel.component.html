@@ -1,0 +1,30 @@
+@if (config && config.panel.appearance) {
+    <panel [config]="config.panel">
+        <panel-header
+            [id]="expansionPanelHeaderId"
+            [attr.role]="config && config.isCollapsible ? 'button' : null"
+            [attr.tabindex]="config && config.isCollapsible ? 0 : null"
+            [attr.aria-expanded]="isExpanded"
+            [attr.aria-controls]="expansionPanelContentId"
+            (click)="onToggle()"
+            (keydown)="onKeyDown($event)">
+            <h2 panelTitle>
+                {{ config.panel.title }}
+            </h2>
+            @if (config.panel.description) {
+                <div panelDescription>
+                    {{ config.panel.description }}
+                </div>
+            }
+        </panel-header>
+        @if (isExpanded) {
+            <div
+                panelContent
+                role="region"
+                [id]="expansionPanelContentId"
+                [attr.aria-labelledby]="expansionPanelHeaderId">
+                <ng-content></ng-content>
+            </div>
+        }
+    </panel>
+}

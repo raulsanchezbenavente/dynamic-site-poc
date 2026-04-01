@@ -1,0 +1,74 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use './toggle-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.toggle {
+    display: flex;
+    input {
+        z-index: 1;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+
+        // modifiers
+        &:checked {
+            & + .toggle_input-faux {
+                background-color: $toggle-thumb-background-checked;
+            }
+            & + .toggle_input-faux:before {
+                left: calc(#{$toggle-width} - #{$toggle-thumb-size} - #{$toggle-padding-horizontal});
+            }
+        }
+    }
+    &.is-readonly {
+        pointer-events: none;
+    }
+    &.is-disabled {
+        opacity: $toggle-opacity-disabled;
+    }
+}
+.toggle_inner {
+    display: flex;
+}
+.toggle_input {
+    position: relative;
+    display: inline-block;
+    width: $toggle-width;
+    min-width: $toggle-width;
+    height: $toggle-height;
+}
+.toggle_input-faux {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $toggle-thumb-background;
+    border-radius: $toggle-height;
+    transition: $toggle-transition;
+    &::before {
+        // circle
+        content: '';
+        position: absolute;
+        height: $toggle-thumb-size;
+        width: $toggle-thumb-size;
+        left: $toggle-padding-horizontal;
+        top: $toggle-padding-vertical;
+        background-color: $toggle-thumb-color;
+        border-radius: 50%;
+        transition: $toggle-transition-checked;
+    }
+}
+.toggle_label {
+    font-size: $toggle-label-fontsize;
+    color: $toggle-label-color;
+    margin: $toggle-label-margin;
+}

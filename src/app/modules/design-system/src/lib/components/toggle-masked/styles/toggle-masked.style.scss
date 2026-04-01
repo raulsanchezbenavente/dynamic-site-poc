@@ -1,0 +1,27 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../styles/toggle-masked-vars.scss' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.toggle-masked {
+    display: flex;
+    gap: $toggle-masked-gap;
+}
+.toggle-masked_label {
+    font-size: $toggle-masked-label-fontsize;
+    font-weight: $toggle-masked-label-fontweight;
+    color: $toggle-masked-label-color;
+}
+.toggle-masked_button {
+    .icon {
+        font-size: $toggle-masked-button-icon-fontsize;
+
+        @include iconfont(var(--toggle-masked-button-icon, $icon-eye-off), before);
+    }
+}
+.toggle-masked_button--unmask {
+    .icon {
+        --toggle-masked-button-icon: #{$icon-eye};
+    }
+}

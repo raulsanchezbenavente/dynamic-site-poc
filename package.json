@@ -124,6 +124,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "dayjs": "^1.11.9",
+    "ngx-skeleton-loader": "^9.0.0",
     "flatpickr": "^4.6.13",
     "http-server": "^14.1.1",
     "keycloak-angular": "^16.1.0",

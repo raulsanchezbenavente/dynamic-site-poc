@@ -1,0 +1,94 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../paginator.stories';
+
+<Meta of={ComponentStories} title="Atoms/Paginator/Overview" />
+
+# Paginator
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=8024-832" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/paginator" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`ds-paginator` renders a navigation bar with previous/next controls and a smart window of page numbers. It clamps invalid inputs, emits the selected page, and adapts to the responsive breakpoint defined by `--paginator-layout-breakpoint`.
+
+## Basic usage
+
+The component consumes a `PaginatorConfig` object. Pass the current page, total page count, and how many items to show at once.
+
+```html
+<ds-paginator [config]="resultsPaginator" (selectPageEmitter)="onPage($event)" />
+```
+
+```ts
+resultsPaginator = {
+	currentPage: 5,
+	totalPages: 24,
+	pagesToShow: 5,
+};
+```
+
+<table>
+	<thead>
+		<tr>
+			<th>Config key</th>
+			<th>Description</th>
+			<th>Type</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>currentPage</code></td>
+			<td>Active page. The component clamps values to the valid range and mirrors it through <code>aria-current</code>.</td>
+			<td><code>number</code></td>
+		</tr>
+		<tr>
+			<td><code>totalPages</code></td>
+			<td>Total number of available pages. Determines whether jump-to-first/last buttons appear.</td>
+			<td><code>number</code></td>
+		</tr>
+		<tr>
+			<td><code>pagesToShow</code></td>
+			<td>Window size for the list of page numbers (desktop and mobile variants use different thresholds).</td>
+			<td><code>number</code></td>
+		</tr>
+	</tbody>
+</table>
+
+<Source code={`<ds-paginator [config]="{ currentPage: 2, totalPages: 8, pagesToShow: 4 }"></ds-paginator>`} dark language="html" />
+
+## Variants
+
+### Window positions
+
+Showcases the paginator when the current page sits near the beginning, middle, or end of the sequence. Designers can confirm when ellipses appear.
+
+<Canvas of={ComponentStories.POSITIONS} />
+
+- **Start**: Highlights the previous button disabled state and hides the leading ellipsis.
+- **Middle**: Displays both ellipses, keeping the active page centered.
+- **End**: Disables the next button and exposes the jump-to-last button.
+
+### Responsive density
+
+Demonstrates how the component reduces the number of visible page numbers when the viewport matches the responsive breakpoint.
+
+<Canvas of={ComponentStories.RESPONSIVE_DESKTOP} />
+<Canvas of={ComponentStories.RESPONSIVE_COMPACT} />
+
+- **Desktop window**: Shows ellipses plus first/last shortcuts for wide layouts.
+- **Mobile window**: Shrinks to three numbers with no ellipses for faster tapping.
+
+## Accessibility
+
+- Wraps the list in `<nav role="navigation">` with a translatable `aria-label`.
+- Previous/next buttons expose descriptive `aria-label`s and set `disabled` when they cannot be used.
+- Active page toggles `aria-current="page"` so screen readers announce the selection.
+- Ellipsis buttons are rendered as `aria-hidden` to avoid noisy announcements.
+- Responsive state is recalculated upon media-query changes to keep focusable items in range.
+
+## Related components
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-paginator-changelog--docs) tab for version history.
+

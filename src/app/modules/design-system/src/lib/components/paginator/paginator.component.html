@@ -1,0 +1,90 @@
+<ng-container
+    translationLoadStatus
+    [moduleKeys]="mappedKeys" />
+
+@let isResponsiveData = isResponsive();
+
+<nav
+    role="navigation"
+    class="pagination"
+    [attr.aria-label]="'Pagination.A11y.Navigation' | translate">
+    <ul class="pagination_list">
+        <!-- Previous button -->
+        <li
+            class="pagination_list_item pagination_list_item--prev"
+            [attr.role]="config.currentPage !== config.totalPages ? null : 'none'">
+            @if (config.currentPage !== 1 ? true : null!) {
+                <button
+                    class="pagination_list_item_button"
+                    [disabled]="config.currentPage === 1 ? true : null!"
+                    [attr.aria-label]="'Pagination.A11y.Previous_Page' | translate"
+                    (click)="onPrevious()"></button>
+            }
+        </li>
+        <!-- Page 1 if there are hidden pages -->
+        @if (!isResponsiveData && firstNumberToShow > 1) {
+            <li class="pagination_list_item">
+                <button
+                    class="pagination_list_item_button"
+                    [attr.aria-label]="'Pagination.A11y.First_Page' | translate"
+                    (click)="onSelect(1)">
+                    1
+                </button>
+            </li>
+        }
+        @if (!isResponsiveData && firstNumberToShow > 2) {
+            <li class="pagination_list_item">
+                <button
+                    class="pagination_list_item_button pagination_list_item_button--ellipsis"
+                    tabindex="-1"
+                    [attr.aria-hidden]="true">
+                    ...
+                </button>
+            </li>
+        }
+        @for (item of items; track item) {
+            <li
+                class="pagination_list_item"
+                [class.active]="config.currentPage === item">
+                <button
+                    class="pagination_list_item_button"
+                    [attr.aria-label]="('Pagination.A11y.Go_To_Page' | translate) + ' ' + item"
+                    [attr.aria-current]="config.currentPage === item ? 'page' : null"
+                    (click)="onSelect(item)">
+                    {{ item }}
+                </button>
+            </li>
+        }
+        @if (!isResponsiveData && lastNumberToShow <= config.totalPages - 2) {
+            <li class="pagination_list_item">
+                <span
+                    class="pagination_list_item_button pagination_list_item_button--ellipsis"
+                    [attr.aria-hidden]="true">
+                    ...
+                </span>
+            </li>
+        }
+        @if (!isResponsiveData && lastNumberToShow <= config.totalPages - 1) {
+            <li class="pagination_list_item">
+                <button
+                    class="pagination_list_item_button"
+                    [attr.aria-label]="('Pagination.A11y.Go_To_Page' | translate) + ' ' + config.totalPages"
+                    (click)="onSelect(config.totalPages)">
+                    {{ config.totalPages }}
+                </button>
+            </li>
+        }
+        <!-- Next button -->
+        <li
+            class="pagination_list_item pagination_list_item--next"
+            [attr.role]="config.currentPage !== config.totalPages ? null : 'none'">
+            @if (config.currentPage !== config.totalPages ? true : null!) {
+                <button
+                    class="pagination_list_item_button"
+                    [disabled]="config.currentPage === config.totalPages ? true : null!"
+                    [attr.aria-label]="'Pagination.A11y.Next_Page' | translate"
+                    (click)="onNext()"></button>
+            }
+        </li>
+    </ul>
+</nav>

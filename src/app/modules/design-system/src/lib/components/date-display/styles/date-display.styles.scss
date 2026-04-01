@@ -1,0 +1,13 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}date-display {
+    display: flex;
+    gap: var(--date-display-gap, calculateRem(4px));
+    font-size: var(--date-display-fontsize, inherit);
+    font-weight: var(--date-display-fontweight, inherit);
+    color: var(--date-display-color, inherit);
+    line-height: var(--date-display-lineheight, inherit);
+}

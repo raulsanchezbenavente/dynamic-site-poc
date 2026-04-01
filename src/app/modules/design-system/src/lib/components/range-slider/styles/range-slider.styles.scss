@@ -1,0 +1,129 @@
+@use 'sass:list';
+@use 'sass:math';
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'range-slider-vars.styles' as *;
+
+// -------
+// IMPORT COMPONENT MIXINS
+// -------
+@mixin slider-range-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    z-index: 1; // thumb gets over progress bar
+    width: $range-slider-thumb-size;
+    height: $range-slider-thumb-size;
+    margin-top: $range-slider-thumb-position;
+    border: 0;
+    border-radius: 50%;
+    background: $range-slider-thumb-color;
+    cursor: pointer;
+}
+
+@mixin slider-range-track {
+    width: 100%;
+    height: $range-slider-bar-height;
+    margin: 0;
+    border-radius: $range-slider-bar-border-radius;
+    cursor: pointer;
+    background-color: $range-slider-bar-background-color;
+}
+
+// -------
+// COMPONENT STYLE
+// -------
+.range-slider {
+    --accessibility-outline-offset: var(--range-slider-outline-offset, #{calculateRem(10px)});
+}
+.range-slider_label {
+    font-size: $range-slider-label-fontsize;
+    font-weight: var(--f-weight-light);
+}
+.range-slider_input {
+    position: relative;
+    input[type='range'] {
+        width: 100%;
+        height: $range-slider-bar-height;
+        border-radius: $range-slider-bar-border-radius;
+        background: transparent;
+        &::-webkit-slider-thumb {
+            @include slider-range-thumb;
+        }
+        &::-moz-range-thumb {
+            @include slider-range-thumb;
+        }
+        &::-webkit-slider-runnable-track {
+            @include slider-range-track;
+        }
+        &::-moz-range-track {
+            @include slider-range-track;
+        }
+
+        // styles for IE
+        &::-ms-thumb {
+            width: $range-slider-thumb-size;
+            height: $range-slider-thumb-size;
+            border-radius: 50%;
+            background-color: $range-slider-bar-background-color;
+            cursor: pointer;
+        }
+        &::-ms-track {
+            width: 100%;
+            color: transparent;
+            border-color: transparent;
+            height: $range-slider-bar-height;
+            background: $range-slider-selected-range-background-color;
+            border-radius: $range-slider-bar-border-radius;
+            cursor: pointer;
+        }
+        &::-ms-fill-lower,
+        &::-ms-fill-upper {
+            border-radius: $range-slider-bar-border-radius;
+            background: $range-slider-bar-background-color;
+        }
+        &::-ms-tooltip {
+            display: none;
+        }
+
+        // !Deprecation note: this styles must be removed when current IBE remove input[type=range]:focus outline:0 fropm its reset.scss file
+        &:focus-visible {
+            @include accessibility-outline;
+        }
+    }
+}
+.range-slider_selected-range {
+    position: absolute;
+    left: 0;
+    top: $range-slider-selected-range-position;
+    height: $range-slider-bar-height;
+    border-radius: $range-slider-bar-border-radius;
+    background-color: $range-slider-selected-range-background-color;
+}
+.range-slider_value {
+    font-size: $range-slider-value-fontsize;
+    display: flex;
+    flex-wrap: nowrap;
+    font-weight: $range-slider-value-fontweight;
+    &::ng-deep {
+        .decimals {
+            font-size: 1em;
+        }
+    }
+}
+.range-slider_value_item--value {
+    margin: $range-slider-value-margin;
+    margin-left: auto;
+}
+.range-slider--disabled {
+    .range-slider_input {
+        opacity: $range-slider-disabled-opacity;
+        cursor: default;
+        input[type='range'] {
+            &::-webkit-slider-thumb {
+                cursor: default;
+            }
+            &::-moz-range-thumb {
+                cursor: default;
+            }
+        }
+    }
+}

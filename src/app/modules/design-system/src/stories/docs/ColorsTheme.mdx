@@ -1,0 +1,13 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+import colors from '../../../assets/sass/variables/theme-colors.json';
+
+<Meta title="Guidelines/1. Colors (Theme)" />
+
+# Theme Colors
+
+<ColorPalette>
+  {Object.entries(colors).map(([group, shades]) => (
+    <ColorItem key={group} title={group} colors={Object.values(shades)} />
+  ))}
+</ColorPalette>
+

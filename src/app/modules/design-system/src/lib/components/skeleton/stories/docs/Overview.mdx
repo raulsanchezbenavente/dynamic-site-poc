@@ -1,0 +1,64 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../skeleton.component.stories';
+
+<Meta of={ComponentStories} title="Atoms/Skeleton/Overview" />
+
+# Skeleton
+
+<a href="FIGMA_LINK_HERE" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/skeleton" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`ds-skeleton` renders placeholder content so layouts remain stable while asynchronous data loads. Use it for cards, lists, and avatars to signal loading progress.
+
+## Basic usage
+
+`skeleton` accepts a `SkeletonConfig` object that specifies animation, appearance, and how many placeholders render.
+
+```html
+<ds-skeleton [config]="exampleConfig" />
+```
+
+```ts
+exampleConfig: SkeletonConfig = {
+  animation: EnumAnimationSkeleton.PROGRESS,
+  appearance: EnumAppearenceSkeleton.LINE,
+  count: 3,
+};
+```
+
+> Omit any property to fall back to the component defaults: progress animation, line appearance, single placeholder.
+
+## Variants
+
+### Appearances
+
+Choose the shape that best mirrors the final content. Circles are great for avatars while lines cover text blocks.
+
+<Canvas of={ComponentStories.APPEARANCES} />
+
+- **Circle** – short, rounded placeholders for avatars or badges.
+- **Line** – flexible block for paragraphs, cards, and menus.
+
+### Animation modes
+
+Animation conveys activity and suggests whether the skeleton sits on light or dark surfaces.
+
+<Canvas of={ComponentStories.ANIMATIONS} />
+
+- **Progress / Progress Dark** – shimmering motion tuned for light/dark backgrounds.
+- **Pulse** – calm breathing animation that works on neutral surfaces.
+- **Static** – disables motion for subtle contexts or performance-sensitive screens.
+
+## Accessibility
+
+Skeletons themselves are decorative placeholders. Announce overall loading state via the parent container (`aria-busy="true"`) and remove the state once content arrives. Ensure contrast between placeholder color and the background, and avoid pairing skeletons with `aria-live` regions to reduce noisy announcements.
+
+## Related components
+
+- [**Tab Skeleton**](?path=/docs/atoms-tabs-overview--docs) – uses the same loader for tab labels.
+- [**Seatmap Controls Skeleton**](?path=/docs/seatmap-seatmap-controls-skeleton-overview--docs) – specialized layout powered by `ds-skeleton`.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-skeleton-changelog--docs) tab for version history.

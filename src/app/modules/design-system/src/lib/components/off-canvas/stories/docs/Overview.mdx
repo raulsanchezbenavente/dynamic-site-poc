@@ -1,0 +1,115 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../off-canvas.stories';
+
+<Meta of={ComponentStories} title="Atoms/OffCanvas/Overview" />
+
+# OffCanvas
+
+<a href="FIGMA_LINK" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/off-canvas" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`off-canvas` renders a panel that slides over the page for contextual workflows—seat upgrades, ancillary services, or inline forms—without leaving the current screen.
+
+## Basic usage
+
+Off-canvas content is configured via a `config` object. The header is a standalone component that can either receive its own config input or render projected content within the tag, while the body uses the `offCanvasBody` directive for projected workflows.
+
+```html
+<off-canvas [config]="exampleConfig">
+  <off-canvas-header [config]="exampleConfig.offCanvasHeaderConfig">
+    <p>Custom header content can be projected here.</p>
+  </off-canvas-header>
+  <div offCanvasBody>
+    <!-- dynamic content -->
+  </div>
+</off-canvas>
+```
+
+```ts
+exampleConfig = {
+  position: 'end',
+  scroll: true,
+  offCanvasHeaderConfig: {
+    title: 'Manage booking',
+    subtitle: 'Seat upgrades',
+  },
+};
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>position</code></td>
+      <td>Slide direction (`top`, `bottom`, `start`, `end`).</td>
+      <td><code>NgbOffcanvasOptions['position']</code></td>
+    </tr>
+    <tr>
+      <td><code>scroll</code></td>
+      <td>Allows body content to scroll when panel is open.</td>
+      <td><code>boolean</code></td>
+    </tr>
+    <tr>
+      <td><code>offCanvasHeaderConfig</code></td>
+      <td>Extends `ModalsHeaderConfig` for title, subtitle, icon, or image.</td>
+      <td><code>OffCanvasHeaderConfig</code></td>
+    </tr>
+    <tr>
+      <td><code>panelClass</code>, <code>backdropClass</code></td>
+      <td>Apply design-system tokens for colors, elevation, width.</td>
+      <td><code>string | string[]</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<Source code={`<off-canvas [config]="exampleConfig"></off-canvas>`} dark language="html" />
+
+## Variants
+
+### Positions
+
+The panel can slide from any screen edge. Pick the edge that matches the workflow context (e.g., cart summary from the right, alert from the top).
+
+<Canvas of={ComponentStories.POSITIONS} />
+
+- **Bottom (default)**: Ideal for mobile-first experiences or flows that emerge from a CTA at the bottom of the screen.
+- **Top**: System alerts or quick announcements.
+- **Start / End**: Drawer-style layouts for navigation or detail panes.
+
+### Header types
+
+The header can be text-only, include supporting copy, or display an image/logo.
+
+<Canvas of={ComponentStories.HEADERS} />
+
+- **Text title**: Standard heading with optional subtitle.
+- **Image**: Use `imageSrc` when brand assets must appear inline.
+- **Icon + title**: Combine iconography with text to reinforce the context.
+
+### Body content
+
+Body uses `offCanvasBody` directive, so you can project entire forms, dynamic widgets, or responsive layouts. Keep primary actions inside the panel to avoid focus loss.
+
+<Canvas of={ComponentStories.PLAYGROUND} />
+
+## Accessibility
+
+- Component wires `ariaLabelledBy`/`ariaDescribedBy` to the native `ngb-offcanvas` panel. Always pass IDs from header/body content so assistive tech announces the context.
+- Off canvas traps focus while open. Ensure at least one focusable element (e.g., close button) is present.
+- Provide `offcanvasClosedEmitter` handler to sync application state and avoid stale overlays.
+- Use `scroll: true` for long forms so keyboard users can reach every field.
+
+## Related components
+
+- [**Modal Dialog**](?path=/docs/atoms-modal-dialog-overview--docs): For blocking flows or confirmation dialogs.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-offcanvas-changelog--docs) tab for version history.

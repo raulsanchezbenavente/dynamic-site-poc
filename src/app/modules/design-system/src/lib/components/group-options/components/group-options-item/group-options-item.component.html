@@ -1,0 +1,55 @@
+@let itemData = data();
+
+@if (itemData.link && !itemData.buttonText) {
+    <a
+        class="group-options-item_inner"
+        [attr.aria-disabled]="itemData.isDisabled ? true : null"
+        [attr.tabindex]="itemData.isDisabled ? -1 : 0"
+        [ngClass]="innerClasses()"
+        [ngStyle]="innerStyles()"
+        [href]="itemData.link.url">
+        <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </a>
+} @else if (itemData.emitsEvent) {
+    <button
+        class="group-options-item_inner"
+        [attr.tabindex]="itemData.isDisabled ? -1 : 0"
+        [attr.aria-disabled]="itemData.isDisabled ? true : null"
+        [ngClass]="innerClasses()"
+        [ngStyle]="innerStyles()"
+        (click)="emitEventOnClick()">
+        <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </button>
+} @else {
+    <div
+        class="group-options-item_inner"
+        [ngClass]="innerClasses()"
+        [ngStyle]="innerStyles()">
+        <ng-container [ngTemplateOutlet]="contentTemplate" />
+    </div>
+}
+<ng-template #contentTemplate>
+    @if (itemData.image) {
+        <figure class="group-options-item_figure">
+            <img
+                class="group-options-item_image"
+                [attr.alt]="itemData.image.altText ?? ''"
+                [src]="itemData.image.src" />
+        </figure>
+    }
+    <div class="group-options-item_content">
+        @if (itemData.title) {
+            <h3 class="group-options-item_title">{{ itemData.title }}</h3>
+        }
+        @if (itemData.description) {
+            <div
+                class="group-options-item_description"
+                [innerHTML]="itemData.description"></div>
+        }
+        @if (itemData.link && itemData.buttonText) {
+            <div class="group-options-item_actions">
+                <ds-button [config]="buttonConfig()" />
+            </div>
+        }
+    </div>
+</ng-template>

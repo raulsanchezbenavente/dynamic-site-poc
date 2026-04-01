@@ -1,0 +1,33 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+<Meta title="Molecules/Dropdown/Dropdown/Changelog" />
+
+## [0.1.0]
+
+**UPDATE VERSION ATTENTION:**<br />
+
+- Updating to version `36.0.0` DO NOT implement `showPlainTextTitle` new model property. It is an technical error!
+- Do not implement:
+  - `dropdown_mobile-title`on styles
+  - `dropdownSelectedValue`
+
+### Added
+
+- Added `IconComponent` in DropdownComponent
+- Added `DropdownLayoutType.SQUARE` type and styles
+- Added new property `triggerId` - autogenerate by generatedId pipe
+- Added `triggerComponent` input parameter to enable use of content projection inside dropdown trigger button
+- Added initial value true for `closeOnSelection` property
+
+### Changed
+
+- Renamed property `accessibilityId` to `contentId`
+- Fix disabled attribute
+- Fixed all dropdown.styles so it can be easily customized
+- Fixed dropdown aria-expanded and aria-controls attributes when isAlwaysVisible = true
+- Add `ds-` prefix to dropdown and dropdown-types templates (for styles)
+
+### Removed
+
+- Removed property `accessibilityConfig` from `DropdownConfig` - replaced by an autogenerate value using generatedId pipe
+- Removed unecessary `dropdownSelectedValue` with role alert - after selecting an option focus return to button when label + value are read again

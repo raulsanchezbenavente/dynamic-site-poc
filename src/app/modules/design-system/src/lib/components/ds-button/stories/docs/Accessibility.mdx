@@ -1,0 +1,208 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../ds-button.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Button
+
+## Accessibility
+
+This section provides detailed accessibility guidelines for the Button component.
+
+### Label Requirements
+
+**Always provide a meaningful label**. The `label` property should clearly describe the button's action. Avoid generic labels like "Click here" or "Button".
+
+```ts
+// Good
+submitButton = { label: 'Submit application' };
+
+// Bad
+genericButton = { label: 'Click here' };
+```
+
+**For icon-only buttons**, use a separate `IconButton` component (with proper `aria-label` support) instead of `ds-button`. The `ds-button` component is designed for labeled actions.
+
+### ARIA Attributes
+
+The button supports several ARIA attributes through `config.ariaAttributes`:
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaPressed</code></td>
+      <td>
+        Indicates toggle state (<code>true</code> / <code>false</code> / <code>"mixed"</code>).<br />
+        Use for toggle buttons that represent an on/off state.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaExpanded</code></td>
+      <td>
+        Indicates whether controlled content is expanded (<code>true</code> / <code>false</code>).<br />
+        Use when button controls collapsible content (accordion, dropdown, panel). Must pair with <code>ariaControls</code>.<br />
+        <strong>Note:</strong> Can also be set via <code>[ariaExpanded]</code> input for controlled/uncontrolled patterns.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaControls</code></td>
+      <td>
+        References the ID of the element controlled by this button.<br />
+        Must be used together with <code>ariaExpanded</code> to link button to controlled content.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaHaspopup</code></td>
+      <td>
+        Indicates the button triggers a popup (<code>menu</code>, <code>dialog</code>, <code>listbox</code>, <code>tree</code>, <code>grid</code>).<br />
+        Use for buttons that open menus, dialogs, or other popup elements.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDisabled</code></td>
+      <td>
+        Indicates disabled state (<code>true</code> / <code>false</code>) while keeping button focusable.<br />
+        See <strong>States</strong> section in [Overview](?path=/docs/atoms-button--overview) for when to use instead of <code>disabled</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDescribedby</code></td>
+      <td>
+        References an element ID that provides additional description.<br />
+        Use to associate helper text or error messages with the button.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Overrides the visible label for screen readers.<br />
+        Use sparingly, only when the visible label is insufficient for screen reader users.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Example: Expandable Button
+
+The button supports two patterns for `ariaExpanded`:
+
+**Pattern 1: Via config (manual control)**
+```ts
+expandButton = {
+  label: 'Show filters',
+  layout: {
+    style: ButtonStyles.SECONDARY,
+  },
+  ariaAttributes: {
+    ariaExpanded: false, // Toggle to true when filters are shown
+    ariaControls: 'filters-panel', // ID of the element being controlled
+  },
+};
+```
+
+```html
+<ds-button [config]="expandButton" (click)="toggleFilters()"></ds-button>
+<div id="filters-panel" [hidden]="!filtersVisible">
+  <!-- Filter content -->
+</div>
+```
+
+**Pattern 2: Via input signal (uncontrolled with auto-toggle)**
+```ts
+expandButton = {
+  label: 'Show filters',
+  layout: { style: ButtonStyles.SECONDARY },
+  ariaAttributes: {
+    ariaExpanded: false, // Initial state
+    ariaControls: 'filters-panel',
+  },
+};
+```
+
+```html
+<!-- Component auto-toggles ariaExpanded when clicked -->
+<ds-button [config]="expandButton" (buttonClicked)="onToggle()"></ds-button>
+<div id="filters-panel">
+  <!-- Filter content -->
+</div>
+```
+
+### Example: Toggle Button
+
+```ts
+muteButton = {
+  label: 'Mute notifications',
+  layout: {
+    style: ButtonStyles.LINK,
+  },
+  ariaAttributes: {
+    ariaPressed: false, // Toggle to true when pressed
+  },
+};
+```
+
+### Keyboard Navigation
+
+The button follows standard keyboard interaction patterns:
+
+- **Enter** or **Space**: Activates the button
+- **Tab**: Moves focus to the button (when not disabled)
+
+When using `aria-disabled` instead of `disabled`, the button remains in the tab order, allowing screen reader users to discover why the action is unavailable.
+
+### `renderAs: 'div'` — Visual-Only Mode
+
+When `renderAs` is set to `'div'`, the component renders a plain `<div>` **without** `role="button"`, `tabindex`, or any click/keyboard handlers. This is intentional: the `<div>` variant is designed to be used exclusively inside an interactive container (e.g. a card rendered as `<button>` or `<a>`) that already provides its own focus management and ARIA semantics.
+
+**Do not** use `renderAs: 'div'` as a standalone interactive element — it would be invisible to assistive technologies.
+
+### Stretched Hit Area — Clickable Card Pattern
+
+The `.stretched-hit-area` CSS utility makes an entire container clickable through a single button, without wrapping everything in an `<a>` or nesting interactive elements.
+
+**How it works:** The button's `::after` pseudo-element is absolutely positioned to cover the nearest `position: relative` ancestor, creating a full-area click target.
+
+**A11y behaviour:**
+- **Focus** stays on the inner `<button>` — screen readers announce it normally.
+- **Keyboard** (Enter / Space) activates the button, which triggers the card action.
+- **Pointer** clicks anywhere on the card reach the button via the pseudo-element overlay.
+
+**When to use each approach:**
+
+| Scenario | Technique |
+|----------|----------|
+| Non-interactive card container with a single button | `.stretched-hit-area` on the container + regular `ds-button` |
+| Card is itself a `<button>` or `<a>` | `renderAs: 'div'` on the inner `ds-button` (avoids nested interactive elements — WCAG violation) |
+
+**When NOT to use `.stretched-hit-area`:**
+- The container has **multiple interactive elements** (links, buttons, tooltips, dropdowns)
+- The container has **selectable text** the user might need to copy
+- There are **nested links** pointing to different destinations
+
+The overlay captures pointer events and blocks interaction with any other clickable element inside the container.
+
+<Canvas of={ComponentStories.STRETCHED_HIT_AREA} />
+
+### Screen Reader Considerations
+
+- When the button is in a **loading state**, the `aria-busy="true"` attribute is automatically applied to inform screen readers
+- Use the `loadingLabel` property to provide meaningful feedback during async operations
+- For toggle buttons, screen readers will announce the current pressed state when `aria-pressed` is used
+- For expandable buttons, screen readers will announce the expanded/collapsed state when `aria-expanded` is used
+
+### Best Practices
+
+1. **Use semantic HTML**: The component renders as a native `<button>` by default, which provides built-in keyboard support and screen reader semantics
+2. **Provide context**: Ensure button labels clearly describe what will happen when activated
+3. **Maintain focus order**: Keep buttons in a logical tab order that matches the visual layout
+4. **Indicate state changes**: Use loading states and ARIA attributes to communicate dynamic changes
+5. **Choose the right disabled pattern**: Use `disabled` for permanent unavailability, `aria-disabled` when you need to maintain focus and provide context
+6. **Use `renderAs: 'div'` only inside interactive containers**: The `<div>` variant has no interactive semantics; the parent element must handle focus, role, and keyboard events
+7. **Use `.stretched-hit-area` for clickable cards**: When a single button must expand its click target to the full card, prefer this CSS utility over wrapping in `<a>` or adding JS click handlers to the container

@@ -1,0 +1,27 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// tooltip
+$tooltip-color: var(--tooltip-color, --c-primary);
+$tooltip-fontsize: var(--tooltip-fontsize, var(--f-size-small));
+$tooltip-background: var(--tooltip-background, var(--c-white));
+$tooltip-border-width: var(--tooltip-border-width, calculateRem(1px));
+$tooltip-border-color: var(--tooltip-border-color, var(--c-primary));
+$tooltip-border-radius: var(--tooltip-border-radius, var(--#{$ds}border-radius));
+$tooltip-text-align: var(--tooltip-text-align, center);
+$tooltip-min-width: var(--tooltip-min-width, calculateRem(120px));
+$tooltip-max-width: var(--tooltip-max-width, 100%);
+$tooltip-inner-padding-y: var(--tooltip-inner-padding-y, calculateRem(10px));
+$tooltip-inner-padding-x: var(--tooltip-inner-padding-x, calculateRem(10px));
+$tooltip-inner-margin: var(--tooltip-inner-margin, calculateRem(1px));
+$tooltip-icon-gap: var(--tooltip-icon-gap, calculateRem(4px));
+$tooltip-not-center-margin: var(--tooltip-not-center-margin, -3px);
+
+// arrow
+$tooltip-arrow-larger-side: calculateRem(16px);
+$tooltip-arrow-smaller-side: calculateRem(8px);
+$tooltip-arrow-color: var(--tooltip-arrow-color, $tooltip-background);
+
+// border
+$tooltip-arrow-border-color: var(--tooltip-arrow-border-color, $tooltip-border-color);
+$tooltip-arrow-border-width: calc(var(--tooltip-arrow-border-width, calculateRem(1px)) * -1);
+$tooltip-arrow-border-position: calc(var(--tooltip-arrow-border-position, calculateRem(2px)) * -1);

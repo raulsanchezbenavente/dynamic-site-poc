@@ -1,0 +1,29 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    --skeleton-line-margin-bottom: #{calculateRem(36px)};
+    --skeleton-line-height: #{calculateRem(40px)};
+    --skeleton-line-border-radius: #{calculateRem(24px)};
+
+    display: flex;
+    flex-direction: column;
+}
+.tab-skeleton_item--1,
+.tab-skeleton_item--3 {
+    --skeleton-line-width: #{calculateRem(200px)};
+}
+.tab-skeleton_item--2 {
+    --skeleton-line-height: #{calculateRem(355px)};
+}
+.tab-skeleton_item--4 {
+    --skeleton-line-height: #{calculateRem(83px)};
+}
+
+// [Responsive]
+@media #{$mobile} {
+    .tab-skeleton_item--2 {
+        --skeleton-line-height: #{calculateRem(209px)};
+    }
+    .tab-skeleton_item--4 {
+        --skeleton-line-height: #{calculateRem(117px)};
+    }
+}

@@ -1,0 +1,35 @@
+@let configData = config();
+@let hasPrevData = hasPrev();
+@let hasNextData = hasNext();
+@let transformData = transform();
+
+<section
+    class="ds-carousel"
+    [attr.aria-label]="configData.ariaAttributes?.ariaLabel || ('Carousel.Title' | translate)">
+    @if (hasPrevData) {
+        <button
+            type="button"
+            class="ds-carousel_control ds-carousel_control--prev"
+            [attr.aria-label]="configData.prev?.ariaAttributes?.ariaLabel || ('Common.Prev' | translate)"
+            (click)="prev()"></button>
+    }
+
+    <div
+        #viewport
+        class="ds-carousel_viewport">
+        <div
+            #track
+            class="ds-carousel_track"
+            [style.transform]="transformData">
+            <ng-content select="[carouselItem]"></ng-content>
+        </div>
+    </div>
+
+    @if (hasNextData) {
+        <button
+            type="button"
+            class="ds-carousel_control ds-carousel_control--next"
+            [attr.aria-label]="configData.next?.ariaAttributes?.ariaLabel || ('Common.Next' | translate)"
+            (click)="next()"></button>
+    }
+</section>

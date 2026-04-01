@@ -1,0 +1,558 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Start/How-To/Translations/How It Works" />
+
+# Storybook Translations: How it Works
+
+## Overview
+
+This directory contains the translation infrastructure for Storybook stories in the design-system module. It mirrors the main application's translation architecture while providing flexibility for isolated component testing and documentation.
+
+The system supports:
+- **API-based translations** from the same CMS endpoints as the main app
+- **Mock translations** for offline development and testing
+- **Automatic loading** via decorators
+- **Request deduplication** to prevent duplicate HTTP calls
+- **Per-story configuration** for maximum flexibility
+
+## Architecture
+
+### Main App vs Storybook
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    MAIN APPLICATION                             │
+├─────────────────────────────────────────────────────────────────┤
+│  MODULE_TRANSLATION_MAP (centralized)                           │
+│           ↓                                                     │
+│  ModuleBootstrapService → preloads all module translations      │
+│           ↓                                                     │
+│  Component uses TranslationLoadStatusDirective                  │
+│           ↓                                                     │
+│  ModuleTranslationService → API call → Cache                    │
+└─────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────┐
+│                        STORYBOOK                                │
+├─────────────────────────────────────────────────────────────────┤
+│  Story parameters.i18nModules (per-story declaration)           │
+│           ↓                                                     │
+│  withI18nAutoHost decorator → wraps in <i18n-story-host>        │
+│           ↓                                                     │
+│  I18nStoryHostComponent uses TranslationLoadStatusDirective     │
+│           ↓                                                     │
+│  StoryModuleTranslationService → API + Mock merge → Cache       │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Key Differences
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Main App</th>
+      <th>Storybook</th>
+      <th>Reason</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Configuration</strong></td>
+      <td><code>MODULE_TRANSLATION_MAP</code></td>
+      <td><code>parameters.i18nModules</code></td>
+      <td>Stories define deps locally for isolation</td>
+    </tr>
+    <tr>
+      <td><strong>Loading Strategy</strong></td>
+      <td>Global preload on bootstrap</td>
+      <td>On-demand per story</td>
+      <td>Stories are independent units</td>
+    </tr>
+    <tr>
+      <td><strong>Service</strong></td>
+      <td><code>ModuleTranslationService</code></td>
+      <td><code>StoryModuleTranslationService</code></td>
+      <td>Adds mock support + per-story tokens</td>
+    </tr>
+    <tr>
+      <td><strong>Config Source</strong></td>
+      <td><code>ConfigService</code></td>
+      <td><code>TRANSLATION_BASE_URL</code> token</td>
+      <td>Allows per-story API override</td>
+    </tr>
+    <tr>
+      <td><strong>Fallback</strong></td>
+      <td>API only</td>
+      <td>API + Mock merge</td>
+      <td>Enables offline development</td>
+    </tr>
+  </tbody>
+</table>
+
+### Shared Components
+
+Both systems use the same core building blocks:
+
+- `TranslationLoadStatusDirective` - Waits for translations to load
+- `TranslateService` (ngx-translate) - Core translation engine
+- Same API endpoint format: `GetByCultureAndKeys?culture={lang}&keys={modules}`
+- Request deduplication and caching
+- `setTranslation()` with merge strategy
+
+## File Structure
+
+```
+i18n/
+├── README.md                              # This file
+├── index.ts                               # Public exports
+├── tokens.ts                              # DI tokens (TRANSLATION_BASE_URL, STORY_DICTIONARY)
+├── i18n-story-host.component.ts           # Host wrapper for translation loading
+├── story-module-translation.service.ts    # Translation loader (API + mock merge)
+├── with-i18n-autohost.decorator.ts        # Auto-wraps stories in host if i18nModules present
+├── with-i18n-host.decorator.ts            # Manual host wrapper decorator
+├── with-story-translations-auto.decorator.ts  # Reads parameters.i18n config
+├── with-story-translations.decorator.ts   # Configures translation providers
+└── i18n-testing.ts                        # Testing utilities
+```
+
+## Usage in Stories
+
+### Basic Setup (Recommended)
+
+The simplest approach uses automatic detection:
+
+```typescript
+// button.stories.ts
+import type { Meta, StoryObj } from '@storybook/angular';
+
+const meta: Meta<ButtonComponent> = {
+  title: 'Atoms/Button',
+  component: ButtonComponent,
+  parameters: {
+    i18nModules: ['Common'],  // ✅ Auto-wraps story in translation host
+    i18n: {
+      api: true,              // ✅ Load from API
+      mock: {                 // ✅ Fallback/complement
+        'Common.Submit': 'Submit',
+        'Common.Cancel': 'Cancel',
+      },
+    },
+  },
+};
+
+export default meta;
+```
+
+### With Multiple Modules
+
+```typescript
+parameters: {
+  i18nModules: ['Common', 'Navigation', 'Schedule'],
+  i18n: {
+    api: true,
+    mock: {
+      'Common.Close': 'Close',
+      'Navigation.Menu': 'Menu',
+      'Schedule.Departure': 'Departure',
+    },
+  },
+}
+```
+
+### Mock-Only (Offline Development)
+
+```typescript
+parameters: {
+  i18nModules: ['Common'],
+  i18n: {
+    api: false,  // ✅ No API calls
+    mock: {
+      'Common.Hello': 'Hello World',
+      'Common.Goodbye': 'Goodbye',
+    },
+  },
+}
+```
+
+### API-Only (Production-like)
+
+```typescript
+parameters: {
+  i18nModules: ['Common'],
+  i18n: {
+    api: true,
+    // No mock - will fallback to API only
+  },
+}
+```
+
+### Using Translations in Story Templates
+
+Once configured, use the standard `translate` pipe:
+
+```typescript
+export const WithTranslations: Story = {
+  render: () => ({
+    template: `
+      <ds-button>
+        {{ 'Common.Submit' | translate }}
+      </ds-button>
+    `,
+  }),
+};
+```
+
+Or programmatically in component code:
+
+```typescript
+export class MyComponent {
+  protected readonly translate = inject(TranslateService);
+
+  public getLabel(): string {
+    return this.translate.instant('Common.Submit');
+  }
+}
+```
+
+## Configuration
+
+### Global Configuration (preview.ts)
+
+Configure your module's `.storybook/preview.ts` using the shared decorator system:
+
+```typescript
+import { type Preview } from '@storybook/angular';
+import { setCompodocJson } from '@storybook/addon-docs/angular';
+import docJson from '../documentation.json';
+import { createSharedDecorators, sharedParameters, sharedInitialGlobals } from '@dcx/ui/storybook-utils';
+import { withI18nAutoHost } from '@dcx/ui/storybook-i18n';
+
+setCompodocJson(docJson);
+
+// Design-system components (no translationLoadStatus)
+const decorators = createSharedDecorators([], [withI18nAutoHost]);
+
+// OR for business components (with translationLoadStatus)
+// const decorators = createSharedDecorators(STORYBOOK_PROVIDERS, [withI18nAutoHost]);
+
+const preview: Preview = {
+  decorators,
+  parameters: sharedParameters,
+  initialGlobals: sharedInitialGlobals,
+};
+
+export default preview;
+```
+
+**What `createSharedDecorators()` provides:**
+- `applicationConfig` with translation providers (TranslateService, HttpClient, etc.)
+- `withStoryTranslationsAuto` - reads `parameters.i18n`
+- `ModuleTranslationService` - aliased to `StoryModuleTranslationService`
+- Translation base URL configuration
+- Custom decorators (e.g., `withI18nAutoHost`)
+
+### Per-Story Override
+
+Override the API URL for a specific story:
+
+```typescript
+export const CustomApiStory: Story = {
+  decorators: [
+    withStoryTranslations({
+      baseUrl: 'https://custom-api.com/translations',
+      api: true,
+    }),
+  ],
+};
+```
+
+## Translation Loading Flow
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│ 1. Story declares parameters.i18nModules                        │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 2. withI18nAutoHost decorator detects modules                   │
+│    → Wraps story in <i18n-story-host [modules]="['Common']">    │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 3. I18nStoryHostComponent uses TranslationLoadStatusDirective   │
+│    → Emits translationsLoaded when ready                        │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 4. StoryModuleTranslationService loads translations              │
+│    a. Check cache (lang|keys|baseUrl|mockSig)                   │
+│    b. If miss → HTTP GET to API endpoint                        │
+│    c. Merge: API translations → Mock translations               │
+│    d. Apply with TranslateService.setTranslation(merge=true)    │
+└────────────────────┬────────────────────────────────────────────┘
+                     ↓
+┌─────────────────────────────────────────────────────────────────┐
+│ 5. Story content renders with loaded translations               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## API Integration
+
+### Endpoint Format
+
+```
+GET {baseUrl}/GetByCultureAndKeys?culture={lang}&keys={modules}
+```
+
+**Example:**
+```
+GET https://api.example.com/v1/Translation/GetByCultureAndKeys
+  ?culture=es-ES
+  &keys=Common,Navigation
+```
+
+**Expected Response:**
+```json
+{
+  "Common.Submit": "Enviar",
+  "Common.Cancel": "Cancelar",
+  "Navigation.Home": "Inicio",
+  "Navigation.Menu": "Menú"
+}
+```
+
+### Merge Strategy
+
+When both API and mock are configured:
+
+1. **Mock applied first** (base layer)
+2. **API applied second** (overwrites mock if keys match)
+3. **Mock applied again** (final override for story-specific customization)
+
+This allows stories to:
+- Use real API translations
+- Override specific keys for testing edge cases
+- Work offline with full mock dictionaries
+
+## Correlation with Main App Translations
+
+### Using MODULE_TRANSLATION_MAP in Stories (Optional)
+
+If you want to ensure consistency with the main app's translation requirements:
+
+```typescript
+import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
+
+const meta: Meta = {
+  parameters: {
+    i18nModules: MODULE_TRANSLATION_MAP['HeaderFlow'],
+    // Will use: ['HeaderFlow', 'Basket', 'City', 'Common', ...]
+  },
+};
+```
+
+⚠️ **Note:** This creates coupling between stories and app config. Only use when documenting actual module behavior.
+
+### Translation Key Discovery
+
+To find which translations a component needs:
+
+1. **Check the component's module** in `MODULE_TRANSLATION_MAP`:
+   ```typescript
+   // projects/translation/src/lib/config/module-translation-map.ts
+   export const MODULE_TRANSLATION_MAP = {
+     HeaderFlow: ['HeaderFlow', 'Basket', 'City', 'Common', ...],
+   };
+   ```
+
+2. **Use those keys** in your story's `i18nModules`
+
+3. **Add mocks** for specific keys you're testing
+
+## Testing
+
+### Unit Tests
+
+For components that use translations:
+
+```typescript
+import { i18nTestingImportsWithMemoryLoader } from '@dcx/ui/storybook-i18n';
+
+TestBed.configureTestingModule({
+  imports: [
+    ...i18nTestingImportsWithMemoryLoader({
+      'Common.Submit': 'Submit',
+      'Common.Cancel': 'Cancel',
+    }),
+  ],
+});
+```
+
+## Best Practices
+
+### Avoid validating translatable text in play functions
+
+**Problem**: Play functions that search for translated button text or labels can be flaky:
+- Translation timing issues (API delays, mock/API mismatches)
+- Translations change over time, breaking tests
+- Different languages or cultures may have different text
+
+**Bad example**:
+```typescript
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+  // ❌ Fragile: depends on translated text matching exactly
+  await waitFor(() => {
+    expect(canvas.getByRole('button', { name: 'Next' })).toBeInTheDocument();
+  });
+}
+```
+
+**Good examples**:
+```typescript
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  // ✅ Validate structure without text
+  const buttons = canvas.getAllByRole('button');
+  expect(buttons.length).toBe(2);
+
+  // ✅ Validate behavior (clicks, state changes)
+  const nextButton = buttons[1];
+  await userEvent.click(nextButton);
+  expect(someState).toHaveChanged();
+
+  // ✅ OK to validate hardcoded ARIA labels (not translated)
+  const region = canvas.getByRole('region', { name: 'Custom carousel label' });
+  expect(region).toBeInTheDocument();
+
+  // ✅ Validate DOM structure
+  expect(canvas.getByTestId('carousel-track')).toBeInTheDocument();
+}
+```
+
+**When it's OK to validate text**:
+- Hardcoded ARIA labels set via config (not using translate pipe)
+- Static content that's part of the story template
+- Data-driven content (like "Slide 1", "Slide 2")
+
+## Troubleshooting
+
+### Problem: Translations Not Loading
+
+**Symptoms:** Keys displayed instead of translations (e.g., "Common.Submit" shown literally)
+
+**Solutions:**
+1. ✅ Verify `i18nModules` is declared in `parameters`
+2. ✅ Check browser console for HTTP errors
+3. ✅ Ensure `parameters.i18n.api` is set to `true` if using API
+4. ✅ Verify mock dictionary keys match exactly (case-sensitive)
+5. ✅ Check TRANSLATION_BASE_URL is correct in preview.ts
+
+### Problem: Story Doesn't Wait for Translations
+
+**Symptoms:** Component renders before translations load, causing `instant()` to return keys
+
+**Solutions:**
+1. ✅ Ensure `withI18nAutoHost` is in decorators array (via `createSharedDecorators`)
+2. ✅ Verify `i18nModules` parameter is set (triggers auto-wrapping)
+3. ✅ Check that preview.ts uses `createSharedDecorators(...)` correctly
+
+**Note:** The host component has a 100ms timeout fallback that forces render for tests. This prevents Storybook play functions from hanging while waiting for translations.
+
+### Problem: Play Function Tests Fail with "Unable to find element"
+
+**Symptoms:** Tests fail with `Unable to find an accessible element with the role "X"` in Storybook play functions
+
+**Root Cause:** The test executes before translations load and the story content renders.
+
+**Solutions:**
+
+**Option 1: Use `waitFor` in play functions** (Recommended)
+```typescript
+import { expect, waitFor, within } from '@storybook/test';
+
+export const MyStory: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+
+    // Wait for content to appear (host renders after translations load)
+    await waitFor(() => {
+      expect(canvas.getByRole('region')).toBeInTheDocument();
+    });
+
+    // Now safe to query elements
+    const regions = canvas.getAllByRole('region');
+    await expect(regions).toHaveLength(3);
+  },
+};
+```
+
+**Option 2: Increase timeout for specific queries**
+```typescript
+play: async ({ canvasElement }) => {
+  const canvas = within(canvasElement);
+
+  // findBy* queries wait automatically (default 1000ms)
+  const regions = await canvas.findAllByRole('region');
+  await expect(regions).toHaveLength(3);
+},
+```
+
+**Option 3: Mock-only mode loads faster**
+```typescript
+parameters: {
+  i18nModules: ['Common'],
+  i18n: {
+    api: false,  // ✅ Synchronous mock loading
+    mock: { 'Common.Title': 'Title' },
+  },
+},
+```
+
+**Why this happens:**
+- API-based translations: HTTP request → async → delay before render
+- Mock-only translations: Faster but still async due to Angular effect/directive lifecycle
+- Host timeout: Forces render after 100ms if translations don't emit (safety net)
+- Test timing: Play functions run immediately, before the 100ms timeout
+
+### Problem: Duplicate API Requests
+
+**Symptoms:** Multiple HTTP calls for the same translation keys
+
+**Solutions:**
+1. ✅ Check that multiple stories don't have different mock signatures (cache key includes mock signature)
+2. ✅ Verify `shareReplay` is working (check `story-module-translation.service.ts`)
+3. ✅ Ensure cache keys are consistent (lang|keys|baseUrl|mockSig)
+
+### Problem: Mock Overrides Not Working
+
+**Symptoms:** API translations override story-specific mocks
+
+**Solutions:**
+1. ✅ Verify the merge order in service (API → Mock final application)
+2. ✅ Check mock keys match exactly (including case and dots)
+3. ✅ Ensure `parameters.i18n.mock` is properly formatted as object
+
+## Best Practices
+
+### ✅ DO
+
+- Use `i18nModules` for automatic translation loading
+- Provide mocks for offline development and specific test cases
+- Keep mock dictionaries minimal (only what the story needs)
+- Use the same translation keys as the main application
+- Test with API enabled to catch missing translations
+
+### ❌ DON'T
+
+- Mix `i18nTestingImportsWithMemoryLoader` and `i18nTestingProvidersWithServiceStub` in same TestBed
+- Create large mock dictionaries that duplicate API content
+- Override translations unless testing edge cases
+- Forget to enable API (`api: true`) when documenting production behavior
+
+
+## Additional Resources
+
+- [Angular 19 Translations NGX-Translate How-To](https://flyr.atlassian.net/wiki/spaces/DC/pages/5408424133/Angular+19+Translations+NGX-Translate+How-To)

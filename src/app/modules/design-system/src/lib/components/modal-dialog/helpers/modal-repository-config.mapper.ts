@@ -1,7 +1,6 @@
-import { ButtonStyles, LayoutSize, ModalDialogActionType } from '@dcx/ui/libs';
+import { ButtonStyles, LayoutSize, ModalDialogActionType, ModalDialogTemplateModel } from '@dcx/ui/libs';
 
 import { ModalDialogSize } from '../enums/modal-dialog-size.enum';
-import { ModalDialogTemplateModel } from '../models/modal-dialog-template-model.interface';
 import { ModalDialogConfig } from '../models/modal-dialog.config';
 
 function isValidModalDialogActionType(value?: string): value is ModalDialogActionType {

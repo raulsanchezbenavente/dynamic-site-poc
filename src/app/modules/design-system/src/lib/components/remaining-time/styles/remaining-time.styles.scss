@@ -1,0 +1,23 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.remaining-time {
+    font-size: var(--remaining-time-size, var(--f-size-small));
+    font-weight: var(--remaining-time-fontweight, var(--f-weight-bold));
+    color: var(--remaining-time-color, var(--c-text));
+    line-height: var(--f-line-height);
+}
+.remaining-time_label {
+    margin: 0 calculateRem(3px) 0 0;
+    color: var(--remaining-time-label-color, inherit);
+    font-size: var(--remaining-time-label-fontsize, inherit);
+    font-weight: var(--remaining-time-label-fontweight, inherit);
+}
+.remaining-time_value {
+    display: inline-block;
+    font-size: var(--remaining-time-value-fontsize, inherit);
+    font-weight: var(--remaining-time-value-fontweight, inherit);
+    color: var(--remaining-time-value-color, inherit);
+}

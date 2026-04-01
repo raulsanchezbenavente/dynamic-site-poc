@@ -1,0 +1,95 @@
+@use 'design-system/assets/sass/utils/mixins' as *;
+@use 'design-system/assets/sass/import/import-core' as *;
+
+@use 'pagination-vars.styles' as *;
+
+::ng-deep :root {
+    --paginator-layout-breakpoint: #{$pagination-default-breakpoint-min};
+}
+
+// -------
+// COMPONENT STYLE
+// -------
+.pagination_list {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--paginator-list-gap, calculateRem(12px));
+    margin-top: var(--paginator-margin-top, calculateRem(36px));
+}
+.pagination_list_item {
+    --pagination-list-item-size: #{calculateRem(44px)};
+
+    font-size: var(--paginator-list-item-fontsize, var(--f-size-500));
+    color: var(--paginator-list-item-color, inherit);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--pagination-list-item-size);
+    height: var(--pagination-list-item-size);
+    &.active {
+        --paginator-list-item-background: var(--c-primary);
+        --paginator-list-item-button-color: var(--c-white);
+        --paginator-list-item-button-background: var(--c-primary);
+
+        cursor: default;
+        pointer-events: none;
+    }
+}
+.pagination_list_item_button {
+    --accessibility-outline-border-radius: inherit;
+
+    font-size: calculateRem(14px);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    color: var(--paginator-list-item-button-color, var(--c-text));
+    font-weight: var(--paginator-list-item-button-font-weight, var(--f-weight-bold));
+    background-color: var(--paginator-list-item-button-background, var(--c-white));
+    border-radius: 50%;
+    &:hover {
+        --paginator-list-item-button-background: var(--c-color3);
+    }
+    &--ellipsis {
+        pointer-events: none;
+        cursor: default;
+    }
+}
+
+// prev/next
+.pagination_list_item--prev,
+.pagination_list_item--next {
+    --paginator-list-item-fontsize: var(--f-size);
+    --paginator-list-item-font-weight: var(--f-weight-light);
+
+    margin: var(--paginator-list-item-prevnext-margin, 0 $spacer-tiny);
+    .pagination_list_item_button {
+        @include iconfont($icon-arrow-single-left, after);
+
+        border: 2px solid var(--paginator-list-item-prevnext-border-color, var(--c-primary));
+        &:disabled {
+            --paginator-list-item-button-background: var(--c-disable-bg);
+            --paginator-list-item-button-color: var(--c-disable-text);
+            --paginator-list-item-prevnext-border-color: var(--c-disable-border);
+
+            pointer-events: none;
+        }
+    }
+}
+.pagination_list_item--next {
+    .pagination_list_item_button::after {
+        content: $icon-arrow-single-right;
+    }
+}
+
+@media #{$pagination-default-breakpoint-min} {
+    .pagination_list {
+        .pagination_list_item {
+            --pagination-list-item-size: #{calculateRem(32px)};
+        }
+    }
+}

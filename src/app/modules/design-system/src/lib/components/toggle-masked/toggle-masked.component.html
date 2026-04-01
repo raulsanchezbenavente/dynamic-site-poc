@@ -1,0 +1,30 @@
+@if (data) {
+    <div class="toggle-masked">
+        @if (code) {
+            <span class="toggle-masked_label">
+                {{ code }}
+            </span>
+        }
+        @if (maskEnabled) {
+            <button
+                class="toggle-masked_button"
+                [class.toggle-masked_button--unmask]="isCodeMasked"
+                [attr.aria-label]="isCodeMasked ? unmaskActionText : maskActionText"
+                (click)="toggleCodeMask()">
+                <span
+                    aria-hidden="true"
+                    class="icon"></span>
+            </button>
+            <div
+                role="status"
+                class="hide-visually">
+                @if (initToggleCode && isCodeMasked) {
+                    {{ maskedStatusText }}
+                }
+                @if (initToggleCode && !isCodeMasked) {
+                    {{ unmaskedStatusText }}
+                }
+            </div>
+        }
+    </div>
+}

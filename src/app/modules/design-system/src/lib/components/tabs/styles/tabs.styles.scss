@@ -1,0 +1,176 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    --tabs-list-padding: #{calculateRem(4px)}; // Need only for tab trigger focus
+}
+.tabs-list_content-outer {
+    flex: 1 1 auto;
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding: var(--tabs-list-padding);
+
+    // Bottom border for the tabs list container.
+    // Rendered via ::after to appear *below* the active tab's bottom border.
+    &::after {
+        position: relative;
+        height: 1px;
+        z-index: 1;
+        top: calculateRem(-1px);
+        content: '';
+        display: block;
+        border-bottom: var(--tabs-list-border-bottom, calculateRem(1px) solid var(--c-border));
+    }
+}
+.tabs-list-inner,
+.tabs-list_content {
+    display: flex;
+}
+.tabs-list-inner {
+    display: flex;
+}
+.tabs-list_content {
+    z-index: 2;
+    position: relative;
+    transition: transform 0.3s ease;
+    will-change: transform;
+}
+.tabs-trigger {
+    --tab-trigger-width: calc(100% / var(--tabs-visible-items));
+
+    flex: 0 0 auto;
+    width: var(--tab-trigger-width);
+    max-width: var(--tab-trigger-width);
+}
+
+// based on whether total items exceed visible items
+.tabs-list_content--all-visible {
+    .tabs-trigger {
+        --tab-trigger-width: auto;
+
+        flex: 1 1 100%;
+    }
+
+    justify-content: center;
+}
+
+// tabs
+.tabs-trigger_tab {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--tabs-trigger-gap, 0);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--tabs-trigger-padding-top-bottom, #{$pad-medium})
+        var(--tabs-trigger-padding-left-right, #{$pad-medium});
+    user-select: none;
+    box-sizing: border-box;
+    white-space: nowrap;
+
+    // Restrict hover styles to non-touch devices
+    @include hover-only {
+        --tabs-trigger-text-color: var(--c-text);
+        --tabs-trigger-text-fontweight: var(--f-weight-bold);
+
+        // bottom border
+        &::after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            content: '';
+            height: var(--tabs-trigger-border-bottom-active, calculateRem(2px));
+            width: 100%;
+            background-color: var(--tabs-trigger-border-color, var(--c-border-darker));
+        }
+    }
+
+    // selected
+    &[aria-selected='true'] {
+        --tabs-trigger-text-color: var(--c-text);
+        --tabs-trigger-text-fontweight: var(--f-weight-bold);
+        --tabs-trigger-border-color: transparent;
+        cursor: default;
+    }
+    &[aria-disabled='true'] {
+        --tabs-trigger-color: var(--c-disable-text);
+        --tabs-trigger-text-fontweight: var(--f-weight-normal);
+
+        cursor: default;
+        pointer-events: none;
+    }
+}
+.tabs-active-indicator {
+    position: absolute;
+    bottom: -0.02rem;
+    left: 0;
+    height: var(--tabs-trigger-border-bottom-active, calculateRem(2px));
+    background-color: var(--tabs-trigger-border-color-selected, var(--c-active-dark));
+    transition:
+        left 0.6s ease,
+        width 0.3s ease;
+    z-index: 4;
+}
+.tabs-trigger_tab-text-primary {
+    display: flex;
+    align-items: center;
+    gap: var(--tabs-trigger-text-icon-gap, #{calculateRem(4px)});
+}
+.tabs-trigger_tab-text {
+    font-size: var(--tabs-trigger-text-fontsize, var(--f-size));
+    color: var(--tabs-trigger-text-color, var(--c-text-secondary));
+    font-weight: var(--tabs-trigger-text-fontweight, var(--f-weight-normal));
+}
+.tabs-trigger_tab-text-secondary {
+    font-size: var(--f-size-small);
+    color: var(--tabs-trigger-secondary-text-color, var(--c-text-secondary));
+    width: 100%;
+}
+
+// prev/next navigation controls
+.tabs-list_control {
+    @include iconfont($icon-arrow-single-left, before);
+
+    cursor: pointer;
+    font-size: var(--f-size-x-large);
+    flex-shrink: 0;
+    pointer-events: auto;
+    transition: all 0.06s ease-in-out;
+    width: var(--tabs-trigger-control-width, calculateRem(36px));
+
+    // next control
+    &--next {
+        &::before {
+            content: $icon-arrow-single-right;
+        }
+        &:hover {
+            transform: translateX(#{calculateRem(-2px)});
+        }
+    }
+    &:hover {
+        transform: translateX(#{calculateRem(2px)});
+    }
+
+    // disabled
+    &[aria-disabled='true'] {
+        color: var(--c-disable-text);
+        pointer-events: none;
+        display: none;
+    }
+}
+
+// [Responsive]
+@media #{$tablet-portrait} {
+    :host {
+        --tabs-trigger-gap: #{$spacer-tiny};
+        --tabs-trigger-text-fontsize: var(--f-size-medium);
+        --tabs-trigger-padding-left-right: #{$pad-x-medium};
+        --tabs-trigger-control-width: initial;
+    }
+}

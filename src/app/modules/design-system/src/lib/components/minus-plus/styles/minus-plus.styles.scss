@@ -1,0 +1,85 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'minus-plus-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}minus-plus {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+.#{$ds}minus-plus_button,
+.#{$ds}minus-plus_input {
+    flex: 0 0 auto;
+    vertical-align: middle;
+    text-align: center;
+}
+.#{$ds}minus-plus_button {
+    @include iconfont($minusplus-icon-minus, before);
+
+    font-size: $minusplus-button-fontsize;
+    z-index: 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: $minusplus-button-color;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.1s linear;
+    &[aria-disabled='true'] {
+        --minusplus-button-color: #{$minusplus-button-color-disabled};
+        cursor: default;
+
+        &::before {
+            // icon
+            content: $minusplus-icon-minus-disabled;
+        }
+        &.#{$ds}minus-plus_button--plus {
+            &::before {
+                // icon
+                content: $minusplus-icon-plus-disabled;
+            }
+        }
+    }
+    // Restrict hover styles to non-touch devices
+    @include hover-only {
+        &:not([aria-disabled='true']) {
+            --minusplus-button-color: #{$minusplus-button-color-hover};
+        }
+    }
+    &:not([aria-disabled='true']):active {
+        --minusplus-button-color: #{$minusplus-button-color-active};
+    }
+}
+.#{$ds}minus-plus_button--plus {
+    &::before {
+        // icon
+        content: $minusplus-icon-plus;
+    }
+}
+.#{$ds}minus-plus_input {
+    min-width: $minusplus-input-minwidth;
+    max-width: $minusplus-input-maxwidth;
+    text-align: center;
+    box-sizing: border-box;
+    background: $minusplus-input-background;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    input {
+        font-size: $minusplus-input-fontsize;
+        color: $minusplus-input-color;
+        // Fix for iOS Safari rendering bug: input requires an explicit width to avoid layout issues.
+        width: calculateRem(26px);
+        height: 100%;
+        font-weight: $minusplus-input-fontweight;
+        text-align: center;
+        background: $minusplus-input-background;
+        border: 0;
+        padding: 0;
+        &[readonly] {
+            pointer-events: none;
+        }
+    }
+}

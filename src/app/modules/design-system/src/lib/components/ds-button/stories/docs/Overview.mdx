@@ -1,0 +1,204 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../ds-button.stories';
+
+<Meta of={ComponentStories}  name="01 Overview" />
+
+# Button
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=9110-4673" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/ds-button" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `ds-button` in templates: how to configure it, which variants to pick, and how to apply accessibility and projected content patterns.
+
+
+## Basic usage
+
+The button is configured through a `config` object. This object controls the text, icon, visual style, size, and accessibility properties.
+
+```html
+<ds-button [config]="primaryButton" />
+```
+
+```ts
+primaryButton = {
+  label: 'My Button',
+  layout: {
+    // Uses ButtonStyles and LayoutSize constants from '@dcx/ui/libs'
+    style: ButtonStyles.ACTION,
+    size: LayoutSize.MEDIUM,
+  },
+};
+```
+
+### Rendered Element (`renderAs`)
+
+The `ds-button` component can render as a `<button>`, `<a>`, or `<div>`. By default the element is inferred automatically: if `config.link` is set it renders `<a>`, otherwise `<button>`. You can override this with the optional `renderAs` property.
+
+<Canvas of={ComponentStories.RENDER_AS} />
+
+| Value | Element | Use case |
+|-------|---------|----------|
+| `'button'` (default) | `<button>` | Actions and form submissions (submit, cancel, open modal, trigger calculation). |
+| `'a'` | `<a>` | Navigation (internal or external links, CTA links). Also used automatically when `config.link` is set. |
+| `'div'` | `<div>` | Purely visual — no `role`, `tabindex`, or click handler. Designed to live inside an interactive container (e.g. a card button) that already handles interaction and a11y. |
+
+```ts
+// Default — renders <button>
+actionButton = {
+  label: 'Submit',
+  layout: { style: ButtonStyles.ACTION },
+};
+
+// Navigation — renders <a> (explicit or via config.link)
+ctaButton = {
+  label: 'Learn more',
+  layout: { style: ButtonStyles.ACTION },
+  link: { url: '/about', target: '_self' },
+};
+
+// Visual-only — renders <div>
+cardInnerButton = {
+  label: 'Select',
+  layout: { style: ButtonStyles.SECONDARY },
+  renderAs: 'div',
+};
+```
+
+> **Important:** When using `renderAs: 'div'`, the element is inert (no keyboard or click handling). It must live inside an already-interactive container that provides its own a11y semantics.
+
+### Stretched Hit Area (Clickable Card Pattern)
+
+When a button lives inside a card or container and you want the **entire card to be clickable** while keeping focus and semantics on the button, use the global CSS utility class `.stretched-hit-area` on the container.
+
+The class works by expanding the button's `::after` pseudo-element to cover the entire container (which must have `position: relative`).
+
+<Canvas of={ComponentStories.STRETCHED_HIT_AREA} />
+
+Two approaches are shown above:
+
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Container</th>
+      <th>Inner <code>ds-button</code></th>
+      <th>When to use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Stretched hit area</strong></td>
+      <td><code>&lt;div&gt;</code> with <code>.stretched-hit-area</code> and <code>position: relative</code></td>
+      <td>Regular <code>&lt;button&gt;</code> (default)</td>
+      <td>Single interactive element inside a non-interactive card. Focus ring and keyboard events come from the button.</td>
+    </tr>
+    <tr>
+      <td><strong>Visual-only div</strong></td>
+      <td><code>&lt;button&gt;</code> or <code>&lt;a&gt;</code> (the card itself is the interactive element)</td>
+      <td><code>renderAs: 'div'</code></td>
+      <td>The parent card is already a <code>&lt;button&gt;</code> or <code>&lt;a&gt;</code>. The inner ds-button is purely visual to avoid nested interactive elements.</td>
+    </tr>
+  </tbody>
+</table>
+
+```html
+<!-- Approach 1: stretched-hit-area -->
+<div class="stretched-hit-area" style="position: relative;">
+  <h3>Card title</h3>
+  <p>Card description</p>
+  <ds-button [config]="buttonConfig" (buttonClicked)="onSelect()" />
+</div>
+
+<!-- Approach 2: card is the interactive element -->
+<button type="button" class="my-card" (click)="onSelect()">
+  <h3>Card title</h3>
+  <p>Card description</p>
+  <ds-button [config]="{ ...buttonConfig, renderAs: 'div' }" />
+</button>
+```
+
+> **Do not** use `.stretched-hit-area` when the container has multiple interactive elements (other buttons, links, tooltips, dropdowns). The overlay captures pointer events and blocks interaction with other clickables.
+
+## Variants
+
+### Appearances
+
+The button comes in four visual styles to match different contexts and hierarchy needs:
+
+<Canvas of={ComponentStories.APPEARANCES} />
+
+- **Action**: primary action in the flow.
+- **Secondary**: secondary or alternative action.
+- **Inverse**: for dark backgrounds.
+- **Link**: text-link appearance.
+
+### Sizes
+
+Each appearance supports three sizes:
+
+<Canvas of={ComponentStories.SIZES} />
+
+- **Small (sm)**: compact spaces or secondary actions.
+- **Medium (md)**: default size for most use cases.
+- **Large (lg)**: when the action needs extra emphasis or must align with larger form controls.
+
+### States
+
+Buttons support interactive states that communicate availability and progress:
+
+<Canvas of={ComponentStories.STATES} />
+
+- **Disabled**: Uses the native `disabled` attribute. The button cannot receive focus and is removed from the keyboard navigation flow. Use this for permanently unavailable actions.
+- **Aria-disabled**: Uses `aria-disabled="true"`. The button remains focusable and in the tab order, which is important for screen reader users to discover why an action is unavailable. According to W3C guidelines, use this when you need to maintain focus on the button while conveying its disabled state, or when providing contextual information about why it's disabled.
+- **Loading**: Shows a loading indicator and disables interaction. Use `loadingLabel` to provide screen reader feedback about the ongoing operation.
+
+### Icon Positions
+
+Buttons can display an icon alongside the label. The icon can be positioned on the left (default) or right side using the `icon.position` property:
+
+<Canvas of={ComponentStories.ICON_POSITIONS} />
+
+```ts
+// Icon on the left (default)
+buttonWithIcon = {
+  label: 'My Button',
+  icon: {
+    name: 'home',
+    position: HorizontalAlign.LEFT, // Default
+  },
+  layout: {
+    style: ButtonStyles.ACTION,
+  },
+};
+
+// Icon on the right
+buttonWithIconRight = {
+  label: 'My Button',
+  icon: {
+    name: 'home',
+    position: HorizontalAlign.RIGHT,
+  },
+  layout: {
+    style: ButtonStyles.ACTION,
+  },
+};
+```
+
+**Note:** The button accepts only one icon. Use `icon.position` to control whether it appears to the left or right of the label.
+
+---
+
+## Projected content
+
+When you need richer content than a simple `label`, you can project content using `ng-content`, as shown in the **Has Content Projection** story.
+
+<Canvas of={ComponentStories.HAS_CONTENT_PROJECTION} />
+
+## Related components
+- [**IconButton**](?path=/docs/atoms-button-icon-button--overview): For buttons that only display an icon without a label.
+- [**Icon**](?path=/docs/atoms-icon-icon--overview): For displaying icons within buttons or other components.
+
+
+## References
+- **Changelog**: See the [Changelog](?path=/docs/atoms-button-changelog--docs) tab for version history.

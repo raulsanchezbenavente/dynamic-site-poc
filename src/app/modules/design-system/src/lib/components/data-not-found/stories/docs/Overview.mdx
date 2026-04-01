@@ -1,0 +1,94 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../data-not-found.component.stories';
+
+<Meta of={ComponentStories} title="Atoms/DataNotFound/Overview" />
+
+# Data Not Found
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=12577-2894" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/data-not-found" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`data-not-found` communicates empty or unavailable search results. It displays a concise summary, optional secondary guidance, and can host recovery actions through projected content.
+
+## Basic usage
+
+Wrap the component in templates and feed it a `config` object. Project optional actions (links, buttons) to give travelers a next step, but prefer expressing copy/icon/status inside the config so the spacing, typography, and responsive behavior remain consistent.
+
+```html
+<data-not-found [config]="emptyResultsConfig">
+  <a href="#">Start a new search</a>
+</data-not-found>
+```
+
+```ts
+emptyResultsConfig: DataNotFoundConfig = {
+  text: 'We could not find matching trips.',
+  secondaryText: 'Try adjusting the travel dates or passenger mix.',
+  icon: {
+    name: 'airplane-cancel',
+    ariaAttributes: { ariaLabel: 'Empty results' },
+  },
+  statusText: 'Showing alternative suggestions soon',
+};
+```
+
+## Configuration
+
+<table>
+  <tr>
+    <th>Property</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>text: string</code></td>
+    <td>Primary copy that summarizes why data is not available. Keep it short (one sentence).</td>
+  </tr>
+  <tr>
+    <td><code>secondaryText?: string</code></td>
+    <td>Optional paragraph that explains next steps or troubleshooting tips.</td>
+  </tr>
+  <tr>
+    <td><code>icon?: IconConfig</code></td>
+    <td>Overrides the default cancellation icon. Provide custom <code>ariaLabel</code> text for screen readers.</td>
+  </tr>
+  <tr>
+    <td><code>statusText?: string</code></td>
+    <td>Visually hidden text announced by assistive tech to describe status updates (e.g., retrying search).</td>
+  </tr>
+</table>
+
+## Variants
+
+### Copy hierarchy
+
+Balance `text` and `secondaryText` to explain context and offer guidance.
+
+<Canvas of={ComponentStories.TEXT_STATES} />
+
+- `text` alone keeps the component compact for inline use.
+- Adding `secondaryText` helps customer-service flows where troubleshooting steps are needed.
+- Use projected content for links/buttons instead of embedding HTML into the `text` copy.
+
+### Content projection
+
+Place inline actions, secondary links, or other markup via `ng-content`.
+
+<Canvas of={ComponentStories.CONTENT_PROJECTION} />
+
+- Links should describe the action (e.g., “Modify search”).
+- Keep projected content short so layouts stay balanced on small breakpoints.
+
+## Accessibility
+
+- The wrapper uses semantic text blocks; add `statusText` when asynchronous updates occur so screen readers receive announcements.
+- Icons are purely decorative unless you provide `ariaAttributes.ariaLabel`; do so anytime the glyph communicates meaning.
+- Ensure projected actions are standard links or buttons so they inherit keyboard and focus behavior automatically.
+
+## Related components
+
+- [**Notification**](?path=/docs/atoms-notification-overview--docs): Use when you need inline alerts rather than empty states.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-data-not-found-changelog--docs) tab for version history.

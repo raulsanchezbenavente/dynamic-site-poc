@@ -1,0 +1,27 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    // icons
+    --badge-icon-fontsize: inherit;
+
+    font-size: var(--badge-fontsize, var(--f-size-small));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--badge-gap, calculateRem(8px));
+    color: var(--badge-color, var(--c-white));
+    text-transform: var(--badge-text-transform, capitalize);
+    font-weight: var(--badge-fontweight, var(--f-weight-bold));
+    line-height: var(--badge-lineheight, 1);
+    border-radius: var(--badge-border-radius, calculateRem(2px) calculateRem(16px));
+    padding: var(--badge-padding, calculateRem(4px) calculateRem(20px));
+    background-color: var(--badge-background, var(--c-color8));
+}
+.#{$ds}badge_icon {
+    ::ng-deep .icon {
+        font-size: var(--badge-icon-fontsize);
+    }
+}

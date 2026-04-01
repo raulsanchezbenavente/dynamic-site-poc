@@ -1,0 +1,15 @@
+@if (config) {
+    @if (config.icon) {
+        <span class="avatar-icon">
+            <icon [config]="config.icon"></icon>
+        </span>
+    } @else {
+        <span
+            class="avatar-initials"
+            [attr.aria-label]="config.ariaLabel ? config.ariaLabel : null">
+            <span aria-hidden="true">
+                {{ avatarInitials }}
+            </span>
+        </span>
+    }
+}

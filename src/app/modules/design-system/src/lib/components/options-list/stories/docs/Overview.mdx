@@ -1,0 +1,125 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../options-list.stories';
+
+<Meta of={ComponentStories} title="Atoms/OptionsList/Overview" />
+
+# Options List
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=8235-4048&t=2PILTtgZHGLl2qp2-1" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/options-list" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`options-list` renders stacked **button or link** rows that adopt either listbox or menu semantics. Use it whenever you need a vertically organized catalog of choices (ex.. contextual menus) with optional images, icons, or helper text.
+
+> The same list powers the `dropdown` component menu, so improving this component benefits any dropdown instance automatically.
+
+## Basic usage
+
+Provide a `config` object that describes the list behavior plus the items to display. The component handles ids, aria roles, and emits `valueEmitter` when rows toggle.
+
+```html
+<options-list [config]="fareBundles" (valueEmitter)="onBundleChange($event)" />
+```
+
+```ts
+fareBundles = {
+  mode: 'selection',
+  options: [
+    {
+      code: 'basic',
+      name: 'Basic bundle',
+      description: 'Light fare, 0 checked bags',
+      isDefault: true,
+    },
+    {
+      code: 'plus',
+      name: 'Plus bundle',
+      description: '1 checked bag and seat selection',
+      isSelected: true,
+    },
+  ],
+  ariaAttributes: {
+    ariaLabel: 'Select fare bundle',
+  },
+};
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Config key</th>
+      <th>Description</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>mode</code></td>
+      <td>Interaction style. <code>selection</code> (default) applies listbox semantics (`role=listbox/option`) for controlled button rows, while <code>menu</code> renders navigational menu links (`role=menu/menuitem`).</td>
+      <td><code>OptionsListMode</code></td>
+    </tr>
+    <tr>
+      <td><code>options</code></td>
+      <td>Array of items with labels, descriptions, icons, images, and link metadata.</td>
+      <td><code>OptionsList[]</code></td>
+    </tr>
+    <tr>
+      <td><code>ariaAttributes</code></td>
+      <td>Accessible name for the list. Provide <code>ariaLabel</code> or <code>ariaLabelledBy</code>.</td>
+      <td><code>OptionsListAriaAttributes</code></td>
+    </tr>
+    <tr>
+      <td><code>accessibilityConfig</code></td>
+      <td>Optional ids to control deterministic list ids. If omitted, ids are auto generated.</td>
+      <td><code>AccessibilityConfig</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<Source code={`<options-list [config]="fareBundles"></options-list>`} dark language="html" />
+
+## Variants
+
+### List Roles (a11y)
+
+Switch between filter-like selection mode and navigation-friendly menu mode depending on UX needs.
+
+<Canvas of={ComponentStories.MODES} />
+
+- **Selection**: Relies on `role="listbox"` + `role="option"` and toggles `aria-selected` states on button rows. Set multiple `isSelected: true` values for multi-select flows.
+- **Menu**: Renders list items as links. Configure `link.target` to control navigation context and combine with thumbnails or icons.
+
+### Content layouts
+
+Mix and match icons, helper text, and imagery to give each option more context.
+
+<Canvas of={ComponentStories.CONTENT_LAYOUTS} />
+
+- **Combined demo**: Single config that renders helper text, an icon-driven row, an image-driven row, and an external link so designers see every content treatment together.
+
+### States
+
+Demonstrates disabled, default, and active rows.
+
+<Canvas of={ComponentStories.STATES} />
+
+- **Default**: Highlight recommended option (`isDefault`) so users spot the baseline.
+- **Selected**: Controlled via `isSelected` and mirrored through `valueEmitter`.
+- **Disabled**: Prevents interaction while still showing the content; ideal for unavailable fares.
+- **Multi-select**: Flip multiple `isSelected` flags when you need additive selections; component keeps exposing `aria-selected` for each row.
+
+## Accessibility
+
+- Component automatically maps to `listbox/option` or `menu/menuitem` roles based on `mode`.
+- Always provide an accessible label via `ariaAttributes` to describe the decision being made.
+- Disabled items get `aria-disabled="true"` so screen readers explain why they are unavailable.
+- When rendering links, pass `link.target` + `ariaLabel` on each option to describe navigation intent.
+- Keyboard users can move with arrow keys and toggle with <kbd>Space</kbd> / <kbd>Enter</kbd>; maintain logical ordering in the `options` array.
+
+## Related components
+
+- [**Dropdown**](?path=/docs/atoms-dropdown-overview--docs): Collapsed select when vertical space is limited. Uses `options-list` internally for its expanded dropdown options.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-optionslist-changelog--docs) tab for version history.

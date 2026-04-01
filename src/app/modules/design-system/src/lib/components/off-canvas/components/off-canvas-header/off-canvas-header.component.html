@@ -1,0 +1,21 @@
+@if (config) {
+    <div class="ds-offcanvas-header_close">
+        <icon-button
+            [config]="resolvedCloseButtonConfig"
+            (clickEvent)="onClose()" />
+    </div>
+    <h1 class="ds-offcanvas-header_title">
+        @if (config.imageSrc) {
+            <img
+                class="ds-offcanvas-header_title_image"
+                [src]="config.imageSrc"
+                [alt]="config.title" />
+        } @else {
+            {{ config.title }}
+        }
+    </h1>
+    @if (config.subtitle) {
+        <span>{{ config.subtitle }}</span>
+    }
+    <ng-content></ng-content>
+}

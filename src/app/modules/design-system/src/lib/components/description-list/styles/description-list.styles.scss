@@ -1,0 +1,143 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use './description-list-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}description-list_description {
+    font-size: var(--description-list-dd-fontsize, inherit);
+    font-weight: var(--description-list-dd-fontweight, var(--f-weight-bold));
+}
+
+.#{$ds}description-list_label_icon {
+    display: inline-flex;
+}
+
+.#{$ds}description-list_description--date {
+    .#{$ds}date-format {
+        display: inline-flex;
+
+        // todo: review and update on Legacy release 40.0.0 - new date-display styles config
+        gap: $description-list-layout-dd-date-gap;
+        .day,
+        .month {
+            // Accessibility fix to read date with spaces
+            &::after {
+                content: ' ';
+            }
+        }
+    }
+}
+.#{$ds}description-list_description--status {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: $description-list-dd-status-gap;
+
+    @include iconfont('', before);
+    &::before {
+        display: none;
+    }
+}
+
+.#{$ds}description-list_description--price {
+    .price_currency {
+        .decimals {
+            font-size: 1em;
+        }
+    }
+}
+
+.#{$ds}description-list_description--status-success {
+    &::before {
+        display: inline-block;
+        content: $description-list-status-icon-success;
+        color: $description-list-status-icon-color-success;
+    }
+}
+
+.#{$ds}description-list_description--status-warning {
+    &::before {
+        display: inline-block;
+        content: $description-list-status-icon-warning;
+        color: $description-list-status-icon-color-warning;
+    }
+}
+
+.#{$ds}description-list_description--status-error {
+    &::before {
+        display: inline-block;
+        content: $description-list-status-icon-error;
+        color: $description-list-status-icon-color-error;
+    }
+}
+
+.#{$ds}description-list_description--status-inactive {
+    &::before {
+        display: inline-block;
+        content: $description-list-status-icon-inactive;
+        color: $description-list-status-icon-color-inactive;
+    }
+}
+
+// layout default
+.#{$ds}description-list--layout-default {
+    display: flex;
+    flex-direction: column;
+    gap: $description-list-layout-default-grid-gap;
+
+    .#{$ds}description-list_item {
+        display: grid;
+        grid-template-columns: $description-list-layout-default-grid-columns;
+        gap: $description-list-layout-default-grid-gap;
+    }
+
+    .#{$ds}description-list_description {
+        text-align: $description-list-layout-default-dd-halign;
+    }
+
+    .#{$ds}description-list_description--date {
+        display: flex;
+        justify-content: end;
+    }
+}
+
+// layout column
+.#{$ds}description-list--layout-column {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $description-list-layout-column-grid-gap;
+
+    .#{$ds}description-list_item {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 100%;
+        gap: $description-list-layout-column-dd-list-item-grid-gap;
+    }
+}
+
+// layout inline
+.#{$ds}description-list--layout-inline {
+    display: flex;
+    flex-direction: var(--description-list-layout-inline-flex-direction, column);
+    gap: var(--description-list-layout-inline-gap, calculateRem(8px) calculateRem(16px));
+
+    .#{$ds}description-list_item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--description-list-layout-inline-item-gap, $spacer-tiny);
+    }
+    .#{$ds}description-list_label_icon {
+        .icon {
+            line-height: var(--f-line-height);
+        }
+    }
+}
+
+// [Responsive]
+@media #{$mobile} {
+    // >=640px
+    .#{$ds}description-list--layout-column {
+        flex-wrap: nowrap;
+    }
+}

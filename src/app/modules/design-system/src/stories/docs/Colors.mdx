@@ -1,0 +1,98 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Guidelines/3. Semantic Colors" />
+
+# Semantic Colors
+<ColorPalette>
+  <ColorItem
+    title="Text"
+    colors={{
+      default: 'var(--c-text)',
+      secondary: 'var(--c-text-secondary)',
+    }}
+  />
+  <ColorItem
+    title="Link"
+    colors={{
+      default: 'var(--c-link)',
+      hover: 'var(--c-link-hover)',
+      active: 'var(--c-link-active)',
+      visited: 'var(--c-link-visited)',
+    }}
+  />
+  <ColorItem
+    title="Body Background"
+    colors={{
+      background: 'var(--c-page-bg)',
+    }}
+  />
+  <ColorItem
+    title="Overlay"
+    colors={{
+      background: 'var(--c-page-overlay)',
+    }}
+  />
+  <ColorItem
+    title="Border"
+    colors={{
+      default: 'var(--c-border)',
+      dark: 'var(--c-border-dark)',
+      darker: 'var(--c-border-darker)',
+    }}
+  />
+</ColorPalette>
+
+## Fares
+<ColorPalette>
+  <ColorItem
+    title="Fares"
+    subtitle="Types and Tiers"
+    colors={{
+      basiclight: 'var(--c-fare-type-1)',
+      classic: 'var(--c-fare-type-2)',
+      flex: 'var(--c-fare-type-3)',
+      tierbusiness: 'var(--c-fare-tier-2)',
+    }}
+  />
+</ColorPalette>
+
+## States & Alerts
+<ColorPalette>
+  <ColorItem
+    title="States"
+    colors={{
+      disable: 'var(--c-disable-text)',
+      disablebackground: 'var(--c-disable-bg)',
+      active: 'var(--c-active)',
+    }}
+  />
+  <ColorItem
+    title="Success/Positive"
+    colors={{
+      default: 'var(--c-success)',
+      lighter: 'var(--c-success-background)',
+    }}
+  />
+  <ColorItem
+    title="Info"
+    colors={{
+      default: 'var(--c-info)',
+      lighter: 'var(--c-info-background)',
+    }}
+  />
+  <ColorItem
+    title="Warning"
+    colors={{
+      default: 'var(--c-warning)',
+      lighter: 'var(--c-warning-background)',
+    }}
+  />
+  <ColorItem
+    title="Error"
+    colors={{
+      default: 'var(--c-error)',
+      lighter: 'var(--c-error-background)',
+    }}
+  />
+
+</ColorPalette>

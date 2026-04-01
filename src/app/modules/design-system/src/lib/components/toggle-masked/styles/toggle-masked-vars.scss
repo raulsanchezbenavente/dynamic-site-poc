@@ -1,0 +1,10 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$toggle-masked-gap: calculateRem(8px) !default;
+$toggle-masked-label-color: var(--c-color1) !default;
+$toggle-masked-label-fontsize: 20px !default;
+$toggle-masked-label-fontweight: var(--f-weight-bold) !default;
+$toggle-masked-button-icon-fontsize: 20px !default;
