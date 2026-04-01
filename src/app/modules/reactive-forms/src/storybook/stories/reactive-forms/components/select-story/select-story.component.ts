@@ -9,7 +9,7 @@ import type { RfListOption } from '../../../../../lib/components/rf-list/models/
 import type { RfSelectClasses } from '../../../../../lib/components/rf-select/models/rf-select-classes.model';
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
+import { RfSelectComponent } from '../../../../../lib/components/rf-select/rf-select.component';
 import { RfFilterType } from '../../../../../lib/services/filter/filter.enum';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -22,7 +22,7 @@ import { ROUTE_OPTIONS, SELECT_CUSTOM_CLASSES, SELECT_ERROR_MESSAGES } from './s
   selector: 'select-story',
   imports: [
     ReactiveFormsModule,
-    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
+    RfSelectComponent,
     FormValidationFeaturesComponent,
     TabPresentationComponent,
     StandaloneValidationFeaturesComponent,

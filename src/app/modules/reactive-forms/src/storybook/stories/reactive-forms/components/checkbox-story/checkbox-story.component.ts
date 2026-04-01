@@ -5,13 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import type { Subscription } from 'rxjs';
 
 import { DEFAULT_SHOW_ERRORS_MODE } from '../../../../../lib/abstract/constants/rf-default-values.constant';
+import { RfCheckboxGroupComponent } from '../../../../../lib/components/common/rf-checkbox-group/rf-checkbox-group.component';
 import type { RfErrorMessageSingleComponent } from '../../../../../lib/components/common/rf-error-messages/models/rf-error-messages.model';
 import type { RfCheckboxClasses } from '../../../../../lib/components/rf-checkbox/models/rf-checkbox-classes.model';
-import type { RfCheckboxComponent } from '../../../../../lib/components/rf-checkbox/rf-checkbox.component';
+import { RfCheckboxComponent } from '../../../../../lib/components/rf-checkbox/rf-checkbox.component';
 import { CheckboxGroupValidator } from '../../../../../lib/components/rf-checkbox/validators/rf-checkbox.validators';
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -26,7 +26,8 @@ import { CHECKBOX_CUSTOM_CLASSES, CHECKBOX_ERROR } from './checkbox.config';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
+    RfCheckboxComponent,
+    RfCheckboxGroupComponent,
     FormValidationFeaturesComponent,
     HoverOpacityDirective,
     TabPresentationComponent,

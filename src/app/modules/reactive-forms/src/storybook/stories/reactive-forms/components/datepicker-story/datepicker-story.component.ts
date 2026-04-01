@@ -11,7 +11,6 @@ import { RangeRequired } from '../../../../../lib/components/rf-datepicker/valid
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
 import { DateHelper } from '../../../../../lib/helpers/date.helper';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
 import { TabPresentationComponent } from '../../../../tools/tab-presentation/tab-presentation.component';
@@ -23,9 +22,8 @@ dayjs.extend(utc);
   selector: 'datepicker-story',
   imports: [
     ReactiveFormsModule,
-    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
-    FormValidationFeaturesComponent,
     RfDatepickerComponent,
+    FormValidationFeaturesComponent,
     TabPresentationComponent,
     StandaloneValidationFeaturesComponent,
     TranslateModule,

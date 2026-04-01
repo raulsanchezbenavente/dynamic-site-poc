@@ -13,7 +13,7 @@ import {
 } from '../../../../../lib/components/rf-input-text/validators/rf-input-text-validators';
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
+import { RfInputTextComponent } from '../../../../../lib/components/rf-input-text/rf-input-text.component';
 import { InvalidWhen } from '../../../../../lib/validators/async-validator.validator';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
@@ -29,7 +29,7 @@ import { INPUT_TEXT_EMAIL_ERROR_MESSAGES } from './input-text.config';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
+    RfInputTextComponent,
     FormValidationFeaturesComponent,
     HoverOpacityDirective,
     TabPresentationComponent,

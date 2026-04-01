@@ -6,7 +6,7 @@ export class ConfigService {
     return 'storybook';
   }
 
-  public getMainConfig(): { composerTimeout: number } {
-    return { composerTimeout: 5000 };
+  public getMainConfig(): { composerTimeout: number; staticTranslationUrl: string } {
+    return { composerTimeout: 5000, staticTranslationUrl: '' };
   }
 }

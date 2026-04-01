@@ -6,12 +6,12 @@ import type { Subscription } from 'rxjs';
 
 import { DEFAULT_SHOW_ERRORS_MODE } from '../../../../../lib/abstract/constants/rf-default-values.constant';
 import type { RfErrorMessageSingleComponent } from '../../../../../lib/components/common/rf-error-messages/models/rf-error-messages.model';
+import { RfRadioGroupComponent } from '../../../../../lib/components/common/rf-radio-group/rf-radio-group.component';
 import { RfInputTypes } from '../../../../../lib/components/rf-input-text/models/rf-input-types.model';
 import type { RfRadioClasses } from '../../../../../lib/components/rf-radio/models/rf-radio-classes.model';
-import type { RfRadioComponent } from '../../../../../lib/components/rf-radio/rf-radio.component';
+import { RfRadioComponent } from '../../../../../lib/components/rf-radio/rf-radio.component';
 import { RfFormControl } from '../../../../../lib/extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../../../../lib/extensions/components/rf-form-group.component';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
 import { StandaloneValidationFeaturesComponent } from '../../../../tools/standalone-validation-features/standalone-validation-features.component';
@@ -26,7 +26,8 @@ import { ERROR_RADIOS, RADIO_CUSTOM_CLASSES } from './radio.config';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS,
+    RfRadioComponent,
+    RfRadioGroupComponent,
     FormValidationFeaturesComponent,
     HoverOpacityDirective,
     TabPresentationComponent,

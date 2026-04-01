@@ -1,7 +1,7 @@
 import { type Meta, moduleMetadata, type StoryObj } from '@storybook/angular';
 
 import { RfRadioComponent } from '../../../../../lib/components/rf-radio/rf-radio.component';
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../../lib/standalone-imports';
+import { RfRadioGroupComponent } from '../../../../../lib/components/common/rf-radio-group/rf-radio-group.component';
 import { STORYBOOK_PROVIDERS } from '../../../../providers/storybook.provider';
 import { HoverOpacityDirective } from '../../../../tools/directives/hover-opacity-directive.directive';
 import { FormValidationFeaturesComponent } from '../../../../tools/form-validation-features/form-validation-features.component';
@@ -20,7 +20,7 @@ const META: Meta<RfRadioComponent> = {
   argTypes: {},
   decorators: [
     moduleMetadata({
-      imports: [RadioStoryComponent, ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS, FormValidationFeaturesComponent, HoverOpacityDirective],
+      imports: [RadioStoryComponent, RfRadioComponent, RfRadioGroupComponent, FormValidationFeaturesComponent, HoverOpacityDirective],
       providers: STORYBOOK_PROVIDERS,
     }),
   ],

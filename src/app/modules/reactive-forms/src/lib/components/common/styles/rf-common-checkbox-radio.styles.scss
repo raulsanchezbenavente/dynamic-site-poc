@@ -32,13 +32,14 @@
 
 // label
 .rf-checkbox-radio_label {
-    font-size: var(--f-size);
+    font-size: var(--f-size-small);
     color: var(--rf-check-radio-label-color, inherit);
     position: relative;
     cursor: pointer;
     padding-left: calc(var(--rf-checkbox-radio-size) + var(--rf-check-radio-input-label-gap, $spacer-x-small));
     display: flex;
     min-height: var(--rf-checkbox-radio-size);
+    line-height: var(--f-line-height-large);
 
     // border and background
     &::before,
@@ -148,5 +149,8 @@
 @media #{$mobile} {
     :host {
         --rf-check-radio-input-label-gap: #{$spacer-small};
+    }
+    .rf-checkbox-radio_label {
+        font-size: var(--f-size);
     }
 }

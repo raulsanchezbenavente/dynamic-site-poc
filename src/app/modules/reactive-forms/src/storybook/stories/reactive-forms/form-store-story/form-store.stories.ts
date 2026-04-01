@@ -2,7 +2,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { RF_REACTIVE_FORMS_STANDALONE_IMPORTS } from '../../../../lib/standalone-imports';
+import { RfInputTextComponent } from '../../../../lib/components/rf-input-text/rf-input-text.component';
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.provider';
 
 import { FormStoreStoryComponent } from './form-store-story.component';
@@ -12,7 +12,7 @@ const META: Meta<FormStoreStoryComponent> = {
   component: FormStoreStoryComponent,
   decorators: [
     moduleMetadata({
-      imports: [ReactiveFormsModule, ...RF_REACTIVE_FORMS_STANDALONE_IMPORTS],
+      imports: [ReactiveFormsModule, RfInputTextComponent],
       providers: [STORYBOOK_PROVIDERS],
     }),
   ],

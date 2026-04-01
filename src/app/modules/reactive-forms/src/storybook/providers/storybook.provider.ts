@@ -19,11 +19,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 
-import {
-  DEFAULT_CONFIG_FORM_SUMMARY_BUTTONS,
-  FORM_SUMMARY_CONFIG,
-} from '../tokens/form-summary-buttons-default-config.token';
-
 // Fake TranslateLoader for Storybook
 class FakeTranslateLoader implements TranslateLoader {
   public getTranslation(): Observable<Record<string, string>> {
@@ -64,10 +59,6 @@ export const STORYBOOK_PROVIDERS = [
   {
     provide: BUTTON_CONFIG,
     useValue: DEFAULT_CONFIG_BUTTON,
-  },
-  {
-    provide: FORM_SUMMARY_CONFIG,
-    useValue: DEFAULT_CONFIG_FORM_SUMMARY_BUTTONS,
   },
 ];
 

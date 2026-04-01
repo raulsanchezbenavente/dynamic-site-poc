@@ -3,4 +3,4 @@
  */
 
 export * from './lib/';
-export * from './lib/reactive-forms.module';
+export * from './storybook/';
