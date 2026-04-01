@@ -19,6 +19,23 @@
       </div>
     </div>
 
+    <rf-select
+      formControlName="formControlDays"
+      [options]="listNumber"
+      [animatedLabel]="'Days'"
+      [errorMessages]="SELECT_ERROR_MESSAGES" />
+
+    <rf-select-date-picker
+      formControlName="selectDatePicker1"
+      [title]="'Birthday'"
+      [selectsLabels]="customSelectsLabelValues"
+      [appearance]="RfAppearanceTypes.INTEGRATED"
+      [separatedErrors]="true"
+      [errorMessages]="errorMessagesSelectDatePicker"
+      [yearRange]="{ startYear: 1950, endYear: 2000 }"
+      [ariaLabelledBy]="{ day: 'labelledDay-1', month: 'labelledMonth-1', year: 'labelledYear-1' }"
+      [abbreviationMonth]="abbreviationBehaviour" />
+
     <div class="ad-section-title">
       {{ 'ADS.OFFERS_FROM' | translate }} <span class="ad-section-link">Madrid</span>
       <span class="ad-section-caret">▾</span>
