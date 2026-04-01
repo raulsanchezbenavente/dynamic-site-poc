@@ -1,19 +1,24 @@
-export * from './core/cookie/cookie-store.service';
-export * from './core/helpers/window-helper';
-export * from './core/lib/event-bus.service';
-export * from './core/models';
-export * from './core/models/culture';
-export * from './core/services';
-export * from './resources/cultures';
-export * from './shared/enums';
-export * from './shared/events/modal-closed.event';
-export * from './shared/helpers/accessibility/keyboard-focus-handler.helper';
-export * from './shared/injection-tokens/ds-button/ds-button-default-config';
-export * from './shared/injection-tokens/injectiontokens';
-export * from './shared/model/accessibility/aria-attributes.model';
-export * from './shared/model/button/button-config.model';
-export * from './shared/model/button/button-layout.model';
-export * from './shared/model/icon/icon-config';
-export * from './shared/model/link.model';
-export * from './shared/pipes/generate-id.pipe';
-export * from './shared/services';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import {
+  AccessibleLinkDirective,
+  ClickOutsideDirective,
+  CurrencyFormatPipe,
+  CurrencySymbolPipe,
+  ExternalLinkPipe,
+  GenerateIdPipe,
+  KeydownSelectDirective,
+  ModalKeyEventsDirective,
+} from './shared';
+
+export const SHARED_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
+
+export const SHARED_PIPES = [CurrencyFormatPipe, CurrencySymbolPipe, ExternalLinkPipe, GenerateIdPipe];
+
+export const SHARED_DIRECTIVES = [
+  AccessibleLinkDirective,
+  ClickOutsideDirective,
+  KeydownSelectDirective,
+  ModalKeyEventsDirective,
+];

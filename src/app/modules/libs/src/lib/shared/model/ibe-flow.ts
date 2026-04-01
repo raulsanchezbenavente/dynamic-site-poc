@@ -1,0 +1,7 @@
+export enum IbeFlow {
+  BOOKING = 'BOOKING_FLOW',
+  MMB = 'MANAGE_BOOKING_FLOW',
+  WCI = 'CHECKIN_FLOW',
+  IROP = 'IROP_FLOW',
+  MEMBER = 'MEMBER',
+}

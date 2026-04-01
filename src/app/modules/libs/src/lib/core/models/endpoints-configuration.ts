@@ -1,0 +1,33 @@
+export interface EndpointsConfiguration {
+  apiURLPricing: string;
+  apiURLBooking: string;
+  apiURLFinance: string;
+  apiURLContacts: string;
+  apiURLAccounts: string;
+  apiURLResources: string;
+  apiURLServices: string;
+  apiURLOffers: string;
+  apiURLSchedules: string;
+  apiURLSegmentStatus: string;
+  apiURLAuthentication: string;
+  apiURLAuthorization: string;
+  apiURLLoyalty: string;
+  apiURLCustomer: string;
+  apiURLConfiguration: string;
+  apiURLRepositoryResources: string;
+  pricingApiKey: string;
+  bookingApiKey: string;
+  financeApiKey: string;
+  contactsApiKey: string;
+  accountsApiKey: string;
+  resourcesApiKey: string;
+  servicesApiKey: string;
+  offersApiKey: string;
+  shedulesApiKey: string;
+  segmentStatusApiKey: string;
+  loyaltyApiKey: string;
+  customerApiKey: string;
+  fliptUrl: string;
+  fliptNamespace: string;
+  fliptToken: string;
+}

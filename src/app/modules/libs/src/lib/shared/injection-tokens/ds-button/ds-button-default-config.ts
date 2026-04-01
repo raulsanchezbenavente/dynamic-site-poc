@@ -1,7 +1,7 @@
 import { InjectionToken } from '@angular/core';
 
 import { ButtonStyles, LayoutSize } from '../../enums';
-import { ButtonConfig } from '../../model/button/button-config.model';
+import { ButtonConfig } from '../../model';
 
 export const BUTTON_CONFIG = new InjectionToken<ButtonConfig>('BUTTON_CONFIG');
 

@@ -113,7 +113,7 @@ export class TextHelperService {
     if (value === null || value === undefined) {
       return '';
     }
-    return value?.trim().replaceAll(/\s+/g, ' ');
+    return value?.trim().replace(/\s+/g, ' ');
   }
 
   /**
