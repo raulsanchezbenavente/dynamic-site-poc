@@ -157,6 +157,7 @@
     "@types/ua-parser-js": "^0.7.39",
     "@typescript-eslint/eslint-plugin": "^8.21.0",
     "@typescript-eslint/parser": "^8.21.0",
+    "@compodoc/compodoc": "^1.1.24",
     "concurrently": "^9.0.1",
     "electron": "^31.0.2",
     "electron-builder": "^25.0.5",
