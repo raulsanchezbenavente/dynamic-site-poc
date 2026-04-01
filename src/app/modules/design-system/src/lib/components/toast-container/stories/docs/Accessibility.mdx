@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../toast-container.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Toast Container
+
+## Accessibility
+
+### ARIA Attributes
+
+The `toast-container` itself does not add ARIA attributes — it dynamically renders `<toast>` components which handle their own accessibility. See the [Toast Accessibility](?path=/docs/atoms-toast-toast--02-accessibility) documentation for details on `role="alert"`, icon labels, and close button labeling.
+
+#### Container-Level Considerations
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>role="alert"</code> (inherited)</td>
+      <td>Each dynamically spawned toast inherits <code>role="alert"</code> from the <code>NgbToast</code> directive, ensuring screen readers announce the notification when it appears in the target container.</td>
+    </tr>
+    <tr>
+      <td><code>id</code> (target container)</td>
+      <td>The target <code>div</code> must have a unique <code>id</code> that matches the second argument of <code>ToastService.show(config, containerId)</code>. This is a DOM requirement, not an ARIA attribute, but essential for the toast to be relocated correctly.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Moves focus into the dynamically inserted toast, reaching the close button.</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>Activates the close button within the toast to dismiss it.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- When a toast is inserted into a target container via `ToastService.show()`, the `role="alert"` on the toast element triggers an immediate announcement.
+- The `data-toast-slot="panel"` attribute changes only visual positioning (sticky vs absolute) — it does not affect screen reader behavior.
+- Avoid spawning multiple toasts in the same target simultaneously. Sequential toasts should wait for the previous one to be dismissed.
+
+### Best Practices
+
+- Use **one `<toast-container />`** per view/page. Multiple instances may cause duplicate toast rendering.
+- Always assign a unique `id` to each target container — collisions can cause toasts to appear in unexpected locations.
+- For panel-level workflows (e.g., account settings, profile editors), use `data-toast-slot="panel"` so the toast sticks to the top of the viewport while the user scrolls through long forms.
+- For page-level notifications without panels, omit `data-toast-slot` and ensure the target container has `position: relative`.

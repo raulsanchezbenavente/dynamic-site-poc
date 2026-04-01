@@ -1,0 +1,18 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+/*
+  The Button component styles are located in this file
+  (./projects/design-system/assets/sass/utils/helpers/_buttons.scss).
+  Because this component is also used in the CMS via rich text,
+  these button styles are compiled and minified into common.css and
+  are included on every page of the app from the <head> section.
+*/
+:host {
+    display: inline-flex;
+    width: var(--#{$ds}btn-width, auto);
+    text-align: var(--#{$ds}btn-text-align, center);
+}

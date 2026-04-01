@@ -1,0 +1,32 @@
+@let calculatePercentageData = calculatePercentage();
+
+@if (config && isCompleted != undefined) {
+    <div class="ds-progress-bar_info-content">
+        <div class="ds-progress-bar_info ds-progress-bar_info_initial-value">
+            <span class="ds-progress-bar_info_label">{{ config.min.label }}</span>
+            <span class="ds-progress-bar_info_value">{{ config.min.value }}</span>
+        </div>
+        <div class="ds-progress-bar_info ds-progress-bar_info_final-value">
+            <span class="ds-progress-bar_info_label">{{ config.max.label }}</span>
+            <span class="ds-progress-bar_info_value">{{ config.max.value }}</span>
+        </div>
+    </div>
+    <div
+        tabindex="0"
+        role="region"
+        class="ds-progress-bar"
+        [attr.aria-label]="config.ariaAttributes.ariaLabel || null">
+        <span
+            role="presentation"
+            class="ds-progress-bar_progress"
+            [style.width]="calculatePercentageData"
+            [class.ds-progress-bar_progress--completed]="isCompleted"
+            [class.ds-progress-bar_progress--start]="isStart">
+            <span
+                class="ds-progress-bar_current-value"
+                [style.left]="calculatePercentageData + '%'">
+                <span class="ds-progress-bar_value">{{ config.currentValue }}</span>
+            </span>
+        </span>
+    </div>
+}

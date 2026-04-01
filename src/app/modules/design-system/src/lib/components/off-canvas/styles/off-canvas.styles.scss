@@ -1,0 +1,109 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// These styles are an IBE+ customization of the Angular Bootstrap OffCanvas component styles.
+// They modify the default appearance and behavior to better align with the IBE+ design guidelines and requirements.
+
+%offcanvas-css-vars {
+    --offcanvas-gap: #{$spacer-small};
+    --offcanvas-zindex: var(--zindex-offcanvas);
+    --offcanvas-width: 300px;
+    --offcanvas-leftright-height: 100%;
+    --offcanvas-padding-x: #{$pad-x-medium};
+    --offcanvas-padding-y: #{$pad-x-large};
+    --offcanvas-padding: var(--offcanvas-padding-y) var(--offcanvas-padding-x) #{$pad-huge};
+    --offcanvas-bg: var(--c-white);
+    --offcanvas-transition: transform 0.3s ease-in-out;
+    --offcanvas-border-radius: var(--#{$ds}border-radius-lg) var(--#{$ds}border-radius-lg) 0 0;
+    --offcanvas-bottom-top-max-height: 99vh;
+}
+
+// ngbOffCanvas class name
+.offcanvas {
+    @extend %offcanvas-css-vars;
+
+    position: fixed;
+    transform: translateX(100%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--offcanvas-gap);
+    padding: var(--offcanvas-padding);
+    overflow-y: auto;
+    border-radius: var(--offcanvas-border-radius);
+    background-color: var(--offcanvas-bg);
+    transition: var(--offcanvas-transition);
+    box-sizing: border-box;
+    z-index: var(--offcanvas-zindex);
+    &.show {
+        transform: translateX(0);
+    }
+
+    // Default position
+    &.offcanvas-bottom {
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: var(--offcanvas-height, auto);
+        max-height: var(--offcanvas-bottom-top-max-height);
+        transform: translateY(100%);
+    }
+    &.offcanvas-top {
+        --offcanvas-border-radius: 0;
+
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+        height: var(--offcanvas-height, auto);
+        max-height: var(--offcanvas-bottom-top-max-height);
+        transform: translateY(-100%);
+    }
+    &.offcanvas-start {
+        --offcanvas-border-radius: 0;
+
+        top: 0;
+        left: 0;
+        width: var(--offcanvas-width);
+        height: var(--offcanvas-leftright-height);
+        transform: translateX(-100%);
+    }
+    &.offcanvas-end {
+        --offcanvas-border-radius: 0;
+
+        top: 0;
+        right: 0;
+        width: var(--offcanvas-width);
+        height: var(--offcanvas-leftright-height);
+        transform: translateX(100%);
+    }
+    &.showing,
+    &.show:not(.hiding) {
+        transform: none;
+    }
+    &.showing,
+    &.hiding,
+    &.show {
+        visibility: visible;
+    }
+}
+
+// directive component for content projection
+.#{$ds}off-canvas-body {
+    @include remove-rte-p-margins;
+
+    flex-grow: 1;
+
+    @include custom-scroll;
+}
+
+// ngbOffCanvas class name
+.offcanvas-backdrop {
+    @include overlay-style;
+    &.fade {
+        z-index: var(--zindex-overlay);
+        opacity: 0;
+    }
+    &.show {
+        @include overlay-show-style;
+    }
+}

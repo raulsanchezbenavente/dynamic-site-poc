@@ -1,0 +1,59 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.avatar-initials {
+    font-size: var(--avatar-initials-fontsize, calculateRem(22px)); // TODO: token
+    color: var(--avatar-initials-color, var(--c-white));
+    font-weight: var(--avatar-initials-font-weight, var(--f-weight-medium));
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.avatar-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    ::ng-deep .icon {
+        font-size: var(--avatar-icon-fontsize, var(--f-iconsize));
+        color: var(--avatar-icon-color, var(--c-white));
+    }
+}
+:host {
+    display: flex;
+    justify-content: center;
+    width: var(--avatar-size, calculateRem(56px));
+    height: var(--avatar-size, calculateRem(56px));
+    background: var(--avatar-background, var(--c-primary));
+    border-radius: 50%;
+    box-sizing: border-box;
+
+    // sizes variations
+    &.avatar--smallest {
+        --avatar-size: var(--avatar-size-smallest, #{calculateRem(24px)});
+        --avatar-icon-fontsize: var(--avatar-icon-fontsize-smallest, #{calculateRem(12px)});
+        --avatar-initials-fontsize: var(--avatar-initials-fontsize-smallest, var(--f-size-x-tiny));
+    }
+    &.avatar--extra-small {
+        --avatar-size: var(--avatar-size-extra-small, #{calculateRem(28px)});
+        --avatar-icon-fontsize: var(--avatar-icon-fontsize-extra-small, #{calculateRem(14px)});
+        --avatar-initials-fontsize: var(--avatar-initials-fontsize-extra-small, var(--f-size-x-tiny));
+    }
+    &.avatar--small {
+        --avatar-size: var(--avatar-size-small, #{calculateRem(32px)});
+        --avatar-icon-fontsize: var(--avatar-icon-fontsize-small, #{calculateRem(16px)});
+        --avatar-initials-fontsize: var(--avatar-initials-fontsize-small, var(--f-size-small));
+    }
+    &.avatar--medium {
+        --avatar-size: var(--avatar-size-medium, #{calculateRem(64px)});
+        --avatar-icon-fontsize: var(--avatar-icon-fontsize-medium, #{calculateRem(16px)});
+        --avatar-initials-fontsize: var(--avatar-initials-fontsize-medium, var(--f-size));
+    }
+    &.avatar--large {
+        --avatar-size: var(--avatar-size-large, #{calculateRem(152px)});
+        --avatar-icon-fontsize: var(--avatar-icon-fontsize-small, var(--f-iconsize-xlg));
+        --avatar-initials-fontsize: var(--avatar-initials-fontsize-large, #{calculateRem(64px)});
+    }
+}

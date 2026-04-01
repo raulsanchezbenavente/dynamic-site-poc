@@ -1,0 +1,49 @@
+@switch (resolvedConfig().htmlTag) {
+    @case (titleHeading.H1) {
+        <h1
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h1>
+    }
+    @case (titleHeading.H2) {
+        <h2
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h2>
+    }
+    @case (titleHeading.H3) {
+        <h3
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h3>
+    }
+    @case (titleHeading.H4) {
+        <h4
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h4>
+    }
+    @case (titleHeading.H5) {
+        <h5
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h5>
+    }
+    @case (titleHeading.H6) {
+        <h6
+            [ngClass]="resolvedConfig().cssClasses"
+            [class.hide-visually]="resolvedConfig().isHidden">
+            <span class="title_text">{{ resolvedConfig().title }}</span>
+        </h6>
+    }
+}
+@if (resolvedConfig().introText) {
+    <div
+        class="title-heading_intro-text"
+        [innerHTML]="resolvedConfig().introText"></div>
+}

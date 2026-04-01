@@ -1,0 +1,91 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.toast {
+    opacity: 0;
+    display: flex;
+    width: 100%;
+    max-width: var(--toast-max-width, calculateRem(600px));
+    box-sizing: border-box;
+    padding: $pad-x-medium;
+    color: var(--c-text);
+    font-size: var(--f-size-small);
+    border-radius: var(--#{$ds}border-radius-md);
+    box-shadow:
+        var(--#{$ds}shadow-default),
+        inset 0 0 0 calculateRem(2px) var(--toast-border-color, transparent);
+    background-color: var(--c-white);
+    transition: all 0.4s ease;
+    transform: translateX(0);
+    &::ng-deep {
+        // ngboostrap class
+        .toast-body {
+            display: flex;
+            width: 100%;
+            gap: $spacer-small;
+            align-items: flex-start;
+        }
+        .#{$ds}icon-button_button {
+            padding: $spacer-x-tiny;
+        }
+    }
+}
+.toast_icon {
+    --icon-fontsize: var(--f-size-large);
+
+    display: inline-flex;
+}
+.toast_message {
+    font-size: var(--f-size-sm);
+    font-weight: var(--f-weight-bold);
+    flex: 1;
+}
+.toast_close-button {
+    --icon-fontsize: var(--f-size);
+    --icon-color: var(--c-text);
+
+    display: inline-flex;
+}
+
+// ++ TOAST STATUS
+// ----------------
+.toast--success {
+    --icon-color: var(--c-success-light);
+
+    --toast-border-color: var(--c-success-light);
+}
+.toast--info {
+    --icon-color: var(--c-info);
+
+    --toast-border-color: var(--c-info);
+}
+.toast--warning {
+    --icon-color: var(--c-warning);
+
+    --toast-border-color: var(--c-warning);
+}
+.toast--error {
+    --icon-color: var(--c-error);
+
+    --toast-border-color: var(--c-error);
+}
+
+// ++ TOAST TRANSITION
+// ----------------
+.toast:not(.show) {
+    display: none;
+}
+.fade:not(.show) {
+    opacity: 0;
+}
+.toast.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+.toast.showing {
+    opacity: 0;
+    transform: translateY(50%);
+    transition: all 0.3s ease;
+}

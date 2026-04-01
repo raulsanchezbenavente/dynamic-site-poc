@@ -1,0 +1,116 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+
+// trigger
+$dropdown-trigger-min-height: var(--#{$ds}dropdown-trigger-min-height, calculateRem(20px));
+$dropdown-trigger-gap: var(--#{$ds}dropdown-trigger-gap, calculateRem(8px));
+$dropdown-trigger-color: var(--#{$ds}dropdown-trigger-color, var(--c-text));
+$dropdown-trigger-fontsize: var(--#{$ds}dropdown-trigger-fontsize, var(--f-size));
+$dropdown-trigger-fontweight: var(--#{$ds}dropdown-trigger-fontweight, var(--f-weight-normal));
+$dropdown-trigger-padding: var(--#{$ds}dropdown-trigger-padding, 0);
+$dropdown-trigger-border-radius: var(--#{$ds}dropdown-trigger-border-radius, #{calculateRem(2px)});
+$dropdown-trigger-background-color: var(--#{$ds}dropdown-trigger-background-color, transparent);
+
+// trigger left icon
+$dropdown-trigger-icon-fontsize: var(--#{$ds}dropdown-trigger-icon-fontsize, var(--f-iconsize-sm));
+$dropdown-trigger-icon-color: var(--#{$ds}dropdown-trigger-icon-color, inherit);
+
+// trigger arrow icon
+$dropdown-trigger-arrow-color: var(--#{$ds}dropdown-trigger-arrow-color, inherit);
+$dropdown-trigger-arrow-fontsize: var(--#{$ds}dropdown-trigger-arrow-fontsize, var(--f-size-x-large));
+
+// options
+$dropdown-option-color-hover: var(--#{$ds}dropdown-option-color-hover, var(--c-text));
+$dropdown-option-background-hover: var(--#{$ds}dropdown-option-list-item-option-background-hover, var(--c-color4));
+
+// apply button
+$dropdown-actions-box-shadow: 0 -8px 8px -8px rgba(0, 0, 0, 0.3);
+$dropdown-actions-padding: var(--#{$ds}dropdown-actions-padding, calculateRem(16px) 0 0 0);
+
+// Apperance: Pills
+// trigger
+$dropdown-style-pills-trigger-fontweight: var(--#{$ds}dropdown-style-pills-trigger-fontweight, var(--f-weight-bold));
+$dropdown-style-pills-trigger-min-height: var(--#{$ds}dropdown-style-pills-trigger-min-height, calculateRem(38px));
+$dropdown-style-pills-trigger-padding: var(
+    --#{$ds}dropdown-style-pills-trigger-padding,
+    calculateRem(8px) calculateRem(20px)
+);
+$dropdown-style-pills-trigger-border-width: var(--#{$ds}dropdown-style-pills-trigger-border-width, 2px);
+$dropdown-style-pills-trigger-border-color: var(--#{$ds}dropdown-style-pills-trigger-border-color, var(--c-primary));
+$dropdown-style-pills-trigger-border-radius: var(--#{$ds}dropdown-style-pills-trigger-border-radius, 100vh);
+$dropdown-style-pills-trigger-background-color: var(
+    --#{$ds}dropdown-style-pills-trigger-background-color,
+    var(--c-white)
+);
+
+// trigger focused (open state)
+$dropdown-style-pills-trigger-value-fontweight: var(
+    --#{$ds}dropdown-style-pills-trigger-value-fontweight,
+    var(--f-weight-bold)
+);
+$dropdown-style-pills-trigger-color-focused: var(--#{$ds}dropdown-style-pills-trigger-color-focused, var(--c-primary));
+$dropdown-style-pills-trigger-border-width-focused: var(--#{$ds}dropdown-style-pills-trigger-border-width-focused, 2px);
+$dropdown-style-pills-trigger-border-color-focused: var(
+    --#{$ds}dropdown-style-pills-trigger-border-color-focused,
+    var(--c-primary)
+);
+$dropdown-style-pills-trigger-background-color-focused: var(
+    --#{$ds}dropdown-style-pills-trigger-background-color-focused,
+    var(--c-white)
+);
+
+// trigger selected (active state)
+$dropdown-style-pills-trigger-color-active: var(--#{$ds}dropdown-style-pills-trigger-color-active, var(--c-white));
+$dropdown-style-pills-trigger-border-width-active: var(--#{$ds}dropdown-style-pills-trigger-border-width-active, 1px);
+$dropdown-style-pills-trigger-border-color-active: var(
+    --#{$ds}dropdown-style-pills-trigger-border-color-active,
+    var(--c-primary)
+);
+$dropdown-style-pills-trigger-background-color-active: var(
+    --#{$ds}dropdown-style-pills-trigger-background-color-active,
+    var(--c-primary)
+);
+
+// Apperance: Square
+// trigger
+$dropdown-style-square-trigger-min-height: var(--#{$ds}dropdown-style-square-trigger-min-height, calculateRem(48px));
+$dropdown-style-square-trigger-icon-fontsize: var(
+    --#{$ds}dropdown-style-square-trigger-icon-fontsize,
+    var(--f-iconsize)
+);
+$dropdown-style-square-trigger-padding: var(
+    --#{$ds}dropdown-style-square-trigger-padding,
+    calculateRem(12px) calculateRem(16px)
+);
+$dropdown-style-square-trigger-border-radius: var(
+    --#{$ds}dropdown-style-square-trigger-border-radius,
+    var(--#{$ds}border-radius)
+);
+$dropdown-style-square-trigger-box-shadow: var(
+    --#{$ds}dropdown-style-square-trigger-box-shadow,
+    var(--#{$ds}box-shadow)
+);
+$dropdown-style-square-trigger-background-color: var(
+    --#{$ds}dropdown-style-square-trigger-background-color,
+    var(--c-white)
+);
+
+// Layout: Always visible
+$dropdown-always-visible-trigger-label-fontsize: var(
+    --#{$ds}dropdown-always-visible-trigger-label-fontsize,
+    var(--f-size)
+);
+$dropdown-always-visible-trigger-label-fontweight: var(
+    --#{$ds}dropdown-always-visible-trigger-label-fontweight,
+    var(--f-weight-bold)
+);
+$dropdown-always-visible-trigger-margin: var(--#{$ds}dropdown-always-visible-trigger-margin, 0 0 calculateRem(4px) 0);
+
+// use negative margin so options gets all dropdown width
+@mixin dropdown-remove-content-y-padding {
+    margin-left: calc(var(--#{$ds}dropdown-content-padding-x) / -1);
+    margin-right: calc(var(--#{$ds}dropdown-content-padding-x) / -1);
+}

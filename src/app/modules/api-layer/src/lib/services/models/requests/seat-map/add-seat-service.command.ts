@@ -1,0 +1,14 @@
+import { EnumServiceType } from '@dcx/ui/libs';
+
+export interface AddSeatServiceCommand {
+  serviceSellKey: string;
+  category: string;
+  code: string;
+  type: EnumServiceType;
+  paxId: string;
+  sellKey: string;
+  seat: string;
+  compartmentDesignator: string;
+  serviceId?: string;
+  isConfirmed?: boolean;
+}

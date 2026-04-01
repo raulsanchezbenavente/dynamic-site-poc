@@ -1,0 +1,178 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'panel-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:root {
+    --panel-padding: #{$pad-x-medium};
+}
+
+.#{$ds}panel {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--panel-gap, $spacer-medium);
+    box-sizing: border-box;
+    border-radius: var(--panel-border-radius, var(--#{$ds}border-radius-lg));
+    background-color: var(--panel-background, var(--c-white));
+    padding: var(--panel-padding);
+
+    // when there is a PanelComponent inside another (nested panel)
+    .#{$ds}panel {
+        --panel-title-fontsize: var(--f-size);
+        --panel-border-radius: #{calculateRem(12px)}; // TODO: token
+    }
+    .#{$ds}panel--appearance-default {
+        padding: var(--panel-nested-default-padding, 0);
+    }
+}
+
+// appearance
+.#{$ds}panel--appearance-shadow {
+    box-shadow: var(--panel-box-shadow, 0 2px 20px 0 rgba(var(--c-color21-rgb), 0.25)); // TODO: token
+}
+.#{$ds}panel--appearance-border {
+    border: var(--panel-border, calculateRem(1px) solid var(--c-border));
+}
+.#{$ds}panel--appearance-bgfill {
+    --panel-background: #f6f6f6; // TODO: token
+}
+
+// Color sections
+.#{$ds}panel-section {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    &::before {
+        z-index: 1;
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: var(--panel-top-border-width, calculateRem(4px));
+        background-color: var(--panel-border-color, var(--c-section-booking));
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+}
+.#{$ds}panel-section--sc-info {
+    --panel-border-color: var(--c-section-info);
+}
+.#{$ds}panel-section--sc-offer {
+    --panel-border-color: var(--c-section-offers);
+}
+
+// PANEL HEADER
+.#{$ds}panel-header {
+    display: flex;
+    flex-wrap: var(--panel-header-flex-wrap, nowrap);
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--panel-header-gap, $spacer-small); // gap between header title and aside content
+}
+
+// header horizontal alignment
+.#{$ds}panel-header--align-center {
+    justify-content: center;
+    text-align: center;
+    .#{$ds}panel-header-title {
+        flex: 1 1 100%;
+        align-items: center;
+    }
+}
+.#{$ds}panel-header--align-right {
+    justify-content: flex-end;
+    .#{$ds}panel-header-title {
+        align-items: flex-end;
+    }
+}
+
+// PANEL HEADER: Title, Description, Icon and Header Aside content
+// Title Wrapper
+.#{$ds}panel-header-title {
+    display: flex;
+    flex-direction: column;
+    overflow-wrap: anywhere;
+    gap: var(--panel-header-title-gap, $spacer-tiny); // gap between header title and description
+}
+
+// Header title Text
+.#{$ds}panel-title {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap; // keep icon and title on the same line
+    gap: var(--panel-title-gap, $spacer-tiny); // gap between title text and icon
+    font-size: var(--panel-title-fontsize, var(--f-size-medium));
+    font-weight: var(--panel-title-fontweight, var(--f-weight-bold));
+}
+
+// Header title Icon
+.#{$ds}panel-icon {
+    position: relative;
+    top: calculateRem(2px);
+    display: inline-flex;
+}
+
+// Description
+.#{$ds}panel-description {
+    font-size: var(--panel-description-fontsize, var(--f-size-small));
+}
+
+// Header Aside Content
+.#{$ds}panel-header-aside {
+    color: var(--panel-header-aside-color, var(--c-text-secondary));
+    font-size: var(--panel-header-aside-fontsize, var(--f-size-small));
+    text-align: var(--panel-header-aside-text-align, right);
+}
+
+// PANEL FOOTER
+.#{$ds}panel-footer {
+    display: flex;
+    gap: var(--panel-footer-gap, $spacer-medium);
+    &:empty {
+        display: none;
+    }
+}
+
+// PANEL CONTENT
+.#{$ds}panel-content {
+    @include remove-rte-p-margins;
+}
+.#{$ds}panel-content--align-center {
+    text-align: center;
+}
+.#{$ds}panel-content--align-right {
+    text-align: right;
+}
+
+// [Responsive]
+@media #{$panel-breakpoint-small-min} {
+    :root {
+        --panel-padding: #{$pad-x-large};
+        --panel-gap: #{$spacer-x-large};
+        --panel-title-fontsize: var(--f-size-x-large);
+        --panel-title-gap: #{$spacer-small};
+        --panel-description-fontsize: var(--f-size);
+        --panel-header-title-gap: #{$spacer-x-small};
+    }
+
+    // nested panel adjustments
+    .#{$ds}panel .#{$ds}panel {
+        --panel-title-fontsize: var(--f-size-medium);
+    }
+    .#{$ds}panel-header {
+        flex-wrap: nowrap;
+    }
+}
+
+@media #{$panel-breakpoint-large-min} {
+    :root {
+        --panel-padding: #{$pad-x-x-large};
+    }
+
+    // nested panel adjustments
+    .#{$ds}panel .#{$ds}panel {
+        --panel-padding: #{$pad-x-large};
+    }
+}

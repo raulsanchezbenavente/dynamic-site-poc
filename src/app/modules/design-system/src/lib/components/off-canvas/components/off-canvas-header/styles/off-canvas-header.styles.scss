@@ -1,0 +1,33 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+.#{$ds}off-canvas-header {
+    --offcanvas-header-color: var(--c-text);
+    --offcanvas-header-title-fontsize: var(--f-size-medium);
+    --offcanvas-header-title-fontweight: var(--f-weight-bold);
+    --offcanvas-header-close-icon: #{$icon-cross};
+    --offcanvas-header-close-icon-fontsize: var(--f-size);
+    --offcanvas-header-padding: 0 #{calculateRem(34px)} 0 0;
+
+    position: relative;
+    color: var(--offcanvas-header-color);
+    display: flex;
+    padding: var(--offcanvas-header-padding); // Reserve space to prevent text from overlapping the close button
+}
+.#{$ds}offcanvas-header_title {
+    flex: 1 1 100%;
+    font-size: var(--offcanvas-header-title-fontsize);
+    font-weight: var(--offcanvas-header-title-fontweight);
+}
+.#{$ds}offcanvas-header_title_image {
+    // only set height, width is auto
+    height: var(--offcanvas-header-title-image-height, calculateRem(30px));
+}
+
+// close
+.#{$ds}offcanvas-header_close {
+    --icon-button-fontsize: var(--offcanvas-header-close-icon-fontsize);
+
+    position: absolute;
+    top: 0;
+    right: 0;
+}

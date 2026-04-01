@@ -1,0 +1,43 @@
+<div
+    class="range-slider"
+    [class.range-slider--disabled]="config.isDisabled">
+    <label
+        class="range-slider_label"
+        [for]="config.id">
+        {{ config.label }}
+    </label>
+    <div class="range-slider_input">
+        <input
+            type="range"
+            [id]="config.id"
+            [min]="config.minValue"
+            [max]="config.maxValue"
+            [step]="config.steps"
+            [value]="config.maxValueSelected"
+            [attr.aria-label]="config.label + ' ' + config.currencySymbol"
+            [disabled]="config.isDisabled"
+            (input)="onValueChange($event)"
+            (change)="onValueChange($event)"
+            (keydown)="onKeyDown($event)" />
+        <div
+            class="range-slider_selected-range"
+            [ngStyle]="{ width: config.selectedPercentage + '%' }"></div>
+    </div>
+    <output class="range-slider_value">
+        <span class="range-slider_value_item range-slider_value_item--value">
+            @if (!componentDataTemplateRef) {
+                <price-currency
+                    [price]="config.maxValueSelected"
+                    [currency]="config.currency">
+                </price-currency>
+            }
+
+            @if (componentDataTemplateRef) {
+                <ng-container
+                    [ngTemplateOutlet]="componentDataTemplateRef"
+                    [ngTemplateOutletContext]="null">
+                </ng-container>
+            }
+        </span>
+    </output>
+</div>

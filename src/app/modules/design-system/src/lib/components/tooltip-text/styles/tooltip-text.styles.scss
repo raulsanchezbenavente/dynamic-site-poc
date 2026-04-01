@@ -1,0 +1,36 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.tooltip-text_trigger {
+    display: inline-flex;
+    max-width: 100%;
+}
+.tooltip-text_popup {
+    display: inline-flex;
+    max-width: var(--tooltip-text-max-width, 100%);
+    color: var(--c-text-lighter);
+    font-size: var(--f-size-small);
+    font-weight: var(--f-weight-bold);
+    text-align: center;
+    text-wrap: nowrap;
+    padding: $pad-x-tiny $pad-small;
+    border-radius: var(--#{$ds}border-radius-md);
+    background: var(--c-color21);
+    box-shadow: var(--#{$ds}shadow-default);
+    cursor: default;
+    transform: translate(-50%, -100%);
+}
+.tooltip-text_popup--top {
+    transform: translate(-50%, -100%);
+}
+.tooltip-text_popup--bottom {
+    transform: translate(-50%, 0);
+}
+.tooltip-text_popup--left {
+    transform: translate(-100%, -50%);
+}
+.tooltip-text_popup--right {
+    transform: translate(0, -50%);
+}

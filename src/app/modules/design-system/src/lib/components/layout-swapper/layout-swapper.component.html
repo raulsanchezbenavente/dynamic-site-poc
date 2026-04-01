@@ -1,0 +1,5 @@
+@for (slot of slots; track slot.slotName) {
+    <div [ngStyle]="{ display: slot.slotName === activeSlotName() ? 'block' : 'none' }">
+        <ng-container *ngTemplateOutlet="slot.templateRef"></ng-container>
+    </div>
+}

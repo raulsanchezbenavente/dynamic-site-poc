@@ -1,0 +1,123 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'group-options-vars' as *;
+
+// -------
+// VARIABLES
+// -------
+::ng-deep :root {
+    --group-options-grid-gap: #{calculateRem(30px)};
+}
+
+// -------
+// MIXIN
+// -------
+
+@mixin group-options-grid-cols1 {
+    .group-options-list_item {
+        flex: 0 0 100%;
+    }
+}
+
+@mixin group-options-grid-cols2 {
+    @media #{$tablet-portrait} {
+        .group-options-list_item {
+            flex: 0 0 calc((100% - var(--group-options-grid-gap)) / 2);
+        }
+    }
+}
+
+@mixin group-options-grid-cols3 {
+    @media #{$tablet-portrait} {
+        .group-options-list_item {
+            flex: 0 0 calc((100% - var(--group-options-grid-gap)) / 2);
+        }
+    }
+    @media #{$tablet-landscape} {
+        .group-options-list_item {
+            flex: 0 0 calc((100% - var(--group-options-grid-gap) * 2) / 3);
+        }
+    }
+}
+
+@mixin group-options-grid-cols4 {
+    @media #{$tablet-portrait} {
+        .group-options-list_item {
+            flex: 0 0 calc((100% - var(--group-options-grid-gap)) / 2);
+        }
+    }
+    @media #{$desktop} {
+        .group-options-list_item {
+            flex: 0 0 calc((100% - var(--group-options-grid-gap) * 3) / 4);
+        }
+    }
+}
+
+// -------
+// COMPONENT STYLE
+// -------
+:host ::ng-deep {
+    .group-options-list_grid {
+        @include group-options-grid-cols1;
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: start;
+        gap: calculateRem(24px);
+        .group-options-list_item {
+            display: flex;
+        }
+        .group-options-item {
+            display: flex;
+            height: 100%;
+            flex: 1;
+        }
+        .group-options-item_inner {
+            height: 100%;
+            flex: 1;
+        }
+    }
+    .go--grid-1cols {
+        @include group-options-grid-cols1;
+    }
+    .go--grid-2cols {
+        @include group-options-grid-cols2;
+    }
+    .go--grid-3cols {
+        @include group-options-grid-cols3;
+    }
+    .go--grid-4cols {
+        @include group-options-grid-cols4;
+    }
+
+    // scrollable list
+    .group-options-list--scrollable {
+        .group-options-list_grid {
+            flex-wrap: nowrap;
+            gap: calculateRem(24px) calculateRem(16px);
+            padding: calculateRem(20px) calculateRem(8px); // avoid scrolls overflow hidden wont cut items shadows
+
+            @include custom-scroll($direction: xscroll);
+        }
+        .group-options-list_item {
+            flex: 1 0 92%;
+        }
+
+        @media #{$mobile} {
+            .group-options-list_item {
+                flex: 1 0 47%;
+            }
+        }
+        @media #{$tablet-landscape} {
+            .group-options-list_item {
+                flex: 1 0 31%;
+            }
+        }
+    }
+
+    // [Responsive]
+    @media #{$group-options-breakpoint-min} {
+        .group-options-list_grid {
+            gap: calculateRem(30px);
+        }
+    }
+}

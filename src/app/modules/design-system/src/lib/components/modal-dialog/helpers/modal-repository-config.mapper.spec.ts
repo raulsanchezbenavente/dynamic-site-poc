@@ -1,7 +1,6 @@
-import { ButtonStyles, LayoutSize, ModalDialogActionType } from '@dcx/ui/libs';
+import { ButtonStyles, LayoutSize, ModalDialogActionType, ModalDialogTemplateModel } from '@dcx/ui/libs';
 
 import { ModalDialogSize } from '../enums/modal-dialog-size.enum';
-import { ModalDialogTemplateModel } from '../models/modal-dialog-template-model.interface';
 import { mapModalRepositoryConfigToModalDialogConfig } from './modal-repository-config.mapper';
 
 // Test data builders (outside describe for cleaner code - Sonar S7721)
@@ -46,7 +45,7 @@ describe('mapModalRepositoryConfigToModalDialogConfig', () => {
     it('should map complete repository template to modal dialog config', () => {
       const template = createCompleteTemplate();
       const result = mapModalRepositoryConfigToModalDialogConfig(template);
-
+      
       expect(result.title).toBe('Test Title');
       expect(result.introText).toBe('Test Description');
       expect(result.titleImageSrc).toBe('test-image.jpg');

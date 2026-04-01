@@ -1,0 +1,9 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// STYLES
+.tab-panel {
+    padding: var(--tab-panel-padding, $pad-x-large);
+}
+.tab-panel[aria-hidden='true'] {
+    display: none;
+}

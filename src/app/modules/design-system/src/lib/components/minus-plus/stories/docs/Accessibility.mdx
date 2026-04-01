@@ -1,0 +1,126 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../minus-plus.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Minus Plus
+
+## Accessibility
+
+The minus-plus component is a numeric stepper used primarily for passenger counts and quantity selections. It combines two buttons and a read-only input to allow users to increment or decrement a value within a defined range.
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>minusLabel</code></td>
+      <td>
+        Sets <code>aria-label</code> on the minus button. Must describe the decrease action and context
+        (e.g., "Decrease adults" or "Remove one passenger"). Required for screen readers to announce
+        the button's purpose.
+      </td>
+    </tr>
+    <tr>
+      <td><code>plusLabel</code></td>
+      <td>
+        Sets <code>aria-label</code> on the plus button. Must describe the increase action and context
+        (e.g., "Increase adults" or "Add one passenger"). Required for screen readers to announce
+        the button's purpose.
+      </td>
+    </tr>
+    <tr>
+      <td><code>statusLabel</code></td>
+      <td>
+        Included in the live status text (for example, <code>3 Adults</code>) announced through
+        the <code>role="status"</code> region when value changes.
+      </td>
+    </tr>
+    <tr>
+      <td><code>labelledBy</code></td>
+      <td>
+        Part of the view model for consuming flows. It is not currently mapped to a DOM accessibility
+        attribute in this component template.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Built-in Roles and Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Element</th>
+      <th>Attribute</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Value container</td>
+      <td><code>role="status"</code></td>
+      <td>Creates a live region that announces value changes to screen readers without interrupting the user.</td>
+    </tr>
+    <tr>
+      <td>Minus button</td>
+      <td><code>aria-disabled="true"</code> (at minimum)</td>
+      <td>Communicates unavailable decrement action when current value equals <code>minValue</code>.</td>
+    </tr>
+    <tr>
+      <td>Plus button</td>
+      <td><code>aria-disabled="true"</code> (at maximum)</td>
+      <td>Communicates unavailable increment action when current value equals <code>maxValue</code>.</td>
+    </tr>
+    <tr>
+      <td>Input</td>
+      <td><code>readonly</code> + <code>tabindex="-1"</code> (inside <code>aria-hidden="true"</code> container)</td>
+      <td>Prevents direct typing and keeps the visual value field out of keyboard and screen-reader navigation.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Moves focus between the minus and plus buttons. The value input is skipped (<code>tabindex="-1"</code>).</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>Activates the focused button. If action is unavailable (boundary reached), the value does not change.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- The value container uses `role="status"`, creating a **live region** that announces value changes automatically.
+- Each button has a descriptive `aria-label` that communicates both the action (increase/decrease) and the context (e.g., what is being counted).
+- Boundary states are exposed with `aria-disabled="true"` on the corresponding action button.
+- The visible input is hidden from assistive technologies via an `aria-hidden="true"` wrapper.
+
+### Best Practices
+
+1. **Use descriptive labels**: Always include the context in `minusLabel` and `plusLabel`. Use "Decrease adults" instead of just "Decrease" so screen reader users understand what they are changing.
+2. **Pair with visible context text**: Place a clear visible label near the control (for example, “Adults”), because the input itself is not part of the accessibility tree.
+3. **Provide meaningful `statusLabel`**: The `statusLabel` describes the category of the value (e.g., "Adults", "Bags"). Combined with the `role="status"` live region, it ensures value changes are announced contextually.
+4. **Don't rely on visual cues alone**: Keep action labels explicit and make boundary states understandable through `aria-disabled` and surrounding context text.
+5. **Ensure minimum touch target of 44x44px**: Both the minus and plus buttons should meet WCAG 2.5.5 minimum target size for pointer inputs.

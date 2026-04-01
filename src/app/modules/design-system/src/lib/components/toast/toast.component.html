@@ -1,0 +1,18 @@
+<ngb-toast
+    #ngToast
+    [class]="`toast--${config().status}`"
+    [delay]="config().delay ?? 6000"
+    [autohide]="config().autohide ?? true"
+    (hidden)="onHidden()">
+    <span class="toast_icon">
+        <icon [config]="iconConfig" />
+    </span>
+    <span class="toast_message">
+        {{ config().message | translate }}
+    </span>
+    <span class="toast_close-button">
+        <icon-button
+            [config]="closeIconButtonConfig"
+            (clickEvent)="onClose()" />
+    </span>
+</ngb-toast>

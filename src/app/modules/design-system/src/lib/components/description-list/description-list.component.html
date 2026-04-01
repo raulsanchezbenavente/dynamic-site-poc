@@ -1,0 +1,53 @@
+<dl
+    class="ds-description-list"
+    [attr.aria-label]="config.ariaAttributes?.ariaLabel || null"
+    [ngClass]="'ds-description-list--layout-' + config.layout">
+    @for (item of config.options; track $index) {
+        <div class="ds-description-list_item">
+            <dt class="ds-description-list_label">
+                @if (item.iconConfig) {
+                    <span class="ds-description-list_label_icon">
+                        <icon [config]="item.iconConfig" />
+                    </span>
+                }
+                <span class="ds-description-list_label_text">{{ item.term }}</span>
+            </dt>
+            <dd class="ds-description-list_description">
+                @if (item.type === descriptionListOptionType.PRICE) {
+                    <span class="ds-description-list_description--price">
+                        <price-currency
+                            [price]="$any(item.description).price"
+                            [currency]="$any(item.description).currency" />
+                    </span>
+                }
+                @if (item.type === descriptionListOptionType.DATE) {
+                    <span class="ds-description-list_description--date">
+                        <date-display
+                            [config]="{
+                                date: $any(item.description).dateValue,
+                                culture: culture,
+                                format: shortDateFormat || 'EEE. d MMM. y',
+                            }" />
+                    </span>
+                }
+                @if (item.type === descriptionListOptionType.STATUS) {
+                    <span
+                        class="ds-description-list_description--status"
+                        [ngClass]="'ds-description-list_description--status-' + $any(item.description).statusType">
+                        <span class="ds-description-list_description--status_text">
+                            {{ $any(item.description).text }}
+                        </span>
+                    </span>
+                }
+                @if (item.type === descriptionListOptionType.TEXT) {
+                    <span class="ds-description-list_description--text">
+                        {{ $any(item.description).text }}
+                    </span>
+                }
+                @if (item.tooltipConfig) {
+                    <tooltip [config]="item.tooltipConfig" />
+                }
+            </dd>
+        </div>
+    }
+</dl>

@@ -1,0 +1,189 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'tooltip-vars.styles' as *;
+
+// -------
+// STYLES
+// -------
+.#{$ds}tooltip,
+.#{$ds}tooltip_trigger {
+    display: inline-flex;
+}
+.#{$ds}tooltip_trigger_text {
+    color: var(--tooltip-link-color, var(--c-link));
+    text-decoration: underline;
+}
+
+// tooltip types
+// INFO | NEW_WINDOW
+.#{$ds}tooltip_trigger--icon-only {
+    @include iconfont(var(--tooltip-type-info-icon, $icon-info-circle-filled), after);
+
+    margin-left: $tooltip-icon-gap;
+    &::after {
+        font-size: var(--tooltip-icon-fontsize, inherit);
+    }
+}
+
+// ngb-bootstrap
+// https://ng-bootstrap.github.io/#/components/tooltip/examples
+// This class should not receive a 'ds-' prefix as it belongs to a third-party component (ngb-bootstrap)
+.tooltip {
+    --tooltip-arrow-width: #{$tooltip-arrow-larger-side};
+    --tooltip-arrow-height: #{$tooltip-arrow-smaller-side};
+
+    z-index: var(--zindex-tooltip);
+    display: block;
+    padding: var(--tooltip-arrow-height) var(--tooltip-arrow-width);
+    font-size: $tooltip-fontsize;
+
+    // Allow breaking very long words so they don't overflow the tooltip's bounds
+    word-wrap: break-word;
+    opacity: 0;
+    &.show {
+        opacity: 1;
+    }
+}
+.tooltip-arrow {
+    display: block;
+    width: var(--tooltip-arrow-width);
+    height: var(--tooltip-arrow-height);
+    &::before, // border
+    &::after {
+        content: '';
+        position: absolute;
+        border-color: transparent;
+        border-style: solid;
+    }
+}
+
+// Wrapper for the tooltip content
+.tooltip-inner {
+    max-width: var(--tooltip-maxwidth, calculateRem(240px));
+    padding: $tooltip-inner-padding-y $tooltip-inner-padding-x;
+    color: $tooltip-color;
+    text-align: center;
+    margin: $tooltip-inner-margin;
+    border: $tooltip-border-width solid $tooltip-border-color;
+    background-color: $tooltip-background;
+    border-radius: $tooltip-border-radius;
+}
+
+// arrow (::after) and border arrow (::before)
+.bs-tooltip-top {
+    .tooltip-arrow {
+        bottom: 0;
+        &::before,
+        &::after {
+            top: #{$tooltip-arrow-border-width};
+
+            @include triangle(
+                $direction: 'down',
+                $width: var(--tooltip-arrow-width),
+                $height: var(--tooltip-arrow-height),
+                $color: $tooltip-arrow-border-color
+            );
+        }
+        &::after {
+            top: #{$tooltip-arrow-border-position};
+            border-top-color: $tooltip-background;
+        }
+    }
+}
+.bs-tooltip-bottom {
+    .tooltip-arrow {
+        top: 0;
+        &::before,
+        &::after {
+            bottom: #{$tooltip-arrow-border-width};
+
+            @include triangle(
+                $direction: 'up',
+                $width: var(--tooltip-arrow-width),
+                $height: var(--tooltip-arrow-height),
+                $color: $tooltip-arrow-border-color
+            );
+        }
+        &::after {
+            bottom: #{$tooltip-arrow-border-position};
+            border-bottom-color: $tooltip-background;
+        }
+    }
+}
+.bs-tooltip-start {
+    --tooltip-arrow-width: #{$tooltip-arrow-smaller-side};
+    --tooltip-arrow-height: #{$tooltip-arrow-larger-side};
+    .tooltip-arrow {
+        right: 0;
+        width: var(--tooltip-arrow-width);
+        height: var(--tooltip-arrow-height);
+        &::before,
+        &::after {
+            left: #{$tooltip-arrow-border-width};
+
+            @include triangle(
+                $direction: 'right',
+                $width: var(--tooltip-arrow-width),
+                $height: var(--tooltip-arrow-height),
+                $color: $tooltip-arrow-border-color
+            );
+        }
+        &::after {
+            left: #{$tooltip-arrow-border-position};
+            border-left-color: $tooltip-background;
+        }
+    }
+}
+.bs-tooltip-end {
+    --tooltip-arrow-width: #{$tooltip-arrow-smaller-side};
+    --tooltip-arrow-height: #{$tooltip-arrow-larger-side};
+    .tooltip-arrow {
+        left: 0;
+        &::before,
+        &::after {
+            right: #{$tooltip-arrow-border-width};
+
+            @include triangle(
+                $direction: 'left',
+                $width: var(--tooltip-arrow-width),
+                $height: var(--tooltip-arrow-height),
+                $color: $tooltip-arrow-border-color
+            );
+        }
+        &::after {
+            right: #{$tooltip-arrow-border-position};
+            border-right-color: $tooltip-background;
+        }
+    }
+}
+.bs-tooltip-auto {
+    &[data-popper-placement^='top'] {
+        @extend %bs-tooltip-top !optional;
+    }
+    &[data-popper-placement^='right'] {
+        @extend %bs-tooltip-end !optional;
+    }
+    &[data-popper-placement^='bottom'] {
+        @extend %bs-tooltip-bottom !optional;
+    }
+    &[data-popper-placement^='left'] {
+        @extend %bs-tooltip-start !optional;
+    }
+}
+.bs-tooltip-top-end,
+.bs-tooltip-bottom-end {
+    .tooltip-arrow {
+        margin-left: $tooltip-not-center-margin;
+    }
+    .tooltip-inner {
+        margin-right: calc($tooltip-not-center-margin * 2);
+    }
+}
+.bs-tooltip-top-start,
+.bs-tooltip-bottom-start {
+    .tooltip-arrow {
+        margin-right: $tooltip-not-center-margin;
+    }
+    .tooltip-inner {
+        margin-left: calc($tooltip-not-center-margin * 2);
+    }
+}

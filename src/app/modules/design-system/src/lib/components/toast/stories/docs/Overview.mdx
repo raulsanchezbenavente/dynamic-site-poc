@@ -1,0 +1,129 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../toast.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Toast
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=8347-22745&t=xSdFZcIGMV8tXkOa-1" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/toast" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `toast` in templates: how to configure it, which status types to pick, and how to apply accessibility patterns for notifications.
+
+## Basic usage
+
+The toast is configured through a `config` object. This object controls the message, status type, and behavior options like auto-hide and delay.
+
+```html
+<toast [config]="toastConfig" (hidden)="onToastHidden()" />
+```
+
+```ts
+toastConfig = {
+  message: 'Your changes have been saved successfully.',
+  status: ToastStatus.SUCCESS,
+  autohide: true,
+  delay: 5000, // milliseconds
+};
+```
+
+### When to Use Toasts
+
+Toasts are temporary, non-intrusive notifications that appear on screen to provide feedback about an action or system event. Use toasts for:
+
+- **Confirmation**: Action completed successfully (e.g., "Settings saved")
+- **Information**: Non-critical updates (e.g., "New message received")
+- **Warnings**: Important but non-blocking alerts (e.g., "Connection unstable")
+- **Errors**: Failed operations that don't require immediate action (e.g., "Failed to load data")
+
+**Do not use toasts for:**
+- Critical errors that require user action (use modal dialogs instead)
+- Information that users need to reference later (use persistent notifications)
+- Multiple toasts simultaneously (can overwhelm users)
+
+## Variants
+
+### Status Types
+
+The toast supports four status types, each with distinct visual styling and iconography to communicate the nature of the notification:
+
+<Canvas of={ComponentStories.STATUS} />
+
+- **Success**: Confirms successful completion of an action. Use for positive feedback like saved changes, completed uploads, or successful submissions.
+- **Info**: Provides neutral information or updates. Use for general notifications, tips, or non-urgent system messages.
+- **Warning**: Alerts users to potential issues that need attention but don't block workflows. Use for non-critical problems, expiring sessions, or actions that might have unintended consequences.
+- **Error**: Indicates failed operations or critical problems. Use for failed requests, validation errors, or system errors that users should be aware of.
+
+### Configuration Options
+
+```ts
+interface Toast {
+  message: string;           // Required: The notification text
+  status: ToastStatus;       // Required: SUCCESS | INFO | WARNING | ERROR
+  delay?: number;            // Optional: Auto-hide delay in milliseconds (default: 5000)
+  autohide?: boolean;        // Optional: Whether toast auto-hides (default: true)
+  cssClass?: string;         // Optional: Additional CSS classes
+}
+```
+
+## Accessibility
+
+### Alert and Status Roles
+
+The toast component uses appropriate ARIA roles to ensure screen reader users receive notifications:
+
+- **Success/Info/Warning toasts**: Use `role="alert"` to announce the message immediately when it appears
+- **Live region**: Toast messages are announced to screen readers without requiring focus
+- **Status icon labels**: Each status icon includes an accessible label through `aria-label` (e.g., "Success", "Error", "Warning", "Information")
+
+### Message Content Guidelines
+
+**Write clear, actionable messages**:
+
+```ts
+// Good: Specific and informative
+{ message: 'Password changed successfully', status: ToastStatus.SUCCESS }
+{ message: 'Unable to save changes. Please try again.', status: ToastStatus.ERROR }
+
+// Bad: Vague or technical
+{ message: 'Success', status: ToastStatus.SUCCESS }
+{ message: 'Error 500', status: ToastStatus.ERROR }
+```
+
+### Dismissible Behavior
+
+- **Close button**: The toast includes a close button with proper `aria-label` ("Close" translated via i18n)
+- **Keyboard support**: Users can dismiss the toast using the close button via keyboard navigation
+- **Auto-hide**: By default, toasts auto-hide after 5 seconds, but users can dismiss them earlier if needed
+
+### Screen Reader Considerations
+
+- Toast announcements are non-intrusive and don't steal focus from the user's current task
+- Multiple toasts should be avoided to prevent overwhelming screen reader users with announcements
+- The `hidden` output event can be used to manage toast lifecycle and prevent stacking
+
+## Hidden Event
+
+The toast emits a `hidden` event when it's dismissed (either automatically or by user interaction):
+
+```html
+<toast [config]="toastConfig" (hidden)="onToastHidden()" />
+```
+
+```ts
+onToastHidden(): void {
+  // Clean up or trigger next action
+  console.log('Toast was dismissed');
+}
+```
+
+## Related components
+
+- [**Alert**](?path=/docs/atoms-alert--overview): For persistent, contextual messages that remain visible until explicitly dismissed
+- [**Modal**](?path=/docs/atoms-modal--overview): For critical errors or confirmations that require user action before proceeding
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-toast-toast--02-accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-toast-toast---changelog) tab for version history.

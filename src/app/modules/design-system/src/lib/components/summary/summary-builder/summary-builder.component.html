@@ -1,0 +1,28 @@
+@let configData = config();
+@let gridClassesData = gridClasses();
+
+<dl
+    class="summary-builder"
+    [ngClass]="gridClassesData">
+    @for (summaryItem of configData | keyvalue: originalOrder; track summaryItem.key) {
+        <div
+            class="summary-builder_item"
+            [attr.data-summary-control-name-id]="formName() ? formName() + '-' + summaryItem.key : null">
+            <dt
+                class="summary-builder_item-label"
+                [attr.summary-data-label]="summaryItem.key">
+                {{ summaryItem.value.label }}
+            </dt>
+            <dd
+                class="summary-builder_item-value"
+                [attr.summary-data-value]="summaryItem.value.value">
+                @if (summaryItem.value.value) {
+                    {{ summaryItem.value.value }}
+                } @else {
+                    <span aria-hidden="true">{{ emptyMask() }}</span>
+                    <span class="hide-visually">{{ 'Common.NotAvailable' | translate }}</span>
+                }
+            </dd>
+        </div>
+    }
+</dl>

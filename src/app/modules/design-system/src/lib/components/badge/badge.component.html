@@ -1,0 +1,10 @@
+@if (config) {
+    @if (config.icon) {
+        <span class="ds-badge_icon">
+            <icon [config]="config.icon"></icon>
+        </span>
+    }
+    <span class="ds-badge_text">
+        {{ config.text }}
+    </span>
+}

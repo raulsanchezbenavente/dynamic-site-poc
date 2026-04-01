@@ -1,0 +1,53 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.summary-builder--grid {
+    display: grid;
+    grid-template-columns: repeat(var(--summary-builder-grid-columns, 1), 1fr);
+    gap: var(--summary-builder-grid-gap, #{$spacer-medium $spacer-x-small});
+}
+.summary-builder--grid-cols-2-mobile {
+    --summary-builder-grid-columns: 2;
+}
+.summary-builder_item {
+    // min-width: prevent long content from breaking equal column widths
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+}
+.summary-builder_item-label {
+    font-size: var(--f-size-small);
+    font-weight: var(--f-weight-normal);
+    color: var(--c-text-secondary);
+}
+.summary-builder_item-value {
+    font-weight: var(--f-weight-medium);
+    font-size: var(--f-size);
+    overflow-wrap: anywhere;
+}
+
+// -------
+// RESPONSIVE
+// -------
+// Summary Builder Grid Breakpoints must be aligned within Grid Builder breakpoints:
+// at projects/reactive-forms/src/lib/tools/grid-builder/styles/grid-builder.styles.scss
+@media #{$mobile} {
+    .summary-builder--grid {
+        --summary-builder-grid-gap: #{$spacer-medium};
+    }
+    .summary-builder--grid-cols-2,
+    .summary-builder--grid-cols-3 {
+        --summary-builder-grid-columns: 2;
+    }
+    .summary-builder_item {
+        --summary-builder-gap: #{$spacer-medium};
+    }
+}
+
+@media #{$tablet-landscape} {
+    .summary-builder--grid-cols-3 {
+        --summary-builder-grid-columns: 3;
+    }
+}

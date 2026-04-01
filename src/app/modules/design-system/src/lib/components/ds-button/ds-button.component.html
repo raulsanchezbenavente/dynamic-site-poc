@@ -1,0 +1,75 @@
+@let isAriaDisabledData = isAriaDisabled();
+@let label = getLabel();
+@let configData = config();
+@let renderAs = resolveRenderAs();
+
+@if (renderAs === ButtonRenderAs.ANCHOR) {
+    <a
+        class="ds-button"
+        [ngClass]="['ds-btn-' + configData.layout?.style, 'ds-btn-' + configData.layout?.size]"
+        [href]="configData.link?.url"
+        [attr.target]="configData.link?.target ?? null"
+        [attr.aria-label]="configData.ariaAttributes?.ariaLabel ?? null"
+        [attr.aria-describedby]="configData.ariaAttributes?.ariaDescribedBy ?? null"
+        (click)="onClick()">
+        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </a>
+} @else if (renderAs === ButtonRenderAs.DIV) {
+    <div
+        #button
+        class="ds-button"
+        [ngClass]="[
+            'ds-btn-' + configData.layout?.style,
+            'ds-btn-' + configData.layout?.size,
+            configData.isLoading ? 'ds-btn-loading' : '',
+        ]">
+        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </div>
+} @else {
+    <button
+        #button
+        class="ds-button"
+        [type]="configData.type ?? 'button'"
+        [ngClass]="[
+            'ds-btn-' + configData.layout?.style,
+            'ds-btn-' + configData.layout?.size,
+            configData.isLoading ? 'ds-btn-loading' : '',
+        ]"
+        [disabled]="configData.isDisabled ? 'disabled' : null"
+        [attr.aria-controls]="configData.ariaAttributes?.ariaControls ?? null"
+        [attr.aria-label]="configData.ariaAttributes?.ariaLabel ?? null"
+        [attr.aria-describedby]="configData.ariaAttributes?.ariaDescribedBy ?? null"
+        [attr.aria-disabled]="isAriaDisabledData ?? null"
+        [attr.aria-expanded]="resolvedExpanded() ?? null"
+        [attr.aria-haspopup]="configData.ariaAttributes?.ariaHaspopup ?? null"
+        [attr.aria-pressed]="ariaPressed ?? configData.ariaAttributes?.ariaPressed"
+        [attr.aria-busy]="configData.isLoading ?? null"
+        [attr.aria-description]="configData.ariaAttributes?.ariaDescription ?? null"
+        (click)="onClick()">
+        <ng-container [ngTemplateOutlet]="buttonContent"></ng-container>
+    </button>
+}
+<ng-template #buttonContent>
+    @if (configData.icon?.name && configData.icon?.position !== HorizontalAlign.RIGHT) {
+        <ng-container [ngTemplateOutlet]="Icon"></ng-container>
+    }
+    @if (configData.label) {
+        <span class="ds-button_label">
+            {{ label }}
+        </span>
+    } @else {
+        <ng-content></ng-content>
+    }
+    @if (configData.icon?.name && configData.icon?.position === HorizontalAlign.RIGHT) {
+        <ng-container [ngTemplateOutlet]="Icon"></ng-container>
+    }
+    @if (configData.isLoading) {
+        <span
+            class="ds-button_loader"
+            [style]="'mask-image: url(/assets/ui_plus/imgs/loader/loader.svg);'">
+        </span>
+    }
+</ng-template>
+<ng-template #Icon>
+    <icon [config]="configData.icon!"></icon>
+</ng-template>

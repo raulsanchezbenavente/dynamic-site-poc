@@ -1,0 +1,77 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: none;
+}
+::ng-deep {
+    .#{$ds}toast {
+        position: absolute;
+        top: var(--toast-top-position, 0);
+        right: var(--toast-sides-position, 0);
+        transition: top 0.2s ease-out;
+    }
+    // Sticky mode activated by ToastStickyBehaviorService
+    // top is set dynamically via inline style by the service
+    .toast--sticky-active {
+        --toast-sides-position: var(--app-gutter-sides);
+
+        position: fixed;
+    }
+
+    [data-toast-slot] {
+        z-index: var(--zindex-toast);
+        position: relative; // Container for absolute toasts
+    }
+
+    [data-toast-slot='panel'] {
+        --toast-top-position: var(--panel-padding);
+        --toast-sides-position: var(--panel-padding);
+
+        margin-left: var(--toast-sides-position);
+    }
+}
+
+// Required when toast text is long but full width is not applied yet;
+// prevents it from overflowing the viewport and causing horizontal scroll.
+// 680px equals the toast max-width + panel side paddings + app side gutters;
+// this keeps the layout from breaking.
+@media (width <= 680px) {
+    ::ng-deep {
+        [data-toast-slot='panel'] {
+            .toast--sticky-active {
+                max-width: calc(100% - (var(--panel-padding) * 2) - (var(--app-gutter-sides) * 2));
+            }
+        }
+    }
+}
+
+// Toast gets full width on mobile
+@media #{$until-mobile-sm} {
+    ::ng-deep {
+        .#{$ds}toast {
+            --toast-sides-position: 0;
+
+            left: var(--toast-sides-position);
+        }
+        .toast--sticky-active {
+            --toast-sides-position: var(--app-gutter-sides);
+
+            left: var(--toast-sides-position);
+            width: auto;
+        }
+        [data-toast-slot='panel'] {
+            .#{$ds}toast {
+                --toast-sides-position: var(--panel-padding);
+            }
+
+            margin-left: 0;
+            .toast--sticky-active {
+                --toast-sides-position: calc(var(--panel-padding) + var(--app-gutter-sides));
+                left: var(--toast-sides-position);
+            }
+        }
+    }
+}

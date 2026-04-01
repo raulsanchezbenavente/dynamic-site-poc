@@ -1,0 +1,13 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.pnr-inner {
+    display: flex;
+    line-height: var(--pnr-line-height, 1);
+    flex-direction: var(--pnr-flex-direction, row);
+    gap: var(--pnr-gap, calculateRem(4px));
+    font-size: var(--pnr-fontsize, inherit);
+    font-weight: var(--pnr-fontweight, inherit);
+}

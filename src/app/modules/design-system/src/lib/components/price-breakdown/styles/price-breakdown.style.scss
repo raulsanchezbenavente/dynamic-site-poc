@@ -1,0 +1,116 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// price-breakdown-elements
+$price-breakdown-elements-border: calculateRem(1px) solid var(--c-color3) !default;
+$price-breakdown-elements-padding: calculateRem(11px) 0 !default;
+
+// price-breakdown-header
+$price-breakdown-header-collapse-icon-fontsize: 18px !default;
+$price-breakdown-header-collapse-icon-position: right !default; // accepts right or left value
+$price-breakdown-header-fontsize: 18px !default;
+$price-breakdown-header-padding-vert: calculateRem(9px) 0 !default;
+$price-breakdown-header-fontweight: var(--f-weight-bold) !default;
+$price-breakdown-header-label-price-margin: calculateRem(4px) !default;
+
+// label text
+$price-breakdown-header-label-text-margin: 0 calculateRem(4px) 0 0 !default;
+
+// price-breakdown-items
+$price-breakdown-items-left-indentation: calculateRem(10px) !default;
+$price-breakdown-items-collapsible-right-margin: calculateRem(
+    20px
+) !default; // align prices when there is a collapse arrow
+$price-breakdown-items-fontsize: var(--f-size) !default;
+$price-breakdown-items-color: var(--c-color2) !default;
+$price-breakdown-items-padding: calculateRem(5px) 0 !default;
+$price-breakdown-items-subitems-left-indentation: calculateRem(16px) !default;
+
+// price-breakdown-item
+$price-breakdown-item-price-min-width: calculateRem(110px) !default;
+
+// -------
+// COMPONENT STYLE
+// -------
+// <price-breakdown>
+.price-breakdown_elements {
+    border-bottom: $price-breakdown-elements-border;
+    padding: $price-breakdown-elements-padding;
+}
+.price-breakdown_section_content {
+    &[aria-hidden='true'] {
+        display: none;
+    }
+}
+
+// <price-breakdown-header>
+.price-breakdown-header {
+    font-size: $price-breakdown-header-fontsize;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $price-breakdown-header-padding-vert;
+}
+.price-breakdown-header_label {
+    flex: 1 1 100%;
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: $price-breakdown-header-fontweight;
+    text-align: left;
+}
+.price-breakdown-header_label_text {
+    margin: $price-breakdown-header-label-text-margin;
+}
+.price-breakdown-header_price {
+    flex: 0 0 auto;
+    font-weight: var(--f-weight-bold);
+    font-size: calculateRem(22px); // TODO: token
+    text-align: right;
+    white-space: nowrap;
+    margin-left: $price-breakdown-header-label-price-margin;
+}
+
+// if is collapsible shows collapse arrow icon
+.price-breakdown_section--collapsible {
+    .price-breakdown-header {
+        @include collapse-trigger-flex(
+            $price-breakdown-header-collapse-icon-fontsize,
+            inherit,
+            $price-breakdown-header-collapse-icon-position
+        );
+    }
+    .price-breakdown-items {
+        margin-right: $price-breakdown-items-collapsible-right-margin;
+    }
+}
+
+// <price-breakdown-items>
+.price-breakdown-items {
+    margin-left: $price-breakdown-items-left-indentation;
+}
+.price-breakdown-items_item {
+    font-size: $price-breakdown-items-fontsize;
+    color: $price-breakdown-items-color;
+    padding: $price-breakdown-items-padding;
+}
+.price-breakdown-items--subitems {
+    margin-left: $price-breakdown-items-subitems-left-indentation;
+}
+
+// <price-breakdown-item>
+.price-breakdown-item {
+    display: flex;
+    justify-content: space-between;
+}
+.price-breakdown-item_price {
+    --price-fontweight: var(--f-weight-normal);
+
+    min-width: $price-breakdown-item-price-min-width;
+    padding-left: calculateRem(10px);
+    white-space: nowrap;
+    text-align: right;
+}

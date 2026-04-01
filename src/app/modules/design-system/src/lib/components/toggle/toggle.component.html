@@ -1,0 +1,32 @@
+<label
+    class="toggle"
+    [for]="inputId"
+    [class.is-checked]="config.isChecked"
+    [class.is-disabled]="config.isDisabled"
+    [class.is-readonly]="config.isReadOnly">
+    @if (config.title) {
+        <span class="toggle_title">{{ config.title }}</span>
+    }
+    <span class="toggle_inner">
+        <span class="toggle_input">
+            <input
+                type="checkbox"
+                [id]="inputId"
+                [name]="inputId"
+                [attr.readonly]="config.isReadOnly ? 'readonly' : null"
+                [attr.disabled]="config.isDisabled ? 'disabled' : null"
+                [attr.checked]="config.isChecked ? 'checked' : null"
+                [attr.aria-describedby]="labelId"
+                (change)="toggleChange()" />
+            <span
+                class="toggle_input-faux"
+                aria-hidden="true"></span>
+        </span>
+        <span
+            class="toggle_label"
+            [ngClass]="'toggle_label--' + (config.isChecked ? 'on' : 'off')"
+            [id]="labelId">
+            {{ config.isChecked ? config.onLabel : config.offLabel }}
+        </span>
+    </span>
+</label>

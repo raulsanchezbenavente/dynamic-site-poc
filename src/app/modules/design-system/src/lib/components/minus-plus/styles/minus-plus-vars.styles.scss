@@ -1,0 +1,31 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$minusplus-button-fontsize: var(--minusplus-button-fontsize, calculateRem(26px));
+$minusplus-button-color: var(--minusplus-button-color, var(--c-primary));
+
+// disabled
+$minusplus-button-color-disabled: var(--c-color19);
+
+//  hover
+$minusplus-button-color-hover: var(--minusplus-button-color-hover, var(--c-active));
+
+// active
+$minusplus-button-color-active: var(--c-active);
+
+// icons
+$minusplus-icon-minus: var(--minusplus-icon-minus, $icon-minus-circle-outline);
+$minusplus-icon-plus: var(--minusplus-icon-plus, $icon-plus-circle-outline);
+$minusplus-icon-minus-disabled: var(--minusplus-icon-minus-hover, $icon-minus-circle-outline);
+$minusplus-icon-plus-disabled: var(--minusplus-icon-plus-hover, $icon-plus-circle-outline);
+
+// input
+$minusplus-input-minwidth: var(--minusplus-input-minwidth, calculateRem(42px));
+$minusplus-input-maxwidth: var(--minusplus-input-maxwidth, calculateRem(42px));
+$minusplus-input-height: var(--minusplus-input-height, $minusplus-button-fontsize);
+$minusplus-input-fontweight: var(--minusplus-input-fontweight, var(--f-weight-medium));
+$minusplus-input-fontsize: var(--minusplus-input-fontsize, calculateRem(20px));
+$minusplus-input-color: var(--minusplus-input-color, var(--c-text));
+$minusplus-input-background: var(--minusplus-input-background, var(--c-white));

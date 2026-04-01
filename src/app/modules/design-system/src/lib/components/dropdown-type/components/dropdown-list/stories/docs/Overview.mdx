@@ -1,0 +1,56 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../dropdown-list.stories';
+
+<Meta of={ComponentStories} />
+
+# DropdownList Component
+
+The `DropdownListComponent` is a reusable UI component that renders a dropdown trigger and an options list, typically used to allow users to select from a predefined list of values.
+
+It supports both selection and navigation use cases and includes built-in accessibility support.
+
+---
+
+## Value Resolution Logic
+
+This component separates:
+
+- **Business logic (`code`)**: used internally to represent the selected option.
+- **User interface (`name`)**: shown in the dropdown label.
+
+### Helper: `resolveDropdownValueFromOptions(...)`
+
+This helper is responsible for:
+
+- Mapping the `dropdownModel.value` (which is expected to be a `code`) to its corresponding `name`, which is displayed in the UI.
+- Fallback to the option marked as `isSelected: true` if no `code` matches.
+- If neither matches, defaults to the first option.
+- Also sets `isSelected: true` on the resolved option for visual feedback.
+
+### Example behavior:
+
+```ts
+config: {
+  dropdownModel: {
+    value: 'arrival', // <- code
+    config: { label: 'Sort by' }
+  },
+  optionsListConfig: {
+    options: [
+      { code: 'departure', name: 'Departure time' },
+      { code: 'arrival', name: 'Arrival time' },
+    ]
+  }
+}
+```
+
+### Best Practices
+- Always provide a code for each option — never rely on name matching.
+- Set dropdownModel.value to the corresponding code, not the name.
+- Let the helper resolve the display value and selection state.
+
+---
+
+Usefull documentation:
+

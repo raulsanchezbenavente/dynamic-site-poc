@@ -1,0 +1,39 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// label
+$range-slider-label-fontsize: var(--range-slider-label-fontsize, var(--f-size));
+$range-slider-label-fontweight: var(--range-slider-label-fontweight, var(--f-weight-light));
+
+// bar
+$range-slider-bar-height: var(--range-slider-bar-height, calculateRem(4px));
+$range-slider-bar-border-radius: var(--range-slider-bar-border-radius, calculateRem(4px));
+$range-slider-bar-background-color: var(--range-slider-bar-background-color, var(--c-color3));
+
+// thumb
+$range-slider-thumb-size: var(--range-slider-thumb-size, calculateRem(20px));
+$range-slider-thumb-color: var(--range-slider-thumb-color, var(--c-primary));
+$range-slider-thumb-position: var(
+    --range-slider-thumb-position,
+    calc((#{$range-slider-thumb-size} / -2) - (#{$range-slider-bar-height} / -2))
+);
+
+// selected range
+$range-slider-selected-range-background-color: var(
+    --range-slider-selected-range-background-color,
+    $range-slider-thumb-color
+);
+$range-slider-selected-range-position: var(
+    --range-slider-selected-range-position,
+    calc((#{$range-slider-thumb-size} / 2) + (#{$range-slider-bar-height} / 2))
+);
+
+// value
+$range-slider-value-margin: var(--range-slider-value-margin, calculateRem(5px) 0 0 0);
+$range-slider-value-fontsize: var(--range-slider-value-fontsize, var(--f-size));
+$range-slider-value-fontweight: var(--range-slider-value-fontweight, var(--f-weight-bold));
+
+// disabled
+$range-slider-disabled-opacity: var(--range-slider-disabled-opacity, 0.4);

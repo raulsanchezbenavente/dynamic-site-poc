@@ -1,22 +1,41 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
+import { CookieService } from 'ngx-cookie';
+
+export const TIME_EXPIRES_COOKIES = new InjectionToken<number>('timeExpiresCookies');
 
 @Injectable({ providedIn: 'root' })
 export class CookiesStore {
-  private readonly store = new Map<string, unknown>();
+  private dateExpires = new Date();
 
-  public getCookie(key: string): unknown {
-    return this.store.get(key);
+  constructor(
+    private readonly cookieService: CookieService,
+    @Optional() @Inject(TIME_EXPIRES_COOKIES) timeExpiresCookies: number
+  ) {
+    this.dateExpires.setMinutes(this.dateExpires.getMinutes() + timeExpiresCookies / 60 + 60);
   }
 
-  public setCookie(key: string, data: unknown): void {
-    this.store.set(key, data);
+  getCookie(key: string): any {
+    return this.cookieService.getObject(key);
   }
 
-  public removeCookie(key: string): void {
-    this.store.delete(key);
+  setCookie(key: string, data: any, time: Date = null!): void {
+    if (data != null) {
+      if (time) {
+        this.dateExpires = time;
+      }
+      this.cookieService.putObject(key, data, { expires: this.dateExpires });
+    }
   }
 
-  public cleanCookies(): void {
-    this.store.clear();
+  removeCookie(key: string): void {
+    this.cookieService.remove(key);
+  }
+
+  cleanCookies() {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const vals = cookie.split('=');
+      document.cookie = vals[0] + '=;expires=Thu, 21 Sep 1979 00:00:01 UTC;';
+    }
   }
 }

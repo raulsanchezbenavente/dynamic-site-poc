@@ -1,832 +1,507 @@
-/* stylelint-disable-next-line scss/dollar-variable-pattern */
-@font-face {
-  font-family: "avianca-icons";
-  src: url("../webfonts/icomoon/fonts/avianca-icons.woff") format("woff"), url("../webfonts/icomoon/fonts/avianca-icons.ttf") format("truetype"), url("../webfonts/icomoon/fonts/avianca-icons.svg#avianca-icons") format("svg");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-}
-[class^=icon-],
-[class*=" icon-"] {
-  font-family: "avianca-icons" !important;
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face{
+  font-display:block;
+  font-family:avianca-icons;
+  font-style:normal;
+  font-weight:400;
+  src:url(../webfonts/icomoon/fonts/avianca-icons.woff) format("woff"), url(../webfonts/icomoon/fonts/avianca-icons.ttf) format("truetype"), url(../webfonts/icomoon/fonts/avianca-icons.svg#avianca-icons) format("svg");
 }
 
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-accessibility-circle::before {
-  content: "\e91f"/"";
+[class*=" icon-"],[class^=icon-]{
+  font-family:avianca-icons !important;
+  speak:none;
+  font-style:normal;
+  font-variant:normal;
+  font-weight:400;
+  line-height:1;
+  text-transform:none;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-accessibility::before {
-  content: "\e92b"/"";
+.icon-accessibility-circle::before{
+  content:"\e91f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-account-credit-outline::before {
-  content: "\e935"/"";
+.icon-accessibility::before{
+  content:"\e92b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-add-cart::before {
-  content: "\e96e"/"";
+.icon-account-credit-outline::before{
+  content:"\e935"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-add-passengers::before {
-  content: "\e9c2"/"";
+.icon-add-cart::before{
+  content:"\e96e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airplane-cancel::before {
-  content: "\e929"/"";
+.icon-add-passengers::before{
+  content:"\e9c2"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airplane-left-circle::before {
-  content: "\e920"/"";
+.icon-airplane-cancel::before{
+  content:"\e929"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airplane-left::before {
-  content: "\e922"/"";
+.icon-airplane-left-circle::before{
+  content:"\e920"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airplane-right-circle::before {
-  content: "\e921"/"";
+.icon-airplane-left::before{
+  content:"\e922"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airplane-right::before {
-  content: "\e923"/"";
+.icon-airplane-right-circle::before{
+  content:"\e921"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-airport::before {
-  content: "\e926"/"";
+.icon-airplane-right::before{
+  content:"\e923"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert-important::before {
-  content: "\e91a"/"";
+.icon-airport::before{
+  content:"\e926"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert-notification-off::before {
-  content: "\e9fd"/"";
+.icon-alert-important::before{
+  content:"\e91a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert-notification-on::before {
-  content: "\e9fe"/"";
+.icon-alert-notification-off::before{
+  content:"\e9fd"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert-notification::before {
-  content: "\e9fc"/"";
+.icon-alert-notification-on::before{
+  content:"\e9fe"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert-report::before {
-  content: "\e918"/"";
+.icon-alert-notification::before{
+  content:"\e9fc"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-alert::before {
-  content: "\e917"/"";
+.icon-alert-report::before{
+  content:"\e918"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-analytics::before {
-  content: "\e9bc"/"";
+.icon-alert::before{
+  content:"\e917"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-right::before {
-  content: "\e90c"/"";
+.icon-analytics::before{
+  content:"\e9bc"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-single-down::before {
-  content: "\e90a"/"";
+.icon-arrow-right::before{
+  content:"\e90c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-single-left::before {
-  content: "\e908"/"";
+.icon-arrow-single-down::before{
+  content:"\e90a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-single-right::before {
-  content: "\e909"/"";
+.icon-arrow-single-left::before{
+  content:"\e908"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-single-up::before {
-  content: "\e90b"/"";
+.icon-arrow-single-right::before{
+  content:"\e909"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-thin-down::before {
-  content: "\e9b3"/"";
+.icon-arrow-single-up::before{
+  content:"\e90b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-thin-left::before {
-  content: "\e96a"/"";
+.icon-arrow-thin-down::before{
+  content:"\e9b3"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-thin-up::before {
-  content: "\e9b2"/"";
+.icon-arrow-thin-left::before{
+  content:"\e96a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-triangle-down::before {
-  content: "\e906"/"";
+.icon-arrow-thin-up::before{
+  content:"\e9b2"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-triangle-left::before {
-  content: "\e904"/"";
+.icon-arrow-triangle-down::before{
+  content:"\e906"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-triangle-right::before {
-  content: "\e905"/"";
+.icon-arrow-triangle-left::before{
+  content:"\e904"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-arrow-triangle-up::before {
-  content: "\e907"/"";
+.icon-arrow-triangle-right::before{
+  content:"\e905"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-autorenew::before {
-  content: "\e900"/"";
+.icon-arrow-triangle-up::before{
+  content:"\e907"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-avianca-symbol::before {
-  content: "\e95a"/"";
+.icon-autorenew::before{
+  content:"\e900"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-baby-car::before {
-  content: "\e901"/"";
+.icon-avianca-symbol::before{
+  content:"\e95a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-backpack::before {
-  content: "\e91c"/"";
+.icon-baby-car::before{
+  content:"\e901"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-baggage-cabin::before {
-  content: "\e995"/"";
+.icon-backpack::before{
+  content:"\e91c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-baggage-carry-on::before {
-  content: "\e925"/"";
+.icon-baggage-cabin::before{
+  content:"\e995"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-baggage::before {
-  content: "\e990"/"";
+.icon-baggage-carry-on::before{
+  content:"\e925"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-baggages::before {
-  content: "\e994"/"";
+.icon-baggage::before{
+  content:"\e990"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-bike::before {
-  content: "\e94e"/"";
+.icon-baggages::before{
+  content:"\e994"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-blind::before {
-  content: "\e980"/"";
+.icon-bike::before{
+  content:"\e94e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-block::before {
-  content: "\e928"/"";
+.icon-blind::before{
+  content:"\e980"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-boarding-pass::before {
-  content: "\e938"/"";
+.icon-block::before{
+  content:"\e928"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-bus::before {
-  content: "\e93d"/"";
+.icon-boarding-pass::before{
+  content:"\e938"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-cake::before {
-  content: "\e937"/"";
+.icon-bus::before{
+  content:"\e93d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-calendar-event::before {
-  content: "\e96f"/"";
+.icon-cake::before{
+  content:"\e937"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-calendar-month::before {
-  content: "\e95c"/"";
+.icon-calendar-event::before{
+  content:"\e96f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-calendar-week::before {
-  content: "\e95d"/"";
+.icon-calendar-month::before{
+  content:"\e95c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-calendar::before {
-  content: "\e964"/"";
+.icon-calendar-week::before{
+  content:"\e95d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-car::before {
-  content: "\e958"/"";
+.icon-calendar::before{
+  content:"\e964"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-cart::before {
-  content: "\e959"/"";
+.icon-car::before{
+  content:"\e958"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-check-circle-filled::before {
-  content: "\e914"/"";
+.icon-cart::before{
+  content:"\e959"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-check-circle-outline::before {
-  content: "\e910"/"";
+.icon-check-circle-filled::before{
+  content:"\e914"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-check::before {
-  content: "\e91d"/"";
+.icon-check-circle-outline::before{
+  content:"\e910"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-child::before {
-  content: "\e97b"/"";
+.icon-check::before{
+  content:"\e91d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-clock::before {
-  content: "\e930"/"";
+.icon-child::before{
+  content:"\e97b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-coffee::before {
-  content: "\e9b7"/"";
+.icon-clock::before{
+  content:"\e930"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-communications::before {
-  content: "\e9bd"/"";
+.icon-coffee::before{
+  content:"\e9b7"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-copy::before {
-  content: "\e9a6"/"";
+.icon-communications::before{
+  content:"\e9bd"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-country::before {
-  content: "\e93c"/"";
+.icon-copy::before{
+  content:"\e9a6"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-credit-card::before {
-  content: "\e94b"/"";
+.icon-country::before{
+  content:"\e93c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-cross-circle-filled::before {
-  content: "\e913"/"";
+.icon-credit-card::before{
+  content:"\e94b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-cross-circle-outline::before {
-  content: "\e955"/"";
+.icon-cross-circle-filled::before{
+  content:"\e913"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-cross::before {
-  content: "\e91b"/"";
+.icon-cross-circle-outline::before{
+  content:"\e955"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-currency-circle::before {
-  content: "\e9d5"/"";
+.icon-cross::before{
+  content:"\e91b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-currency::before {
-  content: "\e9d6"/"";
+.icon-currency-circle::before{
+  content:"\e9d5"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-delete::before {
-  content: "\e9bb"/"";
+.icon-currency::before{
+  content:"\e9d6"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-directions-boat::before {
-  content: "\e956"/"";
+.icon-delete::before{
+  content:"\e9bb"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-doble-seat::before {
-  content: "\e967"/"";
+.icon-directions-boat::before{
+  content:"\e956"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-document::before {
-  content: "\e93e"/"";
+.icon-doble-seat::before{
+  content:"\e967"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-dot::before {
-  content: "\e92e"/"";
+.icon-document::before{
+  content:"\e93e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-download::before {
-  content: "\e902"/"";
+.icon-dot::before{
+  content:"\e92e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-edit-line::before {
-  content: "\e9b6"/"";
+.icon-download::before{
+  content:"\e902"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-edit::before {
-  content: "\e957"/"";
+.icon-edit-line::before{
+  content:"\e9b6"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-email::before {
-  content: "\e960"/"";
+.icon-edit::before{
+  content:"\e957"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-error-circle-filled::before {
-  content: "\e915"/"";
+.icon-email::before{
+  content:"\e960"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-exit::before {
-  content: "\e97d"/"";
+.icon-error-circle-filled::before{
+  content:"\e915"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-external::before {
-  content: "\e949"/"";
+.icon-exit::before{
+  content:"\e97d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-eye-off::before {
-  content: "\e969"/"";
+.icon-external::before{
+  content:"\e949"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-eye::before {
-  content: "\e951"/"";
+.icon-eye-off::before{
+  content:"\e969"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-filters::before {
-  content: "\e9ba"/"";
+.icon-eye::before{
+  content:"\e951"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-flight-landing-return::before {
-  content: "\ea0a"/"";
+.icon-filters::before{
+  content:"\e9ba"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-flight-landing::before {
-  content: "\e92f"/"";
+.icon-flight-landing-return::before{
+  content:"\ea0a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-flight-new-route::before {
-  content: "\e992"/"";
+.icon-flight-landing::before{
+  content:"\e92f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-flight-takeoff-return::before {
-  content: "\ea09"/"";
+.icon-flight-new-route::before{
+  content:"\e992"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-flight-takeoff::before {
-  content: "\e92a"/"";
+.icon-flight-takeoff-return::before{
+  content:"\ea09"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-game::before {
-  content: "\e953"/"";
+.icon-flight-takeoff::before{
+  content:"\e92a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-hearing-impaired::before {
-  content: "\e939"/"";
+.icon-game::before{
+  content:"\e953"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-home::before {
-  content: "\e98c"/"";
+.icon-hearing-impaired::before{
+  content:"\e939"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-hotel::before {
-  content: "\e91e"/"";
+.icon-home::before{
+  content:"\e98c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-info-circle-filled::before {
-  content: "\e916"/"";
+.icon-hotel::before{
+  content:"\e91e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-info-circle-outline::before {
-  content: "\e9bf"/"";
+.icon-info-circle-filled::before{
+  content:"\e916"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-insurance-check::before {
-  content: "\e983"/"";
+.icon-info-circle-outline::before{
+  content:"\e9bf"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-language::before {
-  content: "\e988"/"";
+.icon-insurance-check::before{
+  content:"\e983"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-large-baggage::before {
-  content: "\e991"/"";
+.icon-language::before{
+  content:"\e988"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lifemiles-lm::before {
-  content: "\e950"/"";
+.icon-large-baggage::before{
+  content:"\e991"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lifemiles-points::before {
-  content: "\e94c"/"";
+.icon-lifemiles-lm::before{
+  content:"\e950"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lifemiles::before {
-  content: "\e92c"/"";
+.icon-lifemiles-points::before{
+  content:"\e94c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lock::before {
-  content: "\e945"/"";
+.icon-lifemiles::before{
+  content:"\e92c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-logout::before {
-  content: "\e948"/"";
+.icon-lock::before{
+  content:"\e945"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lounge::before {
-  content: "\e947"/"";
+.icon-logout::before{
+  content:"\e948"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-loyalty-tag::before {
-  content: "\e946"/"";
+.icon-lounge::before{
+  content:"\e947"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-lugagge::before {
-  content: "\e927"/"";
+.icon-loyalty-tag::before{
+  content:"\e946"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-medical-assistance::before {
-  content: "\e943"/"";
+.icon-lugagge::before{
+  content:"\e927"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-menu-dots-vertical::before {
-  content: "\e9f0"/"";
+.icon-medical-assistance::before{
+  content:"\e943"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-menu-dots::before {
-  content: "\e9ef"/"";
+.icon-menu-dots-vertical::before{
+  content:"\e9f0"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-menu-justify::before {
-  content: "\e976"/"";
+.icon-menu-dots::before{
+  content:"\e9ef"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-minor-unattended::before {
-  content: "\e97a"/"";
+.icon-menu-justify::before{
+  content:"\e976"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-minus-circle-filled::before {
-  content: "\e911"/"";
+.icon-minor-unattended::before{
+  content:"\e97a"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-minus-circle-outline::before {
-  content: "\e90e"/"";
+.icon-minus-circle-filled::before{
+  content:"\e911"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-mobile-alert::before {
-  content: "\e941"/"";
+.icon-minus-circle-outline::before{
+  content:"\e90e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-new::before {
-  content: "\e993"/"";
+.icon-mobile-alert::before{
+  content:"\e941"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-offer::before {
-  content: "\e9b4"/"";
+.icon-new::before{
+  content:"\e993"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-on-board-menu::before {
-  content: "\e984"/"";
+.icon-offer::before{
+  content:"\e9b4"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-parking::before {
-  content: "\e96d"/"";
+.icon-on-board-menu::before{
+  content:"\e984"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-passenger::before {
-  content: "\e979"/"";
+.icon-parking::before{
+  content:"\e96d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-pet::before {
-  content: "\e9c1"/"";
+.icon-passenger::before{
+  content:"\e979"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-phone::before {
-  content: "\e962"/"";
+.icon-pet::before{
+  content:"\e9c1"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-pin-drop::before {
-  content: "\e96b"/"";
+.icon-phone::before{
+  content:"\e962"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-pin-keep::before {
-  content: "\e96c"/"";
+.icon-pin-drop::before{
+  content:"\e96b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-pin-location::before {
-  content: "\e95f"/"";
+.icon-pin-keep::before{
+  content:"\e96c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-plus-circle-filled::before {
-  content: "\e912"/"";
+.icon-pin-location::before{
+  content:"\e95f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-plus-circle-outline::before {
-  content: "\e90f"/"";
+.icon-plus-circle-filled::before{
+  content:"\e912"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-plus::before {
-  content: "\e919"/"";
+.icon-plus-circle-outline::before{
+  content:"\e90f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-poll::before {
-  content: "\e9be"/"";
+.icon-plus::before{
+  content:"\e919"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-printer::before {
-  content: "\e94f"/"";
+.icon-poll::before{
+  content:"\e9be"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-priority-boarding::before {
-  content: "\e97c"/"";
+.icon-printer::before{
+  content:"\e94f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-promo::before {
-  content: "\e940"/"";
+.icon-priority-boarding::before{
+  content:"\e97c"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-qualifying-miles::before {
-  content: "\e9a2"/"";
+.icon-promo::before{
+  content:"\e940"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-refresh::before {
-  content: "\e932"/"";
+.icon-qualifying-miles::before{
+  content:"\e9a2"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-refunds::before {
-  content: "\e933"/"";
+.icon-refresh::before{
+  content:"\e932"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-restaurant::before {
-  content: "\e9b8"/"";
+.icon-refunds::before{
+  content:"\e933"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-search::before {
-  content: "\e963"/"";
+.icon-restaurant::before{
+  content:"\e9b8"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-seat-airplane::before {
-  content: "\e966"/"";
+.icon-search::before{
+  content:"\e963"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-settings::before {
-  content: "\e952"/"";
+.icon-seat-airplane::before{
+  content:"\e966"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-shipping::before {
-  content: "\e95e"/"";
+.icon-settings::before{
+  content:"\e952"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-skis::before {
-  content: "\e9e9"/"";
+.icon-shipping::before{
+  content:"\e95e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-facebook-circle::before {
-  content: "\e9a3"/"";
+.icon-skis::before{
+  content:"\e9e9"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-facebook-outline::before {
-  content: "\e9a7"/"";
+.icon-social-facebook-circle::before{
+  content:"\e9a3"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-instagram-circle::before {
-  content: "\e9a5"/"";
+.icon-social-facebook-outline::before{
+  content:"\e9a7"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-instagram-outline::before {
-  content: "\e9a9"/"";
+.icon-social-instagram-circle::before{
+  content:"\e9a5"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-linkedin-circle::before {
-  content: "\e903"/"";
+.icon-social-instagram-outline::before{
+  content:"\e9a9"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-linkedin-outline::before {
-  content: "\e90d"/"";
+.icon-social-linkedin-circle::before{
+  content:"\e903"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-tiktok-circle::before {
-  content: "\e9c9"/"";
+.icon-social-linkedin-outline::before{
+  content:"\e90d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-tiktok-outline::before {
-  content: "\e9ca"/"";
+.icon-social-tiktok-circle::before{
+  content:"\e9c9"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-twitter-circle::before {
-  content: "\e9a4"/"";
+.icon-social-tiktok-outline::before{
+  content:"\e9ca"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-twitter-outline::before {
-  content: "\e9a8"/"";
+.icon-social-twitter-circle::before{
+  content:"\e9a4"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-social-youtube-circle::before {
-  content: "\e924"/"";
+.icon-social-twitter-outline::before{
+  content:"\e9a8"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-speachbubble::before {
-  content: "\e936"/"";
+.icon-social-youtube-circle::before{
+  content:"\e924"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-star::before {
-  content: "\ea11"/"";
+.icon-speachbubble::before{
+  content:"\e936"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-stop::before {
-  content: "\e934"/"";
+.icon-star::before{
+  content:"\ea11"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-swap-horizontal::before {
-  content: "\e92d"/"";
+.icon-stop::before{
+  content:"\e934"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-taxi::before {
-  content: "\e95b"/"";
+.icon-swap-horizontal::before{
+  content:"\e92d"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-time-change::before {
-  content: "\e931"/"";
+.icon-taxi::before{
+  content:"\e95b"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-toilet::before {
-  content: "\e97e"/"";
+.icon-time-change::before{
+  content:"\e931"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-train::before {
-  content: "\e93f"/"";
+.icon-toilet::before{
+  content:"\e97e"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-user-circle::before {
-  content: "\e974"/"";
+.icon-train::before{
+  content:"\e93f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-user::before {
-  content: "\e975"/"";
+.icon-user-circle::before{
+  content:"\e974"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-users-three::before {
-  content: "\e977"/"";
+.icon-user::before{
+  content:"\e975"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-vip-access::before {
-  content: "\e9c6"/"";
+.icon-users-three::before{
+  content:"\e977"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-wheelchair::before {
-  content: "\e97f"/"";
+.icon-vip-access::before{
+  content:"\e9c6"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-wifi-off::before {
-  content: "\e965"/"";
+.icon-wheelchair::before{
+  content:"\e97f"/"";
 }
-
-/* stylelint-disable-next-line custom/selector-class-pattern */
-.icon-wifi::before {
-  content: "\e968"/"";
+.icon-wifi-off::before{
+  content:"\e965"/"";
+}
+.icon-wifi::before{
+  content:"\e968"/"";
 }
 
-/*# sourceMappingURL=data:application/json;charset=utf-8,%7B%22version%22:3,%22sourceRoot%22:%22%22,%22sources%22:%5B%22icomoon/variables.scss%22,%22icomoon-styles.entry.scss%22%5D,%22names%22:%5B%5D,%22mappings%22:%22AAMA;ACGA;EACI;EACA,KAEI;EAGJ;EACA;EACA;;AAIJ;AAAA;EAEI;EACA;EACA;EACA;EACA;EACA;EACA;EACA;EACA;;;AAQI;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI;;;AAFJ;AACA;EACI%22,%22file%22:%22iconfonts-styles.css%22%7D */
+/*# sourceMappingURL=iconfonts-styles.css.map */

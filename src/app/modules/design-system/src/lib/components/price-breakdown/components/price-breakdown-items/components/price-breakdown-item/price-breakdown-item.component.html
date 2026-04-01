@@ -1,0 +1,16 @@
+<div class="price-breakdown-item">
+    <span class="price-breakdown-item_label text-space-gap">
+        <span class="price-breakdown-item_label_quantity">
+            {{ model.quantity }}
+        </span>
+        <span class="price-breakdown-item_label_concept">
+            {{ 'Ibe-codes.FeeCode_' + model.code | translate }}
+        </span>
+    </span>
+    <span class="price-breakdown-item_price">
+        <price-currency
+            [price]="model.price"
+            [currency]="model.currency">
+        </price-currency>
+    </span>
+</div>

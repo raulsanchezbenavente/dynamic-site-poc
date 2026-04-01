@@ -1,0 +1,96 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../toast.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Toast
+
+## Accessibility
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>role="alert"</code></td>
+      <td>Applied automatically by <code>NgbToast</code>. Announces the toast message to screen readers immediately when it appears, without requiring focus.</td>
+    </tr>
+    <tr>
+      <td><code>aria-label</code> (status icon)</td>
+      <td>Each status icon includes a translated label: "Success", "Error", "Warning", or "Information". Set via <code>Common.A11y.Status_Icon.[Status]</code> i18n keys.</td>
+    </tr>
+    <tr>
+      <td><code>aria-label</code> (close button)</td>
+      <td>The close button uses a translated "Close" label via the <code>Common.Close</code> i18n key, ensuring screen readers announce it correctly.</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>aria-live="assertive"</code></td>
+      <td>Inherited from <code>role="alert"</code>. Ensures the notification is announced immediately by assistive technologies, interrupting the current speech queue.</td>
+    </tr>
+    <tr>
+      <td><code>aria-atomic="true"</code></td>
+      <td>Inherited from <code>role="alert"</code>. Ensures the entire toast content is read as one unit, not just the changed portions.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Moves focus to the toast's close button when the toast is visible.</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>Activates the close button to dismiss the toast.</td>
+    </tr>
+    <tr>
+      <td><kbd>Escape</kbd></td>
+      <td>No built-in handler — the toast does not trap focus. Users can navigate away freely.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- **Appearance**: When a toast appears, the `role="alert"` triggers an immediate announcement. The status icon label (e.g., "Success") is read first, followed by the message.
+- **Dismissal**: When `autohide` is enabled, the toast disappears after the configured `delay` (default: 6000ms). Screen readers do not announce the removal, which is expected behavior for transient notifications.
+- **Multiple toasts**: Avoid showing multiple toasts simultaneously. Rapid sequential announcements can overwhelm screen reader users. Use the `hidden` output event to manage toast lifecycle.
+
+### Best Practices
+
+- Always pair the `status` type with a message that matches its severity — don't use `SUCCESS` for error-like messages.
+- Set `autohide: false` for error toasts that require user attention, ensuring they aren't dismissed before being read.
+- For `delay`, use a minimum of 5000ms to give screen reader users sufficient time to perceive, navigate to, and read the message.
+- Ensure toast messages are concise (under 100 characters) so screen readers can announce them quickly.
+- When using `data-toast-slot="panel"` in a `toast-container` context, the sticky positioning ensures the toast remains visible while scrolling — this is the recommended pattern for panel-level notifications.

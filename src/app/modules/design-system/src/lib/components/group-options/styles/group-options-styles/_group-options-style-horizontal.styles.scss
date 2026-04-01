@@ -1,0 +1,49 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../group-options-vars' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+:host ::ng-deep {
+    .go-style--horizontal {
+        --go-item-padding-top: #{calculateRem(21px)};
+        --go-item-padding-right: #{calculateRem(20px)};
+        --go-item-padding-bottom: #{calculateRem(24px)};
+        --go-item-padding-left: #{calculateRem(20px)};
+
+        .group-options-item_inner {
+            padding: var(--go-item-padding-top) var(--go-item-padding-right) var(--go-item-padding-bottom)
+                var(--go-item-padding-left);
+        }
+        .group-options-item_figure {
+            padding-top: #{calculateRem(3px)};
+            padding-right: calculateRem(22px);
+        }
+
+        // item left edge aligned image
+        .group-options-item_inner--edge-aligned {
+            .group-options-item_figure {
+                padding-top: 0;
+            }
+        }
+
+        @media #{$group-options-breakpoint-min} {
+            --go-item-padding-top: #{calculateRem(24px)};
+
+            .group-options-item_inner {
+                &::after {
+                    // arrow icon
+                    display: none;
+                }
+            }
+            .group-options-item_content {
+                align-self: center;
+            }
+            .group-options-item_figure {
+                padding-top: 0;
+                padding-right: calculateRem(26px);
+            }
+        }
+    }
+}

@@ -1,0 +1,109 @@
+import { Meta } from '@storybook/blocks';
+
+import * as GroupOptionsStories from '../group-options.stories';
+
+<Meta of={GroupOptionsStories} name="02 Accessibility" />
+
+# Group Options
+
+## Accessibility
+
+### ARIA Attributes
+
+The component renders different inner elements depending on the option configuration:
+
+- **Link** (`<a>`) — when `link` is provided and no `buttonText`
+- **Button** (`<button>`) — when `emitsEvent: true`
+- **Div** (non-interactive) — when neither condition applies
+
+The component automatically applies the following attributes:
+
+#### Provided by the component
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>aria-disabled</code></td>
+      <td>
+        Set to <code>true</code> when <code>isDisabled: true</code>. Keeps the element focusable while communicating its unavailability to screen readers.
+      </td>
+    </tr>
+    <tr>
+      <td><code>tabindex="-1"</code></td>
+      <td>
+        Applied automatically to disabled options to remove them from the tab order.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Recommended by the implementer
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>alt</code> via <code>image.altText</code></td>
+      <td>
+        Always provide meaningful alt text for images. Describe the purpose, not the appearance (e.g., <code>"Help center"</code> instead of <code>"Magnifying glass icon"</code>).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+Users should be able to navigate and interact with Group Options using only the keyboard.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Move focus to the next option item</td>
+    </tr>
+    <tr>
+      <td><kbd>Shift + Tab</kbd></td>
+      <td>Move focus to the previous option item</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>Activate the focused option (navigate or trigger event)</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+The Group Options component should communicate its structure and purpose effectively to screen reader users:
+
+- **List semantics**: The container should be announced as a list with the number of items
+- **Option content**: Each option's title, description, and link destination should be announced in a logical order
+- **Image alternatives**: All images must have meaningful `altText` that describes their purpose, not just their appearance
+- **Link destinations**: When an option contains a link, the destination and target behavior (e.g., "opens in new window") should be clear
+- **Disabled state**: Disabled options are announced as unavailable via `aria-disabled="true"`
+
+### Best Practices
+
+- **Always provide alt text for images**: Set the `altText` property in the `image` object for every option. Describe the purpose or content of the image, not just what it looks like (e.g., "Help center" instead of "magnifying glass icon").
+- **Use descriptive titles and descriptions**: The `title` and `description` should provide clear, concise information about what happens when the option is selected.
+- **Ensure sufficient color contrast**: Verify that text and images have adequate contrast ratios (4.5:1 for normal text, 3:1 for large text) against their backgrounds.
+- **Maintain minimum touch targets**: Each clickable option should be at least 44x44 CSS pixels to accommodate users with motor impairments.
+- **Pair `isDisabled` with visual feedback**: When using `isDisabled: true`, ensure the visual design clearly indicates the disabled state (e.g., reduced opacity, grayscale).
+- **Use semantic link targets**: When setting `link.target`, use `LinkTarget.BLANK` for external destinations.

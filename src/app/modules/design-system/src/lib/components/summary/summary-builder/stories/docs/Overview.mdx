@@ -1,0 +1,47 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../summary-builder.stories';
+
+<Meta of={ComponentStories} />
+
+# SummaryBuilder
+
+The **SummaryBuilder** is a layout-ready utility component for rendering summary information as a semantic description list (`<dl>`). It is especially useful as a default layout when working with dynamic summary data, and it can be directly used on its own or together with [`SummaryRenderer`](../../../summary-renderer/stories/docs/Overview.mdx).
+
+## Relation to SummaryRenderer
+If you need to dynamically inject content into a customizable template, use SummaryRenderer. When you just want a clean, ready-to-use layout, use SummaryBuilder.
+You can even use **SummaryBuilder** inside **SummaryRenderer** to handle layout, while keeping projection logic separate.
+```html
+<ds-summary-renderer [config]="summaryData">
+  <ds-summary-builder [config]="summaryData" />
+</ds-summary-renderer>
+```
+
+## What is it for?
+Designed to quickly display key-value pairs (like personal info, contact details, etc.) in a clean and accessible format. It can also serve as the default rendering template inside `SummaryRenderer`, when no custom projection is needed.
+
+## How does it work?
+- Accepts a `config` input: a record of keys mapped to `{ label, value }` objects.
+- Renders each entry inside a `<dl>` block using `<dt>` and `<dd>`.
+- Emits a `configChange` event when the internal config changes (useful for tracking updates).
+- Assigns `summary-data-label` and `summary-data-value` attributes to support `SummaryRenderer` integration.
+
+## Example usage (simplified)
+```html
+<ds-summary-builder [config]="summaryData" (configChange)="onChange($event)" />
+```
+
+```ts
+summaryData = {
+  email: { label: 'Email', value: 'user@example.com' },
+  phone: { label: 'Phone', value: '+34 600 123 456' }
+};
+
+onChange(updated) {
+  console.log('Summary updated:', updated);
+}
+```
+
+---
+
+Usefull documentation:

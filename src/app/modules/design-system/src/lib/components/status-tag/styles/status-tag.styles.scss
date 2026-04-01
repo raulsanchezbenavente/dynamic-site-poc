@@ -1,0 +1,113 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.status-tag {
+    font-size: var(--status-tag-fontsize, var(--f-size-small));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--status-tag-gap, $spacer-tiny);
+    color: var(--status-tag-color, var(--c-color2));
+    text-transform: var(--status-tag-text-transform, capitalize);
+    font-weight: var(--status-tag-fontweight, var(--f-weight-bold));
+    line-height: var(--status-tag-lineheight, inherit);
+    border-radius: var(--status-tag-border-radius, var(--#{$ds}border-radius));
+    padding: var(--status-tag-padding, $spacer-tiny $spacer-x-small);
+    border: var(--status-tag-border-width, 0) solid var(--status-tag-border-color, transparent);
+    background-color: var(--status-tag-background, var(--c-color4));
+}
+.status-tag--type-success {
+    --status-tag-color: var(--status-tag-color-success, var(--c-success));
+    --status-tag-background: var(--status-tag-background-success, #d9fdd2); // TODO: Token
+    --status-tag-icon: var(--status-tag-icon-success, #{$icon-check-circle-filled});
+    --status-tag-border-color: var(--status-tag-border-color-success);
+}
+.status-tag--type-error {
+    --status-tag-color: var(--status-tag-color-error, var(--c-error-text));
+    --status-tag-background: var(--status-tag-background-error, var(--c-error-background));
+    --status-tag-icon: var(--status-tag-icon-error, #{$icon-cross-circle-filled});
+    --status-tag-border-color: var(--status-tag-border-color-error);
+}
+.status-tag--type-warning {
+    --status-tag-color: var(--status-tag-color-warning, var(--c-warning-light));
+    --status-tag-background: var(--status-tag-background-warning, var(--c-warning-background));
+    --status-tag-icon: var(--status-tag-icon-error, #{$icon-error-circle-filled});
+    --status-tag-border-color: var(--status-tag-border-color-warning);
+}
+.status-tag--type-info {
+    --status-tag-color: var(--status-tag-color-info, var(--c-info-dark));
+    --status-tag-background: var(--status-tag-background-info, var(--c-info-background));
+    --status-tag-icon: var(--status-tag-icon-info, #{$icon-info-circle-filled});
+    --status-tag-border-color: var(--status-tag-border-color-info);
+}
+.status-tag--type-inactive {
+    --status-tag-color: var(--status-tag-color-inactive, var(--c-disable-text));
+    --status-tag-background: var(--status-tag-background-inactive, var(--c-disable-bg));
+    --status-tag-icon: var(--status-tag-icon-error, #{$icon-alert});
+    --status-tag-border-color: var(--status-tag-border-color-inactive);
+}
+.status-tag--type-pending {
+    --status-tag-color: var(--status-tag-color-pending, var(--c-disable-text));
+    --status-tag-background: var(--status-tag-background-pending, var(--c-disable-bg));
+    --status-tag-icon: var(--status-tag-icon-error, #{$icon-cross-circle-filled});
+    --status-tag-border-color: var(--status-tag-border-color-pending);
+}
+.status-tag--type-blocked {
+    --status-tag-color: var(--status-tag-color-blocked, var(--c-disable-text));
+    --status-tag-background: var(--status-tag-background-blocked, var(--c-disable-bg));
+    --status-tag-icon: var(--status-tag-icon-error, #{$icon-lock});
+    --status-tag-border-color: var(--status-tag-border-color-blocked);
+}
+.status-tag_icon {
+    @include iconfont(var(--status-tag-icon, #{$icon-check}), before, inherit);
+
+    font-size: var(--status-tag-icon-fontsize, var(--f-size-small));
+    line-height: 0;
+    .status-tag--no-icon & {
+        &::before {
+            display: none;
+        }
+    }
+}
+
+// styles
+.status-tag--style-filled {
+    --status-tag-color-success: var(--c-white);
+    --status-tag-background-success: var(--c-success);
+    --status-tag-color-warning: var(--c-white);
+    --status-tag-background-warning: var(--c-warning);
+    --status-tag-color-info: var(--c-white);
+    --status-tag-background-info: var(--c-info);
+    --status-tag-color-error: var(--c-white);
+    --status-tag-background-error: var(--c-error);
+    --status-tag-color-inactive: var(--c-white);
+    --status-tag-background-inactive: var(--c-disable-text);
+    --status-tag-color-pending: var(--c-white);
+    --status-tag-background-pending: var(--c-disable-text);
+    --status-tag-color-blocked: var(--c-white);
+    --status-tag-background-blocked: var(--c-disable-text);
+}
+.status-tag--style-outline {
+    --status-tag-border-width: #{calculateRem(2px)};
+    --status-tag-background: var(--c-white);
+    --status-tag-border-color-default: var(--c-color2);
+    --status-tag-border-color-success: var(--c-success);
+    --status-tag-border-color-warning: var(--c-warning);
+    --status-tag-border-color-info: var(--c-info);
+    --status-tag-border-color-error: var(--c-error);
+    --status-tag-border-color-inactive: var(--c-disable-text);
+    --status-tag-border-color-pending: var(--c-disable-text);
+    --status-tag-border-color-blocked: var(--c-disable-text);
+}
+
+// Responsive
+@media #{$tablet-portrait} {
+    .status-tag {
+        --status-tag-padding: #{$pad-tiny} #{$pad-medium};
+        --status-tag-gap: #{$spacer-x-small};
+        --status-tag-fontsize: var(--f-size);
+        --status-tag-icon-fontsize: var(--f-size);
+    }
+}

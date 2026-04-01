@@ -1,0 +1,24 @@
+@if (model.config.isCollapsible) {
+    <button
+        class="price-breakdown-header"
+        [attr.aria-expanded]="model.config.isCollapsible ? model.isExpanded : null!"
+        [attr.aria-controls]="model.config.ariaAttributes.ariaControls"
+        (click)="toggleCollapse()">
+        <ng-container [ngTemplateOutlet]="priceBreakdownButtonTemplate"></ng-container>
+    </button>
+} @else {
+    <div class="price-breakdown-header">
+        <ng-container [ngTemplateOutlet]="priceBreakdownButtonTemplate"></ng-container>
+    </div>
+}
+
+<ng-template #priceBreakdownButtonTemplate>
+    <span class="price-breakdown-header_label">
+        <span class="price-breakdown-header_label_text">{{ model.config.label }}</span>
+        @if (model.config.secondLabel) {
+            <span class="price-breakdown-header_second-label text-space-gap">
+                &nbsp;{{ model.config.secondLabel }}
+            </span>
+        }
+    </span>
+</ng-template>

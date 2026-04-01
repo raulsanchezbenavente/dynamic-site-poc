@@ -1,0 +1,56 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../badge.stories';
+
+<Meta of={ComponentStories} title="Atoms/Tags & Badge/Badge/Overview" />
+
+# Badge
+
+Figma Design (not on library) |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/badge" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide explains how to configure `badge` in templates, when to show text-only versus icon-enhanced badges, and how to keep the component accessible for assistive technologies.
+
+## Basic usage
+
+The badge relies on a `BadgeConfig` object that defines the label text and optional icon.
+
+```html
+<badge [config]="offerBadge" />
+```
+
+```ts
+offerBadge = {
+	text: 'Lowest fare',
+	icon: {
+		name: 'tag',
+	},
+};
+```
+
+## Variants
+
+### Content styles
+
+Choose between text-only and icon-enhanced badges depending on how much emphasis is required.
+
+<Canvas of={ComponentStories.CONTENT_STYLES} />
+
+- **Text only**: Default presentation for concise highlights like "New" or "Promo".
+- **With icon**: Adds a decorative icon to draw extra attention (e.g., reward badges).
+
+## Accessibility
+
+- Always provide meaningful `text`. Icon-only badges are not supported because the label conveys the semantic meaning.
+- Decorative icons set `aria-hidden="true"` automatically; do not add screen-reader labels to them.
+- Ensure the surrounding component still communicates context (e.g., price card, fare row) because the badge alone is supplementary information.
+- Maintain sufficient color contrast between the badge background and text per WCAG 2.1 AA.
+
+## Related components
+
+- [**Tag**](?path=/docs/atoms-badge-tag-tag--overview): For interactive labels that can be selected or dismissed.
+- [**Icon**](?path=/docs/atoms-icon-icon--overview): For standalone iconography outside of badge usage.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-badge-tag-badge-changelog--docs) tab for version history.

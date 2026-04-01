@@ -1,0 +1,102 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../date-display.stories';
+
+<Meta of={ComponentStories} title="Atoms/Date Display/Overview" />
+
+# Date Display
+
+<a href="https://www.figma.com/files" target="_blank" rel="noopener noreferrer">Figma design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/date-display" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`date-display` renders a localized date string by combining `dayjs` formatting with the culture returned by `CultureServiceEx`. Use it whenever you need a plain-text date that adapts to multiple locales without recreating formatting logic inside templates.
+
+## Basic usage
+
+The component receives a `config` object. Provide the date as a native `Date` or a `dayjs` instance and, optionally, the format and culture override.
+
+ > **Tip:** Review the <a href="https://day.js.org/docs/en/display/format" target="_blank" rel="noopener noreferrer">Day.js token reference</a>; the component maps the most common CLDR/Angular tokens to the equivalents documented there.
+
+```html
+<date-display [config]="exampleConfig" />
+```
+
+```ts
+protected readonly exampleConfig = {
+	date: dayjs('2015-10-02'),
+	format: 'EEE d MMM. y',
+};
+```
+
+<table>
+	<thead>
+		<tr>
+			<th>Property</th>
+			<th>Type</th>
+			<th>Description</th>
+			<th>Default</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code>date</code></td>
+			<td><code>Dayjs | Date</code></td>
+			<td>Date value to format. Accepts UTC or local objects.</td>
+			<td>Required</td>
+		</tr>
+		<tr>
+			<td><code>format</code></td>
+			<td><code>string</code></td>
+			<td>Angular/CLDR-like pattern (e.g. <code>EEE. d MMM. y</code>) that is internally mapped to dayjs tokens.</td>
+			<td><code>EEE. d MMM. y</code></td>
+		</tr>
+		<tr>
+			<td><code>culture</code></td>
+			<td><code>string</code></td>
+			<td>Optional BCP-47 locale override. When omitted the injected <code>CultureServiceEx</code> decides.</td>
+			<td>Service culture</td>
+		</tr>
+	</tbody>
+</table>
+
+<Source
+	code={`@let today = dayjs();
+<date-display [config]="{ date: today }" />`}
+	language="html"
+	format={false}
+	dark
+/>
+
+<Canvas of={ComponentStories.PLAYGROUND} />
+
+## Variants
+
+### Localization options
+
+Show this story to compare how the same date renders in different locales provided by `CultureServiceEx`.
+
+<Canvas of={ComponentStories.LOCALES} />
+
+- **Spanish**: Uses `es` culture, capitalizes the first letter for readability.
+- **English**: Acts as the baseline format.
+- **French**: Useful to verify month abbreviations with diacritics.
+
+### Formatting presets
+
+Demonstrates the component when you supply different patterns for compact vs. long-form contexts.
+
+<Canvas of={ComponentStories.FORMATS} />
+
+- **Long form** for hero banners or itinerary headers.
+- **Short form** for badges, lists, or constrained layouts.
+
+## Accessibility
+
+- The component outputs plain text which inherits surrounding semantics, so place it inside elements that expose the correct role (e.g. `time`, headings, table cells).
+- Screen readers pronounce the localized date because the rendered string comes pre-formatted—avoid wrapping the component with additional abbreviations that could conflict.
+- Honor the overall document `lang` attribute or set it on the closest ancestor to help pronunciation for mixed-language layouts.
+
+## Related components
+
+## References
+- **Changelog**: See the [Changelog](?path=/docs/atoms-date-display-changelog--docs) tab for version history.

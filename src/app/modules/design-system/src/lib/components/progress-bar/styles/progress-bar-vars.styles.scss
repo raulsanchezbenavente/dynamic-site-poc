@@ -1,0 +1,36 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+
+// info
+$progress-bar-info-gap: var(--info-content-gap, calculateRem(4px));
+$progress-bar-info-label-font-weight: var(--info-label-font-weight, var(--f-weight-bold));
+
+// progress bar
+$progress-bar-border-radius: var(--progress-bar-border-radius, 100vh);
+$progress-bar-background-color: var(--progress-bar-background-color, var(--c-color3));
+$progress-bar-margin: var(--progress-bar-margin, calculateRem(4px) 0 calculateRem(24px));
+
+// progress
+$progress-bar-progress-height: var(--progress-bar-progress-height, calculateRem(20px));
+$progress-bar-progress-border-radius: var(--progress-bar-progress-border-radius, $progress-bar-border-radius);
+$progress-bar-progress-background-color: var(--progress-bar-progress-background-color, var(--c-primary));
+
+// current value
+$progress-bar-current-value-fontsize: var(--progress-bar-current-value-font-size, var(--f-size-small));
+$progress-bar-current-value-top: var(--progress-bar-current-value-top, calculateRem(30px));
+$progress-bar-current-value-arrow-top: var(--progress-bar-current-value-arrow-top, calculateRem(-9px));
+$progress-bar-current-value-arrow-left: var(--progress-bar-current-value-arrow-left, 50%);
+$progress-bar-current-value-arrow-width: var(--progress-bar-current-value-arrow-width, calculateRem(6px));
+$progress-bar-current-value-arrow-height: var(--progress-bar-current-value-arrow-height, calculateRem(6px));
+$progress-bar-current-value-arrow-color: var(--progress-bar-current-value-arrow-color, var(--c-primary));
+$progress-bar-current-value-arrow-completed-right: var(
+    --progress-bar-current-value-arrow-completed-right,
+    calculateRem(5px)
+);
+$progress-bar-current-value-arrow-start-transform: var(
+    --progress-bar-current-value-arrow-start-transform,
+    translateX(0%)
+);

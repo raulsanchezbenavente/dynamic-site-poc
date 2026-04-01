@@ -1,0 +1,29 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/sass/utils/mixins/headings' as headingMixin;
+
+:host {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: $spacer-medium;
+    &.title-heading--align-left {
+        text-align: left;
+    }
+    &.title-heading--align-right {
+        text-align: right;
+    }
+    &.title-heading--align-center {
+        text-align: center;
+    }
+}
+.title-heading_title {
+    margin: 0;
+}
+.title-heading_title + .title-heading_intro-text {
+    margin-top: var(--h1-margin-bottom);
+}
+
+@media #{headingMixin.$headings-breakpoint} {
+    :host {
+        margin-bottom: $spacer-x-large;
+    }
+}

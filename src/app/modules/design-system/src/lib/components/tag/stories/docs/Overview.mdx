@@ -1,0 +1,93 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../tag.stories';
+
+<Meta of={ComponentStories} title="Atoms/Tags & Badge/Tag/Overview" />
+
+# Tag
+
+Tag is the design-system primitive for displaying fare-tier labels (e.g., "Economy S", "Business Flex"). It keeps fare metadata inline with card or itinerary layouts without introducing buttons or interactive affordances. For status messaging or semantic states, use `StatusTagComponent` instead.
+
+ <a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=13819-1908" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/tag" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+## Basic usage
+
+Tags are configured through a `TagConfig` object. Provide the display `text` and the fare-specific `cssClass` so the correct palette token is applied.
+
+```html
+<tag [config]="fareTag"></tag>
+```
+
+```ts
+public fareTag = {
+  text: 'Basic',
+  cssClass: 'fare1',
+};
+```
+
+## Appearance
+
+Map the fare priority to the provided `fare1`–`fare4` classes so the tag inherits the correct color token. Keep labels concise—ideally under 20 characters—to avoid wrapping.
+
+<Canvas of={ComponentStories.DEFAULT} />
+
+### Fare labels
+
+When a fare tier needs a distinct color (as in `summary-cart`), pass the fare priority as part of the `cssClass`. The `SummaryCartDetailComponent` builds it with `cssClass: 'fare' + fareClass`, which maps to the `ds-tag--fareX` tokens defined in `tag.styles.scss`.
+
+Color tokens for each fare tier live in `projects/design-system/assets/tokens/colors/fares.token.scss`; keep any palette updates centralized there so the class names used across summary flows continue to render the correct brand color.
+
+<table>
+  <thead>
+    <tr>
+      <th width="20%">cssClass</th>
+      <th width="80%">Token description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>fare1</code></td>
+      <td>Basic / Light fare (<code>--c-fare-type-1</code>)</td>
+    </tr>
+    <tr>
+      <td><code>fare2</code></td>
+      <td>Classic fare (<code>--c-fare-type-2</code>)</td>
+    </tr>
+    <tr>
+      <td><code>fare3</code></td>
+      <td>Flex fare (<code>--c-fare-type-3</code>)</td>
+    </tr>
+    <tr>
+      <td><code>fare4</code></td>
+      <td>Business fare (<code>--c-fare-type-4</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+```ts
+const fareTagConfig: TagConfig = {
+  text: `${journeyFareName}`,
+  cssClass: `fare${fareOrder}`,
+};
+```
+
+<Canvas of={ComponentStories.FARE_TIERS} />
+
+## Recommendations
+
+- Use sentence case labels so multi-word tags remain legible.
+- Reserve tags for categorical metadata; use `badge` when emphasis or iconography is needed.
+- Combine with tooltips or popovers when the label alone might be ambiguous.
+- Use [**Status Tag**](?path=/docs/atoms-badge-tag-status-tag--overview) when communicating a state (success, pending, warning) instead of overloading this fare-specific component.
+
+## Accessibility
+
+- Tags render as plain text. If the label must be read differently for assistive tech, provide that context in the surrounding component (e.g., include the fare type in the card title).
+- Maintain sufficient color contrast between the tag background and text when applying custom CSS classes.
+- Avoid using tags as interactive controls; use buttons or chips when selection is required.
+
+## Related components
+
+- [**Badge**](?path=/docs/atoms-badge-tag-badge--overview): Decorative inline highlights with optional icons.
+- [**Status Tag**](?path=/docs/atoms-badge-tag-status-tag--overview): Communicates statuses with standardized styles and optional icons.
