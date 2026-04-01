@@ -18,3 +18,4 @@ export class LoggerServiceFake {
     console.error(`${className} - ${message}`, detail);
   }
 }
+
