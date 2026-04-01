@@ -1,5 +1,4 @@
 export * from './accessibility/keyboard-interaction-mode.service';
-export * from './account-state/account-state.service';
 export * from './auth/auth-multitab-coordinator.service';
 export * from './auth/auth.service';
 export * from './authentication-storage.service';

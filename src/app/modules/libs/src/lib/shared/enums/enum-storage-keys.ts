@@ -25,6 +25,7 @@ export enum EnumStorageKey {
   LoyaltyPoolInviteId = 'storage_loyalty_pool_invite_id',
   SelectedPassengersByJourney = 'selected_passengers_by_journey',
   PaxRegulatoryDetails = 'paxRegulatoryDetails',
+  SameEmergencyContactForAll = 'sameEmergencyContactForAll',
   SummaryModal = 'summaryModal',
   RemovalSummaryModal = 'removalSummaryModal',
   TabSessionId = 'tabSessionId',

@@ -1,5 +1,4 @@
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-date-struct';
+import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import dayjs from 'dayjs';
 
 import { TimeMeasureModel } from '../model/time-measure.model';

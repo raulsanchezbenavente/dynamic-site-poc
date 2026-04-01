@@ -8,6 +8,7 @@
     "paths": {
       "@navigation": ["src/app/modules/navigation/index.ts"],
       "@dynamic-composite": ["src/app/modules/dynamic-composite/index.ts"],
+      "@dcx/ui/api-layer": ["src/app/modules/api-layer/src/public-api.ts"],
       "@dcx/ui/libs": ["src/app/modules/libs/src/public-api.ts"],
       "@dcx/ui/design-system": ["src/app/modules/design-system/index.ts"],
       "@dcx/ui/storybook-utils": ["src/app/modules/design-system/.storybook/utils/index.ts"],
