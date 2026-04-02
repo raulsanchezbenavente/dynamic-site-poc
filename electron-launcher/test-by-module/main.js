@@ -96,6 +96,29 @@ function moduleHasSpecFiles(moduleDir) {
   return false;
 }
 
+function toPosixPath(value) {
+  return String(value || '').replace(/\\/g, '/');
+}
+
+function ensureModuleScopedTsconfig(moduleName) {
+  const tempDir = path.join(projectRoot, '.tmp', 'test-by-module');
+  const tempTsconfigPath = path.join(tempDir, `tsconfig.spec.${moduleName}.json`);
+  const moduleSpecGlob = toPosixPath(path.join('..', '..', 'src', 'app', 'modules', moduleName, '**', '*.spec.ts'));
+
+  const tsconfigPayload = {
+    extends: '../../tsconfig.spec.json',
+    include: [moduleSpecGlob, '../../src/**/*.d.ts'],
+  };
+
+  fs.mkdirSync(tempDir, { recursive: true });
+  fs.writeFileSync(tempTsconfigPath, `${JSON.stringify(tsconfigPayload, null, 2)}\n`, 'utf8');
+
+  return {
+    absolutePath: tempTsconfigPath,
+    cliPath: toPosixPath(path.join('.tmp', 'test-by-module', `tsconfig.spec.${moduleName}.json`)),
+  };
+}
+
 function listModules() {
   if (!fs.existsSync(modulesRoot)) {
     return [];
@@ -254,6 +277,8 @@ ipcMain.handle('tests:run', async (_event, payload) => {
     return { ok: false, error: `Module ${moduleName} does not contain .spec.ts files.` };
   }
 
+  const scopedTsconfig = ensureModuleScopedTsconfig(moduleName);
+
   console.log(
     `[test-by-module] Selected module: ${moduleName} (watch=${watch ? 'true' : 'false'}, coverage=${
       coverage ? 'true' : 'false'
@@ -265,6 +290,7 @@ ipcMain.handle('tests:run', async (_event, payload) => {
     'ng',
     '--',
     'test',
+    `--ts-config=${scopedTsconfig.cliPath}`,
     `--include=src/app/modules/${moduleName}/**/*.spec.ts`,
     watch ? '--watch=true' : '--watch=false',
   ];
