@@ -11,6 +11,9 @@ node_modules/
 dist/
 dist-electron/
 
+# Compodoc
+doucumentation.json
+
 # Compiled Java class files
 *.class
 
