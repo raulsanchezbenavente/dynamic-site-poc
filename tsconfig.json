@@ -5,52 +5,34 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "paths": {
-      "@navigation": ["./src/app/modules/navigation/index.ts"],
-      "@navigation/index": ["./src/app/modules/navigation/index.ts"],
-      "@navigation/*": ["./src/app/modules/navigation/*"],
-      "@navigation/services": ["./src/app/modules/navigation/services"],
-      "@navigation/services/*": ["./src/app/modules/navigation/services/*"],
-
       "@dynamic-composite": ["./src/app/modules/dynamic-composite/index.ts"],
-      "@dynamic-composite/index": ["./src/app/modules/dynamic-composite/index.ts"],
-      "@dynamic-composite/*": ["./src/app/modules/dynamic-composite/*"],
+      "@navigation": ["./src/app/modules/navigation/index.ts"],
 
-    "@dcx/module/analytics": ["./src/app/modules/analytics/src/public-api.ts"],
-    "@dcx/module/translation": ["./src/app/modules/translation/src/public-api.ts"],
-    "@dcx/ui/mock-repository": ["./src/app/modules/mock-repository/src/public-api.ts"],
+      "@dcx/module/analytics": ["./src/app/modules/analytics/src/public-api.ts"],
+      "@dcx/module/translation": ["./src/app/modules/translation/src/public-api.ts"],
+      "@dcx/ui/mock-repository": ["./src/app/modules/mock-repository/src/public-api.ts"],
 
-    "@dcx/ui/libs": ["./src/app/modules/libs/src/public-api.ts"],
+      "@dcx/ui/libs": ["./src/app/modules/libs/src/public-api.ts"],
 
-    "@dcx/ui/design-system": ["./src/app/modules/design-system/src/public-api.ts"],
-    "@dcx/ui/storybook-i18n": ["./src/app/modules/design-system/.storybook/i18n/"],
-    "@dcx/ui/storybook-utils": ["./src/app/modules/design-system/.storybook/utils/"],
-    "@dcx/storybook/design-system": ["./src/app/modules/design-system/src/lib/components/"],
+      "@dcx/ui/design-system": ["./src/app/modules/design-system/src/public-api.ts"],
+      "@dcx/ui/storybook-i18n": ["./src/app/modules/design-system/.storybook/i18n/"],
+      "@dcx/ui/storybook-utils": ["./src/app/modules/design-system/.storybook/utils/"],
+      "@dcx/storybook/design-system": ["./src/app/modules/design-system/src/lib/components/"],
 
-    "reactive-forms": ["./src/app/modules/reactive-forms/src/public-api.ts"],
+      "reactive-forms": ["./src/app/modules/reactive-forms/src/public-api.ts"],
 
-    "@dcx/ui/business-common": ["./src/app/modules/business-common/src/public-api.ts"],
-    "@dcx/storybook/business-common": ["./src/app/modules/business-common/src/lib/components/"],
-    "@dcx/ui/storybook-session": ["./src/app/modules/business-common/.storybook/session/"],
+      "@dcx/ui/business-common": ["./src/app/modules/business-common/src/public-api.ts"],
+      "@dcx/storybook/business-common": ["./src/app/modules/business-common/src/lib/components/"],
+      "@dcx/ui/storybook-session": ["./src/app/modules/business-common/.storybook/session/"],
 
-    "@dcx/module/api-clients": ["./src/app/modules/api-clients/src/public-api.ts"],
-    "@dcx/ui/api-layer": ["./src/app/modules/api-layer/src/public-api.ts"],
-    "@dcx/module/booking-api-client": ["./src/app/modules/booking-api-client/src/public-api.ts"],
+      "@dcx/module/api-clients": ["./src/app/modules/api-clients/src/public-api.ts"],
+      "@dcx/ui/api-layer": ["./src/app/modules/api-layer/src/public-api.ts"],
+      "@dcx/module/booking-api-client": ["./src/app/modules/booking-api-client/src/public-api.ts"],
 
       "@fake-blocks-test": ["./src/app/modules/fake-blocks-test/index.ts"],
-      "@fake-blocks-test/index": ["./src/app/modules/fake-blocks-test/index.ts"],
-      "@fake-blocks-test/*": ["./src/app/modules/fake-blocks-test/*"],
-
       "@fake-blocks-avianca": ["./src/app/modules/fake-blocks-avianca/index.ts"],
-      "@fake-blocks-avianca/index": ["./src/app/modules/fake-blocks-avianca/index.ts"],
-      "@fake-blocks-avianca/*": ["./src/app/modules/fake-blocks-avianca/*"],
-
-      "fake-libs": ["./src/app/modules/fake-libs/index.ts"],
-      "fake-libs/index": ["./src/app/modules/fake-libs/index.ts"],
-      "fake-libs/*": ["./src/app/modules/fake-libs/*"],
-
-      "@games": ["./src/app/modules/games/index.ts"],
-      "@games/index": ["./src/app/modules/games/index.ts"],
-      "@games/*": ["./src/app/modules/games/*"]
+      "@fake-libs": ["./src/app/modules/fake-libs/index.ts"],
+      "@games": ["./src/app/modules/games/index.ts"]
     },
     "strict": true,
     "noImplicitOverride": true,
