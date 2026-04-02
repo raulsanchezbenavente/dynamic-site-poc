@@ -1866,6 +1866,31 @@ function spawnScriptProcess(scriptName) {
   });
 }
 
+function spawnInlineScriptProcess(command, cwdOverride = '') {
+  const { projectRoot } = getProjectContext();
+  const env = buildSpawnEnv();
+  const preferredCwd = String(cwdOverride || '').trim();
+  const cwd = preferredCwd && fs.existsSync(preferredCwd) ? preferredCwd : projectRoot;
+
+  if (process.platform === 'win32') {
+    return spawn('cmd.exe', ['/d', '/s', '/c', String(command || '')], {
+      cwd,
+      env,
+      windowsHide: true,
+      shell: false,
+    });
+  }
+
+  const shellBinary = process.env.SHELL || '/bin/zsh';
+  return spawn(shellBinary, ['-l', '-c', String(command || '')], {
+    cwd,
+    env,
+    windowsHide: true,
+    detached: true,
+    shell: false,
+  });
+}
+
 function listUnixProcessPairs() {
   return new Promise((resolve) => {
     const ps = spawn('ps', ['-eo', 'pid=,ppid='], {
@@ -2128,6 +2153,53 @@ ipcMain.handle('scripts:start', async (_event, scriptName) => {
   }
 
   const child = spawnScriptProcess(scriptName);
+
+  runningScripts.set(scriptName, child);
+  broadcast('scripts:status', { script: scriptName, running: true });
+
+  child.stdout.on('data', (chunk) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stdout', message: sanitizeLogMessage(chunk) });
+  });
+
+  child.stderr.on('data', (chunk) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: sanitizeLogMessage(chunk) });
+  });
+
+  child.on('error', (error) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: `${error.message}\n` });
+  });
+
+  child.on('close', (code) => {
+    runningScripts.delete(scriptName);
+    broadcast('scripts:status', { script: scriptName, running: false });
+    broadcast('scripts:log', {
+      script: scriptName,
+      stream: code === 0 ? 'stdout' : 'stderr',
+      message: `\nProcess finished (${scriptName}) with exit code ${code}\n`,
+    });
+  });
+
+  return { ok: true };
+});
+
+ipcMain.handle('scripts:start-inline', async (_event, payload) => {
+  const scriptName = String(payload?.scriptName || '').trim();
+  const command = String(payload?.command || '').trim();
+  const cwd = String(payload?.cwd || '').trim();
+
+  if (!scriptName) {
+    return { ok: false, error: 'Missing script name.' };
+  }
+
+  if (!command) {
+    return { ok: false, error: 'Missing command.' };
+  }
+
+  if (runningScripts.has(scriptName)) {
+    return { ok: false, error: `Script ${scriptName} is already running.` };
+  }
+
+  const child = spawnInlineScriptProcess(command, cwd);
 
   runningScripts.set(scriptName, child);
   broadcast('scripts:status', { script: scriptName, running: true });

@@ -2048,6 +2048,13 @@ function renderByModuleOptions(modeConfig, modules) {
 
 async function ensureTerminalTargetForByModule(tabName) {
   let session = getActiveTerminalSession();
+  if (!session && terminalSessions.size > 0) {
+    const firstSessionId = Array.from(terminalSessions.keys())[0];
+    if (firstSessionId) {
+      session = terminalSessions.get(firstSessionId) || null;
+    }
+  }
+
   if (!session) {
     session = await createNewTerminalSession();
   }
@@ -2070,6 +2077,11 @@ async function ensureTerminalTargetForByModule(tabName) {
 
 async function runByModuleFromDialog() {
   if (!byModuleDialogState) {
+    return;
+  }
+
+  const modeConfig = BY_MODULE_MODES[byModuleDialogState.mode];
+  if (!modeConfig) {
     return;
   }
 
@@ -2098,11 +2110,18 @@ async function runByModuleFromDialog() {
       return;
     }
 
-    const session = await ensureTerminalTargetForByModule(build.tabName || selectedModule);
+    focusScriptLogTab(modeConfig.scriptName);
     closeByModuleDialog();
-    await runInteractiveTerminalCommand(build.command, { cwd: build.cwd || '' });
-    if (session && interactiveTerminalInput && !interactiveTerminalInput.disabled) {
-      interactiveTerminalInput.focus();
+    const result = await window.launcherApi.startInlineScript({
+      scriptName: modeConfig.scriptName,
+      command: build.command,
+      cwd: build.cwd || '',
+    });
+
+    if (!result?.ok) {
+      setByModuleStatus(result?.error || 'Could not start command.', true);
+      setByModuleBusy(false);
+      return;
     }
   } catch (error) {
     setByModuleStatus(error?.message || String(error), true);
@@ -3361,8 +3380,9 @@ function renderScripts() {
   }
 
   for (const script of visibleScripts) {
+    const isRunning = Boolean(script.running);
     const row = document.createElement('div');
-    row.className = `script-row ${script.running ? 'running' : ''}`;
+    row.className = `script-row ${isRunning ? 'running' : ''}`;
 
     const info = document.createElement('div');
     info.className = 'script-info';
@@ -3411,18 +3431,18 @@ function renderScripts() {
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), script.running);
-    bindScriptActionTooltip(startBtn, script.running ? 'Script is running' : 'Start script');
+    const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), isRunning);
+    bindScriptActionTooltip(startBtn, isRunning ? 'Script is running' : 'Start script');
 
     const restartBtn = createScriptActionButton(
       'restart',
       'Restart',
       () => restartScript(script.name),
-      !script.running
+      !isRunning
     );
     bindScriptActionTooltip(restartBtn, 'Restart script');
 
-    const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
+    const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !isRunning);
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
     const commandLine = document.createElement('div');

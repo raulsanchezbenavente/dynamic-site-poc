@@ -7,6 +7,7 @@ contextBridge.exposeInMainWorld('launcherApi', {
   getDefaultTerminalTheme: () => ipcRenderer.invoke('theme:default'),
   getDefaultFilterMode: () => ipcRenderer.invoke('filters:default-mode'),
   startScript: (scriptName) => ipcRenderer.invoke('scripts:start', scriptName),
+  startInlineScript: (payload) => ipcRenderer.invoke('scripts:start-inline', payload),
   stopScript: (scriptName) => ipcRenderer.invoke('scripts:stop', scriptName),
   exportLogs: (payload) => ipcRenderer.invoke('logs:export', payload),
   openExternal: (url) => ipcRenderer.invoke('external:open', url),
