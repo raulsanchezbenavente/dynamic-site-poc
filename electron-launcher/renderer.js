@@ -107,6 +107,8 @@ const BY_MODULE_MODES = {
     runLabel: 'Run tests',
     loadingLabel: 'Loading modules...',
     emptyLabel: 'No modules found.',
+    availableGroupLabel: 'Modules with tests',
+    unavailableGroupLabel: 'Modules without tests',
     showWatch: true,
     showCoverage: true,
     showDocs: false,
@@ -118,6 +120,8 @@ const BY_MODULE_MODES = {
     runLabel: 'Run storybook',
     loadingLabel: 'Loading modules...',
     emptyLabel: 'No modules found.',
+    availableGroupLabel: 'Modules with Storybook',
+    unavailableGroupLabel: 'Modules without Storybook',
     showWatch: false,
     showCoverage: false,
     showDocs: true,
@@ -2016,7 +2020,7 @@ function renderByModuleOptions(modeConfig, modules) {
 
   if (available.length > 0) {
     const availableGroup = document.createElement('optgroup');
-    availableGroup.label = modeConfig.scriptName === 'storybook-by-module' ? 'Modules with Storybook' : 'Modules';
+    availableGroup.label = modeConfig.availableGroupLabel || 'Modules';
     for (const entry of available) {
       availableGroup.appendChild(createOption(entry));
     }
@@ -2025,7 +2029,7 @@ function renderByModuleOptions(modeConfig, modules) {
 
   if (unavailable.length > 0) {
     const unavailableGroup = document.createElement('optgroup');
-    unavailableGroup.label = 'Unavailable';
+    unavailableGroup.label = modeConfig.unavailableGroupLabel || 'Unavailable';
     for (const entry of unavailable) {
       unavailableGroup.appendChild(createOption(entry, true));
     }

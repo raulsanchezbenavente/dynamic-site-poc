@@ -20,6 +20,15 @@ const DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH = path.join(__dirname, 'config', 'def
 const BY_MODULES_ROOT = path.resolve(__dirname, '..', 'src', 'app', 'modules');
 const BY_ANGULAR_JSON_PATH = path.resolve(__dirname, '..', 'angular.json');
 const BY_MODULE_TS_TEMP_DIR = path.resolve(__dirname, '..', '.tmp', 'test-by-module');
+const BY_MODULE_SPEC_SCAN_IGNORED_DIRS = new Set([
+  'node_modules',
+  'dist',
+  'coverage',
+  '.angular',
+  '.git',
+  '.cache',
+  '.storybook-static',
+]);
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -1579,6 +1588,43 @@ function listByModuleNames() {
     .sort((left, right) => left.localeCompare(right));
 }
 
+function moduleHasSpecFiles(moduleName) {
+  const moduleDir = path.join(BY_MODULES_ROOT, String(moduleName || '').trim());
+  const pending = [moduleDir];
+
+  while (pending.length > 0) {
+    const currentDir = pending.pop();
+    let entries = [];
+
+    try {
+      entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) {
+        continue;
+      }
+
+      if (entry.isDirectory()) {
+        if (BY_MODULE_SPEC_SCAN_IGNORED_DIRS.has(entry.name)) {
+          continue;
+        }
+
+        pending.push(path.join(currentDir, entry.name));
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.spec.ts')) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
 function readStorybookTargetsByModule() {
   if (!fs.existsSync(BY_ANGULAR_JSON_PATH)) {
     return new Map();
@@ -1644,7 +1690,7 @@ function listByModuleOptions(mode) {
     return {
       ok: true,
       mode: normalizedMode,
-      modules: modules.map((moduleName) => ({ name: moduleName, available: true })),
+      modules: modules.map((moduleName) => ({ name: moduleName, available: moduleHasSpecFiles(moduleName) })),
     };
   }
 
