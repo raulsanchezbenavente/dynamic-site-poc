@@ -330,7 +330,8 @@ ipcMain.handle('tests:run', async (_event, payload) => {
   activeChild = child;
 
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.hide();
+    mainWindow.destroy();
+    mainWindow = null;
   }
 
   child.on('close', (exitCode) => {
@@ -359,7 +360,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!activeChild) {
     app.quit();
   }
 });
