@@ -1,0 +1,22 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use './skeleton-authenticated-account-menu-vars' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.skeleton-authenticated-account-menu {
+    display: flex;
+    flex-direction: column;
+    background: $skeleton-authenticated-account-menu-background;
+    border-radius: $skeleton-authenticated-account-menu-border-radius;
+    padding: $skeleton-authenticated-account-menu-padding;
+    gap: $skeleton-authenticated-account-menu-gap;
+}
+
+.skeleton-list-item {
+    ::ng-deep {
+        .skeleton--text {
+            height: $skeleton-authenticated-account-menu-list-item-height;
+        }
+    }
+}

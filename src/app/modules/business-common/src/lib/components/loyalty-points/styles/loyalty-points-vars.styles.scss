@@ -1,0 +1,17 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+
+// layout
+$loyalty-points-color: var(--loyalty-points-color, var(--c-text));
+$loyalty-points-container-gap: var(--loyalty-points-container-gap, calculateRem(2px));
+// value
+$loyalty-points-value-fontsize: var(--loyalty-points-value-fontsize, inherit);
+$loyalty-points-value-font-weight: var(--loyalty-points-value-font-weight, var(--f-weight-bold));
+$loyalty-points-value-positive: var(--loyalty-points-value-positive, var(--c-success));
+$loyalty-points-value-negative: var(--loyalty-points-value-negative, var(--c-error));
+// unit
+$loyalty-points-unit-fontsize: var(--loyalty-points-unit-fontsize, inherit);
+$loyalty-points-unit-font-weight: var(--loyalty-points-unit-font-weight, var(--f-weight-normal));

@@ -1,0 +1,11 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$skeleton-authenticated-account-menu-background: #fff !default;
+$skeleton-authenticated-account-menu-border-radius: var(--#{$ds}border-radius-lg) !default;
+$skeleton-authenticated-account-menu-padding: calculateRem(24px) !default;
+$skeleton-authenticated-account-menu-gap: calculateRem(16px) !default;
+// list item
+$skeleton-authenticated-account-menu-list-item-height: calculateRem(24px) !default;

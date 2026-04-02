@@ -1,0 +1,32 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'loyalty-points-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}loyalty-points {
+    @include ellipsis();
+
+    color: $loyalty-points-color;
+    align-items: baseline;
+}
+.#{$ds}loyalty-points_value {
+    font-size: $loyalty-points-value-fontsize;
+    font-weight: $loyalty-points-value-font-weight;
+    display: inline-flex;
+    margin-right: $loyalty-points-container-gap;
+    &.is-positive {
+        color: $loyalty-points-value-positive;
+    }
+    &.is-negative {
+        color: $loyalty-points-value-negative;
+    }
+}
+.#{$ds}loyalty-points_value_amount {
+    overflow-wrap: anywhere;
+}
+.#{$ds}loyalty-points_unit {
+    font-size: $loyalty-points-unit-fontsize;
+    font-weight: $loyalty-points-unit-font-weight;
+    word-break: break-word;
+}

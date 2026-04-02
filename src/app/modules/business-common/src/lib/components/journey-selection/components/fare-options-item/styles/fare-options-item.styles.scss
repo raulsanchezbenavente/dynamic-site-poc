@@ -1,0 +1,125 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: flex;
+    width: 100%;
+
+    // benefits list items
+    ::ng-deep {
+        /* stylelint-disable-next-line custom/selector-class-pattern */
+        .benefit--included .#{$ds}icon {
+            color: var(--benefits-included-color);
+        }
+        .benefit--chargeable,
+        .benefit--not-offered {
+            color: var(--c-disable-text);
+        }
+    }
+    .fare1 {
+        --fare-option-item-border-color: var(--c-fare-type-1-border);
+        --fare-option-item-title-color: var(--c-fare-type-1);
+        --fare-option-item-price-color: var(--c-fare-type-1);
+        --ds-btn-border-color: var(--c-fare-type-1);
+        --ds-btn-background: var(--c-fare-type-1);
+        --benefits-included-color: var(--c-fare-type-1);
+        --badge-background: var(--c-fare-type-1);
+    }
+    .fare2 {
+        --fare-option-item-border-color: var(--c-fare-type-2-border);
+        --fare-option-item-title-color: var(--c-fare-type-2);
+        --fare-option-item-price-color: var(--c-fare-type-2);
+        --ds-btn-border-color: var(--c-fare-type-2);
+        --ds-btn-background: var(--c-fare-type-2);
+        --benefits-included-color: var(--c-fare-type-2);
+        --badge-background: var(--c-fare-type-2);
+    }
+    .fare3 {
+        --fare-option-item-border-color: var(--c-fare-type-3-border);
+        --fare-option-item-title-color: var(--c-fare-type-3);
+        --fare-option-item-price-color: var(--c-fare-type-3);
+        --ds-btn-border-color: var(--c-fare-type-3);
+        --ds-btn-background: var(--c-fare-type-3);
+        --benefits-included-color: var(--c-fare-type-3);
+        --badge-background: var(--c-fare-type-3);
+    }
+
+    // recommmend badge
+    .#{$ds}badge {
+        position: absolute;
+        top: calculateRem(-2px);
+        right: calculateRem(-2px);
+    }
+
+    // animation propopsal
+    transition: transform 0.13s ease-out;
+    &:hover {
+        transform: scale(1.03);
+    }
+}
+.fare-option-item-inner {
+    flex: 1 1 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(30px);
+    padding: calculateRem(40px) calculateRem(30px);
+    background-color: var(--c-white);
+    box-shadow: var(--#{$ds}box-shadow-lg);
+    border-radius: var(--#{$ds}border-radius-lg);
+}
+.fare-option-item--recommended {
+    border: calculateRem(2px) solid var(--fare-option-item-border-color);
+    box-shadow: none;
+}
+
+// header
+.fare-option-item_header {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(4px);
+    line-height: 1.1;
+}
+.fare-option-item_header_title {
+    font-size: var(--fare-option-item-title-fontsize, var(--f-size-large));
+    color: var(--fare-option-item-title-color);
+    font-weight: var(--f-weight-bold);
+}
+.fare-option-item_header_subtitle {
+    font-size: var(--fare-option-item-subtitle-fontsize-color, var(--f-size-small));
+    color: var(--fare-option-item-subtitle-color);
+}
+
+// price
+.fare-option-item_price {
+    --price-currency-fontsize: var(--f-size-large);
+
+    color: var(--fare-option-item-price-color);
+    font-size: var(--fare-option-item-price-fontsize, calculateRem(34px)); // TODO: token
+    font-weight: var(--f-weight-bold);
+}
+
+//footer
+.fare-option-item_footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calculateRem(10px);
+    text-align: center;
+}
+
+// button
+.fare-option-item_footer_button {
+    --ds-btn-fontsize: var(--f-size-small);
+    --ds-btn-padding-top-bottom: #{calculateRem(14px)};
+    --ds-btn-padding-left-right: #{calculateRem(14px)};
+
+    width: 100%;
+    color: var(--c-white);
+}
+.fare-option-item_footer_note {
+    font-size: var(--fare-option-item-button-note-fontsize, var(--f-size-x-tiny));
+    color: var(--c-text-secondary);
+}

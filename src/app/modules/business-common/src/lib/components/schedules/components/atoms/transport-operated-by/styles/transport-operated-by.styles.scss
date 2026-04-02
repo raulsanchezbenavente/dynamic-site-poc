@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: calculateRem(4px);
+    margin: 0 auto;
+    padding: $pad-small;
+    border-radius: var(--#{$ds}border-radius-md);
+    color: var(--c-text-secondary);
+    background-color: var(--c-color5);
+    font-size: var(--f-size-small);
+    line-height: var(--f-line-height-large);
+}
+
+// [Responsive]
+@media #{$mobile} {
+    :host {
+        padding: $pad-small $pad-x-medium;
+    }
+}

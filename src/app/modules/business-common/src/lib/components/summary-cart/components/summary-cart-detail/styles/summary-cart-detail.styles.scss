@@ -1,0 +1,30 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.summary-cart-detail-inner {
+    display: flex;
+    flex-direction: column;
+}
+.summary-cart-detail_close-button {
+    z-index: 2;
+    position: sticky;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    background-color: var(--c-white);
+    padding: 0 0 var(--summary-cart-padding);
+    ::ng-deep .#{$ds}button_label {
+        padding: calculateRem(10px) calculateRem(22px);
+    }
+}
+.summary-cart-detail_itinerary {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px);
+}
+.summary-cart-itinerary + .summary-cart-itinerary {
+    border-top: calculateRem(1px) solid var(--c-border);
+    padding-top: calculateRem(24px);
+}

@@ -1,0 +1,87 @@
+<button
+    class="point-of-sale-selector_button"
+    aria-haspopup="dialog"
+    [id]="triggerId"
+    [attr.aria-expanded]="displayPopup()"
+    (click)="togglePopup()">
+    <span class="point-of-sale-selector_button_icon">
+        <icon [config]="triggerIconConfig"></icon>
+    </span>
+    @if (selectedPointOfSale && selectedPointOfSale.currency) {
+        <span class="button_label">
+            @if (selectedPointOfSale.name) {
+                {{ selectedPointOfSale.name }}
+            } @else {
+                {{ selectedPointOfSale.currency.code }}
+            }
+            <span class="point-of-sale-selector_button_label_value"> ({{ selectedPointOfSale.currency.symbol }}) </span>
+        </span>
+        <span class="hide-visually">
+            {{ 'Common.A11y.IsSelected' | translate }}
+        </span>
+    } @else {
+        <span class="point-of-sale-selector_button_label">
+            {{ 'PointsOfSale.Trigger_Label' | translate }}
+        </span>
+    }
+</button>
+@if (displayPopup()) {
+    <off-canvas
+        [config]="offCanvasConfig"
+        (offcanvasClosedEmitter)="togglePopup()">
+        <div offCanvasBody>
+            <div class="points-of-sale_content">
+                <h2
+                    class="points-of-sale_header_title"
+                    [id]="titleId">
+                    {{ 'PointsOfSale.Title' | translate }}
+                </h2>
+                <div class="points-of-sale_body">
+                    <div
+                        class="points-of-sale_list"
+                        id="pointOfSaleListId"
+                        [attr.aria-labelledby]="titleId">
+                        @for (pos of pointsOfSaleVm; track pos) {
+                            @let selectedOption = pointOfSaleToUpdate.code === pos.code;
+                            <button
+                                class="points-of-sale_list_item_button"
+                                [attr.aria-selected]="selectedOption ? 'true' : null"
+                                (click)="updateSelection(pos.code)">
+                                @if (pos.imgSrc) {
+                                    <img
+                                        alt=""
+                                        class="points-of-sale_list_item_image"
+                                        [src]="pos.imgSrc" />
+                                } @else if (pos.icon) {
+                                    <span class="points-of-sale_list_item_icon">
+                                        <icon [config]="pos.icon" />
+                                    </span>
+                                }
+                                <span class="points-of-sale_list_item_info">
+                                    <span class="points-of-sale_list_item_label">
+                                        {{ pos.name }}
+                                    </span>
+                                    <!-- currency code -->
+                                    <span class="points-of-sale_list_item_value">{{ pos.currency.code }}</span>
+                                </span>
+
+                                @if (selectedOption) {
+                                    <span class="hide-visually">
+                                        {{ 'Common.A11y.IsSelected' | translate }}
+                                    </span>
+                                }
+                            </button>
+                        }
+                    </div>
+                </div>
+                <div class="points-of-sale_footer">
+                    <div class="points-of-sale_footer_action">
+                        <ds-button
+                            [config]="actionButtonConfig"
+                            (buttonClicked)="confirmSelection()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </off-canvas>
+}

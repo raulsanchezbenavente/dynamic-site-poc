@@ -1,0 +1,32 @@
+@use 'reactive-forms/src/lib/common/base-form-summary.styles';
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// STYLES
+// ---------
+.rf-reduced-form-summary {
+    // Ensures the field is fully visible when brought into view (e.g. via focus + scroll)
+    // by adding a top offset equal to the fixed header height.
+    // Effective only when the header is fixed (using main o flow header).
+    scroll-margin-top: $scroll-margin-top-fixed-header-mobile;
+}
+.form-summary {
+    .#{$ds}panel-icon {
+        .#{$ds}icon {
+            --icon-color: var(--c-active);
+        }
+    }
+
+    // Using padding-top instead of align-items:center to control vertical alignment.
+    // Content should appear visually centered when single-line,
+    // but must remain top-aligned if the title wraps into two lines.
+    .#{$ds}panel-header-aside {
+        padding-top: calculateRem(6px);
+    }
+}
+
+// Header layout breakpoint
+@media #{$mobile} {
+    .rf-reduced-form-summary {
+        scroll-margin-top: $scroll-margin-top-fixed-header;
+    }
+}

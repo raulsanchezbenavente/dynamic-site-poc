@@ -1,0 +1,51 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+::ng-deep :root {
+    --search-summary-layout-breakpoint: #{$bp-tablet-portrait};
+}
+.search-summary-inner {
+    display: inline-flex;
+    flex-direction: column;
+    gap: calculateRem(7px);
+}
+.search-summary_route {
+    display: flex;
+    gap: calculateRem(4px);
+    align-items: center;
+    font-size: var(--search-summary-route-fontsize, var(--f-size-medium));
+    font-weight: var(--f-weight-bold);
+}
+.search-summary_data {
+    white-space: nowrap;
+    ::ng-deep {
+        --description-list-layout-inline-flex-direction: row;
+        --description-list-layout-inline-gap: #{$spacer-tiny} #{$spacer-x-small};
+        --description-list-dd-fontweight: var(--f-weight-normal);
+        --description-list-layout-inline-item-gap: #{$spacer-tiny};
+        .#{$ds}description-list_label_text {
+            @include hide-visually;
+        }
+        .#{$ds}description-list_item {
+            align-items: center;
+        }
+    }
+}
+
+// [Responsive]
+$search-summary-fontsize-breakpoint: 1100px;
+
+@media (width >= #{$search-summary-fontsize-breakpoint}) {
+    .search-summary_data ::ng-deep {
+        --description-list-layout-inline-gap: #{$spacer-tiny} #{$spacer-large};
+    }
+}
+
+@media (width < #{$search-summary-fontsize-breakpoint}) {
+    .search-summary_data ::ng-deep {
+        --icon-fontsize: var(--f-size-small);
+        --description-list-dd-fontsize: var(--f-size-tiny);
+    }
+}

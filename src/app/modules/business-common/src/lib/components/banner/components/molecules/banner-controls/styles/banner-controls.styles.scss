@@ -1,0 +1,103 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'banner-controls-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: flex;
+    width: 100%;
+    justify-content: $banner-controls-position-halign;
+    box-sizing: border-box;
+}
+.banner-controls_inner {
+    gap: $banner-controls-buttons-gap;
+    line-height: 1;
+}
+.banner-controls_inner,
+.banner-controls_pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.banner-controls_button {
+    @include iconfont($banner-controls-button-prev-icon, before);
+    font-size: $banner-controls-button-fontsize;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $banner-controls-button-width;
+    height: $banner-controls-button-height;
+    color: $banner-controls-button-color;
+    border: $banner-controls-button-border-width $banner-controls-button-border-color solid;
+    border-radius: $banner-controls-button-border-radius;
+    background: $banner-controls-button-background;
+    &:hover {
+        color: $banner-controls-button-color-hover;
+        background: $banner-controls-button-background-hover;
+    }
+    &:focus-visible {
+        outline-color: $banner-controls-button-focus-color-outline;
+        outline-offset: var(--banner-controls-button-focus-outline-offset, 2px);
+    }
+}
+.banner-controls_button--next {
+    &::before {
+        content: $banner-controls-button-next-icon;
+    }
+}
+// controls play/pause
+.banner-controls_button-control {
+    color: $banner-controls-button-control-color;
+    border: $banner-controls-button-control-border-width solid $banner-controls-button-control-border-color;
+    border-radius: $banner-controls-button-control-border-radius;
+    background: $banner-controls-button-control-background;
+    &:hover {
+        color: $banner-controls-button-control-color-hover;
+        border-color: $banner-controls-button-control-border-color-hover;
+        background: $banner-controls-button-control-background-hover;
+    }
+}
+.banner-controls_button-control--play {
+    &::before {
+        content: $banner-controls-button-play-icon;
+    }
+}
+.banner-controls_button-control--pause {
+    &::before {
+        content: $banner-controls-button-pause-icon;
+    }
+}
+
+// pagination
+.banner-controls_pagination {
+    gap: $banner-controls-pagination-buttons-gap;
+}
+.banner-controls_pagination_button {
+    @if $banner-controls-button-pagination-icon {
+        &::before {
+            content: $banner-controls-button-pagination-icon;
+        }
+    } @else {
+        &::before {
+            display: none;
+        }
+    }
+    width: $banner-controls-pagination-button-width;
+    height: $banner-controls-pagination-button-height;
+    color: $banner-controls-pagination-button-color;
+    border: $banner-controls-pagination-button-border-width solid;
+    border-color: $banner-controls-pagination-button-border-color;
+    border-radius: $banner-controls-pagination-button-border-radius;
+    background: $banner-controls-pagination-button-background;
+    &[aria-current='true'] {
+        color: $banner-controls-pagination-button-color-current;
+        border-color: $banner-controls-pagination-button-border-color-current;
+        background: $banner-controls-pagination-button-background-current;
+    }
+    &:focus-visible {
+        box-shadow: none;
+        outline-offset: var(--banner-controls-pagination-button-focus-outline-offset, 2px);
+        outline-color: $banner-controls-pagination-button-outline-color;
+    }
+}

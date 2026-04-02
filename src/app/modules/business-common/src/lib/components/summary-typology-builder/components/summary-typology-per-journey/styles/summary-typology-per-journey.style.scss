@@ -1,0 +1,81 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// breakpoints
+$summary-typology-per-journey-layout-breakpoint-max: $until-tablet-portrait !default;
+$summary-typology-per-journey-layout-breakpoint-min: $tablet-portrait !default;
+$summary-typology-per-journey-with-cols: true !default; // if is true take the grid
+$summary-typology-per-journey-price-breakdown-column-margin: 4% !default; // this margin should be same to summmary_journeys_item element
+$summary-typology-per-journey-price-breakdown-margin-bottom: 14px !default;
+$summary-typology-per-journey-price-breakdown-services-padding: calculateRem(7px) 0 0 !default;
+$summary-typology-per-journey-price-breakdown-services-margin-top: calculateRem(10px) !default;
+$summary-typology-per-journey-price-breakdown-services-border-top: 1px solid var(--c-border) !default;
+// label text
+$price-breakdown-header-label-text-character: ':' !default;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+@mixin addBorderToPriceBreakdown {
+    margin-top: $summary-typology-per-journey-price-breakdown-services-margin-top;
+    padding: $summary-typology-per-journey-price-breakdown-services-padding;
+    border-top: $summary-typology-per-journey-price-breakdown-services-border-top;
+}
+
+.booking-summary :host-context {
+    ::ng-deep {
+        .price-breakdown {
+            @include addBorderToPriceBreakdown();
+        }
+    }
+}
+
+:host ::ng-deep {
+    .summary-typology_price-breakdown--has-services {
+        .price-breakdown:last-child {
+            @include addBorderToPriceBreakdown();
+            .price-breakdown-header_label_text::after {
+                display: none;
+            }
+        }
+    }
+    .price-breakdown-header_label_text {
+        &::after {
+            content: $price-breakdown-header-label-text-character;
+        }
+    }
+}
+
+@if $summary-typology-per-journey-with-cols {
+    .booking-summary :host-context {
+        ::ng-deep {
+            .price-breakdown {
+                margin-bottom: calculateRem($summary-typology-per-journey-price-breakdown-margin-bottom);
+            }
+            // [Responsive]
+            @media #{$summary-typology-per-journey-layout-breakpoint-min} {
+                .price-breakdown_elements {
+                    display: flex;
+                    flex-wrap: wrap;
+                    justify-content: space-between;
+                    margin-left: -$summary-typology-per-journey-price-breakdown-column-margin;
+                    margin-right: -$summary-typology-per-journey-price-breakdown-column-margin;
+                }
+
+                .price-breakdown {
+                    flex: 1 1 #{50% - ($summary-typology-per-journey-price-breakdown-column-margin * 2)};
+                    margin-left: $summary-typology-per-journey-price-breakdown-column-margin;
+                    margin-right: $summary-typology-per-journey-price-breakdown-column-margin;
+                }
+                .summary-typology_price-breakdown--has-services {
+                    .price-breakdown:last-child {
+                        flex-basis: #{100% - ($summary-typology-per-journey-price-breakdown-column-margin * 2)};
+                    }
+                }
+            }
+        }
+    }
+}

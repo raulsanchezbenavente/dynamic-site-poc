@@ -1,0 +1,10 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    font-size: var(--schedule-extra-day-fontsize, inherit);
+    white-space: nowrap;
+    font-weight: var(--f-weight-normal);
+}

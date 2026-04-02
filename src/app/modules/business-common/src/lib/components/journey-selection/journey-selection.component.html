@@ -1,0 +1,50 @@
+@let isMobile = isResponsive();
+<div
+    class="journey-selection-inner"
+    role="region"
+    [class.journey-selection--recommended]="false"
+    [class.journey-selection--disabled]="false"
+    [class.journey-selection--soldout]="false"
+    [class.journey-selection--selected]="false"
+    [class.journey-selection--no-availability]="false">
+    <div class="journey-selection_info">
+        <div class="journey-selection_info_schedule">
+            <selection-schedule [data]="data.journey" />
+        </div>
+        <div class="journey-selection_info_button">
+            <button
+                class="journey-selection_info_button_price"
+                [attr.aria-label]="ariaLabel"
+                [attr.aria-expanded]="isOpen"
+                [attr.aria-controls]="fareListId"
+                (click)="toggleFares()">
+                <price-currency
+                    [prefixText]="'Common.From' | translate"
+                    [price]="lowestFarePrice"
+                    [currency]="'COP'" />
+            </button>
+        </div>
+    </div>
+    @if (isMobile) {
+        @if (isOpen) {
+            <off-canvas
+                [config]="offCanvasConfig"
+                (offcanvasClosedEmitter)="toggleFares()">
+                <div offCanvasBody>
+                    <fares-options
+                        [data]="fareOptions"
+                        [translations]="data.translations"></fares-options>
+                </div>
+            </off-canvas>
+        }
+    } @else {
+        <div
+            class="journey-selection_fares"
+            [attr.aria-hidden]="!isOpen"
+            [id]="fareListId">
+            <fares-options
+                [data]="fareOptions"
+                [translations]="data.translations"></fares-options>
+        </div>
+    }
+</div>

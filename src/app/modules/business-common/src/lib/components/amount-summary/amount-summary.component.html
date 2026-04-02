@@ -1,0 +1,55 @@
+@let Data = data();
+@let isResponsiveData = isResponsive();
+@let showNextButtonData = showNextButton();
+@let showPreviousButtonData = showPreviousButton();
+
+<div class="amount-summary-inner">
+    @if (!isResponsiveData) {
+        <ng-container [ngTemplateOutlet]="buttonPreviousTemplate"></ng-container>
+    }
+
+    <div class="amount-summary_amount">
+        <price-currency
+            [currency]="Data.priceDisplay.currency"
+            [prefixText]="Data.priceDisplay.prefixText"
+            [price]="Data.priceDisplay.price" />
+    </div>
+    <div class="amount-summary_actions">
+        @if (isResponsiveData) {
+            @if (!showNextButtonData) {
+                <ng-container [ngTemplateOutlet]="buttonPreviousTemplate"></ng-container>
+            }
+        }
+
+        <ds-button
+            #primaryButton
+            class="amount-summary_button amount-summary_button--primary"
+            [config]="primaryButtonConfig"
+            (buttonClicked)="onPrimaryAction()">
+        </ds-button>
+
+        @if (showNextButtonData) {
+            <ds-button
+                class="amount-summary_button amount-summary_button--navigation-next"
+                [config]="nextButtonConfig"
+                (buttonClicked)="onNavigationNext()">
+            </ds-button>
+        }
+    </div>
+</div>
+
+<ng-template #buttonPreviousTemplate>
+    @if (showPreviousButtonData) {
+        <ds-button
+            class="amount-summary_button amount-summary_button--navigation-previous"
+            [config]="previousButtonConfig"
+            (buttonClicked)="onNavigationPrevious()" />
+    } @else {
+        @if (!secondaryButtonConfig.isDisabled) {
+            <ds-button
+                class="amount-summary_button amount-summary_button--secondary"
+                [config]="secondaryButtonConfig"
+                (buttonClicked)="onSecondaryAction()" />
+        }
+    }
+</ng-template>

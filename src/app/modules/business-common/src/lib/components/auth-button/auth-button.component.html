@@ -1,0 +1,59 @@
+@let condensedLayout = isCondensedLayout();
+@let compactLayout = isCompactLayout();
+
+@defer (when isLoaded()) {
+    @if (isLogged) {
+        <dropdown
+            [model]="loggedDropdownVMConfig"
+            [innerComponent]="innerComponent"
+            [dropdownTriggerSection]="true"
+            [ngClass]="['auth-button--logged', condensedLayout ? 'auth-button--condensed' : '']"
+            (triggerFocus)="onTriggerFocus()"
+            (triggerBlur)="onTriggerBlur()">
+            <ng-container dropdown-trigger>
+                <div class="auth-button_container">
+                    <div class="auth-button_avatar">
+                        <tier-avatar [config]="tierAvatarConfig" />
+                    </div>
+                    <div
+                        class="auth-button_content"
+                        [class.hide-visually]="compactLayout">
+                        <tooltip-text
+                            #nameTooltip
+                            [manual]="true"
+                            [tooltip]="nameInitials">
+                            <span
+                                #nameEl
+                                class="auth-button_name"
+                                (mouseenter)="onNameMouseEnter()"
+                                (mouseleave)="onNameMouseLeave()">
+                                {{ nameInitials }}
+                            </span>
+                        </tooltip-text>
+                        <span
+                            class="auth-button_points"
+                            [class.hide-visually]="condensedLayout">
+                            <loyalty-points [loyaltyPointsModel]="loyaltyPointsModel" />
+                        </span>
+                    </div>
+                </div>
+            </ng-container>
+            <div
+                #innerComponent
+                class="auth-button_content">
+                <authenticated-account-menu
+                    [config]="data.authenticatedAccountMenuConfig"
+                    (logoutRequested)="onLogout()" />
+            </div>
+        </dropdown>
+    } @else {
+        <ds-button
+            class="auth-button auth-button--not-logged"
+            [config]="notLoggedButtonConfig"
+            (buttonClicked)="onClickLogin()" />
+    }
+} @placeholder {
+    <div class="auth-button_skeleton">
+        <ds-skeleton [config]="skeletonConfig" />
+    </div>
+}

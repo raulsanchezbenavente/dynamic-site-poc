@@ -1,0 +1,131 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'banner-item-vars.styles' as *;
+
+// Styles variations: aside-box
+.banner-item-html--style-aside-box {
+    --banner-html-caption-subtitle-margin: var(#{$spacer-tiny 0 0});
+
+    flex-direction: column;
+    &.banner-item-html--halign-left {
+        &::after {
+            //image gradient overlay
+            background: $banner-default-html-left-align-overlay-background-color;
+        }
+    }
+    &.banner-item-html--halign-right {
+        &::after {
+            //image gradient overlay
+            background: $banner-default-html-right-align-overlay-background-color;
+        }
+    }
+    .banner-media {
+        position: relative;
+    }
+    .banner-item-html_content {
+        width: 100%;
+        height: 100%;
+        flex: 0 0 $banner-aside-box-html-height;
+        padding: $banner-aside-box-html-padding;
+        box-sizing: border-box;
+        background: $banner-aside-box-html-background-color;
+    }
+    .banner-item_action_button {
+        --#{$ds}btn-border-color: var(--c-white);
+        --#{$ds}btn-padding-left-right: #{calculateRem(14px)};
+        --#{$ds}btn-padding-top-bottom: #{calculateRem(7px)};
+        --#{$ds}btn-secondary-color-hover: var(--c-white);
+        --#{$ds}btn-secondary-border-color-hover: #323232;
+        --#{$ds}btn-secondary-background-hover: #323232;
+
+        @include button-type-styles($banner-aside-box-item-action-button-type);
+        @include btn-small;
+    }
+
+    .banner-item-action {
+        display: flex;
+        justify-content: flex-end;
+        margin: $banner-aside-box-html-price-margin;
+    }
+
+    // price
+    .banner-item_caption_price {
+        font-size: $banner-aside-box-html-caption-price-fontsize;
+        color: $banner-aside-box-html-caption-price-color;
+        margin: $banner-aside-box-html-caption-price-margin;
+        ::ng-deep {
+            // <ibe-price-currency>
+            .price_currency {
+                white-space: nowrap;
+                .from {
+                    display: block;
+                    font-size: $banner-aside-box-html-caption-price-from-fontsize;
+                    white-space: nowrap;
+                    margin: $banner-aside-box-html-caption-price-from-margin;
+                }
+                .decimals {
+                    font-size: $banner-aside-box-html-caption-price-decimals-fontsize;
+                }
+            }
+        }
+    }
+
+    // inline layout for picture + html content
+    @media #{$banner-aside-box-breakpoint-min} {
+        flex-direction: row;
+        height: 100%;
+        .banner-item-html_content {
+            flex: 0 0 $banner-aside-box-html-width;
+            padding: $banner-aside-box-html-padding-desktop;
+        }
+        &.banner-item-html--valign-middle {
+            .banner-item-html_content {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+        .banner-media {
+            width: auto;
+            flex: 0 1 100%;
+        }
+    }
+
+    @media #{$banner-aside-box-breakpoint-max} {
+        &.banner-item-html--valign-middle {
+            .banner-item-html_content {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    @media #{$tablet-portrait} {
+        --banner-default-html-caption-title-fontsize: var(--f-size-x-x-huge);
+        --banner-default-html-caption-title-small-fontsize: var(--f-size-x-huge);
+        --banner-default-html-caption-subtitle-fontsize: var(--f-size);
+    }
+}
+.banner-item-html--sc-offer {
+    --banner-aside-box-html-background-color: var(--c-section-offers);
+}
+.banner-item-html--sc-booking {
+    --banner-aside-box-html-background-color: var(--c-section-booking);
+}
+.banner-item-html--sc-info {
+    --banner-aside-box-html-background-color: var(--c-section-info);
+}
+.banner-item-html--sc-fare-business {
+    --banner-aside-box-html-background-color: var(--c-section-fare-business);
+}
+
+// has controls
+// when banner has controls, add a margin between controls and content
+.banner--has-controls :host-context {
+    .banner-item-html--style-aside-box {
+        .banner-item-html_content {
+            padding-bottom: calc(
+                #{$banner-aside-box-html-padding-v} + #{$banner-controls-padding-bottom} + #{$banner-controls-margin}
+            );
+        }
+    }
+}

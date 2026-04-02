@@ -1,0 +1,49 @@
+@let configData = config();
+@let priceConvertedData = priceConverted();
+@let isOpenData = isOpen();
+
+<div
+    ngbAccordion
+    class="summary-cart-currency-converter_dropdown">
+    <div
+        ngbAccordionItem
+        [collapsed]="isOpenData">
+        <button
+            ngbAccordionHeader
+            class="summary-cart-currency-converter_trigger"
+            (click)="onClickToggle()">
+            <div class="button_label">
+                {{ 'Basket.ExchangeTotal' | translate }}
+            </div>
+        </button>
+
+        <div ngbAccordionCollapse>
+            <div
+                ngbAccordionBody
+                class="summary-cart-currency-converter_content">
+                <ng-template>
+                    @if (configData.isConversionSuccessful) {
+                        <span class="summary_exchange_collapse_price">
+                            {{ priceConvertedData }}
+                        </span>
+                    } @else {
+                        <div class="summary_exchange_error-message_container">
+                            <div class="summary_exchange_error-message">
+                                <span class="summary_exchange_error-message_span">
+                                    {{ 'Basket.CurrencyConvertError' | translate }}
+                                </span>
+                            </div>
+                        </div>
+                    }
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>
+@if (configData.isConversionSuccessful) {
+    <div class="summary_exchange_description">
+        <span class="summary_exchange_description_text">
+            {{ 'Basket.CurrencyConvert' | translate }}
+        </span>
+    </div>
+}

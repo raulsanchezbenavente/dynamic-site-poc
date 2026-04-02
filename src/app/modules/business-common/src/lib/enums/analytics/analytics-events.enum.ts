@@ -1,0 +1,16 @@
+export enum AnalyticsEventType {
+  PAGE_VIEW = 'page_view',
+  CHECKOUT = 'begin_checkout',
+  PURCHASE = 'purchase',
+  ADD_TO_CART = 'add_to_cart',
+  REMOVE_FROM_CART = 'remove_from_cart',
+  VIEW_ITEM_LIST = 'view_item_list',
+  ADD_PAYMENT_INFO = 'add_payment_info',
+  VIEW_ITEM = 'view_item',
+  SELECT_ITEM = 'select_item',
+  SELECT_PROMOTION = 'select_promotion',
+  IBE_ASYNC = 'ibe_async',
+  IBE_ERROR = 'ibe_error',
+  ERROR_POPUP = 'error',
+  PAGE_ERROR = 'error_page',
+}

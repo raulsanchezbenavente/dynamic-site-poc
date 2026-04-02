@@ -1,0 +1,18 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.summary-typology_title {
+    font-size: var(--f-size-h2);
+    color: var(--c-text);
+    font-weight: var(--f-weight-h2);
+    padding: 0 0 calculateRem(12px);
+    border-bottom: 1px solid var(--c-border);
+}
+
+// passenger-types
+.summary-typology_passenger-types {
+    padding: calculateRem(32px) 0 calculateRem(30px);
+    border-bottom: calculateRem(1px) solid var(--c-color3);
+}

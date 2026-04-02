@@ -1,0 +1,10 @@
+<span
+    class="schedule-graphic"
+    [attr.aria-hidden]="true">
+    <span class="schedule-graphic_line"></span>
+    @if (hasConnection()) {
+        <span class="schedule-graphic_stop"></span>
+    } @else {
+        <span class="schedule-graphic_plane"></span>
+    }
+</span>

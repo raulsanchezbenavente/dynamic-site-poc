@@ -1,0 +1,11 @@
+@let optionsConfigData = optionsConfig();
+
+@if (isLoading()) {
+    <skeleton-authenticated-account-menu />
+} @else {
+    @if (optionsConfigData) {
+        <options-list
+            [config]="optionsConfigData!"
+            (valueEmitter)="onOptionSelected($event)" />
+    }
+}

@@ -1,0 +1,115 @@
+@let summaryGridConfigData = summaryGridConfig();
+@let isMobile = isResponsive();
+@let views = allowedViews();
+
+<panel [config]="panelConfig">
+    <panel-header>
+        <h3
+            panelTitle
+            [attr.id]="titleElementId() ?? null">
+            <div class="form-summary_title-container">
+                <span
+                    class="form-summary_title"
+                    [innerHTML]="title()">
+                </span>
+                @if (secondaryTitle()) {
+                    <span class="form-summary_secondary-title">
+                        {{ secondaryTitle() }}
+                    </span>
+                }
+            </div>
+        </h3>
+        @if (description()) {
+            <div panelDescription>{{ description() }}</div>
+        }
+        @if (
+            selectedTemplate() === FormSummaryViews.SUMMARY &&
+            views.includes(FormSummaryViews.SUMMARY) &&
+            !anyFormBuilderActive()
+        ) {
+            <div panelHeaderAside>
+                @if (buttonsConfig()!.editButton! && !buttonsConfig()!.hideEditButton) {
+                    <ds-button
+                        #editButton
+                        [config]="buttonsConfig()!.editButton!"
+                        (click)="changeLayoutView(FormSummaryViews.FORM_BUILDER, $event)">
+                    </ds-button>
+                }
+            </div>
+        }
+    </panel-header>
+    <div panelContent>
+        <ds-layout-swapper
+            #layoutSwap
+            [activeSlotName]="selectedTemplate()">
+            <ng-template layoutSlot="FORM_BUILDER">
+                @if (formBuilderConfig()) {
+                    <div class="form-summary_form">
+                        <div class="form-summary_form-builder">
+                            <rf-form-builder
+                                #formBuilder
+                                [name]="formName()"
+                                [config]="sharedConfig"
+                                [displayErrorsMode]="displayErrorMode">
+                                <grid-builder
+                                    [config]="formBuilderConfig()"
+                                    [columns]="columns()"
+                                    [formName]="formName()"
+                                    [customFields]="customFields()"
+                                    [hiddenControls]="hiddenControls()"
+                                    (configChange)="sharedConfig = $event" />
+                            </rf-form-builder>
+                            @if (isSaveLoading()) {
+                                <ds-form-blocker></ds-form-blocker>
+                            }
+                        </div>
+                        @if (buttonsConfig() && (buttonsConfig()!.cancelButton || buttonsConfig()!.saveButton)) {
+                            <div class="form-summary_actions">
+                                @if (isMobile) {
+                                    <ng-container [ngTemplateOutlet]="saveButtonTemplate"></ng-container>
+                                }
+                                @if (buttonsConfig()!.cancelButton && !buttonsConfig()!.hideCancelButton) {
+                                    <ds-button
+                                        [config]="buttonsConfig()!.cancelButton!"
+                                        (click)="onCancel($event)" />
+                                }
+                                @if (!isMobile) {
+                                    <ng-container [ngTemplateOutlet]="saveButtonTemplate"></ng-container>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </ng-template>
+            @if (selectedTemplate() === FormSummaryViews.SUMMARY && views.includes(FormSummaryViews.SUMMARY)) {
+                <ng-template layoutSlot="SUMMARY">
+                    <ds-summary-renderer [config]="bypassConfigToReplace">
+                        <ds-summary-builder
+                            [formName]="formName()"
+                            [config]="bypassConfigSummaryToCreator"
+                            [gridConfig]="summaryGridConfigData"
+                            (configChange)="bypassConfigToReplace = $event"></ds-summary-builder>
+                    </ds-summary-renderer>
+                </ng-template>
+            }
+            @if (selectedTemplate() === FormSummaryViews.EMPTY && views.includes(FormSummaryViews.EMPTY)) {
+                <ng-template layoutSlot="EMPTY">
+                    @if (buttonsConfig()!.addButton! && !buttonsConfig()!.hideAddButton && !anyFormBuilderActive()) {
+                        <ds-button
+                            [config]="buttonsConfig()!.addButton!"
+                            (click)="changeLayoutView(FormSummaryViews.FORM_BUILDER)">
+                        </ds-button>
+                    }
+                </ng-template>
+            }
+        </ds-layout-swapper>
+    </div>
+</panel>
+
+<ng-template #saveButtonTemplate>
+    @if (buttonsConfig()!.saveButton && !buttonsConfig()!.hideSaveButton) {
+        <ds-button
+            [config]="buttonsConfig()!.saveButton!"
+            (click)="onSave($event)" />
+    }
+</ng-template>

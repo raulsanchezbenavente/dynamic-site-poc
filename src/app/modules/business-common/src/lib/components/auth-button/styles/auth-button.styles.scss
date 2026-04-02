@@ -1,0 +1,123 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/tokens/scss/lifemiles.token' as *;
+
+// Why use min-width: 0
+// In a flex container, children default to min-width: auto, which can prevent shrinking.
+// Setting min-width: 0 allows text-overflow (like ellipsis) to behave correctly by enabling the element to shrink within the available space.
+
+// -------
+// STYLES
+// -------
+:host {
+    --tier-avatar-icon-fontsize-extra-small: 0.46rem;
+    --tier-avatar-icon-fontsize-small: 0.54rem;
+    --auth-button-trigger-background: linear-gradient(0deg, var(--c-white));
+    --auth-button-tier-border-color: #{$c-lifemiles-tier-1-dark};
+
+    display: flex;
+    align-items: center;
+
+    // dropdown
+    ::ng-deep {
+        .#{$ds}dropdown {
+            --#{$ds}dropdown-content-maxheight: 80vh;
+            --#{$ds}dropdown-content-minwidth: #{calculateRem(234px)};
+        }
+        .#{$ds}dropdown-layout--pills .#{$ds}dropdown_trigger {
+            --#{$ds}dropdown-trigger-padding: #{calculateRem(8px)};
+            --#{$ds}dropdown-trigger-gap: #{$spacer-tiny}; // space between content and dropdown arrow
+
+            background: var(--auth-button-trigger-background);
+            width: calculateRem(182px);
+            height: calculateRem(50px);
+            box-shadow: none;
+            border: 2px solid var(--auth-button-tier-border-color);
+            border-radius: #{calculateRem(25px)};
+            &:hover {
+                --auth-button-trigger-background: linear-gradient(0deg, var(--c-color20));
+            }
+            &:active {
+                --auth-button-trigger-background: linear-gradient(0deg, var(--c-color3));
+            }
+        }
+
+        // truncate auth-button name inside dropdown trigger
+        .#{$ds}loyalty-points {
+            @include ellipsis;
+        }
+        .#{$ds}loyalty-points_value,
+        .#{$ds}loyalty-points_unit {
+            display: inline;
+        }
+    }
+}
+:host(.auth-button--compact) {
+    ::ng-deep {
+        // not loggued
+        .#{$ds}button {
+            .#{$ds}button_label {
+                @include hide-visually;
+            }
+
+            --icon-fontsize: #{calculateRem(28px)};
+            --#{$ds}btn-padding-left-right: #{calculateRem(8px)};
+            --#{$ds}btn-border-width: 0;
+            --#{$ds}btn-border-radius: 0;
+            --#{$ds}btn-background: transparent;
+            --#{$ds}btn-height: #{calculateRem(44px)};
+
+            padding: $pad-small;
+        }
+        .#{$ds}dropdown_trigger {
+            --#{$ds}dropdown-trigger-padding: #{calculateRem(8px)};
+
+            width: auto;
+            height: calculateRem(44px);
+        }
+    }
+}
+.auth-button_container {
+    display: flex;
+    gap: calculateRem(8px);
+    align-items: center;
+
+    // Reference: see explanation above on min-width: 0 in flex layouts
+    min-width: 0;
+}
+.auth-button_content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+    // Reference: see explanation above on min-width: 0 in flex layouts
+    min-width: 0;
+}
+.auth-button--condensed {
+    ::ng-deep .#{$ds}dropdown_trigger {
+        --#{$ds}dropdown-trigger-padding: #{calculateRem(6px)};
+        --tier-avatar-size-small: #{calculateRem(24px)};
+        --tier-avatar-icon-fontsize-small: 0.44rem;
+
+        height: auto;
+    }
+}
+.auth-button_name {
+    @include ellipsis;
+
+    font-size: var(--auth-button-name-fontsize, var(--f-size));
+    font-weight: var(--auth-button-name-fontweight, var(--f-weight-bold));
+    line-height: var(--f-line-height);
+}
+.auth-button_points {
+    --loyalty-points-value-fontsize: var(--f-size-small);
+    --loyalty-points-unit-fontsize: var(--f-size-small);
+    --loyalty-points-color: var(--c-text-secondary);
+}
+
+// skeleton
+.auth-button_skeleton {
+    --skeleton-line-width: #{calculateRem(102px)};
+    --skeleton-line-height: #{calculateRem(32px)};
+    --skeleton-line-margin-bottom: 0;
+    --skeleton-line-border-radius: 100vh;
+}

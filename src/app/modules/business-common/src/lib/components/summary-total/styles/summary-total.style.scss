@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.summary-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: calculateRem(32px);
+    margin-bottom: calculateRem(19px);
+}
+.summary-total_title {
+    font-size: var(--f-size-large);
+    font-weight: var(--f-weight-bold);
+}
+.summary-total_content {
+    display: flex;
+    align-items: baseline;
+    font-size: calculateRem(22px);
+    font-weight: var(--f-weight-bold);
+}

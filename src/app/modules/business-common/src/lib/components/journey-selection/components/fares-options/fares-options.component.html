@@ -1,0 +1,12 @@
+<h3 class="fares-options_title">
+    {{ data.title }}
+</h3>
+@if (data.options) {
+    <div class="fares-options_items">
+        @for (item of data.options; track item) {
+            <fare-options-item
+                [data]="item"
+                [translations]="translations" />
+        }
+    </div>
+}

@@ -1,0 +1,30 @@
+@if (data) {
+    <div class="schedule-item">
+        <div class="schedule_time">
+            {{ data.schedule.std | date: 'HH:mm' }}
+        </div>
+        <div class="schedule_iata">
+            {{ data.origin.iata }}
+        </div>
+    </div>
+    <div class="schedule-details">
+        <div class="schedule_connection-duration">
+            <div class="schedule_connection">
+                <legs-details [data]="legsDetails"></legs-details>
+            </div>
+            <schedule-graphic-line />
+            <div class="schedule_duration">
+                {{ data.duration | formatDuration }}
+            </div>
+        </div>
+    </div>
+    <div class="schedule-item">
+        <schedule-extra-day [totalDays]="totalDaysOfJourney" />
+        <div class="schedule_time">
+            {{ data.schedule.sta | date: 'HH:mm' }}
+        </div>
+        <div class="schedule_iata">
+            {{ data.destination.iata }}
+        </div>
+    </div>
+}

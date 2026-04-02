@@ -9,6 +9,10 @@
       "@navigation": ["src/app/modules/navigation/index.ts"],
       "@dynamic-composite": ["src/app/modules/dynamic-composite/index.ts"],
 
+      "@dcx/module/analytics": ["src/app/modules/analytics/src/public-api.ts"],
+      "@dcx/module/translation": ["src/app/modules/translation/src/public-api.ts"],
+      "@dcx/ui/mock-repository": ["src/app/modules/mock-repository/src/public-api.ts"],
+
       "@dcx/ui/libs": ["src/app/modules/libs/src/public-api.ts"],
 
       "@dcx/ui/design-system": ["src/app/modules/design-system/src/public-api.ts"],
@@ -16,15 +20,15 @@
       "@dcx/ui/storybook-utils": ["src/app/modules/design-system/.storybook/utils/"],
       "@dcx/storybook/design-system": ["src/app/modules/design-system/src/lib/components/"],
 
-      "@dcx/ui/api-layer": ["src/app/modules/api-layer/src/public-api.ts"],
-      "@dcx/ui/business-common": ["src/app/modules/business-common/src/public-api.ts"],
-
-      "@dcx/module/translation": ["src/app/modules/translation/src/public-api.ts"],
-      "@dcx/module/booking-api-client": ["src/app/modules/booking-api-client/src/public-api.ts"],
-      "@dcx/ui/mock-repository": ["src/app/modules/mock-repository/src/public-api.ts"],
-      "@dcx/module/api-clients": ["src/app/modules/api-clients/src/public-api.ts"],
-      "@reactive-forms": ["src/app/modules/reactive-forms/src/lib/index.ts"],
       "reactive-forms": ["src/app/modules/reactive-forms/src/public-api.ts"],
+
+      "@dcx/ui/business-common": ["src/app/modules/business-common/src/public-api.ts"],
+      "@dcx/storybook/business-common": ["src/app/modules/business-common/src/lib/components/"],
+
+      "@dcx/module/api-clients": ["src/app/modules/api-clients/src/public-api.ts"],
+      "@dcx/ui/api-layer": ["src/app/modules/api-layer/src/public-api.ts"],
+      "@dcx/module/booking-api-client": ["src/app/modules/booking-api-client/src/public-api.ts"],
+
       "@fake-blocks-test": ["src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["src/app/modules/fake-blocks-avianca/index.ts"],
       "fake-libs": ["src/app/modules/fake-libs/index.ts"],
