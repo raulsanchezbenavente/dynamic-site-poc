@@ -6,11 +6,25 @@ import {
   effect,
   HostBinding,
   inject,
+  InjectionToken,
   input,
   signal,
   Type,
 } from '@angular/core';
-import { loadBlockComponent } from 'src/app/component-map';
+
+export type BlockComponentLoader = () => Promise<Type<unknown>>;
+export type BlockComponentMap = Record<string, BlockComponentLoader>;
+export type BlockComponentRegistry = {
+  componentMap: BlockComponentMap;
+  loadBlockComponent: (key: string) => Promise<Type<unknown> | null>;
+};
+
+export const BLOCK_COMPONENT_REGISTRY = new InjectionToken<BlockComponentRegistry>('BLOCK_COMPONENT_REGISTRY');
+
+const EMPTY_BLOCK_COMPONENT_REGISTRY: BlockComponentRegistry = {
+  componentMap: {},
+  loadBlockComponent: () => Promise.resolve(null),
+};
 
 type DynamicBlockInput = {
   component?: string;
@@ -56,6 +70,8 @@ export class BlockOutletComponent {
   public isLoading = signal(false);
   private readonly resolvedComponent = signal<Type<unknown> | null>(null);
   private readonly selfManagedReadiness = signal(false);
+  private readonly blockComponentRegistry =
+    inject(BLOCK_COMPONENT_REGISTRY, { optional: true }) ?? EMPTY_BLOCK_COMPONENT_REGISTRY;
   private readonly document = inject(DOCUMENT);
   private loadSequence = 0;
 
@@ -86,7 +102,8 @@ export class BlockOutletComponent {
       const currentLoad = ++this.loadSequence;
       this.isLoading.set(true);
 
-      void loadBlockComponent(key)
+      void this.blockComponentRegistry
+        .loadBlockComponent(key)
         .then((component) => {
           if (this.loadSequence !== currentLoad) return;
 
