@@ -296,6 +296,28 @@ function createWindow() {
   });
 }
 
+function hideAppPresenceDuringRun() {
+  if (process.platform !== 'darwin') {
+    return;
+  }
+
+  if (typeof app.setActivationPolicy === 'function') {
+    try {
+      app.setActivationPolicy('accessory');
+    } catch {
+      // Ignore policy changes that are not supported in this runtime.
+    }
+  }
+
+  if (app.dock && typeof app.dock.hide === 'function') {
+    try {
+      app.dock.hide();
+    } catch {
+      // Ignore dock-hide failures.
+    }
+  }
+}
+
 ipcMain.handle('modules:list', async () => {
   const modules = listModules();
   if (modules.length === 0) {
@@ -400,8 +422,11 @@ ipcMain.handle('storybook:run', async (_event, payload) => {
   activeChild = child;
 
   if (mainWindow && !mainWindow.isDestroyed()) {
-    mainWindow.hide();
+    mainWindow.destroy();
+    mainWindow = null;
   }
+
+  hideAppPresenceDuringRun();
 
   child.on('close', (exitCode) => {
     activeChild = null;
@@ -429,7 +454,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (!activeChild) {
     app.quit();
   }
 });
