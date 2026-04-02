@@ -12,7 +12,7 @@ dist/
 dist-electron/
 
 # Compodoc
-doucumentation.json
+documentation.json
 
 # Compiled Java class files
 *.class
