@@ -271,11 +271,8 @@ ipcMain.handle('tests:run', async (_event, payload) => {
     `--ts-config=${scopedTsconfig.cliPath}`,
     `--include=src/app/modules/${moduleName}/**/*.spec.ts`,
     watch ? '--watch=true' : '--watch=false',
+    '--browsers=ChromeHeadless',
   ];
-
-  if (!watch) {
-    ngArgs.push('--browsers=ChromeHeadless');
-  }
 
   if (coverage) {
     ngArgs.push('--code-coverage=true');

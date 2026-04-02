@@ -1733,11 +1733,8 @@ function buildByModuleCommand(payload = null) {
       `--ts-config=${scopedTsconfigPath}`,
       `--include="src/app/modules/${moduleName}/**/*.spec.ts"`,
       watch ? '--watch=true' : '--watch=false',
+      '--browsers=ChromeHeadless',
     ];
-
-    if (!watch) {
-      args.push('--browsers=ChromeHeadless');
-    }
 
     if (coverage) {
       args.push('--code-coverage=true');

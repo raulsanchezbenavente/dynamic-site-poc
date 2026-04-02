@@ -24,7 +24,7 @@
     "test": "ng test --watch=false --browsers=ChromeHeadless",
     "test-by-module": "electron electron-launcher/test-by-module/main.js",
     "storybook-by-module": "electron electron-launcher/storybook-by-module/main.js",
-    "test:watch": "ng test",
+    "test:watch": "ng test --browsers=ChromeHeadless",
     "lint": "eslint \"src/**/*.{ts,html}\"",
     "lint:styles": "stylelint \"src/**/*.{scss,css}\"",
     "styles:dev:sass": "sass --error-css --load-path=src/app/modules --style=expanded --embed-source-map src/app/modules/design-system/assets/sass:src/app/modules/design-system/assets/styles src/app/modules/design-system/assets/ui_plus/icons/webfonts/icomoon-styles.entry.scss:src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css",
@@ -55,7 +55,7 @@
     "test": "Runs unit tests once in headless Chrome.",
     "test-by-module": "Opens an Electron modal to choose a module and then runs its unit tests.",
     "storybook-by-module": "Opens an Electron modal to choose a module and run its configured Storybook target.",
-    "test:watch": "Runs unit tests in watch mode.",
+    "test:watch": "Runs unit tests in watch mode using headless Chrome.",
     "lint": "Runs ESLint on TypeScript and Angular HTML templates.",
     "lint:styles": "Runs Stylelint on SCSS and CSS source files.",
     "format": "Formats source files with Prettier."
