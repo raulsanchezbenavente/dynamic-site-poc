@@ -104,10 +104,11 @@ const BY_MODULE_MODES = {
   tests: {
     scriptName: 'test-by-module',
     title: 'Run Unit Tests by Module',
-    subtitle: 'Select a module and launch tests inside this launcher terminal.',
+    subtitle: 'Select a module and run its specs from the terminal.',
     runLabel: 'Run tests',
     loadingLabel: 'Loading modules...',
     emptyLabel: 'No modules found.',
+    modeLabel: 'tests',
     availableGroupLabel: 'Modules with tests',
     unavailableGroupLabel: 'Modules without tests',
     showWatch: true,
@@ -117,10 +118,11 @@ const BY_MODULE_MODES = {
   storybook: {
     scriptName: 'storybook-by-module',
     title: 'Run Storybook by Module',
-    subtitle: 'Select a module and launch Storybook inside this launcher terminal.',
+    subtitle: 'Select a module and run its Storybook target from the terminal.',
     runLabel: 'Run storybook',
     loadingLabel: 'Loading modules...',
     emptyLabel: 'No modules found.',
+    modeLabel: 'Storybook',
     availableGroupLabel: 'Modules with Storybook',
     unavailableGroupLabel: 'Modules without Storybook',
     showWatch: false,
@@ -2118,7 +2120,7 @@ function renderByModuleOptions(modeConfig, modules) {
   if (available.length === 0) {
     setByModuleStatus(modeConfig.emptyLabel, true);
   } else {
-    setByModuleStatus(`Ready. ${available.length} modules available.`);
+    setByModuleStatus(`Ready. ${available.length} modules with ${modeConfig.modeLabel || 'support'} and ${unavailable.length} without ${modeConfig.modeLabel || 'support'}.`);
   }
 }
 
