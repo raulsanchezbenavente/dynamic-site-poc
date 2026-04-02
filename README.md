@@ -63,19 +63,26 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 ```text
 server/
 ├── api.js                     # Booking flow API (token + steps)
+├── cert/
 ├── fake-api/
 │   ├── router.js              # Fake API router mounted by index-proxy
 │   └── responses/             # File-based JSON responses
+├── index.js                   # Backend server entrypoint
 ├── index-proxy.js             # Composition root for index proxy (port 4300)
+├── sso-bypass.js              # Fake local SSO/OIDC server
+├── templates/                 # Fake SSO login templates/i18n resources
 └── index-rendering/
     ├── analytics-provider.js  # Reads analytics scripts from src/assets/analytics/scripts
     ├── index-renderer.js      # Applies dynamic replacements over src/index.html template
     ├── proxy-middleware.js    # HTML-vs-asset routing and pass-through proxy to Angular dev server
+  ├── render-context.js      # Request render context utilities
     └── seo-renderer.js        # Resolves page SEO from config-site and renders SEO tags
 public/
+├── auth/
 ├── favicon-32x32.png
 ├── favicon.png
 ├── robots.txt
+├── silent-check-sso.html
 └── sitemap.xml                # Public static assets
 apache/
 └── .htaccess                  # Optional Apache config
@@ -85,6 +92,7 @@ src/
 │   ├── app.config.ts
 │   ├── app.routes.ts
 │   ├── component-map.ts       # Maps block names to lazy component loaders
+│   ├── same-page-id-reuse.strategy.ts
 │   ├── router-init/
 │   │   └── router-init.service.ts # Centralized router initialization orchestration
 │   ├── guards/
@@ -153,6 +161,7 @@ src/
 │           ├── tetris/        # Classic falling-block puzzle
 │           └── index.ts
 ├── environments/
+│   ├── environment.bypass.ts  # Bypass/fake SSO environment config
 │   ├── environment.ts         # Development config (boot loader min: 0ms)
 │   └── environment.prod.ts    # Production config (boot loader min: 1000ms)
 ├── assets/
@@ -299,31 +308,33 @@ Each script includes a short description in `package.json` under `scriptDescript
 The Electron launcher uses these descriptions as a custom tooltip when you hover or focus a script name.
 That tooltip is anchored from the left edge of the script title for easier reading.
 
-| Script                          | Description                                                                |
-| ------------------------------- | -------------------------------------------------------------------------- |
-| `ng`                            | Executes Angular CLI directly.                                             |
-| `start:serve`                   | Starts Angular dev server with the default environment.                    |
-| `start:serve:bypass`            | Starts Angular dev server using the bypass environment (fake SSO setup).   |
-| `start:proxy`                   | Starts the local index/SEO proxy server on port 4300.                      |
-| `start:sso-bypass`              | Starts the fake local SSO/OIDC server on port 4500.                        |
-| `start:serve-proxy`             | Runs Angular dev server and proxy together.                                |
-| `start:serve-proxy-sso-bypass`  | Runs Angular bypass mode, proxy, and fake SSO together.                    |
-| `linux:enable-port-443`         | Enables Linux capability to bind port 443 without running the app as root. |
-| `build`                         | Builds the Angular application for production.                             |
-| `start:backend`                 | Starts the backend server entrypoint.                                      |
-| `start:api`                     | Starts the booking flow API service on port 3000.                          |
-| `launcher:open`                 | Opens the Electron launcher in development mode.                           |
-| `launcher:build:win`            | Builds the Windows launcher installer (NSIS).                              |
-| `launcher:build:mac`            | Builds the macOS launcher artifacts (DMG and ZIP).                         |
-| `launcher:build:linux`          | Builds Linux launcher artifacts (AppImage and DEB).                        |
-| `launcher:build:all`            | Builds launcher artifacts for Windows, macOS, and Linux.                   |
-| `launcher:build:run`            | Builds (or reuses) the launcher artifact for the current OS and runs it.   |
-| `watch`                         | Builds Angular in watch mode using the development configuration.          |
-| `test`                          | Runs unit tests once in headless Chrome.                                   |
-| `test:watch`                    | Runs unit tests in watch mode.                                             |
-| `lint`                          | Runs ESLint on TypeScript and Angular HTML templates.                      |
-| `lint:styles`                   | Runs Stylelint on SCSS and CSS source files.                               |
-| `format`                        | Formats source files with Prettier.                                        |
+| Script                         | Description                                                                         |
+| ------------------------------ | ----------------------------------------------------------------------------------- |
+| `ng`                           | Executes Angular CLI directly.                                                      |
+| `start:serve`                  | Starts Angular dev server with the default environment.                             |
+| `start:serve:bypass`           | Starts Angular dev server using the bypass environment (fake SSO setup).            |
+| `start:proxy`                  | Starts the local index/SEO proxy server on port 4300.                               |
+| `start:sso-bypass`             | Starts the fake local SSO/OIDC server on port 4500.                                 |
+| `start:serve-proxy`            | Runs Angular dev server and proxy together.                                         |
+| `start:serve-proxy-sso-bypass` | Runs Angular bypass mode, proxy, and fake SSO together.                             |
+| `linux:enable-port-443`        | Enables Linux capability to bind port 443 without running the app as root.          |
+| `build`                        | Builds the Angular application for production.                                      |
+| `start:backend`                | Starts the backend server entrypoint.                                               |
+| `start:api`                    | Starts the booking flow API service on port 3000.                                   |
+| `launcher:open`                | Opens the Electron launcher in development mode.                                    |
+| `launcher:build:win`           | Builds the Windows launcher installer (NSIS).                                       |
+| `launcher:build:mac`           | Builds the macOS launcher artifacts (DMG and ZIP).                                  |
+| `launcher:build:linux`         | Builds Linux launcher artifacts (AppImage and DEB).                                 |
+| `launcher:build:all`           | Builds launcher artifacts for Windows, macOS, and Linux.                            |
+| `launcher:build:run`           | Builds (or reuses) the launcher artifact for the current OS and runs it.            |
+| `watch`                        | Builds Angular in watch mode using the development configuration.                   |
+| `test`                         | Runs unit tests once in headless Chrome.                                            |
+| `test-by-module`               | Opens an Electron modal to choose a module and then runs its unit tests.            |
+| `storybook-by-module`          | Opens an Electron modal to choose a module and run its configured Storybook target. |
+| `test:watch`                   | Runs unit tests in watch mode.                                                      |
+| `lint`                         | Runs ESLint on TypeScript and Angular HTML templates.                               |
+| `lint:styles`                  | Runs Stylelint on SCSS and CSS source files.                                        |
+| `format`                       | Formats source files with Prettier.                                                 |
 
 ### Launcher Scripts
 
@@ -336,7 +347,31 @@ npm run launcher:build:win    # Build Windows installer (NSIS)
 npm run launcher:build:mac    # Build macOS (DMG + ZIP)
 npm run launcher:build:linux  # Build Linux (AppImage + DEB)
 npm run launcher:build:all    # Build all OS targets
+npm run test-by-module        # Open module picker and run tests for selected module
+npm run storybook-by-module   # Open module picker and run Storybook target for selected module
 ```
+
+### Storybook by Module + Compodoc
+
+The launcher includes a dedicated Storybook module picker (`storybook-by-module`) with this flow:
+
+1. Detect modules and Storybook targets from `angular.json` (targets using `@storybook/angular:start-storybook`).
+2. Select one module in the modal.
+3. Optionally enable **Generate documentation**.
+
+Behavior of **Generate documentation**:
+
+- **Checked**: launcher runs Compodoc for the selected module before starting Storybook:
+
+  ```bash
+  npm exec -- compodoc -p src/app/modules/<module>/tsconfig.lib.json -e json -d src/app/modules/<module>
+  ```
+
+- **Unchecked (default)**: launcher requires `src/app/modules/<module>/documentation.json` to already exist.
+  - If the file exists, Storybook starts.
+  - If missing, launcher stops and shows an actionable error asking to enable **Generate documentation**.
+
+This prevents runtime failures in module Storybook `preview.ts` files that import `../documentation.json`.
 
 ### Fake SSO Login i18n
 
@@ -391,6 +426,9 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), defaults are initialized with Favorites enabled and filter mode loaded from `electron-launcher/config/default-favorite-scripts.json` (`defaultFilterMode`, currently `and`).
 - 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
+- 🧪 **Run tests by module**: Includes a dedicated module picker modal for test execution (`test-by-module`).
+- 📚 **Run Storybook by module**: Includes a dedicated module picker modal that runs the selected module Storybook target (`storybook-by-module`).
+- 🧾 **Compodoc integration for Storybook**: Storybook-by-module includes a **Generate documentation** checkbox (default unchecked). When enabled, Compodoc is executed before Storybook; when disabled, launcher validates `documentation.json` and blocks startup with a clear message if missing.
 - 🖥️ **Interactive Terminal Sessions**: Create Session tabs with isolated working directory and history
 - 🪟 **Adaptive Terminal Type Selector**: Choose `cmd`, `powershell`, `pwsh`, or `git-bash` for new sessions (selection is persisted). When multiple engines are available, the selector is visually joined with the `+` New Session action; when only one engine is available, the standalone `+` button is shown.
 - 🧭 **Per-Session Shell Identity**: Session tabs show shell type icon and each session executes in its selected shell
@@ -615,7 +653,7 @@ document.dispatchEvent(
       component,
       state: DynamicPageReadyState.LOADED,
     },
-  }),
+  })
 );
 ```
 
