@@ -32,7 +32,9 @@
       "@fake-blocks-test": ["./src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["./src/app/modules/fake-blocks-avianca/index.ts"],
       "@fake-libs": ["./src/app/modules/fake-libs/index.ts"],
-      "@games": ["./src/app/modules/games/index.ts"]
+      "@games": ["./src/app/modules/games/index.ts"],
+      "@games/index": ["./src/app/modules/games/index.ts"],
+      "@games/*": ["./src/app/modules/games/*"]
     },
     "strict": true,
     "noImplicitOverride": true,
