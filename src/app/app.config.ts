@@ -7,6 +7,8 @@ import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translat
 import { firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
+import { blockComponentRegistry } from './component-map';
+import { BLOCK_COMPONENT_REGISTRY } from './modules/dynamic-composite/block-outlet/block-outlet.component';
 import { SamePageIdReuseStrategy } from './same-page-id-reuse.strategy';
 
 const getLangFromUrl = (): AppLang => {
@@ -26,6 +28,7 @@ const shouldClearSiteConfigSessionCacheOnInit = (): boolean => {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    { provide: BLOCK_COMPONENT_REGISTRY, useValue: blockComponentRegistry },
     provideRouter(routes),
     { provide: RouteReuseStrategy, useClass: SamePageIdReuseStrategy },
     {

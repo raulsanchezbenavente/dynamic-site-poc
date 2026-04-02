@@ -95,6 +95,11 @@ export const loadBlockComponent = (key: string): Promise<Type<unknown> | null> =
   return loadPromise;
 };
 
+export const blockComponentRegistry = {
+  componentMap,
+  loadBlockComponent,
+} as const;
+
 const collectComponentKeys = (value: unknown, result: Set<string>): void => {
   if (Array.isArray(value)) {
     for (const item of value) {
