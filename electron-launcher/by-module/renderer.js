@@ -90,11 +90,25 @@ function detectMode() {
       capabilityKey: 'hasStorybook',
       runActionName: 'runStorybook',
       api: globalThis.storybookByModuleApi,
-      prefsDefaults: { moduleName: '' },
-      buildRunPayload: ({ moduleName }) => ({ moduleName }),
+      prefsDefaults: { moduleName: '', generateDocumentation: false },
+      buildRunPayload: ({ moduleName, generateDocumentation }) => ({
+        moduleName,
+        generateDocumentation: Boolean(generateDocumentation),
+      }),
       createOptions() {
-        optionsEl.replaceChildren();
-        return { watchInput: null, coverageInput: null };
+        const docsLabel = document.createElement('label');
+        docsLabel.className = 'check-row';
+
+        const docsInput = document.createElement('input');
+        docsInput.id = 'generateDocumentation';
+        docsInput.type = 'checkbox';
+        docsInput.checked = false;
+
+        docsLabel.appendChild(docsInput);
+        docsLabel.appendChild(document.createTextNode('Generate documentation'));
+
+        optionsEl.replaceChildren(docsLabel);
+        return { watchInput: null, coverageInput: null, docsInput };
       },
     };
   }
@@ -121,6 +135,7 @@ function readSavedSelection() {
     moduleName: String(persistedSelection?.moduleName || '').trim(),
     watch: Boolean(persistedSelection?.watch),
     coverage: Boolean(persistedSelection?.coverage),
+    generateDocumentation: Boolean(persistedSelection?.generateDocumentation),
   };
 }
 
@@ -131,6 +146,7 @@ function saveSelection() {
     moduleName: currentModuleName || previous.moduleName,
     watch: Boolean(optionRefs.watchInput?.checked),
     coverage: Boolean(optionRefs.coverageInput?.checked),
+    generateDocumentation: Boolean(optionRefs.docsInput?.checked),
   };
 
   persistedSelection = {
@@ -179,6 +195,9 @@ function setBusy(isBusy) {
   }
   if (optionRefs.coverageInput) {
     optionRefs.coverageInput.disabled = isBusy;
+  }
+  if (optionRefs.docsInput) {
+    optionRefs.docsInput.disabled = isBusy;
   }
 
   const selectedOption = moduleSelect.selectedOptions?.[0] || null;
@@ -297,6 +316,7 @@ async function loadPrefs() {
       moduleName: String(result?.prefs?.moduleName || '').trim(),
       watch: Boolean(result?.prefs?.watch),
       coverage: Boolean(result?.prefs?.coverage),
+      generateDocumentation: false,
     };
 
     if (optionRefs.watchInput) {
@@ -305,6 +325,10 @@ async function loadPrefs() {
 
     if (optionRefs.coverageInput) {
       optionRefs.coverageInput.checked = persistedSelection.coverage;
+    }
+
+    if (optionRefs.docsInput) {
+      optionRefs.docsInput.checked = false;
     }
   } catch {
     // Keep defaults when prefs cannot be loaded.
@@ -328,6 +352,7 @@ async function runAction() {
         moduleName,
         watch: Boolean(optionRefs.watchInput?.checked),
         coverage: Boolean(optionRefs.coverageInput?.checked),
+        generateDocumentation: Boolean(optionRefs.docsInput?.checked),
       })
     );
 
@@ -364,6 +389,12 @@ if (optionRefs.watchInput) {
 
 if (optionRefs.coverageInput) {
   optionRefs.coverageInput.addEventListener('change', () => {
+    saveSelection();
+  });
+}
+
+if (optionRefs.docsInput) {
+  optionRefs.docsInput.addEventListener('change', () => {
     saveSelection();
   });
 }
