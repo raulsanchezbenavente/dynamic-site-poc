@@ -117,6 +117,7 @@ function detectMode() {
 }
 
 const mode = detectMode();
+const IPC_TIMEOUT_MS = 10000;
 
 if (!mode) {
   throw new Error('No by-module API detected in preload context.');
@@ -129,6 +130,19 @@ setStatus(mode.loadingStatus);
 
 const optionRefs = mode.createOptions();
 let persistedSelection = { ...mode.prefsDefaults };
+
+function withTimeout(promise, actionLabel, timeoutMs = IPC_TIMEOUT_MS) {
+  const timeout = Number.isFinite(timeoutMs) && timeoutMs > 0 ? Math.floor(timeoutMs) : IPC_TIMEOUT_MS;
+
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => {
+      setTimeout(() => {
+        reject(new Error(`${actionLabel} timed out after ${timeout}ms`));
+      }, timeout);
+    }),
+  ]);
+}
 
 function readSavedSelection() {
   return {
@@ -154,7 +168,7 @@ function saveSelection() {
     ...payload,
   };
 
-  mode.api.setPrefs(persistedSelection).catch(() => {
+  withTimeout(mode.api.setPrefs(persistedSelection), 'Saving preferences', 2500).catch(() => {
     // Preferences are best-effort and should not block launcher usage.
   });
 }
@@ -272,7 +286,7 @@ async function loadModules() {
   setStatus(mode.loadingStatus);
 
   try {
-    const result = await mode.api.listModules();
+    const result = await withTimeout(mode.api.listModules(), 'Loading modules');
     if (!result?.ok) {
       renderModules([]);
       setStatus(result?.error || 'Could not load modules.', true);
@@ -306,7 +320,7 @@ async function loadModules() {
 
 async function loadPrefs() {
   try {
-    const result = await mode.api.getPrefs();
+    const result = await withTimeout(mode.api.getPrefs(), 'Loading preferences', 2500);
     if (!result?.ok) {
       return;
     }
@@ -347,13 +361,16 @@ async function runAction() {
   saveSelection();
 
   try {
-    const result = await mode.api[mode.runActionName](
+    const result = await withTimeout(
+      mode.api[mode.runActionName](
       mode.buildRunPayload({
         moduleName,
         watch: Boolean(optionRefs.watchInput?.checked),
         coverage: Boolean(optionRefs.coverageInput?.checked),
         generateDocumentation: Boolean(optionRefs.docsInput?.checked),
       })
+      ),
+      'Starting command'
     );
 
     if (!result?.ok) {

@@ -17,6 +17,9 @@ const DEFAULT_WINDOW_STATE = {
   minHeight: 640,
 };
 const DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH = path.join(__dirname, 'config', 'default-favorite-scripts.json');
+const BY_MODULES_ROOT = path.resolve(__dirname, '..', 'src', 'app', 'modules');
+const BY_ANGULAR_JSON_PATH = path.resolve(__dirname, '..', 'angular.json');
+const BY_MODULE_TS_TEMP_DIR = path.resolve(__dirname, '..', '.tmp', 'test-by-module');
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -1210,7 +1213,11 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
 
     const commandToRun = normalizeCommandForSudoStdin(normalizeCommandForTerminalPresentation(command));
 
-    const cwd = session.cwd;
+    const requestedCwd = String(executionOptions?.cwd || '').trim();
+    const cwd = requestedCwd && fs.existsSync(requestedCwd) ? requestedCwd : session.cwd;
+    if (cwd !== session.cwd) {
+      session.cwd = cwd;
+    }
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
     if (cdMatch) {
       const rawTarget = (cdMatch[1] ?? '').trim();
@@ -1552,6 +1559,180 @@ function sanitizeLogMessage(value) {
   return String(value);
 }
 
+function toPosixPath(value) {
+  return String(value || '').replace(/\\/g, '/');
+}
+
+function isValidByModuleName(moduleName) {
+  return /^[a-z0-9._-]+$/i.test(String(moduleName || '').trim());
+}
+
+function listByModuleNames() {
+  if (!fs.existsSync(BY_MODULES_ROOT)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(BY_MODULES_ROOT, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function readStorybookTargetsByModule() {
+  if (!fs.existsSync(BY_ANGULAR_JSON_PATH)) {
+    return new Map();
+  }
+
+  let angularConfig = null;
+  try {
+    angularConfig = JSON.parse(fs.readFileSync(BY_ANGULAR_JSON_PATH, 'utf8'));
+  } catch {
+    return new Map();
+  }
+
+  const modulesToTarget = new Map();
+  const projects = angularConfig?.projects || {};
+
+  for (const [projectName, projectConfig] of Object.entries(projects)) {
+    const architect = projectConfig?.architect || projectConfig?.targets || {};
+
+    for (const [targetName, targetConfig] of Object.entries(architect)) {
+      const builder = String(targetConfig?.builder || '').trim();
+      if (!builder.includes('storybook') || !builder.includes('start-storybook')) {
+        continue;
+      }
+
+      const configDir = String(targetConfig?.options?.configDir || '').trim();
+      const configMatch = configDir.match(/src\/app\/modules\/([^/]+)\/\.storybook$/i);
+      const targetMatch = String(targetName).match(/^storybook[-:]?(.+)$/i);
+      const moduleName =
+        (configMatch && configMatch[1] ? String(configMatch[1]).trim() : '') ||
+        (targetMatch && targetMatch[1] ? String(targetMatch[1]).trim() : '');
+
+      if (!moduleName || modulesToTarget.has(moduleName)) {
+        continue;
+      }
+
+      modulesToTarget.set(moduleName, `${projectName}:${targetName}`);
+    }
+  }
+
+  return modulesToTarget;
+}
+
+function ensureScopedByModuleTsconfig(moduleName) {
+  const safeModuleName = String(moduleName || '').trim();
+  const tsconfigPath = path.join(BY_MODULE_TS_TEMP_DIR, `tsconfig.spec.${safeModuleName}.json`);
+  const moduleGlob = toPosixPath(path.join('..', '..', 'src', 'app', 'modules', safeModuleName, '**', '*.spec.ts'));
+  const payload = {
+    extends: '../../tsconfig.spec.json',
+    include: [moduleGlob, '../../src/**/*.d.ts'],
+  };
+
+  fs.mkdirSync(BY_MODULE_TS_TEMP_DIR, { recursive: true });
+  fs.writeFileSync(tsconfigPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+
+  return toPosixPath(path.join('.tmp', 'test-by-module', `tsconfig.spec.${safeModuleName}.json`));
+}
+
+function listByModuleOptions(mode) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+  const modules = listByModuleNames();
+
+  if (normalizedMode === 'tests') {
+    return {
+      ok: true,
+      mode: normalizedMode,
+      modules: modules.map((moduleName) => ({ name: moduleName, available: true })),
+    };
+  }
+
+  if (normalizedMode === 'storybook') {
+    const targets = readStorybookTargetsByModule();
+    return {
+      ok: true,
+      mode: normalizedMode,
+      modules: modules.map((moduleName) => {
+        const target = targets.get(moduleName) || '';
+        return {
+          name: moduleName,
+          available: Boolean(target),
+          target,
+        };
+      }),
+    };
+  }
+
+  return { ok: false, error: `Unsupported by-module mode: ${mode}` };
+}
+
+function buildByModuleCommand(payload = null) {
+  const mode = String(payload?.mode || '')
+    .trim()
+    .toLowerCase();
+  const moduleName = String(payload?.moduleName || '').trim();
+
+  if (!isValidByModuleName(moduleName)) {
+    return { ok: false, error: 'Invalid module name.' };
+  }
+
+  if (mode === 'tests') {
+    const watch = Boolean(payload?.watch);
+    const coverage = Boolean(payload?.coverage);
+    const scopedTsconfigPath = ensureScopedByModuleTsconfig(moduleName);
+
+    const args = [
+      'npm run ng -- test',
+      `--ts-config=${scopedTsconfigPath}`,
+      `--include="src/app/modules/${moduleName}/**/*.spec.ts"`,
+      watch ? '--watch=true' : '--watch=false',
+    ];
+
+    if (!watch) {
+      args.push('--browsers=ChromeHeadless');
+    }
+
+    if (coverage) {
+      args.push('--code-coverage=true');
+    }
+
+    return {
+      ok: true,
+      mode,
+      moduleName,
+      command: args.join(' '),
+      cwd: getDefaultTerminalWorkingDirectory(),
+      tabName: `tests:${moduleName}`,
+    };
+  }
+
+  if (mode === 'storybook') {
+    const targets = readStorybookTargetsByModule();
+    const target = targets.get(moduleName) || '';
+    if (!target) {
+      return { ok: false, error: `Module ${moduleName} does not have a Storybook target configured.` };
+    }
+
+    const generateDocumentation = Boolean(payload?.generateDocumentation);
+    const moduleTsconfig = `src/app/modules/${moduleName}/tsconfig.lib.json`;
+    const docsCommand = `npm exec -- compodoc -p ${moduleTsconfig} -e json -d src/app/modules/${moduleName}`;
+    const storybookCommand = `npm run ng -- run ${target} --port=6006 --ci`;
+    const command = generateDocumentation ? `${docsCommand} && ${storybookCommand}` : storybookCommand;
+
+    return {
+      ok: true,
+      mode,
+      moduleName,
+      command,
+      cwd: getDefaultTerminalWorkingDirectory(),
+      tabName: `storybook:${moduleName}`,
+    };
+  }
+
+  return { ok: false, error: `Unsupported by-module mode: ${mode}` };
+}
+
 function buildSpawnEnv() {
   const env = {};
   for (const [key, value] of Object.entries(process.env)) {
@@ -1885,6 +2066,14 @@ ipcMain.handle('package-source:set', async (_event, payload) => {
   }
 
   return getPackageSourceStatus();
+});
+
+ipcMain.handle('by-module:list', async (_event, payload) => {
+  return listByModuleOptions(payload?.mode);
+});
+
+ipcMain.handle('by-module:command', async (_event, payload) => {
+  return buildByModuleCommand(payload);
 });
 
 ipcMain.handle('scripts:start', async (_event, scriptName) => {

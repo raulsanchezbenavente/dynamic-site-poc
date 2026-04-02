@@ -209,6 +209,110 @@ body {
   backdrop-filter: blur(1px);
   z-index: 300;
 }
+.by-module-overlay {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(11, 18, 32, 0.42);
+  backdrop-filter: blur(2px);
+  z-index: 320;
+}
+.by-module-overlay[hidden] {
+  display: none;
+}
+.by-module-dialog {
+  width: min(34rem, calc(100vw - 2rem));
+  border: 1px solid #90a6c8;
+  border-radius: 0.75rem;
+  background: #f7fbff;
+  box-shadow: 0 20px 36px rgba(10, 18, 32, 0.34);
+  color: #16243b;
+}
+.by-module-header {
+  padding: 0.95rem 1rem 0.55rem;
+  border-bottom: 1px solid #d5e0ef;
+}
+.by-module-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+.by-module-header p {
+  margin: 0.35rem 0 0;
+  color: #435773;
+  font-size: 0.88rem;
+}
+.by-module-content {
+  padding: 0.85rem 1rem 0.7rem;
+  display: grid;
+  gap: 0.58rem;
+}
+.by-module-label {
+  font-size: 0.83rem;
+  font-weight: 700;
+  color: #324660;
+}
+.by-module-select {
+  width: 100%;
+  min-height: 2.2rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #b9c9df;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #18273f;
+  font-size: 0.92rem;
+}
+.by-module-options {
+  display: grid;
+  gap: 0.35rem;
+}
+.by-module-check-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.88rem;
+  color: #2d405b;
+}
+.by-module-check-row[hidden] {
+  display: none !important;
+}
+.by-module-status {
+  min-height: 1.15rem;
+  margin: 0;
+  font-size: 0.82rem;
+  color: #445673;
+}
+.by-module-status.is-error {
+  color: #8f2e2e;
+}
+.by-module-actions {
+  padding: 0.75rem 1rem 0.95rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+}
+.by-module-btn {
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+  padding: 0.45rem 0.8rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+.by-module-btn-secondary {
+  background: #eef3fa;
+  color: #314861;
+  border-color: #c8d6ea;
+}
+.by-module-btn-primary {
+  background: #0f5bd3;
+  color: #f6f9ff;
+  border-color: #0a4db7;
+}
+.by-module-btn:disabled,
+.by-module-select:disabled,
+.by-module-check-row input:disabled {
+  opacity: 0.55;
+}
 .shutdown-overlay[hidden] {
   display: none;
 }

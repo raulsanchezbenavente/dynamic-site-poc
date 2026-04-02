@@ -13,6 +13,8 @@ contextBridge.exposeInMainWorld('launcherApi', {
   getPackageSource: () => ipcRenderer.invoke('package-source:get'),
   setPackageSource: (payload) => ipcRenderer.invoke('package-source:set', payload),
   pickCustomPackageJson: () => ipcRenderer.invoke('package-source:pick-custom'),
+  listByModuleOptions: (mode) => ipcRenderer.invoke('by-module:list', { mode }),
+  buildByModuleCommand: (payload) => ipcRenderer.invoke('by-module:command', payload),
   createTerminalSession: (options = null) => ipcRenderer.invoke('terminal:create-session', options),
   listTerminalSessions: () => ipcRenderer.invoke('terminal:list-sessions'),
   closeTerminalSession: (sessionId) => ipcRenderer.invoke('terminal:close-session', sessionId),

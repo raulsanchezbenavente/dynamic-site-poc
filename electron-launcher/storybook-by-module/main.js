@@ -35,53 +35,59 @@ function normalizePrefs(raw) {
   };
 }
 
-function readPrefsFromDisk() {
+async function readPrefsFromDisk() {
   try {
     const filePath = getPrefsFilePath();
+    await fs.promises.access(filePath, fs.constants.F_OK).catch(() => null);
     if (!fs.existsSync(filePath)) {
       return normalizePrefs({});
     }
 
-    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const raw = await fs.promises.readFile(filePath, 'utf8');
+    const parsed = JSON.parse(raw);
     return normalizePrefs(parsed);
   } catch {
     return normalizePrefs({});
   }
 }
 
-function writePrefsToDisk(rawPrefs) {
+async function writePrefsToDisk(rawPrefs) {
   const prefs = normalizePrefs(rawPrefs);
 
   try {
     const filePath = getPrefsFilePath();
-    fs.mkdirSync(path.dirname(filePath), { recursive: true });
-    fs.writeFileSync(filePath, `${JSON.stringify(prefs, null, 2)}\n`, 'utf8');
+    await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.promises.writeFile(filePath, `${JSON.stringify(prefs, null, 2)}\n`, 'utf8');
     return { ok: true, prefs };
   } catch (error) {
     return { ok: false, prefs, error: error?.message || 'Could not persist preferences' };
   }
 }
 
-function listModuleNames() {
+async function listModuleNames() {
+  await fs.promises.access(modulesRoot, fs.constants.F_OK).catch(() => null);
   if (!fs.existsSync(modulesRoot)) {
     return [];
   }
 
-  return fs
-    .readdirSync(modulesRoot, { withFileTypes: true })
+  const entries = await fs.promises.readdir(modulesRoot, { withFileTypes: true });
+
+  return entries
     .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
     .map((entry) => entry.name)
     .sort((a, b) => a.localeCompare(b));
 }
 
-function readStorybookTargets() {
+async function readStorybookTargets() {
+  await fs.promises.access(angularJsonPath, fs.constants.F_OK).catch(() => null);
   if (!fs.existsSync(angularJsonPath)) {
     return [];
   }
 
   let angularConfig;
   try {
-    angularConfig = JSON.parse(fs.readFileSync(angularJsonPath, 'utf8'));
+    const raw = await fs.promises.readFile(angularJsonPath, 'utf8');
+    angularConfig = JSON.parse(raw);
   } catch {
     return [];
   }
@@ -133,9 +139,9 @@ function readStorybookTargets() {
   });
 }
 
-function listModules() {
-  const moduleNames = listModuleNames();
-  const storybookTargets = readStorybookTargets();
+async function listModules() {
+  const moduleNames = await listModuleNames();
+  const storybookTargets = await readStorybookTargets();
   const targetsByModule = new Map(storybookTargets.map((item) => [item.moduleName, item]));
 
   return moduleNames
@@ -319,7 +325,7 @@ function hideAppPresenceDuringRun() {
 }
 
 ipcMain.handle('modules:list', async () => {
-  const modules = listModules();
+  const modules = await listModules();
   if (modules.length === 0) {
     return {
       ok: false,
@@ -340,11 +346,11 @@ ipcMain.handle('modules:list', async () => {
 });
 
 ipcMain.handle('prefs:get', async () => {
-  return { ok: true, prefs: readPrefsFromDisk() };
+  return { ok: true, prefs: await readPrefsFromDisk() };
 });
 
 ipcMain.handle('prefs:set', async (_event, payload) => {
-  const result = writePrefsToDisk(payload);
+  const result = await writePrefsToDisk(payload);
   if (!result.ok) {
     return { ok: false, error: result.error, prefs: result.prefs };
   }
@@ -364,7 +370,7 @@ ipcMain.handle('storybook:run', async (_event, payload) => {
     return { ok: false, error: 'Invalid module name.' };
   }
 
-  const moduleEntry = listModules().find((item) => item.name === moduleName);
+  const moduleEntry = (await listModules()).find((item) => item.name === moduleName);
   if (!moduleEntry || !moduleEntry.hasStorybook || !moduleEntry.storybookTarget) {
     return { ok: false, error: `Module ${moduleName} does not have a Storybook target configured.` };
   }

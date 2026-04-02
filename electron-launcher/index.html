@@ -677,6 +677,77 @@
       hidden></div>
 
     <div
+      id="byModuleOverlay"
+      class="by-module-overlay"
+      hidden>
+      <div
+        class="by-module-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="byModuleTitle"
+        aria-describedby="byModuleSubtitle">
+        <header class="by-module-header">
+          <h2 id="byModuleTitle">Run by module</h2>
+          <p id="byModuleSubtitle">Select a module and launch command from this launcher.</p>
+        </header>
+        <div class="by-module-content">
+          <label
+            class="by-module-label"
+            for="byModuleSelect"
+            >Module</label
+          >
+          <select
+            id="byModuleSelect"
+            class="by-module-select"></select>
+          <div class="by-module-options">
+            <label
+              id="byModuleWatchRow"
+              class="by-module-check-row">
+              <input
+                id="byModuleWatch"
+                type="checkbox" />
+              Watch mode
+            </label>
+            <label
+              id="byModuleCoverageRow"
+              class="by-module-check-row">
+              <input
+                id="byModuleCoverage"
+                type="checkbox" />
+              Coverage
+            </label>
+            <label
+              id="byModuleDocsRow"
+              class="by-module-check-row">
+              <input
+                id="byModuleDocs"
+                type="checkbox" />
+              Generate documentation
+            </label>
+          </div>
+          <p
+            id="byModuleStatus"
+            class="by-module-status"
+            aria-live="polite"></p>
+        </div>
+        <footer class="by-module-actions">
+          <button
+            id="byModuleCancelButton"
+            class="by-module-btn by-module-btn-secondary"
+            type="button">
+            Cancel
+          </button>
+          <button
+            id="byModuleRunButton"
+            class="by-module-btn by-module-btn-primary"
+            type="button">
+            Run
+          </button>
+        </footer>
+      </div>
+    </div>
+
+    <div
       id="shutdownOverlay"
       class="shutdown-overlay"
       role="status"

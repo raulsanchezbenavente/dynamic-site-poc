@@ -36,64 +36,33 @@ function normalizePrefs(raw) {
   };
 }
 
-function readPrefsFromDisk() {
+async function readPrefsFromDisk() {
   try {
     const filePath = getPrefsFilePath();
+    await fs.promises.access(filePath, fs.constants.F_OK).catch(() => null);
     if (!fs.existsSync(filePath)) {
       return normalizePrefs({});
     }
 
-    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const raw = await fs.promises.readFile(filePath, 'utf8');
+    const parsed = JSON.parse(raw);
     return normalizePrefs(parsed);
   } catch {
     return normalizePrefs({});
   }
 }
 
-function writePrefsToDisk(rawPrefs) {
+async function writePrefsToDisk(rawPrefs) {
   const prefs = normalizePrefs(rawPrefs);
 
   try {
     const filePath = getPrefsFilePath();
-    fs.mkdirSync(path.dirname(filePath), { recursive: true });
-    fs.writeFileSync(filePath, `${JSON.stringify(prefs, null, 2)}\n`, 'utf8');
+    await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.promises.writeFile(filePath, `${JSON.stringify(prefs, null, 2)}\n`, 'utf8');
     return { ok: true, prefs };
   } catch (error) {
     return { ok: false, prefs, error: error?.message || 'Could not persist preferences' };
   }
-}
-
-function moduleHasSpecFiles(moduleDir) {
-  const pending = [moduleDir];
-
-  while (pending.length > 0) {
-    const currentDir = pending.pop();
-    let entries = [];
-
-    try {
-      entries = fs.readdirSync(currentDir, { withFileTypes: true });
-    } catch {
-      continue;
-    }
-
-    for (const entry of entries) {
-      if (entry.name.startsWith('.')) {
-        continue;
-      }
-
-      const absolutePath = path.join(currentDir, entry.name);
-      if (entry.isDirectory()) {
-        pending.push(absolutePath);
-        continue;
-      }
-
-      if (entry.isFile() && entry.name.endsWith('.spec.ts')) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 }
 
 function toPosixPath(value) {
@@ -119,26 +88,18 @@ function ensureModuleScopedTsconfig(moduleName) {
   };
 }
 
-function listModules() {
+async function listModules() {
+  await fs.promises.access(modulesRoot, fs.constants.F_OK).catch(() => null);
   if (!fs.existsSync(modulesRoot)) {
     return [];
   }
 
-  return fs
-    .readdirSync(modulesRoot, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
-    .map((entry) => {
-      const name = entry.name;
-      const hasSpecs = moduleHasSpecFiles(path.join(modulesRoot, name));
-      return { name, hasSpecs };
-    })
-    .sort((a, b) => {
-      if (a.hasSpecs !== b.hasSpecs) {
-        return a.hasSpecs ? -1 : 1;
-      }
+  const entries = await fs.promises.readdir(modulesRoot, { withFileTypes: true });
 
-      return a.name.localeCompare(b.name);
-    });
+  return entries
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+    .map((entry) => ({ name: entry.name, hasSpecs: true }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function buildSpawnEnv() {
@@ -248,7 +209,7 @@ function hideAppPresenceDuringRun() {
 }
 
 ipcMain.handle('modules:list', async () => {
-  const modules = listModules();
+  const modules = await listModules();
   if (modules.length === 0) {
     return {
       ok: false,
@@ -269,11 +230,11 @@ ipcMain.handle('modules:list', async () => {
 });
 
 ipcMain.handle('prefs:get', async () => {
-  return { ok: true, prefs: readPrefsFromDisk() };
+  return { ok: true, prefs: await readPrefsFromDisk() };
 });
 
 ipcMain.handle('prefs:set', async (_event, payload) => {
-  const result = writePrefsToDisk(payload);
+  const result = await writePrefsToDisk(payload);
   if (!result.ok) {
     return { ok: false, error: result.error, prefs: result.prefs };
   }
@@ -292,11 +253,6 @@ ipcMain.handle('tests:run', async (_event, payload) => {
 
   if (!/^[a-z0-9._-]+$/i.test(moduleName)) {
     return { ok: false, error: 'Invalid module name.' };
-  }
-
-  const modulePath = path.join(modulesRoot, moduleName);
-  if (!moduleHasSpecFiles(modulePath)) {
-    return { ok: false, error: `Module ${moduleName} does not contain .spec.ts files.` };
   }
 
   const scopedTsconfig = ensureModuleScopedTsconfig(moduleName);
