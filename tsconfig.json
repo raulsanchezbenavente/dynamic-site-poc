@@ -8,6 +8,8 @@
     "paths": {
       "@navigation": ["src/app/modules/navigation/index.ts"],
       "@dynamic-composite": ["src/app/modules/dynamic-composite/index.ts"],
+      "@dynamic-composite/index": ["src/app/modules/dynamic-composite/index.ts"],
+      "@dynamic-composite/*": ["src/app/modules/dynamic-composite/*"],
 
       "@dcx/module/analytics": ["src/app/modules/analytics/src/public-api.ts"],
       "@dcx/module/translation": ["src/app/modules/translation/src/public-api.ts"],
@@ -24,6 +26,7 @@
 
       "@dcx/ui/business-common": ["src/app/modules/business-common/src/public-api.ts"],
       "@dcx/storybook/business-common": ["src/app/modules/business-common/src/lib/components/"],
+      "@dcx/ui/storybook-session": ["src/app/modules/business-common/.storybook/session/"],
 
       "@dcx/module/api-clients": ["src/app/modules/api-clients/src/public-api.ts"],
       "@dcx/ui/api-layer": ["src/app/modules/api-layer/src/public-api.ts"],
