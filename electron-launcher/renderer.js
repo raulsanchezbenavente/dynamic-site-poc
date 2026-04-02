@@ -99,6 +99,7 @@ const PACKAGE_SOURCE_LABELS = {
   prod: 'Prod (project root)',
   custom: 'Other...',
 };
+const BY_MODULE_PREFS_STORAGE_KEY = 'launcher.by-module-prefs.v1';
 const BY_MODULE_MODES = {
   tests: {
     scriptName: 'test-by-module',
@@ -1952,6 +1953,76 @@ function setByModuleStatus(message, isError = false) {
   byModuleStatus.classList.toggle('is-error', Boolean(isError));
 }
 
+function readByModulePrefs(mode) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+
+  try {
+    const raw = window.localStorage.getItem(BY_MODULE_PREFS_STORAGE_KEY);
+    if (!raw) {
+      return {
+        moduleName: '',
+        watch: false,
+        coverage: false,
+        generateDocumentation: false,
+      };
+    }
+
+    const parsed = JSON.parse(raw);
+    const entry = parsed && typeof parsed === 'object' ? parsed[normalizedMode] : null;
+
+    return {
+      moduleName: String(entry?.moduleName || '').trim(),
+      watch: Boolean(entry?.watch),
+      coverage: Boolean(entry?.coverage),
+      generateDocumentation: Boolean(entry?.generateDocumentation),
+    };
+  } catch {
+    return {
+      moduleName: '',
+      watch: false,
+      coverage: false,
+      generateDocumentation: false,
+    };
+  }
+}
+
+function saveByModulePrefs(mode, prefs) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+  if (!normalizedMode) {
+    return;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(BY_MODULE_PREFS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    const next = parsed && typeof parsed === 'object' ? { ...parsed } : {};
+
+    next[normalizedMode] = {
+      moduleName: String(prefs?.moduleName || '').trim(),
+      watch: Boolean(prefs?.watch),
+      coverage: Boolean(prefs?.coverage),
+      generateDocumentation: Boolean(prefs?.generateDocumentation),
+    };
+
+    window.localStorage.setItem(BY_MODULE_PREFS_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function saveCurrentByModulePrefs() {
+  if (!byModuleDialogState || !byModuleSelect) {
+    return;
+  }
+
+  saveByModulePrefs(byModuleDialogState.mode, {
+    moduleName: String(byModuleSelect.value || '').trim(),
+    watch: Boolean(byModuleWatch?.checked),
+    coverage: Boolean(byModuleCoverage?.checked),
+    generateDocumentation: Boolean(byModuleDocs?.checked),
+  });
+}
+
 function setByModuleBusy(isBusy) {
   const busy = Boolean(isBusy);
 
@@ -2037,7 +2108,12 @@ function renderByModuleOptions(modeConfig, modules) {
   }
 
   const firstEnabled = Array.from(byModuleSelect.options).find((option) => !option.disabled);
-  byModuleSelect.value = firstEnabled ? firstEnabled.value : '';
+  const savedPrefs = readByModulePrefs(byModuleDialogState?.mode || '');
+  const savedModuleName = String(savedPrefs.moduleName || '');
+  const matchingSavedOption = Array.from(byModuleSelect.options).find(
+    (option) => !option.disabled && option.value === savedModuleName
+  );
+  byModuleSelect.value = matchingSavedOption ? matchingSavedOption.value : firstEnabled ? firstEnabled.value : '';
 
   if (available.length === 0) {
     setByModuleStatus(modeConfig.emptyLabel, true);
@@ -2123,6 +2199,8 @@ async function runByModuleFromDialog() {
       setByModuleBusy(false);
       return;
     }
+
+    saveCurrentByModulePrefs();
   } catch (error) {
     setByModuleStatus(error?.message || String(error), true);
     setByModuleBusy(false);
@@ -2173,6 +2251,19 @@ async function openByModuleDialog(mode) {
 
   if (byModuleDocs) {
     byModuleDocs.checked = false;
+  }
+
+  const savedPrefs = readByModulePrefs(normalizedMode);
+  if (byModuleWatch) {
+    byModuleWatch.checked = savedPrefs.watch;
+  }
+
+  if (byModuleCoverage) {
+    byModuleCoverage.checked = savedPrefs.coverage;
+  }
+
+  if (byModuleDocs) {
+    byModuleDocs.checked = savedPrefs.generateDocumentation;
   }
 
   setByModuleBusy(true);
@@ -3518,7 +3609,13 @@ byModuleSelect?.addEventListener('change', () => {
   if (byModuleRunButton) {
     byModuleRunButton.disabled = !byModuleSelect.value;
   }
+
+  saveCurrentByModulePrefs();
 });
+
+byModuleWatch?.addEventListener('change', saveCurrentByModulePrefs);
+byModuleCoverage?.addEventListener('change', saveCurrentByModulePrefs);
+byModuleDocs?.addEventListener('change', saveCurrentByModulePrefs);
 
 byModuleOverlay?.addEventListener('click', (event) => {
   if (event.target === byModuleOverlay) {
