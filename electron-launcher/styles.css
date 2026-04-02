@@ -308,6 +308,23 @@ body {
   color: #f6f9ff;
   border-color: #0a4db7;
 }
+.by-module-btn-primary:hover:not(:disabled) {
+  background: #0c4fb8;
+  color: #f6f9ff;
+  border-color: #083f90;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 2px 8px rgba(9, 46, 102, 0.28);
+}
+.by-module-btn-primary:focus-visible {
+  outline: 2px solid #9ec1ff;
+  outline-offset: 2px;
+}
+.by-module-btn-secondary:hover:not(:disabled) {
+  background: #e5edf8;
+  color: #21364f;
+  border-color: #aabeda;
+}
 .by-module-btn:disabled,
 .by-module-select:disabled,
 .by-module-check-row input:disabled {
