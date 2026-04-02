@@ -819,6 +819,22 @@ function normalizeCommandForSudoStdin(command) {
   return trimmed.replace(/^sudo(?:\s+|$)/i, 'sudo -S ');
 }
 
+function withUnixShellBootstrap(command) {
+  const safeCommand = String(command || '');
+  const needsNodeToolchain = /(?:^|[;&|]\s*|\s)(?:nvm|node|npm|npx|pnpm|yarn|corepack)(?:\s|$)/i.test(safeCommand);
+
+  if (!needsNodeToolchain) {
+    return safeCommand;
+  }
+
+  const bootstrap = [
+    'export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"',
+    '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"',
+  ].join('; ');
+
+  return `${bootstrap}; ${safeCommand}`;
+}
+
 function getTerminalCompletionContext(input, cursor) {
   const value = String(input ?? '');
   const safeCursor = Math.max(0, Math.min(Number.isInteger(cursor) ? cursor : value.length, value.length));
@@ -1239,11 +1255,9 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
       child = spawn(spawnConfig.command, spawnConfig.args, spawnConfig.options);
     } else {
       const shellBinary = process.env.SHELL || '/bin/zsh';
-      const shellName = path.basename(shellBinary).toLowerCase();
-      const usesInteractiveLogin = shellName === 'zsh' || shellName === 'bash';
-      const shellArgs = usesInteractiveLogin ? ['-ilc', commandToRun] : ['-lc', commandToRun];
+      const commandWithBootstrap = withUnixShellBootstrap(commandToRun);
 
-      child = spawn(shellBinary, shellArgs, {
+      child = spawn(shellBinary, ['-lc', commandWithBootstrap], {
         cwd,
         env,
         windowsHide: true,
