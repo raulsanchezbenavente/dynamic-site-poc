@@ -1,0 +1,30 @@
+@let configData = config();
+@let journeysData = journeys();
+@let total = summaryTotalData();
+
+<div class="summary-cart-detail-inner">
+    <div class="summary-cart-detail_itinerary">
+        @if (journeysData.outbound && journeysData.outbound.journey) {
+            <summary-cart-itinerary [config]="journeysData.outbound" />
+        }
+        @if (journeysData.inbound && journeysData.inbound.journey) {
+            <summary-cart-itinerary [config]="journeysData.inbound" />
+        }
+    </div>
+
+    <div class="summary-cart_content">
+        <summary-typology-builder [summaryTypologyConfig]="configData.summaryTypologyConfig" />
+    </div>
+    @if (summaryTotalConfig && total) {
+        <summary-total
+            [config]="summaryTotalConfig"
+            [data]="total" />
+    }
+    @if (configData.showCloseButton) {
+        <div class="summary-cart-detail_close-button">
+            <ds-button
+                [config]="closeButtonConfig"
+                (buttonClicked)="onCloseButtonClicked()" />
+        </div>
+    }
+</div>

@@ -1,0 +1,105 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as TierAvatarStories from '../tier-avatar.stories';
+
+<Meta of={TierAvatarStories} name="01 Overview" />
+
+# Tier Avatar
+
+[GitHub](https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/business-common/src/lib/components/tier-avatar)
+
+The `tier-avatar` component displays a visual badge representing a customer's loyalty tier status with gradient styling based on tier level.
+
+## Basic usage
+
+The Tier Avatar is configured through a `config` object that controls the tier name, size, and icon.
+
+```html
+<tier-avatar [config]="tierConfig" />
+```
+
+```ts
+import { AvatarSize } from '@dcx/ui/design-system';
+
+tierConfig: TierAvatarConfig = {
+  tierName: 'Gold',
+  size: AvatarSize.SMALL,
+  icon: {
+    name: 'lifemiles',
+    ariaAttributes: {
+      ariaLabel: 'LifeMiles'
+    }
+  }
+};
+```
+
+## Variants
+
+### Sizes
+
+The component supports five size variants for different layout contexts:
+
+<Canvas of={TierAvatarStories.SIZES} />
+
+- **Smallest**: Compact inline display
+- **Extra Small**: Default size for tight spaces
+- **Small**: Standard display in headers and navigation
+- **Medium**: Prominent display in account sections
+- **Large**: Hero sections and profile views
+
+### Loyalty Tiers
+
+The component automatically applies gradient styling based on the tier name:
+
+<Canvas of={TierAvatarStories.TIERS} />
+
+- **Silver**: Entry-level tier with gray gradient
+- **Gold**: Mid-tier with gold/orange gradient
+- **Diamond**: Premium tier with dark mint/black gradient
+- **Red Plus**: Elite tier with red gradient
+- **LifeMiles**: Base tier with red/magenta gradient
+
+## Configuration
+
+The `TierAvatarConfig` interface accepts:
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>tierName</code></td>
+      <td>string</td>
+      <td>No</td>
+      <td>Loyalty tier name that determines gradient colors (e.g., 'Gold', 'Silver', 'Diamond')</td>
+    </tr>
+    <tr>
+      <td><code>size</code></td>
+      <td>AvatarSize</td>
+      <td>No</td>
+      <td>Size variant. Defaults to EXTRA_SMALL</td>
+    </tr>
+    <tr>
+      <td><code>icon</code></td>
+      <td>IconConfig</td>
+      <td>Yes</td>
+      <td>Icon configuration including name and ARIA attributes</td>
+    </tr>
+  </tbody>
+</table>
+
+## Related components
+
+- [**Auth Button**](?path=/docs/components-auth-button--overview): Uses Tier Avatar to display user's loyalty status in authentication context
+- [**Loyalty Status Overview**](?path=/docs/components-loyalty-status-overview--overview): Displays comprehensive loyalty tier information
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/components-tier-avatar--02-accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/components-tier-avatar--changelog) tab for version history.

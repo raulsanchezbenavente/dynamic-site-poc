@@ -1,0 +1,49 @@
+@let journeyData = data();
+
+<div class="journey-schedule_header">
+    <div class="journey-schedule_header-content">
+        <div class="journey-schedule_header-info">
+            <div
+                class="journey-schedule_route"
+                [attr.id]="'scheduleTitleId_' + journeyData.id">
+                <span class="hide-visually text-space-gap">
+                    @if (isReturnType()) {
+                        {{ 'Common.Return' | translate }}:
+                    } @else {
+                        {{ 'Common.Departure' | translate }}:
+                    }
+                </span>
+                {{ 'City.' + journeyData.origin.iata | translate }}
+
+                {{ 'Common.To' | translate }}
+
+                @if (
+                    journeyData.status === journeyStatus.DIVERTED &&
+                    journeyData.destination.iata !== journeyData.destination.iataOperation
+                ) {
+                    {{ 'City.' + journeyData.destination.iata | translate }}
+                    ({{ 'Common.Rerouted_Label' | translate }}
+                    {{ 'City.' + journeyData.destination.iataOperation | translate }})
+                } @else {
+                    {{ 'City.' + journeyData.destination.iata | translate }}
+                }
+            </div>
+            @if (journeyDateConfig) {
+                <div class="journey-schedule_date">
+                    <date-display [config]="journeyDateConfig" />
+                </div>
+            }
+        </div>
+    </div>
+    @if (journeyData.status) {
+        <div class="journey-schedule_header-status">
+            <span class="hide-visually text-space-gap">{{ 'Common.FlightStatus' | translate }}:</span>
+            <journey-status-tag [status]="journeyData.status" />
+        </div>
+    }
+</div>
+<div class="journey-schedule_content">
+    <schedule
+        [data]="journeyData"
+        [config]="config().scheduleConfig" />
+</div>

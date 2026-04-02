@@ -1,0 +1,7 @@
+<ul
+    class="carrier-number_list"
+    [attr.aria-label]="'Common.Flights' | translate">
+    @for (item of data; track item; let index = $index) {
+        <li class="carrier-number_item">{{ item.code }}{{ item.number }}</li>
+    }
+</ul>

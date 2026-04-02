@@ -1,0 +1,7 @@
+@if (totalDays() >= 1) {
+    <span
+        class="schedule-extra-day-inner"
+        [attr.aria-label]="ariaLabel()">
+        <span aria-hidden="true">{{ label() }}</span>
+    </span>
+}

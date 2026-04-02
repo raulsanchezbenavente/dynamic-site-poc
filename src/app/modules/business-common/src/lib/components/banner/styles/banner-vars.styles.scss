@@ -1,0 +1,35 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$banner-border-radius: var(--banner-border-radius, var(--#{$ds}border-radius-lg));
+$banner-fullwidth-border-radius: var(--banner-fullwidth-border-radius, 0);
+$banner-animation-effect-fading-inital-opacity: var(--banner-animation-effect-fading-inital-opacity, 0.77);
+$banner-animation-effect-fading-opacity-transition-duration: var(
+    --banner-animation-effect-fading-opacity-transition-duration,
+    0.4s
+);
+$banner-animation-effect-fading-opacity-transition-timing-function: var(
+    --banner-animation-effect-fading-opacity-transition-duration,
+    ease-in-out
+);
+// Sliding
+$banner-animation-effect-sliding-inital-opacity: var(--banner-animation-effect-sliding-inital-opacity, 1);
+$banner-animation-effect-sliding-transition: var(--banner-animation-effect-sliding-transition, transform 0.7s ease);
+$banner-animation-effect-sliding-opacity-transition-duration: var(
+    --banner-animation-effect-sliding-opacity-transition-duration,
+    1s
+);
+$banner-animation-effect-sliding-opacity-transition-timing-function: var(
+    --banner-animation-effect-sliding-opacity-transition-timing-function,
+    ease-in-out
+);
+// Controls
+$banner-controls-padding: var(--banner-controls-padding, 0 calculateRem(40px));
+$banner-controls-padding-bottom: var(
+    --banner-controls-padding-bottom,
+    calculateRem(24px)
+); // this value is also used in banner-item.style vars
+// Item
+$banner-item-background: var(--banner-item-background, #ddd);

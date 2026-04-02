@@ -1,0 +1,127 @@
+<!-- slider: only image, no html caption -->
+@if (!config.content.title) {
+    @if (config.configuration.link?.url) {
+        <a
+            class="banner-item-link banner-item-link_fullclick"
+            [href]="config.configuration.link?.url"
+            [attr.target]="config.configuration.link?.target"
+            [attr.tabindex]="isCarouselItem ? (selectedSlideIndex !== index ? '-1' : '0') : null"
+            (mousedown)="onFullClickMouseDown()"
+            (focus)="onFullClickFocus()"
+            (blur)="onFullClickBlur()">
+            <ng-container
+                [ngTemplateOutlet]="bannerImage"
+                [ngTemplateOutletContext]="{ imgItem: config }"></ng-container>
+        </a>
+    } @else {
+        <div class="banner-item-link">
+            <ng-container *ngTemplateOutlet="bannerImage; context: { imgItem: config }"></ng-container>
+        </div>
+    }
+}
+
+<!-- slider: html caption -->
+@if (config.content.title) {
+    @if (config.configuration.isFullAreaClickable) {
+        <button
+            class="banner-item-html_fullclick"
+            role="link"
+            [attr.tabindex]="isCarouselItem ? (selectedSlideIndex !== index ? '-1' : '0') : null"
+            (click)="onClick(config)"
+            (mousedown)="onFullClickMouseDown()"
+            (focus)="onFullClickFocus()"
+            (blur)="onFullClickBlur()">
+            <ng-container *ngTemplateOutlet="bannerHtmlCaption; context: { imgItem: config }"></ng-container>
+        </button>
+    } @else {
+        <ng-container *ngTemplateOutlet="bannerHtmlCaption; context: { imgItem: config }"></ng-container>
+    }
+}
+<!-- Media template -->
+<ng-template
+    #bannerImage
+    let-config
+    let-imgItem="imgItem">
+    <banner-media [config]="imgItem.media"></banner-media>
+</ng-template>
+
+<!-- Html caption template -->
+<ng-template #bannerHtmlCaption>
+    <div
+        class="banner-item-html"
+        [id]="id"
+        [ngClass]="layoutClasses"
+        [class.banner-item-html--show-lowestprice]="lowestPrice.isEnabled">
+        <ng-container *ngTemplateOutlet="bannerImage; context: { imgItem: config }"></ng-container>
+        <div class="banner-item-html_content">
+            <div class="banner-item-html_content-inner">
+                <div class="banner-item_caption">
+                    @if (config.content.title) {
+                        <ng-container [ngSwitch]="config.content.headingLevel">
+                            <h1
+                                *ngSwitchCase="titleHeading.H1"
+                                class="banner-item_caption_title"
+                                [innerHTML]="config.content.title"></h1>
+                            <h2
+                                *ngSwitchDefault
+                                class="banner-item_caption_title"
+                                [innerHTML]="config.content.title"></h2>
+                        </ng-container>
+                    }
+                    @if (config.content.subtitle) {
+                        <div
+                            class="banner-item_caption_subtitle"
+                            [innerHTML]="config.content.subtitle"></div>
+                    }
+                    @if (config.content.text) {
+                        <div
+                            class="banner-item_caption_text"
+                            [innerHTML]="config.content.text"></div>
+                    }
+                    @if (lowestPrice.isEnabled) {
+                        <div class="banner-item_caption_price">
+                            <price-currency
+                                [prefixText]="lowestPrice.label"
+                                [price]="lowestPrice.price"
+                                [currency]="lowestPrice.currency"></price-currency>
+                        </div>
+                    }
+                </div>
+                @if (config.configuration.showButton) {
+                    <div class="banner-item-action">
+                        @if (config.configuration.showButton) {
+                            <div class="banner-item_action">
+                                @if (
+                                    config.configuration.link &&
+                                    config.configuration.link.title &&
+                                    config.configuration.link.url
+                                ) {
+                                    @if (config.configuration.isFullAreaClickable) {
+                                        <div class="ds-button banner-item_action_button">
+                                            {{ config.configuration.link.title }}
+                                        </div>
+                                    } @else {
+                                        <a
+                                            class="ds-button banner-item_action_button"
+                                            [href]="config.configuration.link.url"
+                                            [attr.target]="config.configuration.link.target"
+                                            [attr.tabindex]="
+                                                isCarouselItem ? (selectedSlideIndex !== index ? '-1' : '0') : null
+                                            ">
+                                            {{ config.configuration.link.title }}
+                                        </a>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+            @if (config.content.footnote) {
+                <div
+                    #bannerItemCaptionFootnote
+                    class="banner-item_caption_footnote"></div>
+            }
+        </div>
+    </div>
+</ng-template>

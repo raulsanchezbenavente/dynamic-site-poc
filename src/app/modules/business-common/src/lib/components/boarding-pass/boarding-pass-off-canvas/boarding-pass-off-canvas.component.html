@@ -1,0 +1,7 @@
+<off-canvas
+    [config]="offCanvasConfig"
+    (offcanvasClosedEmitter)="onCloseOffCanvas()">
+    <div offCanvasBody>
+        <boarding-pass-preview [data]="data().boardingPassVM" />
+    </div>
+</off-canvas>

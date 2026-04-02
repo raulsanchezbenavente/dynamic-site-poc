@@ -1,0 +1,81 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    --schedule-time-fontsize: var(--f-size-x-large);
+    --schedule-connection-duration-gap: #{$spacer-small};
+    --schedule-extra-day-fontsize: var(--f-size-small);
+
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    line-height: 1;
+}
+.summary-cart-schedule-item {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    line-height: var(--f-line-height);
+    margin-top: calculateRem(24px);
+}
+.summary-cart-schedule_time {
+    flex: 0 0 auto;
+    font-size: var(--schedule-time-fontsize);
+    font-weight: var(--schedule-time-fontweight, var(--f-weight-bold));
+    line-height: 1;
+}
+
+// central information
+.summary-cart-schedule-details {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-small;
+    flex: 1 1 100%;
+    justify-content: center;
+    text-align: center;
+    font-size: var(--f-size-small);
+    margin: 0 calculateRem(14px);
+}
+
+// connections and duration time
+.summary-cart-schedule_connection-duration {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--schedule-connection-duration-gap);
+}
+.summary-cart-schedule_connection {
+    display: inline-flex;
+    gap: var(--schedule-connection-duration-gap);
+    &::after {
+        content: '|' / '';
+        color: var(--c-text-secondary);
+    }
+}
+.summary-cart-schedule_duration {
+    color: var(--c-text-secondary);
+}
+.schedule-graphic-line {
+    &::before {
+        width: calculateRem(11px);
+        height: calculateRem(11px);
+    }
+}
+
+// extra day
+.schedule-extra-day {
+    position: absolute;
+    top: var(--schedule-extra-day-top-position, calculateRem(-18px));
+    right: 0;
+}
+
+// Responsive
+@media #{$mobile} {
+    :host {
+        --schedule-time-fontsize: #{calculateRem(22px)};
+    }
+}

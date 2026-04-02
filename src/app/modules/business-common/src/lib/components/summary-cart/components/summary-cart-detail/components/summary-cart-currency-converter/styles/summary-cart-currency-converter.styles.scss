@@ -1,0 +1,13 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.summary-cart-currency-converter_trigger {
+    @include collapse-trigger-flex;
+
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-bold);
+    padding: calculateRem(32px) 0 0;
+    align-items: center;
+}

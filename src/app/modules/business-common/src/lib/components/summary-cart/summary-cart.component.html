@@ -1,0 +1,75 @@
+@let isLoadedData = isLoaded();
+@let configData = config;
+@let buttonConfigData = buttonConfig();
+@let isMobile = isResponsive();
+@let offCanvasConfigData = offCanvasConfig();
+@let isOpenSummaryData = isOpenSummary();
+
+@if (isLoadedData) {
+    @if (isMobile) {
+        <div class="summary-cart-inner">
+            <summary-cart-button
+                [config]="buttonConfigData"
+                [ariaExpanded]="isOpenSummaryData"
+                (buttonClicked)="onClickToggle()">
+            </summary-cart-button>
+
+            @if (isOpenSummaryData) {
+                <off-canvas
+                    [config]="offCanvasConfigData"
+                    (offcanvasClosedEmitter)="onOffCanvasClosed()">
+                    <div offCanvasBody>
+                        @if (configData.details) {
+                            <summary-cart-detail [config]="configData.details" />
+                        }
+                    </div>
+                </off-canvas>
+            }
+        </div>
+    } @else {
+        <div
+            #summaryCartDropdown="ngbDropdown"
+            ngbDropdown
+            class="summary-cart-inner"
+            [placement]="'bottom-end'"
+            (openChange)="onDropdownOpenChange($event)">
+            @if (canOpenSummary()) {
+                <summary-cart-button
+                    #toggleButton
+                    ngbDropdownToggle
+                    [config]="buttonConfigData"
+                    [ariaExpanded]="isOpenSummaryData"
+                    (buttonClicked)="onClickToggle()">
+                </summary-cart-button>
+            } @else {
+                <summary-cart-button
+                    [config]="buttonConfigData"
+                    [ariaExpanded]="null" />
+            }
+            <div
+                ngbDropdownMenu
+                class="summary-cart_detail"
+                [id]="dropdownId">
+                <div
+                    cdkTrapFocus
+                    [cdkTrapFocusAutoCapture]="isOpenSummaryData">
+                    <div class="summary-cart_detail_header">
+                        <h2 class="summary-cart_detail_title">
+                            {{ offCanvasConfigData.offCanvasHeaderConfig.title }}
+                        </h2>
+                    </div>
+                    <div class="summary-cart_detail_content">
+                        @if (isOpenSummaryData) {
+                            <summary-cart-detail
+                                [config]="detailConfigForDesktop || configData.details"
+                                (closeButtonClicked)="onCloseButtonClicked()">
+                            </summary-cart-detail>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+} @else {
+    <ds-skeleton />
+}

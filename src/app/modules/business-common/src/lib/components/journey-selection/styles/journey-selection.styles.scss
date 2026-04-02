@@ -1,0 +1,104 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+@use 'journey-selection-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+::ng-deep :root {
+    --journey-selection-layout-breakpoint: #{$journey-selection-layout-breakpoint};
+    --journey-selection-schedule-padding: #{calculateRem(36px)} #{calculateRem(23px)} #{calculateRem(12px)};
+    --journey-selection-price-padding: #{calculateRem(17px)};
+    --journey-selection-border-radius: var(--#{$ds}border-radius-lg);
+}
+:host {
+    --price-fontsize: var(--f-size-x-huge);
+    --price-currency-fontsize: var(--f-size);
+    --price-fontweight: var(--f-weight-bold);
+    --price-prefix-color: var(--c-text-secondary);
+    --price-prefix-fontsize: var(--f-size-small);
+
+    display: block;
+    box-shadow: var(--#{$ds}box-shadow-lg);
+    background-color: var(--c-white);
+    border-radius: var(--journey-selection-border-radius);
+    ::ng-deep {
+        .#{$ds}price-currency {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}
+.journey-selection_info {
+    position: relative;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+}
+.journey-selection_info_schedule {
+    display: flex;
+    flex: 1 1 100%;
+    padding: var(--journey-selection-schedule-padding);
+    .selection-schedule {
+        width: 100%;
+    }
+}
+.journey-selection_info_button {
+    text-align: center;
+    background-color: var(--c-color4);
+    border-radius: 0 0 var(--journey-selection-border-radius) var(--journey-selection-border-radius);
+}
+.journey-selection_info_button_price {
+    @include collapse-trigger-flex($size: calculateRem(20px));
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    width: 100%;
+    gap: calculateRem(10px);
+    padding: var(--journey-selection-price-padding);
+    box-sizing: border-box;
+    &::after {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: $journey-selection-layout-breakpoint) {
+    ::ng-deep :root {
+        --journey-selection-schedule-padding: #{calculateRem(34px)} #{calculateRem(22px)} #{calculateRem(22px)}
+            #{calculateRem(42px)};
+        --journey-selection-price-padding: #{calculateRem(34px)} #{calculateRem(16px)} #{calculateRem(34px)}
+            #{calculateRem(30px)};
+    }
+    :host {
+        ::ng-deep {
+            .#{$ds}price-currency {
+                text-align: left;
+            }
+        }
+    }
+    .journey-selection_info {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: calculateRem(32px);
+    }
+    .journey-selection_info_button {
+        text-align: left;
+        flex: 0 0 calculateRem(320px);
+        border-radius: 0 var(--journey-selection-border-radius) var(--journey-selection-border-radius) 0;
+    }
+    .journey-selection_info_button_price {
+        justify-content: flex-start;
+    }
+    .journey-selection_fares {
+        width: 100%;
+        padding: #{calculateRem(34px)} #{calculateRem(42px)};
+        box-sizing: border-box;
+        &[aria-hidden='true'] {
+            display: none;
+        }
+    }
+}

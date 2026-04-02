@@ -147,6 +147,24 @@
             "port": 6006,
             "compodoc": false
           }
+        },
+        "storybook-business-common": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "src/app/modules/business-common/.storybook",
+            "browserTarget": "dynamic-site:build",
+            "port": 6006,
+            "compodoc": false
+          }
+        },
+        "storybook-analytics": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "src/app/modules/analytics/.storybook",
+            "browserTarget": "dynamic-site:build",
+            "port": 6006,
+            "compodoc": false
+          }
         }
       }
     }

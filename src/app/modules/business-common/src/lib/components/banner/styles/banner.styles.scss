@@ -1,0 +1,101 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'banner-vars.styles' as *;
+@use '../components/molecules/banner-item/styles/banner-item-vars.styles' as bannerItemVars;
+
+// -------
+// COMPONENT STYLE
+// -------
+.banner-section {
+    position: relative;
+    height: var(--banner-height, auto);
+}
+.banner_inner {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: $banner-border-radius;
+}
+.banner_inner--focused {
+    outline: var(--banner-inner-focused-outline-width, 3px) solid
+        var(--banner-inner-focused-color-outline, var(--accessibility-outline-color));
+    outline-offset: var(--banner-inner-focused-outline-offset, 2px);
+}
+.banner_slider {
+    position: relative;
+    height: 100%;
+    display: flex;
+}
+.container-fluid :host-context {
+    .banner_slider {
+        border-radius: $banner-fullwidth-border-radius;
+    }
+}
+
+// banner slider item
+:host ::ng-deep {
+    // <banner-item>
+    .banner_slider_item {
+        position: relative;
+        height: auto;
+        flex: 1 0 100%;
+        background-color: $banner-item-background;
+        transition: opacity;
+        &[aria-hidden='false'] {
+            z-index: 1;
+            zoom: 1;
+        }
+    }
+}
+
+// Banner effects
+.banner--carousel-effect-sliding {
+    .banner_slider {
+        transition: $banner-animation-effect-sliding-transition;
+    }
+    .banner_slider_item {
+        opacity: $banner-animation-effect-sliding-inital-opacity;
+        transition-duration: $banner-animation-effect-sliding-opacity-transition-duration;
+        transition-timing-function: $banner-animation-effect-sliding-opacity-transition-timing-function;
+        &[aria-hidden='false'] {
+            opacity: 1;
+        }
+    }
+}
+.banner--carousel-effect-fading {
+    .banner_slider_item {
+        opacity: $banner-animation-effect-fading-inital-opacity;
+        order: 20;
+        transition-duration: $banner-animation-effect-fading-opacity-transition-duration;
+        transition-timing-function: $banner-animation-effect-fading-opacity-transition-timing-function;
+        &[aria-hidden='false'] {
+            order: 1;
+            opacity: 1;
+        }
+    }
+}
+
+// Banner controls
+.banner-controls {
+    z-index: 2; // control goes over banner
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    padding: $banner-controls-padding;
+    padding-bottom: $banner-controls-padding-bottom;
+}
+
+// Responsive
+@media #{$tablet-portrait} {
+    .banner-section {
+        min-height: #{calculateRem(530px)};
+    }
+}
+
+@media #{bannerItemVars.$banner-aside-box-breakpoint-min} {
+    .banner-section {
+        --banner-height: #{calculateRem(300px)};
+
+        min-height: 0;
+    }
+}

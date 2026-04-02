@@ -1,0 +1,110 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+:host.journey-schedule--type-return {
+    --journey-schedule-type-icon: #{$icon-flight-takeoff-return};
+}
+
+// Route, date, trip direction icon and trip status
+.journey-schedule_header {
+    display: flex;
+    gap: $spacer-x-small;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.journey-schedule_header-status {
+    flex: 0 0 auto;
+}
+
+// Route, date and trip direction icon
+.journey-schedule_header-content {
+    @include iconfont(var(--journey-schedule-type-icon, $icon-flight-takeoff));
+
+    display: flex;
+    gap: $spacer-tiny;
+
+    // journey direction icon (airplane taking off, landing or returning)
+    &::before {
+        font-size: var(--journey-schedule-type-icon-size, var(--f-size));
+        position: relative;
+        top: var(--journey-schedule-type-icon-top-position, calculateRem(3px));
+        height: 100%;
+    }
+}
+
+// Route and date container
+.journey-schedule_header-info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-tiny;
+}
+
+// Route e.g. "Bogotá to Medellín"
+.journey-schedule_route {
+    display: flex;
+    flex-wrap: wrap;
+    font-size: var(--journey-schedule-route, var(--f-size-medium));
+    font-weight: var(--f-weight-bold);
+}
+
+// Departure date
+.journey-schedule_date {
+    color: var(--c-text-secondary);
+    font-size: var(--journey-schedule-date, var(--f-size-small));
+    line-height: var(--f-line-height-large);
+}
+.journey-schedule_content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+
+// [Responsive]
+// @media (width >= 414px) {
+@media #{$mobile} {
+    :host {
+        --journey-schedule-route: var(--f-size-large);
+        --journey-schedule-type-icon-size: var(--f-size-x-large);
+        --journey-schedule-type-icon-top-position: #{calculateRem(1px)};
+
+        // schedule
+        --schedule-time-fontsize: var(--f-size-x-large);
+        --schedule-iata-fontsize: var(--f-size-medium);
+
+        gap: $spacer-x-large;
+    }
+
+    // vertical gap space between route and date
+    .journey-schedule_header-info {
+        gap: $spacer-x-small;
+    }
+
+    // space between icon and route + date
+    .journey-schedule_header-content {
+        gap: $spacer-x-small;
+    }
+}
+
+@media #{$tablet-portrait} {
+    :host {
+        // schedule
+        --schedule-time-fontsize: var(--f-size-x-large);
+        --schedule-iata-fontsize: var(--f-size-medium);
+    }
+}
+
+@media #{$desktop} {
+    :host {
+        // schedule
+        --schedule-time-fontsize: var(--f-size-huge);
+        --schedule-iata-fontsize: var(--f-size-large);
+    }
+}

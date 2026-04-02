@@ -1,0 +1,17 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+::ng-deep .boarding-pass-off-canvas {
+    &.offcanvas {
+        --offcanvas-height: 100%;
+        --offcanvas-gap: #{calculateRem(19px)};
+        .#{$ds}off-canvas-header {
+            --offcanvas-header-title-fontsize: var(--f-size-x-large);
+            --offcanvas-header-padding: 0 #{calculateRem(38px)};
+        }
+        .#{$ds}offcanvas-header_title {
+            text-align: center;
+        }
+        .#{$ds}offcanvas-header_close {
+            font-size: var(--f-iconsize-sm);
+        }
+    }
+}

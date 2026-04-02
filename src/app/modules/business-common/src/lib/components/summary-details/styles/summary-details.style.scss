@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$summary-details-margin: calculateRem(40px) 0 0 !default;
+$summary-details-item-title-margin: 0 0 $spacer-x-x-large !default;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+.summary-details {
+    margin: $summary-details-margin;
+}
+
+:host ::ng-deep {
+    .summary-details_item_header {
+        margin: $summary-details-item-title-margin;
+    }
+}

@@ -1,0 +1,34 @@
+@let configData = config();
+
+<h3 class="summary-cart-itinerary_title">
+    {{ (isOutbound ? 'Schedule.DepartureLabel' : 'Schedule.ReturnLabel') | translate }}
+</h3>
+
+<div class="summary-cart-itinerary_header">
+    <div class="journey-header">
+        <icon [config]="{ name: isOutbound ? 'flight-takeoff' : 'flight-takeoff-return' }"></icon>
+        <span class="journey-header_stations">
+            {{ 'City.' + configData.journey.origin.iata | translate }}
+            {{ 'Common.To' | translate }}
+            {{ 'City.' + configData.journey.destination.iata | translate }}
+        </span>
+    </div>
+</div>
+
+<div class="summary-cart-itinerary_date-fare">
+    <div class="summary-cart-itinerary_date">
+        <date-display [config]="dateConfig" />
+    </div>
+    <div class="summary-cart-itinerary_fare">
+        <span class="hide-visually">{{ 'Schedule.Fare' | translate }}</span>
+        <tag [config]="fareTagConfig" />
+    </div>
+</div>
+
+<summary-cart-schedule
+    [data]="configData.journey"
+    [config]="scheduleConfig" />
+
+<div class="summary-cart-itinerary_operated-by">
+    <transport-operated-by [data]="operatingCarriers" />
+</div>

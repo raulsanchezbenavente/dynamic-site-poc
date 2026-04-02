@@ -181,6 +181,62 @@ function buildSpawnEnv() {
   return env;
 }
 
+function runCompodocForModule(moduleName) {
+  const safeModuleName = String(moduleName || '').trim();
+  const modulePath = path.join(modulesRoot, safeModuleName);
+  const tsConfigPath = path.join(modulePath, 'tsconfig.lib.json');
+
+  if (!fs.existsSync(tsConfigPath)) {
+    return Promise.reject(new Error(`Could not find tsconfig.lib.json for module ${safeModuleName}.`));
+  }
+
+  const compodocArgs = ['exec', '--', 'compodoc', '-p', tsConfigPath, '-e', 'json', '-d', modulePath];
+  const env = buildSpawnEnv();
+
+  return new Promise((resolve, reject) => {
+    let child;
+
+    if (process.platform === 'win32') {
+      const command = `npm ${compodocArgs.join(' ')}`;
+      console.log(`[storybook-by-module] Running pre-step: cmd.exe /d /s /c ${command}`);
+      child = spawn('cmd.exe', ['/d', '/s', '/c', command], {
+        cwd: projectRoot,
+        stdio: 'inherit',
+        env,
+        windowsHide: true,
+        shell: false,
+      });
+    } else {
+      console.log(`[storybook-by-module] Running pre-step: npm ${compodocArgs.join(' ')}`);
+      child = spawn('npm', compodocArgs, {
+        cwd: projectRoot,
+        stdio: 'inherit',
+        env,
+        windowsHide: true,
+        shell: false,
+      });
+    }
+
+    child.on('close', (exitCode) => {
+      if (exitCode === 0) {
+        resolve();
+        return;
+      }
+
+      reject(new Error(`Compodoc failed for module ${safeModuleName} (exit code ${exitCode}).`));
+    });
+
+    child.on('error', (error) => {
+      reject(new Error(error?.message || `Compodoc failed for module ${safeModuleName}.`));
+    });
+  });
+}
+
+function getModuleDocumentationPath(moduleName) {
+  const safeModuleName = String(moduleName || '').trim();
+  return path.join(modulesRoot, safeModuleName, 'documentation.json');
+}
+
 function getWindowPlacement(width, height) {
   if (process.platform !== 'win32') {
     return null;
@@ -280,6 +336,7 @@ ipcMain.handle('storybook:run', async (_event, payload) => {
   }
 
   const moduleName = String(payload?.moduleName || '').trim();
+  const generateDocumentation = Boolean(payload?.generateDocumentation);
 
   if (!/^[a-z0-9._-]+$/i.test(moduleName)) {
     return { ok: false, error: 'Invalid module name.' };
@@ -293,6 +350,26 @@ ipcMain.handle('storybook:run', async (_event, payload) => {
   console.log(
     `[storybook-by-module] Selected module: ${moduleName} (target=${moduleEntry.storybookTarget}, port=6006)`
   );
+
+  if (generateDocumentation) {
+    try {
+      await runCompodocForModule(moduleName);
+    } catch (error) {
+      const reason = error?.message || error;
+      console.error('[storybook-by-module] Compodoc step failed:', reason);
+      return { ok: false, error: `Compodoc failed: ${reason}` };
+    }
+  } else {
+    const documentationPath = getModuleDocumentationPath(moduleName);
+    if (!fs.existsSync(documentationPath)) {
+      const missingDocumentationMessage =
+        `documentation.json is missing for module ${moduleName} at ${documentationPath}. ` +
+        'Enable "Generate documentation" and run again.';
+
+      console.warn(`[storybook-by-module] ${missingDocumentationMessage}`);
+      return { ok: false, error: missingDocumentationMessage };
+    }
+  }
 
   const ngArgs = ['run', 'ng', '--', 'run', moduleEntry.storybookTarget, '--port=6006', '--ci'];
 

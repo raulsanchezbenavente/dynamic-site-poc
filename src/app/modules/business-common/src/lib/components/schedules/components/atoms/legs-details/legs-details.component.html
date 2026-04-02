@@ -1,0 +1,113 @@
+<!-- CONNECTIONS (JOURNEY INFORMATION) -->
+<popover [config]="popoverConfig">
+    <span popoverTrigger>
+        @if (data.model.stopsNumber === 0) {
+            {{ 'Schedule.Direct' | translate }}
+        }
+        @if (data.model.stopsNumber > 1) {
+            {{ data.model.stopsNumber }} {{ 'Schedule.Stops' | translate }}
+        }
+        @if (data.model.stopsNumber === 1) {
+            {{ data.model.stopsNumber }} {{ 'Schedule.Stop' | translate }}
+        }
+        <span class="hide-visually"> &nbsp;{{ 'Schedule.A11y_ViewFlightDetails' | translate }} </span>
+    </span>
+    <div popoverContent>
+        <div class="legs-details-inner">
+            <div class="legs-details_content">
+                @for (leg of data.model.legs; track leg; let index = $index) {
+                    <div class="legs-details_group">
+                        <div class="legs-details_item legs-details_item--journey">
+                            <span class="hide-visually"> {{ 'Common.Departure' | translate }}&nbsp; </span>
+                            <span class="time text-space-gap">
+                                {{ leg.std | date: 'HH:mm' }}
+                            </span>
+                            <span class="station text-space-gap">
+                                {{ 'City.' + leg.origin | translate }}
+                                <span class="station-code text-space-gap">{{ leg.origin }}</span>
+                            </span>
+                        </div>
+                        <!-- connections transit -->
+                        <div class="legs-details_item legs-details_item--transit">
+                            <div class="transport-info">
+                                <span class="time text-space-gap">
+                                    <span class="hide-visually text-space-gap">
+                                        {{ 'Schedule.A11y_DurationPrefix' | translate }}
+                                    </span>
+                                    {{ leg.duration | formatDuration }}
+                                </span>
+                                <span class="transport-number text-space-gap">
+                                    <span class="hide-visually text-space-gap">
+                                        {{ 'Schedule.A11y_FlightNumber' | translate }}
+                                    </span>
+                                    {{ leg.transport.carrier.code }}{{ leg.transport.number }}
+                                </span>
+                                @if (leg.transport.model) {
+                                    <span
+                                        class="transport-divisor"
+                                        aria-hidden="true"></span>
+                                    <span class="transport-model">
+                                        <span class="hide-visually text-space-gap">
+                                            {{ 'Schedule.A11y_Aircraft' | translate }}
+                                        </span>
+                                        {{ leg.transport.manufacturer }}{{ leg.transport.model }}
+                                    </span>
+                                }
+                            </div>
+                            <div class="transport-operated-by">
+                                {{ 'Common.Carriers.OperatedBy' | translate }}
+                                {{ leg.transport.carrier.name }}
+                            </div>
+                        </div>
+                        <!-- connections arrival -->
+                        <div class="legs-details_item legs-details_item--journey">
+                            <span class="hide-visually text-space-gap">
+                                {{ 'Common.Arrival' | translate }}
+                            </span>
+                            <span class="time text-space-gap">
+                                {{ leg.sta | date: 'HH:mm' }}
+                            </span>
+                            <span class="station text-space-gap">
+                                {{ 'City.' + leg.destination | translate }}
+                                <span class="station-code">{{ leg.destination }}</span>
+                            </span>
+                        </div>
+                    </div>
+                    <!-- JOURNEY STOP -->
+                    @if (stopOvers[index] && data.showStopoverInfo) {
+                        <div class="legs-details_stop">
+                            <span class="legs-details_stop_label">
+                                {{ 'Schedule.Connection_StopLabel' | translate }}
+                            </span>
+                            <span class="legs-details_stop_station">
+                                <span class="legs-details_stop_station">
+                                    <span class="legs-details_stop_station-name">
+                                        {{ 'City.' + leg.destination | translate }}
+                                        <span class="legs-details_stop_station-code">({{ leg.destination }})</span>
+                                    </span>
+                                    @if (stopDurations[index]) {
+                                        <span class="legs-details_stop_station-time">
+                                            {{ stopDurations[index] | formatDuration }}
+                                        </span>
+                                    }
+                                </span>
+                            </span>
+                        </div>
+                    }
+                }
+            </div>
+
+            <!-- connections journey total time -->
+            @if (showTotalDuration) {
+                <div class="legs-details_total">
+                    <span class="legs-details_total_label text-space-gap">
+                        {{ 'Schedule.Total_TravelTime' | translate }}
+                    </span>
+                    <span class="legs-details_total_time text-space-gap">
+                        {{ data.model.duration | formatDuration }}
+                    </span>
+                </div>
+            }
+        </div>
+    </div>
+</popover>

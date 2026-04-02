@@ -1,0 +1,68 @@
+<div class="form-container">
+    <h2><b>ANALYTICS TESTING BENCH</b></h2>
+    <br />
+    <button
+        class="btn btn-info"
+        (click)="dispatchButtonEvents('trackPurchase')">
+        Send purchase event
+    </button>
+    <button
+        class="btn btn-warning"
+        (click)="dispatchButtonEvents('trackViewItem')">
+        Send view item event
+    </button>
+    <button
+        class="btn btn-danger"
+        (click)="dispatchButtonEvents('trackSelectItem')">
+        Send select item event
+    </button>
+    <button
+        class="btn btn-secondary"
+        (click)="dispatchButtonEvents('trackAddToCartItem')">
+        Send add to cart event
+    </button>
+    <button
+        class="btn btn-success"
+        (click)="dispatchButtonEvents('trackIbeAsync')">
+        Send ibeAsyn event
+    </button>
+    <button
+        class="btn btn-dark"
+        (click)="dispatchButtonEvents('trackIbeError')">
+        Send ibeError event
+    </button>
+    <button
+        class="btn btn-primary"
+        (click)="dispatchButtonEvents('sendTestPageView')">
+        Send page view event
+    </button>
+    <br />
+    <br />
+    <h5>
+        <input
+            #checkboxGaGtmColiving
+            type="checkbox"
+            id="checkbox-ga-gtm-coliving"
+            style="width: 20px; height: 20px"
+            (change)="changeGAGTMColivingStatus()" />
+        <label for="checkbox-ga-gtm-coliving">&nbsp;<b>GA / GTM Coliving enabled</b></label>
+    </h5>
+    <h5>
+        <input
+            #checkboxPageview
+            type="checkbox"
+            id="checkbox-pageview"
+            style="width: 20px; height: 20px"
+            (change)="changePageviewStatus()" />
+        <label
+            for="checkbox-pageview"
+            title="GTM native page view events will be launched because they are not disabled from admin site"
+            >&nbsp;<b>Pageview enabled</b> (Native page view event is disabled via script)</label
+        >
+    </h5>
+    <br />
+    <h4>Analytics config</h4>
+    <div
+        #editorContainer
+        id="editor-container"></div>
+</div>

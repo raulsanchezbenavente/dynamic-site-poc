@@ -1,0 +1,34 @@
+@if (data) {
+    <div class="summary-cart-schedule-item">
+        <div class="summary-cart-schedule_time">
+            <span class="hide-visually text-space-gap">{{ 'Schedule.DepartureTime_Label' | translate }}</span>
+            {{ departureTime.scheduled }}
+        </div>
+    </div>
+    <div class="summary-cart-schedule-details">
+        <div class="summary-cart-schedule_connection-duration">
+            <div class="summary-cart-schedule_connection">
+                <legs-details [data]="legsDetails" />
+            </div>
+            <div class="summary-cart-schedule_duration">
+                <span class="hide-visually text-space-gap">{{ 'Schedule.Total_TravelTime' | translate }}</span>
+                {{ data.duration | formatDuration }}
+            </div>
+        </div>
+        <schedule-graphic-line [hasConnection]="data.segments.length > 1" />
+        @switch (carriersDisplayModeResolved) {
+            @case (carriersDisplayMode.CARRIER_NUMBERS) {
+                <carrier-numbers [data]="carrierNumbers" />
+            }
+        }
+    </div>
+    <div class="summary-cart-schedule-item">
+        <schedule-extra-day
+            class="text-space-gap"
+            [totalDays]="totalDaysOfJourney" />
+        <div class="summary-cart-schedule_time">
+            <span class="hide-visually text-space-gap">{{ 'Schedule.ArrivalTime_Label' | translate }}</span>
+            {{ arrivalTime.scheduled }}
+        </div>
+    </div>
+}

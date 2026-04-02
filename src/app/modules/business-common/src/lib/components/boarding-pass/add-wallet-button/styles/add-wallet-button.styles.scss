@@ -1,0 +1,11 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+.add-wallet-button_action {
+    --ds-btn-gap: #{calculateRem(12px)};
+
+    @include button;
+    @include btn-action;
+    img {
+        width: calculateRem(28px);
+        height: calculateRem(21px);
+    }
+}
