@@ -316,10 +316,10 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
   public nextTestPagePath = computed<string | null>(() => {
     const url = this.currentUrl().split('?')[0];
-    const match = /\/en\/test(\d+)$/.exec(url);
+    const match = /\/en\/corporative(\d+)$/.exec(url);
     if (!match) return null;
     const next = Number(match[1]) + 1;
-    return `/en/test${next}`;
+    return `/en/corporative${next}`;
   });
 
   public navigateToNextTestPage(): void {
