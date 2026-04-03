@@ -11,6 +11,14 @@
         (click)="logRouterAndSiteConfig()">
         Log Router/Site
       </button>
+      @if (nextTestPagePath()) {
+        <button
+          type="button"
+          class="lm-debug-trigger"
+          (click)="navigateToNextTestPage()">
+          → {{ nextTestPagePath() }}
+        </button>
+      }
     </div>
 
     <div class="lm-topbar-right">

@@ -441,9 +441,4109 @@
                 "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
+                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test1",
+      "path": "en/test1",
+      "name": "Test 1",
+      "seo": {
+        "title": "Test 1",
+        "description": "Test page 1",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test2",
+      "path": "en/test2",
+      "name": "Test 2",
+      "seo": {
+        "title": "Test 2",
+        "description": "Test page 2",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test3",
+      "path": "en/test3",
+      "name": "Test 3",
+      "seo": {
+        "title": "Test 3",
+        "description": "Test page 3",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test4",
+      "path": "en/test4",
+      "name": "Test 4",
+      "seo": {
+        "title": "Test 4",
+        "description": "Test page 4",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test5",
+      "path": "en/test5",
+      "name": "Test 5",
+      "seo": {
+        "title": "Test 5",
+        "description": "Test page 5",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test6",
+      "path": "en/test6",
+      "name": "Test 6",
+      "seo": {
+        "title": "Test 6",
+        "description": "Test page 6",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test7",
+      "path": "en/test7",
+      "name": "Test 7",
+      "seo": {
+        "title": "Test 7",
+        "description": "Test page 7",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test8",
+      "path": "en/test8",
+      "name": "Test 8",
+      "seo": {
+        "title": "Test 8",
+        "description": "Test page 8",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test9",
+      "path": "en/test9",
+      "name": "Test 9",
+      "seo": {
+        "title": "Test 9",
+        "description": "Test page 9",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test10",
+      "path": "en/test10",
+      "name": "Test 10",
+      "seo": {
+        "title": "Test 10",
+        "description": "Test page 10",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test11",
+      "path": "en/test11",
+      "name": "Test 11",
+      "seo": {
+        "title": "Test 11",
+        "description": "Test page 11",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test12",
+      "path": "en/test12",
+      "name": "Test 12",
+      "seo": {
+        "title": "Test 12",
+        "description": "Test page 12",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test13",
+      "path": "en/test13",
+      "name": "Test 13",
+      "seo": {
+        "title": "Test 13",
+        "description": "Test page 13",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test14",
+      "path": "en/test14",
+      "name": "Test 14",
+      "seo": {
+        "title": "Test 14",
+        "description": "Test page 14",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test15",
+      "path": "en/test15",
+      "name": "Test 15",
+      "seo": {
+        "title": "Test 15",
+        "description": "Test page 15",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test16",
+      "path": "en/test16",
+      "name": "Test 16",
+      "seo": {
+        "title": "Test 16",
+        "description": "Test page 16",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test17",
+      "path": "en/test17",
+      "name": "Test 17",
+      "seo": {
+        "title": "Test 17",
+        "description": "Test page 17",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test18",
+      "path": "en/test18",
+      "name": "Test 18",
+      "seo": {
+        "title": "Test 18",
+        "description": "Test page 18",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test19",
+      "path": "en/test19",
+      "name": "Test 19",
+      "seo": {
+        "title": "Test 19",
+        "description": "Test page 19",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test20",
+      "path": "en/test20",
+      "name": "Test 20",
+      "seo": {
+        "title": "Test 20",
+        "description": "Test page 20",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test21",
+      "path": "en/test21",
+      "name": "Test 21",
+      "seo": {
+        "title": "Test 21",
+        "description": "Test page 21",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test22",
+      "path": "en/test22",
+      "name": "Test 22",
+      "seo": {
+        "title": "Test 22",
+        "description": "Test page 22",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test23",
+      "path": "en/test23",
+      "name": "Test 23",
+      "seo": {
+        "title": "Test 23",
+        "description": "Test page 23",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test24",
+      "path": "en/test24",
+      "name": "Test 24",
+      "seo": {
+        "title": "Test 24",
+        "description": "Test page 24",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test25",
+      "path": "en/test25",
+      "name": "Test 25",
+      "seo": {
+        "title": "Test 25",
+        "description": "Test page 25",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test26",
+      "path": "en/test26",
+      "name": "Test 26",
+      "seo": {
+        "title": "Test 26",
+        "description": "Test page 26",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test27",
+      "path": "en/test27",
+      "name": "Test 27",
+      "seo": {
+        "title": "Test 27",
+        "description": "Test page 27",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test28",
+      "path": "en/test28",
+      "name": "Test 28",
+      "seo": {
+        "title": "Test 28",
+        "description": "Test page 28",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test29",
+      "path": "en/test29",
+      "name": "Test 29",
+      "seo": {
+        "title": "Test 29",
+        "description": "Test page 29",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test30",
+      "path": "en/test30",
+      "name": "Test 30",
+      "seo": {
+        "title": "Test 30",
+        "description": "Test page 30",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test31",
+      "path": "en/test31",
+      "name": "Test 31",
+      "seo": {
+        "title": "Test 31",
+        "description": "Test page 31",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test32",
+      "path": "en/test32",
+      "name": "Test 32",
+      "seo": {
+        "title": "Test 32",
+        "description": "Test page 32",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test33",
+      "path": "en/test33",
+      "name": "Test 33",
+      "seo": {
+        "title": "Test 33",
+        "description": "Test page 33",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test34",
+      "path": "en/test34",
+      "name": "Test 34",
+      "seo": {
+        "title": "Test 34",
+        "description": "Test page 34",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test35",
+      "path": "en/test35",
+      "name": "Test 35",
+      "seo": {
+        "title": "Test 35",
+        "description": "Test page 35",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test36",
+      "path": "en/test36",
+      "name": "Test 36",
+      "seo": {
+        "title": "Test 36",
+        "description": "Test page 36",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test37",
+      "path": "en/test37",
+      "name": "Test 37",
+      "seo": {
+        "title": "Test 37",
+        "description": "Test page 37",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test38",
+      "path": "en/test38",
+      "name": "Test 38",
+      "seo": {
+        "title": "Test 38",
+        "description": "Test page 38",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test39",
+      "path": "en/test39",
+      "name": "Test 39",
+      "seo": {
+        "title": "Test 39",
+        "description": "Test page 39",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test40",
+      "path": "en/test40",
+      "name": "Test 40",
+      "seo": {
+        "title": "Test 40",
+        "description": "Test page 40",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test41",
+      "path": "en/test41",
+      "name": "Test 41",
+      "seo": {
+        "title": "Test 41",
+        "description": "Test page 41",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test42",
+      "path": "en/test42",
+      "name": "Test 42",
+      "seo": {
+        "title": "Test 42",
+        "description": "Test page 42",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test43",
+      "path": "en/test43",
+      "name": "Test 43",
+      "seo": {
+        "title": "Test 43",
+        "description": "Test page 43",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test44",
+      "path": "en/test44",
+      "name": "Test 44",
+      "seo": {
+        "title": "Test 44",
+        "description": "Test page 44",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test45",
+      "path": "en/test45",
+      "name": "Test 45",
+      "seo": {
+        "title": "Test 45",
+        "description": "Test page 45",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test46",
+      "path": "en/test46",
+      "name": "Test 46",
+      "seo": {
+        "title": "Test 46",
+        "description": "Test page 46",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test47",
+      "path": "en/test47",
+      "name": "Test 47",
+      "seo": {
+        "title": "Test 47",
+        "description": "Test page 47",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test48",
+      "path": "en/test48",
+      "name": "Test 48",
+      "seo": {
+        "title": "Test 48",
+        "description": "Test page 48",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test49",
+      "path": "en/test49",
+      "name": "Test 49",
+      "seo": {
+        "title": "Test 49",
+        "description": "Test page 49",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test50",
+      "path": "en/test50",
+      "name": "Test 50",
+      "seo": {
+        "title": "Test 50",
+        "description": "Test page 50",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test51",
+      "path": "en/test51",
+      "name": "Test 51",
+      "seo": {
+        "title": "Test 51",
+        "description": "Test page 51",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test52",
+      "path": "en/test52",
+      "name": "Test 52",
+      "seo": {
+        "title": "Test 52",
+        "description": "Test page 52",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test53",
+      "path": "en/test53",
+      "name": "Test 53",
+      "seo": {
+        "title": "Test 53",
+        "description": "Test page 53",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test54",
+      "path": "en/test54",
+      "name": "Test 54",
+      "seo": {
+        "title": "Test 54",
+        "description": "Test page 54",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test55",
+      "path": "en/test55",
+      "name": "Test 55",
+      "seo": {
+        "title": "Test 55",
+        "description": "Test page 55",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test56",
+      "path": "en/test56",
+      "name": "Test 56",
+      "seo": {
+        "title": "Test 56",
+        "description": "Test page 56",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test57",
+      "path": "en/test57",
+      "name": "Test 57",
+      "seo": {
+        "title": "Test 57",
+        "description": "Test page 57",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test58",
+      "path": "en/test58",
+      "name": "Test 58",
+      "seo": {
+        "title": "Test 58",
+        "description": "Test page 58",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test59",
+      "path": "en/test59",
+      "name": "Test 59",
+      "seo": {
+        "title": "Test 59",
+        "description": "Test page 59",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test60",
+      "path": "en/test60",
+      "name": "Test 60",
+      "seo": {
+        "title": "Test 60",
+        "description": "Test page 60",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test61",
+      "path": "en/test61",
+      "name": "Test 61",
+      "seo": {
+        "title": "Test 61",
+        "description": "Test page 61",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test62",
+      "path": "en/test62",
+      "name": "Test 62",
+      "seo": {
+        "title": "Test 62",
+        "description": "Test page 62",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test63",
+      "path": "en/test63",
+      "name": "Test 63",
+      "seo": {
+        "title": "Test 63",
+        "description": "Test page 63",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test64",
+      "path": "en/test64",
+      "name": "Test 64",
+      "seo": {
+        "title": "Test 64",
+        "description": "Test page 64",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test65",
+      "path": "en/test65",
+      "name": "Test 65",
+      "seo": {
+        "title": "Test 65",
+        "description": "Test page 65",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test66",
+      "path": "en/test66",
+      "name": "Test 66",
+      "seo": {
+        "title": "Test 66",
+        "description": "Test page 66",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test67",
+      "path": "en/test67",
+      "name": "Test 67",
+      "seo": {
+        "title": "Test 67",
+        "description": "Test page 67",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test68",
+      "path": "en/test68",
+      "name": "Test 68",
+      "seo": {
+        "title": "Test 68",
+        "description": "Test page 68",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test69",
+      "path": "en/test69",
+      "name": "Test 69",
+      "seo": {
+        "title": "Test 69",
+        "description": "Test page 69",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test70",
+      "path": "en/test70",
+      "name": "Test 70",
+      "seo": {
+        "title": "Test 70",
+        "description": "Test page 70",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test71",
+      "path": "en/test71",
+      "name": "Test 71",
+      "seo": {
+        "title": "Test 71",
+        "description": "Test page 71",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test72",
+      "path": "en/test72",
+      "name": "Test 72",
+      "seo": {
+        "title": "Test 72",
+        "description": "Test page 72",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test73",
+      "path": "en/test73",
+      "name": "Test 73",
+      "seo": {
+        "title": "Test 73",
+        "description": "Test page 73",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test74",
+      "path": "en/test74",
+      "name": "Test 74",
+      "seo": {
+        "title": "Test 74",
+        "description": "Test page 74",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test75",
+      "path": "en/test75",
+      "name": "Test 75",
+      "seo": {
+        "title": "Test 75",
+        "description": "Test page 75",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test76",
+      "path": "en/test76",
+      "name": "Test 76",
+      "seo": {
+        "title": "Test 76",
+        "description": "Test page 76",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test77",
+      "path": "en/test77",
+      "name": "Test 77",
+      "seo": {
+        "title": "Test 77",
+        "description": "Test page 77",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test78",
+      "path": "en/test78",
+      "name": "Test 78",
+      "seo": {
+        "title": "Test 78",
+        "description": "Test page 78",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test79",
+      "path": "en/test79",
+      "name": "Test 79",
+      "seo": {
+        "title": "Test 79",
+        "description": "Test page 79",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test80",
+      "path": "en/test80",
+      "name": "Test 80",
+      "seo": {
+        "title": "Test 80",
+        "description": "Test page 80",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test81",
+      "path": "en/test81",
+      "name": "Test 81",
+      "seo": {
+        "title": "Test 81",
+        "description": "Test page 81",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test82",
+      "path": "en/test82",
+      "name": "Test 82",
+      "seo": {
+        "title": "Test 82",
+        "description": "Test page 82",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test83",
+      "path": "en/test83",
+      "name": "Test 83",
+      "seo": {
+        "title": "Test 83",
+        "description": "Test page 83",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test84",
+      "path": "en/test84",
+      "name": "Test 84",
+      "seo": {
+        "title": "Test 84",
+        "description": "Test page 84",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test85",
+      "path": "en/test85",
+      "name": "Test 85",
+      "seo": {
+        "title": "Test 85",
+        "description": "Test page 85",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test86",
+      "path": "en/test86",
+      "name": "Test 86",
+      "seo": {
+        "title": "Test 86",
+        "description": "Test page 86",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test87",
+      "path": "en/test87",
+      "name": "Test 87",
+      "seo": {
+        "title": "Test 87",
+        "description": "Test page 87",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test88",
+      "path": "en/test88",
+      "name": "Test 88",
+      "seo": {
+        "title": "Test 88",
+        "description": "Test page 88",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test89",
+      "path": "en/test89",
+      "name": "Test 89",
+      "seo": {
+        "title": "Test 89",
+        "description": "Test page 89",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test90",
+      "path": "en/test90",
+      "name": "Test 90",
+      "seo": {
+        "title": "Test 90",
+        "description": "Test page 90",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test91",
+      "path": "en/test91",
+      "name": "Test 91",
+      "seo": {
+        "title": "Test 91",
+        "description": "Test page 91",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test92",
+      "path": "en/test92",
+      "name": "Test 92",
+      "seo": {
+        "title": "Test 92",
+        "description": "Test page 92",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test93",
+      "path": "en/test93",
+      "name": "Test 93",
+      "seo": {
+        "title": "Test 93",
+        "description": "Test page 93",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test94",
+      "path": "en/test94",
+      "name": "Test 94",
+      "seo": {
+        "title": "Test 94",
+        "description": "Test page 94",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test95",
+      "path": "en/test95",
+      "name": "Test 95",
+      "seo": {
+        "title": "Test 95",
+        "description": "Test page 95",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test96",
+      "path": "en/test96",
+      "name": "Test 96",
+      "seo": {
+        "title": "Test 96",
+        "description": "Test page 96",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test97",
+      "path": "en/test97",
+      "name": "Test 97",
+      "seo": {
+        "title": "Test 97",
+        "description": "Test page 97",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test98",
+      "path": "en/test98",
+      "name": "Test 98",
+      "seo": {
+        "title": "Test 98",
+        "description": "Test page 98",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test99",
+      "path": "en/test99",
+      "name": "Test 99",
+      "seo": {
+        "title": "Test 99",
+        "description": "Test page 99",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "test100",
+      "path": "en/test100",
+      "name": "Test 100",
+      "seo": {
+        "title": "Test 100",
+        "description": "Test page 100",
+        "robots": "noindex,nofollow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "span": 12
               }
             ]
           },

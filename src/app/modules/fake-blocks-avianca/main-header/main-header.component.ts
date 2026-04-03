@@ -12,7 +12,7 @@ import {
     OnInit,
     signal,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
     AppLang,
@@ -23,7 +23,7 @@ import {
     SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, filter, takeUntil } from 'rxjs';
 
 import { SessionApiService } from '../account-profile/services/session-api.service';
 import { LoyaltyTone, LoyaltyToneService } from '../loyalty-tone.service';
@@ -55,6 +55,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
   private readonly headerTone = signal<LoyaltyTone | null>(this.loyaltyToneSvc.tone());
   private readonly sessionUserName = signal('');
   private readonly sessionUserMiles = signal('');
+  private readonly currentUrl = signal(this.router.url);
 
   public config = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
@@ -133,6 +134,13 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
   });
 
   public ngOnInit(): void {
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        takeUntil(this.destroy$),
+      )
+      .subscribe((e) => this.currentUrl.set((e as NavigationEnd).urlAfterRedirects));
+
     this.routerHelper.languageChange$.pipe(takeUntil(this.destroy$)).subscribe((lang: AppLang) => {
       this.activeLang.set(lang);
     });
@@ -305,6 +313,21 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
   public open = signal(false);
   public selectedMenuLabel = signal<string | null>(null);
+
+  public nextTestPagePath = computed<string | null>(() => {
+    const url = this.currentUrl().split('?')[0];
+    const match = /\/en\/test(\d+)$/.exec(url);
+    if (!match) return null;
+    const next = Number(match[1]) + 1;
+    return `/en/test${next}`;
+  });
+
+  public navigateToNextTestPage(): void {
+    const path = this.nextTestPagePath();
+    if (path) {
+      void this.router.navigate([path]);
+    }
+  }
 
   // Always returns a non-empty array if nothing is provided
   public items = computed(() => {
