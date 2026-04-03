@@ -1451,9 +1451,9 @@ function createWindow(options = null) {
   const windowState = readWindowState();
   const modalOnlyState = {
     width: 560,
-    height: 360,
+    height: 370,
     minWidth: 520,
-    minHeight: 340,
+    minHeight: 370,
   };
   const effectiveState = modalOnly
     ? modalOnlyState
