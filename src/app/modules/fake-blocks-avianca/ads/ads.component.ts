@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+
+const DEFAULT_HERO_IMAGE =
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80';
 
 @Component({
   selector: 'ads',
@@ -8,4 +11,8 @@ import { TranslateModule } from '@ngx-translate/core';
   templateUrl: './ads.component.html',
   styleUrl: './ads.component.scss',
 })
-export class AdsComponent {}
+export class AdsComponent {
+  public config = input<{ url?: string } | null>(null);
+
+  public heroImageUrl = computed(() => this.config()?.url ?? DEFAULT_HERO_IMAGE);
+}

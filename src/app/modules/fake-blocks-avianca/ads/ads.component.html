@@ -1,7 +1,9 @@
 <div class="ad-shell">
   <section class="ad-wrap">
     <div class="ad-hero">
-      <div class="ad-hero-image">
+      <div
+        class="ad-hero-image"
+        [style.background-image]="'url(' + heroImageUrl() + ')'">
         <div class="ad-hero-badge">{{ 'ADS.BADGE_EARN_MILES' | translate }}</div>
         <div class="ad-hero-title">{{ 'ADS.HERO_TITLE' | translate }}</div>
         <div class="ad-hero-sub">{{ 'ADS.HERO_SUBTITLE' | translate }}</div>

@@ -34,7 +34,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
