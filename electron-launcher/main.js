@@ -134,6 +134,40 @@ function getLauncherIconPath() {
   return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
 }
 
+function getStandaloneByModuleIconPath() {
+  const byModuleAssetsDir = path.join(__dirname, 'test-by-module', 'assets');
+
+  if (process.platform === 'darwin') {
+    const macCandidates = [
+      path.join(byModuleAssetsDir, 'mac', 'modal-icon.icns'),
+      path.join(byModuleAssetsDir, 'mac', 'modal-icon.png'),
+    ];
+
+    for (const candidatePath of macCandidates) {
+      if (fs.existsSync(candidatePath)) {
+        return candidatePath;
+      }
+    }
+  }
+
+  if (process.platform === 'win32') {
+    const windowsPath = path.join(byModuleAssetsDir, 'windows', 'modal-icon.png');
+    if (fs.existsSync(windowsPath)) {
+      return windowsPath;
+    }
+  }
+
+  if (process.platform === 'linux') {
+    const linuxPath = path.join(byModuleAssetsDir, 'linux', 'modal-icon.png');
+    if (fs.existsSync(linuxPath)) {
+      return linuxPath;
+    }
+  }
+
+  const genericPath = path.join(byModuleAssetsDir, 'modal-icon.png');
+  return fs.existsSync(genericPath) ? genericPath : null;
+}
+
 function applyAppIcon() {
   if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
     return;
@@ -158,6 +192,31 @@ function applyAppIcon() {
       return;
     } catch {
       // Try the next available icon candidate.
+    }
+  }
+}
+
+function applyStandaloneByModuleAppIcon() {
+  if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
+    return;
+  }
+
+  const byModuleAssetsDir = path.join(__dirname, 'test-by-module', 'assets');
+  const iconCandidates = [
+    path.join(byModuleAssetsDir, 'mac', 'modal-icon.png'),
+    path.join(byModuleAssetsDir, 'mac', 'modal-icon.icns'),
+    path.join(byModuleAssetsDir, 'modal-icon.png'),
+  ].filter((candidatePath) => fs.existsSync(candidatePath));
+
+  for (const iconPath of iconCandidates) {
+    try {
+      const runtimeIcon = nativeImage.createFromPath(iconPath);
+      if (!runtimeIcon.isEmpty()) {
+        app.dock.setIcon(runtimeIcon);
+        return;
+      }
+    } catch {
+      // Try the next available standalone icon candidate.
     }
   }
 }
@@ -1450,7 +1509,7 @@ function createWindow(options = null) {
     .trim()
     .toLowerCase();
   const modalOnly = Boolean(options?.modalOnly);
-  const iconPath = getLauncherIconPath();
+  const iconPath = modalOnly ? getStandaloneByModuleIconPath() || getLauncherIconPath() : getLauncherIconPath();
   const linuxRuntimeIcon = process.platform === 'linux' && iconPath ? nativeImage.createFromPath(iconPath) : null;
   const effectiveWindowIcon =
     process.platform === 'linux' && linuxRuntimeIcon && !linuxRuntimeIcon.isEmpty() ? linuxRuntimeIcon : iconPath;
@@ -2537,11 +2596,22 @@ app.whenReady().then(() => {
   }
 
   ensureLinuxDevDesktopEntry();
-  applyAppIcon();
+  if (initialModalOnlyMode) {
+    applyStandaloneByModuleAppIcon();
+  } else {
+    applyAppIcon();
+  }
   createWindow({
     openByModuleMode: initialByModuleLaunchMode,
     modalOnly: initialModalOnlyMode,
   });
+
+  if (initialModalOnlyMode) {
+    // Re-apply icon after window creation to avoid default Electron icon flashes on macOS.
+    setTimeout(() => {
+      applyStandaloneByModuleAppIcon();
+    }, 80);
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
