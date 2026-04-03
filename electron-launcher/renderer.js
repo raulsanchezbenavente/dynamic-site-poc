@@ -3566,22 +3566,18 @@ function renderScripts() {
         + '<rect x="39" y="42" width="22" height="36" rx="5" ry="5" fill="#fff"/>'
         + '</svg>';
       const infoIcon = document.createElement('div');
+      infoIcon.className = 'script-description-info';
       infoIcon.setAttribute('role', 'button');
       infoIcon.setAttribute('tabindex', '0');
       infoIcon.setAttribute('aria-label', `Info: ${script.description}`);
       infoIcon.setAttribute('data-tooltip', script.description);
       infoIcon.setAttribute('data-tooltip-align', 'start');
-      infoIcon.style.cssText =
-        'width:18px;height:18px;min-width:18px;flex-shrink:0;cursor:pointer;'
-        + 'background:url("data:image/svg+xml,' + encodeURIComponent(infoIconSvg) + '") center/contain no-repeat;';
+      infoIcon.style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(infoIconSvg) + '")';
       infoIcon.addEventListener('mouseenter', () => showLogTabTooltipPortal(infoIcon));
       infoIcon.addEventListener('mouseleave', () => hideLogTabTooltipPortal());
       infoIcon.addEventListener('focus', () => showLogTabTooltipPortal(infoIcon));
       infoIcon.addEventListener('blur', () => hideLogTabTooltipPortal());
-      const footer = document.createElement('div');
-      footer.style.cssText = 'display:flex;align-items:center;padding-top:0.2rem;';
-      footer.append(infoIcon);
-      info.append(top, commandLine, footer);
+      info.append(top, commandLine, infoIcon);
     } else {
       info.append(top, commandLine);
     }
