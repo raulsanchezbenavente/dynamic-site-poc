@@ -7,6 +7,19 @@ const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const exportLogsButton = document.getElementById('exportLogsButton');
 const launcherToast = document.getElementById('launcherToast');
+const byModuleOverlay = document.getElementById('byModuleOverlay');
+const byModuleTitle = document.getElementById('byModuleTitle');
+const byModuleSubtitle = document.getElementById('byModuleSubtitle');
+const byModuleSelect = document.getElementById('byModuleSelect');
+const byModuleWatchRow = document.getElementById('byModuleWatchRow');
+const byModuleWatch = document.getElementById('byModuleWatch');
+const byModuleCoverageRow = document.getElementById('byModuleCoverageRow');
+const byModuleCoverage = document.getElementById('byModuleCoverage');
+const byModuleDocsRow = document.getElementById('byModuleDocsRow');
+const byModuleDocs = document.getElementById('byModuleDocs');
+const byModuleStatus = document.getElementById('byModuleStatus');
+const byModuleCancelButton = document.getElementById('byModuleCancelButton');
+const byModuleRunButton = document.getElementById('byModuleRunButton');
 const shutdownOverlay = document.getElementById('shutdownOverlay');
 const terminalThemeTrigger = document.getElementById('terminalThemeTrigger');
 const terminalThemeText = document.getElementById('terminalThemeText');
@@ -43,6 +56,22 @@ const packageSourceOptions = Array.from(document.querySelectorAll('.package-sour
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 const filterModeToggleButton = document.getElementById('filterModeToggleButton');
+
+const LAUNCH_QUERY_PARAMS = (() => {
+  try {
+    return new URLSearchParams(window.location.search || '');
+  } catch {
+    return new URLSearchParams('');
+  }
+})();
+const INITIAL_BY_MODULE_MODE = String(LAUNCH_QUERY_PARAMS.get('byModule') || '')
+  .trim()
+  .toLowerCase();
+const IS_MODAL_ONLY_BY_MODULE = ['1', 'true', 'yes'].includes(
+  String(LAUNCH_QUERY_PARAMS.get('modalOnly') || '')
+    .trim()
+    .toLowerCase()
+);
 
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
@@ -86,6 +115,37 @@ const PACKAGE_SOURCE_LABELS = {
   prod: 'Prod (project root)',
   custom: 'Other...',
 };
+const BY_MODULE_PREFS_STORAGE_KEY = 'launcher.by-module-prefs.v1';
+const BY_MODULE_MODES = {
+  tests: {
+    scriptName: 'test-by-module',
+    title: 'Run Unit Tests by Module',
+    subtitle: 'Select a module and run its specs from the terminal.',
+    runLabel: 'Run tests',
+    loadingLabel: 'Loading modules...',
+    emptyLabel: 'No modules found.',
+    modeLabel: 'tests',
+    availableGroupLabel: 'Modules with tests',
+    unavailableGroupLabel: 'Modules without tests',
+    showWatch: true,
+    showCoverage: true,
+    showDocs: false,
+  },
+  storybook: {
+    scriptName: 'storybook-by-module',
+    title: 'Run Storybook by Module',
+    subtitle: 'Select a module and run its Storybook target from the terminal.',
+    runLabel: 'Run storybook',
+    loadingLabel: 'Loading modules...',
+    emptyLabel: 'No modules found.',
+    modeLabel: 'Storybook',
+    availableGroupLabel: 'Modules with Storybook',
+    unavailableGroupLabel: 'Modules without Storybook',
+    showWatch: false,
+    showCoverage: false,
+    showDocs: true,
+  },
+};
 
 let scriptsState = [];
 let activeLogTab = 'all';
@@ -118,6 +178,7 @@ let logTabTooltipPortalEl = null;
 let activeLogTabTooltipTarget = null;
 let launcherToastHideTimer = null;
 let isQuitInProgress = false;
+let byModuleDialogState = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
@@ -1901,6 +1962,368 @@ function showLauncherToast(message, options = {}) {
   }, 5000);
 }
 
+function setByModuleStatus(message, isError = false) {
+  if (!byModuleStatus) {
+    return;
+  }
+
+  byModuleStatus.textContent = String(message || '').trim();
+  byModuleStatus.classList.toggle('is-error', Boolean(isError));
+}
+
+function readByModulePrefs(mode) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+
+  try {
+    const raw = window.localStorage.getItem(BY_MODULE_PREFS_STORAGE_KEY);
+    if (!raw) {
+      return {
+        moduleName: '',
+        watch: false,
+        coverage: false,
+        generateDocumentation: false,
+      };
+    }
+
+    const parsed = JSON.parse(raw);
+    const entry = parsed && typeof parsed === 'object' ? parsed[normalizedMode] : null;
+
+    return {
+      moduleName: String(entry?.moduleName || '').trim(),
+      watch: Boolean(entry?.watch),
+      coverage: Boolean(entry?.coverage),
+      generateDocumentation: Boolean(entry?.generateDocumentation),
+    };
+  } catch {
+    return {
+      moduleName: '',
+      watch: false,
+      coverage: false,
+      generateDocumentation: false,
+    };
+  }
+}
+
+function saveByModulePrefs(mode, prefs) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+  if (!normalizedMode) {
+    return;
+  }
+
+  try {
+    const raw = window.localStorage.getItem(BY_MODULE_PREFS_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : {};
+    const next = parsed && typeof parsed === 'object' ? { ...parsed } : {};
+
+    next[normalizedMode] = {
+      moduleName: String(prefs?.moduleName || '').trim(),
+      watch: Boolean(prefs?.watch),
+      coverage: Boolean(prefs?.coverage),
+      generateDocumentation: Boolean(prefs?.generateDocumentation),
+    };
+
+    window.localStorage.setItem(BY_MODULE_PREFS_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Ignore storage failures.
+  }
+}
+
+function saveCurrentByModulePrefs() {
+  if (!byModuleDialogState || !byModuleSelect) {
+    return;
+  }
+
+  saveByModulePrefs(byModuleDialogState.mode, {
+    moduleName: String(byModuleSelect.value || '').trim(),
+    watch: Boolean(byModuleWatch?.checked),
+    coverage: Boolean(byModuleCoverage?.checked),
+    generateDocumentation: Boolean(byModuleDocs?.checked),
+  });
+}
+
+function setByModuleBusy(isBusy) {
+  const busy = Boolean(isBusy);
+
+  if (byModuleSelect) {
+    byModuleSelect.disabled = busy;
+  }
+
+  if (byModuleWatch) {
+    byModuleWatch.disabled = busy;
+  }
+
+  if (byModuleCoverage) {
+    byModuleCoverage.disabled = busy;
+  }
+
+  if (byModuleDocs) {
+    byModuleDocs.disabled = busy;
+  }
+
+  if (byModuleCancelButton) {
+    byModuleCancelButton.disabled = busy;
+  }
+
+  if (byModuleRunButton) {
+    byModuleRunButton.disabled = busy || !byModuleSelect?.value;
+  }
+}
+
+function closeByModuleDialog() {
+  byModuleDialogState = null;
+  if (byModuleOverlay) {
+    byModuleOverlay.hidden = true;
+  }
+
+  if (IS_MODAL_ONLY_BY_MODULE) {
+    window.close();
+  }
+}
+
+function renderByModuleOptions(modeConfig, modules) {
+  if (!byModuleSelect) {
+    return;
+  }
+
+  byModuleSelect.replaceChildren();
+  const available = [];
+  const unavailable = [];
+
+  for (const entry of Array.isArray(modules) ? modules : []) {
+    const name = String(entry?.name || '').trim();
+    if (!name) {
+      continue;
+    }
+
+    if (entry?.available === false) {
+      unavailable.push(entry);
+      continue;
+    }
+
+    available.push(entry);
+  }
+
+  const createOption = (entry, disabled = false) => {
+    const option = document.createElement('option');
+    option.value = String(entry.name);
+    option.textContent = String(entry.name);
+    option.disabled = disabled;
+    return option;
+  };
+
+  if (available.length > 0) {
+    const availableGroup = document.createElement('optgroup');
+    availableGroup.label = modeConfig.availableGroupLabel || 'Modules';
+    for (const entry of available) {
+      availableGroup.appendChild(createOption(entry));
+    }
+    byModuleSelect.appendChild(availableGroup);
+  }
+
+  if (unavailable.length > 0) {
+    const unavailableGroup = document.createElement('optgroup');
+    unavailableGroup.label = modeConfig.unavailableGroupLabel || 'Unavailable';
+    for (const entry of unavailable) {
+      unavailableGroup.appendChild(createOption(entry, true));
+    }
+    byModuleSelect.appendChild(unavailableGroup);
+  }
+
+  const firstEnabled = Array.from(byModuleSelect.options).find((option) => !option.disabled);
+  const savedPrefs = readByModulePrefs(byModuleDialogState?.mode || '');
+  const savedModuleName = String(savedPrefs.moduleName || '');
+  const matchingSavedOption = Array.from(byModuleSelect.options).find(
+    (option) => !option.disabled && option.value === savedModuleName
+  );
+  byModuleSelect.value = matchingSavedOption ? matchingSavedOption.value : firstEnabled ? firstEnabled.value : '';
+
+  if (available.length === 0) {
+    setByModuleStatus(modeConfig.emptyLabel, true);
+  } else {
+    setByModuleStatus(`Ready. ${available.length} modules with ${modeConfig.modeLabel || 'support'} and ${unavailable.length} without ${modeConfig.modeLabel || 'support'}.`);
+  }
+}
+
+async function ensureTerminalTargetForByModule(tabName) {
+  let session = getActiveTerminalSession();
+  if (!session && terminalSessions.size > 0) {
+    const firstSessionId = Array.from(terminalSessions.keys())[0];
+    if (firstSessionId) {
+      session = terminalSessions.get(firstSessionId) || null;
+    }
+  }
+
+  if (!session) {
+    session = await createNewTerminalSession();
+  }
+
+  if (!session) {
+    throw new Error('Could not create terminal session');
+  }
+
+  const renameResult = await window.launcherApi.renameTerminalSession(session.id, tabName);
+  if (renameResult?.ok) {
+    ensureTerminalSessionShape(renameResult.session);
+  }
+
+  activeTerminalSessionId = session.id;
+  activeLogTab = `${TERMINAL_TAB_PREFIX}${session.id}`;
+  renderLogTabs();
+  renderLogs();
+  return session;
+}
+
+async function runByModuleFromDialog() {
+  if (!byModuleDialogState) {
+    return;
+  }
+
+  const modeConfig = BY_MODULE_MODES[byModuleDialogState.mode];
+  if (!modeConfig) {
+    return;
+  }
+
+  const selectedModule = String(byModuleSelect?.value || '').trim();
+  if (!selectedModule) {
+    setByModuleStatus('Select a module first.', true);
+    return;
+  }
+
+  const payload = {
+    mode: byModuleDialogState.mode,
+    moduleName: selectedModule,
+    watch: Boolean(byModuleWatch?.checked),
+    coverage: Boolean(byModuleCoverage?.checked),
+    generateDocumentation: Boolean(byModuleDocs?.checked),
+  };
+
+  setByModuleBusy(true);
+  setByModuleStatus('Preparing command...');
+
+  try {
+    let result;
+    if (IS_MODAL_ONLY_BY_MODULE) {
+      // Persist selection before standalone flow closes this window.
+      saveCurrentByModulePrefs();
+      result = await window.launcherApi.runByModuleStandalone(payload);
+    } else {
+      const build = await window.launcherApi.buildByModuleCommand(payload);
+      if (!build?.ok) {
+        setByModuleStatus(build?.error || 'Could not prepare command.', true);
+        setByModuleBusy(false);
+        return;
+      }
+
+      focusScriptLogTab(modeConfig.scriptName);
+      closeByModuleDialog();
+      result = await window.launcherApi.startInlineScript({
+        scriptName: modeConfig.scriptName,
+        command: build.command,
+        cwd: build.cwd || '',
+      });
+    }
+
+    if (!result?.ok) {
+      setByModuleStatus(result?.error || 'Could not start command.', true);
+      setByModuleBusy(false);
+      return;
+    }
+
+    saveCurrentByModulePrefs();
+  } catch (error) {
+    setByModuleStatus(error?.message || String(error), true);
+    setByModuleBusy(false);
+  }
+}
+
+async function openByModuleDialog(mode) {
+  const normalizedMode = String(mode || '').trim().toLowerCase();
+  const modeConfig = BY_MODULE_MODES[normalizedMode];
+  if (!modeConfig || !byModuleOverlay) {
+    return;
+  }
+
+  byModuleDialogState = { mode: normalizedMode };
+  byModuleOverlay.hidden = false;
+
+  if (byModuleTitle) {
+    byModuleTitle.textContent = modeConfig.title;
+  }
+
+  if (byModuleSubtitle) {
+    byModuleSubtitle.textContent = modeConfig.subtitle;
+  }
+
+  if (byModuleRunButton) {
+    byModuleRunButton.textContent = modeConfig.runLabel;
+  }
+
+  if (byModuleWatchRow) {
+    byModuleWatchRow.hidden = !modeConfig.showWatch;
+  }
+
+  if (byModuleCoverageRow) {
+    byModuleCoverageRow.hidden = !modeConfig.showCoverage;
+  }
+
+  if (byModuleDocsRow) {
+    byModuleDocsRow.hidden = !modeConfig.showDocs;
+  }
+
+  if (byModuleWatch) {
+    byModuleWatch.checked = false;
+  }
+
+  if (byModuleCoverage) {
+    byModuleCoverage.checked = false;
+  }
+
+  if (byModuleDocs) {
+    byModuleDocs.checked = false;
+  }
+
+  const savedPrefs = readByModulePrefs(normalizedMode);
+  if (byModuleWatch) {
+    byModuleWatch.checked = savedPrefs.watch;
+  }
+
+  if (byModuleCoverage) {
+    byModuleCoverage.checked = savedPrefs.coverage;
+  }
+
+  if (byModuleDocs) {
+    byModuleDocs.checked = savedPrefs.generateDocumentation;
+  }
+
+  setByModuleBusy(true);
+  setByModuleStatus(modeConfig.loadingLabel);
+
+  try {
+    const result = await window.launcherApi.listByModuleOptions(normalizedMode);
+    if (!result?.ok) {
+      setByModuleStatus(result?.error || 'Could not load modules.', true);
+      if (byModuleSelect) {
+        byModuleSelect.replaceChildren();
+      }
+      setByModuleBusy(false);
+      return;
+    }
+
+    renderByModuleOptions(modeConfig, result.modules || []);
+    setByModuleBusy(false);
+
+    if (byModuleSelect && !byModuleSelect.disabled) {
+      byModuleSelect.focus();
+    }
+  } catch (error) {
+    setByModuleStatus(error?.message || String(error), true);
+    if (byModuleSelect) {
+      byModuleSelect.replaceChildren();
+    }
+    setByModuleBusy(false);
+  }
+}
+
 function focusScriptLogTab(scriptName) {
   ensureLogBucket(scriptName);
   activeLogTab = scriptName;
@@ -2598,7 +3021,7 @@ async function handleTerminalTabAutocomplete(reverse = false) {
   renderAutocompleteSuggestionsOnce(session.id, suggestionLabels);
 }
 
-async function runInteractiveTerminalCommand(command) {
+async function runInteractiveTerminalCommand(command, executionOptions = null) {
   const session = getActiveTerminalSession();
   if (!session) {
     return;
@@ -2643,6 +3066,7 @@ async function runInteractiveTerminalCommand(command) {
   try {
     const result = await window.launcherApi.runTerminalCommand(session.id, trimmed, {
       terminalType: session.terminalType || selectedTerminalType,
+      cwd: executionOptions?.cwd || '',
     });
     setTerminalCwd(session.id, result?.cwd || session.cwd);
 
@@ -2875,6 +3299,16 @@ function setRunning(scriptName, running) {
 }
 
 async function runScript(scriptName) {
+  if (scriptName === BY_MODULE_MODES.tests.scriptName) {
+    await openByModuleDialog('tests');
+    return;
+  }
+
+  if (scriptName === BY_MODULE_MODES.storybook.scriptName) {
+    await openByModuleDialog('storybook');
+    return;
+  }
+
   const result = await window.launcherApi.startScript(scriptName);
   if (!result.ok) {
     appendLog({ script: scriptName, stream: 'stderr', message: `${result.error}\n` });
@@ -3066,8 +3500,9 @@ function renderScripts() {
   }
 
   for (const script of visibleScripts) {
+    const isRunning = Boolean(script.running);
     const row = document.createElement('div');
-    row.className = `script-row ${script.running ? 'running' : ''}`;
+    row.className = `script-row ${isRunning ? 'running' : ''}`;
 
     const info = document.createElement('div');
     info.className = 'script-info';
@@ -3116,18 +3551,18 @@ function renderScripts() {
     const actions = document.createElement('div');
     actions.className = 'actions';
 
-    const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), script.running);
-    bindScriptActionTooltip(startBtn, script.running ? 'Script is running' : 'Start script');
+    const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), isRunning);
+    bindScriptActionTooltip(startBtn, isRunning ? 'Script is running' : 'Start script');
 
     const restartBtn = createScriptActionButton(
       'restart',
       'Restart',
       () => restartScript(script.name),
-      !script.running
+      !isRunning
     );
     bindScriptActionTooltip(restartBtn, 'Restart script');
 
-    const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !script.running);
+    const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !isRunning);
     bindScriptActionTooltip(stopBtn, 'Stop script');
 
     const commandLine = document.createElement('div');
@@ -3190,6 +3625,32 @@ async function refreshTerminalSessions() {
     activeTerminalSessionId = Array.from(terminalSessions.keys())[0];
   }
 }
+
+byModuleRunButton?.addEventListener('click', () => {
+  void runByModuleFromDialog();
+});
+
+byModuleCancelButton?.addEventListener('click', () => {
+  closeByModuleDialog();
+});
+
+byModuleSelect?.addEventListener('change', () => {
+  if (byModuleRunButton) {
+    byModuleRunButton.disabled = !byModuleSelect.value;
+  }
+
+  saveCurrentByModulePrefs();
+});
+
+byModuleWatch?.addEventListener('change', saveCurrentByModulePrefs);
+byModuleCoverage?.addEventListener('change', saveCurrentByModulePrefs);
+byModuleDocs?.addEventListener('change', saveCurrentByModulePrefs);
+
+byModuleOverlay?.addEventListener('click', (event) => {
+  if (event.target === byModuleOverlay) {
+    closeByModuleDialog();
+  }
+});
 
 refreshButton.addEventListener('click', refreshScripts);
 quitButton.addEventListener('click', async () => {
@@ -3443,6 +3904,20 @@ function hasSelectedTextForCopyShortcut() {
 }
 
 document.addEventListener('keydown', (event) => {
+  if (byModuleDialogState && byModuleOverlay && !byModuleOverlay.hidden) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeByModuleDialog();
+      return;
+    }
+
+    if (event.key === 'Enter' && document.activeElement !== byModuleCancelButton) {
+      event.preventDefault();
+      void runByModuleFromDialog();
+      return;
+    }
+  }
+
   const isCtrlShortcut = event.ctrlKey && !event.metaKey && !event.altKey;
   if (isCtrlShortcut) {
     const key = String(event.key);
@@ -3541,6 +4016,11 @@ document.addEventListener('keydown', (event) => {
   }
 
   if (event.key === 'Escape') {
+    if (byModuleDialogState && byModuleOverlay && !byModuleOverlay.hidden) {
+      closeByModuleDialog();
+      return;
+    }
+
     closeThemeMenu();
     closeTerminalTypeMenu();
     closeTerminalFontMenu();
@@ -3581,6 +4061,16 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 });
 
 async function init() {
+  if (IS_MODAL_ONLY_BY_MODULE) {
+    document.body.classList.add('modal-only-by-module');
+
+    if (INITIAL_BY_MODULE_MODE === 'tests' || INITIAL_BY_MODULE_MODE === 'storybook') {
+      await openByModuleDialog(INITIAL_BY_MODULE_MODE);
+    }
+
+    return;
+  }
+
   const savedActiveLogTab = readSavedActiveLogTab();
   const defaultFavoriteScripts = await loadDefaultFavoriteScripts();
   const defaultTerminalTheme = await loadDefaultTerminalTheme();
@@ -3628,6 +4118,10 @@ async function init() {
   }
   updateInteractiveTerminalInputMode();
   updateConsoleSurface();
+
+  if (INITIAL_BY_MODULE_MODE === 'tests' || INITIAL_BY_MODULE_MODE === 'storybook') {
+    await openByModuleDialog(INITIAL_BY_MODULE_MODE);
+  }
 }
 
 void init();
