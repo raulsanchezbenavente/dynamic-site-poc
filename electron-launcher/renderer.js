@@ -2203,6 +2203,8 @@ async function runByModuleFromDialog() {
   try {
     let result;
     if (IS_MODAL_ONLY_BY_MODULE) {
+      // Persist selection before standalone flow closes this window.
+      saveCurrentByModulePrefs();
       result = await window.launcherApi.runByModuleStandalone(payload);
     } else {
       const build = await window.launcherApi.buildByModuleCommand(payload);
