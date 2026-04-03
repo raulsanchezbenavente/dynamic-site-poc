@@ -1172,7 +1172,7 @@ function positionLogTabTooltipPortal(target) {
   }
 
   const targetRect = target.getBoundingClientRect();
-  const gap = 8;
+  const gap = 7;
   tooltip.hidden = false;
   tooltip.style.left = '0px';
   tooltip.style.top = '0px';
