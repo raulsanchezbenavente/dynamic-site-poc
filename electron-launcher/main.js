@@ -69,6 +69,12 @@ function parseModalOnlyFromArgv(argv = []) {
 
 const initialByModuleLaunchMode = parseByModuleLaunchModeFromArgv(process.argv.slice(1));
 const initialModalOnlyMode = parseModalOnlyFromArgv(process.argv.slice(1));
+const shouldUseSingleInstanceLock = !initialModalOnlyMode;
+const hasSingleInstanceLock = shouldUseSingleInstanceLock ? app.requestSingleInstanceLock() : true;
+
+if (shouldUseSingleInstanceLock && !hasSingleInstanceLock) {
+  app.quit();
+}
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -2406,6 +2412,16 @@ ipcMain.handle('app:quit', async () => {
   return { ok: true };
 });
 
+ipcMain.handle('app:close-window', async (event) => {
+  const ownerWindow = BrowserWindow.fromWebContents(event.sender) || null;
+  if (!ownerWindow || ownerWindow.isDestroyed()) {
+    return { ok: false };
+  }
+
+  ownerWindow.close();
+  return { ok: true };
+});
+
 ipcMain.handle('external:open', async (_event, url) => {
   let parsed;
 
@@ -2516,6 +2532,10 @@ app.on('before-quit', (event) => {
 });
 
 app.whenReady().then(() => {
+  if (!hasSingleInstanceLock) {
+    return;
+  }
+
   ensureLinuxDevDesktopEntry();
   applyAppIcon();
   createWindow({
@@ -2526,6 +2546,27 @@ app.whenReady().then(() => {
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
+    }
+  });
+
+  app.on('second-instance', (_event, argv) => {
+    const requestedMode = parseByModuleLaunchModeFromArgv(argv || []);
+    const modalOnly = parseModalOnlyFromArgv(argv || []);
+
+    if (requestedMode === 'tests' || requestedMode === 'storybook') {
+      createWindow({
+        openByModuleMode: requestedMode,
+        modalOnly,
+      });
+      return;
+    }
+
+    const [firstWindow] = BrowserWindow.getAllWindows();
+    if (firstWindow && !firstWindow.isDestroyed()) {
+      if (firstWindow.isMinimized()) {
+        firstWindow.restore();
+      }
+      firstWindow.focus();
     }
   });
 });

@@ -2076,7 +2076,7 @@ function closeByModuleDialog() {
   }
 
   if (IS_MODAL_ONLY_BY_MODULE) {
-    void window.launcherApi.quitApp();
+    window.close();
   }
 }
 

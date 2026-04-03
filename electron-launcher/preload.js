@@ -2,6 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('launcherApi', {
   quitApp: () => ipcRenderer.invoke('app:quit'),
+  closeCurrentWindow: () => ipcRenderer.invoke('app:close-window'),
   listScripts: () => ipcRenderer.invoke('scripts:list'),
   getDefaultFavoriteScripts: () => ipcRenderer.invoke('scripts:default-favorites'),
   getDefaultTerminalTheme: () => ipcRenderer.invoke('theme:default'),
