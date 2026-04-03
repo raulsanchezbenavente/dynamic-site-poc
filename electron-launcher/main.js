@@ -91,7 +91,7 @@ if (process.platform === 'linux') {
 
 function getLauncherIconPath() {
   if (process.platform === 'win32') {
-    const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
+    const windowsIconPath = path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png');
     if (fs.existsSync(windowsIconPath)) {
       return windowsIconPath;
     }
@@ -99,10 +99,10 @@ function getLauncherIconPath() {
 
   if (process.platform === 'linux') {
     const linuxIconCandidates = [
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'linux', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'windows', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'linux', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'avianca-icon.png'),
     ];
 
     for (const linuxIconPath of linuxIconCandidates) {
@@ -114,8 +114,8 @@ function getLauncherIconPath() {
 
   if (process.platform === 'darwin') {
     const macIconCandidates = [
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.icns'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
     ];
 
     for (const macIconPath of macIconCandidates) {
@@ -125,17 +125,17 @@ function getLauncherIconPath() {
     }
   }
 
-  const platformIconPath = path.join(__dirname, 'assets', 'linux', 'avianca-icon.png');
+  const platformIconPath = path.join(__dirname, 'assets', 'launcher', 'linux', 'avianca-icon.png');
   if (fs.existsSync(platformIconPath)) {
     return platformIconPath;
   }
 
-  const fallbackIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
+  const fallbackIconPath = path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png');
   return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
 }
 
 function getStandaloneByModuleIconPath() {
-  const byModuleAssetsDir = path.join(__dirname, 'test-by-module', 'assets');
+  const byModuleAssetsDir = path.join(__dirname, 'assets', 'by-module-modal');
 
   if (process.platform === 'darwin') {
     const macCandidates = [
@@ -174,8 +174,8 @@ function applyAppIcon() {
   }
 
   const iconCandidates = [
-    path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
-    path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
+    path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.icns'),
   ].filter((candidatePath) => fs.existsSync(candidatePath));
 
   for (const iconPath of iconCandidates) {
@@ -201,7 +201,7 @@ function applyStandaloneByModuleAppIcon() {
     return;
   }
 
-  const byModuleAssetsDir = path.join(__dirname, 'test-by-module', 'assets');
+  const byModuleAssetsDir = path.join(__dirname, 'assets', 'by-module-modal');
   const iconCandidates = [
     path.join(byModuleAssetsDir, 'mac', 'modal-icon.png'),
     path.join(byModuleAssetsDir, 'mac', 'modal-icon.icns'),

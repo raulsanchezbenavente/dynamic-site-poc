@@ -53,8 +53,8 @@
     "launcher:build:run": "Builds (or reuses) the launcher artifact for the current OS and runs it.",
     "watch": "Builds Angular in watch mode using the development configuration.",
     "test": "Runs unit tests once in headless Chrome.",
-    "test-by-module": "Opens Dynamic Site Launcher and shows the embedded module picker for unit tests.",
-    "storybook-by-module": "Opens Dynamic Site Launcher and shows the embedded module picker for Storybook.",
+    "test-by-module": "Opens standalone by-module modal and runs unit tests for the selected module.",
+    "storybook-by-module": "Opens standalone by-module modal and runs Storybook for the selected module.",
     "test:watch": "Runs unit tests in watch mode using headless Chrome.",
     "lint": "Runs ESLint on TypeScript and Angular HTML templates.",
     "lint:styles": "Runs Stylelint on SCSS and CSS source files.",
@@ -75,14 +75,14 @@
       "main": "electron-launcher/main.js"
     },
     "win": {
-      "icon": "electron-launcher/assets/windows/avianca-icon.png",
+      "icon": "electron-launcher/assets/launcher/windows/avianca-icon.png",
       "signAndEditExecutable": false,
       "target": [
         "nsis"
       ]
     },
     "mac": {
-      "icon": "electron-launcher/assets/mac/avianca-icon.icns",
+      "icon": "electron-launcher/assets/launcher/mac/avianca-icon.icns",
       "target": [
         "dmg",
         "zip"
@@ -90,7 +90,7 @@
       "category": "public.app-category.developer-tools"
     },
     "linux": {
-      "icon": "electron-launcher/assets/linux/avianca-icon.png",
+      "icon": "electron-launcher/assets/launcher/linux/avianca-icon.png",
       "target": [
         "AppImage",
         "deb"
