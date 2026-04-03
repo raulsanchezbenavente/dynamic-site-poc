@@ -2187,7 +2187,7 @@ button.log-tab:hover:not(:disabled) {
     margin-left: auto;
   }
   .source-selector {
-    flex: 1 1 100%;
+    flex: 1 1 auto;
     justify-content: flex-start;
     flex-wrap: wrap;
   }
