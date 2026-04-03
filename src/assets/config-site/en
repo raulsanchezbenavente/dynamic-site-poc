@@ -34,7 +34,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -441,7 +444,7 @@
                 "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
+                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
