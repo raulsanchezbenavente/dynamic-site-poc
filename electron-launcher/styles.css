@@ -221,6 +221,21 @@ body {
 .by-module-overlay[hidden] {
   display: none;
 }
+body.modal-only-by-module {
+  background: #edf3f8;
+  background-image: none;
+}
+body.modal-only-by-module .topbar,
+body.modal-only-by-module .layout,
+body.modal-only-by-module .source-path,
+body.modal-only-by-module .launcher-toast,
+body.modal-only-by-module .shutdown-overlay {
+  display: none !important;
+}
+body.modal-only-by-module .by-module-overlay {
+  background: transparent;
+  backdrop-filter: none;
+}
 .by-module-dialog {
   width: min(33rem, calc(100vw - 2.2rem));
   border: 2px solid #c9d8ec;

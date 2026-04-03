@@ -5,6 +5,7 @@ const { app, BrowserWindow, dialog, ipcMain, nativeImage, shell } = require('ele
 
 const runningScripts = new Map();
 let isShuttingDown = false;
+let standaloneByModuleChild = null;
 const terminalSessions = new Map();
 let terminalSessionCounter = 0;
 const windowsCommandExistsCache = new Map();
@@ -29,6 +30,45 @@ const BY_MODULE_SPEC_SCAN_IGNORED_DIRS = new Set([
   '.cache',
   '.storybook-static',
 ]);
+
+function parseByModuleLaunchModeFromArgv(argv = []) {
+  const arg = Array.isArray(argv)
+    ? argv.find((entry) => String(entry || '').toLowerCase().startsWith('--by-module='))
+    : null;
+
+  if (!arg) {
+    return '';
+  }
+
+  const value = String(arg)
+    .split('=')
+    .slice(1)
+    .join('=')
+    .trim()
+    .toLowerCase();
+
+  if (value === 'tests' || value === 'storybook') {
+    return value;
+  }
+
+  return '';
+}
+
+function parseModalOnlyFromArgv(argv = []) {
+  if (!Array.isArray(argv)) {
+    return false;
+  }
+
+  return argv.some((entry) => {
+    const normalized = String(entry || '')
+      .trim()
+      .toLowerCase();
+    return normalized === '--modal-only' || normalized === '--modal-only=1' || normalized === '--modal-only=true';
+  });
+}
+
+const initialByModuleLaunchMode = parseByModuleLaunchModeFromArgv(process.argv.slice(1));
+const initialModalOnlyMode = parseModalOnlyFromArgv(process.argv.slice(1));
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -1399,12 +1439,32 @@ function getPackageSourceStatus() {
   };
 }
 
-function createWindow() {
+function createWindow(options = null) {
+  const openByModuleMode = String(options?.openByModuleMode || '')
+    .trim()
+    .toLowerCase();
+  const modalOnly = Boolean(options?.modalOnly);
   const iconPath = getLauncherIconPath();
   const linuxRuntimeIcon = process.platform === 'linux' && iconPath ? nativeImage.createFromPath(iconPath) : null;
   const effectiveWindowIcon =
     process.platform === 'linux' && linuxRuntimeIcon && !linuxRuntimeIcon.isEmpty() ? linuxRuntimeIcon : iconPath;
   const windowState = readWindowState();
+  const modalOnlyState = {
+    width: 560,
+    height: 420,
+    minWidth: 520,
+    minHeight: 380,
+  };
+  const effectiveState = modalOnly
+    ? modalOnlyState
+    : {
+        width: windowState.width,
+        height: windowState.height,
+        minWidth: windowState.minWidth,
+        minHeight: windowState.minHeight,
+        x: windowState.x,
+        y: windowState.y,
+      };
   let persistWindowStateTimeout = null;
 
   const scheduleWindowStatePersist = () => {
@@ -1419,12 +1479,20 @@ function createWindow() {
   };
 
   const win = new BrowserWindow({
-    width: windowState.width,
-    height: windowState.height,
-    minWidth: windowState.minWidth,
-    minHeight: windowState.minHeight,
-    x: windowState.x,
-    y: windowState.y,
+    width: effectiveState.width,
+    height: effectiveState.height,
+    minWidth: effectiveState.minWidth,
+    minHeight: effectiveState.minHeight,
+    ...(modalOnly
+      ? {
+          resizable: false,
+          minimizable: false,
+          maximizable: false,
+        }
+      : {
+          x: effectiveState.x,
+          y: effectiveState.y,
+        }),
     icon: effectiveWindowIcon,
     autoHideMenuBar: true,
     webPreferences: {
@@ -1440,29 +1508,41 @@ function createWindow() {
     }
   }
 
-  win.on('close', () => {
-    writeWindowState(win);
-  });
+  if (!modalOnly) {
+    win.on('close', () => {
+      writeWindowState(win);
+    });
 
-  win.on('resized', () => {
-    scheduleWindowStatePersist();
-  });
+    win.on('resized', () => {
+      scheduleWindowStatePersist();
+    });
 
-  win.on('moved', () => {
-    scheduleWindowStatePersist();
-  });
+    win.on('moved', () => {
+      scheduleWindowStatePersist();
+    });
 
-  win.on('maximize', () => {
-    writeWindowState(win);
-  });
+    win.on('maximize', () => {
+      writeWindowState(win);
+    });
 
-  win.on('unmaximize', () => {
-    writeWindowState(win);
-  });
+    win.on('unmaximize', () => {
+      writeWindowState(win);
+    });
+  }
 
-  win.loadFile(path.join(__dirname, 'index.html'));
+  const query = {};
+  if (openByModuleMode === 'tests' || openByModuleMode === 'storybook') {
+    query.byModule = openByModuleMode;
+  }
+  if (modalOnly) {
+    query.modalOnly = '1';
+  }
 
-  if (windowState.isMaximized) {
+  const loadOptions = Object.keys(query).length > 0 ? { query } : undefined;
+
+  win.loadFile(path.join(__dirname, 'index.html'), loadOptions);
+
+  if (!modalOnly && windowState.isMaximized) {
     win.once('ready-to-show', () => {
       if (!win.isDestroyed()) {
         win.maximize();
@@ -2144,6 +2224,65 @@ ipcMain.handle('by-module:command', async (_event, payload) => {
   return buildByModuleCommand(payload);
 });
 
+ipcMain.handle('by-module:run-standalone', async (_event, payload) => {
+  if (standaloneByModuleChild) {
+    return { ok: false, error: 'Another by-module command is already running.' };
+  }
+
+  const build = buildByModuleCommand(payload);
+  if (!build?.ok) {
+    return { ok: false, error: build?.error || 'Could not prepare command.' };
+  }
+
+  const command = String(build.command || '').trim();
+  const cwd = String(build.cwd || '').trim() || getDefaultTerminalWorkingDirectory();
+  const env = buildSpawnEnv();
+
+  let child;
+  try {
+    if (process.platform === 'win32') {
+      child = spawn('cmd.exe', ['/d', '/s', '/c', command], {
+        cwd,
+        env,
+        stdio: 'inherit',
+        windowsHide: true,
+        shell: false,
+      });
+    } else {
+      const shellBinary = process.env.SHELL || '/bin/zsh';
+      child = spawn(shellBinary, ['-lc', command], {
+        cwd,
+        env,
+        stdio: 'inherit',
+        windowsHide: true,
+        shell: false,
+      });
+    }
+  } catch (error) {
+    return { ok: false, error: error?.message || 'Failed to start by-module command.' };
+  }
+
+  standaloneByModuleChild = child;
+
+  for (const win of BrowserWindow.getAllWindows()) {
+    if (!win.isDestroyed()) {
+      win.close();
+    }
+  }
+
+  child.on('close', (exitCode) => {
+    standaloneByModuleChild = null;
+    app.exit(Number.isInteger(exitCode) ? exitCode : 1);
+  });
+
+  child.on('error', () => {
+    standaloneByModuleChild = null;
+    app.exit(1);
+  });
+
+  return { ok: true };
+});
+
 ipcMain.handle('scripts:start', async (_event, scriptName) => {
   if (runningScripts.has(scriptName)) {
     return { ok: false, error: `Script ${scriptName} is already running.` };
@@ -2379,7 +2518,10 @@ app.on('before-quit', (event) => {
 app.whenReady().then(() => {
   ensureLinuxDevDesktopEntry();
   applyAppIcon();
-  createWindow();
+  createWindow({
+    openByModuleMode: initialByModuleLaunchMode,
+    modalOnly: initialModalOnlyMode,
+  });
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {

@@ -57,6 +57,19 @@ const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 const filterModeToggleButton = document.getElementById('filterModeToggleButton');
 
+const LAUNCH_QUERY_PARAMS = (() => {
+  try {
+    return new URLSearchParams(window.location.search || '');
+  } catch {
+    return new URLSearchParams('');
+  }
+})();
+const IS_MODAL_ONLY_BY_MODULE = ['1', 'true', 'yes'].includes(
+  String(LAUNCH_QUERY_PARAMS.get('modalOnly') || '')
+    .trim()
+    .toLowerCase()
+);
+
 const FILTER_STATE_STORAGE_KEY = 'launcher.filters.v1';
 const FAVORITES_STORAGE_KEY = 'launcher.favorites.v1';
 const DEFAULT_FILTER_STATE = { running: false, favorites: true, mode: 'and' };
@@ -2058,6 +2071,10 @@ function closeByModuleDialog() {
   if (byModuleOverlay) {
     byModuleOverlay.hidden = true;
   }
+
+  if (IS_MODAL_ONLY_BY_MODULE) {
+    void window.launcherApi.quitApp();
+  }
 }
 
 function renderByModuleOptions(modeConfig, modules) {
@@ -2181,20 +2198,25 @@ async function runByModuleFromDialog() {
   setByModuleStatus('Preparing command...');
 
   try {
-    const build = await window.launcherApi.buildByModuleCommand(payload);
-    if (!build?.ok) {
-      setByModuleStatus(build?.error || 'Could not prepare command.', true);
-      setByModuleBusy(false);
-      return;
-    }
+    let result;
+    if (IS_MODAL_ONLY_BY_MODULE) {
+      result = await window.launcherApi.runByModuleStandalone(payload);
+    } else {
+      const build = await window.launcherApi.buildByModuleCommand(payload);
+      if (!build?.ok) {
+        setByModuleStatus(build?.error || 'Could not prepare command.', true);
+        setByModuleBusy(false);
+        return;
+      }
 
-    focusScriptLogTab(modeConfig.scriptName);
-    closeByModuleDialog();
-    const result = await window.launcherApi.startInlineScript({
-      scriptName: modeConfig.scriptName,
-      command: build.command,
-      cwd: build.cwd || '',
-    });
+      focusScriptLogTab(modeConfig.scriptName);
+      closeByModuleDialog();
+      result = await window.launcherApi.startInlineScript({
+        scriptName: modeConfig.scriptName,
+        command: build.command,
+        cwd: build.cwd || '',
+      });
+    }
 
     if (!result?.ok) {
       setByModuleStatus(result?.error || 'Could not start command.', true);
@@ -4081,6 +4103,22 @@ async function init() {
   }
   updateInteractiveTerminalInputMode();
   updateConsoleSurface();
+
+  if (IS_MODAL_ONLY_BY_MODULE) {
+    document.body.classList.add('modal-only-by-module');
+  }
+
+  try {
+    const byModuleMode = String(LAUNCH_QUERY_PARAMS.get('byModule') || '')
+      .trim()
+      .toLowerCase();
+
+    if (byModuleMode === 'tests' || byModuleMode === 'storybook') {
+      await openByModuleDialog(byModuleMode);
+    }
+  } catch {
+    // Ignore malformed query-string parsing.
+  }
 }
 
 void init();
