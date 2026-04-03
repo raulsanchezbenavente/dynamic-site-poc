@@ -2017,7 +2017,6 @@ function spawnScriptProcess(scriptName) {
     cwd: projectRoot,
     env,
     windowsHide: true,
-    detached: true,
   });
 }
 
@@ -2041,7 +2040,6 @@ function spawnInlineScriptProcess(command, cwdOverride = '') {
     cwd,
     env,
     windowsHide: true,
-    detached: true,
     shell: false,
   });
 }
