@@ -3515,24 +3515,6 @@ function renderScripts() {
 
     const name = document.createElement('strong');
     name.textContent = script.name;
-    if (script.description) {
-      name.setAttribute('data-tooltip', script.description);
-      name.setAttribute('data-tooltip-align', 'start');
-      name.setAttribute('aria-label', `${script.name}: ${script.description}`);
-      name.tabIndex = 0;
-      name.addEventListener('mouseenter', () => {
-        showLogTabTooltipPortal(name);
-      });
-      name.addEventListener('mouseleave', () => {
-        hideLogTabTooltipPortal();
-      });
-      name.addEventListener('focus', () => {
-        showLogTabTooltipPortal(name);
-      });
-      name.addEventListener('blur', () => {
-        hideLogTabTooltipPortal();
-      });
-    }
 
     title.append(name);
 
@@ -3576,7 +3558,29 @@ function renderScripts() {
 
     commandText.append(' ', actions);
     commandLine.append(commandText);
-    info.append(top, commandLine);
+
+    if (script.description) {
+      const infoIconSvg = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+        + '<circle cx="50" cy="50" r="50" fill="#0000e0"/>'
+        + '<circle cx="50" cy="28" r="9" fill="#fff"/>'
+        + '<rect x="39" y="42" width="22" height="36" rx="5" ry="5" fill="#fff"/>'
+        + '</svg>';
+      const infoIcon = document.createElement('div');
+      infoIcon.className = 'script-description-info';
+      infoIcon.setAttribute('role', 'button');
+      infoIcon.setAttribute('tabindex', '0');
+      infoIcon.setAttribute('aria-label', `Info: ${script.description}`);
+      infoIcon.setAttribute('data-tooltip', script.description);
+      infoIcon.setAttribute('data-tooltip-align', 'start');
+      infoIcon.style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(infoIconSvg) + '")';
+      infoIcon.addEventListener('mouseenter', () => showLogTabTooltipPortal(infoIcon));
+      infoIcon.addEventListener('mouseleave', () => hideLogTabTooltipPortal());
+      infoIcon.addEventListener('focus', () => showLogTabTooltipPortal(infoIcon));
+      infoIcon.addEventListener('blur', () => hideLogTabTooltipPortal());
+      info.append(top, commandLine, infoIcon);
+    } else {
+      info.append(top, commandLine);
+    }
     row.append(info);
     scriptsList.appendChild(row);
   }

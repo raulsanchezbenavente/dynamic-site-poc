@@ -63,3 +63,6 @@ Thumbs.db
 
 # Migration paths
 _migration/
+
+# legacy-peer-deps=true
+.npmrc
