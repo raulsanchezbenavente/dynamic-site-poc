@@ -78,6 +78,43 @@ function checkPublicHostReachability(baseUrl, timeoutMs = 3500) {
   });
 }
 
+/**
+ * Forwards WebSocket upgrade requests transparently to the Angular dev server.
+ * This makes live-reload work for browsers connected via the proxy (port 4300
+ * or the public HTTPS domain) without any client-side changes.
+ * TLS is already terminated by the HTTPS server before this handler runs,
+ * so we always connect to the upstream with plain TCP.
+ */
+function attachWebSocketProxy(server) {
+  server.on('upgrade', (req, clientSocket, head) => {
+    const targetSocket = net.connect(targetPort, targetHost, () => {
+      const reqLines = [`${req.method} ${req.url} HTTP/1.1`];
+      const rawHeaders = req.rawHeaders;
+      for (let i = 0; i < rawHeaders.length; i += 2) {
+        if (rawHeaders[i].toLowerCase() === 'host') {
+          reqLines.push(`Host: ${targetHost}:${targetPort}`);
+        } else {
+          reqLines.push(`${rawHeaders[i]}: ${rawHeaders[i + 1]}`);
+        }
+      }
+      reqLines.push('', '');
+      targetSocket.write(reqLines.join('\r\n'));
+      if (head && head.length > 0) {
+        targetSocket.write(head);
+      }
+      targetSocket.pipe(clientSocket);
+      clientSocket.pipe(targetSocket);
+    });
+
+    const cleanup = () => {
+      clientSocket.destroy();
+      targetSocket.destroy();
+    };
+    targetSocket.on('error', cleanup);
+    clientSocket.on('error', cleanup);
+  });
+}
+
 function checkPortInUse(port, host = '0.0.0.0') {
   return new Promise((resolve) => {
     const tester = net.createServer();
@@ -150,7 +187,9 @@ async function startProxyServers() {
     logError(`[Proxy startup] HTTP port check failed (${httpPort}): ${httpPortCheck.error}`);
   }
 
-  http.createServer(app).listen(httpPort, () => {
+  const httpServer = http.createServer(app);
+  attachWebSocketProxy(httpServer);
+  httpServer.listen(httpPort, () => {
     console.log(`Index server running on ${httpBaseUrl}`);
     console.log(`Forwarding assets/chunks to http://${targetHost}:${targetPort}`);
   });
@@ -187,6 +226,7 @@ async function startProxyServers() {
     }
 
     const httpsServer = https.createServer(httpsOptions, app);
+    attachWebSocketProxy(httpsServer);
 
     httpsServer.on('error', (error) => {
       const message = error instanceof Error ? error.message : String(error);
