@@ -322,8 +322,8 @@ npm run format            # Prettier formatting
 ### Script Reference
 
 Each script includes a short description in `package.json` under `scriptDescriptions`.
-The Electron launcher uses these descriptions as a custom tooltip when you hover or focus a script name.
-That tooltip is anchored from the left edge of the script title for easier reading.
+The Electron launcher shows these descriptions via a blue info icon (ⓘ) at the bottom-left of each script card.
+Hovering or focusing the icon shows a custom tooltip with the full description text.
 
 | Script                         | Description                                                                         |
 | ------------------------------ | ----------------------------------------------------------------------------------- |
@@ -441,7 +441,7 @@ This keeps both flows in code, so you can switch by changing only one boolean va
 - ↔️ **Drag & Drop Tabs**: Reorder script/session log tabs by dragging (order is persisted)
 - ⭐ **Favorites**: Mark/unmark scripts directly from the UI; favorites are persisted locally. On first launch (when no favorites key exists), defaults are initialized from `electron-launcher/config/default-favorite-scripts.json` (current defaults: `start:serve-proxy`, `start:serve-proxy-sso-bypass`, `build`, `start:backend`, `test`, `test-by-module`, and `storybook-by-module`).
 - 🔎 **Script Filters**: Filter by Running and Favorites with persisted state across relaunches. On first launch (when no filter-state key exists), defaults are initialized with Favorites enabled and filter mode loaded from `electron-launcher/config/default-favorite-scripts.json` (`defaultFilterMode`, currently `and`).
-- 💬 **Script Description Tooltips**: Script names show a custom launcher tooltip (from `scriptDescriptions`) on hover/focus, aligned from the left edge of the title text.
+- 💬 **Script Info Icon**: Each script card that has a description shows a small blue info icon (ⓘ) at the bottom-left of the card. Hovering or focusing it shows a custom launcher tooltip with the full description text, aligned from the left edge of the icon.
 - 🎯 **Project Source Switching**: Change between dev/prod/custom project sources
 - 🧪 **Run tests by module**: Includes a dedicated module picker modal for test execution (`test-by-module`) from launcher and terminal standalone mode.
 - 📚 **Run Storybook by module**: Includes a dedicated module picker modal that runs the selected module Storybook target (`storybook-by-module`) from launcher and terminal standalone mode.
