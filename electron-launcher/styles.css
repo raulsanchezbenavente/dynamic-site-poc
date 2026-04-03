@@ -2225,9 +2225,6 @@ button.log-tab:hover:not(:disabled) {
   .logs-panel {
     min-height: 32rem;
   }
-  .script-row {
-    padding: 0.85rem;
-  }
   .script-command-line .actions {
     float: right;
     margin-left: 0.35rem;
