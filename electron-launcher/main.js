@@ -1903,6 +1903,19 @@ function buildByModuleCommand(payload = null) {
     }
 
     const generateDocumentation = Boolean(payload?.generateDocumentation);
+    const documentationJsonRelativePath = `src/app/modules/${moduleName}/documentation.json`;
+    const documentationJsonAbsolutePath = path.resolve(
+      getDefaultTerminalWorkingDirectory(),
+      documentationJsonRelativePath
+    );
+
+    if (!generateDocumentation && !fs.existsSync(documentationJsonAbsolutePath)) {
+      return {
+        ok: false,
+        error: `documentation.json is missing for module ${moduleName}. Enable "Generate documentation" or create ${documentationJsonRelativePath}.`,
+      };
+    }
+
     const moduleTsconfig = `src/app/modules/${moduleName}/tsconfig.lib.json`;
     const docsCommand = `npm exec -- compodoc -p ${moduleTsconfig} -e json -d src/app/modules/${moduleName}`;
     const storybookCommand = `npm run ng -- run ${target} --port=6006 --ci`;

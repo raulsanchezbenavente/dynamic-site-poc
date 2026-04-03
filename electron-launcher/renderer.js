@@ -2292,7 +2292,7 @@ async function openByModuleDialog(mode) {
   }
 
   if (byModuleDocs) {
-    byModuleDocs.checked = savedPrefs.generateDocumentation;
+    byModuleDocs.checked = false;
   }
 
   setByModuleBusy(true);
