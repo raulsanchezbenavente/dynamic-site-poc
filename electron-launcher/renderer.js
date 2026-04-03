@@ -1184,8 +1184,8 @@ function positionLogTabTooltipPortal(target) {
     .trim()
     .toLowerCase();
   const targetCenterX = targetRect.left + targetRect.width / 2;
-  // Keep arrow center (0.76rem + 0.23rem ~= 16px) right under the terminal icon.
-  const arrowCenterOffsetPx = 16;
+  // Arrow ::before is at CSS left:0.6rem + half its width (0.23rem) ≈ 13px from tooltip left edge.
+  const arrowCenterOffsetPx = 15;
   const preferredLeft = tooltipAlign === 'start' ? targetRect.left : targetCenterX - arrowCenterOffsetPx;
   const left = Math.min(maxLeft, Math.max(minLeft, preferredLeft));
 
@@ -3571,7 +3571,7 @@ function renderScripts() {
       infoIcon.setAttribute('tabindex', '0');
       infoIcon.setAttribute('aria-label', `Info: ${script.description}`);
       infoIcon.setAttribute('data-tooltip', script.description);
-      infoIcon.setAttribute('data-tooltip-align', 'start');
+      infoIcon.setAttribute('data-tooltip-align', 'center');
       infoIcon.style.backgroundImage = 'url("data:image/svg+xml,' + encodeURIComponent(infoIconSvg) + '")';
       infoIcon.addEventListener('mouseenter', () => showLogTabTooltipPortal(infoIcon));
       infoIcon.addEventListener('mouseleave', () => hideLogTabTooltipPortal());

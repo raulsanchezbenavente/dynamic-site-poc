@@ -1960,7 +1960,6 @@ button.log-tab:hover:not(:disabled) {
 .log-tab-tooltip-portal::before {
   content: '';
   position: absolute;
-  left: 0.42rem;
   width: 0.46rem;
   height: 0.46rem;
   background: #1f2d44;
@@ -1974,6 +1973,7 @@ button.log-tab:hover:not(:disabled) {
 }
 .log-tab-tooltip-portal[data-side='top']::before {
   bottom: -0.24rem;
+  left: 0.6rem;
   transform: rotate(225deg);
   border-left: 1px solid #3f5a86;
   border-top: 1px solid #3f5a86;
