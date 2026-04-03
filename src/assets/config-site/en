@@ -444,7 +444,7 @@
                 "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
+                  "htmlContent": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }
@@ -487,7 +487,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -528,7 +531,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1520256862855-398228c41684?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -569,7 +575,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -610,7 +619,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -651,7 +663,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -692,7 +707,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -733,7 +751,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -774,7 +795,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1488085061387-422e29b40080?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -815,7 +839,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1530521954074-e64f6810b32d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -856,7 +883,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -897,7 +927,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1533105079780-92b9be482077?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -938,7 +971,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -979,7 +1015,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1020,7 +1059,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1543158181-e6f9f6712055?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1061,7 +1103,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1102,7 +1147,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1143,7 +1191,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1184,7 +1235,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1225,7 +1279,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1266,7 +1323,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1307,7 +1367,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1348,7 +1411,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1389,7 +1455,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1430,7 +1499,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1522083165195-3424ed129620?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1471,7 +1543,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1512,7 +1587,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1523482580672-f109ba8cb9be?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1553,7 +1631,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1594,7 +1675,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1508009603885-50cf7c579365?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1635,7 +1719,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1538485399081-7191377e8241?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1676,7 +1763,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1717,7 +1807,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1573843981267-be1999ff37cd?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1758,7 +1851,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1799,7 +1895,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1534351590666-13e3e96b5702?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1840,7 +1939,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1881,7 +1983,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1583422409516-2895a77efded?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1922,7 +2027,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1548707309-dcebeab9ea9b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -1963,7 +2071,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2004,7 +2115,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1467269204594-9661b134dd2b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2045,7 +2159,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1563911302283-d2bc129e7570?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2086,7 +2203,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2127,7 +2247,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2168,7 +2291,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2209,7 +2335,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2250,7 +2379,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2291,7 +2423,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2332,7 +2467,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1518105779142-d975f22f1b0a?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2373,7 +2511,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1568454537842-d933259bb258?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2414,7 +2555,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1595974482597-4d3fd14e3ced?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2455,7 +2599,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1583417319070-4c44a4a50c24?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2496,7 +2643,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1546436836-07a91091f160?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2537,7 +2687,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1526392060635-9d6019884377?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2578,7 +2731,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1625047509168-a7026f36de04?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2619,7 +2775,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1553444836-bc6c8d340d56?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2660,7 +2819,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1529921879218-f99546b03d24?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2701,7 +2863,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1558980394-da1f85d3b540?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2742,7 +2907,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1531761535209-180857e963b9?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2783,7 +2951,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1434394354979-a235cd36269d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2824,7 +2995,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2865,7 +3039,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2906,7 +3083,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1531928351158-2f736078e0a1?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2947,7 +3127,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -2988,7 +3171,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504893524553-b855bce32c67?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3029,7 +3215,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1515859005217-8a1f08870f59?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3070,7 +3259,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1559128010-7c1ad6e1b6a5?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3111,7 +3303,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1505118380757-91f5f5632de0?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3152,7 +3347,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1527004013197-933c4bb611b3?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3193,7 +3391,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3234,7 +3435,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3275,7 +3479,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3316,7 +3523,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1444723121867-7a241cacace9?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3357,7 +3567,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3398,7 +3611,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1536152470836-b943b246224c?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3439,7 +3655,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3480,7 +3699,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3521,7 +3743,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3562,7 +3787,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3603,7 +3831,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1506461883276-594a12b5bdc7?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3644,7 +3875,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1598091383021-15ddea10925d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3685,7 +3919,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3726,7 +3963,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3767,7 +4007,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1551966775-a4ddc8df052b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3808,7 +4051,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1580060839134-75a5edca2e99?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3849,7 +4095,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3890,7 +4139,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3931,7 +4183,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -3972,7 +4227,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4013,7 +4271,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4054,7 +4315,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1561501878-aabd62634533?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4095,7 +4359,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4136,7 +4403,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4177,7 +4447,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4218,7 +4491,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4259,7 +4535,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1551882547-ff40c4fe2e3d?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4300,7 +4579,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4341,7 +4623,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1455587734955-081b22074882?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4382,7 +4667,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1496417263034-38ec4f0b665a?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4423,7 +4711,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1549294413-26f195200c16?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4464,7 +4755,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1592595896551-12b371d546d5?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4505,7 +4799,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4546,7 +4843,10 @@
             "cols": [
               {
                 "component": "AdsComponentBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                }
               }
             ]
           },
@@ -4560,6 +4860,1956 @@
           }
         ]
       }
+    },
+    {
+      "pageId": "corporative101",
+      "title": "Corporative 101",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1476920382906-3bb2c25e5648?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative101"
+    },
+    {
+      "pageId": "corporative102",
+      "title": "Corporative 102",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative102"
+    },
+    {
+      "pageId": "corporative103",
+      "title": "Corporative 103",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative103"
+    },
+    {
+      "pageId": "corporative104",
+      "title": "Corporative 104",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative104"
+    },
+    {
+      "pageId": "corporative105",
+      "title": "Corporative 105",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative105"
+    },
+    {
+      "pageId": "corporative106",
+      "title": "Corporative 106",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative106"
+    },
+    {
+      "pageId": "corporative107",
+      "title": "Corporative 107",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1424847651672-bf20a4b0982b?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative107"
+    },
+    {
+      "pageId": "corporative108",
+      "title": "Corporative 108",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative108"
+    },
+    {
+      "pageId": "corporative109",
+      "title": "Corporative 109",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1533777857889-4be7c70b33f7?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative109"
+    },
+    {
+      "pageId": "corporative110",
+      "title": "Corporative 110",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1563245372-f21724e3856d?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative110"
+    },
+    {
+      "pageId": "corporative111",
+      "title": "Corporative 111",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1571197826887-7d10b7e1a2a7?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative111"
+    },
+    {
+      "pageId": "corporative112",
+      "title": "Corporative 112",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative112"
+    },
+    {
+      "pageId": "corporative113",
+      "title": "Corporative 113",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative113"
+    },
+    {
+      "pageId": "corporative114",
+      "title": "Corporative 114",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1543353071-10c8ba85a904?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative114"
+    },
+    {
+      "pageId": "corporative115",
+      "title": "Corporative 115",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1498654896293-37aaa4b7e8b1?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative115"
+    },
+    {
+      "pageId": "corporative116",
+      "title": "Corporative 116",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1564419320461-6870880221ad?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative116"
+    },
+    {
+      "pageId": "corporative117",
+      "title": "Corporative 117",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1414609245224-aea2571dc724?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative117"
+    },
+    {
+      "pageId": "corporative118",
+      "title": "Corporative 118",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative118"
+    },
+    {
+      "pageId": "corporative119",
+      "title": "Corporative 119",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative119"
+    },
+    {
+      "pageId": "corporative120",
+      "title": "Corporative 120",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1540189549336-e6e99eb4b951?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative120"
+    },
+    {
+      "pageId": "corporative121",
+      "title": "Corporative 121",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1476718406336-bb5a9690ee2a?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative121"
+    },
+    {
+      "pageId": "corporative122",
+      "title": "Corporative 122",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative122"
+    },
+    {
+      "pageId": "corporative123",
+      "title": "Corporative 123",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative123"
+    },
+    {
+      "pageId": "corporative124",
+      "title": "Corporative 124",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative124"
+    },
+    {
+      "pageId": "corporative125",
+      "title": "Corporative 125",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative125"
+    },
+    {
+      "pageId": "corporative126",
+      "title": "Corporative 126",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1484723091739-30990166abb2?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative126"
+    },
+    {
+      "pageId": "corporative127",
+      "title": "Corporative 127",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504113888839-1c8eb50233d3?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative127"
+    },
+    {
+      "pageId": "corporative128",
+      "title": "Corporative 128",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative128"
+    },
+    {
+      "pageId": "corporative129",
+      "title": "Corporative 129",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative129"
+    },
+    {
+      "pageId": "corporative130",
+      "title": "Corporative 130",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative130"
+    },
+    {
+      "pageId": "corporative131",
+      "title": "Corporative 131",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative131"
+    },
+    {
+      "pageId": "corporative132",
+      "title": "Corporative 132",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1535400255456-984e5a9b1c6e?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative132"
+    },
+    {
+      "pageId": "corporative133",
+      "title": "Corporative 133",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative133"
+    },
+    {
+      "pageId": "corporative134",
+      "title": "Corporative 134",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1498843053639-170ff2122f35?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative134"
+    },
+    {
+      "pageId": "corporative135",
+      "title": "Corporative 135",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative135"
+    },
+    {
+      "pageId": "corporative136",
+      "title": "Corporative 136",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative136"
+    },
+    {
+      "pageId": "corporative137",
+      "title": "Corporative 137",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative137"
+    },
+    {
+      "pageId": "corporative138",
+      "title": "Corporative 138",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1467453678174-768ec283a940?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative138"
+    },
+    {
+      "pageId": "corporative139",
+      "title": "Corporative 139",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative139"
+    },
+    {
+      "pageId": "corporative140",
+      "title": "Corporative 140",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative140"
+    },
+    {
+      "pageId": "corporative141",
+      "title": "Corporative 141",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1504972099973-ec364ae92d09?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative141"
+    },
+    {
+      "pageId": "corporative142",
+      "title": "Corporative 142",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1518779578993-ec3579fee39f?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative142"
+    },
+    {
+      "pageId": "corporative143",
+      "title": "Corporative 143",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative143"
+    },
+    {
+      "pageId": "corporative144",
+      "title": "Corporative 144",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1607301406259-dfb186e15de8?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative144"
+    },
+    {
+      "pageId": "corporative145",
+      "title": "Corporative 145",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative145"
+    },
+    {
+      "pageId": "corporative146",
+      "title": "Corporative 146",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative146"
+    },
+    {
+      "pageId": "corporative147",
+      "title": "Corporative 147",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative147"
+    },
+    {
+      "pageId": "corporative148",
+      "title": "Corporative 148",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative148"
+    },
+    {
+      "pageId": "corporative149",
+      "title": "Corporative 149",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1490914327627-9fe8d52f4d90?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative149"
+    },
+    {
+      "pageId": "corporative150",
+      "title": "Corporative 150",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus",
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1400&q=80"
+                },
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      },
+      "path": "en/corporative150"
     }
   ]
 }
