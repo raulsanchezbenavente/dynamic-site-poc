@@ -64,6 +64,9 @@ const LAUNCH_QUERY_PARAMS = (() => {
     return new URLSearchParams('');
   }
 })();
+const INITIAL_BY_MODULE_MODE = String(LAUNCH_QUERY_PARAMS.get('byModule') || '')
+  .trim()
+  .toLowerCase();
 const IS_MODAL_ONLY_BY_MODULE = ['1', 'true', 'yes'].includes(
   String(LAUNCH_QUERY_PARAMS.get('modalOnly') || '')
     .trim()
@@ -4056,6 +4059,16 @@ window.launcherApi.onTerminalOutput(({ sessionId, stream, message }) => {
 });
 
 async function init() {
+  if (IS_MODAL_ONLY_BY_MODULE) {
+    document.body.classList.add('modal-only-by-module');
+
+    if (INITIAL_BY_MODULE_MODE === 'tests' || INITIAL_BY_MODULE_MODE === 'storybook') {
+      await openByModuleDialog(INITIAL_BY_MODULE_MODE);
+    }
+
+    return;
+  }
+
   const savedActiveLogTab = readSavedActiveLogTab();
   const defaultFavoriteScripts = await loadDefaultFavoriteScripts();
   const defaultTerminalTheme = await loadDefaultTerminalTheme();
@@ -4104,20 +4117,8 @@ async function init() {
   updateInteractiveTerminalInputMode();
   updateConsoleSurface();
 
-  if (IS_MODAL_ONLY_BY_MODULE) {
-    document.body.classList.add('modal-only-by-module');
-  }
-
-  try {
-    const byModuleMode = String(LAUNCH_QUERY_PARAMS.get('byModule') || '')
-      .trim()
-      .toLowerCase();
-
-    if (byModuleMode === 'tests' || byModuleMode === 'storybook') {
-      await openByModuleDialog(byModuleMode);
-    }
-  } catch {
-    // Ignore malformed query-string parsing.
+  if (INITIAL_BY_MODULE_MODE === 'tests' || INITIAL_BY_MODULE_MODE === 'storybook') {
+    await openByModuleDialog(INITIAL_BY_MODULE_MODE);
   }
 }
 
