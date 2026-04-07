@@ -33,19 +33,18 @@ const BY_MODULE_SPEC_SCAN_IGNORED_DIRS = new Set([
 
 function parseByModuleLaunchModeFromArgv(argv = []) {
   const arg = Array.isArray(argv)
-    ? argv.find((entry) => String(entry || '').toLowerCase().startsWith('--by-module='))
+    ? argv.find((entry) =>
+        String(entry || '')
+          .toLowerCase()
+          .startsWith('--by-module=')
+      )
     : null;
 
   if (!arg) {
     return '';
   }
 
-  const value = String(arg)
-    .split('=')
-    .slice(1)
-    .join('=')
-    .trim()
-    .toLowerCase();
+  const value = String(arg).split('=').slice(1).join('=').trim().toLowerCase();
 
   if (value === 'tests' || value === 'storybook') {
     return value;
@@ -944,10 +943,9 @@ function withUnixShellBootstrap(command) {
     return safeCommand;
   }
 
-  const bootstrap = [
-    'export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"',
-    '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"',
-  ].join('; ');
+  const bootstrap = ['export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"', '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'].join(
+    '; '
+  );
 
   return `${bootstrap}; ${safeCommand}`;
 }
@@ -1828,7 +1826,9 @@ function ensureScopedByModuleTsconfig(moduleName) {
 }
 
 function listByModuleOptions(mode) {
-  const normalizedMode = String(mode || '').trim().toLowerCase();
+  const normalizedMode = String(mode || '')
+    .trim()
+    .toLowerCase();
   const modules = listByModuleNames();
 
   if (normalizedMode === 'tests') {
@@ -2320,10 +2320,22 @@ ipcMain.handle('by-module:run-standalone', async (_event, payload) => {
       child = spawn('cmd.exe', ['/d', '/s', '/c', command], {
         cwd,
         env,
-        stdio: 'inherit',
-        windowsHide: true,
+        stdio: 'pipe',
+        windowsHide: false,
         shell: false,
       });
+
+      if (child.stdout && process.stdout) {
+        child.stdout.on('data', (chunk) => {
+          process.stdout.write(chunk);
+        });
+      }
+
+      if (child.stderr && process.stderr) {
+        child.stderr.on('data', (chunk) => {
+          process.stderr.write(chunk);
+        });
+      }
     } else {
       const shellBinary = process.env.SHELL || '/bin/zsh';
       child = spawn(shellBinary, ['-lc', command], {
@@ -2653,6 +2665,10 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  if (standaloneByModuleChild) {
+    return;
+  }
+
   // This launcher should fully close when the last window is closed, including macOS.
   app.quit();
 });
