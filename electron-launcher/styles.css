@@ -760,7 +760,9 @@ body.modal-only-by-module .by-module-overlay {
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;
-  min-width: 10.5rem;
+  width: 13.2rem;
+  min-width: 13.2rem;
+  max-width: 13.2rem;
   height: 2rem;
   border: 1px solid var(--line);
   border-radius: 0.6rem;
@@ -781,8 +783,7 @@ body.modal-only-by-module .by-module-overlay {
   position: absolute;
   top: calc(100% + 0.35rem);
   right: 0;
-  width: max-content;
-  min-width: 11.5rem;
+  width: 13.2rem;
   display: grid;
   gap: 0.35rem;
   padding: 0.4rem;
@@ -2213,9 +2214,6 @@ button.log-tab:hover:not(:disabled) {
   }
   .terminal-theme-selector {
     margin-left: 0;
-  }
-  .terminal-theme-trigger {
-    min-width: 9.8rem;
   }
   .layout {
     grid-template-columns: 1fr;
