@@ -24,14 +24,15 @@ describe('RfErrorMessagesComponent', () => {
   });
 
   describe('basic rendering and classes/id', () => {
-    it('should not render anything if there is no control', () => {
+    it('should hide message if there is no control', () => {
       comp.control.set(null);
       comp.showErrorMessages.set(true);
       fixture.detectChanges();
-      expect(getMessageDiv()).toBeUndefined();
+      const div = getMessageDiv();
+      expect(div?.style.display).toBe('none');
     });
 
-    it('should not render if showErrorMessages() is false even if there are errors', () => {
+    it('should hide message if showErrorMessages() is false even if there are errors', () => {
       const ctrl = new FormControl('');
       // Simulate that errors should be shown according to the policy
       spyOn(RfBaseReactiveComponent as any, 'showErrorsAccordingDisplayConfig').and.returnValue(true);
@@ -41,7 +42,8 @@ describe('RfErrorMessagesComponent', () => {
       comp.showErrorMessages.set(false);
       fixture.detectChanges();
 
-      expect(getMessageDiv()).toBeUndefined();
+      const div = getMessageDiv();
+      expect(div?.style.display).toBe('none');
     });
 
     it('should render message when showErrorMessages() is true and there is firstErrorMessage', () => {
@@ -115,7 +117,8 @@ describe('RfErrorMessagesComponent', () => {
       comp.showErrorMessages.set(true);
 
       fixture.detectChanges();
-      expect(getMessageDiv()).toBeUndefined();
+      const div = getMessageDiv();
+      expect(div?.style.display).toBe('none');
     });
   });
 
@@ -152,7 +155,8 @@ describe('RfErrorMessagesComponent', () => {
       comp.showErrorMessages.set(true);
       fixture.detectChanges();
 
-      expect(getMessageDiv()).toBeUndefined();
+      const div = getMessageDiv();
+      expect(div?.style.display).toBe('none');
     });
 
     it('if the control with errors has no mapping, uses the error key', () => {

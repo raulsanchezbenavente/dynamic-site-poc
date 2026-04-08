@@ -1,0 +1,23 @@
+@let viewModel = loyaltyOverviewCardVM();
+
+<ng-container
+    translationLoadStatus
+    [moduleKeys]="mappedKeys" />
+
+@defer (when isReadyToDisplay()) {
+    @if (viewModel) {
+        <div
+            class="loyalty-overview-card-inner"
+            role="region"
+            [attr.aria-label]="translateKeys.OverviewCard_Title | translate">
+            <loyalty-overview-card-header
+                [greeting]="viewModel.greeting"
+                [tierName]="viewModel.tierName" />
+            <loyalty-overview-card-info-list [data]="viewModel" />
+        </div>
+    }
+} @placeholder {
+    <span class="hide-visually">
+        {{ translateKeys.OverviewCard_Loading | translate }}
+    </span>
+}

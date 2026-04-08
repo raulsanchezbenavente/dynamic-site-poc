@@ -1,0 +1,76 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.loyalty-status-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+
+// Lifemiles
+.loyalty-status-benefits--tier-1 {
+    --icon-color: #{var(--c-lifemiles-tier-1)};
+}
+
+// Red Plus
+.loyalty-status-benefits--tier-2 {
+    --icon-color: #{var(--c-lifemiles-tier-2)};
+}
+
+// Silver
+.loyalty-status-benefits--tier-3 {
+    --icon-color: #{var(--c-lifemiles-tier-3)};
+}
+
+// Gold
+.loyalty-status-benefits--tier-4 {
+    --icon-color: #{var(--c-lifemiles-tier-4)};
+}
+
+// Diamond
+.loyalty-status-benefits--tier-5 {
+    --icon-color: #{var(--c-lifemiles-tier-5)};
+}
+.loyalty-status-benefits_title {
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-bold);
+    text-align: center;
+}
+.loyalty-status-benefits_card {
+    position: relative;
+    display: flex;
+    .loyalty-tier-badge {
+        position: absolute;
+        top: 85%;
+        left: 50%;
+        transform: translate(-50%);
+        z-index: 2;
+    }
+}
+.loyalty-status-benefits_card-image {
+    flex: 1 1 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: auto;
+    max-width: calculateRem(371px); // image width
+}
+.loyalty-status-benefits_list {
+    // this margin-top value combined with the grid gap, results in an 18px margin between the card section and the list
+    margin-top: calculateRem(4px);
+    text-align: left;
+    ::ng-deep {
+        .#{$ds}list_item--disabled {
+            --icon-color: var(--c-text-secondary);
+        }
+    }
+}
+
+// >=768px
+@media #{$tablet-portrait} {
+    .loyalty-status-benefits_title {
+        font-size: var(--f-size-large);
+    }
+}

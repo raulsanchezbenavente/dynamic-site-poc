@@ -1,8 +1,11 @@
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { componentMap } from '../../../component-map';
-import { BlockOutletComponent } from './block-outlet.component';
+import {
+  BLOCK_COMPONENT_REGISTRY,
+  BlockComponentMap,
+  BlockOutletComponent,
+} from './block-outlet.component';
 
 @Component({
   selector: 'test-mock-block',
@@ -16,10 +19,22 @@ class MockBlockComponent {
 describe('BlockOutletComponent', () => {
   let fixture: ComponentFixture<BlockOutletComponent>;
   let component: BlockOutletComponent;
+  let componentMap: BlockComponentMap;
 
   beforeEach(async () => {
+    componentMap = {};
+
     await TestBed.configureTestingModule({
       imports: [BlockOutletComponent],
+      providers: [
+        {
+          provide: BLOCK_COMPONENT_REGISTRY,
+          useValue: {
+            componentMap,
+            loadBlockComponent: (key: string) => Promise.resolve(componentMap[key] ? componentMap[key]() : null),
+          },
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(BlockOutletComponent);
@@ -40,8 +55,6 @@ describe('BlockOutletComponent', () => {
 
     const text = fixture.nativeElement.querySelector('.mock')?.textContent ?? '';
     expect(text).toContain('hello');
-
-    delete componentMap['__test-block__'];
   });
 
   it('should render missing component when loader resolves null', async () => {

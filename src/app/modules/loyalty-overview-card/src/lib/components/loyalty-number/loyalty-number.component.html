@@ -1,0 +1,17 @@
+<dt class="loyalty-overview-card_info-item_label">
+    {{ 'Loyalty.LifemilesNumber_Text' | translate }}
+</dt>
+<dd class="loyalty-overview-card_info-item_value">
+    <span class="loyalty-overview-card_info-item_value-id">
+        {{ loyaltyId() }}
+    </span>
+    <icon-button
+        [attr.title]="translateKeys.OverviewCard_CopyIcon | translate"
+        [config]="copyIconButtonConfig()"
+        (clickEvent)="copyToClipboard()" />
+    <span
+        class="hide-visually"
+        role="status">
+        {{ copied() ? (translateKeys.OverviewCard_CopyLoyaltyNumberSuccess_Text | translate) : '' }}
+    </span>
+</dd>

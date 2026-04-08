@@ -5,6 +5,7 @@ const { app, BrowserWindow, dialog, ipcMain, nativeImage, shell } = require('ele
 
 const runningScripts = new Map();
 let isShuttingDown = false;
+let standaloneByModuleChild = null;
 const terminalSessions = new Map();
 let terminalSessionCounter = 0;
 const windowsCommandExistsCache = new Map();
@@ -17,6 +18,62 @@ const DEFAULT_WINDOW_STATE = {
   minHeight: 640,
 };
 const DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH = path.join(__dirname, 'config', 'default-favorite-scripts.json');
+const BY_MODULES_ROOT = path.resolve(__dirname, '..', 'src', 'app', 'modules');
+const BY_ANGULAR_JSON_PATH = path.resolve(__dirname, '..', 'angular.json');
+const BY_MODULE_TS_TEMP_DIR = path.resolve(__dirname, '..', '.tmp', 'test-by-module');
+const BY_MODULE_SPEC_SCAN_IGNORED_DIRS = new Set([
+  'node_modules',
+  'dist',
+  'coverage',
+  '.angular',
+  '.git',
+  '.cache',
+  '.storybook-static',
+]);
+
+function parseByModuleLaunchModeFromArgv(argv = []) {
+  const arg = Array.isArray(argv)
+    ? argv.find((entry) =>
+        String(entry || '')
+          .toLowerCase()
+          .startsWith('--by-module=')
+      )
+    : null;
+
+  if (!arg) {
+    return '';
+  }
+
+  const value = String(arg).split('=').slice(1).join('=').trim().toLowerCase();
+
+  if (value === 'tests' || value === 'storybook') {
+    return value;
+  }
+
+  return '';
+}
+
+function parseModalOnlyFromArgv(argv = []) {
+  if (!Array.isArray(argv)) {
+    return false;
+  }
+
+  return argv.some((entry) => {
+    const normalized = String(entry || '')
+      .trim()
+      .toLowerCase();
+    return normalized === '--modal-only' || normalized === '--modal-only=1' || normalized === '--modal-only=true';
+  });
+}
+
+const initialByModuleLaunchMode = parseByModuleLaunchModeFromArgv(process.argv.slice(1));
+const initialModalOnlyMode = parseModalOnlyFromArgv(process.argv.slice(1));
+const shouldUseSingleInstanceLock = !initialModalOnlyMode;
+const hasSingleInstanceLock = shouldUseSingleInstanceLock ? app.requestSingleInstanceLock() : true;
+
+if (shouldUseSingleInstanceLock && !hasSingleInstanceLock) {
+  app.quit();
+}
 
 const defaultSourceMode = app.isPackaged ? 'prod' : 'dev';
 const packageSource = {
@@ -33,7 +90,7 @@ if (process.platform === 'linux') {
 
 function getLauncherIconPath() {
   if (process.platform === 'win32') {
-    const windowsIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
+    const windowsIconPath = path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png');
     if (fs.existsSync(windowsIconPath)) {
       return windowsIconPath;
     }
@@ -41,10 +98,10 @@ function getLauncherIconPath() {
 
   if (process.platform === 'linux') {
     const linuxIconCandidates = [
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'linux', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'windows', 'avianca-icon.png'),
-      path.join(__dirname, 'assets', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'linux', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'avianca-icon.png'),
     ];
 
     for (const linuxIconPath of linuxIconCandidates) {
@@ -56,8 +113,8 @@ function getLauncherIconPath() {
 
   if (process.platform === 'darwin') {
     const macIconCandidates = [
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
-      path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.icns'),
+      path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
     ];
 
     for (const macIconPath of macIconCandidates) {
@@ -67,13 +124,47 @@ function getLauncherIconPath() {
     }
   }
 
-  const platformIconPath = path.join(__dirname, 'assets', 'linux', 'avianca-icon.png');
+  const platformIconPath = path.join(__dirname, 'assets', 'launcher', 'linux', 'avianca-icon.png');
   if (fs.existsSync(platformIconPath)) {
     return platformIconPath;
   }
 
-  const fallbackIconPath = path.join(__dirname, 'assets', 'windows', 'avianca-icon.png');
+  const fallbackIconPath = path.join(__dirname, 'assets', 'launcher', 'windows', 'avianca-icon.png');
   return fs.existsSync(fallbackIconPath) ? fallbackIconPath : null;
+}
+
+function getStandaloneByModuleIconPath() {
+  const byModuleAssetsDir = path.join(__dirname, 'assets', 'by-module-modal');
+
+  if (process.platform === 'darwin') {
+    const macCandidates = [
+      path.join(byModuleAssetsDir, 'mac', 'modal-icon.icns'),
+      path.join(byModuleAssetsDir, 'mac', 'modal-icon.png'),
+    ];
+
+    for (const candidatePath of macCandidates) {
+      if (fs.existsSync(candidatePath)) {
+        return candidatePath;
+      }
+    }
+  }
+
+  if (process.platform === 'win32') {
+    const windowsPath = path.join(byModuleAssetsDir, 'windows', 'modal-icon.png');
+    if (fs.existsSync(windowsPath)) {
+      return windowsPath;
+    }
+  }
+
+  if (process.platform === 'linux') {
+    const linuxPath = path.join(byModuleAssetsDir, 'linux', 'modal-icon.png');
+    if (fs.existsSync(linuxPath)) {
+      return linuxPath;
+    }
+  }
+
+  const genericPath = path.join(byModuleAssetsDir, 'modal-icon.png');
+  return fs.existsSync(genericPath) ? genericPath : null;
 }
 
 function applyAppIcon() {
@@ -82,8 +173,8 @@ function applyAppIcon() {
   }
 
   const iconCandidates = [
-    path.join(__dirname, 'assets', 'mac', 'avianca-icon.png'),
-    path.join(__dirname, 'assets', 'mac', 'avianca-icon.icns'),
+    path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.png'),
+    path.join(__dirname, 'assets', 'launcher', 'mac', 'avianca-icon.icns'),
   ].filter((candidatePath) => fs.existsSync(candidatePath));
 
   for (const iconPath of iconCandidates) {
@@ -100,6 +191,31 @@ function applyAppIcon() {
       return;
     } catch {
       // Try the next available icon candidate.
+    }
+  }
+}
+
+function applyStandaloneByModuleAppIcon() {
+  if (!(process.platform === 'darwin' && app.dock && typeof app.dock.setIcon === 'function')) {
+    return;
+  }
+
+  const byModuleAssetsDir = path.join(__dirname, 'assets', 'by-module-modal');
+  const iconCandidates = [
+    path.join(byModuleAssetsDir, 'mac', 'modal-icon.png'),
+    path.join(byModuleAssetsDir, 'mac', 'modal-icon.icns'),
+    path.join(byModuleAssetsDir, 'modal-icon.png'),
+  ].filter((candidatePath) => fs.existsSync(candidatePath));
+
+  for (const iconPath of iconCandidates) {
+    try {
+      const runtimeIcon = nativeImage.createFromPath(iconPath);
+      if (!runtimeIcon.isEmpty()) {
+        app.dock.setIcon(runtimeIcon);
+        return;
+      }
+    } catch {
+      // Try the next available standalone icon candidate.
     }
   }
 }
@@ -819,6 +935,21 @@ function normalizeCommandForSudoStdin(command) {
   return trimmed.replace(/^sudo(?:\s+|$)/i, 'sudo -S ');
 }
 
+function withUnixShellBootstrap(command) {
+  const safeCommand = String(command || '');
+  const needsNodeToolchain = /(?:^|[;&|]\s*|\s)(?:nvm|node|npm|npx|pnpm|yarn|corepack)(?:\s|$)/i.test(safeCommand);
+
+  if (!needsNodeToolchain) {
+    return safeCommand;
+  }
+
+  const bootstrap = ['export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"', '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"'].join(
+    '; '
+  );
+
+  return `${bootstrap}; ${safeCommand}`;
+}
+
 function getTerminalCompletionContext(input, cursor) {
   const value = String(input ?? '');
   const safeCursor = Math.max(0, Math.min(Number.isInteger(cursor) ? cursor : value.length, value.length));
@@ -1194,7 +1325,11 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
 
     const commandToRun = normalizeCommandForSudoStdin(normalizeCommandForTerminalPresentation(command));
 
-    const cwd = session.cwd;
+    const requestedCwd = String(executionOptions?.cwd || '').trim();
+    const cwd = requestedCwd && fs.existsSync(requestedCwd) ? requestedCwd : session.cwd;
+    if (cwd !== session.cwd) {
+      session.cwd = cwd;
+    }
     const cdMatch = command.match(/^cd(?:\s+(.*))?$/i);
     if (cdMatch) {
       const rawTarget = (cdMatch[1] ?? '').trim();
@@ -1239,11 +1374,9 @@ function executeTerminalCommand(sessionId, commandInput, executionOptions = null
       child = spawn(spawnConfig.command, spawnConfig.args, spawnConfig.options);
     } else {
       const shellBinary = process.env.SHELL || '/bin/zsh';
-      const shellName = path.basename(shellBinary).toLowerCase();
-      const usesInteractiveLogin = shellName === 'zsh' || shellName === 'bash';
-      const shellArgs = usesInteractiveLogin ? ['-ilc', commandToRun] : ['-lc', commandToRun];
+      const commandWithBootstrap = withUnixShellBootstrap(commandToRun);
 
-      child = spawn(shellBinary, shellArgs, {
+      child = spawn(shellBinary, ['-lc', commandWithBootstrap], {
         cwd,
         env,
         windowsHide: true,
@@ -1369,12 +1502,32 @@ function getPackageSourceStatus() {
   };
 }
 
-function createWindow() {
-  const iconPath = getLauncherIconPath();
+function createWindow(options = null) {
+  const openByModuleMode = String(options?.openByModuleMode || '')
+    .trim()
+    .toLowerCase();
+  const modalOnly = Boolean(options?.modalOnly);
+  const iconPath = modalOnly ? getStandaloneByModuleIconPath() || getLauncherIconPath() : getLauncherIconPath();
   const linuxRuntimeIcon = process.platform === 'linux' && iconPath ? nativeImage.createFromPath(iconPath) : null;
   const effectiveWindowIcon =
     process.platform === 'linux' && linuxRuntimeIcon && !linuxRuntimeIcon.isEmpty() ? linuxRuntimeIcon : iconPath;
   const windowState = readWindowState();
+  const modalOnlyState = {
+    width: 560,
+    height: 370,
+    minWidth: 520,
+    minHeight: 370,
+  };
+  const effectiveState = modalOnly
+    ? modalOnlyState
+    : {
+        width: windowState.width,
+        height: windowState.height,
+        minWidth: windowState.minWidth,
+        minHeight: windowState.minHeight,
+        x: windowState.x,
+        y: windowState.y,
+      };
   let persistWindowStateTimeout = null;
 
   const scheduleWindowStatePersist = () => {
@@ -1389,12 +1542,20 @@ function createWindow() {
   };
 
   const win = new BrowserWindow({
-    width: windowState.width,
-    height: windowState.height,
-    minWidth: windowState.minWidth,
-    minHeight: windowState.minHeight,
-    x: windowState.x,
-    y: windowState.y,
+    width: effectiveState.width,
+    height: effectiveState.height,
+    minWidth: effectiveState.minWidth,
+    minHeight: effectiveState.minHeight,
+    ...(modalOnly
+      ? {
+          resizable: false,
+          minimizable: false,
+          maximizable: false,
+        }
+      : {
+          x: effectiveState.x,
+          y: effectiveState.y,
+        }),
     icon: effectiveWindowIcon,
     autoHideMenuBar: true,
     webPreferences: {
@@ -1410,29 +1571,41 @@ function createWindow() {
     }
   }
 
-  win.on('close', () => {
-    writeWindowState(win);
-  });
+  if (!modalOnly) {
+    win.on('close', () => {
+      writeWindowState(win);
+    });
 
-  win.on('resized', () => {
-    scheduleWindowStatePersist();
-  });
+    win.on('resized', () => {
+      scheduleWindowStatePersist();
+    });
 
-  win.on('moved', () => {
-    scheduleWindowStatePersist();
-  });
+    win.on('moved', () => {
+      scheduleWindowStatePersist();
+    });
 
-  win.on('maximize', () => {
-    writeWindowState(win);
-  });
+    win.on('maximize', () => {
+      writeWindowState(win);
+    });
 
-  win.on('unmaximize', () => {
-    writeWindowState(win);
-  });
+    win.on('unmaximize', () => {
+      writeWindowState(win);
+    });
+  }
 
-  win.loadFile(path.join(__dirname, 'index.html'));
+  const query = {};
+  if (openByModuleMode === 'tests' || openByModuleMode === 'storybook') {
+    query.byModule = openByModuleMode;
+  }
+  if (modalOnly) {
+    query.modalOnly = '1';
+  }
 
-  if (windowState.isMaximized) {
+  const loadOptions = Object.keys(query).length > 0 ? { query } : undefined;
+
+  win.loadFile(path.join(__dirname, 'index.html'), loadOptions);
+
+  if (!modalOnly && windowState.isMaximized) {
     win.once('ready-to-show', () => {
       if (!win.isDestroyed()) {
         win.maximize();
@@ -1538,6 +1711,229 @@ function sanitizeLogMessage(value) {
   return String(value);
 }
 
+function toPosixPath(value) {
+  return String(value || '').replace(/\\/g, '/');
+}
+
+function isValidByModuleName(moduleName) {
+  return /^[a-z0-9._-]+$/i.test(String(moduleName || '').trim());
+}
+
+function listByModuleNames() {
+  if (!fs.existsSync(BY_MODULES_ROOT)) {
+    return [];
+  }
+
+  return fs
+    .readdirSync(BY_MODULES_ROOT, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory() && !entry.name.startsWith('.'))
+    .map((entry) => entry.name)
+    .sort((left, right) => left.localeCompare(right));
+}
+
+function moduleHasSpecFiles(moduleName) {
+  const moduleDir = path.join(BY_MODULES_ROOT, String(moduleName || '').trim());
+  const pending = [moduleDir];
+
+  while (pending.length > 0) {
+    const currentDir = pending.pop();
+    let entries = [];
+
+    try {
+      entries = fs.readdirSync(currentDir, { withFileTypes: true });
+    } catch {
+      continue;
+    }
+
+    for (const entry of entries) {
+      if (entry.name.startsWith('.')) {
+        continue;
+      }
+
+      if (entry.isDirectory()) {
+        if (BY_MODULE_SPEC_SCAN_IGNORED_DIRS.has(entry.name)) {
+          continue;
+        }
+
+        pending.push(path.join(currentDir, entry.name));
+        continue;
+      }
+
+      if (entry.isFile() && entry.name.endsWith('.spec.ts')) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function readStorybookTargetsByModule() {
+  if (!fs.existsSync(BY_ANGULAR_JSON_PATH)) {
+    return new Map();
+  }
+
+  let angularConfig = null;
+  try {
+    angularConfig = JSON.parse(fs.readFileSync(BY_ANGULAR_JSON_PATH, 'utf8'));
+  } catch {
+    return new Map();
+  }
+
+  const modulesToTarget = new Map();
+  const projects = angularConfig?.projects || {};
+
+  for (const [projectName, projectConfig] of Object.entries(projects)) {
+    const architect = projectConfig?.architect || projectConfig?.targets || {};
+
+    for (const [targetName, targetConfig] of Object.entries(architect)) {
+      const builder = String(targetConfig?.builder || '').trim();
+      if (!builder.includes('storybook') || !builder.includes('start-storybook')) {
+        continue;
+      }
+
+      const configDir = String(targetConfig?.options?.configDir || '').trim();
+      const configMatch = configDir.match(/src\/app\/modules\/([^/]+)\/\.storybook$/i);
+      const targetMatch = String(targetName).match(/^storybook[-:]?(.+)$/i);
+      const moduleName =
+        (configMatch && configMatch[1] ? String(configMatch[1]).trim() : '') ||
+        (targetMatch && targetMatch[1] ? String(targetMatch[1]).trim() : '');
+
+      if (!moduleName || modulesToTarget.has(moduleName)) {
+        continue;
+      }
+
+      modulesToTarget.set(moduleName, `${projectName}:${targetName}`);
+    }
+  }
+
+  return modulesToTarget;
+}
+
+function ensureScopedByModuleTsconfig(moduleName) {
+  const safeModuleName = String(moduleName || '').trim();
+  const tsconfigPath = path.join(BY_MODULE_TS_TEMP_DIR, `tsconfig.spec.${safeModuleName}.json`);
+  const moduleGlob = toPosixPath(path.join('..', '..', 'src', 'app', 'modules', safeModuleName, '**', '*.spec.ts'));
+  const payload = {
+    extends: '../../tsconfig.spec.json',
+    include: [moduleGlob, '../../src/**/*.d.ts'],
+  };
+
+  fs.mkdirSync(BY_MODULE_TS_TEMP_DIR, { recursive: true });
+  fs.writeFileSync(tsconfigPath, `${JSON.stringify(payload, null, 2)}\n`, 'utf8');
+
+  return toPosixPath(path.join('.tmp', 'test-by-module', `tsconfig.spec.${safeModuleName}.json`));
+}
+
+function listByModuleOptions(mode) {
+  const normalizedMode = String(mode || '')
+    .trim()
+    .toLowerCase();
+  const modules = listByModuleNames();
+
+  if (normalizedMode === 'tests') {
+    return {
+      ok: true,
+      mode: normalizedMode,
+      modules: modules.map((moduleName) => ({ name: moduleName, available: moduleHasSpecFiles(moduleName) })),
+    };
+  }
+
+  if (normalizedMode === 'storybook') {
+    const targets = readStorybookTargetsByModule();
+    return {
+      ok: true,
+      mode: normalizedMode,
+      modules: modules.map((moduleName) => {
+        const target = targets.get(moduleName) || '';
+        return {
+          name: moduleName,
+          available: Boolean(target),
+          target,
+        };
+      }),
+    };
+  }
+
+  return { ok: false, error: `Unsupported by-module mode: ${mode}` };
+}
+
+function buildByModuleCommand(payload = null) {
+  const mode = String(payload?.mode || '')
+    .trim()
+    .toLowerCase();
+  const moduleName = String(payload?.moduleName || '').trim();
+
+  if (!isValidByModuleName(moduleName)) {
+    return { ok: false, error: 'Invalid module name.' };
+  }
+
+  if (mode === 'tests') {
+    const watch = Boolean(payload?.watch);
+    const coverage = Boolean(payload?.coverage);
+    const scopedTsconfigPath = ensureScopedByModuleTsconfig(moduleName);
+
+    const args = [
+      'npm run ng -- test',
+      `--ts-config=${scopedTsconfigPath}`,
+      `--include="src/app/modules/${moduleName}/**/*.spec.ts"`,
+      watch ? '--watch=true' : '--watch=false',
+      '--browsers=ChromeHeadless',
+    ];
+
+    if (coverage) {
+      args.push('--code-coverage=true');
+    }
+
+    return {
+      ok: true,
+      mode,
+      moduleName,
+      command: args.join(' '),
+      cwd: getDefaultTerminalWorkingDirectory(),
+      tabName: `tests:${moduleName}`,
+    };
+  }
+
+  if (mode === 'storybook') {
+    const targets = readStorybookTargetsByModule();
+    const target = targets.get(moduleName) || '';
+    if (!target) {
+      return { ok: false, error: `Module ${moduleName} does not have a Storybook target configured.` };
+    }
+
+    const generateDocumentation = Boolean(payload?.generateDocumentation);
+    const documentationJsonRelativePath = `src/app/modules/${moduleName}/documentation.json`;
+    const documentationJsonAbsolutePath = path.resolve(
+      getDefaultTerminalWorkingDirectory(),
+      documentationJsonRelativePath
+    );
+
+    if (!generateDocumentation && !fs.existsSync(documentationJsonAbsolutePath)) {
+      return {
+        ok: false,
+        error: `documentation.json is missing for module ${moduleName}. Enable "Generate documentation" or create ${documentationJsonRelativePath}.`,
+      };
+    }
+
+    const moduleTsconfig = `src/app/modules/${moduleName}/tsconfig.lib.json`;
+    const docsCommand = `npm exec -- compodoc -p ${moduleTsconfig} -e json -d src/app/modules/${moduleName}`;
+    const storybookCommand = `npm run ng -- run ${target} --port=6006 --ci`;
+    const command = generateDocumentation ? `${docsCommand} && ${storybookCommand}` : storybookCommand;
+
+    return {
+      ok: true,
+      mode,
+      moduleName,
+      command,
+      cwd: getDefaultTerminalWorkingDirectory(),
+      tabName: `storybook:${moduleName}`,
+    };
+  }
+
+  return { ok: false, error: `Unsupported by-module mode: ${mode}` };
+}
+
 function buildSpawnEnv() {
   const env = {};
   for (const [key, value] of Object.entries(process.env)) {
@@ -1621,7 +2017,30 @@ function spawnScriptProcess(scriptName) {
     cwd: projectRoot,
     env,
     windowsHide: true,
-    detached: true,
+  });
+}
+
+function spawnInlineScriptProcess(command, cwdOverride = '') {
+  const { projectRoot } = getProjectContext();
+  const env = buildSpawnEnv();
+  const preferredCwd = String(cwdOverride || '').trim();
+  const cwd = preferredCwd && fs.existsSync(preferredCwd) ? preferredCwd : projectRoot;
+
+  if (process.platform === 'win32') {
+    return spawn('cmd.exe', ['/d', '/s', '/c', String(command || '')], {
+      cwd,
+      env,
+      windowsHide: true,
+      shell: false,
+    });
+  }
+
+  const shellBinary = process.env.SHELL || '/bin/zsh';
+  return spawn(shellBinary, ['-l', '-c', String(command || '')], {
+    cwd,
+    env,
+    windowsHide: true,
+    shell: false,
   });
 }
 
@@ -1873,12 +2292,138 @@ ipcMain.handle('package-source:set', async (_event, payload) => {
   return getPackageSourceStatus();
 });
 
+ipcMain.handle('by-module:list', async (_event, payload) => {
+  return listByModuleOptions(payload?.mode);
+});
+
+ipcMain.handle('by-module:command', async (_event, payload) => {
+  return buildByModuleCommand(payload);
+});
+
+ipcMain.handle('by-module:run-standalone', async (_event, payload) => {
+  if (standaloneByModuleChild) {
+    return { ok: false, error: 'Another by-module command is already running.' };
+  }
+
+  const build = buildByModuleCommand(payload);
+  if (!build?.ok) {
+    return { ok: false, error: build?.error || 'Could not prepare command.' };
+  }
+
+  const command = String(build.command || '').trim();
+  const cwd = String(build.cwd || '').trim() || getDefaultTerminalWorkingDirectory();
+  const env = buildSpawnEnv();
+
+  let child;
+  try {
+    if (process.platform === 'win32') {
+      child = spawn('cmd.exe', ['/d', '/s', '/c', command], {
+        cwd,
+        env,
+        stdio: 'pipe',
+        windowsHide: false,
+        shell: false,
+      });
+
+      if (child.stdout && process.stdout) {
+        child.stdout.on('data', (chunk) => {
+          process.stdout.write(chunk);
+        });
+      }
+
+      if (child.stderr && process.stderr) {
+        child.stderr.on('data', (chunk) => {
+          process.stderr.write(chunk);
+        });
+      }
+    } else {
+      const shellBinary = process.env.SHELL || '/bin/zsh';
+      child = spawn(shellBinary, ['-lc', command], {
+        cwd,
+        env,
+        stdio: 'inherit',
+        windowsHide: true,
+        shell: false,
+      });
+    }
+  } catch (error) {
+    return { ok: false, error: error?.message || 'Failed to start by-module command.' };
+  }
+
+  standaloneByModuleChild = child;
+
+  for (const win of BrowserWindow.getAllWindows()) {
+    if (!win.isDestroyed()) {
+      win.close();
+    }
+  }
+
+  child.on('close', (exitCode) => {
+    standaloneByModuleChild = null;
+    app.exit(Number.isInteger(exitCode) ? exitCode : 1);
+  });
+
+  child.on('error', () => {
+    standaloneByModuleChild = null;
+    app.exit(1);
+  });
+
+  return { ok: true };
+});
+
 ipcMain.handle('scripts:start', async (_event, scriptName) => {
   if (runningScripts.has(scriptName)) {
     return { ok: false, error: `Script ${scriptName} is already running.` };
   }
 
   const child = spawnScriptProcess(scriptName);
+
+  runningScripts.set(scriptName, child);
+  broadcast('scripts:status', { script: scriptName, running: true });
+
+  child.stdout.on('data', (chunk) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stdout', message: sanitizeLogMessage(chunk) });
+  });
+
+  child.stderr.on('data', (chunk) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: sanitizeLogMessage(chunk) });
+  });
+
+  child.on('error', (error) => {
+    broadcast('scripts:log', { script: scriptName, stream: 'stderr', message: `${error.message}\n` });
+  });
+
+  child.on('close', (code) => {
+    runningScripts.delete(scriptName);
+    broadcast('scripts:status', { script: scriptName, running: false });
+    broadcast('scripts:log', {
+      script: scriptName,
+      stream: code === 0 ? 'stdout' : 'stderr',
+      message: `\nProcess finished (${scriptName}) with exit code ${code}\n`,
+    });
+  });
+
+  return { ok: true };
+});
+
+ipcMain.handle('scripts:start-inline', async (_event, payload) => {
+  const scriptName = String(payload?.scriptName || '').trim();
+  const command = String(payload?.command || '').trim();
+  const cwd = String(payload?.cwd || '').trim();
+
+  if (!scriptName) {
+    return { ok: false, error: 'Missing script name.' };
+  }
+
+  if (!command) {
+    return { ok: false, error: 'Missing command.' };
+  }
+
+  if (runningScripts.has(scriptName)) {
+    return { ok: false, error: `Script ${scriptName} is already running.` };
+  }
+
+  const child = spawnInlineScriptProcess(command, cwd);
 
   runningScripts.set(scriptName, child);
   broadcast('scripts:status', { script: scriptName, running: true });
@@ -1946,6 +2491,16 @@ ipcMain.handle('logs:export', async (event, payload) => {
 
 ipcMain.handle('app:quit', async () => {
   app.quit();
+  return { ok: true };
+});
+
+ipcMain.handle('app:close-window', async (event) => {
+  const ownerWindow = BrowserWindow.fromWebContents(event.sender) || null;
+  if (!ownerWindow || ownerWindow.isDestroyed()) {
+    return { ok: false };
+  }
+
+  ownerWindow.close();
   return { ok: true };
 });
 
@@ -2059,18 +2614,61 @@ app.on('before-quit', (event) => {
 });
 
 app.whenReady().then(() => {
+  if (!hasSingleInstanceLock) {
+    return;
+  }
+
   ensureLinuxDevDesktopEntry();
-  applyAppIcon();
-  createWindow();
+  if (initialModalOnlyMode) {
+    applyStandaloneByModuleAppIcon();
+  } else {
+    applyAppIcon();
+  }
+  createWindow({
+    openByModuleMode: initialByModuleLaunchMode,
+    modalOnly: initialModalOnlyMode,
+  });
+
+  if (initialModalOnlyMode) {
+    // Re-apply icon after window creation to avoid default Electron icon flashes on macOS.
+    setTimeout(() => {
+      applyStandaloneByModuleAppIcon();
+    }, 80);
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }
   });
+
+  app.on('second-instance', (_event, argv) => {
+    const requestedMode = parseByModuleLaunchModeFromArgv(argv || []);
+    const modalOnly = parseModalOnlyFromArgv(argv || []);
+
+    if (requestedMode === 'tests' || requestedMode === 'storybook') {
+      createWindow({
+        openByModuleMode: requestedMode,
+        modalOnly,
+      });
+      return;
+    }
+
+    const [firstWindow] = BrowserWindow.getAllWindows();
+    if (firstWindow && !firstWindow.isDestroyed()) {
+      if (firstWindow.isMinimized()) {
+        firstWindow.restore();
+      }
+      firstWindow.focus();
+    }
+  });
 });
 
 app.on('window-all-closed', () => {
+  if (standaloneByModuleChild) {
+    return;
+  }
+
   // This launcher should fully close when the last window is closed, including macOS.
   app.quit();
 });

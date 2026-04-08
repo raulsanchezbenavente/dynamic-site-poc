@@ -1,0 +1,73 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+
+.loyalty-status-overview_items {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: $spacer-medium;
+}
+.loyalty-status-overview_item {
+    position: relative;
+    flex: 1;
+    + .loyalty-status-overview_item {
+        padding-top: calculateRem(32px);
+
+        // divisor line
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calculateRem(2px);
+            background-color: var(--c-border);
+        }
+    }
+}
+
+// discover panel
+.loyalty-status-overview_discover {
+    margin-top: $spacer-x-large;
+}
+
+// [Responsive]
+@media #{$tablet-portrait} {
+    .loyalty-status-overview_items {
+        flex-direction: row;
+        gap: 0;
+        align-items: stretch; // keep columns same height
+    }
+    .loyalty-status-overview_item {
+        padding: 0 $spacer-x-large;
+        margin-bottom: $spacer-x-large; // apply margin to ensure the left divider line stretches to match the content height
+        height: 100%;
+        + .loyalty-status-overview_item {
+            padding-top: 0;
+            &::before {
+                top: $spacer-x-large;
+                height: calc(100% - $spacer-x-large);
+                width: calculateRem(2px);
+            }
+        }
+    }
+}
+
+// On Discovery section: moves the button below and applies the small variant
+@media #{$until-mobile} {
+    :host {
+        .#{$ds}panel-header {
+            flex-wrap: wrap;
+        }
+        .#{$ds}panel-header-aside {
+            flex: 1 1 100%;
+            padding-top: 0;
+        }
+        ::ng-deep .#{$ds}button {
+            @include btn-small;
+        }
+    }
+}

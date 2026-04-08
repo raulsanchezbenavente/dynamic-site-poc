@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 import { SafeHtml } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 import dayjs from 'dayjs';
@@ -17,6 +17,9 @@ import {
   ERROR_MESSAGES_SELECT_DATE_PICKER,
 } from '../../reactive-forms/src/storybook/stories/reactive-forms/components/select-date-picker-story/select-date-picker.config';
 import { SELECT_ERROR_MESSAGES } from '../../reactive-forms/src/storybook/stories/reactive-forms/components/select-story/select.config';
+
+const DEFAULT_HERO_IMAGE =
+  'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80';
 
 @Component({
   selector: 'ads',
@@ -70,4 +73,7 @@ export class AdsComponent {
     const fallback = String(data).trim();
     return fallback ? fallback.toLowerCase() : null;
   }
+  public config = input<{ url?: string } | null>(null);
+
+  public heroImageUrl = computed(() => this.config()?.url ?? DEFAULT_HERO_IMAGE);
 }

@@ -33,6 +33,9 @@ dist/
 # JetBrains IDE
 .idea/
 
+# Unit test temp files
+.tmp/
+
 # Unit test reports
 TEST*.xml
 coverage
@@ -60,3 +63,6 @@ Thumbs.db
 
 # Migration paths
 _migration/
+
+# legacy-peer-deps=true
+.npmrc
