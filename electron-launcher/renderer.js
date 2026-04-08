@@ -7,6 +7,8 @@ const quitButtonTooltip = document.getElementById('quitButtonTooltip');
 const clearLogsButton = document.getElementById('clearLogsButton');
 const exportLogsButton = document.getElementById('exportLogsButton');
 const launcherToast = document.getElementById('launcherToast');
+const aboutOverlay = document.getElementById('aboutOverlay');
+const aboutCloseButton = document.getElementById('aboutCloseButton');
 const byModuleOverlay = document.getElementById('byModuleOverlay');
 const byModuleTitle = document.getElementById('byModuleTitle');
 const byModuleSubtitle = document.getElementById('byModuleSubtitle');
@@ -2086,6 +2088,34 @@ function closeByModuleDialog() {
   }
 }
 
+function isAboutDialogOpen() {
+  return Boolean(aboutOverlay && !aboutOverlay.hidden);
+}
+
+function openAboutDialog() {
+  if (!aboutOverlay || IS_MODAL_ONLY_BY_MODULE) {
+    return;
+  }
+
+  aboutOverlay.hidden = false;
+  closeThemeMenu();
+  closeTerminalTypeMenu();
+  closeTerminalFontMenu();
+  closePackageSourceMenu();
+  requestAnimationFrame(() => {
+    aboutCloseButton?.focus();
+  });
+}
+
+function closeAboutDialog() {
+  if (!aboutOverlay) {
+    return;
+  }
+
+  aboutOverlay.hidden = true;
+  appLogoImg?.focus();
+}
+
 function renderByModuleOptions(modeConfig, modules) {
   if (!byModuleSelect) {
     return;
@@ -3666,6 +3696,33 @@ byModuleOverlay?.addEventListener('click', (event) => {
   }
 });
 
+if (appLogoImg) {
+  appLogoImg.setAttribute('role', 'button');
+  appLogoImg.setAttribute('tabindex', '0');
+  appLogoImg.setAttribute('aria-label', 'About Dynamic Site Launcher');
+  appLogoImg.addEventListener('click', () => {
+    openAboutDialog();
+  });
+  appLogoImg.addEventListener('keydown', (event) => {
+    if (event.key !== 'Enter' && event.key !== ' ') {
+      return;
+    }
+
+    event.preventDefault();
+    openAboutDialog();
+  });
+}
+
+aboutCloseButton?.addEventListener('click', () => {
+  closeAboutDialog();
+});
+
+aboutOverlay?.addEventListener('click', (event) => {
+  if (event.target === aboutOverlay) {
+    closeAboutDialog();
+  }
+});
+
 refreshButton.addEventListener('click', refreshScripts);
 quitButton.addEventListener('click', async () => {
   if (isQuitInProgress) {
@@ -3918,6 +3975,14 @@ function hasSelectedTextForCopyShortcut() {
 }
 
 document.addEventListener('keydown', (event) => {
+  if (isAboutDialogOpen()) {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      closeAboutDialog();
+    }
+    return;
+  }
+
   if (byModuleDialogState && byModuleOverlay && !byModuleOverlay.hidden) {
     if (event.key === 'Escape') {
       event.preventDefault();
