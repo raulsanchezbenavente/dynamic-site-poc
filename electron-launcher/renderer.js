@@ -42,6 +42,7 @@ const terminalFontResetButton = document.getElementById('terminalFontResetButton
 const terminalFontIncreaseButton = document.getElementById('terminalFontIncreaseButton');
 const expandLogsButton = document.getElementById('expandLogsButton');
 const layoutEl = document.querySelector('.layout');
+const logsShellEl = document.getElementById('logsShell');
 const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
 const interactiveTerminalCwd = document.getElementById('interactiveTerminalCwd');
 const interactiveTerminalForm = document.getElementById('interactiveTerminalForm');
@@ -56,6 +57,7 @@ const packageSourceOptions = Array.from(document.querySelectorAll('.package-sour
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 const filterModeToggleButton = document.getElementById('filterModeToggleButton');
+const appLogoImg = document.getElementById('appLogoImg');
 
 const LAUNCH_QUERY_PARAMS = (() => {
   try {
@@ -182,6 +184,10 @@ let byModuleDialogState = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
+
+if (appLogoImg) {
+  appLogoImg.src = `./assets/app/avianca-icon.png`;
+}
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
@@ -3121,6 +3127,10 @@ function applyTerminalTheme(themeName) {
   );
 }
 
+function revealTerminalSurface() {
+  logsShellEl?.classList.remove('terminal-theme-pending');
+}
+
 function openThemeMenu() {
   if (!terminalThemeMenu || !terminalThemeTrigger) {
     return;
@@ -4085,6 +4095,7 @@ async function init() {
   ensureDefaultTerminalThemeStorage(defaultTerminalTheme);
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
+  revealTerminalSurface();
   applyTerminalFontSize(readSavedTerminalFontSize());
   restoreFilters();
   restoreLogTabOrder();
