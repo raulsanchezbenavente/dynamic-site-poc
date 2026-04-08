@@ -42,6 +42,7 @@ const terminalFontResetButton = document.getElementById('terminalFontResetButton
 const terminalFontIncreaseButton = document.getElementById('terminalFontIncreaseButton');
 const expandLogsButton = document.getElementById('expandLogsButton');
 const layoutEl = document.querySelector('.layout');
+const logsShellEl = document.getElementById('logsShell');
 const interactiveTerminalBar = document.getElementById('interactiveTerminalBar');
 const interactiveTerminalCwd = document.getElementById('interactiveTerminalCwd');
 const interactiveTerminalForm = document.getElementById('interactiveTerminalForm');
@@ -3126,6 +3127,10 @@ function applyTerminalTheme(themeName) {
   );
 }
 
+function revealTerminalSurface() {
+  logsShellEl?.classList.remove('terminal-theme-pending');
+}
+
 function openThemeMenu() {
   if (!terminalThemeMenu || !terminalThemeTrigger) {
     return;
@@ -4090,6 +4095,7 @@ async function init() {
   ensureDefaultTerminalThemeStorage(defaultTerminalTheme);
   favoriteScripts = readSavedFavorites();
   applyTerminalTheme(readSavedTerminalTheme());
+  revealTerminalSurface();
   applyTerminalFontSize(readSavedTerminalFontSize());
   restoreFilters();
   restoreLogTabOrder();

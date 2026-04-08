@@ -1867,6 +1867,9 @@ button:hover:not(:disabled) {
   overflow: hidden;
   border-radius: 0 0 1rem 1rem;
 }
+.logs-shell.terminal-theme-pending {
+  visibility: hidden;
+}
 .log-tabs {
   display: flex;
   gap: 0.5rem;
