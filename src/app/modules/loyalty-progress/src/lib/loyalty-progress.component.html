@@ -1,0 +1,24 @@
+@let isLoadedData = isLoaded();
+
+@if (isLoadedData) {
+    <panel
+        role="region"
+        [config]="panelConfig()">
+        <panel-header>
+            <h2 panelTitle>
+                {{ panelConfig().title }}
+            </h2>
+        </panel-header>
+        <div panelContent>
+            <div class="loyalty-progress-items">
+                @for (program of programs(); track $index) {
+                    <div class="loyalty-progress_item">
+                        <loyalty-progress-card [config]="program" />
+                    </div>
+                }
+            </div>
+        </div>
+    </panel>
+} @else {
+    <p>Loading....</p>
+}

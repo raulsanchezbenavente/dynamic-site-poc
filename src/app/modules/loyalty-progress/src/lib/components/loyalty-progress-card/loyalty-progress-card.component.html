@@ -1,0 +1,10 @@
+<div
+    class="loyalty-progress-card"
+    [ngClass]="'loyalty-progress-card--' + config().balance.programCode">
+    <div class="loyalty-progress-card_header">
+        <loyalty-points [loyaltyPointsModel]="loyaltyPointsModel()" />
+    </div>
+    <div class="loyalty-progress-card_progress-bar">
+        <progress-bar [config]="config().progressBarConfig" />
+    </div>
+</div>

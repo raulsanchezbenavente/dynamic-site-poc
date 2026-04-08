@@ -1,0 +1,29 @@
+<div
+    class="loyalty-status-benefits"
+    [ngClass]="'loyalty-status-benefits--tier-' + tierInfo.id">
+    <h3 class="loyalty-status-benefits_title">
+        {{ data().title }}
+    </h3>
+    <div class="loyalty-status-benefits_card">
+        <img
+            class="loyalty-status-benefits_card-image"
+            [src]="tierInfo.cardImage.src"
+            [alt]="tierInfo.cardImage.altText" />
+        <loyalty-tier-badge [config]="tierBadgeConfig"></loyalty-tier-badge>
+    </div>
+    <div class="loyalty-status-benefits_list">
+        <ds-list [config]="benefitsListConfig"></ds-list>
+    </div>
+    <div class="loyalty-status-benefits_requirements">
+        <panel [config]="panelConfig">
+            <panel-header>
+                <h3 panelTitle>
+                    {{ 'Loyalty.StatusBenefitsRequirements.Title' | translate }}
+                </h3>
+            </panel-header>
+            <div panelContent>
+                <description-list [config]="descriptionListConfig"></description-list>
+            </div>
+        </panel>
+    </div>
+</div>

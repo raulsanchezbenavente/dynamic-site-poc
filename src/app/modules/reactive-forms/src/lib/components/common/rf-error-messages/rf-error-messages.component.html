@@ -1,8 +1,8 @@
-@if (showErrorMessages() && firstErrorMessage) {
-    <div
-        class="rf-field-message"
-        [attr.id]="id()"
-        [ngClass]="classes()?.message || ''">
-        {{ firstErrorMessage }}
-    </div>
-}
+<div
+    aria-live="polite"
+    class="rf-field-message"
+    [style.display]="!showErrorMessages() || !firstErrorMessage ? 'none' : ''"
+    [attr.id]="id()"
+    [ngClass]="classes()?.message || ''">
+    {{ firstErrorMessage }}
+</div>

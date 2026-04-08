@@ -1,0 +1,17 @@
+<dl class="loyalty-overview-card_info">
+    <div class="loyalty-overview-card_info-item loyalty-overview-card_info--number">
+        <loyalty-overview-card-loyalty-number [loyaltyId]="data().loyaltyId" />
+    </div>
+    <div class="loyalty-overview-card_info-item loyalty-overview-card_info--total">
+        <loyalty-overview-card-total-miles
+            [amount]="data().amount"
+            [tierAvatarConfig]="data().tierAvatarConfig" />
+    </div>
+    @if (data().expirationDateConfig) {
+        <div class="loyalty-overview-card_info-item loyalty-overview-card_info--expiration-date">
+            <loyalty-overview-card-expiration-date
+                [expirationDateConfig]="data().expirationDateConfig"
+                [amount]="data().amount" />
+        </div>
+    }
+</dl>
