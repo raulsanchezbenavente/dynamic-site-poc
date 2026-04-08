@@ -618,10 +618,17 @@ body.modal-only-by-module .by-module-overlay {
   background: #fff1f1;
   color: #9f2323;
 }
-.topbar h1 {
-  margin: 0;
-  font-size: 1.55rem;
-  letter-spacing: 0.01em;
+.topbar-logo {
+  display: block;
+  width: 2.75rem;
+  min-width: 2.75rem;
+  max-width: 2.75rem;
+  height: 2.75rem;
+  min-height: 2.75rem;
+  max-height: 2.75rem;
+  object-fit: contain;
+  flex: 0 0 2.75rem;
+  align-self: center;
 }
 .layout {
   display: grid;
@@ -1429,14 +1436,14 @@ body:has(.layout.terminal-fullscreen) .layout {
 .script-command {
   color: var(--muted);
   font-size: 0.9rem;
-  word-break: break-all;
+  word-break: break-word;
   overflow-wrap: anywhere;
 }
 .script-command-line {
   width: 100%;
   display: block;
   min-width: 0;
-  word-break: break-all;
+  word-break: break-word;
   overflow-wrap: anywhere;
 }
 .script-command-inline-text {
@@ -1860,6 +1867,9 @@ button:hover:not(:disabled) {
   overflow: hidden;
   border-radius: 0 0 1rem 1rem;
 }
+.logs-shell.terminal-theme-pending {
+  visibility: hidden;
+}
 .log-tabs {
   display: flex;
   gap: 0.5rem;
@@ -2180,32 +2190,6 @@ button.log-tab:hover:not(:disabled) {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-  }
-  .topbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.6rem;
-    flex-shrink: 0;
-  }
-  .topbar-actions {
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-  .quit-button-group {
-    margin-left: auto;
-  }
-  .source-selector {
-    flex: 1 1 auto;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-  .source-selector-trigger {
-    flex: 1 1 auto;
-    min-width: 12rem;
-  }
-  .source-selector-menu {
-    right: 0;
-    min-width: 100%;
   }
 
   .panel-header {
