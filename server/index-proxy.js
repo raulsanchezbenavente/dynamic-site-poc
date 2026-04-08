@@ -18,6 +18,9 @@ const configDir = path.join(__dirname, '../src/assets/config-site');
 const targetHost = 'localhost';
 const targetPort = 4200;
 const healthCheckPath = '/__proxy-health';
+const umbracoPublicHost = 'umbraco.av-booking-local.newshore.es';
+const umbracoTargetHost = 'localhost';
+const umbracoTargetPort = 8443;
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
@@ -162,6 +165,43 @@ const renderIndexHtml = createRenderIndexHtml({
 
 app.get(healthCheckPath, (_req, res) => {
   res.status(200).type('text/plain').send('ok');
+});
+
+// Proxy: umbraco.av-booking-local.newshore.es → localhost:8443
+app.use((req, res, next) => {
+  const host = String(req.headers.host || '')
+    .split(':')[0]
+    .toLowerCase();
+  if (host !== umbracoPublicHost) {
+    return next();
+  }
+
+  const proxyReq = http.request(
+    {
+      hostname: umbracoTargetHost,
+      port: umbracoTargetPort,
+      path: req.originalUrl,
+      method: req.method,
+      headers: {
+        ...req.headers,
+        host: `${umbracoTargetHost}:${umbracoTargetPort}`,
+      },
+    },
+    (proxyRes) => {
+      res.writeHead(proxyRes.statusCode, proxyRes.headers);
+      proxyRes.pipe(res, { end: true });
+    }
+  );
+
+  proxyReq.on('error', (error) => {
+    const message = error instanceof Error ? error.message : String(error);
+    logError(`[Umbraco proxy] ${message}`);
+    if (!res.headersSent) {
+      res.status(502).type('text/plain').send(`Umbraco proxy error: ${message}`);
+    }
+  });
+
+  req.pipe(proxyReq, { end: true });
 });
 
 if (enableFakeApi) {
