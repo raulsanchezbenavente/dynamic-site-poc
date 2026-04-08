@@ -272,9 +272,18 @@ async function startProxyServers() {
       const message = error instanceof Error ? error.message : String(error);
       console.error(`HTTPS startup failed: ${message}`);
 
-      if (error && typeof error === 'object' && 'code' in error && error.code === 'EACCES' && httpsPort === 443) {
+      if (
+        process.platform === 'linux' &&
+        error &&
+        typeof error === 'object' &&
+        'code' in error &&
+        error.code === 'EACCES' &&
+        httpsPort === 443
+      ) {
         console.error('Port 443 requires elevated bind permission on Linux.');
         console.error('Run `npm run linux:enable-port-443` once, then start the app again.');
+      } else if (error && typeof error === 'object' && 'code' in error && error.code === 'EADDRINUSE') {
+        console.error(`Port ${httpsPort} is already in use.`);
       } else {
         console.error('Continuing with HTTP only.');
       }
