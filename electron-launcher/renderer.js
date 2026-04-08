@@ -56,6 +56,7 @@ const packageSourceOptions = Array.from(document.querySelectorAll('.package-sour
 const filterRunningCheckbox = document.getElementById('filterRunningCheckbox');
 const filterFavoritesCheckbox = document.getElementById('filterFavoritesCheckbox');
 const filterModeToggleButton = document.getElementById('filterModeToggleButton');
+const appLogoImg = document.getElementById('appLogoImg');
 
 const LAUNCH_QUERY_PARAMS = (() => {
   try {
@@ -182,6 +183,10 @@ let byModuleDialogState = null;
 const IS_MACOS = /mac/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_LINUX = /linux/i.test(String(globalThis?.navigator?.platform || ''));
 const IS_WINDOWS = /win/i.test(String(globalThis?.navigator?.platform || ''));
+
+if (appLogoImg) {
+  appLogoImg.src = `./assets/app/avianca-icon.png`;
+}
 
 function getTerminalTypeMeta(typeId) {
   const normalized = String(typeId || '')
