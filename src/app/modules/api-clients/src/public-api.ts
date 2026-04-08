@@ -4,7 +4,6 @@
 
 export { AccountClient } from './lib/account-api';
 export { AccountV2Client } from './lib/accountV2-api';
-export { ApiClientsModule } from './lib/api-clients.module';
 export { BookingClient } from './lib/booking-api';
 export { CmsConfigClient } from './lib/cmsConfig-api';
 export { ContactsClient } from './lib/contacts-api';
@@ -26,6 +25,7 @@ export * as ResourcesModels from './lib/models/resources';
 export * as SegmentsStatusModels from './lib/models/segmentsStatus';
 export * as ServicesModels from './lib/models/services';
 export { PricingClient } from './lib/pricing-api';
+export { provideApiClients } from './lib/provide-api-clients';
 export { ResourcesClient } from './lib/resources-api';
 export { SegmentsStatusClient } from './lib/segmentsStatus-api';
 export { ServicesClient } from './lib/services-api';

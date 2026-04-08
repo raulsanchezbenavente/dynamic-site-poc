@@ -19,6 +19,7 @@ export class ModalDialogService {
   private readonly modalSvc = inject(NgbModal);
   private readonly eventBusService = inject(EventBusService);
   private modalRef: NgbModalRef | null = null;
+  private currentModalPriority: number = 0;
 
   /**
    * Subject for emitting actions from the modal if you are using the modal-dialog component, it
@@ -44,8 +45,19 @@ export class ModalDialogService {
     config: ModalDialogConfig,
     content: Type<unknown> | TemplateRef<unknown> | string = ModalDialogComponent,
     componentInstanceConfig?: Record<string, unknown>,
-    allowMultiple: boolean = false
+    allowMultiple: boolean = false,
+    priority: number = 0
   ): Observable<ModalDialogActionType> {
+    if (priority > 0 && priority > this.currentModalPriority) {
+      this.modalSvc.dismissAll();
+      this.modalRef = null;
+      this.currentModalPriority = 0;
+    }
+
+    if (this.currentModalPriority > 0 && priority < this.currentModalPriority) {
+      return new Subject<ModalDialogActionType>().asObservable();
+    }
+
     // Only prevents multiple modals if allowMultiple is false
     if (this.modalRef && !allowMultiple) {
       return this.actionSubject.asObservable();
@@ -54,6 +66,10 @@ export class ModalDialogService {
     const actionSubject = new Subject<ModalDialogActionType>();
     const options = this.buildModalOptions(config);
     const modalRef = this.modalSvc.open(content, options);
+
+    if (priority > this.currentModalPriority) {
+      this.currentModalPriority = priority;
+    }
 
     if (!allowMultiple) {
       this.modalRef = modalRef;
@@ -99,6 +115,9 @@ export class ModalDialogService {
     modalRef.result.finally(() => {
       if (!allowMultiple) {
         this.modalRef = null;
+      }
+      if (priority >= this.currentModalPriority) {
+        this.currentModalPriority = 0;
       }
       actionSubject.complete();
     });

@@ -51,8 +51,15 @@ export class ModuleRendererService {
       return;
     }
 
-    const moduleRef = createNgModule(moduleClass, this.envInjector);
-    const componentsToRender = moduleRef.injector.get(COMPONENT_MAIN);
+    let componentsToRender: Type<unknown>[][];
+    try {
+      const moduleRef = createNgModule(moduleClass, this.envInjector);
+      componentsToRender = moduleRef.injector.get(COMPONENT_MAIN);
+    } catch {
+      // Supports gradual migration from wrapper NgModules to standalone components.
+      this.renderComponent(id, name, priority, moduleClass, hostElement, isolatedLoading);
+      return;
+    }
 
     for (const componentList of componentsToRender) {
       for (const component of componentList) {

@@ -1,0 +1,42 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../check-in-passenger-list/styles/check-in-passenger-list-vars.styles.scss' as wciPaxListBreakpoints;
+
+// Styles
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+    &:not(.checkin-summary-item--not-available) {
+        background: var(--c-white);
+        padding-bottom: $pad-x-medium;
+        border-radius: 0 0 var(--#{$ds}border-radius-lg) var(--#{$ds}border-radius-lg);
+    }
+    &.checkin-summary-item--not-available {
+        ::ng-deep .#{$ds}panel {
+            --panel-background: transparent;
+        }
+    }
+}
+.checkin-summary-item_content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+.checkin-summary-item_select-all-passengers {
+    --checkbox-label-color: var(--c-text);
+}
+.checkin-summary-boarding-pass_title {
+    font-size: var(--f-size);
+    font-weight: var(--f-weight-bold);
+    padding: 0 var(--panel-padding);
+    margin-bottom: $spacer-x-large;
+}
+
+// [Responsive]
+@media #{wciPaxListBreakpoints.$wci-pax-list-breakpoint-min} {
+    :host {
+        &:not(.checkin-summary-item--not-available) {
+            padding-bottom: $pad-x-large;
+        }
+    }
+}

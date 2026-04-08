@@ -1,0 +1,76 @@
+@let summaryItemPanelConfigData = summaryItemPanelConfig();
+@let checkInData = data();
+@let checkInConfig = config();
+@let alertMessage = showAlertMessage();
+<panel [config]="summaryItemPanelConfigData">
+    <div panelContent>
+        <div class="checkin-summary-item_content">
+            <div class="checkin-summary-item_schedule">
+                <journey-schedule
+                    [data]="journeyDataConfig"
+                    [config]="scheduleConfig" />
+            </div>
+            @if (isCheckInAvailable && shouldShowSelectAllCheckbox()) {
+                <div class="checkin-summary-item_action">
+                    <div class="checkin-summary-item_select-all-passengers">
+                        <rf-checkbox
+                            #allPassenger
+                            [label]="translateKeys.CheckIn_SelectAllPassengers | translate"
+                            [value]="checkInData.id"
+                            (changeChecked)="onSelectAllPassengersChanged($event)" />
+                        @if (selectAllChecked && alertMessage) {
+                            <div
+                                role="alert"
+                                class="hide-visually">
+                                {{ translateKeys.CheckIn_A11y_Passengers_SelectAll | translate }}
+                            </div>
+                        } @else if (!selectAllChecked && alertMessage) {
+                            <div
+                                role="alert"
+                                class="hide-visually">
+                                {{ translateKeys.CheckIn_A11y_Passengers_DeselectAll | translate }}
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            @if (alertPanelConfig) {
+                <div class="checkin-summary-item_info">
+                    <alert-panel [config]="alertPanelConfig">
+                        @if (
+                            checkInData.remainingTimeToCheckIn && checkInConfig.showRemainingTime && remainingTimeConfig
+                        ) {
+                            <remaining-time
+                                [timeMeasure]="checkInData.remainingTimeToCheckIn"
+                                [config]="remainingTimeConfig" />
+                        }
+                    </alert-panel>
+                </div>
+            }
+            @let alertConfig = getSegmentAlertConfig();
+            @if (alertConfig) {
+                <div class="checkin-summary-item_standby-alert">
+                    <alert-panel [config]="alertConfig" />
+                </div>
+            }
+        </div>
+    </div>
+</panel>
+
+@if (isCheckInAvailable) {
+    <div class="checkin-summary-item_passenger-list">
+        @if (hasCheckedPassengers()) {
+            <div class="checkin-summary-boarding-pass_title">
+                {{ translateKeys.CheckIn_BoardingPass_Download_Title | translate }}
+            </div>
+        }
+        <check-in-passenger-list
+            [passengersFields]="passengersFields"
+            [passengers]="checkInData.passengers"
+            [journeyId]="checkInData.id"
+            [segmentIdentifier]="mainSegmentId()"
+            (changeCheckBoxStatus)="onChangeCheckBoxStatus($event)"
+            (checkedPassengers)="onCheckedPassengers($event)">
+        </check-in-passenger-list>
+    </div>
+}

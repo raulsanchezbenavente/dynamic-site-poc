@@ -34,20 +34,17 @@ export class ServicesService extends HttpClientService {
           return response;
         }
 
-        // Generate mock service if applicable
-        const mockService = this.servicesMockService.generateMockService(booking);
+        const mockServices = this.servicesMockService.generateMockServices(booking);
 
-        // If no mock service, return original response
-        if (!mockService) {
+        if (!mockServices.length) {
           return response;
         }
 
-        // Add mock service to response
         return {
           ...response,
           result: {
             ...response.result,
-            data: [...(response.result?.data || []), mockService],
+            data: [...(response.result?.data || []), ...mockServices],
           },
         };
       })

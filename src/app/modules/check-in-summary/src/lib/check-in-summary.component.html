@@ -1,0 +1,26 @@
+@let isLoadedData = isLoaded();
+@let summaryItemConfigData = summaryItemConfig();
+
+<ng-container
+    translationLoadStatus
+    [moduleKeys]="mappedKeys"
+    (translationsLoaded)="translationsLoaded()" />
+
+@if (isLoadedData) {
+    <div class="checkin-summary_list">
+        @for (journey of summaryVM().journeys; track journey; let index = $index) {
+            <div class="checkin-summary_item">
+                <check-in-summary-item
+                    role="region"
+                    [attr.aria-label]="buildJourneyAriaLabel(journey)"
+                    [config]="summaryItemConfigData"
+                    [data]="journey"
+                    (checkedPassengers)="onCheckedPassengers($event)" />
+            </div>
+        }
+    </div>
+} @else {
+    <span class="hide-visually">
+        {{ translateKeys.CheckIn_A11y_Loading | translate }}
+    </span>
+}
