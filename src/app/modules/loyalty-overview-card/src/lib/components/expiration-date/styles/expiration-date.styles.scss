@@ -1,0 +1,17 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+.loyalty-overview-card_info--expiration-date {
+    --loyalty-overview-card-info-item-value-fontsize: var(--f-size);
+    --loyalty-overview-card-info-item-value-fontweight: var(--f-weight-normal);
+
+    gap: $spacer-x-tiny;
+    padding-left: var(--loyalty-overview-card-item-expiration-date-padding, $spacer-x-large);
+    border-left: 1px solid var(--c-border);
+}
+
+@media (width <= 360px) {
+    .loyalty-overview-card_info--expiration-date {
+        padding: 0;
+        border: 0;
+    }
+}

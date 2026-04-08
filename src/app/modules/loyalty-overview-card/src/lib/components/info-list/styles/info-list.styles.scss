@@ -1,0 +1,71 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+.loyalty-overview-card_info {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding: var(--loyalty-overview-card-info-padding, $spacer-medium);
+    gap: var(--loyalty-overview-card-info-gap, $spacer-x-large);
+    background: var(--c-white);
+    border-radius: var(--#{$ds}border-radius-lg);
+}
+.loyalty-overview-card_info-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: calculateRem(4px);
+}
+.loyalty-overview-card_info--number {
+    flex: 0 0 100%;
+    gap: 0;
+    ::ng-deep {
+        .#{$ds}icon-button_button {
+            padding: $pad-tiny;
+        }
+    }
+}
+.loyalty-overview-card_info--expiration-date {
+    --loyalty-overview-card-info-item-value-fontsize: var(--f-size);
+    --loyalty-overview-card-info-item-value-fontweight: var(--f-weight-normal);
+
+    gap: $spacer-x-tiny;
+    padding-left: var(--loyalty-overview-card-item-expiration-date-padding, $spacer-x-large);
+    border-left: 1px solid var(--c-border);
+}
+::ng-deep {
+    .loyalty-overview-card_info-item_label {
+        font-size: var(--f-size);
+        color: var(--c-text-secondary);
+    }
+    .loyalty-overview-card_info-item_value {
+        --icon-button-fontsize: var(--f-size-x-large);
+        --date-display-fontsize: var(--f-size);
+        --date-display-fontweight: var(--f-weight-normal);
+
+        display: flex;
+        align-items: center;
+        gap: calculateRem(8px);
+        font-size: var(--loyalty-overview-card-info-item-value-fontsize, var(--f-size-large));
+        font-weight: var(--loyalty-overview-card-info-item-value-fontweight, var(--f-weight-bold));
+    }
+}
+
+@media #{$tablet-portrait} {
+    .loyalty-overview-card_info,
+    .loyalty-overview-card_info--number {
+        flex-wrap: nowrap;
+    }
+    .loyalty-overview-card_info--number {
+        flex: auto;
+    }
+}
+
+@media (width <= 340px) {
+    .loyalty-overview-card_info {
+        flex-direction: column;
+    }
+    .loyalty-overview-card_info--expiration-date {
+        padding: 0;
+        border: 0;
+    }
+}

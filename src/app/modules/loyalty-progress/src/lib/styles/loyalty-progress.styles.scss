@@ -1,0 +1,19 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.loyalty-progress-items {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px) calculateRem(32px);
+}
+.loyalty-progress_item {
+    width: 100%;
+}
+
+@media #{$tablet-portrait} {
+    .loyalty-progress-items {
+        flex-direction: row;
+    }
+}

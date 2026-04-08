@@ -1,0 +1,13 @@
+<dt class="loyalty-overview-card_info-item_label">
+    {{ translateKeys.OverviewCard_ExpirationDate_Text | translate }}
+</dt>
+<dd class="loyalty-overview-card_info-item_value">
+    @if (expirationDateConfig().date && amount() != '0' && amount() != '-') {
+        <date-display [config]="expirationDateConfig()"></date-display>
+    } @else {
+        <span aria-hidden="true">-</span>
+        <span class="hide-visually">
+            {{ translateKeys.OverviewCard_NoExpirationDate_Text | translate }}
+        </span>
+    }
+</dd>

@@ -1,0 +1,36 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+.loyalty-overview-card_header {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacer-medium 0;
+    color: var(--c-white);
+    font-weight: var(--f-weight-bold);
+    flex-wrap: wrap-reverse;
+}
+.loyalty-overview-card_greeting {
+    flex: 0 0 100%;
+    font-size: var(--loyalty-overview-card-greeting-fontsize, var(--f-size-x-large));
+}
+.loyalty-overview-card_tier {
+    display: flex;
+    align-items: center;
+    gap: var(--loyalty-overview-card-tier-gap, $spacer-tiny);
+    font-size: var(--loyalty-overview-card-tier-fontsize, var(--f-size));
+}
+.loyalty-overview-card_tier-logo {
+    @include iconfont($icon-lifemiles, before, inherit);
+
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--loyalty-overview-card-tier-logo-fontsize, var(--f-size-tiny));
+}
+
+@media #{$tablet-portrait} {
+    .loyalty-overview-card_header {
+        flex-wrap: nowrap;
+    }
+    .loyalty-overview-card_greeting {
+        flex: auto;
+    }
+}

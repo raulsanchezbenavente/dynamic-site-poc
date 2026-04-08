@@ -1,0 +1,42 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+$loyalty-progress-card-icon-color: var(--loyalty-progress-card-icon-color, var(--c-primary));
+
+// -------
+// STYLES
+// -------
+.loyalty-progress-card {
+    display: flex;
+    flex-direction: column;
+    padding: calculateRem(24px);
+    gap: calculateRem(24px);
+    background-color: var(--c-color5);
+    border-radius: var(--#{$ds}border-radius-lg);
+}
+.loyalty-progress-card_header {
+    display: flex;
+    align-items: center;
+    gap: calculateRem(8px);
+    &::before {
+        width: calculateRem(16px);
+        height: calculateRem(16px);
+        border-radius: 100%;
+        text-align: center;
+        padding: calculateRem(4px);
+        background-color: $loyalty-progress-card-icon-color;
+    }
+}
+.loyalty-progress-card--lm {
+    --loyalty-progress-card-icon-color: #{var(--c-text)};
+    --progress-bar-progress-background-color: var(--loyalty-progress-card-icon-color);
+    .loyalty-progress-card_header {
+        @include iconfont($icon-qualifying-miles, before, var(--c-white));
+    }
+}
+.loyalty-progress-card--av {
+    --loyalty-progress-card-icon-color: #{var(--c-secondary)};
+    --progress-bar-progress-background-color: var(--loyalty-progress-card-icon-color);
+    .loyalty-progress-card_header {
+        @include iconfont($icon-avianca-symbol, before, var(--c-white));
+    }
+}

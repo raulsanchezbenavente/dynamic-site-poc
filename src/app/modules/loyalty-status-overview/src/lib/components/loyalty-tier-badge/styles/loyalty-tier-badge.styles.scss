@@ -1,0 +1,29 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/tokens/scss/lifemiles.token' as lifemilesToken;
+
+// -------
+// STYLES
+// -------
+.loyalty-tier-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer-x-small;
+    border: calculateRem(8px) solid var(--c-white);
+    border-radius: 100vh;
+    padding: $spacer-x-small $spacer-medium;
+    background: var(--loyalty-tier-badge-gradient);
+
+    @include iconfont($icon-lifemiles, before, var(--c-white));
+
+    // icon
+    &::before {
+        font-size: var(--f-size-tiny);
+    }
+}
+
+.loyalty-tier-badge_text {
+    text-align: center;
+    color: var(--c-white);
+    font-weight: var(--f-weight-bold);
+    font-size: var(--f-size-medium);
+}
