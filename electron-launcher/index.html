@@ -677,6 +677,39 @@
       hidden></div>
 
     <div
+      id="aboutOverlay"
+      class="about-overlay"
+      hidden>
+      <div
+        class="about-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="aboutTitle"
+        aria-describedby="aboutDescription">
+        <button
+          id="aboutCloseButton"
+          class="about-close-button"
+          type="button"
+          aria-label="Close about dialog">
+          ×
+        </button>
+        <header class="about-header">
+          <img
+            src="./assets/app/avianca-icon.png"
+            alt="Dynamic Site Launcher"
+            class="about-logo"
+            width="44"
+            height="44" />
+          <h2 id="aboutTitle">Application launcher</h2>
+        </header>
+        <p id="aboutDescription" class="about-description">
+          Launcher to run project scripts and manage terminal sessions in a fast, centralized way.
+        </p>
+        <p class="about-copyright">Made by raulshred 2026</p>
+      </div>
+    </div>
+
+    <div
       id="byModuleOverlay"
       class="by-module-overlay"
       hidden>
