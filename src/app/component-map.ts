@@ -3,27 +3,13 @@ import { Type } from '@angular/core';
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 
 export const componentMap: Record<string, BlockComponentLoader> = {
-  login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
-  header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
-  banner: () => import('./modules/fake-blocks-test/banner.component').then((m) => m.BannerComponent),
-  search: () => import('./modules/fake-blocks-test/search.component').then((m) => m.SearchComponent),
-  footer: () => import('./modules/fake-blocks-test/footer.component').then((m) => m.FooterComponent),
-  results: () => import('./modules/fake-blocks-test/results.component').then((m) => m.ResultsComponent),
-  'baggage-selection': () =>
-    import('./modules/fake-blocks-test/baggage-selection').then((m) => m.BaggageSelectionComponent),
-  seatmap: () => import('./modules/fake-blocks-test/seatmap.component').then((m) => m.SeatmapComponent),
-  'payment-methods': () =>
-    import('./modules/fake-blocks-test/payment-methods.component').then((m) => m.PaymentMethodsComponent),
-  'payment-success': () =>
-    import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
-  explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
   // CORE
   multiTabBlock_uiplus: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
   rteBlock_uiplus: () =>
     import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
       (m) => m.RteInjectorComponent
     ),
-  // Avianca
+  // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
       (m) => m.LoyaltyOverviewCardComponent
@@ -65,6 +51,22 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+  // Test examples
+  login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
+  header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
+  banner: () => import('./modules/fake-blocks-test/banner.component').then((m) => m.BannerComponent),
+  search: () => import('./modules/fake-blocks-test/search.component').then((m) => m.SearchComponent),
+  footer: () => import('./modules/fake-blocks-test/footer.component').then((m) => m.FooterComponent),
+  results: () => import('./modules/fake-blocks-test/results.component').then((m) => m.ResultsComponent),
+  'baggage-selection': () =>
+    import('./modules/fake-blocks-test/baggage-selection').then((m) => m.BaggageSelectionComponent),
+  seatmap: () => import('./modules/fake-blocks-test/seatmap.component').then((m) => m.SeatmapComponent),
+  'payment-methods': () =>
+    import('./modules/fake-blocks-test/payment-methods.component').then((m) => m.PaymentMethodsComponent),
+  'payment-success': () =>
+    import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
+  explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
+  // Games
   'icon-hunter_uiplus_EX': () =>
     import('./modules/games/icon-hunter/icon-hunter.component').then((m) => m.IconHunterUiplusComponent),
   tetris_uiplus_EX: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
