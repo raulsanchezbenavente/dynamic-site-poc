@@ -3,6 +3,55 @@ import { Type } from '@angular/core';
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 
 export const componentMap: Record<string, BlockComponentLoader> = {
+  // CORE
+  multiTabBlock_uiplus: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
+  rteBlock_uiplus: () =>
+    import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
+      (m) => m.RteInjectorComponent
+    ),
+  // Avianca Fake
+  loyaltyOverviewCard_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
+      (m) => m.LoyaltyOverviewCardComponent
+    ),
+  CorporateMainHeaderBlock_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
+  accountProfile_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/account-profile/account-profile.component').then(
+      (m) => m.AccountProfileComponent
+    ),
+  accountSettings_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/account-settings/account-settings.component').then(
+      (m) => m.AccountSettingsComponent
+    ),
+  personalData_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/personal-data/personal-data.component').then((m) => m.PersonalDataComponent),
+  findBookings_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/find-bookings/find-bookings.component').then((m) => m.FindBookingsComponent),
+  eliteStatus_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/elite-status/elite-status.component').then((m) => m.EliteStatusComponent),
+  CorporateMainFooterBlock_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
+  SearchComponentBlock_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
+  AdsComponentBlock_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
+  bookingHeaderComponent_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/booking-header/booking-header.component').then(
+      (m) => m.BookingHeaderComponent
+    ),
+  bookingFooterComponent_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/booking-footer/booking-footer.component').then(
+      (m) => m.BookingFooterComponent
+    ),
+  results_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
+  extra_uiplus_EX: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
+  payment_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
+  thankYou_uiplus_EX: () =>
+    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+  // Test examples
   login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
   header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
   banner: () => import('./modules/fake-blocks-test/banner.component').then((m) => m.BannerComponent),
@@ -17,55 +66,10 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   'payment-success': () =>
     import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
   explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
-  // Avianca
-  multiTabBlock_uiplus: () => import('@dynamic-composite').then((m) => m.DsTabsComponent),
-  loyaltyOverviewCard_uiplus: () =>
-    import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
-      (m) => m.LoyaltyOverviewCardComponent
-    ),
-  CorporateMainHeaderBlock_uiplus: () =>
-    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
-  accountProfile_uiplus: () =>
-    import('./modules/fake-blocks-avianca/account-profile/account-profile.component').then(
-      (m) => m.AccountProfileComponent
-    ),
-  accountSettings_uiplus: () =>
-    import('./modules/fake-blocks-avianca/account-settings/account-settings.component').then(
-      (m) => m.AccountSettingsComponent
-    ),
-  personalData_uiplus: () =>
-    import('./modules/fake-blocks-avianca/personal-data/personal-data.component').then((m) => m.PersonalDataComponent),
-  findBookings_uiplus: () =>
-    import('./modules/fake-blocks-avianca/find-bookings/find-bookings.component').then((m) => m.FindBookingsComponent),
-  eliteStatus_uiplus: () =>
-    import('./modules/fake-blocks-avianca/elite-status/elite-status.component').then((m) => m.EliteStatusComponent),
-  CorporateMainFooterBlock_uiplus: () =>
-    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
-  SearchComponentBlock_uiplus: () =>
-    import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
-  AdsComponentBlock_uiplus: () => import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
-  bookingHeaderComponent_uiplus: () =>
-    import('./modules/fake-blocks-avianca/booking-header/booking-header.component').then(
-      (m) => m.BookingHeaderComponent
-    ),
-  bookingFooterComponent_uiplus: () =>
-    import('./modules/fake-blocks-avianca/booking-footer/booking-footer.component').then(
-      (m) => m.BookingFooterComponent
-    ),
-  results_uiplus: () =>
-    import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
-  extra_uiplus: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
-  payment_uiplus: () =>
-    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
-  thankYou_uiplus: () =>
-    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
-  rteBlock_uiplus: () =>
-    import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
-      (m) => m.RteInjectorComponent
-    ),
-  'icon-hunter_uiplus': () =>
+  // Games
+  'icon-hunter_uiplus_EX': () =>
     import('./modules/games/icon-hunter/icon-hunter.component').then((m) => m.IconHunterUiplusComponent),
-  tetris_uiplus: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
+  tetris_uiplus_EX: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();
