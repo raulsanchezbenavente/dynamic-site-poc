@@ -14,7 +14,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -25,7 +25,7 @@
           {
             "cols": [
               {
-                "component": "SearchComponentBlock_uiplus",
+                "component": "SearchComponentBlock_uiplus_EX",
                 "span": 12
               }
             ]
@@ -33,7 +33,7 @@
           {
             "cols": [
               {
-                "component": "AdsComponentBlock_uiplus",
+                "component": "AdsComponentBlock_uiplus_EX",
                 "span": 12
               }
             ]
@@ -41,7 +41,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "CorporateMainFooterBlock_uiplus_EX",
                 "span": 12
               }
             ]
@@ -58,7 +58,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -69,7 +69,7 @@
           {
             "cols": [
               {
-                "component": "bookingHeaderComponent_uiplus",
+                "component": "bookingHeaderComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -77,7 +77,7 @@
           {
             "cols": [
               {
-                "component": "results_uiplus",
+                "component": "results_uiplus_EX",
                 "span": 12
               }
             ]
@@ -94,7 +94,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -105,7 +105,7 @@
           {
             "cols": [
               {
-                "component": "bookingHeaderComponent_uiplus",
+                "component": "bookingHeaderComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -113,7 +113,7 @@
           {
             "cols": [
               {
-                "component": "personalData_uiplus",
+                "component": "personalData_uiplus_EX",
                 "span": 12
               }
             ]
@@ -121,7 +121,7 @@
           {
             "cols": [
               {
-                "component": "bookingFooterComponent_uiplus",
+                "component": "bookingFooterComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -138,7 +138,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -149,7 +149,7 @@
           {
             "cols": [
               {
-                "component": "bookingHeaderComponent_uiplus",
+                "component": "bookingHeaderComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -157,7 +157,7 @@
           {
             "cols": [
               {
-                "component": "extra_uiplus",
+                "component": "extra_uiplus_EX",
                 "span": 12
               }
             ]
@@ -165,7 +165,7 @@
           {
             "cols": [
               {
-                "component": "bookingFooterComponent_uiplus",
+                "component": "bookingFooterComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -182,7 +182,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -193,7 +193,7 @@
           {
             "cols": [
               {
-                "component": "bookingHeaderComponent_uiplus",
+                "component": "bookingHeaderComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -201,7 +201,7 @@
           {
             "cols": [
               {
-                "component": "payment_uiplus",
+                "component": "payment_uiplus_EX",
                 "span": 12
               }
             ]
@@ -218,7 +218,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -229,7 +229,7 @@
           {
             "cols": [
               {
-                "component": "bookingHeaderComponent_uiplus",
+                "component": "bookingHeaderComponent_uiplus_EX",
                 "span": 12
               }
             ]
@@ -237,7 +237,7 @@
           {
             "cols": [
               {
-                "component": "thankYou_uiplus",
+                "component": "thankYou_uiplus_EX",
                 "span": 12
               }
             ]
@@ -259,7 +259,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -270,7 +270,7 @@
           {
             "cols": [
               {
-                "component": "loyaltyOverviewCard_uiplus",
+                "component": "loyaltyOverviewCard_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -296,7 +296,7 @@
                           {
                             "cols": [
                               {
-                                "component": "accountProfile_uiplus",
+                                "component": "accountProfile_uiplus_EX",
                                 "span": 12
                               }
                             ]
@@ -314,7 +314,7 @@
                           {
                             "cols": [
                               {
-                                "component": "findBookings_uiplus",
+                                "component": "findBookings_uiplus_EX",
                                 "span": 12
                               }
                             ]
@@ -332,7 +332,7 @@
                           {
                             "cols": [
                               {
-                                "component": "accountSettings_uiplus",
+                                "component": "accountSettings_uiplus_EX",
                                 "span": 12
                               }
                             ]
@@ -350,7 +350,7 @@
                           {
                             "cols": [
                               {
-                                "component": "eliteStatus_uiplus",
+                                "component": "eliteStatus_uiplus_EX",
                                 "span": 12
                               }
                             ]
@@ -366,7 +366,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "CorporateMainFooterBlock_uiplus_EX",
                 "span": 12
               }
             ]
@@ -383,7 +383,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
                 "config": {
                   "url": "/assets/config/loyalty/pt"
@@ -450,7 +450,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "CorporateMainFooterBlock_uiplus_EX",
                 "span": 12
               }
             ]
