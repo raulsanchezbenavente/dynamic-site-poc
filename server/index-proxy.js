@@ -167,7 +167,7 @@ app.get(healthCheckPath, (_req, res) => {
   res.status(200).type('text/plain').send('ok');
 });
 
-// Proxy: umbraco.av-booking-local.newshore.es → localhost:8443
+// Proxy: umbraco.av-booking-local.newshore.es → https://localhost:8443
 app.use((req, res, next) => {
   const host = String(req.headers.host || '')
     .split(':')[0]
@@ -176,7 +176,7 @@ app.use((req, res, next) => {
     return next();
   }
 
-  const proxyReq = http.request(
+  const proxyReq = https.request(
     {
       hostname: umbracoTargetHost,
       port: umbracoTargetPort,
@@ -186,6 +186,8 @@ app.use((req, res, next) => {
         ...req.headers,
         host: `${umbracoTargetHost}:${umbracoTargetPort}`,
       },
+      // Umbraco local usa certificado autofirmado
+      rejectUnauthorized: false,
     },
     (proxyRes) => {
       res.writeHead(proxyRes.statusCode, proxyRes.headers);
