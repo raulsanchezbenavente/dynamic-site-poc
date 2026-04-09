@@ -127,7 +127,7 @@
     "flatpickr": "^4.6.13",
     "http-server": "^14.1.1",
     "keycloak-angular": "^16.1.0",
-    "keycloak-js": "^26.2.3",
+    "keycloak-js": "^25.0.6",
     "localforage": "^1.10.0",
     "ngx-cookie": "^6.0.1",
     "ngx-skeleton-loader": "^9.0.0",
