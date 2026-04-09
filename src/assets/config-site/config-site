@@ -9,7 +9,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12
               }
             ]
@@ -17,7 +17,7 @@
           {
             "cols": [
               {
-                "component": "loyaltyOverviewCard_uiplus",
+                "component": "loyaltyOverviewCard_uiplus_EX",
                 "span": 12
               }
             ]
@@ -38,7 +38,7 @@
                         {
                           "cols": [
                             {
-                              "component": "accountProfile_uiplus",
+                              "component": "accountProfile_uiplus_EX",
                               "span": 12
                             }
                           ]
@@ -56,7 +56,7 @@
                         {
                           "cols": [
                             {
-                              "component": "findBookings_uiplus",
+                              "component": "findBookings_uiplus_EX",
                               "span": 12
                             }
                           ]
@@ -74,7 +74,7 @@
                         {
                           "cols": [
                             {
-                              "component": "accountSettings_uiplus",
+                              "component": "accountSettings_uiplus_EX",
                               "span": 12
                             }
                           ]
@@ -92,7 +92,7 @@
                         {
                           "cols": [
                             {
-                              "component": "eliteStatus_uiplus",
+                              "component": "eliteStatus_uiplus_EX",
                               "span": 12
                             }
                           ]
@@ -107,7 +107,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
+                "component": "CorporateMainFooterBlock_uiplus_EX",
                 "span": 12
               }
             ]
