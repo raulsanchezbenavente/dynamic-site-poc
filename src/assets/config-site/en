@@ -1,23 +1,67 @@
 {
   "pages": [
     {
-      "pageId": "0",
-      "path": "en/home",
+      "pageId": "0395d425-ba7b-48aa-a456-9dad5be5b546",
+      "path": "es/members/login",
+      "name": "Login",
+      "seo": {
+        "title": "Test login",
+        "description": "",
+        "robots": ""
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/es-es"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_34-B1-65-09-81-A2-DC-36_es-es"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "ef3834b5-c025-40bb-9008-19718f6f8f13",
+      "path": "es/members/home",
       "name": "Home",
       "seo": {
-        "title": "Home",
-        "description": "Book flights, discover destinations and manage your travel in one place.",
-        "robots": "index,follow"
+        "title": "[ES] Home",
+        "description": "",
+        "robots": ""
       },
       "layout": {
         "rows": [
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty/en"
+                  "url": "/assets/config/loyalty/es-es"
                 }
               }
             ]
@@ -25,258 +69,17 @@
           {
             "cols": [
               {
-                "component": "SearchComponentBlock_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "AdsComponentBlock_uiplus_EX",
+                "component": "authorizationBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_authorizationBlock_uiplus_10-A5-52-3E-FC-84-79-82_es-es"
                 }
-              }
-            ]
-          },
-          {
-            "cols": [
+              },
               {
-                "component": "CorporateMainFooterBlock_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "1",
-      "path": "en/results",
-      "name": "Results",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "component": "loyaltyOverviewCardBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "results_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "1-1",
-      "path": "en/personal-data",
-      "name": "Personal Data",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "personalData_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingFooterComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "1-2",
-      "path": "en/extras",
-      "name": "Extras",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "extra_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingFooterComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "1-3",
-      "path": "en/payment",
-      "name": "Payment",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "payment_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "1-4",
-      "path": "en/thanks",
-      "name": "Thank You",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "thankYou_uiplus_EX",
-                "span": 12
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "pageId": "2",
-      "path": "en/members",
-      "name": "Members",
-      "seo": {
-        "title": "Members",
-        "description": "Access your loyalty profile, trips and account settings.",
-        "robots": "index,follow"
-      },
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "loyaltyOverviewCard_uiplus_EX",
-                "span": 12,
-                "config": {
-                  "url": "/assets/config/loyalty/en"
+                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyOverviewCardBlock_uiplus_63-E4-F6-C3-2D-43-60-CF_es-es"
                 }
               }
             ]
@@ -287,20 +90,24 @@
                 "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "tabsId": "111",
+                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_multiTabBlock_uiplus_A1-92-92-9E-40-E5-6F-78_es-es",
+                  "tabsId": "c94dd613-45be-423a-998c-f2021fe66321",
                   "tabs": [
                     {
-                      "tabId": "22",
-                      "name": "Personal data",
-                      "title": "Personal data",
+                      "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
+                      "name": "Personal Data - Tab",
+                      "title": "[ES] Personal Data",
                       "secondaryText": "",
                       "layout": {
                         "rows": [
                           {
                             "cols": [
                               {
-                                "component": "accountProfile_uiplus_EX",
-                                "span": 12
+                                "component": "accountProfileBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_accountProfileBlock_uiplus_EE-B0-F9-56-C1-FE-02-FA_es-es"
+                                }
                               }
                             ]
                           }
@@ -308,17 +115,20 @@
                       }
                     },
                     {
-                      "tabId": "33",
-                      "name": "My trips",
-                      "title": "My trips",
+                      "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
+                      "name": "My Trips - Tab",
+                      "title": "[ES] My Trips",
                       "secondaryText": "",
                       "layout": {
                         "rows": [
                           {
                             "cols": [
                               {
-                                "component": "findBookings_uiplus_EX",
-                                "span": 12
+                                "component": "findBookingsBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_findBookingsBlock_uiplus_F5-6D-B5-D5-9A-9A-92-F2_es-es"
+                                }
                               }
                             ]
                           }
@@ -326,17 +136,20 @@
                       }
                     },
                     {
-                      "tabId": "44",
-                      "name": "Account settings",
-                      "title": "Account settings",
+                      "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
+                      "name": "Account Settings - Tab",
+                      "title": "[ES] Account Settings",
                       "secondaryText": "",
                       "layout": {
                         "rows": [
                           {
                             "cols": [
                               {
-                                "component": "accountSettings_uiplus_EX",
-                                "span": 12
+                                "component": "rteBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_C8-2A-2D-D6-B5-16-7A-77_es-es"
+                                }
                               }
                             ]
                           }
@@ -344,17 +157,20 @@
                       }
                     },
                     {
-                      "tabId": "55",
-                      "name": "My elite status",
-                      "title": "My elite status",
+                      "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
+                      "name": "My Elite Status - Tab",
+                      "title": "[ES] My Elite Status",
                       "secondaryText": "",
                       "layout": {
                         "rows": [
                           {
                             "cols": [
                               {
-                                "component": "eliteStatus_uiplus_EX",
-                                "span": 12
+                                "component": "loyaltyStatusOverviewBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyStatusOverviewBlock_uiplus_6E-32-E3-86-E3-61-43-7C_es-es"
+                                }
                               }
                             ]
                           }
@@ -369,7 +185,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus_EX",
+                "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12
               }
             ]
@@ -378,18 +194,23 @@
       }
     },
     {
-      "pageId": "3",
-      "path": "en/check-in/dangerous-goods",
-      "name": "Dangerous Goods",
+      "pageId": "ef3834b5-c025-40bb-9008-19718f6f8f13",
+      "path": "en/members/home",
+      "name": "Home",
+      "seo": {
+        "title": "Home",
+        "description": "",
+        "robots": ""
+      },
       "layout": {
         "rows": [
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty/en"
+                  "url": "/assets/config/loyalty/en-us"
                 }
               }
             ]
@@ -397,43 +218,17 @@
           {
             "cols": [
               {
-                "component": "rteBlock_uiplus",
+                "component": "authorizationBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Items allowed and prohibited in your luggage</h2>\n<p class=\"intro\">Restricted items may endanger the health and safety of people, the environment, or aircraft.</p>\n</div>",
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "rteBlock_uiplus",
-                "span": 6,
-                "config": {
-                  "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en",
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_authorizationBlock_uiplus_10-A5-52-3E-FC-84-79-82_en-us"
                 }
               },
               {
-                "component": "rteBlock_uiplus",
-                "span": 6,
-                "config": {
-                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en",
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
-                }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "rteBlock_uiplus",
+                "component": "loyaltyOverviewCardBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/en",
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyOverviewCardBlock_uiplus_63-E4-F6-C3-2D-43-60-CF_en-us"
                 }
               }
             ]
@@ -441,11 +236,97 @@
           {
             "cols": [
               {
-                "component": "rteBlock_uiplus",
+                "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
-                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_multiTabBlock_uiplus_A1-92-92-9E-40-E5-6F-78_en-us",
+                  "tabsId": "c94dd613-45be-423a-998c-f2021fe66321",
+                  "tabs": [
+                    {
+                      "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
+                      "name": "Personal Data - Tab",
+                      "title": "Personal Data",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "accountProfileBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_accountProfileBlock_uiplus_EE-B0-F9-56-C1-FE-02-FA_en-us"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
+                      "name": "My trips - Tab",
+                      "title": "My Trips",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "findBookingsBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_findBookingsBlock_uiplus_A2-50-A0-AC-8B-E2-CF-85_en-us"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
+                      "name": "Account Settings - Tab",
+                      "title": "Account Settings",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "rteBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_C8-2A-2D-D6-B5-16-7A-77_en-us"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
+                      "name": "My Elite Status - Tab",
+                      "title": "My Elite Status",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "loyaltyStatusOverviewBlock_uiplus",
+                                "span": 12,
+                                "config": {
+                                  "url": "https://av-booking-dev.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyStatusOverviewBlock_uiplus_6E-32-E3-86-E3-61-43-7C_en-us"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -453,7 +334,7 @@
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus_EX",
+                "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12
               }
             ]
