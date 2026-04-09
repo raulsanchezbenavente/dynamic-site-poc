@@ -1,6 +1,7 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
+import { TabGuardService } from '@dcx/ui/libs';
 import { APP_LANGS, AppLang, KeycloakAuthService, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -48,8 +49,15 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [KeycloakAuthService],
-      useFactory: (auth: KeycloakAuthService) => async () => {
+      deps: [TabGuardService, KeycloakAuthService],
+      useFactory: (tabGuard: TabGuardService, auth: KeycloakAuthService) => async () => {
+        await firstValueFrom(tabGuard.init());
+
+        if (tabGuard.isDuplicate()) {
+          console.log('[TabGuard] Duplicate tab detected — skipping Keycloak init.');
+          return;
+        }
+
         try {
           await auth.ensureInitialized();
           console.log('[Keycloak] initialized, authenticated:', auth.isAuthenticated());
