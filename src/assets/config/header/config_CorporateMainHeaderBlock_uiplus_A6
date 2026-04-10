@@ -1,0 +1,2728 @@
+{
+  "logo": {
+    "altText": null,
+    "link": {
+      "url": "/es",
+      "title": null,
+      "target": null,
+      "newTab": false,
+      "type": null,
+      "icon": null,
+      "anchor": null
+    },
+    "src": "https://static.avianca.com/media/cr2j1dir/logoavianca-newbrand-rojo-1.svg"
+  },
+  "logoMobile": null,
+  "mainMenuList": [
+    {
+      "title": "",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "Reservar",
+        "url": "/es/",
+        "target": null
+      },
+      "tag": "",
+      "columns": [],
+      "sectionColor": "",
+      "bannerConfig": null
+    },
+    {
+      "title": "Ofertas y destinos",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Ofertas de vuelos",
+                "url": "/es/ofertas-destinos/ofertas-de-vuelos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Destinos",
+                "url": "/es/ofertas-destinos/destinos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Nuevas rutas",
+                "url": "/es/ofertas-destinos/nuevas-rutas/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Reservas de grupos",
+                "url": "/es/ofertas-destinos/reservas-de-grupos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Reserva de hoteles",
+                "url": "https://sp.booking.com/dealspage.html",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Alquiler de autos",
+                "url": "https://www.rentalcars.com/",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tours y excursiones",
+                "url": "https://avianca.civitatis.com/es/",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-offer",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 4000,
+        "animationEffect": "fading",
+        "bannerTitle": "Banner de la sección Ofertas y destinos del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "title": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "target": "",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p>Conoce nuestras novedades</p>",
+              "text": "",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "//static.avianca.com/media/jl1h050z/es-home-megamenu_v2.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Beach at sunset"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-offer"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Tu reserva",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "Check-in",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Gestiona tu reserva",
+                "url": "https://cambiatuitinerario.avianca.com/ATC/flightSearch",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Personaliza tu viaje",
+                "url": "/es/tu-reserva/personaliza-tu-viaje/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Check-in online",
+                "url": "/es/tu-reserva/check-in-online/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Business Class",
+                "url": "/es/tu-reserva/business-class/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Cambios y reembolsos",
+                "url": "/es/tu-reserva/cambios-y-reembolsos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "avianca credits",
+                "url": "/es/tu-reserva/avianca-credits/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Estado de vuelos",
+                "url": "https://informacionvuelo.avianca.com/es/estado-de-vuelo",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Accesibilidad",
+                "url": "https://ayuda.avianca.com/hc/es/articles/13523002282651",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-booking",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 4000,
+        "animationEffect": "fading",
+        "bannerTitle": "Banner de la sección Tu Reserva del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "/es/tu-reserva/check-in-online/",
+                "title": "Check-in online",
+                "target": "",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p><small>Check-in</small> online</p>",
+              "text": "<p><strong>48 hrs antes del vuelo</strong></p>",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "https://static.avianca.com/media/1007/haz-check-in-online-antes-vuelo.png",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Person checking in from their mobile phone"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-booking"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Información y ayuda",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tipos de tarifas",
+                "url": "/es/informacion-y-ayuda/tarifas-avianca/",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Equipaje",
+                "url": "/es/informacion-y-ayuda/equipaje/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Experiencia avianca",
+                "url": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Centro de ayuda",
+                "url": "https://ayuda.avianca.com/hc/es/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Requisitos para viajar",
+                "url": "/es/informacion-y-ayuda/requisitos-para-viajar/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Accesibilidad",
+                "url": "/es/informacion-y-ayuda/asistencia-especial/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Volar con niños y bebés",
+                "url": "/es/informacion-y-ayuda/volar-con-ninos-y-bebes/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Mascotas a bordo",
+                "url": "/es/informacion-y-ayuda/mascotas-a-bordo/",
+                "target": null
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-info",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 0,
+        "animationEffect": "",
+        "bannerTitle": "Banner de la sección Información y ayuda del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "https://ayuda.avianca.com/hc/es",
+                "title": "https://ayuda.avianca.com/hc/es",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "<p>Visita nuestro<br />Centro de ayuda</p>",
+              "title": "<p><small>¿Tienes</small> preguntas?</p>",
+              "text": "",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "https://static.avianca.com/media/1252/visita-nuestro-centro-de-ayuda-pregunta.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Online customer support from laptop"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-info"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Lifemiles",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Programa Lifemiles",
+                "url": "/es/lifemiles-info/programa-lifemiles/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Millas pendientes",
+                "url": "/es/lifemiles-info/millas-pendientes/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Lifemiles plus",
+                "url": "https://www.lifemiles.com/landing/clublm",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Gana millas volando",
+                "url": "https://www.lifemiles.com/landing/partners/airline/AV-earn",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tarjetas de crédito",
+                "url": "https://www.lifemiles.com/credit-card/get-credit-card",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Redime tus millas",
+                "url": "https://www.lifemiles.com/fly/find",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Dona tus millas",
+                "url": "https://www.lifemiles.com/donate-miles",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-offer",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 0,
+        "animationEffect": "",
+        "bannerTitle": "Banner de la sección Lifemiles del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "https://www.lifemiles.com/credit-card/get-credit-card?utm_source=avianca&utm_medium=referral&utm_campaign=menu_%20lifemiles2",
+                "title": "https://www.lifemiles.com/credit-card/get-credit-card?utm_source=avianca&utm_medium=referral&utm_campaign=menu_%20lifemiles2",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p><small>La tarjeta viajera </small> más top</p>",
+              "text": "<p><strong>Solicítala ya y acumula</strong><br /><strong>millas todos los días</strong></p>",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "//static.avianca.com/media/hotdvnws/dsk-picture-visita-nuestro-centro-de-ayuda-preguntajpg.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Business class miles promotion: image of a gourmet menu onboard an Avianca flight."
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-offer"
+          }
+        ]
+      }
+    }
+  ],
+  "mainMenuListMobile": [
+    {
+      "title": "",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "Reservar",
+        "url": "/es/",
+        "target": null
+      },
+      "tag": "",
+      "columns": [],
+      "sectionColor": "",
+      "bannerConfig": null
+    },
+    {
+      "title": "Ofertas y destinos",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Ofertas de vuelos",
+                "url": "/es/ofertas-destinos/ofertas-de-vuelos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Destinos",
+                "url": "/es/ofertas-destinos/destinos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Nuevas rutas",
+                "url": "/es/ofertas-destinos/nuevas-rutas/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Reservas de grupos",
+                "url": "/es/ofertas-destinos/reservas-de-grupos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Reserva de hoteles",
+                "url": "https://sp.booking.com/dealspage.html",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Alquiler de autos",
+                "url": "https://www.rentalcars.com/",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tours y excursiones",
+                "url": "https://avianca.civitatis.com/es/",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-offer",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 4000,
+        "animationEffect": "fading",
+        "bannerTitle": "Banner de la sección Ofertas y destinos del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "title": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "target": "",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p>Conoce nuestras novedades</p>",
+              "text": "",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "//static.avianca.com/media/jl1h050z/es-home-megamenu_v2.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Beach at sunset"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-offer"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Tu reserva",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "Check-in",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Gestiona tu reserva",
+                "url": "https://cambiatuitinerario.avianca.com/ATC/flightSearch",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Personaliza tu viaje",
+                "url": "/es/tu-reserva/personaliza-tu-viaje/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Check-in online",
+                "url": "/es/tu-reserva/check-in-online/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Business Class",
+                "url": "/es/tu-reserva/business-class/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Cambios y reembolsos",
+                "url": "/es/tu-reserva/cambios-y-reembolsos/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "avianca credits",
+                "url": "/es/tu-reserva/avianca-credits/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Estado de vuelos",
+                "url": "https://informacionvuelo.avianca.com/es/estado-de-vuelo",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Accesibilidad",
+                "url": "https://ayuda.avianca.com/hc/es/articles/13523002282651",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-booking",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 4000,
+        "animationEffect": "fading",
+        "bannerTitle": "Banner de la sección Tu Reserva del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "/es/tu-reserva/check-in-online/",
+                "title": "Check-in online",
+                "target": "",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p><small>Check-in</small> online</p>",
+              "text": "<p><strong>48 hrs antes del vuelo</strong></p>",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "https://static.avianca.com/media/1007/haz-check-in-online-antes-vuelo.png",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Person checking in from their mobile phone"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-booking"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Información y ayuda",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tipos de tarifas",
+                "url": "/es/informacion-y-ayuda/tarifas-avianca/",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Equipaje",
+                "url": "/es/informacion-y-ayuda/equipaje/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Experiencia avianca",
+                "url": "/es/informacion-y-ayuda/experiencia-avianca/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Centro de ayuda",
+                "url": "https://ayuda.avianca.com/hc/es/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Requisitos para viajar",
+                "url": "/es/informacion-y-ayuda/requisitos-para-viajar/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Accesibilidad",
+                "url": "/es/informacion-y-ayuda/asistencia-especial/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Volar con niños y bebés",
+                "url": "/es/informacion-y-ayuda/volar-con-ninos-y-bebes/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Mascotas a bordo",
+                "url": "/es/informacion-y-ayuda/mascotas-a-bordo/",
+                "target": null
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-info",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 0,
+        "animationEffect": "",
+        "bannerTitle": "Banner de la sección Información y ayuda del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "https://ayuda.avianca.com/hc/es",
+                "title": "https://ayuda.avianca.com/hc/es",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "<p>Visita nuestro<br />Centro de ayuda</p>",
+              "title": "<p><small>¿Tienes</small> preguntas?</p>",
+              "text": "",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "https://static.avianca.com/media/1252/visita-nuestro-centro-de-ayuda-pregunta.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Online customer support from laptop"
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-info"
+          }
+        ]
+      }
+    },
+    {
+      "title": "Lifemiles",
+      "icon": {
+        "name": "",
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "position": ""
+      },
+      "link": {
+        "title": "",
+        "url": "",
+        "target": null
+      },
+      "tag": "",
+      "columns": [
+        {
+          "sections": [
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Programa Lifemiles",
+                "url": "/es/lifemiles-info/programa-lifemiles/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Millas pendientes",
+                "url": "/es/lifemiles-info/millas-pendientes/",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Lifemiles plus",
+                "url": "https://www.lifemiles.com/landing/clublm",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Gana millas volando",
+                "url": "https://www.lifemiles.com/landing/partners/airline/AV-earn",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Tarjetas de crédito",
+                "url": "https://www.lifemiles.com/credit-card/get-credit-card",
+                "target": null
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Redime tus millas",
+                "url": "https://www.lifemiles.com/fly/find",
+                "target": "_blank"
+              }
+            },
+            {
+              "icon": {
+                "name": "",
+                "ariaAttributes": {
+                  "ariaControls": "",
+                  "ariaDescribedBy": "",
+                  "ariaDescription": "",
+                  "ariaExpanded": "",
+                  "ariaInvalid": "",
+                  "ariaLabel": "",
+                  "ariaLabelledBy": "",
+                  "ariaSelected": ""
+                },
+                "position": ""
+              },
+              "link": {
+                "title": "Dona tus millas",
+                "url": "https://www.lifemiles.com/donate-miles",
+                "target": "_blank"
+              }
+            }
+          ]
+        }
+      ],
+      "sectionColor": "sc-offer",
+      "bannerConfig": {
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        },
+        "animationCycleTime": 0,
+        "animationEffect": "",
+        "bannerTitle": "Banner de la sección Lifemiles del menu",
+        "culture": "",
+        "isFullWidth": false,
+        "isTouchSwipe": false,
+        "rootNodeId": 0,
+        "showControls": false,
+        "showPagination": false,
+        "bannerItems": [
+          {
+            "configuration": {
+              "enableLowestPrice": false,
+              "isFullAreaClickable": true,
+              "link": {
+                "url": "https://www.lifemiles.com/credit-card/get-credit-card?utm_source=avianca&utm_medium=referral&utm_campaign=menu_%20lifemiles2",
+                "title": "https://www.lifemiles.com/credit-card/get-credit-card?utm_source=avianca&utm_medium=referral&utm_campaign=menu_%20lifemiles2",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+              },
+              "showButton": false
+            },
+            "content": {
+              "bannerType": "bannerGenericContent_uiplus",
+              "footnote": "",
+              "lowestPrice": {},
+              "subtitle": "",
+              "title": "<p><small>La tarjeta viajera </small> más top</p>",
+              "text": "<p><strong>Solicítala ya y acumula</strong><br /><strong>millas todos los días</strong></p>",
+              "headingLevel": "h2"
+            },
+            "countdown": {
+              "isEnabled": false,
+              "text": null,
+              "publishDate": "0001-01-01T00:00:00",
+              "unpublishDate": "0001-01-01T00:00:00",
+              "countdownDate": "0001-01-01T00:00:00"
+            },
+            "media": {
+              "imageMedia": {
+                "bg": {
+                  "title": "",
+                  "url": "//static.avianca.com/media/hotdvnws/dsk-picture-visita-nuestro-centro-de-ayuda-preguntajpg.jpg",
+                  "height": "",
+                  "width": ""
+                },
+                "bgM": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "bgL": {
+                  "title": "",
+                  "url": "",
+                  "height": "",
+                  "width": ""
+                },
+                "text": "Business class miles promotion: image of a gourmet menu onboard an Avianca flight."
+              },
+              "videoMedia": null
+            },
+            "layout": {
+              "bannerStyle": "aside-box",
+              "horizontalAlign": "left",
+              "verticalAlign": "middle",
+              "fontSize": ""
+            },
+            "tags": [],
+            "sectionColors": "sc-offer"
+          }
+        ]
+      }
+    }
+  ],
+  "secondaryNavAvailableOptions": [
+    "languageSelector",
+    "pointOfSaleSelector"
+  ],
+  "secondaryNavOptionsMobile": [
+    "languageSelector",
+    "pointOfSaleSelector"
+  ],
+  "currencySelectorListConfig": {
+    "dropdownModel": {
+      "config": {
+        "label": "Currency",
+        "closeOnSelection": true,
+        "isDisabled": false,
+        "icon": {
+          "name": "currency-circle",
+          "ariaAttributes": {
+            "ariaControls": "",
+            "ariaDescribedBy": "",
+            "ariaDescription": "",
+            "ariaExpanded": "",
+            "ariaInvalid": "",
+            "ariaLabel": "",
+            "ariaLabelledBy": "",
+            "ariaSelected": ""
+          },
+          "position": ""
+        },
+        "layoutConfig": {
+          "isAlwaysVisible": false,
+          "layout": "default"
+        },
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        }
+      },
+      "value": "",
+      "isVisible": true
+    },
+    "optionsListConfig": {
+      "layoutType": "list",
+      "options": [
+        {
+          "code": "USD",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "US Dollar",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "EUR",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "Euro",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "BRL",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "Real",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "KES",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "Kenyan Shelling",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        }
+      ],
+      "accessibilityConfig": {
+        "id": null,
+        "role": null,
+        "elementsToDisableLRKeys": ""
+      },
+      "ariaAttributes": {
+        "ariaControls": "",
+        "ariaDescribedBy": "",
+        "ariaDescription": "",
+        "ariaExpanded": "",
+        "ariaInvalid": "",
+        "ariaLabel": "Currencies list",
+        "ariaLabelledBy": "",
+        "ariaSelected": ""
+      }
+    }
+  },
+  "languageSelectorListConfig": {
+    "dropdownModel": {
+      "config": {
+        "label": "Change language, current",
+        "closeOnSelection": true,
+        "isDisabled": false,
+        "icon": {
+          "name": "country",
+          "ariaAttributes": {
+            "ariaControls": "",
+            "ariaDescribedBy": "",
+            "ariaDescription": "",
+            "ariaExpanded": "",
+            "ariaInvalid": "",
+            "ariaLabel": "",
+            "ariaLabelledBy": "",
+            "ariaSelected": ""
+          },
+          "position": ""
+        },
+        "layoutConfig": {
+          "isAlwaysVisible": false,
+          "layout": "default"
+        },
+        "accessibilityConfig": {
+          "id": null,
+          "role": null,
+          "elementsToDisableLRKeys": ""
+        },
+        "ariaAttributes": {
+          "ariaControls": "",
+          "ariaDescribedBy": "",
+          "ariaDescription": "",
+          "ariaExpanded": "",
+          "ariaInvalid": "",
+          "ariaLabel": "",
+          "ariaLabelledBy": "",
+          "ariaSelected": ""
+        }
+      },
+      "value": "",
+      "isVisible": true
+    },
+    "optionsListConfig": {
+      "layoutType": "",
+      "options": [
+        {
+          "code": "en-US",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "English",
+          "isSelected": true,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "fr-FR",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "French",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "es-ES",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "Español",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        },
+        {
+          "code": "pt-BR",
+          "isDefault": false,
+          "isEnabled": false,
+          "name": "Português",
+          "isSelected": false,
+          "isDisabled": false,
+          "url": "",
+          "imgSrc": "",
+          "order": 0,
+          "prefix": "",
+          "lang": ""
+        }
+      ],
+      "accessibilityConfig": {
+        "id": null,
+        "role": null,
+        "elementsToDisableLRKeys": ""
+      },
+      "ariaAttributes": {
+        "ariaControls": "",
+        "ariaDescribedBy": "",
+        "ariaDescription": "",
+        "ariaExpanded": "",
+        "ariaInvalid": "",
+        "ariaLabel": "Language options list",
+        "ariaLabelledBy": "",
+        "ariaSelected": ""
+      }
+    }
+  },
+  "showAuthButton": true,
+  "showAuthButtonMobile": true,
+  "enableFixedHeaderOnScroll": true,
+  "enableFixedHeaderOnScrollMobile": false,
+  "authData": {
+    "redirectUrlAfterLogin": {
+      "title": "Home - Members",
+      "url": "/es/members/home/",
+      "target": null
+    },
+    "redirectUrlAfterLogout": {
+      "title": "Home",
+      "url": "/es/",
+      "target": null
+    },
+    "authenticatedAccountMenuConfig": {
+      "options": [
+        {
+          "link": {
+            "title": "[ES] News",
+            "url": "/es/lifemiles-info/landing-intermedia/",
+            "target": null
+          },
+          "icon": {
+            "name": "",
+            "ariaAttributes": {
+              "ariaControls": "",
+              "ariaDescribedBy": "",
+              "ariaDescription": "",
+              "ariaExpanded": "",
+              "ariaInvalid": "",
+              "ariaLabel": "",
+              "ariaLabelledBy": "",
+              "ariaSelected": ""
+            },
+            "position": ""
+          },
+          "type": "MENU",
+          "menuOptions": [],
+          "tabId": ""
+        },
+        {
+          "link": {
+            "title": "[ES] My trips",
+            "url": "/es/members/home/?activeTab=%5bES%5d+My+Trips",
+            "target": null
+          },
+          "icon": {
+            "name": "",
+            "ariaAttributes": {
+              "ariaControls": "",
+              "ariaDescribedBy": "",
+              "ariaDescription": "",
+              "ariaExpanded": "",
+              "ariaInvalid": "",
+              "ariaLabel": "",
+              "ariaLabelledBy": "",
+              "ariaSelected": ""
+            },
+            "position": ""
+          },
+          "type": "MENU",
+          "menuOptions": [],
+          "tabId": "bfc3e995-1892-412f-9753-0445d72c16af"
+        },
+        {
+          "link": {
+            "title": "[ES] Personal Data",
+            "url": "/es/members/home/?activeTab=%5bES%5d+Personal+Data",
+            "target": null
+          },
+          "icon": {
+            "name": "",
+            "ariaAttributes": {
+              "ariaControls": "",
+              "ariaDescribedBy": "",
+              "ariaDescription": "",
+              "ariaExpanded": "",
+              "ariaInvalid": "",
+              "ariaLabel": "",
+              "ariaLabelledBy": "",
+              "ariaSelected": ""
+            },
+            "position": ""
+          },
+          "type": "MENU",
+          "menuOptions": [],
+          "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46"
+        },
+        {
+          "link": {
+            "title": "[ES] My elite status",
+            "url": "https://www.uat-lifemiles.net/account/elite/progress",
+            "target": "_blank"
+          },
+          "icon": {
+            "name": "",
+            "ariaAttributes": {
+              "ariaControls": "",
+              "ariaDescribedBy": "",
+              "ariaDescription": "",
+              "ariaExpanded": "",
+              "ariaInvalid": "",
+              "ariaLabel": "",
+              "ariaLabelledBy": "",
+              "ariaSelected": ""
+            },
+            "position": ""
+          },
+          "type": "MENU",
+          "menuOptions": [],
+          "tabId": ""
+        },
+        {
+          "link": {
+            "title": "[ES] Book a flight with LM",
+            "url": "https://www.lifemiles.com/fly/find",
+            "target": "_blank"
+          },
+          "icon": {
+            "name": "",
+            "ariaAttributes": {
+              "ariaControls": "",
+              "ariaDescribedBy": "",
+              "ariaDescription": "",
+              "ariaExpanded": "",
+              "ariaInvalid": "",
+              "ariaLabel": "",
+              "ariaLabelledBy": "",
+              "ariaSelected": ""
+            },
+            "position": ""
+          },
+          "type": "MENU",
+          "menuOptions": [],
+          "tabId": ""
+        }
+      ],
+      "culture": null
+    },
+    "dialogModalsRepository": {
+      "modalDialogExceptions": [
+        {
+          "modalDialogContent": {
+            "modalImageSrc": "//av-static-test2.newshore.es/media/ujsnfkvp/modal-timeout-plane.svg",
+            "modalTitle": "[ES] Connection issue",
+            "modalDescription": "[ES] We're having trouble connecting. Please try again"
+          },
+          "modalDialogButtonsControl": {
+            "showClose": true,
+            "showButtons": true,
+            "actionButtonControl": "restart search",
+            "actionButtonLabel": "[ES] Reload page",
+            "secondaryButtonControl": "custom link",
+            "secondaryButtonLabel": "[ES] Go Home",
+            "secondaryButtonLink": "https://www.avianca.com/es/"
+          },
+          "modalDialogSettings": {
+            "modalDialogId": "SessionNotFound"
+          }
+        },
+        {
+          "modalDialogContent": {
+            "modalImageSrc": "//av-static-test2.newshore.es/media/1ukfdxgm/auth-session-expired.svg",
+            "modalTitle": "[ES] Your session has expired",
+            "modalDescription": "[ES] Once the session expires, it is not possible to reload the same page."
+          },
+          "modalDialogButtonsControl": {
+            "showClose": true,
+            "showButtons": true,
+            "actionButtonControl": "restart search",
+            "actionButtonLabel": "[ES] Go Home",
+            "secondaryButtonControl": "",
+            "secondaryButtonLabel": "",
+            "secondaryButtonLink": ""
+          },
+          "modalDialogSettings": {
+            "modalDialogId": "SessionExpired"
+          }
+        }
+      ]
+    }
+  },
+  "pointsOfSale": {
+    "items": []
+  },
+  "culture": "es-ES",
+  "additionalKey": null
+}
