@@ -9,6 +9,11 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
       (m) => m.RteInjectorComponent
     ),
+
+  //Avianca
+  CorporateMainHeaderBlock_uiplus: () =>
+    import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
+
   // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
@@ -51,6 +56,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+
   // Test examples
   login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
   header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
@@ -66,6 +72,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   'payment-success': () =>
     import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
   explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
+
   // Games
   'icon-hunter_uiplus_EX': () =>
     import('./modules/games/icon-hunter/icon-hunter.component').then((m) => m.IconHunterUiplusComponent),

@@ -1,0 +1,28 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+
+// -------
+// COMPONENT MIXINS
+// -------
+@mixin menu-indicator-color-bar($dir: vertical) {
+    position: absolute;
+    content: '';
+    display: block;
+    background: var(--primary-nav-list-item-hover-bar-background, var(--c-active));
+
+    @if $dir == vertical {
+        left: var(--primary-nav-list-item-hover-bar-left-position, calculateRem(-10px));
+        top: 50%;
+        width: calculateRem(6px);
+        height: calculateRem(32px);
+        transform: translateY(-50%);
+    }
+
+    @if $dir == horizontal {
+        left: 0;
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: calculateRem(4px);
+        transform: none;
+    }
+}

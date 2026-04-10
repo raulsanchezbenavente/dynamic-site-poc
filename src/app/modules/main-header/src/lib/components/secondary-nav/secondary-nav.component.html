@@ -1,0 +1,30 @@
+@if (
+    secondaryNavOptions && secondaryNavOptions.availableComponents && secondaryNavOptions.availableComponents.length > 0
+) {
+    <nav
+        class="secondary-nav-inner"
+        [attr.aria-label]="'Secondary navigation'">
+        <ul class="secondary-nav_list">
+            @for (component of secondaryNavOptions.availableComponents; track component) {
+                <!-- Language selector -->
+                @if (
+                    component === secondaryNavComponents.LANGUAGE_SELECTOR &&
+                    secondaryNavOptions.config.languageSelectorListConfig
+                ) {
+                    <li class="secondary-nav_item secondary-nav_item--language-selector">
+                        <language-selector
+                            [config]="secondaryNavOptions.config.languageSelectorListConfig"
+                            [culture]="secondaryNavOptions.config!.culture">
+                        </language-selector>
+                    </li>
+                }
+                <!-- Point of sale selector -->
+                @if (component === secondaryNavComponents.POINT_OF_SALE_SELECTOR) {
+                    <li class="secondary-nav_item secondary-nav_item--point-of-sale-selector">
+                        <points-of-sale />
+                    </li>
+                }
+            }
+        </ul>
+    </nav>
+}

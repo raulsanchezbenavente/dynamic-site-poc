@@ -1,0 +1,6 @@
+// -------
+// VARIABLES
+// -------
+$main-header-layout-breakpoint: 1178px;
+$main-header-layout-breakpoint-desktop: '(width > #{$main-header-layout-breakpoint})';
+$main-header-layout-breakpoint-mobile: '(width <= #{$main-header-layout-breakpoint})';

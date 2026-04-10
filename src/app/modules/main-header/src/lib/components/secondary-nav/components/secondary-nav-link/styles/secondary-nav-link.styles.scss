@@ -1,0 +1,17 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: inline-flex;
+    align-items: center;
+}
+.secondary-nav-link_link {
+    display: inline-flex;
+    gap: var(--secondary-nav-link-gap);
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    font-size: inherit;
+}

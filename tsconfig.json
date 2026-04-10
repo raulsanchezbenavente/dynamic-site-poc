@@ -29,6 +29,8 @@
       "@dcx/ui/api-layer": ["./src/app/modules/api-layer/src/public-api.ts"],
       "@dcx/module/booking-api-client": ["./src/app/modules/booking-api-client/src/public-api.ts"],
 
+      "@dcx/module/main-header": ["./src/app/modules/main-header/src/public-api.ts"],
+
       "@fake-blocks-test": ["./src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["./src/app/modules/fake-blocks-avianca/index.ts"],
       "@fake-libs": ["./src/app/modules/fake-libs/index.ts"],

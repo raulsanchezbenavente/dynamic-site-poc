@@ -1,0 +1,119 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../styles/common/main-header-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    --secondary-nav-item-icon-fontsize: var(--f-size-large);
+    --secondary-nav-item-fontsize: var(--f-size);
+    --secondary-nav-item-gap: #{calculateRem(8px)};
+
+    // deep components vars
+    --icon-fontsize: var(--secondary-nav-item-icon-fontsize);
+    --#{$ds}dropdown-trigger-icon-fontsize: var(--secondary-nav-item-icon-fontsize);
+    --#{$ds}dropdown-trigger-fontsize: 'inherit';
+    --#{$ds}dropdown-trigger-color: 'inherit';
+    --#{$ds}dropdown-trigger-min-height: auto;
+    --#{$ds}dropdown-content-maxheight: #{calculateRem(187px)};
+
+    display: block;
+    padding: var(--secondary-nav-padding, #{calculateRem(24px)} 0);
+    background: var(--secondary-nav-background, var(--c-primary));
+
+    // Remove arrow from dropdowns
+    ::ng-deep {
+        .#{$ds}dropdown_trigger::after {
+            display: none;
+        }
+    }
+}
+.secondary-nav_list {
+    width: 100%;
+    display: flex;
+    flex-direction: var(--secondary-nav-list-flex-direction, column);
+    gap: var(--secondary-nav-list-gap, 0);
+    justify-content: var(--secondary-nav-list-halign, flex-end);
+}
+.secondary-nav_item {
+    $secondary-nav-item-gap: 8px;
+
+    color: var(--secondary-nav-item-color, var(--c-white));
+    font-size: var(--secondary-nav-item-fontsize);
+    line-height: inherit;
+    padding: var(--secondary-nav-item-padding, 0);
+    &:hover {
+        --secondary-nav-item-color: var(--c-active);
+    }
+
+    // add same styles for all secondary nav items
+    ::ng-deep {
+        --#{$ds}dropdown-trigger-lineheight: inherit;
+        --#{$ds}dropdown-trigger-arrow-fontsize: var(--f-size-small);
+        // positions dropdown content to the right of the trigger and sets its width
+        --#{$ds}dropdown-content-position-left: auto;
+        --#{$ds}dropdown-content-position-right: 0;
+        .#{$ds}dropdown_trigger[aria-expanded='true'] {
+            --#{$ds}dropdown-trigger-color: var(--c-active);
+        }
+
+        // gap
+        --#{$ds}dropdown-trigger-gap: var(--secondary-nav-item-gap);
+        --pos-trigger-gap: var(--secondary-nav-item-gap);
+        --secondary-nav-link-gap: var(--secondary-nav-item-gap);
+    }
+}
+
+// [Responsive]
+@media #{$main-header-layout-breakpoint-desktop} {
+    :host {
+        --secondary-nav-padding: #{calculateRem(12px)} 0;
+        --secondary-nav-list-gap: #{$pad-medium};
+        --secondary-nav-list-flex-direction: row;
+
+        // nav list item
+        --secondary-nav-item-padding: 0;
+        --secondary-nav-item-icon-fontsize: var(--f-size);
+        --secondary-nav-item-fontsize: var(--f-size-small);
+    }
+    .secondary-nav-inner {
+        @include container-wrap;
+    }
+    .secondary-nav_item {
+        display: flex;
+        align-items: center;
+        & + & {
+            display: flex;
+            align-items: center;
+            border-left: var(--secondary-nav-item-border-left, 1px solid var(--c-white));
+            padding-left: #{$spacer-small};
+        }
+    }
+}
+
+@media #{$main-header-layout-breakpoint-mobile} {
+    :host {
+        // nav list item
+        --secondary-nav-item-padding: #{calculateRem(12px)} 0;
+    }
+    .secondary-nav_list {
+        max-width: calculateRem(580px);
+    }
+    :host ::ng-deep {
+        .#{$ds}dropdown_content {
+            margin-left: 0;
+            margin-top: $spacer-x-small;
+        }
+        .#{$ds}dropdown_trigger,
+        .point-of-sale-selector_button {
+            --arrow-collapse-icon: #{$icon-arrow-single-right};
+            --arrow-collapse-transform-expanded: rotate(-90deg);
+
+            @include collapse-trigger-flex($size: calculateRem(14px));
+
+            width: 100%;
+            gap: calculateRem(10px);
+            line-height: inherit;
+        }
+    }
+}

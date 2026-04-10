@@ -1,0 +1,65 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../styles/common/main-header-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: block;
+    background-color: var(--c-white);
+    ::ng-deep {
+        .primary-nav_submenu {
+            box-shadow: var(--#{$ds}shadow-light);
+        }
+    }
+}
+.main-header_overlay {
+    @include overlay-in-animation;
+}
+.main-header_nav-secondary {
+    opacity: 1;
+}
+.main-header {
+    position: relative;
+    width: 100%;
+    z-index: var(--zindex-main-header);
+    background-color: var(--c-white);
+}
+.main-header_container {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    min-height: var(--main-header-min-height, calculateRem(70px));
+
+    @include container-wrap;
+}
+.main-header_nav-primary {
+    flex: 1 1 100%;
+    display: flex;
+    align-self: stretch;
+    justify-content: center;
+}
+.main-header_logo {
+    flex: 0 0 calculateRem(169px); // Logo base width
+}
+.main-header_logo_link {
+    display: flex;
+    img {
+        width: var(--main-header-logo-width, calculateRem(168px));
+        height: auto;
+        transition: all 0.3s ease;
+    }
+}
+
+// Header got fixed on scrolling
+::ng-deep .body--header-fixed-on-scroll.body--is-header-fixed {
+    --main-header-min-height: #{calculateRem(50px)};
+    --main-header-logo-width: #{calculateRem(118px)};
+
+    padding-top: var(--main-header-offset-height);
+    .main-header_nav-secondary {
+        height: 0;
+        opacity: 0;
+        pointer-events: none;
+    }
+}

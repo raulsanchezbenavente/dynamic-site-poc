@@ -1,0 +1,25 @@
+@let isMobile = isResponsive();
+
+<ng-container
+    translationLoadStatus
+    [moduleKeys]="mappedKeys"
+    (translationsLoaded)="translationsLoaded()" />
+
+@if (isLoaded) {
+    <!-- MAIN HEADER: small screens layout -->
+    @if (config) {
+        @if (isMobile) {
+            <!-- TOGGLE LAYOUT -->
+            <main-header-layout-toggle
+                [config]="config"
+                [isResponsive]="isMobile" />
+        } @else {
+            <!-- MAIN HEADER: large screen -->
+            <main-header-layout [config]="config" />
+        }
+    }
+} @else {
+    <span class="hide-visually">
+        {{ 'MainHeader.Loading' | translate }}
+    </span>
+}

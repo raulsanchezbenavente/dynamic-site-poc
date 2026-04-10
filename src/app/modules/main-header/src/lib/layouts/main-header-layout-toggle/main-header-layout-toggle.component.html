@@ -1,0 +1,94 @@
+@let isMobile = isResponsive();
+
+@if (secondaryNavOptionsMobile && secondaryNavOptionsMobile.config) {
+    <header
+        class="main-header"
+        role="banner"
+        [class.main-header_menu--open]="toggleMenuOpen"
+        [class.main-header_submenu--open]="subMenuOpen">
+        <div
+            class="main-header_container"
+            [cdkTrapFocus]="toggleMenuOpen || subMenuOpen"
+            [cdkTrapFocusAutoCapture]="toggleMenuOpen || subMenuOpen">
+            <div
+                #headerHead
+                class="main-header_head">
+                @if (subMenuOpen) {
+                    <!-- toggle menu go back -->
+                    <button
+                        class="main-header_menu_trigger main-header_menu_trigger--back"
+                        [attr.aria-label]="'Common.Toggle_Menu_GoBack' | translate"
+                        (click)="goBackSubMenu()"></button>
+                } @else if (!toggleMenuOpen) {
+                    <!-- toggle menu open/close -->
+                    <ng-container [ngTemplateOutlet]="menuToggleTriggerTemplate"></ng-container>
+                }
+
+                <!-- MAIN HEADER LOGO -->
+                @if (!subMenuOpen) {
+                    <div
+                        class="main-header_logo"
+                        [attr.inert]="subMenuOpen ? '' : null">
+                        <a
+                            class="main-header_logo_link"
+                            [href]="config.logo.link.url"
+                            [attr.target]="config.logo.link.target ?? null">
+                            <img
+                                [src]="config.logoMobile?.src"
+                                [alt]="('Common.LogoAltText' | translate) + ' logo'" />
+                        </a>
+                    </div>
+                }
+
+                <!-- AUTH --->
+                @if (config.showAuthButtonMobile && config.authData && !toggleMenuOpen) {
+                    <div
+                        class="main-header_auth"
+                        [attr.inert]="subMenuOpen ? '' : null">
+                        <auth-button
+                            [layout]="authButtonLayout"
+                            [data]="config.authData"
+                            [config]="authButtonConfig" />
+                    </div>
+                }
+
+                @if (toggleMenuOpen && !subMenuOpen) {
+                    <!-- toggle menu open/close -->
+                    <ng-container [ngTemplateOutlet]="menuToggleTriggerTemplate"></ng-container>
+                }
+            </div>
+            <!-- MAIN HEADER TOGGLE MENU -->
+            <div class="main-header_menu">
+                <div class="main-header_menu-inner">
+                    <!-- MAIN HEADER PRIMARY MENU -->
+                    <div class="main-header_menu_group main-header_menu_group--nav">
+                        <primary-nav
+                            [mainMenuList]="config.mainMenuListMobile"
+                            [isResponsive]="isMobile"
+                            [disableClickOutside]="true"
+                            (subMenuOpened)="subMenuOpened($event)" />
+                    </div>
+                    @if (secondaryNavOptionsMobile.config) {
+                        <div
+                            #bottomMenuRef
+                            class="main-header_menu_group main-header_menu_group--bottom"
+                            [attr.inert]="subMenuOpen ? '' : null">
+                            <secondary-nav
+                                [secondaryNavOptions]="secondaryNavOptionsMobile"
+                                [isResponsive]="isMobile" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <ng-template #menuToggleTriggerTemplate>
+        <button
+            #toggleMenuButton
+            class="main-header_menu_trigger main-header_menu_trigger--toggle"
+            [attr.inert]="subMenuOpen ? '' : null"
+            [attr.aria-label]="'Common.Toggle_Menu' | translate"
+            (click)="toggleMenu()"></button>
+    </ng-template>
+}

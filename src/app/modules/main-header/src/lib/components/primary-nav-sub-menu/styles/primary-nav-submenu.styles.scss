@@ -1,0 +1,182 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../styles/common/main-header-mixins.styles' as *;
+@use '../../../styles/common/main-header-vars.styles' as *;
+
+// COMPONENT STYLE
+// -------
+:host {
+    display: block;
+}
+.primary-nav-submenu_nav_title {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: calculateRem(4px);
+    font-size: var(--f-size-large);
+    padding-bottom: calculateRem(14px);
+    margin-bottom: $spacer-medium;
+    &::after {
+        @include menu-indicator-color-bar(horizontal);
+    }
+}
+.primary-nav-submenu_nav_title_tag {
+    @include badge;
+
+    margin-left: calculateRem(6px);
+}
+.primary-nav-submenu-inner {
+    display: flex;
+    flex-direction: column;
+
+    // Defines the horizontal gap between navigation and banner.
+    gap: $spacer-medium calculateRem(48px);
+}
+.primary-nav-submenu_nav_list {
+    display: flex;
+    flex-direction: column;
+}
+.primary-nav-submenu_item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: $spacer-medium;
+    width: 100%;
+    padding: $pad-medium $pad-x-medium;
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-medium);
+    color: var(--primary-nav-submenu-item-color, var(--c-text-secondary));
+    text-decoration: none;
+    transition: transform 0.15s ease-in-out;
+    box-sizing: border-box;
+
+    // Show the arrow icon only for links that open in the same tab
+    // Links opening in a new tab display their own icon via the external directive
+    &:not(.link--target-blank) {
+        @include iconfont((var(--primary-nav-submenu-right-icon, $icon-arrow-right)), after, inherit);
+    }
+
+    // right arrow
+    &::after {
+        position: relative;
+        top: 0;
+        right: 0;
+        speak: none; /* Recommended for screen readers */
+        margin-left: auto;
+        font-size: var(--f-size-x-large);
+    }
+    &:hover {
+        font-weight: var(--f-weight-bold);
+        transform: translateX(calculateRem(8px));
+    }
+
+    &--sc-offer {
+        &:hover {
+            --primary-nav-submenu-item-color: var(--c-section-offers);
+        }
+    }
+    &--sc-booking {
+        &:hover {
+            --primary-nav-submenu-item-color: var(--c-section-booking);
+        }
+    }
+    &--sc-info {
+        &:hover {
+            --primary-nav-submenu-item-color: var(--c-section-info);
+        }
+    }
+    &--sc-fare-business {
+        &:hover {
+            --primary-nav-submenu-item-color: var(--c-section-fare-business);
+        }
+    }
+}
+
+// if is an external link
+.primary-nav-submenu_item--external-link {
+    --primary-nav-submenu-right-icon: #{$icon-external};
+}
+
+// Responsive
+@media #{$main-header-layout-breakpoint-desktop} {
+    :host {
+        padding: calculateRem(32px) 0;
+    }
+    .primary-nav-submenu_nav {
+        flex: 0 1 calculateRem(524px);
+    }
+    .primary-nav-submenu_nav_title {
+        font-size: calculateRem(26px);
+        padding-bottom: 0;
+        margin-bottom: calculateRem(24px);
+        &::after {
+            display: none;
+        }
+    }
+    .primary-nav-submenu_nav_title_tag {
+        margin-left: $spacer-x-small;
+    }
+    .primary-nav-submenu-inner {
+        @include container-wrap;
+        max-width: calculateRem(1312px);
+        padding: 0 $app-gutter-sides;
+
+        flex-direction: row;
+    }
+    .primary-nav-submenu_nav_list {
+        display: block;
+        column-count: 2;
+        break-inside: avoid;
+
+        // Defines the horizontal gap between subnav columns.
+        column-gap: calculateRem(48px);
+    }
+    .primary-nav-submenu_item {
+        padding: $pad-medium $pad-x-medium $pad-medium 0;
+        .link-label {
+            padding-top: calculateRem(1px);
+        }
+    }
+    .primary-nav-submenu_banner {
+        flex: 0 1 calculateRem(740px);
+    }
+}
+
+// equal to $banner-aside-box-breakpoint-min
+@media #{$mobile} {
+    .primary-nav-submenu_banner {
+        ::ng-deep {
+            .banner-section {
+                --banner-height: #{calculateRem(239px)};
+            }
+            .banner-item-html--style-aside-box {
+                --banner-aside-box-html-width: #{calculateRem(251px)};
+                --banner-aside-box-html-padding-desktop: #{calculateRem(24px)};
+                --banner-default-html-caption-title-fontsize: #{calculateRem(32px)};
+                --banner-default-html-caption-title-small-fontsize: #{calculateRem(24px)};
+                --banner-default-html-caption-subtitle-fontsize: #{calculateRem(18px)};
+                --banner-html-caption-title-lineheight: inherit;
+                --banner-html-caption-subtitle-margin: #{calculateRem(22px)} 0 0;
+                --banner-html-caption-subtitle-fontweight: var(--f-weight-bold);
+            }
+        }
+    }
+}
+
+// equal to $banner-aside-box-breakpoint-max
+@media #{$until-mobile} {
+    .primary-nav-submenu_banner {
+        ::ng-deep {
+            .banner-item-html--style-aside-box {
+                --banner-media-height: #{calculateRem(365px)};
+                --banner-aside-box-html-height: #{calculateRem(278px)};
+                --banner-aside-box-html-padding: #{$spacer-x-large};
+                --banner-default-html-caption-title-fontsize: #{calculateRem(48px)};
+                --banner-default-html-caption-title-small-fontsize: #{calculateRem(36px)};
+                --banner-html-caption-title-lineheight: inherit;
+                --banner-default-html-caption-subtitle-fontsize: #{calculateRem(30px)};
+                --banner-html-caption-subtitle-fontweight: var(--f-weight-bold);
+                --banner-html-caption-subtitle-margin: #{$spacer-x-large} 0 0;
+            }
+        }
+    }
+}

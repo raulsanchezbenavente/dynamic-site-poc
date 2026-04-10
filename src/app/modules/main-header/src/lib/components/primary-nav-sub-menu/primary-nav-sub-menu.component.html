@@ -1,0 +1,68 @@
+<div
+    class="primary-nav-submenu-inner"
+    (focusout)="submenuTabOut.emit()">
+    <!-- ALL LINKS (left column in desktop) -->
+    <nav
+        class="primary-nav-submenu_nav"
+        role="menu"
+        [attr.aria-label]="menuItem.title">
+        <h1 class="primary-nav-submenu_nav_title">
+            @if (menuItem.icon?.name) {
+                <icon [config]="menuItem.icon!"></icon>
+            }
+            {{ menuItem.title }}
+            @if (isResponsive && menuItem.tag) {
+                <span class="primary-nav-submenu_nav_title_tag">{{ menuItem.tag }}</span>
+            }
+        </h1>
+
+        <!-- @for (column of menuItem.columns; track column; let index = $index) { -->
+        <div class="primary-nav-submenu_nav_columns">
+            @for (column of menuItem.columns; track column; let columnIndex = $index) {
+                <ul
+                    class="primary-nav-submenu_nav_list"
+                    role="group"
+                    [attr.aria-label]="
+                        menuItem.title + ' Column ' + columnIndex + 1 + ' of ' + menuItem.columns.length
+                    ">
+                    @for (section of column.sections; track section; let sectionIndex = $index) {
+                        <li
+                            class="primary-nav-submenu_nav_list_item"
+                            role="none"
+                            [class.primary-nav-submenu_nav_list_item--open]="true">
+                            <!-- menu level 2: link -->
+                            @if (section.link.url) {
+                                <a
+                                    #submenuItem
+                                    accessibleLink
+                                    class="primary-nav-submenu_item"
+                                    role="menuitem"
+                                    [ngClass]="sectionColor ? 'primary-nav-submenu_item--' + sectionColor : null"
+                                    [attr.tabindex]="focusedSubmenuIndex() === sectionIndex ? 0 : -1"
+                                    [link]="{
+                                        url: section.link.url,
+                                        target: section.link.target ?? null,
+                                    }">
+                                    @if (section.icon?.name) {
+                                        <icon [config]="section.icon!"></icon>
+                                    }
+                                    <span class="link_label">{{ section.link.title }}</span>
+                                </a>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+        <!-- } -->
+    </nav>
+
+    <!-- BANNER -->
+    @if (menuItem.bannerConfig) {
+        <div class="primary-nav-submenu_banner">
+            <banner
+                [config]="menuItem.bannerConfig"
+                [isResponsive]="isResponsive" />
+        </div>
+    }
+</div>
