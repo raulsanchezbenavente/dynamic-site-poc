@@ -1,0 +1,59 @@
+@use 'sass:list';
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'footer-socialmedia-vars.styles.scss' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(16px);
+    align-items: flex-start;
+    width: 100%;
+}
+.socialmedia-title {
+    font-size: var(--f-size);
+    color: var(--c-white);
+}
+.socialmedia-list {
+    display: flex;
+    gap: var(--socialmedia-list-gap, $spacer-medium);
+}
+.socialmedia-list_item_link {
+    display: flex;
+    transition: $socialmedia-item-transition;
+    text-decoration: none;
+    &:hover {
+        transform: scale($socialmedia-item-transform-scale);
+    }
+    &::before {
+        font-size: $socialmedia-item-icon-size;
+        font-family: var(--f-icons);
+        line-height: 1;
+    }
+    .link-label {
+        @include hide-visually;
+    }
+}
+
+// socialmedia generated class (from variables)
+@each $i in $socialmedia-items-circle-map {
+    /* stylelint-disable-next-line custom/selector-class-pattern */
+    .socialmedia--#{list.nth($i, 1)} {
+        color: list.nth($i, 3);
+        &::before {
+            content: list.nth($i, 2);
+        }
+    }
+}
+
+// [Responsive]
+@media #{$tablet-portrait} {
+    :host {
+        align-items: center;
+    }
+    .socialmedia-title {
+        font-size: var(--f-size-medium);
+    }
+}

@@ -1,0 +1,64 @@
+@let _isLoaded = isLoaded();
+@let configData = config();
+@let isMobile = isResponsive();
+@let _selectedMenu = selectedMenu();
+
+@if (_isLoaded && configData) {
+    <div class="footer-main-inner">
+        <div class="main-footer_content">
+            <div class="main-footer_top">
+                <div class="main-footer_logo">
+                    @if (configData.logo.link.url) {
+                        <a
+                            class="main-footer_logo_link"
+                            [attr.href]="configData.logo.link.url"
+                            [attr.title]="configData.logo.link.title">
+                            <img
+                                alt=""
+                                [attr.src]="configData.logo.src" />
+                        </a>
+                    } @else {
+                        <img
+                            alt=""
+                            [attr.src]="configData.logo.src" />
+                    }
+                </div>
+
+                <!-- Slot for Newsletter Target -->
+                <!-- <div class="main-footer_newsletter"></div> -->
+
+                <div class="main-footer_socialmedia">
+                    @if (configData.socialMedia) {
+                        <footer-social-media [socialLinks]="configData.socialMedia" />
+                    }
+                </div>
+            </div>
+            <div class="main-footer_nav">
+                @for (column of configData.columns; track column; let index = $index) {
+                    <div class="main-footer_nav-column">
+                        <footer-nav
+                            [data]="column"
+                            [index]="$index"
+                            [isResponsive]="isMobile"
+                            [selectedMenu]="_selectedMenu"
+                            (menuToggleEmitter)="toggleMenu($event)" />
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="main-footer_bottom">
+            <div class="main-footer_bottom_content">
+                <span class="main-footer_copyright">{{ configData.copyright.title }}</span>
+                @if (configData.partners && !isMobile) {
+                    <div class="main-footer_partners">
+                        <footer-partners [config]="configData.partners" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+} @else {
+    <span class="hide-visually">
+        {{ 'MainFooter.Loading' | translate }}
+    </span>
+}

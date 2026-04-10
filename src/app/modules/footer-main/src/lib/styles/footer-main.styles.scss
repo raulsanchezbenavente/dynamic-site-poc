@@ -1,0 +1,160 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/sass/utils/configs' as *;
+@use 'sass:list';
+
+$main-footer-breakpoint-max: $bp-mobile-max;
+$main-footer-breakpoint-min: $bp-mobile;
+$main-footer-socialmedia-gap: var(--main-footer-socialmedia-gap, calculateRem(16px));
+
+// -------
+// STYLES
+// -------
+::ng-deep :root {
+    --main-footer-layout-breakpoint: #{$main-footer-breakpoint-max};
+}
+:host {
+    display: block;
+    flex-direction: column;
+    color: var(--c-white);
+    background: var(--c-primary);
+}
+.main-footer_content {
+    @include container-wrap;
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--main-footer-gap, calculateRem(60px));
+    padding-top: calculateRem(32px);
+}
+.main-footer_top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.main-footer_logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: calculateRem(24px);
+    img {
+        width: var(--main-footer-logo-width, calculateRem(189px));
+        height: auto;
+    }
+}
+.main-footer_logo_link {
+    display: flex;
+}
+
+// social media
+.main-footer_socialmedia {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-medium;
+    align-items: flex-start;
+    width: 100%;
+}
+.main-footer_nav {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px);
+    width: 100%;
+}
+
+// bottom
+.main-footer_bottom_content {
+    @include container-wrap;
+
+    position: relative;
+    display: flex;
+    padding-top: calculateRem(24px);
+    padding-bottom: calculateRem(24px);
+    margin-top: calculateRem(30px);
+
+    // top line - used as before so we keep everything inside same container width its padding
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: calculateRem(1px);
+        background-color: var(--c-border);
+    }
+}
+.main-footer_copyright {
+    font-size: var(--f-size-tiny);
+    white-space: nowrap;
+}
+
+// affiliation logos
+.main-footer_partners {
+    @include container-wrap;
+}
+
+// [Responsive]
+@media (min-width: #{$main-footer-breakpoint-min}) {
+    .main-footer_nav {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        gap: calculateRem(20px);
+    }
+    .main-footer_nav-column {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+    .main-footer_copyright {
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media #{$tablet-portrait} {
+    .main-footer_content {
+        --main-footer-gap: #{calculateRem(44px)};
+
+        padding-top: calculateRem(20px);
+    }
+    .main-footer_top {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: $spacer-medium;
+        min-height: calculateRem(122px);
+    }
+    .main-footer_logo {
+        margin-bottom: 0;
+    }
+    .main-footer_socialmedia {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: $spacer-medium;
+        width: auto;
+    }
+}
+
+@media #{$desktop} {
+    .main-footer_bottom {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-top: calculateRem(48px);
+    }
+    .main-footer_bottom_content {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        position: unset;
+        margin-top: 0;
+    }
+    .main-footer_partners {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        margin: 0;
+    }
+}

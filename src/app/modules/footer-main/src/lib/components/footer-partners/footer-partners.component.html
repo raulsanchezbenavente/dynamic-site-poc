@@ -1,0 +1,24 @@
+<ul
+    class="footer-partners_list"
+    [attr.aria-label]="'MainFooter.A11y.Partners_Title' | translate">
+    @for (item of config; track item; let i = $index) {
+        <li class="footer-partners_item">
+            <a
+                accessibleLink
+                class="footer-partners_item_link"
+                [showIcon]="false"
+                [link]="{
+                    url: item.link.url,
+                    target: item.link.target ?? null,
+                }"
+                [title]="item.link.title">
+                @if (item.image.src) {
+                    <img
+                        [src]="item.image.src"
+                        [alt]="item.image.altText"
+                        [width]="item.width" />
+                }
+            </a>
+        </li>
+    }
+</ul>
