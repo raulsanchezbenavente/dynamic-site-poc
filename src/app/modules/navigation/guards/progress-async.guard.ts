@@ -42,38 +42,40 @@ export class ProgressAsynGuard implements CanActivate {
   ]);
 
   public async canActivate(route: ActivatedRouteSnapshot): Promise<boolean> {
-    const path = route.routeConfig?.path;
-    const token = localStorage.getItem('BOOKING_PROCESS');
+    return true;
 
-    if (path && this.publicPaths.has(path)) {
-      return true;
-    }
+    //   const path = route.routeConfig?.path;
+    //   const token = localStorage.getItem('BOOKING_PROCESS');
 
-    if (!path || !token) {
-      this.router.navigate(['/']);
-      return false;
-    }
+    //   if (path && this.publicPaths.has(path)) {
+    //     return true;
+    //   }
 
-    try {
-      const response = await fetch(`http://localhost:3000/allowAccess/${path}`, {
-        headers: {
-          Authorization: token,
-        },
-      });
-      if (response.status !== 200) throw new Error();
-      const data = await response.json();
-      if (data.allowed) {
-        return true;
-      } else {
-        this.router.navigate(['/' + (data.redirectTo || 'home')]);
-        return false;
-      }
-    } catch (err) {
-      localStorage.removeItem('BOOKING_PROCESS');
-      console.warn('Access denied or server error', err);
-      this.router.navigate(['/']);
-      return true;
-      return false;
-    }
+    //   if (!path || !token) {
+    //     this.router.navigate(['/']);
+    //     return false;
+    //   }
+
+    //   try {
+    //     const response = await fetch(`http://localhost:3000/allowAccess/${path}`, {
+    //       headers: {
+    //         Authorization: token,
+    //       },
+    //     });
+    //     if (response.status !== 200) throw new Error();
+    //     const data = await response.json();
+    //     if (data.allowed) {
+    //       return true;
+    //     } else {
+    //       this.router.navigate(['/' + (data.redirectTo || 'home')]);
+    //       return false;
+    //     }
+    //   } catch (err) {
+    //     localStorage.removeItem('BOOKING_PROCESS');
+    //     console.warn('Access denied or server error', err);
+    //     this.router.navigate(['/']);
+    //     return true;
+    //     return false;
+    //   }
   }
 }
