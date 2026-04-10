@@ -1,4 +1,5 @@
-import { Component, ElementRef, OnDestroy, OnInit, Signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, Input, OnDestroy, OnInit, Signal, signal } from '@angular/core';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
   BANNER_BREAKPOINT_CONFIG,
@@ -16,7 +17,7 @@ import {
   ViewportSizeService,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, filter, Observable, Subscription, tap } from 'rxjs';
+import { BehaviorSubject, filter, Observable, Subscription } from 'rxjs';
 
 import { MainHeaderResponsiveLayout } from './components/enums/main-header-responsive-layout.enum';
 import { MainHeaderLayoutToggleComponent } from './layouts/main-header-layout-toggle/main-header-layout-toggle.component';
@@ -46,8 +47,20 @@ import { MainHeaderConfig } from './models/main-header-config.interface';
 })
 export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
   public isResponsive!: Signal<boolean>;
-  public isLoaded: boolean = false;
-  public config: MainHeaderConfig = {} as MainHeaderConfig;
+  public isLoaded = signal(false);
+
+  @Input()
+  public set config(value: { url?: string }) {
+    console.log('Received config input', value);
+    this._config = value ?? {};
+    this.loadConfigFromInput();
+  }
+
+  public get config(): { url?: string } {
+    return this._config;
+  }
+
+  public configHeader: MainHeaderConfig = {} as MainHeaderConfig;
   public mainHeaderResponsiveLayout = MainHeaderResponsiveLayout;
 
   protected currencyConfig: any;
@@ -62,6 +75,11 @@ export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
 
   private readonly data: DataModule;
   private destroyMediaQueryListener: () => void = () => {};
+  private _config: { url?: string } = {};
+  private lastResolvedConfigKey: string | null = null;
+  private readonly isTranslationsReady = signal(false);
+  private readonly isConfigReady = signal(false);
+  private composerNotifierSubscription?: Subscription;
 
   private readonly CMSKey = 'CorporateMainHeader';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
@@ -72,6 +90,7 @@ export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
     protected composer: ComposerService,
     protected logger: LoggerService,
     protected generateId: GenerateIdPipe,
+    private readonly httpClient: HttpClient,
     private readonly viewportSizeService: ViewportSizeService
   ) {
     this.data = this.configService.getDataModuleId(this.elementRef);
@@ -83,6 +102,7 @@ export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.destroyMediaQueryListener();
+    this.composerNotifierSubscription?.unsubscribe();
   }
 
   public translationsLoaded(): void {
@@ -93,13 +113,50 @@ export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
     this.setIsResponsive();
     this.translationsLoaded$.subscribe({
       next: () => {
-        this.initConfig().subscribe(() => {
-          this.subscribeComposerNotifier();
-          this.composer.updateComposerRegisterStatus(this.data.id, ComposerStatusEnum.LOADED);
-          this.isLoaded = true;
-        });
+        this.isTranslationsReady.set(true);
+        this.trySetReadyState();
       },
     });
+  }
+
+  private loadConfigFromInput(): void {
+    const inputUrl = this._config.url?.trim();
+    const configKey = inputUrl;
+    console.log(33333, 'Loading config for key', configKey);
+
+    if (!configKey || this.lastResolvedConfigKey === configKey) {
+      return;
+    }
+    console.log(555, 'Loading config for key', configKey);
+
+    this.lastResolvedConfigKey = configKey;
+
+    this.httpClient.get<MainHeaderConfig>(configKey).subscribe({
+      next: (response) => {
+        console.log(response);
+        this.isLoaded.set(true);
+        // this.configHeader = this.resolveConfig(response);
+        this.configHeader = response;
+        // this.isConfigReady.set(true);
+        this.trySetReadyState();
+      },
+      error: (error) => {
+        this.lastResolvedConfigKey = null;
+        console.error('MainHeader config load error', { configKey, error });
+        this.logger.error(CorporateMainHeaderComponent.name, this.loadConfigFromInput.name, error);
+      },
+    });
+  }
+
+  private trySetReadyState(): void {
+    if (!this.isTranslationsReady() || !this.isConfigReady()) {
+      return;
+    }
+
+    this.composerNotifierSubscription ??= this.subscribeComposerNotifier();
+
+    this.composer.updateComposerRegisterStatus(this.data.id, ComposerStatusEnum.LOADED);
+    this.isLoaded.set(true);
   }
 
   private setIsResponsive(): void {
@@ -107,20 +164,6 @@ export class CorporateMainHeaderComponent implements OnInit, OnDestroy {
     const mediaQuery = `(max-width: ${breakpoint}px)`;
 
     [this.isResponsive, this.destroyMediaQueryListener] = createResponsiveSignal(mediaQuery);
-  }
-
-  /**
-   * Initializes the configuration of the MainHeader component.
-   * This function is responsible for obtaining the configuration of the business module and making
-   * @returns An Observable that is populated once configuration initialization has completed.
-   */
-  private initConfig(): Observable<MainHeaderConfig> {
-    return this.configService.getBusinessModuleConfig<MainHeaderConfig>(this.data.config).pipe(
-      tap((config) => {
-        this.config = this.resolveConfig(config);
-        this.logger.info('MainHeaderComponent', 'Business module config', this.config);
-      })
-    );
   }
 
   private resolveConfig(raw: MainHeaderConfig): MainHeaderConfig {
