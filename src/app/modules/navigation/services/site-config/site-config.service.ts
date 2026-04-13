@@ -7,11 +7,11 @@ import { TabConfigEntry, TabSummary } from '../../../dynamic-composite/dynamic-t
 
 import { AppLang } from './models/langs.model';
 import {
-  SiteBlockConfig,
-  SiteConfigResponse,
-  SiteLayoutCol,
-  SiteLayoutRow,
-  SitePage,
+    SiteBlockConfig,
+    SiteConfigResponse,
+    SiteLayoutCol,
+    SiteLayoutRow,
+    SitePage,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
@@ -116,7 +116,7 @@ export class SiteConfigService {
     for (const row of rows) {
       for (const col of Array.isArray(row?.cols) ? row.cols : []) {
         if (col?.component === componentName) {
-          return col.config ?? undefined;
+          return col.baseConfig ?? undefined;
         }
       }
     }
@@ -145,7 +145,7 @@ export class SiteConfigService {
     const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
     for (const col of cols) {
-      const tabsConfig = (col?.config ?? null) as { tabsId?: string | number } | null;
+      const tabsConfig = (col?.baseConfig ?? null) as { tabsId?: string | number } | null;
       const tabsId = tabsConfig?.tabsId;
       if (tabsId !== undefined && tabsId !== null && String(tabsId).trim().length > 0) {
         return String(tabsId);
@@ -166,7 +166,7 @@ export class SiteConfigService {
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
-        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: TabConfigEntry[] } | null;
+        const tabsConfig = (col?.baseConfig ?? null) as { tabsId?: string | number; tabs?: TabConfigEntry[] } | null;
         if (String(tabsConfig?.tabsId ?? '') !== tabsIdStr) continue;
         const tabs = Array.isArray(tabsConfig?.tabs) ? tabsConfig.tabs : [];
         tabs.forEach((tab: TabConfigEntry) => {

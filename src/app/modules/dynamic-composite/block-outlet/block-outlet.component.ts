@@ -30,7 +30,7 @@ const EMPTY_BLOCK_COMPONENT_REGISTRY: BlockComponentRegistry = {
 type DynamicBlockInput = {
   component?: string;
   span?: number;
-  config?: Record<string, unknown>;
+  baseConfig?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -142,11 +142,11 @@ export class BlockOutletComponent {
     delete rest['__dynamicPageComponentId'];
     delete rest['__dynamicPageComponentName'];
 
-    if (configInputName !== 'config' && Object.hasOwn(rest, 'config')) {
+    if (configInputName !== 'baseConfig' && Object.hasOwn(rest, 'baseConfig')) {
       if (!Object.hasOwn(rest, configInputName)) {
-        rest[configInputName] = rest['config'];
+        rest[configInputName] = rest['baseConfig'];
       }
-      delete rest['config'];
+      delete rest['baseConfig'];
     }
 
     if (!this.selfManagedReadiness() || !batchId || !componentId || !componentName) {
