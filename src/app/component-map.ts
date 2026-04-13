@@ -72,6 +72,11 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   tetris_uiplus_EX: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
 };
 
+export const configInputAliases: Record<string, string> = {
+  loyaltyOverviewCard_uiplus_EX: 'colorConfig',
+  CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
+};
+
 const resolvedComponentCache = new Map<string, Type<unknown>>();
 const pendingComponentCache = new Map<string, Promise<Type<unknown> | null>>();
 
@@ -102,6 +107,7 @@ export const loadBlockComponent = (key: string): Promise<Type<unknown> | null> =
 export const blockComponentRegistry = {
   componentMap,
   loadBlockComponent,
+  getConfigInputName: (key: string): string | undefined => configInputAliases[key],
 } as const;
 
 const collectComponentKeys = (value: unknown, result: Set<string>): void => {

@@ -56,7 +56,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
   private readonly sessionUserName = signal('');
   private readonly sessionUserMiles = signal('');
 
-  public config = input<MainHeaderConfig | null>(null);
+  public colorConfig = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
@@ -197,7 +197,8 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
       const blockConfig = pageId
         ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus_EX', lang)
         : null;
-      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+      const siteUrl = typeof blockConfig?.['url'] === 'string' ? blockConfig['url'] : '';
+      const url = (siteUrl || this.colorConfig()?.url || this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
         // Keep previous tone while config/url settles to avoid UI flicker.
@@ -527,7 +528,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
   private emitDynamicPageReady(state: DynamicPageReadyState): void {
     this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
+      config: (this.colorConfig() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
       state,
     });
