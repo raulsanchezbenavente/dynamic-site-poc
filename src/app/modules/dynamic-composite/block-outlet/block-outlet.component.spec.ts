@@ -79,7 +79,7 @@ describe('BlockOutletComponent', () => {
 
     fixture.componentRef.setInput('block', {
       component: '__alias-block__',
-      config: { url: '/assets/custom-theme.json' },
+      baseConfig: { url: '/assets/custom-theme.json' },
     });
     fixture.detectChanges();
     await fixture.whenStable();

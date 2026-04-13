@@ -68,7 +68,7 @@ describe('SiteConfigService', () => {
                 cols: [
                   {
                     component: 'multiTabBlock_uiplus',
-                    config: {
+                    baseConfig: {
                       tabsId: 'booking',
                       tabs: [],
                     },
@@ -94,13 +94,13 @@ describe('SiteConfigService', () => {
               {
                 cols: [
                   {
-                    config: {
+                    baseConfig: {
                       tabsId: 'booking',
                       tabs: [{ name: 'overview', title: 'Overview', tabId: '1' }],
                     },
                   },
                   {
-                    config: {
+                    baseConfig: {
                       tabsId: 'booking',
                       tabs: [{ name: 'details', title: 'Details', tabId: '2' }],
                     },
