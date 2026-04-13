@@ -16,7 +16,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "/assets/config/header/config_CorporateMainHeaderBlock_uiplus_A6-90-B9-02-9E-2D-32-05_es-es"
                 }
               }
@@ -27,7 +27,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_34-B1-65-09-81-A2-DC-36_en-us"
                 }
               }
@@ -60,7 +60,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "/assets/config/loyalty/en-us"
                 }
               }
@@ -71,14 +71,14 @@
               {
                 "component": "authorizationBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_authorizationBlock_uiplus_10-A5-52-3E-FC-84-79-82_en-us"
                 }
               },
               {
                 "component": "loyaltyOverviewCardBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyOverviewCardBlock_uiplus_63-E4-F6-C3-2D-43-60-CF_en-us"
                 }
               }
@@ -89,7 +89,7 @@
               {
                 "component": "multiTabBlock_uiplus",
                 "span": 12,
-                "config": {
+                "baseConfig": {
                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_multiTabBlock_uiplus_A1-92-92-9E-40-E5-6F-78_en-us",
                   "tabsId": "c94dd613-45be-423a-998c-f2021fe66321",
                   "tabs": [
@@ -105,7 +105,7 @@
                               {
                                 "component": "accountProfileBlock_uiplus",
                                 "span": 12,
-                                "config": {
+                                "baseConfig": {
                                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_accountProfileBlock_uiplus_EE-B0-F9-56-C1-FE-02-FA_en-us"
                                 }
                               }
@@ -126,7 +126,7 @@
                               {
                                 "component": "findBookingsBlock_uiplus",
                                 "span": 12,
-                                "config": {
+                                "baseConfig": {
                                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_findBookingsBlock_uiplus_F5-6D-B5-D5-9A-9A-92-F2_en-us"
                                 }
                               }
@@ -147,7 +147,7 @@
                               {
                                 "component": "rteBlock_uiplus",
                                 "span": 12,
-                                "config": {
+                                "baseConfig": {
                                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_C8-2A-2D-D6-B5-16-7A-77_en-us"
                                 }
                               }
@@ -168,7 +168,7 @@
                               {
                                 "component": "loyaltyStatusOverviewBlock_uiplus",
                                 "span": 12,
-                                "config": {
+                                "baseConfig": {
                                   "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_loyaltyStatusOverviewBlock_uiplus_6E-32-E3-86-E3-61-43-7C_en-us"
                                 }
                               }
