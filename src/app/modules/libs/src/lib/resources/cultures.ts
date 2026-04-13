@@ -4,8 +4,8 @@ import { UserCulture } from '../core/models';
 export const USER_CULTURES: Record<string, UserCulture> = {
   en: {
     language: 'en',
-    shortDateFormat: 'MM/DD/YYYY',
-    longDateFormat: 'MMMM DD, YYYY',
+    shortDateFormat: 'DD/MM/YYYY',
+    longDateFormat: 'MMMM D, YYYY',
     timeFormat: 'hh:mm A',
     is24HourClock: false,
     firstDayOfWeek: 0,
@@ -20,7 +20,7 @@ export const USER_CULTURES: Record<string, UserCulture> = {
   es: {
     language: 'es',
     shortDateFormat: 'DD/MM/YYYY',
-    longDateFormat: 'DD [de] MMMM [de] YYYY',
+    longDateFormat: 'D [de] MMMM [de] YYYY',
     timeFormat: 'HH:mm',
     is24HourClock: true,
     firstDayOfWeek: 1,
@@ -35,7 +35,7 @@ export const USER_CULTURES: Record<string, UserCulture> = {
   fr: {
     language: 'fr',
     shortDateFormat: 'DD/MM/YYYY',
-    longDateFormat: 'DD MMMM YYYY',
+    longDateFormat: 'D MMMM YYYY',
     timeFormat: 'HH:mm',
     is24HourClock: true,
     firstDayOfWeek: 1,
@@ -50,7 +50,7 @@ export const USER_CULTURES: Record<string, UserCulture> = {
   pt: {
     language: 'pt',
     shortDateFormat: 'DD/MM/YYYY',
-    longDateFormat: 'DD [de] MMMM [de] YYYY',
+    longDateFormat: 'D [de] MMMM [de] YYYY',
     timeFormat: 'HH:mm',
     is24HourClock: true,
     firstDayOfWeek: 1,
