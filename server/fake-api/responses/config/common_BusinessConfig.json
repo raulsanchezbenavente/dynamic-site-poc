@@ -1,0 +1,234 @@
+{
+  "wciServiceTypes": [
+    "None",
+    "Meal",
+    "Baggage",
+    "Oversize",
+    "Priority",
+    "Insurance",
+    "CancellationInsurance",
+    "Bundle",
+    "Seat",
+    "UConnect",
+    "SpecialAssistance",
+    "MedicalInsurance",
+    "DutyFree",
+    "ExpressCheckin",
+    "Pet",
+    "BusinessLounge",
+    "FastTrack",
+    "UnaccompaniedMinor",
+    "SMS",
+    "ChangeJourney",
+    "CancelJourney",
+    "ChangePax",
+    "RefundJourney",
+    "Spoilage",
+    "ServiceFee",
+    "ExtraSeat",
+    "Infant",
+    "TransportTicket",
+    "InflightEntertainment",
+    "Flexibility",
+    "Whatsapp",
+    "FareLock",
+    "BabyOversize"
+  ],
+  "priceWithoutDecimals": false,
+  "mediaQueriesHelper": [1248, 1024, 768, 640, 480],
+  "manageCountries": {
+    "preferredCountriesStrategy": [
+      "preferredCountriesByDepartureStationStrategy",
+      "preferredCountriesByArrivalStationStrategy",
+      "preferredCountriesByConfigStrategy"
+    ],
+    "assetsPath": "assets/ui_plus/imgs/countries-flags/{country.code}.svg",
+    "enableFlags": false,
+    "sortCountriesAlphabetically": true
+  },
+  "prefixPhoneConfig": {
+    "enableFlags": false,
+    "regex": "^([0-9]){5,16}$"
+  },
+  "boardingPass": {
+    "allowDownloadBpForInfant": false,
+    "enabledOptions": [
+      {
+        "active": true,
+        "type": "AppleWallet",
+        "templateName": "AppleWallet",
+        "name": "",
+        "boardingPassGroupType": "BoardingPassGroupType.BY_PAX_JOURNEY",
+        "config": {
+          "assetsPath": "assets/ui_plus/imgs/payment-methods/apple-pay.svg"
+        }
+      },
+      {
+        "active": true,
+        "type": "Pdf",
+        "templateName": "HTML-PDF",
+        "name": "newshore-boarding-pass",
+        "boardingPassGroupType": "BoardingPassGroupType.BY_PAX_JOURNEY"
+      },
+      {
+        "active": true,
+        "type": "BarCode",
+        "templateName": "Barcode",
+        "name": "",
+        "boardingPassGroupType": "BoardingPassGroupType.BY_PAX_SEGMENT"
+      },
+      {
+        "active": true,
+        "type": "Html",
+        "templateName": "HTML-PDF",
+        "name": "",
+        "boardingPassGroupType": "BoardingPassGroupType.BY_PAX_JOURNEY"
+      },
+      {
+        "active": true,
+        "type": "GooglePay",
+        "templateName": "GooglePay",
+        "name": "",
+        "boardingPassGroupType": "BoardingPassGroupType.BY_PAX_JOURNEY",
+        "config": {
+          "scriptSrc": "https://apis.google.com/js/platform.js"
+        }
+      }
+    ]
+  },
+  "prefixValidationMessage": {
+    "invalid": "Common.Form.Validations.Prefix.InvalidMessage",
+    "valid": "",
+    "hint": ""
+  },
+  "phoneValidationMessage": {
+    "invalid": "Common.Form.Validations.Phone.InvalidMessage",
+    "valid": "",
+    "hint": ""
+  },
+  "passengers": [
+    {
+      "ibeCode": "ADT",
+      "type": "ADT",
+      "ageFrom": "12",
+      "ageTo": "117",
+      "order": 1,
+      "validatedTitleGroup": true,
+      "singularName": "Adult",
+      "pluralName": "Adults",
+      "titleGroup": [
+        {
+          "code": "MR",
+          "name": "MR",
+          "gender": "Male",
+          "order": 1
+        },
+        {
+          "code": "MRS",
+          "name": "MRS",
+          "gender": "Female",
+          "order": 2
+        },
+        {
+          "code": "MS",
+          "name": "MSS",
+          "gender": "Female",
+          "order": 3
+        }
+      ]
+    },
+    {
+      "ibeCode": "CHD",
+      "type": "CHD",
+      "ageFrom": "2",
+      "ageTo": "11",
+      "order": 2,
+      "validatedTitleGroup": false,
+      "singularName": "Child",
+      "pluralName": "Children",
+      "titleGroup": [
+        {
+          "code": "MR",
+          "name": "MR",
+          "gender": "Male",
+          "order": 1
+        },
+        {
+          "code": "MISS",
+          "name": "MISS",
+          "gender": "Female",
+          "order": 2
+        }
+      ]
+    },
+    {
+      "ibeCode": "INF",
+      "type": "INF",
+      "ageFrom": "0",
+      "ageTo": "1",
+      "order": 3,
+      "validatedTitleGroup": false,
+      "singularName": "Infant",
+      "pluralName": "Infants",
+      "titleGroup": [
+        {
+          "code": "MSTR",
+          "name": "MASTER",
+          "gender": "Male",
+          "order": 1
+        },
+        {
+          "code": "MISS",
+          "name": "MISS",
+          "gender": "Female",
+          "order": 2
+        }
+      ]
+    },
+    {
+      "ibeCode": "INS",
+      "type": "INS",
+      "ageFrom": "0",
+      "ageTo": "1",
+      "order": 3,
+      "validatedTitleGroup": false,
+      "singularName": "Infant with seat",
+      "pluralName": "Infants with seat",
+      "titleGroup": [
+        {
+          "code": "MSTR",
+          "name": "MASTER",
+          "gender": "Male",
+          "order": 1
+        },
+        {
+          "code": "MISS",
+          "name": "MISS",
+          "gender": "Female",
+          "order": 2
+        }
+      ]
+    }
+  ],
+  "cultureAlias": {
+    "en-US": "en",
+    "es-ES": "es",
+    "pt-BR": "pt",
+    "fr-FR": "fr"
+  },
+  "roundingCurrencyFactors": [
+    {
+      "code": "USD",
+      "factor": "0.01"
+    },
+    {
+      "code": "COP",
+      "factor": "0"
+    }
+  ],
+  "pointOfSale": {
+    "cookieSelectedPointOfSale": "AV-cookieSelectedPointOfSale"
+  },
+  "path_CDN": "https://av-static-dev3.newshore.es/",
+  "excludedRedirectMultipleTabsUrls": ["/login", "/register", "/members"]
+}

@@ -54,6 +54,33 @@ function createFakeApiRouter(options = {}) {
     sendJsonResponseFromFile(res, 'accounts/api/v2/session.json');
   });
 
+  router.get('/configuration/api/v1/UI_PLUS/Config/get', (req, res) => {
+    const filePath = path.join(responsesDir, `config/${req.query.key}.json`);
+    try {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      if (!raw.trim()) {
+        res.status(204).end();
+        return;
+      }
+      res.status(200).json(JSON.parse(raw));
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        res.status(404).json({ error: `No fake response for key: ${req.query.key}`, path: filePath });
+        return;
+      }
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(500).json({
+        error: {
+          code: 'FAKE_API_RESPONSE_FILE_ERROR',
+          description: `Could not read fake API response file: config/${req.query.key}.json`,
+          trace: message,
+        },
+        success: false,
+        result: null,
+      });
+    }
+  });
+
   return router;
 }
 
