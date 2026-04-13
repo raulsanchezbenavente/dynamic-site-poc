@@ -1,26 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
-    AppLang,
-    KeycloakAuthService,
-    LanguageSwitchService,
-    PageNavigationService,
-    RouterHelperService,
-    SiteConfigService,
+  AppLang,
+  KeycloakAuthService,
+  LanguageSwitchService,
+  PageNavigationService,
+  RouterHelperService,
+  SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -195,7 +195,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
       const blockConfig = pageId
-        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
+        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus_EX', lang)
         : null;
       const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
 

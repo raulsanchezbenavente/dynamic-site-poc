@@ -75,7 +75,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
-      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus', lang) : null;
+      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus_EX', lang) : null;
       const url = String(blockConfig?.['url'] ?? this.config()?.url ?? '').trim();
 
       if (!url) {
