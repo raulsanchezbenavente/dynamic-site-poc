@@ -32,9 +32,9 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
 
   private readonly fetchedContent = signal('');
 
-  public readonly config = input<RteInjectorConfig | null | undefined>(undefined);
+  public readonly baseConfig = input<RteInjectorConfig | null | undefined>(undefined);
   public readonly htmlContent = computed(() => {
-    const staticContent = this.getStaticContent(this.config());
+    const staticContent = this.getStaticContent(this.baseConfig());
     const remoteContent = this.fetchedContent().trim();
 
     if (staticContent && remoteContent) {
@@ -48,7 +48,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
   constructor() {
     super();
     effect((onCleanup) => {
-      const urls = this.getContentUrls(this.config());
+      const urls = this.getContentUrls(this.baseConfig());
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
@@ -102,11 +102,11 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
     });
 
     effect((onCleanup) => {
-      if (!this.hasRenderableContentSource(this.config())) {
+      if (!this.hasRenderableContentSource(this.baseConfig())) {
         return;
       }
 
-      const entries = this.getCssEntries(this.config());
+      const entries = this.getCssEntries(this.baseConfig());
       if (entries.length === 0) {
         return;
       }
@@ -209,7 +209,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
 
   private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {
     this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
+      config: (this.baseConfig() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'rteBlock_uiplus',
       state,
       extraDetail,
