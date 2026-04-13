@@ -1,11 +1,21 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
-import { TabGuardService } from '@dcx/ui/libs';
-import { APP_LANGS, AppLang, KeycloakAuthService, SiteConfigService } from '@navigation';
+import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
+import {
+  BUSINESS_CONFIG,
+  ConfigService,
+  initializeKeycloakFactory,
+  KeycloakAuthService,
+  MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
+  TabGuardService,
+} from '@dcx/ui/libs';
+import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
+import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { firstValueFrom } from 'rxjs';
+import { KeycloakService } from 'keycloak-angular';
+import { concatMap, firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
@@ -29,6 +39,12 @@ const shouldClearSiteConfigSessionCacheOnInit = (): boolean => {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
+    KeycloakService,
+    AccountClient,
+    AccountV2Client,
+    CmsConfigClient,
+    ...MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
+    { provide: BUSINESS_CONFIG, useValue: BUSINESS_CONFIG_MOCK },
     { provide: BLOCK_COMPONENT_REGISTRY, useValue: blockComponentRegistry },
     provideRouter(routes),
     { provide: RouteReuseStrategy, useClass: SamePageIdReuseStrategy },
@@ -49,22 +65,20 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       multi: true,
-      deps: [TabGuardService, KeycloakAuthService],
-      useFactory: (tabGuard: TabGuardService, auth: KeycloakAuthService) => async () => {
-        await firstValueFrom(tabGuard.init());
-
-        if (tabGuard.isDuplicate()) {
-          console.log('[TabGuard] Duplicate tab detected — skipping Keycloak init.');
-          return;
-        }
-
-        try {
-          await auth.ensureInitialized();
-          console.log('[Keycloak] initialized, authenticated:', auth.isAuthenticated());
-        } catch (err) {
-          console.warn('[Keycloak] skipped at startup:', err);
-        }
-      },
+      deps: [ConfigService, TabGuardService, KeycloakAuthService],
+      useFactory: (config: ConfigService, tabGuard: TabGuardService, auth: KeycloakAuthService) => () =>
+        firstValueFrom(
+          config.init().pipe(
+            concatMap(() => tabGuard.init()),
+            concatMap(() => {
+              if (tabGuard.isDuplicate()) {
+                console.log('[TabGuard] Duplicate tab detected — skipping Keycloak init.');
+                return [];
+              }
+              return initializeKeycloakFactory(auth)();
+            })
+          )
+        ),
     },
 
     provideTranslateService({
