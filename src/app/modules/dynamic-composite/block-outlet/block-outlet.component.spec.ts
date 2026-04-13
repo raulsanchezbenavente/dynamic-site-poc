@@ -1,11 +1,7 @@
 import { Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  BLOCK_COMPONENT_REGISTRY,
-  BlockComponentMap,
-  BlockOutletComponent,
-} from './block-outlet.component';
+import { BLOCK_COMPONENT_REGISTRY, BlockComponentMap, BlockOutletComponent } from './block-outlet.component';
 
 @Component({
   selector: 'test-mock-block',
@@ -14,6 +10,15 @@ import {
 })
 class MockBlockComponent {
   public value = input<string>('');
+}
+
+@Component({
+  selector: 'test-mock-alias-block',
+  standalone: true,
+  template: '<p class="alias">{{ colorConfig()?.url }}</p>',
+})
+class MockAliasBlockComponent {
+  public colorConfig = input<{ url?: string } | null>(null);
 }
 
 describe('BlockOutletComponent', () => {
@@ -32,6 +37,7 @@ describe('BlockOutletComponent', () => {
           useValue: {
             componentMap,
             loadBlockComponent: (key: string) => Promise.resolve(componentMap[key] ? componentMap[key]() : null),
+            getConfigInputName: (key: string) => (key === '__alias-block__' ? 'colorConfig' : undefined),
           },
         },
       ],
@@ -66,5 +72,20 @@ describe('BlockOutletComponent', () => {
     const text = fixture.nativeElement.textContent ?? '';
     expect(text).toContain('Missing component');
     expect(text).toContain('missing-key');
+  });
+
+  it('should map config into custom input name when registry defines an alias', async () => {
+    componentMap['__alias-block__'] = () => Promise.resolve(MockAliasBlockComponent);
+
+    fixture.componentRef.setInput('block', {
+      component: '__alias-block__',
+      config: { url: '/assets/custom-theme.json' },
+    });
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const text = fixture.nativeElement.querySelector('.alias')?.textContent ?? '';
+    expect(text).toContain('/assets/custom-theme.json');
   });
 });

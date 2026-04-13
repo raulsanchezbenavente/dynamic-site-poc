@@ -1,26 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostListener,
-    inject,
-    input,
-    OnDestroy,
-    OnInit,
-    signal,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import {
-    AppLang,
-    KeycloakAuthService,
-    LanguageSwitchService,
-    PageNavigationService,
-    RouterHelperService,
-    SiteConfigService,
+  AppLang,
+  KeycloakAuthService,
+  LanguageSwitchService,
+  PageNavigationService,
+  RouterHelperService,
+  SiteConfigService,
 } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
@@ -56,7 +56,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
   private readonly sessionUserName = signal('');
   private readonly sessionUserMiles = signal('');
 
-  public config = input<MainHeaderConfig | null>(null);
+  public colorConfig = input<MainHeaderConfig | null>(null);
   public market = input<string>('Colombia (COP)');
   public userName = input<string>('Perico');
   public userMiles = input<string>('600,700');
@@ -195,9 +195,10 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
       const blockConfig = pageId
-        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus', lang)
+        ? this.siteConfig.getBlockConfig(pageId, 'CorporateMainHeaderBlock_uiplus_EX', lang)
         : null;
-      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? this.getDefaultToneUrl(lang)).trim();
+      const siteUrl = typeof blockConfig?.['url'] === 'string' ? blockConfig['url'] : '';
+      const url = (siteUrl || this.colorConfig()?.url || this.getDefaultToneUrl(lang)).trim();
 
       if (!url) {
         // Keep previous tone while config/url settles to avoid UI flicker.
@@ -527,7 +528,7 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
   private emitDynamicPageReady(state: DynamicPageReadyState): void {
     this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
+      config: (this.colorConfig() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
       state,
     });

@@ -17,6 +17,7 @@ export type BlockComponentMap = Record<string, BlockComponentLoader>;
 export type BlockComponentRegistry = {
   componentMap: BlockComponentMap;
   loadBlockComponent: (key: string) => Promise<Type<unknown> | null>;
+  getConfigInputName?: (key: string) => string | undefined;
 };
 
 export const BLOCK_COMPONENT_REGISTRY = new InjectionToken<BlockComponentRegistry>('BLOCK_COMPONENT_REGISTRY');
@@ -127,11 +128,13 @@ export class BlockOutletComponent {
   public inputs = computed<Record<string, unknown>>(() => {
     const b = this.block();
     if (!b) return {};
+    const componentKey = this.toText(b.component);
 
     const rest: Record<string, unknown> = { ...(b as Record<string, unknown>) };
-    const batchId = String(rest['__dynamicPageBatchId'] ?? '').trim();
-    const componentId = String(rest['__dynamicPageComponentId'] ?? '').trim();
-    const componentName = String(rest['__dynamicPageComponentName'] ?? '').trim();
+    const batchId = this.toText(rest['__dynamicPageBatchId']);
+    const componentId = this.toText(rest['__dynamicPageComponentId']);
+    const componentName = this.toText(rest['__dynamicPageComponentName']);
+    const configInputName = this.getConfigInputName(componentKey);
 
     delete rest['component'];
     delete rest['span'];
@@ -139,21 +142,34 @@ export class BlockOutletComponent {
     delete rest['__dynamicPageComponentId'];
     delete rest['__dynamicPageComponentName'];
 
+    if (configInputName !== 'config' && Object.hasOwn(rest, 'config')) {
+      if (!Object.hasOwn(rest, configInputName)) {
+        rest[configInputName] = rest['config'];
+      }
+      delete rest['config'];
+    }
+
     if (!this.selfManagedReadiness() || !batchId || !componentId || !componentName) {
       return rest;
     }
 
-    const configCandidate = rest['config'];
+    const configCandidate = rest[configInputName];
     const config =
       configCandidate && typeof configCandidate === 'object' ? { ...(configCandidate as Record<string, unknown>) } : {};
 
     config['__dynamicPageBatchId'] = batchId;
     config['__dynamicPageComponentId'] = componentId;
     config['__dynamicPageComponentName'] = componentName;
-    rest['config'] = config;
+    rest[configInputName] = config;
 
     return rest;
   });
+
+  private getConfigInputName(componentKey: string): string {
+    const configured = this.blockComponentRegistry.getConfigInputName?.(componentKey);
+    const normalized = String(configured ?? '').trim();
+    return normalized.length > 0 ? normalized : 'config';
+  }
 
   private isSelfManagedReadyComponent(component: Type<unknown> | null): boolean {
     const maybeReadyManaged = component as ReadyManagedComponentType | null;
@@ -161,10 +177,20 @@ export class BlockOutletComponent {
   }
 
   private normalizeAttributeValue(value: unknown): string | null {
-    const text = String(value ?? '')
-      .trim()
-      .replace(/^_+/, '');
+    const text = this.toText(value).replace(/^_+/, '');
     return text.length > 0 ? text : null;
+  }
+
+  private toText(value: unknown): string {
+    if (typeof value === 'string') {
+      return value.trim();
+    }
+
+    if (typeof value === 'number' || typeof value === 'boolean') {
+      return String(value).trim();
+    }
+
+    return '';
   }
 
   private emitComponentReady(state: 'rendered' | 'missing'): void {

@@ -30,7 +30,7 @@ import { LoyaltyCardConfig } from './models/loyalty-card-config.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
-  public config = input<LoyaltyCardConfig | null>(null);
+  public colorConfig = input<LoyaltyCardConfig | null>(null);
   public name = input<string>('Perico');
 
   public memberNumber = input<string>('13440242314');
@@ -75,8 +75,9 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
     effect((onCleanup) => {
       const lang = this.activeLang();
       const pageId = String(this.routerHelper.getCurrentPageId() ?? '');
-      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus', lang) : null;
-      const url = String(blockConfig?.['url'] ?? this.config()?.url ?? '').trim();
+      const blockConfig = pageId ? this.siteConfig.getBlockConfig(pageId, 'loyaltyOverviewCard_uiplus_EX', lang) : null;
+      const siteUrl = typeof blockConfig?.['url'] === 'string' ? blockConfig['url'] : '';
+      const url = (siteUrl || this.colorConfig()?.url || '').trim();
 
       if (!url) {
         // Keep the previous tone if URL is temporarily unavailable while language/config settles.
@@ -266,7 +267,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
 
   private emitDynamicPageReady(state: DynamicPageReadyState): void {
     this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
+      config: (this.colorConfig() ?? null) as Record<string, unknown> | null,
       fallbackComponent: 'loyaltyOverviewCard_uiplus',
       state,
     });
