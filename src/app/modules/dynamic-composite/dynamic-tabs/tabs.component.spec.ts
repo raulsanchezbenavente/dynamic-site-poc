@@ -90,7 +90,7 @@ describe('DsTabsComponent', () => {
 
     fixture = TestBed.createComponent(DsTabsComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('config', { tabs: tabsInput });
+    fixture.componentRef.setInput('baseConfig', { tabs: tabsInput });
   });
 
   it('should create', () => {
@@ -106,7 +106,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should support layout-based tab content format', () => {
-    fixture.componentRef.setInput('config', { tabs: [
+    fixture.componentRef.setInput('baseConfig', { tabs: [
       {
         tabId: 'tab-1',
         name: 'overview',
@@ -128,7 +128,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should preserve span values when rendering tab layout columns', () => {
-    fixture.componentRef.setInput('config', { tabs: [
+    fixture.componentRef.setInput('baseConfig', { tabs: [
       {
         tabId: 'tab-1',
         name: 'overview',
@@ -178,7 +178,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should activate the current-language tab when browser back restores a tab name from another language', () => {
-    fixture.componentRef.setInput('config', { tabsId: 'members-tabs', tabs: [
+    fixture.componentRef.setInput('baseConfig', { tabsId: 'members-tabs', tabs: [
       {
         tabId: 'tab-1',
         name: 'Datos personales',
@@ -221,7 +221,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should replace the activeTab query param with the translated active tab on language change', () => {
-    fixture.componentRef.setInput('config', { tabsId: 'members-tabs', tabs: tabsInput });
+    fixture.componentRef.setInput('baseConfig', { tabsId: 'members-tabs', tabs: tabsInput });
     tabSummaries = [
       { name: 'Datos personales', tabId: 'tab-1' },
       { name: 'Mis viajes', tabId: 'tab-2' },

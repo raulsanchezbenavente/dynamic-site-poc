@@ -1,15 +1,15 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  effect,
-  HostBinding,
-  inject,
-  InjectionToken,
-  input,
-  signal,
-  Type,
+    ChangeDetectionStrategy,
+    Component,
+    computed,
+    effect,
+    HostBinding,
+    inject,
+    InjectionToken,
+    input,
+    signal,
+    Type,
 } from '@angular/core';
 
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
@@ -168,7 +168,7 @@ export class BlockOutletComponent {
   private getConfigInputName(componentKey: string): string {
     const configured = this.blockComponentRegistry.getConfigInputName?.(componentKey);
     const normalized = String(configured ?? '').trim();
-    return normalized.length > 0 ? normalized : 'config';
+    return normalized.length > 0 ? normalized : 'baseConfig';
   }
 
   private isSelfManagedReadyComponent(component: Type<unknown> | null): boolean {
