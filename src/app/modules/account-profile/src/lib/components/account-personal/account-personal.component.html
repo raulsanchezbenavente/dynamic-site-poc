@@ -1,0 +1,23 @@
+@let columns = this.columns();
+@let buttonsConfig = this.buttonsConfig();
+@let formBuilderConfig = this.formBuilderConfig();
+@defer (when !isLoading()) {
+    <form-summary
+        #formSummary
+        [initialView]="FormSummaryViews.SUMMARY"
+        [title]="translateKeys.AccountProfile_PersonalForm_Title | translate"
+        [titleParentElementId]="'accountProfileTitleId'"
+        [titleElementId]="ownLabelledById()"
+        [formName]="formName()"
+        [formBuilderConfig]="formBuilderConfig"
+        [columns]="columns"
+        [summaryGridConfig]="summaryGridConfig"
+        [customFields]="customFields"
+        [buttonsConfig]="buttonsConfig"
+        [additions]="additions"
+        [subtractions]="subtractions"
+        (cancelForm)="cancelAccountPersonal($event)"
+        (saveForm)="onSaveForm($event)" />
+} @placeholder {
+    <p>{{ translateKeys.AccountProfile_Loading | translate }}</p>
+}

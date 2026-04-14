@@ -1,0 +1,18 @@
+<div class="profile-emergency-contact">
+    @defer (when !isLoading()) {
+        <form-summary
+            #formSummary
+            [initialView]="FormSummaryViews.SUMMARY"
+            [title]="translateKeys.AccountProfile_EmergencyForm_Title | translate"
+            [titleParentElementId]="'accountProfileTitleId'"
+            [titleElementId]="ownLabelledById()"
+            [formName]="formName()"
+            [columns]="columns()"
+            [buttonsConfig]="buttonsConfig()"
+            [formBuilderConfig]="formBuilderConfig()!"
+            (cancelForm)="cancelEmergencyContact($event)"
+            (saveForm)="saveEmergencyContact($event)" />
+    } @placeholder {
+        <p>{{ translateKeys.AccountProfile_Loading | translate }}</p>
+    }
+</div>

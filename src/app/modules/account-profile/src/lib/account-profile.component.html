@@ -1,0 +1,33 @@
+@let isLoadingData = isLoading();
+<toast-container />
+<ng-container
+    translationLoadStatus
+    [moduleKeys]="mappedKeys"
+    (translationsLoaded)="translationsLoaded()"></ng-container>
+
+@if (!isLoadingData) {
+    <my-profile-container
+        #myProfileContainer
+        [data]="userData()"
+        [config]="myProfileConfig()!"
+        [isLoading]="isLoadingData"
+        [formsNames]="formsNames"
+        (updateAccountPersonalInfo)="updateAccountPersonalInfo($event)"
+        (updateAccountContactInfo)="updateAccountContactInfo($event)"
+        (updateProfileEmergencyContact)="updateEmergencyContact($event)">
+    </my-profile-container>
+    <travel-documents-container
+        [data]="documentsAllowed()"
+        [config]="travelDocumentsConfig()!"
+        [formsNames]="formsNames"
+        (updateAccountDocumentsInfo)="updateAccountDocumentsInfo($event)">
+    </travel-documents-container>
+    <account-companions-container
+        [data]="companionsData()"
+        [config]="accountCompanionsConfig()!"
+        [formsNames]="formsNames"
+        (updateAccountCompanionsInfo)="updateAccountCompanionsInfo($event)">
+    </account-companions-container>
+} @else {
+    <p>{{ (translateKeys.AccountProfile_Loading | translate) || 'Loading...' }}</p>
+}

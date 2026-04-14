@@ -1,0 +1,48 @@
+<div
+    data-toast-slot="panel"
+    [id]="'accountMyProfileToast_Id'"></div>
+
+<panel [config]="parentPanelsConfig">
+    <panel-header>
+        <h2
+            panelTitle
+            [id]="profileTitleId">
+            {{ config().personalFormConfig.title || translateKeys.AccountProfile_Title | translate }}
+        </h2>
+        <div
+            panelDescription
+            [innerHTML]="
+                config().personalFormConfig.description || translateKeys.AccountProfile_Description | translate
+            "></div>
+    </panel-header>
+
+    <div panelContent>
+        <div class="account-profile-summaries">
+            <account-personal
+                #accountPersonal
+                [config]="accountPersonalConfig()!"
+                [isLoading]="isLoading()"
+                [formName]="formsNames().get('account-personal')!"
+                (cancelForm)="cancelAccountPersonal()"
+                (updateAccountPersonalInfo)="onUpdateAccountPersonalInfo($event)">
+            </account-personal>
+            <account-contact
+                #accountContact
+                [config]="accountContactConfig()!"
+                [isLoading]="isLoading()"
+                [formName]="formsNames().get('account-contact')!"
+                (cancelForm)="cancelAccountContact()"
+                (updateAccountContactInfo)="onUpdateAccountContactInfo($event)" />
+            <profile-emergency-contact
+                #emergencyContact
+                [parentLabelledById]="profileTitleId"
+                [ownLabelledById]="'accountEmergencyContactTitleId'"
+                [culture]="config().culture"
+                [prefixOptions]="config().countryPrefixOptions"
+                [isLoading]="isLoading()"
+                [formName]="formsNames().get('profile-emergency-contact')!"
+                (cancelForm)="cancelEmergencyContact()"
+                (updateProfileEmergencyContact)="onUpdateProfileEmergencyContact($event)" />
+        </div>
+    </div>
+</panel>

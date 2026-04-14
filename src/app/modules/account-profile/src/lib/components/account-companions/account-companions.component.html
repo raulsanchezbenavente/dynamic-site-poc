@@ -1,0 +1,19 @@
+<form-summary
+    #formSummary
+    [allowedViews]="[FormSummaryViews.FORM_BUILDER, FormSummaryViews.SUMMARY]"
+    [initialView]="FormSummaryViews.SUMMARY"
+    [title]="title()"
+    [secondaryTitle]="secondaryTitle()"
+    [titleParentElementId]="'companionsTitleId'"
+    [titleElementId]="ownLabelledById()"
+    [formName]="formName()"
+    [columns]="columns()"
+    [summaryGridConfig]="summaryGridConfig"
+    [customFields]="customFields"
+    [buttonsConfig]="buttonsConfig()"
+    [formBuilderConfig]="formBuilderConfig()"
+    [additions]="additions"
+    [subtractions]="subtractions"
+    (cancelForm)="cancelCompanion($event)"
+    (saveForm)="saveCompanion($event)"
+    (focusEdit)="focusEditAction($event)" />

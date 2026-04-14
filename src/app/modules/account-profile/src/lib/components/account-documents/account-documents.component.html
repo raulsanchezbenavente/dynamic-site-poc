@@ -1,0 +1,16 @@
+<form-summary
+    #formSummary
+    [allowedViews]="[FormSummaryViews.FORM_BUILDER, FormSummaryViews.SUMMARY]"
+    [initialView]="FormSummaryViews.SUMMARY"
+    [title]="title()"
+    [titleParentElementId]="'travelDocsTitleId'"
+    [titleElementId]="ownLabelledById()"
+    [formName]="formName()"
+    [columns]="columns()"
+    [buttonsConfig]="buttonsConfig()"
+    [formBuilderConfig]="formBuilderConfig()"
+    [subtractions]="subtractions"
+    [hiddenControls]="subtractions"
+    (cancelForm)="cancelDocumentEdit($event)"
+    (saveForm)="saveDocumentEdit($event)"
+    (focusEdit)="focusEditAction($event)" />
