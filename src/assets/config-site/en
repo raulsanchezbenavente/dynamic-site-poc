@@ -110,7 +110,10 @@
                             "cols": [
                               {
                                 "component": "accountProfile_uiplus",
-                                "span": 12
+                                "span": 12,
+                                "config": {
+                                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+                                }
                               }
                             ]
                           }

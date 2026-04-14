@@ -1,0 +1,68 @@
+{
+  "statusTags": ["Complete", "Incomplete"],
+  "translations": {},
+  "culture": "en",
+  "personalFormConfig": { "title": "", "description": "" },
+  "documentsFormConfig": { "title": "", "description": "" },
+  "companionsFormConfig": { "title": "", "description": "" },
+  "sessionDialogModalsRepository": {
+    "modalDialogExceptions": [
+      {
+        "modalDialogContent": {
+          "modalImageSrc": "//av-static-test2.newshore.es/media/ujsnfkvp/modal-timeout-plane.svg",
+          "modalTitle": "Connection issue",
+          "modalDescription": "We're having trouble connecting. Please try again"
+        },
+        "modalDialogButtonsControl": {
+          "showClose": true,
+          "showButtons": true,
+          "actionButtonControl": "restart search",
+          "actionButtonLabel": "Reload page",
+          "secondaryButtonControl": "custom link",
+          "secondaryButtonLabel": "Go Home",
+          "secondaryButtonLink": "https://www.avianca.com/es/"
+        },
+        "modalDialogSettings": { "modalDialogId": "SessionNotFound" }
+      },
+      {
+        "modalDialogContent": {
+          "modalImageSrc": "//av-static-test2.newshore.es/media/1ukfdxgm/auth-session-expired.svg",
+          "modalTitle": "Your session has expired",
+          "modalDescription": "Once the session expires, it is not possible to reload the same page."
+        },
+        "modalDialogButtonsControl": {
+          "showClose": true,
+          "showButtons": true,
+          "actionButtonControl": "restart search",
+          "actionButtonLabel": "Go Home",
+          "secondaryButtonControl": "",
+          "secondaryButtonLabel": "",
+          "secondaryButtonLink": ""
+        },
+        "modalDialogSettings": { "modalDialogId": "SessionExpired" }
+      }
+    ]
+  },
+  "accountProfileDialogModalsRepository": {
+    "modalDialogExceptions": [
+      {
+        "modalDialogContent": {
+          "modalImageSrc": "//av-static-test2.newshore.es/media/1ukfdxgm/auth-session-expired.svg",
+          "modalTitle": "There was an error",
+          "modalDescription": "We couldn't save your information. Please try again."
+        },
+        "modalDialogButtonsControl": {
+          "showClose": true,
+          "showButtons": true,
+          "actionButtonControl": "close",
+          "actionButtonLabel": "Close",
+          "secondaryButtonControl": "",
+          "secondaryButtonLabel": "",
+          "secondaryButtonLink": ""
+        },
+        "modalDialogSettings": { "modalDialogId": "PersonalDataSaveError" }
+      }
+    ]
+  },
+  "additionalKey": null
+}
