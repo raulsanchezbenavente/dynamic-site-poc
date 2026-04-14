@@ -88,6 +88,7 @@ export const configInputAliases: Record<string, string> = {
   CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
   CorporateMainFooterBlock_uiplus: 'baseConfig',
+  BreadcrumbBlock_uiplus: 'baseConfig',
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();

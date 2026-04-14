@@ -25,6 +25,17 @@
           {
             "cols": [
               {
+                "component": "BreadcrumbBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_BreadcrumbBlock_uiplus_A6-90-B9-02-9E-2D-32-05_en-us"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
