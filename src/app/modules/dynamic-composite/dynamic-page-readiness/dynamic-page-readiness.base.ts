@@ -46,6 +46,14 @@ export abstract class DynamicPageReadinessBase {
     return true;
   }
 
+  protected emitDynamicPageReady(config: unknown, fallbackComponent: string, state: DynamicPageReadyState): void {
+    this.emitDynamicPageReadyEvent({
+      config: (config ?? null) as Record<string, unknown> | null,
+      fallbackComponent: fallbackComponent,
+      state,
+    });
+  }
+
   private resolveTracking(
     config: Record<string, unknown> | null | undefined,
     fallbackComponent: string
