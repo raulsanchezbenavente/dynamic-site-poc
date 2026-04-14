@@ -82,6 +82,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
 export const configInputAliases: Record<string, string> = {
   loyaltyOverviewCard_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
+  CorporateMainHeaderBlock_uiplus: 'baseConfig',
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();
