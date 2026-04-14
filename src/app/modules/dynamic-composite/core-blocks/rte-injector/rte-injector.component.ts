@@ -200,7 +200,12 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
       requestedUrls,
     };
 
-    this.emitDynamicPageReady(this.config, 'RteInjectorBlock_uiplus', DynamicPageReadyState.LOADED, detail);
+    this.emitDynamicPageReadyEvent({
+      config: (this.config() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'RteInjectorBlock_uiplus',
+      state: DynamicPageReadyState.LOADED,
+      extraDetail: detail,
+    });
   }
 
   private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {
