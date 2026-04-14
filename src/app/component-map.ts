@@ -15,6 +15,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
   CorporateMainFooterBlock_uiplus: () =>
     import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
+  BreadcrumbBlock_uiplus: () =>
+    import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
 
   // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>

@@ -1,0 +1,86 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'breadcrumb-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: flex;
+    justify-content: center;
+}
+.breadcrumb-container {
+    width: 100%;
+    margin-top: calculateRem(26px);
+    margin-bottom: calculateRem(40px);
+
+    @include container-wrap;
+}
+.breadcrumb_list {
+    --breadcrumb-color: var(--c-color19);
+    --breadcrumb-link-color: var(--c-color19);
+
+    font-size: $breadcrumb-fontsize;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    font-weight: $breadcrumb-fontweight;
+    gap: $spacer-x-small;
+}
+.breadcrumb_item {
+    display: flex;
+    align-items: center;
+    color: var(--breadcrumb-color);
+}
+.breadcrumb_item_home {
+    display: flex;
+    align-items: center;
+    color: var(--breadcrumb-color);
+}
+.breadcrumb-link {
+    display: flex;
+    text-decoration: none;
+    color: var(--breadcrumb-link-color);
+    &:hover {
+        --breadcrumb-link-color: var(--c-link);
+
+        text-decoration: underline;
+        font-weight: $breadcrumb-link-hover-fontweight;
+    }
+}
+.breadcrumb-separator {
+    @include iconfont($icon-arrow-single-right, after);
+
+    font-size: $breadcrumb-separator-fontsize;
+    margin-left: $breadcrumb-separator-margin-left;
+    margin-top: $breadcrumb-separator-margin-top;
+}
+.breadcrumb-current {
+    color: $breadcrumb-current-color;
+    font-weight: $breadcrumb-current-fontweight;
+}
+.breadcrumb-without-link {
+    color: var(--c-color19);
+    font-weight: var(--f-weight-normal);
+}
+.go-home {
+    --icon-color: inherit;
+    align-self: flex-start;
+    .breadcrumb-link {
+        font-size: $breadcrumb-home-link-fontsize;
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+// Responsive
+@media #{$breadcrumb-layout-breakpoint} {
+    .breadcrumb-separator {
+        --breadcrumb-separator-fontsize: var(--f-size-tiny);
+    }
+    .breadcrumb-current,
+    .breadcrumb-without-link {
+        font-size: var(--f-size);
+    }
+}

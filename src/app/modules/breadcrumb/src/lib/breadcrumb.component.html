@@ -1,0 +1,58 @@
+@let isLoadedData = isLoaded();
+@let configData = config();
+
+@if (isLoadedData) {
+    <nav
+        class="breadcrumb-container"
+        role="region"
+        [attr.aria-label]="translationKeys.Common_BreadcrumbNav_AriaLabel | translate">
+        <ol class="breadcrumb_list">
+            @if (configData.home; as homeConfig) {
+                <li class="breadcrumb_item_home go-home">
+                    <a
+                        class="breadcrumb-link"
+                        [href]="homeConfig.url">
+                        @if (homeConfig.icon) {
+                            <icon [config]="homeIconConfig"></icon>
+                        }
+                    </a>
+                    <span
+                        class="breadcrumb-separator"
+                        aria-hidden="true">
+                    </span>
+                </li>
+            }
+            @for (item of configData.items; let last = $last; track item.title) {
+                <li class="breadcrumb_item">
+                    @if (!last && item.url) {
+                        <a
+                            class="breadcrumb-link"
+                            [href]="item.url">
+                            {{ item.title }}
+                        </a>
+                    }
+                    @if (!last && !item.url) {
+                        <span class="breadcrumb-without-link">
+                            {{ item.title }}
+                        </span>
+                    }
+                    @if (last) {
+                        <span
+                            class="breadcrumb-current"
+                            aria-current="page">
+                            {{ item.title }}
+                        </span>
+                    }
+                    @if (!last) {
+                        <span
+                            class="breadcrumb-separator"
+                            aria-hidden="true">
+                        </span>
+                    }
+                </li>
+            }
+        </ol>
+    </nav>
+} @else {
+    ...loading
+}

@@ -1,8 +1,8 @@
 {
-  "home": {"url": "/", "title": "Home", "target": "", "newTab": false, "type": "", "icon": "Home"},
+  "home": { "url": "/", "title": "Home", "target": "", "newTab": false, "type": "", "icon": "Home" },
   "items": [
-    {"url": "", "title": "Members", "target": "", "newTab": false, "type": "", "icon": ""},
-    {"url": "/en/members/login/", "title": "Login", "target": "", "newTab": false, "type": "", "icon": ""}
+    { "url": "", "title": "Members", "target": "", "newTab": false, "type": "", "icon": "" },
+    { "url": "/en/members/login/", "title": "Login", "target": "", "newTab": false, "type": "", "icon": "" }
   ],
   "culture": "en-US",
   "additionalKey": null
