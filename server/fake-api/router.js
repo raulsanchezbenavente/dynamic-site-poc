@@ -55,7 +55,7 @@ function createFakeApiRouter(options = {}) {
   });
 
   router.get('/LoyaltyPrograms', (_req, res) => {
-    sendJsonResponseFromFile(res, 'loyalty-p rograms.json');
+    sendJsonResponseFromFile(res, 'loyalty-programs.json');
   });
 
   router.get('/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings', (_req, res) => {
