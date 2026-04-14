@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,6 +7,7 @@ import {
   effect,
   ElementRef,
   inject,
+  input,
   OnInit,
   signal,
   viewChild,
@@ -59,6 +61,7 @@ import {
   LoggerService,
   PointOfSaleService,
 } from '@dcx/ui/libs';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 import { DateHelper, RfFormStore, RfListOption } from 'reactive-forms';
@@ -96,7 +99,8 @@ import { TravelDocumentsConfig } from './core/models/travel-documents.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class AccountProfileComponent implements OnInit {
+export class AccountProfileComponent extends DynamicPageReadinessBase implements OnInit {
+  public baseConfig = input<{ url: string } | null>(null);
   public readonly config = signal<AccountProfileConfig>({} as AccountProfileConfig);
   protected readonly translateKeys = TranslationKeys;
   protected readonly formsNames: Map<string, string> = new Map([
@@ -156,6 +160,31 @@ export class AccountProfileComponent implements OnInit {
   private readonly dateHelper = inject(DateHelper);
   private readonly CMSKey = 'AccountProfile';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
+  private hasLoggedBaseConfig = false;
+  private readonly http = inject(HttpClient);
+
+  constructor() {
+    super();
+    effect(() => {
+      const baseConfig = this.baseConfig();
+      if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
+        const url = baseConfig.url.trim();
+        console.log('[AccountProfileComponent] baseConfig received:', baseConfig);
+        this.hasLoggedBaseConfig = true;
+
+        this.http.get<AccountProfileConfig>(url).subscribe({
+          next: (response) => {
+            this.config.set(response);
+            this.isLoading.set(false);
+            this.emitDynamicPageReady(this.baseConfig(), 'AccountProfileBlock_uiplus', DynamicPageReadyState.RENDERED);
+          },
+          error: (error) => {
+            this.emitDynamicPageReady(this.baseConfig(), 'AccountProfileBlock_uiplus', DynamicPageReadyState.ERROR);
+          },
+        });
+      }
+    });
+  }
 
   private readonly registerEffect = effect(() => {
     this.communicationChannel = this.userData()?.communicationChannels ?? [];

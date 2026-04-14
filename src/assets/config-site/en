@@ -109,7 +109,7 @@
                           {
                             "cols": [
                               {
-                                "component": "accountProfile_uiplus_EX",
+                                "component": "accountProfile_uiplus",
                                 "span": 12
                               }
                             ]
