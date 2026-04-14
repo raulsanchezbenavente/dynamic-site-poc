@@ -14,6 +14,8 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import { queueTranslationsByRenderedComponent } from './block-outlet-translations.helper';
+
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 export type BlockComponentMap = Record<string, BlockComponentLoader>;
 export type BlockComponentRegistry = {
@@ -69,10 +71,6 @@ type ComponentReadyDetail = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BlockOutletComponent {
-  private static readonly batchComponentKeys = new Map<string, Set<string>>();
-  private static readonly batchLogTimers = new Map<string, ReturnType<typeof setTimeout>>();
-  private static readonly fetchedTranslationBatches = new Set<string>();
-
   public block = input<DynamicBlockInput | null | undefined>(undefined);
   public isLoading = signal(false);
   private readonly resolvedComponent = signal<Type<unknown> | null>(null);
@@ -108,7 +106,12 @@ export class BlockOutletComponent {
         return;
       }
 
-      this.logEncodedComponentKeys(key, this.toText(b?.__dynamicPageBatchId));
+      queueTranslationsByRenderedComponent({
+        batchId: this.toText(b?.__dynamicPageBatchId),
+        componentKey: key,
+        http: this.http,
+        translateService: this.translateService,
+      });
 
       const currentLoad = ++this.loadSequence;
       this.isLoading.set(true);
@@ -221,55 +224,5 @@ export class BlockOutletComponent {
     };
 
     this.document.dispatchEvent(new CustomEvent<ComponentReadyDetail>('dynamic-page:component-ready', { detail }));
-  }
-
-  private logEncodedComponentKeys(componentKey: string, batchId: string): void {
-    if (!batchId) {
-      return;
-    }
-
-    const keys = BlockOutletComponent.batchComponentKeys.get(batchId) ?? new Set<string>();
-    keys.add(componentKey);
-    BlockOutletComponent.batchComponentKeys.set(batchId, keys);
-
-    const previousTimer = BlockOutletComponent.batchLogTimers.get(batchId);
-    if (previousTimer) {
-      clearTimeout(previousTimer);
-    }
-
-    const timer = setTimeout(() => {
-      const finalKeys = BlockOutletComponent.batchComponentKeys.get(batchId);
-      if (!finalKeys || finalKeys.size === 0) {
-        return;
-      }
-
-      const csv = Array.from(finalKeys).join(',');
-      const encodedCsv = encodeURIComponent(csv);
-      console.log('[block-outlet] final component keys (encoded):', encodedCsv);
-      this.fetchAndApplyTranslations(batchId, encodedCsv);
-    }, 200);
-
-    BlockOutletComponent.batchLogTimers.set(batchId, timer);
-  }
-
-  private fetchAndApplyTranslations(batchId: string, encodedKeys: string): void {
-    if (BlockOutletComponent.fetchedTranslationBatches.has(batchId)) {
-      return;
-    }
-
-    BlockOutletComponent.fetchedTranslationBatches.add(batchId);
-    const culture = 'en-US';
-    const url = `https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys?culture=${culture}&keys=${encodedKeys}`;
-
-    this.http.get<Record<string, string>>(url).subscribe({
-      next: (translations) => {
-        this.translateService.setTranslation(culture, translations, true);
-        this.translateService.setFallbackLang(culture);
-        this.translateService.use(culture);
-      },
-      error: (error) => {
-        console.warn('[block-outlet] translation request failed', { url, error });
-      },
-    });
   }
 }
