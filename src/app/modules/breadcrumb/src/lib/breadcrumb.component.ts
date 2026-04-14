@@ -1,4 +1,15 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, ElementRef, inject, OnInit, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { IconComponent } from '@dcx/ui/design-system';
 import {
@@ -14,7 +25,7 @@ import {
   IconConfig,
   LoggerService,
 } from '@dcx/ui/libs';
-import { DynamicPageReadinessBase } from '@dynamic-composite';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, forkJoin, Observable, tap } from 'rxjs';
 
@@ -33,6 +44,7 @@ export class BreadcrumbComponent extends DynamicPageReadinessBase implements OnI
   public config = signal<BreadcrumbConfig>({} as BreadcrumbConfig);
   public isLoaded = signal<boolean>(false);
   public homeIconConfig!: IconConfig;
+  public baseConfig = input<{ url: string } | null>(null);
 
   protected composer = inject(ComposerService);
   protected configService = inject(ConfigService);
@@ -42,10 +54,44 @@ export class BreadcrumbComponent extends DynamicPageReadinessBase implements OnI
   protected readonly translationKeys = CommonTranslationKeys;
 
   private readonly destroyRef = inject(DestroyRef);
+  private readonly http = inject(HttpClient);
   private readonly data = signal<DataModule>(this.configService.getDataModuleId(this.elementRef));
+  private hasLoggedBaseConfig = false;
+
+  constructor() {
+    super();
+    effect(() => {
+      const baseConfig = this.baseConfig();
+      if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
+        const url = baseConfig.url.trim();
+        this.hasLoggedBaseConfig = true;
+        this.http.get<BreadcrumbConfig>(url).subscribe({
+          next: (response) => {
+            this.config.set(response);
+            this.setHomeIconConfig();
+            this.isLoaded.set(true);
+            this.emitDynamicPageReadyEvent({
+              config: baseConfig as Record<string, unknown>,
+              fallbackComponent: 'BreadcrumbBlock_uiplus',
+              state: DynamicPageReadyState.RENDERED,
+            });
+          },
+          error: () => {
+            this.emitDynamicPageReadyEvent({
+              config: baseConfig as Record<string, unknown>,
+              fallbackComponent: 'BreadcrumbBlock_uiplus',
+              state: DynamicPageReadyState.ERROR,
+            });
+          },
+        });
+      }
+    });
+  }
 
   public ngOnInit(): void {
-    this.internalInit();
+    if (!this.baseConfig()) {
+      this.internalInit();
+    }
   }
 
   protected internalInit(): void {
