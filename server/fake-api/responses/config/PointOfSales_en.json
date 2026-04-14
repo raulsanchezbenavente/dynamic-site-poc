@@ -1,0 +1,369 @@
+{
+    "items": [
+        {
+            "countryCode": "CO",
+            "stationCode": "CO",
+            "otherCountryCodes": [],
+            "name": "Colombia",
+            "code": "CO",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "COP",
+                "code": "COP",
+                "name": "Colombian Peso"
+            },
+            "flagImageCode": "CO"
+        },
+        {
+            "countryCode": "US",
+            "stationCode": "US",
+            "otherCountryCodes": [],
+            "name": "United States",
+            "code": "US",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "US"
+        },
+        {
+            "countryCode": "GB",
+            "stationCode": "GB",
+            "otherCountryCodes": [
+                "GB"
+            ],
+            "name": "United Kingdom",
+            "code": "UK",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "\u00a3",
+                "code": "GBP",
+                "name": "English Pound"
+            },
+            "flagImageCode": "UK"
+        },
+        {
+            "countryCode": "EC",
+            "stationCode": "EC",
+            "otherCountryCodes": [],
+            "name": "Ecuador",
+            "code": "EC",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "EC"
+        },
+        {
+            "countryCode": "AR",
+            "stationCode": "AR",
+            "otherCountryCodes": [],
+            "name": "Argentina",
+            "code": "AR",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "ARS",
+                "code": "ARS",
+                "name": "Argentine Peso"
+            },
+            "flagImageCode": "AR"
+        },
+        {
+            "countryCode": "GT",
+            "stationCode": "GT",
+            "otherCountryCodes": [],
+            "name": "Guatemala",
+            "code": "GT",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "GT"
+        },
+        {
+            "countryCode": "PA",
+            "stationCode": "PA",
+            "otherCountryCodes": [
+                "BZ",
+                "CU"
+            ],
+            "name": "Panama",
+            "code": "PA",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "PA"
+        },
+        {
+            "countryCode": "DO",
+            "stationCode": "DO",
+            "otherCountryCodes": [
+                "AW",
+                "CW"
+            ],
+            "name": "Dominican Republic",
+            "code": "DO",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "DO"
+        },
+        {
+            "countryCode": "BO",
+            "stationCode": "BO",
+            "otherCountryCodes": [],
+            "name": "Bolivia",
+            "code": "BO",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "BO"
+        },
+        {
+            "countryCode": "HN",
+            "stationCode": "HN",
+            "otherCountryCodes": [],
+            "name": "Honduras",
+            "code": "HN",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "HN"
+        },
+        {
+            "countryCode": "PY",
+            "stationCode": "PY",
+            "otherCountryCodes": [],
+            "name": "Paraguay",
+            "code": "PY",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "PY"
+        },
+        {
+            "countryCode": "BR",
+            "stationCode": "BR",
+            "otherCountryCodes": [],
+            "name": "Brazil",
+            "code": "BR",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "R$",
+                "code": "BRL",
+                "name": "Brazilian Real"
+            },
+            "flagImageCode": "BR"
+        },
+        {
+            "countryCode": "SV",
+            "stationCode": "SV",
+            "otherCountryCodes": [],
+            "name": "El Salvador",
+            "code": "SV",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "SV"
+        },
+        {
+            "countryCode": "MX",
+            "stationCode": "MX",
+            "otherCountryCodes": [],
+            "name": "Mexico",
+            "code": "MX",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "MX"
+        },
+        {
+            "countryCode": "PE",
+            "stationCode": "PE",
+            "otherCountryCodes": [],
+            "name": "Peru",
+            "code": "PE",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "PE"
+        },
+        {
+            "countryCode": "CA",
+            "stationCode": "CA",
+            "otherCountryCodes": [],
+            "name": "Canada",
+            "code": "CA",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "CA"
+        },
+        {
+            "countryCode": "NI",
+            "stationCode": "NI",
+            "otherCountryCodes": [],
+            "name": "Nicaragua",
+            "code": "NI",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "NI"
+        },
+        {
+            "countryCode": "CL",
+            "stationCode": "CL",
+            "otherCountryCodes": [],
+            "name": "Chile",
+            "code": "CL",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "CL"
+        },
+        {
+            "countryCode": "UY",
+            "stationCode": "UY",
+            "otherCountryCodes": [],
+            "name": "Uruguay",
+            "code": "UY",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "UY"
+        },
+        {
+            "countryCode": "CR",
+            "stationCode": "CR",
+            "otherCountryCodes": [],
+            "name": "Costa Rica",
+            "code": "CR",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "CR"
+        },
+        {
+            "countryCode": "OTHER",
+            "stationCode": "OTHER",
+            "otherCountryCodes": [],
+            "name": "Other Countries",
+            "code": "OTHER",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "USD",
+                "code": "USD",
+                "name": "US Dollar"
+            },
+            "flagImageCode": "OTHER"
+        },
+        {
+            "countryCode": "EU",
+            "stationCode": "EU",
+            "otherCountryCodes": [
+                "AL",
+                "ES",
+                "DE",
+                "DZ",
+                "AT",
+                "BE",
+                "BG",
+                "HR",
+                "DK",
+                "SK",
+                "FR",
+                "GE",
+                "GR",
+                "NL",
+                "HU",
+                "IE",
+                "IT",
+                "ME",
+                "LV",
+                "NO",
+                "PL",
+                "PT",
+                "CZ",
+                "RO",
+                "RS",
+                "SE"
+            ],
+            "name": "Europe",
+            "code": "EU",
+            "isForRestOfCountries": false,
+            "default": false,
+            "currency": {
+                "symbol": "\u20ac",
+                "code": "EUR",
+                "name": "Euro"
+            },
+            "flagImageCode": "EU"
+        }
+    ]
+}

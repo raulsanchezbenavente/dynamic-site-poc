@@ -1,0 +1,336 @@
+{
+    "logo": {
+        "link": {
+            "url": "/en/",
+            "title": "Home",
+            "target": "",
+            "newTab": false,
+            "type": "",
+            "icon": ""
+        },
+        "src": "//av-static-test2.newshore.es/media/3xtjk4ni/avianca-logo-white.svg"
+    },
+    "copyright": {
+        "title": "Copyright \u00a9 Avianca 2026"
+    },
+    "columns": [
+        {
+            "title": "Discover and buy",
+            "items": [
+                {
+                    "url": "/en/offers-destinations/flight-offers/",
+                    "title": "Cheap flights",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://hotels.lifemiles.com/?utm_source=avianca&utm_medium=footer-link&utm_campaign=footer-link&utm_term=11-2025&utm_content=cta",
+                    "title": "Hotel booking",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://www.rentalcars.com/?affiliateCode=avianca695&adplat=cardlandingpage",
+                    "title": "Car rental",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://avianca.civitatis.com/en/",
+                    "title": "Tours and excursions",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://ayuda.avianca.com/hc/en-us/articles/13523002282651-Can-I-get-travel-medical-assistance",
+                    "title": "Travel assistance",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            ]
+        },
+        {
+            "title": "About us",
+            "items": [
+                {
+                    "url": "/en/about-us/we-are-avianca/",
+                    "title": "We are avianca",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://jobs.avianca.com/?_ga=2.159730301.1902998134.1534167185-1083287843.1533248002/&locale=en_US",
+                    "title": "Work with us",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/about-us/corporate-news/",
+                    "title": "Corporate news",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/about-us/partnerships-and-benefits/",
+                    "title": "Partnerships and benefits",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/about-us/sustainability/",
+                    "title": "Sustainability",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/about-us/accessibility-plan/",
+                    "title": "Accessibility",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            ]
+        },
+        {
+            "title": "Partner portals",
+            "items": [
+                {
+                    "url": "https://www.lifemiles.com/?utm_source=avianca&utm_medium=referral&utm_campaign=footer",
+                    "title": "Lifemiles program",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://empresas.avianca.com/",
+                    "title": "avianca empresas",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/partner-portals/aviancadirect-ndc/",
+                    "title": "aviancadirect",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://soporteagencias.avianca.com/hc/en-us",
+                    "title": "Agency support",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://www.aviancacargo.com//index.aspx",
+                    "title": "avianca cargo",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://ir.avianca.com/",
+                    "title": "Investor relations",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            ]
+        },
+        {
+            "title": "Quick links",
+            "items": [
+                {
+                    "url": "/en/legal-information/legal-information/",
+                    "title": "Legal information",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/legal-information/privacy-policy/",
+                    "title": "Privacy policy",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/legal-information/contract-of-carriage/",
+                    "title": "Contract of carriage",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://ayuda.avianca.com/hc/es/sections/13499643885467",
+                    "title": "Restricted items",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/legal-information/customer-service-plan-and-contingency-plan/",
+                    "title": "Customer Service Plan and Contingency Plan",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "/en/about-us/contact-us/",
+                    "title": "Contact us",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://ayuda.avianca.com/hc/en-us/articles/15398664877723-How-do-I-get-my-electronic-invoice",
+                    "title": "Electronic invoice",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                },
+                {
+                    "url": "https://www.avianca.com/en/your-booking/changes-and-refunds/?currencyCode=COP",
+                    "title": "Changes and refunds",
+                    "target": null,
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            ]
+        }
+    ],
+    "socialMedia": {
+        "title": "Follow us!",
+        "items": [
+            {
+                "name": "twitter",
+                "link": {
+                    "url": "https://x.com/avianca",
+                    "title": "https://x.com/avianca",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            },
+            {
+                "name": "facebook",
+                "link": {
+                    "url": "https://es-la.facebook.com/AviancaGlobal/",
+                    "title": "facebook",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            },
+            {
+                "name": "youtube",
+                "link": {
+                    "url": "https://www.youtube.com/user/aviancachannel",
+                    "title": "youtube",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            },
+            {
+                "name": "instagram",
+                "link": {
+                    "url": "https://www.instagram.com/avianca/?hl=es-la",
+                    "title": "instagram",
+                    "target": "_blank",
+                    "newTab": false,
+                    "type": "",
+                    "icon": ""
+                }
+            }
+        ]
+    },
+    "partners": [
+        {
+            "image": {
+                "src": "//av-static-test2.newshore.es/media/z1vbwqqn/aeronautica-logopng.png",
+                "altText": "Logo Aeron\u00e1utica Civil"
+            },
+            "width": 106,
+            "link": {
+                "url": "",
+                "title": "",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+            }
+        },
+        {
+            "image": {
+                "src": "//static.avianca.com/media/skdj0adh/logostaralliance-1.png",
+                "altText": "Logo Star Alliance"
+            },
+            "width": 164,
+            "link": {
+                "url": "",
+                "title": "",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+            }
+        },
+        {
+            "image": {
+                "src": "//av-static-test2.newshore.es/media/no5nce35/super-transporte-logosvg.svg",
+                "altText": "Logo Super Transporte"
+            },
+            "width": 106,
+            "link": {
+                "url": "",
+                "title": "",
+                "target": "_blank",
+                "newTab": false,
+                "type": "",
+                "icon": ""
+            }
+        }
+    ],
+    "culture": null,
+    "additionalKey": null
+}

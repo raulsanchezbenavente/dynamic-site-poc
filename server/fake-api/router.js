@@ -54,6 +54,19 @@ function createFakeApiRouter(options = {}) {
     sendJsonResponseFromFile(res, 'accounts/api/v2/session.json');
   });
 
+  router.get('/LoyaltyPrograms', (_req, res) => {
+    sendJsonResponseFromFile(res, 'loyalty-p rograms.json');
+  });
+
+  router.get('/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings', (_req, res) => {
+    sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
+  });
+
+  router.get('/configuration/api/v1/UI_PLUS/Config/PointOfSales', (req, res) => {
+    const culture = req.query.culture || 'en';
+    sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
+  });
+
   router.get('/configuration/api/v1/UI_PLUS/Config/get', (req, res) => {
     const filePath = path.join(responsesDir, `config/${req.query.key}.json`);
     try {

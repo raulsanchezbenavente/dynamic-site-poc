@@ -1,0 +1,58 @@
+{
+  "items": [
+    {
+      "tierCode": "lifemiles",
+      "tierName": "Lifemiles",
+      "mainColor": "#ff0000",
+      "darkerColor": "#b50080"
+    },
+    {
+      "tierCode": "redplus",
+      "tierName": "Red Plus",
+      "mainColor": "#ff0000",
+      "darkerColor": "#7c0005"
+    },
+    {
+      "tierCode": "silver",
+      "tierName": "Silver",
+      "mainColor": "#c4c8d5",
+      "darkerColor": "#6c6c6c"
+    },
+    {
+      "tierCode": "gold",
+      "tierName": "Gold ",
+      "mainColor": "#f6c400",
+      "darkerColor": "#ca6d2e"
+    },
+    {
+      "tierCode": "cenitgold",
+      "tierName": "Gold cenit one",
+      "mainColor": "#f6c400",
+      "darkerColor": "#ca6d2e"
+    },
+    {
+      "tierCode": "diamond",
+      "tierName": "Diamond",
+      "mainColor": "#585f5e",
+      "darkerColor": "#232021"
+    },
+    {
+      "tierCode": "diamondone",
+      "tierName": "Diamond cenit one",
+      "mainColor": "#585f5e",
+      "darkerColor": "#232021"
+    },
+    {
+      "tierCode": "diamondtwo",
+      "tierName": "Diamond cenit two",
+      "mainColor": "#585f5e",
+      "darkerColor": "#232021"
+    },
+    {
+      "tierCode": "Magno",
+      "tierName": "Magno",
+      "mainColor": "#1f0b00",
+      "darkerColor": "#000000"
+    }
+  ]
+}

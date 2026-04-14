@@ -1,0 +1,73 @@
+{
+    "tiers": [
+        {
+            "name": "Lifemiles",
+            "order": 1,
+            "logo": null
+        },
+        {
+            "name": "Red Plus",
+            "order": 2,
+            "logo": null
+        },
+        {
+            "name": "Silver",
+            "order": 3,
+            "logo": null
+        },
+        {
+            "name": "Gold",
+            "order": 4,
+            "logo": null
+        },
+        {
+            "name": "Diamond",
+            "order": 5,
+            "logo": null
+        }
+    ],
+    "dialogModalsRepository": {
+        "modalDialogExceptions": [
+            {
+                "modalDialogContent": {
+                    "modalImageSrc": "//av-static-test2.newshore.es/media/ujsnfkvp/modal-timeout-plane.svg",
+                    "modalTitle": "Connection issue",
+                    "modalDescription": "We're having trouble connecting. Please try again"
+                },
+                "modalDialogButtonsControl": {
+                    "showClose": true,
+                    "showButtons": true,
+                    "actionButtonControl": "restart search",
+                    "actionButtonLabel": "Reload page",
+                    "secondaryButtonControl": "custom link",
+                    "secondaryButtonLabel": "Go Home",
+                    "secondaryButtonLink": "https://www.avianca.com/es/"
+                },
+                "modalDialogSettings": {
+                    "modalDialogId": "SessionNotFound"
+                }
+            },
+            {
+                "modalDialogContent": {
+                    "modalImageSrc": "//av-static-test2.newshore.es/media/1ukfdxgm/auth-session-expired.svg",
+                    "modalTitle": "Your session has expired",
+                    "modalDescription": "Once the session expires, it is not possible to reload the same page."
+                },
+                "modalDialogButtonsControl": {
+                    "showClose": true,
+                    "showButtons": true,
+                    "actionButtonControl": "restart search",
+                    "actionButtonLabel": "Go Home",
+                    "secondaryButtonControl": "",
+                    "secondaryButtonLabel": "",
+                    "secondaryButtonLink": ""
+                },
+                "modalDialogSettings": {
+                    "modalDialogId": "SessionExpired"
+                }
+            }
+        ]
+    },
+    "culture": "en-US",
+    "additionalKey": null
+}

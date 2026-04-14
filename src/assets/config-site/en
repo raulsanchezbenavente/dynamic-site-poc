@@ -17,7 +17,7 @@
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/header/config_CorporateMainHeaderBlock_uiplus_A6-90-B9-02-9E-2D-32-05_es-es"
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainHeaderBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
                 }
               }
             ]
@@ -61,7 +61,7 @@
                 "component": "CorporateMainHeaderBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty/en"
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainHeaderBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
                 }
               }
             ]
