@@ -88,29 +88,17 @@
                 "config": {
                   "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
                 }
-              },
+              }
+            ]
+          },
+          {
+            "cols": [
               {
-                "component": "loyaltyOverviewCardBlock_uiplus",
+                "component": "CorporateMainFooterBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "/assets/config/loyalty/en"
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainFooterBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
                 }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "bookingHeaderComponent_uiplus_EX",
-                "span": 12
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "results_uiplus_EX",
-                "span": 12
               }
             ]
           }
