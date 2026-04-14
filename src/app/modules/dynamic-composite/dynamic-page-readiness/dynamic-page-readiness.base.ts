@@ -46,11 +46,17 @@ export abstract class DynamicPageReadinessBase {
     return true;
   }
 
-  protected emitDynamicPageReady(config: unknown, fallbackComponent: string, state: DynamicPageReadyState): void {
+  protected emitDynamicPageReady(
+    config: unknown,
+    fallbackComponent: string,
+    state: DynamicPageReadyState,
+    detail?: Record<string, unknown>
+  ): void {
     this.emitDynamicPageReadyEvent({
       config: (config ?? null) as Record<string, unknown> | null,
       fallbackComponent: fallbackComponent,
       state,
+      extraDetail: detail,
     });
   }
 
