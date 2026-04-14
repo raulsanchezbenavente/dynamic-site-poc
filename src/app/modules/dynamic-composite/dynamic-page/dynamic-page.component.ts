@@ -41,6 +41,10 @@ type ComponentReadyDetail = {
   state?: string;
 };
 
+type TranslationsReadyDetail = {
+  batchId?: string;
+};
+
 @Component({
   selector: 'dynamic-page',
   standalone: true,
@@ -64,10 +68,12 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private expectedComponentIds = new Set<string>();
   private completedCompletions = 0;
   private completedComponentIds = new Set<string>();
+  private translationsReadyForCurrentBatch = false;
   private batchSequence = 0;
 
   public ngOnInit(): void {
     this.document.addEventListener('dynamic-page:component-ready', this.onComponentReady);
+    this.document.addEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
 
     this.route.data.subscribe((data) => {
       const routeData = data as DynamicPageRouteData;
@@ -95,6 +101,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.document.removeEventListener('dynamic-page:component-ready', this.onComponentReady);
+    this.document.removeEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
   }
 
   public getInputs(col: PageLayoutCol): Record<string, unknown> {
@@ -125,12 +132,30 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
     this.completedComponentIds.add(componentId);
     this.completedCompletions += 1;
+    this.tryFinalizePageReady();
+  };
+
+  private onTranslationsReady = (event: Event): void => {
+    const detail = (event as CustomEvent<TranslationsReadyDetail>).detail;
+    if (detail?.batchId !== this.currentBatchId) {
+      return;
+    }
+
+    this.translationsReadyForCurrentBatch = true;
+    this.tryFinalizePageReady();
+  };
+
+  private tryFinalizePageReady(): void {
+    if (!this.translationsReadyForCurrentBatch) {
+      return;
+    }
+
     if (this.completedCompletions < this.expectedCompletions) {
       return;
     }
 
     this.logAndFinalizePageReady();
-  };
+  }
 
   private logAndFinalizePageReady(): void {
     console.log('[dynamic-page] all mapped components ready', {
@@ -155,6 +180,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     this.expectedCompletions = this.expectedComponentIds.size;
     this.completedCompletions = 0;
     this.completedComponentIds.clear();
+    this.translationsReadyForCurrentBatch = false;
   }
 
   private attachComponentTracking(rows: PageLayoutRow[], batchId: string): PageLayoutRow[] {

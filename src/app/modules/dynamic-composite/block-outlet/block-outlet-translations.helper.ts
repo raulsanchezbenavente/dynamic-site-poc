@@ -24,13 +24,14 @@ type QueueTranslationsParams = {
   batchId: string;
   componentKey: string;
   moduleTranslationMap: Record<string, string[]>;
+  document: Document;
   http: HttpClient;
   translateService: TranslateService;
   culture?: string;
 };
 
 export function queueTranslationsByRenderedComponent(params: QueueTranslationsParams): void {
-  const { batchId, componentKey, moduleTranslationMap, http, translateService, culture = 'en-US' } = params;
+  const { batchId, componentKey, moduleTranslationMap, document, http, translateService, culture = 'en-US' } = params;
 
   if (!batchId || !componentKey) {
     return;
@@ -78,6 +79,11 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
         translateService.setTranslation(culture, translations, true);
         translateService.setFallbackLang(culture);
         translateService.use(culture);
+        document.dispatchEvent(
+          new CustomEvent('dynamic-page:translations-ready', {
+            detail: { batchId },
+          })
+        );
       },
       error: (error) => {
         console.warn('[block-outlet] translation request failed', { url, error });

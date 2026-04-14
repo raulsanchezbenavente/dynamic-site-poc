@@ -113,6 +113,7 @@ export class BlockOutletComponent {
         batchId: this.toText(b?.__dynamicPageBatchId),
         componentKey: key,
         moduleTranslationMap: this.moduleTranslationMap,
+        document: this.document,
         http: this.http,
         translateService: this.translateService,
       });
