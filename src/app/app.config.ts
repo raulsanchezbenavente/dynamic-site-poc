@@ -4,12 +4,15 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
 import {
-  BUSINESS_CONFIG,
-  ConfigService,
-  initializeKeycloakFactory,
-  KeycloakAuthService,
-  MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
-  TabGuardService,
+    BUSINESS_CONFIG,
+    ConfigService,
+    EXCLUDE_SESSION_EXPIRED_URLS,
+    initializeKeycloakFactory,
+    KeycloakAuthService,
+    MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
+    ResourcesRetrieveService,
+    TabGuardService,
+    TIMEOUT_REDIRECT,
 } from '@dcx/ui/libs';
 import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
 import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
@@ -17,9 +20,20 @@ import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { KeycloakService } from 'keycloak-angular';
 import { concatMap, firstValueFrom } from 'rxjs';
+import {
+    RETRIEVE_ALERTS_DATA_SERVICE,
+    RETRIEVE_MARKETS_DATA_SERVICE,
+    RETRIEVE_STATIONS_DATA_SERVICE,
+} from './modules/libs/src/lib/common/injection-tokens/injection-tokens';
+import { ResourcesRetrieveProxyService } from './modules/libs/src/lib/common/services/proxies/resources-retrieve-proxy.service';
+import {
+    TIME_ALERT_EXPIRED_SESSION,
+    TIME_EXPIRED_SESSION,
+} from './modules/libs/src/lib/core/injection-tokens/injectiontokens';
 
 import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
+import { AP_APP_PROVIDERS } from './modules/account-profile/src/lib/providers/app.providers';
 import { BLOCK_COMPONENT_REGISTRY } from './modules/dynamic-composite/block-outlet/block-outlet.component';
 import { SamePageIdReuseStrategy } from './same-page-id-reuse.strategy';
 import { MODULE_TRANSLATION_MAP } from './translations/module-translation-map';
@@ -67,6 +81,16 @@ export const appConfig: ApplicationConfig = {
       },
     },
     provideHttpClient(),
+    ResourcesRetrieveProxyService,
+    ResourcesRetrieveService,
+    { provide: RETRIEVE_STATIONS_DATA_SERVICE, useValue: [] },
+    { provide: RETRIEVE_MARKETS_DATA_SERVICE, useValue: [] },
+    { provide: RETRIEVE_ALERTS_DATA_SERVICE, useValue: [] },
+    { provide: EXCLUDE_SESSION_EXPIRED_URLS, useValue: [] },
+    { provide: TIMEOUT_REDIRECT, useValue: '/' },
+    { provide: TIME_ALERT_EXPIRED_SESSION, useValue: 0 },
+    { provide: TIME_EXPIRED_SESSION, useValue: 0 },
+    ...AP_APP_PROVIDERS,
     {
       provide: APP_INITIALIZER,
       multi: true,
