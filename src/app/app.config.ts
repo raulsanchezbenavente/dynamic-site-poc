@@ -1,5 +1,6 @@
 import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
 import {
@@ -38,6 +39,7 @@ const shouldClearSiteConfigSessionCacheOnInit = (): boolean => {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     KeycloakService,
     AccountClient,

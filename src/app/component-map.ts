@@ -13,6 +13,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   //Avianca
   CorporateMainHeaderBlock_uiplus: () =>
     import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
+  CorporateMainFooterBlock_uiplus: () =>
+    import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
 
   // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>
@@ -83,6 +85,7 @@ export const configInputAliases: Record<string, string> = {
   loyaltyOverviewCard_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
+  CorporateMainFooterBlock_uiplus: 'baseConfig',
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();

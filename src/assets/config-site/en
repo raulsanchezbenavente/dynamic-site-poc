@@ -28,7 +28,7 @@
                 "component": "rteBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Config/get?key=config_rteBlock_uiplus_34-B1-65-09-81-A2-DC-36_en-us"
+                  "htmlContent": "PEPO"
                 }
               }
             ]
@@ -37,7 +37,10 @@
             "cols": [
               {
                 "component": "CorporateMainFooterBlock_uiplus",
-                "span": 12
+                "span": 12,
+                "config": {
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainFooterBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
+                }
               }
             ]
           }

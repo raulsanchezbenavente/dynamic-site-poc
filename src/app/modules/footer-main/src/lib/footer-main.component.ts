@@ -1,9 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
+  effect,
   ElementRef,
   inject,
+  input,
   OnInit,
   signal,
   WritableSignal,
@@ -20,6 +23,7 @@ import {
   LoggerService,
   ViewportSizeService,
 } from '@dcx/ui/libs';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, Observable, tap } from 'rxjs';
 
@@ -37,8 +41,10 @@ import { FooterMainConfig } from './models/footer-main.config';
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CorporateFooterMainComponent implements OnInit {
+export class CorporateFooterMainComponent extends DynamicPageReadinessBase implements OnInit {
   public isLoaded: WritableSignal<boolean> = signal(false);
+  public baseConfig = input<{ url: string } | null>(null);
+
   public config: WritableSignal<FooterMainConfig> = signal({} as FooterMainConfig);
   public isResponsive: WritableSignal<boolean> = signal(false);
   public selectedMenu: WritableSignal<string> = signal('footerNavMenuId-0');
@@ -49,8 +55,42 @@ export class CorporateFooterMainComponent implements OnInit {
   protected logger = inject(LoggerService);
   private readonly viewportSizeService = inject(ViewportSizeService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly http = inject(HttpClient);
 
   private readonly data = signal<DataModule>(this.configService.getDataModuleId(this.elementRef));
+  private hasLoggedBaseConfig = false;
+
+  constructor() {
+    super();
+
+    effect(() => {
+      const baseConfig = this.baseConfig();
+      if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
+        const url = baseConfig.url.trim();
+        console.log('[CorporateFooterMainComponent] baseConfig received:', baseConfig);
+        this.hasLoggedBaseConfig = true;
+
+        this.http.get<FooterMainConfig>(url).subscribe({
+          next: (response) => {
+            this.config.set(response);
+            this.isLoaded.set(true);
+            this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
+          },
+          error: (error) => {
+            this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
+          },
+        });
+      }
+    });
+  }
+
+  private emitDynamicPageReady(state: DynamicPageReadyState): void {
+    this.emitDynamicPageReadyEvent({
+      config: (this.baseConfig() ?? null) as Record<string, unknown> | null,
+      fallbackComponent: 'CorporateFooterMainBlock_uiplus',
+      state,
+    });
+  }
 
   public ngOnInit(): void {
     this.initConfig()
