@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { provideHttpClient } from '@angular/common/http';
 import { CorporateFooterMainComponent } from './footer-main.component';
 import {
   ComposerEvent,
@@ -74,6 +75,7 @@ describe('FooterMainComponent', () => {
         i18nTestingImportsWithMemoryLoader({}),
       ],
       providers: [
+        provideHttpClient(),
         { provide: ConfigService, useValue: configServiceMock },
         { provide: ComposerService, useValue: composerServiceMock },
         { provide: LoggerService, useValue: loggerServiceMock },

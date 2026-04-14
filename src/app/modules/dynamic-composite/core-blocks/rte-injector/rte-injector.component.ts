@@ -1,6 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
-import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
+
+import { DynamicPageReadinessBase } from '../../dynamic-page-readiness/dynamic-page-readiness.base';
+import { DynamicPageReadyState } from '../../dynamic-page-readiness/models/dynamic-page-ready-state.enum';
 
 import { RteInjectorConfig } from './models/rte-injector-config.model';
 
