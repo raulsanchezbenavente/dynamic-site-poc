@@ -74,21 +74,21 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
           next: (response) => {
             this.config.set(response);
             this.isLoaded.set(true);
-            this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
+            this.emitDynamicPageReady(
+              this.baseConfig(),
+              'CorporateFooterMainBlock_uiplus',
+              DynamicPageReadyState.RENDERED
+            );
           },
           error: (error) => {
-            this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
+            this.emitDynamicPageReady(
+              this.baseConfig(),
+              'CorporateFooterMainBlock_uiplus',
+              DynamicPageReadyState.ERROR
+            );
           },
         });
       }
-    });
-  }
-
-  private emitDynamicPageReady(state: DynamicPageReadyState): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.baseConfig() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'CorporateFooterMainBlock_uiplus',
-      state,
     });
   }
 

@@ -15,6 +15,20 @@ export abstract class DynamicPageReadinessBase {
   private readonly readinessDocument = inject(DOCUMENT);
   private lastReadyKey = '';
 
+  protected emitDynamicPageReady(
+    config: unknown,
+    fallbackComponent: string,
+    state: DynamicPageReadyState,
+    extraDetail?: Record<string, unknown>
+  ): void {
+    this.emitDynamicPageReadyEvent({
+      config: (config ?? null) as Record<string, unknown> | null,
+      fallbackComponent: fallbackComponent,
+      state,
+      extraDetail,
+    });
+  }
+
   protected emitDynamicPageReadyEvent(options: {
     config: Record<string, unknown> | null | undefined;
     fallbackComponent: string;

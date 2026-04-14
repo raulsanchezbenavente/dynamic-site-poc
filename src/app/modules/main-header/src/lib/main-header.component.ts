@@ -94,21 +94,21 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
           next: (response) => {
             this.config = this.resolveConfig(response);
             this.isLoaded.set(true);
-            this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
+            this.emitDynamicPageReady(
+              this.baseConfig(),
+              'CorporateMainHeaderBlock_uiplus',
+              DynamicPageReadyState.RENDERED
+            );
           },
           error: (error) => {
-            this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
+            this.emitDynamicPageReady(
+              this.baseConfig(),
+              'CorporateMainHeaderBlock_uiplus',
+              DynamicPageReadyState.ERROR
+            );
           },
         });
       }
-    });
-  }
-
-  private emitDynamicPageReady(state: DynamicPageReadyState): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.baseConfig() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
-      state,
     });
   }
 

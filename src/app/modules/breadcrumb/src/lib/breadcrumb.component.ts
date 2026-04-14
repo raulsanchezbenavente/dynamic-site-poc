@@ -70,18 +70,18 @@ export class BreadcrumbComponent extends DynamicPageReadinessBase implements OnI
             this.config.set(response);
             this.setHomeIconConfig();
             this.isLoaded.set(true);
-            this.emitDynamicPageReadyEvent({
-              config: baseConfig as Record<string, unknown>,
-              fallbackComponent: 'BreadcrumbBlock_uiplus',
-              state: DynamicPageReadyState.RENDERED,
-            });
+            this.emitDynamicPageReady(
+              baseConfig as Record<string, unknown>,
+              'BreadcrumbBlock_uiplus',
+              DynamicPageReadyState.RENDERED
+            );
           },
           error: () => {
-            this.emitDynamicPageReadyEvent({
-              config: baseConfig as Record<string, unknown>,
-              fallbackComponent: 'BreadcrumbBlock_uiplus',
-              state: DynamicPageReadyState.ERROR,
-            });
+            this.emitDynamicPageReady(
+              baseConfig as Record<string, unknown>,
+              'BreadcrumbBlock_uiplus',
+              DynamicPageReadyState.ERROR
+            );
           },
         });
       }
