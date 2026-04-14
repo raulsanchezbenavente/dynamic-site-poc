@@ -14,6 +14,8 @@ import {
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
+import { MODULE_TRANSLATION_MAP_TOKEN } from '../../../translations/module-translation-map.token';
+
 import { queueTranslationsByRenderedComponent } from './block-outlet-translations.helper';
 
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
@@ -80,6 +82,7 @@ export class BlockOutletComponent {
   private readonly document = inject(DOCUMENT);
   private readonly http = inject(HttpClient);
   private readonly translateService = inject(TranslateService);
+  private readonly moduleTranslationMap = inject(MODULE_TRANSLATION_MAP_TOKEN, { optional: true }) ?? {};
   private loadSequence = 0;
 
   @HostBinding('attr.data-dynamic-component-map-name')
@@ -109,6 +112,7 @@ export class BlockOutletComponent {
       queueTranslationsByRenderedComponent({
         batchId: this.toText(b?.__dynamicPageBatchId),
         componentKey: key,
+        moduleTranslationMap: this.moduleTranslationMap,
         http: this.http,
         translateService: this.translateService,
       });

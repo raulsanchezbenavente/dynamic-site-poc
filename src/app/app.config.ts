@@ -22,6 +22,8 @@ import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
 import { BLOCK_COMPONENT_REGISTRY } from './modules/dynamic-composite/block-outlet/block-outlet.component';
 import { SamePageIdReuseStrategy } from './same-page-id-reuse.strategy';
+import { MODULE_TRANSLATION_MAP } from './translations/module-translation-map';
+import { MODULE_TRANSLATION_MAP_TOKEN } from './translations/module-translation-map.token';
 
 const getLangFromUrl = (): AppLang => {
   const segment = globalThis.location.pathname.split('/').filter(Boolean)[0];
@@ -48,6 +50,7 @@ export const appConfig: ApplicationConfig = {
     ...MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
     { provide: BUSINESS_CONFIG, useValue: BUSINESS_CONFIG_MOCK },
     { provide: BLOCK_COMPONENT_REGISTRY, useValue: blockComponentRegistry },
+    { provide: MODULE_TRANSLATION_MAP_TOKEN, useValue: MODULE_TRANSLATION_MAP },
     provideRouter(routes),
     { provide: RouteReuseStrategy, useClass: SamePageIdReuseStrategy },
     {

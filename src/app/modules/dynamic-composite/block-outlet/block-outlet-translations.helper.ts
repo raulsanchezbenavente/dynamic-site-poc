@@ -23,22 +23,30 @@ const BLOCK_KEY_TO_COMPONENT_NAME: Record<string, string> = {
 type QueueTranslationsParams = {
   batchId: string;
   componentKey: string;
+  moduleTranslationMap: Record<string, string[]>;
   http: HttpClient;
   translateService: TranslateService;
   culture?: string;
 };
 
 export function queueTranslationsByRenderedComponent(params: QueueTranslationsParams): void {
-  const { batchId, componentKey, http, translateService, culture = 'en-US' } = params;
+  const { batchId, componentKey, moduleTranslationMap, http, translateService, culture = 'en-US' } = params;
 
   if (!batchId || !componentKey) {
     return;
   }
 
   const resolvedComponentName = BLOCK_KEY_TO_COMPONENT_NAME[componentKey] ?? componentKey;
+  const translationKeys = moduleTranslationMap[resolvedComponentName] ?? [];
+  const valuesToAdd = translationKeys.length > 0 ? translationKeys : [resolvedComponentName];
 
   const keys = batchComponentKeys.get(batchId) ?? new Set<string>();
-  keys.add(resolvedComponentName);
+  for (const value of valuesToAdd) {
+    const normalized = String(value ?? '').trim();
+    if (normalized) {
+      keys.add(normalized);
+    }
+  }
   batchComponentKeys.set(batchId, keys);
 
   const previousTimer = batchLogTimers.get(batchId);
