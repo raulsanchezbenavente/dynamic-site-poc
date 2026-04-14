@@ -54,7 +54,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
-        this.emitDynamicPageReady(this.config, 'RteInjectorBlock_uiplus', DynamicPageReadyState.RENDERED);
+        this.emitDynamicPageReady(this.config, 'rteBlock_uiplus', DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -200,12 +200,14 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
       requestedUrls,
     };
 
-    this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'RteInjectorBlock_uiplus',
-      state: DynamicPageReadyState.LOADED,
-      extraDetail: detail,
-    });
+    // this.emitDynamicPageReadyEvent({
+    //   config: (this.config() ?? null) as Record<string, unknown> | null,
+    //   fallbackComponent: 'rteBlock_uiplus',
+    //   state: DynamicPageReadyState.LOADED,
+    //   extraDetail: detail,
+    // });
+
+    this.emitDynamicPageReady(this.config, 'rteBlock_uiplus', DynamicPageReadyState.LOADED, detail);
   }
 
   private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {
