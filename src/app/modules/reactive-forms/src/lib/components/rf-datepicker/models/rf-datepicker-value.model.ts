@@ -1,5 +1,5 @@
-import { Dayjs } from 'dayjs';
+import { ShortDate } from '../../../common/short-date.interface';
 
-export type RfDatepickerRange = { startDate: Dayjs; endDate: Dayjs };
+export type RfDatepickerRange = { startDate: ShortDate; endDate: ShortDate };
 
-export type RfDatepickerValue = Dayjs | RfDatepickerRange | undefined;
+export type RfDatepickerValue = ShortDate | RfDatepickerRange | undefined;

@@ -5,6 +5,7 @@ export * from './analytics/interfaces/base-items.mapper';
 export * from './analytics/models/data-event.model';
 export * from './analytics/tokens/injection-tokens';
 export * from './analytics/track-analytics-error';
+export * from './blocked-boarding-pass-message-mapper';
 export * from './boarding-pass';
 export * from './booking-dto-mapper.service';
 export * from './button-visibility.service';

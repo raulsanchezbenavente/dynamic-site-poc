@@ -7,6 +7,7 @@
         @let checkedInPaxStatus = passenger.status === passengerCheckInStatus.CHECKED_IN;
         @let notAllowedPaxStatus = passenger.status === passengerCheckInStatus.NOT_ALLOWED;
         @let allowedPaxStatus = passenger.status === passengerCheckInStatus.ALLOWED;
+        @let passengerNotEligible = isPassengerNonEligibleBoardingPass(passenger.id);
         @let ocaPaxStatus =
             passenger.status === passengerCheckInStatus.OVERBOOKED ||
             passenger.status === passengerCheckInStatus.STAND_BY;
@@ -19,7 +20,8 @@
                     class="wci-pax-list_item-inner"
                     [class.wci-pax-list_item--notallowed]="
                         hasOverbookedSegment(passenger, segmentIdentifier()) ||
-                        hasStandBySegment(passenger, segmentIdentifier())
+                        hasStandBySegment(passenger, segmentIdentifier()) ||
+                        passengerNotEligible
                     ">
                     <div class="wci-pax-list_item-info-wrapper">
                         <div class="wci-pax-list_item-info">
@@ -109,7 +111,8 @@
                     @if (
                         (checkedInPaxStatus || ocaPaxStatus) &&
                         passenger.seats &&
-                        !shouldFollowOverbookingPath(passenger, segmentIdentifier())
+                        !shouldFollowOverbookingPath(passenger, segmentIdentifier()) &&
+                        canDownloadBoardingPass(passenger)
                     ) {
                         <div class="wci-pax-list_item-button">
                             <ds-button
@@ -119,6 +122,12 @@
                     }
                 </div>
             </form>
+            @if (passengerNotEligible) {
+                <div
+                    class="wci-pax-list_item-message--not-eligible"
+                    [innerHtml]="translateKeys.CheckIn_BoardingPass_Blocked_PassengerMessage | translate">
+                </div>
+            }
         </li>
     }
 </ul>

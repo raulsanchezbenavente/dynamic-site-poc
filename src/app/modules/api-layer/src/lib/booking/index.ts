@@ -76,6 +76,7 @@ export * from './models/dtos/enums/product-scope-type.enum';
 export * from './models/dtos/enums/sell-type.enum';
 export * from './models/dtos/enums/transaction-status.enum';
 export * from './models/dtos/enums/trip-type.enum';
+export * from './models/requests/enums/boarding-pass-eligibility-status.enum';
 export * from './models/requests/enums/boarding-pass-format-type.enum';
 export * from './models/requests/enums/boarding-pass-generation-type.enum';
 export * from './models/requests/enums/boarding-pass-group-type.enum';

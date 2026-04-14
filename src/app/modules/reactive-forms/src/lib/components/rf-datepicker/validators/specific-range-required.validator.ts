@@ -1,39 +1,44 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import dayjs from 'dayjs';
 
+import { ShortDate } from '../../../common/short-date.interface';
+
+function compareDates(date1: ShortDate, date2: ShortDate): number {
+  if (date1.year !== date2.year) return date1.year - date2.year;
+  if (date1.month !== date2.month) return date1.month - date2.month;
+  return date1.day - date2.day;
+}
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function SpecificDateRange(StartDateRange: string, EndDateRange: string): ValidatorFn {
   const [minDay, minMonth, minYear] = StartDateRange.split('/').map(Number);
   const [maxDay, maxMonth, maxYear] = EndDateRange.split('/').map(Number);
 
-  const specificStartDateRange = dayjs()
-    .year(minYear)
-    .month(minMonth - 1)
-    .date(minDay)
-    .startOf('day');
-  const specificEndDateRange = dayjs()
-    .year(maxYear)
-    .month(maxMonth - 1)
-    .date(maxDay)
-    .endOf('day');
+  const specificStartDateRange: ShortDate = {
+    day: minDay,
+    month: minMonth,
+    year: minYear,
+  };
+  const specificEndDateRange: ShortDate = {
+    day: maxDay,
+    month: maxMonth,
+    year: maxYear,
+  };
 
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
     if (!value) return null;
 
-    const { startDate, endDate } = value;
+    const { startDate, endDate } = value as { startDate?: ShortDate; endDate?: ShortDate };
 
-    if (!dayjs.isDayjs(startDate) || !dayjs.isDayjs(endDate)) {
+    if (!startDate || !endDate) {
       return { invalidSpecificDateRange: `${StartDateRange} - ${EndDateRange}` };
     }
 
-    const normalizedStart = startDate.startOf('day');
-    const normalizedEnd = endDate.startOf('day');
-
-    if (normalizedStart.isBefore(specificStartDateRange)) {
+    if (compareDates(startDate, specificStartDateRange) < 0) {
       return { specificStartDateRange: `${StartDateRange}` };
     }
 
-    if (normalizedEnd.isAfter(specificEndDateRange)) {
+    if (compareDates(endDate, specificEndDateRange) > 0) {
       return { specificEndDateRange: `${EndDateRange}` };
     }
 

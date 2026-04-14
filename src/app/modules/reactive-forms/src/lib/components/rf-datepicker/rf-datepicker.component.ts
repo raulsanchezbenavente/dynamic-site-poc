@@ -19,11 +19,10 @@ import {
 } from '@angular/core';
 import { FormControlState, FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgbCalendar, NgbDate, NgbDatepicker, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import dayjs, { Dayjs } from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { Subject, takeUntil } from 'rxjs';
 
 import { RfBaseReactiveComponent } from '../../abstract/components/rf-base-reactive.component';
+import { ShortDate } from '../../common/short-date.interface';
 import { DateHelper } from '../../helpers/date.helper';
 import { RfDebugStateComponent } from '../common/rf-debug-state/rf-debug-state.component';
 import { RfErrorMessageSingleComponent } from '../common/rf-error-messages/models/rf-error-messages.model';
@@ -35,7 +34,6 @@ import { RfDatepickerClasses } from './models/rf-datepicker-classes.model';
 import { RfDatepickerRange, RfDatepickerValue } from './models/rf-datepicker-value.model';
 import { SpecificDate } from './validators/specific-date.validator';
 import { SpecificDateRange } from './validators/specific-range-required.validator';
-dayjs.extend(utc);
 
 /**
  * RfDatepickerComponent is a reusable Angular component for selecting single dates or date ranges
@@ -129,8 +127,8 @@ export class RfDatepickerComponent
   /** Identifier string for component type (used for styling/debugging). */
   public override rfTypeClass: string = 'RfDatepickerComponent';
 
-  /** Last selected date in Dayjs format, used for internal tracking. */
-  protected lastSelectedDate = signal<Dayjs | undefined>(undefined);
+  /** Last selected date in ShortDate format, used for internal tracking. */
+  protected lastSelectedDate = signal<ShortDate | undefined>(undefined);
 
   /** Temporary selected date (single mode). */
   protected selectedDate!: NgbDateStruct;
@@ -144,7 +142,7 @@ export class RfDatepickerComponent
   /** Instance of DateHelper used for date comparison and formatting. */
   protected readonly dateHelper = inject(DateHelper);
 
-  /** Adapter to convert between NgbDateStruct and Dayjs. */
+  /** Adapter to convert between NgbDateStruct and ShortDate. */
   private readonly dateAdapter = inject(DateAdapter);
 
   /** Renderer2 instance used for DOM manipulations. */
@@ -453,7 +451,7 @@ export class RfDatepickerComponent
     this.lastSelectedDate.set(modelDate!);
     this.onChange(modelDate!);
     if (!this.formControlName()) {
-      this.control?.setValue(this.dateHelper.fromNgbDateToUTCDate(date));
+      this.control?.setValue(modelDate);
       this.control?.markAsDirty();
     }
   }
@@ -511,7 +509,7 @@ export class RfDatepickerComponent
     if (start && !end) {
       const partialDate: RfDatepickerRange = {
         startDate: this.dateAdapter.toModel(start)!,
-        endDate: null as any,
+        endDate: null as unknown as ShortDate,
       };
       this.value.set(partialDate);
       this.onChange(partialDate);
@@ -552,7 +550,7 @@ export class RfDatepickerComponent
    * @param val Value to check.
    * @returns True if the value is a range with startDate and endDate.
    */
-  private isRangeValue(val: RfDatepickerValue): val is { startDate: Dayjs; endDate: Dayjs } {
+  private isRangeValue(val: RfDatepickerValue): val is { startDate: ShortDate; endDate: ShortDate } {
     return typeof val === 'object' && !!val && 'startDate' in val && 'endDate' in val;
   }
 
@@ -601,8 +599,8 @@ export class RfDatepickerComponent
    * @param value Value to check.
    * @returns True if value is a FormControlState object.
    */
-  private isFormControlState(value: any): value is FormControlState<RfDatepickerValue> {
-    return value && typeof value === 'object' && 'value' in value;
+  private isFormControlState(value: unknown): value is FormControlState<RfDatepickerValue> {
+    return !!value && typeof value === 'object' && 'value' in value;
   }
 
   /**
@@ -613,35 +611,65 @@ export class RfDatepickerComponent
   private setValue(value: RfDatepickerValue | FormControlState<RfDatepickerValue>): void {
     if (!value) {
       this.clearSelections();
+      return;
     }
+
     const provisionalValue = this.isFormControlState(value) ? value.value : value;
+
     if (!this.isRangeValue(provisionalValue) && this.rangeEnabled()) {
-      console.warn('Check value, if range is enable you must set { startDate: Date, endDate: Date } object.');
+      console.warn('Check value, if range is enable you must set { startDate: ShortDate, endDate: ShortDate } object.');
+      return;
     }
+
     if (this.isRangeValue(provisionalValue)) {
-      const actualValue = {
-        startDate: provisionalValue.startDate.hour(0).minute(0).second(0).millisecond(0),
-        endDate: provisionalValue.endDate.hour(0).minute(0).second(0).millisecond(0),
-      };
-      this.rangeStartDate.set(this.dateAdapter.fromModel(actualValue.startDate));
-      this.rangeEndDate.set(this.dateAdapter.fromModel(actualValue.endDate));
-      this.lastSelectedDate.set(actualValue.endDate);
-      if (this.datepicker()) {
-        this.datepicker()?.navigateTo(this.rangeStartDate()!);
-      }
-      requestAnimationFrame(() => {
-        this.onChange(actualValue);
-      });
-    } else if (provisionalValue) {
-      const actualValue = provisionalValue.hour(0).minute(0).second(0).millisecond(0);
-      this.dateSelected.set(this.dateAdapter.fromModel(actualValue)!);
-      this.lastSelectedDate.set(actualValue);
-      if (this.datepicker()) {
-        this.datepicker()?.navigateTo(this.dateSelected());
-      }
-      requestAnimationFrame(() => {
-        this.onChange(actualValue);
-      });
+      this.setRangeValue(provisionalValue);
+      return;
     }
+
+    if (provisionalValue) {
+      this.setSingleValue(provisionalValue);
+    }
+  }
+
+  /**
+   * Sets a date range value (start and end dates).
+   * Converts dates to internal format, updates state, navigates calendar, and notifies changes.
+   * @param rangeValue The range value containing startDate and endDate.
+   */
+  private setRangeValue(rangeValue: { startDate: ShortDate; endDate: ShortDate }): void {
+    const actualValue = {
+      startDate: rangeValue.startDate,
+      endDate: rangeValue.endDate,
+    };
+
+    this.rangeStartDate.set(this.dateAdapter.fromModel(actualValue.startDate));
+    this.rangeEndDate.set(this.dateAdapter.fromModel(actualValue.endDate));
+    this.lastSelectedDate.set(actualValue.endDate);
+
+    if (this.datepicker()) {
+      this.datepicker()?.navigateTo(this.rangeStartDate()!);
+    }
+
+    requestAnimationFrame(() => {
+      this.onChange(actualValue);
+    });
+  }
+
+  /**
+   * Sets a single date value.
+   * Converts date to internal format, updates state, navigates calendar, and notifies changes.
+   * @param singleValue The single date value.
+   */
+  private setSingleValue(singleValue: ShortDate): void {
+    this.dateSelected.set(this.dateAdapter.fromModel(singleValue)!);
+    this.lastSelectedDate.set(singleValue);
+
+    if (this.datepicker()) {
+      this.datepicker()?.navigateTo(this.dateSelected());
+    }
+
+    requestAnimationFrame(() => {
+      this.onChange(singleValue);
+    });
   }
 }

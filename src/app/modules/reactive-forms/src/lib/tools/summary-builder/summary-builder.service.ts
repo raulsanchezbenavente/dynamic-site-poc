@@ -54,8 +54,8 @@ export class SummaryBuilderService {
     return value && typeof value === 'object' && 'startDate' in value && 'endDate' in value;
   }
 
-  private isDayjsObject(value: any): boolean {
-    return value && typeof value.format === 'function' && '$isDayjsObject' in value;
+  private isShortDateObject(value: any): boolean {
+    return value && typeof value === 'object' && 'day' in value && 'month' in value && 'year' in value;
   }
 
   private getSummaryDataFromStrategy(form: RfFormGroup, rawValue: any, key: string): { label: string; value: string } {
@@ -71,9 +71,23 @@ export class SummaryBuilderService {
     //Update to a dynamic strategy from country when implementing CMS
     let dateValue = '';
     if (this.isDateRange(parsedValue)) {
-      dateValue = `${parsedValue.startDate.format('MMMM D,YYYY')} - ${parsedValue.endDate.format('MMMM D,YYYY')}`;
-    } else if (this.isDayjsObject(parsedValue)) {
-      dateValue = parsedValue.format(this.cultureServiceEx.getUserCulture().longDateFormat);
+      dateValue = `${dayjs(
+        parsedValue.startDate.year.toString() +
+          '-' +
+          parsedValue.startDate.month.toString() +
+          '-' +
+          parsedValue.startDate.day.toString()
+      ).format('MMMM D,YYYY')} - ${dayjs(
+        parsedValue.endDate.year.toString() +
+          '-' +
+          parsedValue.endDate.month.toString() +
+          '-' +
+          parsedValue.endDate.day.toString()
+      ).format('MMMM D,YYYY')}`;
+    } else if (this.isShortDateObject(parsedValue)) {
+      dateValue = dayjs(
+        parsedValue.year.toString() + '-' + parsedValue.month.toString() + '-' + parsedValue.day.toString()
+      ).format(this.cultureServiceEx.getUserCulture().longDateFormat);
     }
 
     const label = this.resolveLabel(rfComponent.animatedLabel, rfComponent.title, key);

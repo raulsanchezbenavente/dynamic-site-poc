@@ -18,12 +18,16 @@ import {
   CheckInSummaryPassengerVM,
   JourneyScheduleComponent,
   JourneyScheduleConfig,
+  mapBlockedReasonTranslation,
   SegmentAlertHelperService,
 } from '@dcx/ui/business-common';
 import {
   AlertPanelComponent,
   AlertPanelConfig,
   AlertPanelType,
+  ListAppearance,
+  ListComponent,
+  ListConfig,
   PanelAppearance,
   PanelBaseConfig,
   PanelComponent,
@@ -52,6 +56,7 @@ import { CheckboxPassenger } from './models/checkbox-passenger.model';
   imports: [
     TranslateModule,
     CheckInPassengerListComponent,
+    ListComponent,
     PanelComponent,
     PanelContentDirective,
     JourneyScheduleComponent,
@@ -101,6 +106,9 @@ export class CheckInSummaryItemComponent implements OnInit {
   public alertPanelConfig!: AlertPanelConfig;
   public alertPanelConfigStandByStatus!: AlertPanelConfig;
   public remainingTimeConfig!: RemainingTimeConfig;
+
+  public blockedBpMessagesListAppearance: ListAppearance = ListAppearance.BULLET;
+  public blockedBpAlertPanelId = 'bPBlockedTitleId';
 
   protected readonly translateKeys = { ...CheckInCommonTranslationKeys, ...TranslationKeys } as const;
 
@@ -154,6 +162,40 @@ export class CheckInSummaryItemComponent implements OnInit {
     const segmentWithAlert = this.data().segments.find((segment) => this.shouldShowAlertForSegment(segment.id));
 
     return segmentWithAlert ? this.getAlertPanelConfigForSegment(segmentWithAlert.id) : null;
+  }
+
+  public getBpBlockedConfigForHome(
+    passengers: CheckInSummaryPassengerVM[]
+  ): { config: Partial<AlertPanelConfig>; messages: string[] } | null {
+    const segmentId = this.data().segments.find((segment) =>
+      passengers.some((passenger) => this.segmentAlertHelper.isBoardingPassBlockedForSegment(passenger, segment.id))
+    )?.id;
+
+    if (!segmentId) {
+      return null;
+    }
+
+    const checkedInPassengersForSegment = passengers.filter(
+      (passenger) =>
+        passenger.segmentsInfo?.some(
+          (segment) => segment.segmentId === segmentId && segment.status === PaxSegmentCheckinStatus.CHECKED_IN
+        ) ?? false
+    );
+
+    if (!checkedInPassengersForSegment.length) {
+      return null;
+    }
+
+    const fallback = this.translate.instant(CheckInCommonTranslationKeys.CheckIn_BoardingPass_Blocked_Default);
+    const blockedTitle = this.translate.instant(CheckInCommonTranslationKeys.CheckIn_BoardingPass_Blocked_Title);
+
+    return this.segmentAlertHelper.buildBlockedBoardingPassAlertConfigForSegment(
+      checkedInPassengersForSegment,
+      segmentId,
+      blockedTitle,
+      fallback,
+      (reason) => mapBlockedReasonTranslation(reason, fallback, (key) => this.translate.instant(key))
+    );
   }
 
   private shouldShowAlertForSegment(segmentId: string): boolean {
@@ -291,4 +333,20 @@ export class CheckInSummaryItemComponent implements OnInit {
       joinStyle: 'conjunction',
     };
   }
+
+  public blockedBpMessagesListConfig = computed<ListConfig>(() => {
+    const data = this.getBpBlockedConfigForHome(this.data().passengers);
+
+    const items =
+      data?.messages.map((message) => ({
+        content: message,
+      })) ?? [];
+
+    return {
+      items,
+      ariaAttributes: {
+        ariaDescribedBy: this.blockedBpAlertPanelId,
+      },
+    };
+  });
 }

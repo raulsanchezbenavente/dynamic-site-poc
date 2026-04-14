@@ -67,9 +67,28 @@ export class SelectDatePickerStoryComponent implements OnInit {
   public RfErrorDisplayModes = RfErrorDisplayModes;
   public RfAppearanceTypes = RfAppearanceTypes;
   public NewDate: Dayjs = dayjs().utc();
+  public NewDateShortDate = {
+    day: this.NewDate.date(),
+    month: this.NewDate.month() + 1,
+    year: this.NewDate.year(),
+  };
   public DateCustomUTC: Dayjs = this.dateHelper.parseNaiveUtc('Tue Jan 30 1990 01:00:00 GMT+0800');
-  public DateCustom1: Dayjs = this.dateHelper.utcDayJs(2012, 12, 31);
+  public DateCustomUTCShortDate = {
+    day: this.DateCustomUTC.date(),
+    month: this.DateCustomUTC.month() + 1,
+    year: this.DateCustomUTC.year(),
+  };
+  public DateCustom1ShortDate = {
+    day: 31,
+    month: 12,
+    year: 2012,
+  };
   public DateCustom2: Dayjs = this.dateHelper.utcDayJs(2020, 3, 15);
+  public DateCustom2ShortDate = {
+    day: this.DateCustom2.date(),
+    month: this.DateCustom2.month() + 1,
+    year: this.DateCustom2.year(),
+  };
   public Validators = Validators;
   public DayAgainstMonthAndYearValidator = DayAgainstMonthAndYearValidator;
   public CommonValidator: RfSelectDatePickerValidators = {
@@ -86,12 +105,12 @@ export class SelectDatePickerStoryComponent implements OnInit {
   public myForm = new RfFormGroup(
     'MyForm',
     {
-      selectDatePicker1: new RfFormControl(this.DateCustomUTC),
+      selectDatePicker1: new RfFormControl(this.DateCustomUTCShortDate),
       selectDatePicker2: new RfFormControl(null, this.CommonValidator),
       selectDatePicker3: new RfFormControl({ value: '', disabled: false }, this.CommonValidator),
-      selectDatePicker4: new RfFormControl({ value: this.DateCustom1, disabled: false }, this.CommonValidator),
-      selectDatePicker5: new RfFormControl({ value: this.DateCustom2, disabled: false }, this.CommonValidator),
-      selectDatePicker6: new RfFormControl({ value: this.NewDate, disabled: true }, this.CommonValidator),
+      selectDatePicker4: new RfFormControl({ value: this.DateCustom1ShortDate, disabled: false }, this.CommonValidator),
+      selectDatePicker5: new RfFormControl({ value: this.DateCustom2ShortDate, disabled: false }, this.CommonValidator),
+      selectDatePicker6: new RfFormControl({ value: this.NewDateShortDate, disabled: true }, this.CommonValidator),
       selectDatePicker7: new RfFormControl({ value: null }, this.CommonValidator),
       selectDatePicker8: new RfFormControl({ value: '' }, this.CommonValidator),
     },

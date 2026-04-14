@@ -35,12 +35,12 @@ export class DatepickerStoryComponent {
   public Validators = Validators;
   public RfErrorDisplayModes = RfErrorDisplayModes;
   protected readonly dateHelper = inject(DateHelper);
-  protected datepicker1Value = this.dateHelper.utcDayJs(2025, 4, 22);
+  protected datepicker1Value = this.dateHelper.createShortDate(2025, 4, 22);
   protected rangedatepickerValue = {
-    startDate: this.dateHelper.utcDayJs(2025, 3, 6),
-    endDate: this.dateHelper.utcDayJs(2025, 3, 10),
+    startDate: this.dateHelper.createShortDate(2025, 3, 6),
+    endDate: this.dateHelper.createShortDate(2025, 3, 10),
   };
-  protected todayValue = dayjs().utc();
+  protected todayValue = this.dateHelper.todayAsShortDate();
 
   public myForm = new RfFormGroup(
     'MyForm',

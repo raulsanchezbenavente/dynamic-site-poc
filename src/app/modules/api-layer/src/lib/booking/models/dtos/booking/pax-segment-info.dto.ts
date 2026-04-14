@@ -1,4 +1,6 @@
-import { CommentDto } from '../../..';
+import { BoardingPassEligibility } from '../../requests/checkin-pax/boarding-pass-eligibility.model';
+
+import { CommentDto } from './comment.dto';
 
 export interface PaxSegmentInfo {
   segmentId: string;
@@ -10,4 +12,5 @@ export interface PaxSegmentInfo {
   boardingTime: string;
   reasonsStatus: string[];
   comments: CommentDto[];
+  boardingPassEligibility?: BoardingPassEligibility;
 }

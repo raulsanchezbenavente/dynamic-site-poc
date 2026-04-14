@@ -3,8 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControlState, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbCalendar, NgbCalendarGregorian, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import dayjs, { Dayjs } from 'dayjs';
-import utc from 'dayjs/plugin/utc';
 import { Subject } from 'rxjs';
 
 import { RfErrorDisplayModes } from '../../abstract/enums/rf-base-reactive-display-mode.enum';
@@ -23,7 +21,6 @@ if (typeof (globalThis as any).$localize === 'undefined') {
   };
 }
 
-dayjs.extend(utc);
 
 // ---- Mock Services ----
 class MockIdService {
@@ -186,7 +183,7 @@ describe('RfInputDatepickerComponent — Public API', () => {
   describe('writeValue()', () => {
     it('should set a single date value and update formattedValue', () => {
       const comp = getComp(fixture);
-      const testDate = dayjs.utc('2024-06-15');
+      const testDate = { year: 2024, month: 6, day: 15 };
 
       comp.writeValue(testDate);
       fixture.detectChanges();
@@ -201,8 +198,8 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
       const comp = getComp(fixture);
       const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-06-10'),
-        endDate: dayjs.utc('2024-06-20'),
+        startDate: { year: 2024, month: 6, day: 10 },
+        endDate: { year: 2024, month: 6, day: 20 },
       };
 
       comp.writeValue(range);
@@ -216,7 +213,7 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
     it('should handle FormControlState with a single date', () => {
       const comp = getComp(fixture);
-      const testDate = dayjs.utc('2024-07-25');
+      const testDate = { year: 2024, month: 7, day: 25 };
       const state: FormControlState<RfDatepickerValue> = {
         value: testDate,
         disabled: false,
@@ -234,8 +231,8 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
       const comp = getComp(fixture);
       const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-08-01'),
-        endDate: dayjs.utc('2024-08-15'),
+        startDate: { year: 2024, month: 8, day: 1 },
+        endDate: { year: 2024, month: 8, day: 15 },
       };
       const state: FormControlState<RfDatepickerValue> = {
         value: range,
@@ -252,7 +249,7 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
     it('should clear value when null or undefined is provided', () => {
       const comp = getComp(fixture);
-      comp.writeValue(dayjs.utc('2024-06-15'));
+      comp.writeValue({ year: 2024, month: 6, day: 15 });
       fixture.detectChanges();
 
       comp.writeValue(null as any);
@@ -270,7 +267,11 @@ describe('RfInputDatepickerComponent — Public API', () => {
       const spy = jasmine.createSpy('onChange');
       comp.registerOnChange(spy);
 
-      const testDate = dayjs.utc('2024-06-15');
+      const testDate = {
+        year: 2024,
+        month: 6,
+        day: 15
+      };
       comp.writeValue(testDate);
       fixture.detectChanges();
 
@@ -419,8 +420,8 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
       const comp = getComp(fixture);
       const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-06-10'),
-        endDate: dayjs.utc('2024-06-20'),
+        startDate: { year: 2024, month: 6, day: 10 },
+        endDate: { year: 2024, month: 6, day: 20 },
       };
 
       comp.writeValue(range);
@@ -436,8 +437,8 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
       const comp = getComp(fixture);
       const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-06-10'),
-        endDate: dayjs.utc('2024-06-20'),
+        startDate: { year: 2024, month: 6, day: 10 },
+        endDate: { year: 2024, month: 6, day: 20 },
       };
 
       comp.writeValue(range);
@@ -578,7 +579,7 @@ describe('RfInputDatepickerComponent — Public API', () => {
 
     it('should clear value when undefined is passed', () => {
       const comp = getComp(fixture);
-      comp.writeValue(dayjs.utc('2024-06-15'));
+      comp.writeValue({ year: 2024, month: 6, day: 15 });
       fixture.detectChanges();
 
       (comp as any).onSelectDate(undefined);
@@ -834,7 +835,7 @@ describe('RfInputDatepickerComponent — Public API', () => {
   describe('form group integration', () => {
     it('should sync form value changes with component value', (done) => {
       const comp = getComp(fixture);
-      const testDate = dayjs.utc('2024-06-15');
+      const testDate = { year: 2024, month: 6, day: 15 };
       
       comp.form.get('datepicker')?.setValue(testDate);
       fixture.detectChanges();

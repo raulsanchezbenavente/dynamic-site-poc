@@ -120,7 +120,7 @@
             [separatedErrors]="true"
             [yearRange]="{ startYear: 1950, endYear: 2000 }"
             [errorMessages]="errorMessagesSelectDatePicker"
-            [value]="DateCustomUTC"
+            [value]="DateCustomUTCShortDate"
             [ariaLabelledBy]="{ day: 'labelledDay-1', month: 'labelledMonth-1', year: 'labelledYear-1' }" />
         <div hoverOpacity>
             <em id="labelledDay-1">Enter the day</em>&nbsp; <em id="labelledMonth-1">Enter the month</em>&nbsp;
@@ -154,7 +154,7 @@
             #selectDatePicker4
             [title]="'Birthday'"
             [selectsLabels]="selectsLabelValues"
-            [value]="DateCustom1"
+            [value]="DateCustom1ShortDate"
             [validators]="CommonValidator"
             [errorMessages]="errorMessagesSelectDatePicker"
             [culture]="primaryCulture" />
@@ -164,7 +164,7 @@
             #selectDatePicker5
             [title]="'Birthday'"
             [readonly]="true"
-            [value]="DateCustom2"
+            [value]="DateCustom2ShortDate"
             [validators]="CommonValidator"
             [errorMessages]="errorMessagesSelectDatePicker"
             [selectsLabels]="selectsLabelValues"
@@ -174,7 +174,7 @@
         <rf-select-date-picker
             #selectDatePicker6
             [title]="'Birthday'"
-            [value]="NewDate"
+            [value]="NewDateShortDate"
             [validators]="CommonValidator"
             [errorMessages]="errorMessagesSelectDatePicker"
             [selectsLabels]="selectsLabelValues"

@@ -1,30 +1,24 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import dayjs from 'dayjs';
 
+import { ShortDate } from '../../../common/short-date.interface';
+
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function SpecificDate(specificDate: string): ValidatorFn {
-  const [date, month, year] = specificDate.split('/').map(Number);
-  const specificDateDate = dayjs()
-    .date(date)
-    .month(month - 1)
-    .year(year)
-    .startOf('day');
+  const [day, month, year] = specificDate.split('/').map(Number);
+  const targetDate: ShortDate = {
+    day,
+    month,
+    year,
+  };
 
   return (control: AbstractControl): ValidationErrors | null => {
-    const value = control.value;
+    const value = control.value as ShortDate | undefined;
     if (!value) {
       return null;
     }
 
-    if (dayjs.isDayjs(value)) {
-      if (
-        value.year() === specificDateDate.year() &&
-        value.month() === specificDateDate.month() &&
-        value.date() === specificDateDate.date()
-      ) {
-        return null;
-      } else {
-        return { invalidSpecificDate: `${specificDate}.` };
-      }
+    if (value.year === targetDate.year && value.month === targetDate.month && value.day === targetDate.day) {
+      return null;
     }
 
     return { invalidSpecificDate: `${specificDate}.` };

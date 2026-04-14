@@ -2,7 +2,8 @@
     <ul
         class="ds-list_list"
         [ngClass]="appearance ? 'ds-list_list--style-' + appearance : null"
-        [attr.aria-label]="config.ariaAttributes?.ariaLabel ?? null">
+        [attr.aria-label]="config.ariaAttributes?.ariaLabel ?? null"
+        [attr.aria-describedby]="config.ariaAttributes?.ariaDescribedBy ?? null">
         @for (item of items; track item) {
             <li
                 class="ds-list-item"

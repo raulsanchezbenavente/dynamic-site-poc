@@ -1,5 +1,5 @@
-import { Component, inject, input, OnInit, signal } from '@angular/core';
-import { PaxCheckinService, SegmentCheckIn } from '@dcx/ui/api-layer';
+import { Component, computed, inject, input, OnInit, signal } from '@angular/core';
+import { BoardingPassEligibilityStatus, PaxCheckinService, SegmentCheckIn } from '@dcx/ui/api-layer';
 import {
   ButtonConfig,
   ButtonStyles,
@@ -38,6 +38,12 @@ export abstract class CheckInPassengersListBaseComponent implements OnInit {
   public showBoardingPassPreview = signal(false);
   public boardingPassOffCanvasData = signal<BoardingPassOffCanvasData | null>(null);
   public segmentsCheckInStatus = signal<SegmentCheckIn[]>([]);
+  public readonly passengerNonEligibleBoardingPassMap = computed<Record<string, boolean>>(() =>
+    this.passengers().reduce<Record<string, boolean>>((accumulator, pax) => {
+      accumulator[pax.id] = this.calculateHasNonEligibleBoardingPass(pax);
+      return accumulator;
+    }, {})
+  );
   public paxSegmentCheckinStatus = PaxSegmentCheckinStatus;
   public isOcaEnabled = false;
 
@@ -88,16 +94,45 @@ export abstract class CheckInPassengersListBaseComponent implements OnInit {
     this.showBoardingPassPreview.set(false);
   }
 
-  public canPassengerDownloadBoardingPassForSegment(paxId: string, segmentId?: string): boolean {
-    const segments = this.segmentsCheckInStatus?.() ?? [];
+  public canDownloadBoardingPass(passenger: CheckInSummaryPassengerVM): boolean {
+    return (
+      passenger.canDownloadBoardingPass === true &&
+      this.hasSegmentWithBoardingPassEligibilityStatus(passenger, BoardingPassEligibilityStatus.ELIGIBLE)
+    );
+  }
 
-    if (!segments.length || !segmentId) return false;
+  public hasNonEligibleBoardingPass(passenger: CheckInSummaryPassengerVM): boolean {
+    return this.calculateHasNonEligibleBoardingPass(passenger);
+  }
 
-    const segment = segments.find((s) => s.segmentId === segmentId);
-    if (!segment) return false;
+  public isPassengerNonEligibleBoardingPass(passengerId: string): boolean {
+    return this.passengerNonEligibleBoardingPassMap()[passengerId] === true;
+  }
 
-    const pax = segment.pax?.find((p) => p.paxId === paxId);
-    return pax?.canDownloadBoardingPass ?? false;
+  private calculateHasNonEligibleBoardingPass(passenger: CheckInSummaryPassengerVM): boolean {
+    return (
+      passenger.status === PaxSegmentCheckinStatus.CHECKED_IN &&
+      this.hasSegmentWithBoardingPassEligibilityStatus(passenger, BoardingPassEligibilityStatus.ELIGIBLE, true)
+    );
+  }
+
+  private hasSegmentWithBoardingPassEligibilityStatus(
+    passenger: CheckInSummaryPassengerVM,
+    status: BoardingPassEligibilityStatus,
+    shouldMatchDifferentEligibilityStatus = false
+  ): boolean {
+    return (
+      passenger.segmentsInfo?.some((segment) => {
+        const segmentEligibilityStatus = segment.boardingPassEligibility?.boardingPassEligibilityStatus;
+        if (segment.status !== PaxSegmentCheckinStatus.CHECKED_IN || segmentEligibilityStatus === undefined) {
+          return false;
+        }
+
+        return shouldMatchDifferentEligibilityStatus
+          ? segmentEligibilityStatus !== status
+          : segmentEligibilityStatus === status;
+      }) === true
+    );
   }
 
   private internalInit(): void {

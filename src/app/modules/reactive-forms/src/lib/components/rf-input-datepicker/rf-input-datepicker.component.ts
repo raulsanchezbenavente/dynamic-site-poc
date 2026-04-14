@@ -283,7 +283,7 @@ export class RfInputDatepickerComponent
       return;
     }
 
-    const singleDate = this.dateHelper.fromNgbDateToUTCDate(new NgbDate(date.year, date.month, date.day));
+    const singleDate = this.dateHelper.fromNgbDateToShortDate(new NgbDate(date.year, date.month, date.day));
     this.value.set(singleDate);
     this.updateFormattedSingle(date);
     if (!this.formControlName()) {
@@ -455,9 +455,9 @@ export class RfInputDatepickerComponent
    * @param rangeValue The date range model containing start and end dates.
    */
   private updateRangeFromDate(rangeValue: RfDatepickerRange): void {
-    const startNgb = this.dateHelper.fromDateToNgbDate(rangeValue.startDate);
+    const startNgb = this.dateHelper.fromShortDateToNgbDate(rangeValue.startDate);
     this.handleRangeMode(startNgb);
-    const endNgb = this.dateHelper.fromDateToNgbDate(rangeValue.endDate);
+    const endNgb = this.dateHelper.fromShortDateToNgbDate(rangeValue.endDate);
     this.handleRangeMode(endNgb);
   }
 

@@ -53,6 +53,20 @@
                     <alert-panel [config]="alertConfig" />
                 </div>
             }
+
+            @let segmentBpBlockedParams = getBpBlockedConfigForHome(checkInData.passengers);
+            @if (segmentBpBlockedParams) {
+                <div class="checkin-summary-item_bp-blocked-alert">
+                    <alert-panel [config]="segmentBpBlockedParams.config" [id]="blockedBpAlertPanelId">
+                        @let messages = blockedBpMessagesListConfig();
+                        @if (messages.items.length > 1) {
+                            <ds-list [config]="messages" [appearance]="blockedBpMessagesListAppearance" />
+                        } @else {
+                            {{ messages.items[0].content }}
+                        }
+                    </alert-panel>
+                </div>
+            }
         </div>
     </div>
 </panel>

@@ -1,17 +1,17 @@
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { of, throwError } from 'rxjs';
-import { CheckInPassengersListBaseComponent } from './check-in-passengers-list-base.component';
+import { BoardingPassEligibilityStatus, PaxSegmentInfo } from '@dcx/ui/api-layer';
 import {
-  ButtonConfig,
   ButtonStyles,
   DeviceInfoService,
   DeviceType,
   EnumStorageKey,
   LayoutSize,
   PaxSegmentCheckinStatus,
-  StorageService,
+  StorageService
 } from '@dcx/ui/libs';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { of, throwError } from 'rxjs';
 import { PaxCheckinService, SegmentCheckIn } from '../../../../../api-layer/src/lib/booking';
 import { BoardingPassFormatType, CheckInCommonTranslationKeys } from '../../enums';
 import {
@@ -22,7 +22,7 @@ import {
   PROCESS_BOARDING_PASS_SERVICE,
 } from '../../services';
 import { CheckInSummaryPassengerVM } from '../check-in-summary';
-import { Component } from '@angular/core';
+import { CheckInPassengersListBaseComponent } from './check-in-passengers-list-base.component';
 
 /**
  * Fake loader: avoids external HTTP for translations.
@@ -328,31 +328,140 @@ describe('CheckInPassengersListBaseComponent', () => {
     });
   });
 
-  describe('canPassengerDownloadBoardingPassForSegment', () => {
-    beforeEach(() => {
-      component.ngOnInit();
-      component.segmentsCheckInStatus.set(mockSegmentsCheckInStatus);
-    });
+  describe('canDownloadBoardingPass', () => {
+    it('should return true when passenger can download and has at least one CHECKED_IN eligible segment', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        canDownloadBoardingPass: true,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.ELIGIBLE,
+            },
+          } as any,
+        ],
+      };
 
-    it('should return true when passenger can download boarding pass', () => {
-      const result = component.canPassengerDownloadBoardingPassForSegment('PAX1', 'SEG1');
+      const result = component.canDownloadBoardingPass(passenger);
+
       expect(result).toBe(true);
     });
 
-    it('should return false when passenger cannot download boarding pass', () => {
-      const result = component.canPassengerDownloadBoardingPassForSegment('PAX2', 'SEG1');
+    it('should return false when passenger cannot download even with eligible segments', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        canDownloadBoardingPass: false,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.ELIGIBLE,
+            },
+          } as any,
+        ],
+      };
+
+      const result = component.canDownloadBoardingPass(passenger);
+
       expect(result).toBe(false);
     });
 
-    it('should return false when segmentId is not provided or segment/passenger not found', () => {
-      expect(component.canPassengerDownloadBoardingPassForSegment('PAX1')).toBe(false);
-      expect(component.canPassengerDownloadBoardingPassForSegment('PAX1', 'SEG999')).toBe(false);
-      expect(component.canPassengerDownloadBoardingPassForSegment('PAX999', 'SEG1')).toBe(false);
+    it('should return false when eligible status exists only in non CHECKED_IN segments', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        canDownloadBoardingPass: true,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.NOT_CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.ELIGIBLE,
+            },
+          } as PaxSegmentInfo,
+          {
+            segmentId: 'SEG2',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.INELIGIBLE,
+            },
+          } as PaxSegmentInfo,
+        ],
+      };
+
+      const result = component.canDownloadBoardingPass(passenger);
+
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('hasNonEligibleBoardingPass', () => {
+    it('should return true when checked-in passenger has at least one non-eligible CHECKED_IN segment', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        status: PaxSegmentCheckinStatus.CHECKED_IN,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.INELIGIBLE,
+            },
+          } as PaxSegmentInfo,
+        ],
+      };
+
+      const result = component.hasNonEligibleBoardingPass(passenger);
+
+      expect(result).toBe(true);
     });
 
-    it('should return false when segments array is empty', () => {
-      component.segmentsCheckInStatus.set([]);
-      const result = component.canPassengerDownloadBoardingPassForSegment('PAX1', 'SEG1');
+    it('should return false when passenger is not checked in', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        status: PaxSegmentCheckinStatus.NOT_CHECKED_IN,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.INELIGIBLE,
+            },
+          } as PaxSegmentInfo,
+        ],
+      };
+
+      const result = component.hasNonEligibleBoardingPass(passenger);
+
+      expect(result).toBe(false);
+    });
+
+    it('should return false when non-eligible status exists only in non CHECKED_IN segments', () => {
+      const passenger: CheckInSummaryPassengerVM = {
+        ...mockPassengers[0],
+        status: PaxSegmentCheckinStatus.CHECKED_IN,
+        segmentsInfo: [
+          {
+            segmentId: 'SEG1',
+            status: PaxSegmentCheckinStatus.CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.ELIGIBLE,
+            },
+          } as any,
+          {
+            segmentId: 'SEG2',
+            status: PaxSegmentCheckinStatus.NOT_CHECKED_IN,
+            boardingPassEligibility: {
+              boardingPassEligibilityStatus: BoardingPassEligibilityStatus.INELIGIBLE,
+            },
+          } as any,
+        ],
+      };
+
+      const result = component.hasNonEligibleBoardingPass(passenger);
+
       expect(result).toBe(false);
     });
   });

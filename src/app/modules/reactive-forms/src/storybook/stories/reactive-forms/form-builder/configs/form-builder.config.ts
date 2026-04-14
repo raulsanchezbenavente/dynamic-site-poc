@@ -308,7 +308,7 @@ export const FORM_CONFIG: FormBuilderConfig = {
   },
   datepicker: {
     type: RfFormBuilderFieldType.DATEPICKER,
-    value: dayjs().utc(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     classes: {
       calendar: 'fake',
@@ -318,7 +318,7 @@ export const FORM_CONFIG: FormBuilderConfig = {
   inputdatepicker: {
     type: RfFormBuilderFieldType.INPUT_DATEPICKER,
     animatedLabel: 'Input Datepicker',
-    value: dayjs().utc(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     rightIcon: 'calendar',
     hideCaret: true,
@@ -326,20 +326,20 @@ export const FORM_CONFIG: FormBuilderConfig = {
   inputdatepickerrange: {
     type: RfFormBuilderFieldType.INPUT_DATEPICKER,
     animatedLabel: 'Input Datepicker Range',
-    value: { startDate: dateHelper.utcDayJs(2025, 22, 4), endDate: dateHelper.utcDayJs(2025, 4, 25) },
+    value: { startDate: dateHelper.createShortDate(2025, 4, 22), endDate: dateHelper.createShortDate(2025, 4, 25) },
     validators: [Validators.required, RangeRequired()],
     rangeEnabled: true,
     ariaLabelledBy: 'labelled-info',
   },
   datepickerdisabled: {
     type: RfFormBuilderFieldType.DATEPICKER,
-    value: dayjs().utc(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     disabled: true,
   },
   datepickerreadonly: {
     type: RfFormBuilderFieldType.DATEPICKER,
-    value: { startDate: dateHelper.utcDayJs(2025, 4, 3), endDate: dateHelper.utcDayJs(2025, 6, 3) },
+    value: { startDate: dateHelper.createShortDate(2025, 4, 3), endDate: dateHelper.createShortDate(2025, 6, 3) },
     validators: [Validators.required],
     rangeEnabled: true,
     readonly: true,
@@ -486,7 +486,7 @@ export const FORM_CONFIG_AFTER: FormBuilderConfig = {
   },
   datepicker: {
     type: RfFormBuilderFieldType.DATEPICKER,
-    value: dayjs(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     classes: {
       calendar: 'custom-calendar-class',
@@ -495,7 +495,7 @@ export const FORM_CONFIG_AFTER: FormBuilderConfig = {
   inputdatepicker: {
     type: RfFormBuilderFieldType.INPUT_DATEPICKER,
     animatedLabel: 'Input Datepicker',
-    value: dayjs(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     rightIcon: 'calendar',
     hideCaret: true,
@@ -503,7 +503,7 @@ export const FORM_CONFIG_AFTER: FormBuilderConfig = {
   inputdatepickerrange: {
     type: RfFormBuilderFieldType.INPUT_DATEPICKER,
     animatedLabel: 'Input Datepicker Range',
-    value: { startDate: dateHelper.utcDayJs(2025, 22, 4), endDate: dateHelper.utcDayJs(2025, 4, 25) },
+    value: { startDate: dateHelper.createShortDate(2025, 4, 22), endDate: dateHelper.createShortDate(2025, 4, 25) },
     validators: [Validators.required, RangeRequired()],
     rangeEnabled: true,
     ariaLabelledBy: 'labelled-info',
@@ -626,7 +626,7 @@ export const GRID_BUILDER_FAKE_CONFIG: FormBuilderConfig = {
   inputdatepicker: {
     type: RfFormBuilderFieldType.INPUT_DATEPICKER,
     animatedLabel: 'Input Datepicker',
-    value: dayjs(),
+    value: dateHelper.todayAsShortDate(),
     validators: [Validators.required],
     rightIcon: 'calendar',
     hideCaret: true,

@@ -133,6 +133,12 @@ $wci-pax-col-seat-width: calculateRem(90px);
     box-sizing: border-box;
 }
 
+.wci-pax-list_item-message--not-eligible {
+    color: var(--c-text-secondary);
+    font-size: var(--f-size-small);
+    margin-top: #{$spacer-small};
+    padding-left: #{$spacer-x-x-large};
+}
 // [Responsive]
 @media #{wciPaxListBreakpoints.$wci-pax-list-breakpoint-min} {
     ::ng-deep :root {

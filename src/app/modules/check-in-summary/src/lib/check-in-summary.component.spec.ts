@@ -258,6 +258,7 @@ describe('CheckInSummaryComponent', () => {
             setSessionStorage: jasmine.createSpy('setSessionStorage'),
             getSessionStorage: jasmine.createSpy('getSessionStorage').and.returnValue(null),
             removeSessionStorage: jasmine.createSpy('removeSessionStorage'),
+            removeLocalStorage: jasmine.createSpy('removeLocalStorage'),
           },
         },
         {

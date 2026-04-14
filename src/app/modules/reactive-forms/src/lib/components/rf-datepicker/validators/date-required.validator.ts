@@ -1,8 +1,14 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { Dayjs } from 'dayjs';
+
+import { ShortDate } from '../../../common/short-date.interface';
 
 import { getDaysInMonth } from './common-validators-fn';
 
+/**
+ * Validator function to check if a ShortDate value is valid.
+ * Validates year, month, and day properties.
+ */
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export function RequiredDate(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const value = control.value;
@@ -15,9 +21,14 @@ export function RequiredDate(): ValidatorFn {
       return null;
     }
 
-    const date = (value as Dayjs).date();
-    const month = (value as Dayjs).month() + 1;
-    const year = (value as Dayjs).year();
+    // Check if it's a ShortDate object
+    if (!('year' in value && 'month' in value && 'day' in value)) {
+      return { invalidDate: true };
+    }
+
+    const date = (value as ShortDate).day;
+    const month = (value as ShortDate).month;
+    const year = (value as ShortDate).year;
 
     if (!date || !month || !year) {
       return { invalidDate: true };

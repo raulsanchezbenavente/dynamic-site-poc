@@ -139,6 +139,7 @@ export class CheckInSummaryBuilderService implements ICheckInSummaryBuilder {
       return {
         ...passenger,
         status: paxStatus ? paxStatus.status : passenger.status,
+        canDownloadBoardingPass: paxStatus?.canDownloadBoardingPass ?? false,
       };
     });
   }

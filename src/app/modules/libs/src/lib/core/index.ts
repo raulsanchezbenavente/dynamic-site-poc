@@ -1,5 +1,4 @@
 export * from './cookie/cookie-store.service';
-
 export * from './enums';
 export * from './helpers';
 export * from './injection-tokens';

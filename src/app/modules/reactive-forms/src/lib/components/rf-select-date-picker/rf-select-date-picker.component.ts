@@ -30,6 +30,7 @@ import { noop } from 'rxjs';
 
 import { RfBaseReactiveComponent } from '../../abstract/components/rf-base-reactive.component';
 import { RfErrorDisplayModes } from '../../abstract/enums/rf-base-reactive-display-mode.enum';
+import { ShortDate } from '../../common/short-date.interface';
 import { RfFormControl } from '../../extensions/components/rf-form-control.component';
 import { RfFormGroup } from '../../extensions/components/rf-form-group.component';
 import { RfDebugStateComponent } from '../common/rf-debug-state/rf-debug-state.component';
@@ -96,7 +97,7 @@ import { MonthAbbreviationConfig } from './types/rf-select-date-picker-abbreviat
 })
 export class RfSelectDatePickerComponent
   extends RfBaseReactiveComponent<
-    Dayjs | FormControlState<Dayjs> | null,
+    ShortDate | FormControlState<ShortDate> | null,
     RfSelectDatePickerHintMessages,
     RfSelectDatePickerErrorMessages,
     RfSelectDatePickerClases,
@@ -215,12 +216,11 @@ export class RfSelectDatePickerComponent
     this.updateMonths();
     this.updateYears();
 
-    const actualValue = this.value() as Dayjs | undefined;
+    const actualValue = this.value() as ShortDate | undefined;
 
-    const day: string = dayjs.isDayjs(actualValue) ? actualValue.date().toString() : '';
-    const month: string = dayjs.isDayjs(actualValue) ? (actualValue.month() + 1).toString() : '';
-    const year: string = dayjs.isDayjs(actualValue) ? actualValue.year().toString() : '';
-
+    const day: string = actualValue ? actualValue.day.toString() : '';
+    const month: string = actualValue ? actualValue.month.toString() : '';
+    const year: string = actualValue ? actualValue.year.toString() : '';
     this.form = new RfFormGroup('formGroupDatePicker' + this.groupSuffix, {
       day: new RfFormControl({ value: day, disabled: this.isDisabled }),
       month: new RfFormControl({ value: month, disabled: this.isDisabled }),
@@ -229,15 +229,11 @@ export class RfSelectDatePickerComponent
 
     this.form.valueChanges.subscribe((value: RfSelectDatePickerForm) => {
       if (value.day && value.month && value.year) {
-        const date: Dayjs = dayjs()
-          .utc()
-          .year(+value.year)
-          .month(+value.month - 1)
-          .date(+value.day)
-          .hour(0)
-          .minute(0)
-          .second(0)
-          .millisecond(0);
+        const date: ShortDate = {
+          day: +value.day,
+          month: +value.month,
+          year: +value.year,
+        };
         this.value.set(date);
         this.onChange(date);
         if (!this.formControlName()) {
@@ -352,7 +348,7 @@ export class RfSelectDatePickerComponent
     super.ngAfterContentInit();
     if (!this.formControlName()) {
       if (this.value()) {
-        this.control?.setValue(this.value() as Dayjs, { emitEvent: false });
+        this.control?.setValue(this.value(), { emitEvent: false });
       }
       this.disabled() ? this.form?.disable() : this.form?.enable();
       this.disabled() ? this.control?.disable() : this.control?.enable();
@@ -410,20 +406,19 @@ export class RfSelectDatePickerComponent
 
   /**
    * Called by Angular to write a value into the component.
-   * Parses a Dayjs object (or FormControlState<Dayjs>) and sets day/month/year fields.
+   * Parses a ShortDate object (or FormControlState<ShortDate>) and sets day/month/year fields.
    *
-   * @param value - The value to write, which can be Dayjs or FormControlState<Dayjs>.
+   * @param value - The value to write, which can be ShortDate or FormControlState<ShortDate>.
    */
-  public override writeValue(value: Dayjs | FormControlState<Dayjs>): void {
+  public override writeValue(value: ShortDate | FormControlState<ShortDate>): void {
     const provisionalValue = this.isFormControlState(value) ? value.value : value;
-    if (dayjs.isDayjs(provisionalValue) && !Number.isNaN(provisionalValue.valueOf())) {
-      const actualValue = provisionalValue.hour(0).minute(0).second(0).millisecond(0);
-      this.onChange(actualValue);
+    if (provisionalValue && !Number.isNaN(provisionalValue.valueOf())) {
+      this.onChange(provisionalValue);
       this.form.setValue(
         {
-          day: actualValue.utc().date().toString(),
-          month: (actualValue.utc().month() + 1).toString(),
-          year: actualValue.utc().year().toString(),
+          day: provisionalValue.day.toString(),
+          month: provisionalValue.month.toString(),
+          year: provisionalValue.year.toString(),
         },
         { emitEvent: false }
       );
@@ -478,7 +473,7 @@ export class RfSelectDatePickerComponent
    * outside a form group. Applies initial value and validators.
    */
   protected override standaloneControlCreation(): void {
-    this.control ??= new RfFormControl(this.value() as Dayjs, this.validators() as RfSelectDatePickerValidators);
+    this.control ??= new RfFormControl(this.value(), this.validators() as RfSelectDatePickerValidators);
   }
 
   /**
@@ -647,7 +642,7 @@ export class RfSelectDatePickerComponent
    * @param value - The value to check.
    * @returns True if the value is a FormControlState, false otherwise.
    */
-  private isFormControlState(value: any): value is FormControlState<Dayjs> {
+  private isFormControlState(value: any): value is FormControlState<ShortDate> {
     return value && typeof value === 'object' && 'value' in value;
   }
 

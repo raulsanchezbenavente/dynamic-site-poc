@@ -28,6 +28,9 @@ export * from './extensions/components/rf-form-group.component';
 // Helpers
 export * from './helpers/date.helper';
 
+// Common
+export * from './common/short-date.interface';
+
 // Models
 export * from './abstract/models/rf-base-clases.model';
 export * from './abstract/models/rf-base-reactive-aria.model';

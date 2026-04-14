@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import dayjs, { Dayjs } from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+
+import { ShortDate } from '../common/short-date.interface';
+
 dayjs.extend(utc);
 
 @Injectable({
@@ -71,5 +74,58 @@ export class DateHelper {
       .minute(d.minute())
       .second(d.second())
       .millisecond(d.millisecond());
+  }
+
+  /**
+   * Converts NgbDate to ShortDate format.
+   */
+  public fromNgbDateToShortDate(date: NgbDate): ShortDate {
+    return {
+      year: date.year,
+      month: date.month,
+      day: date.day,
+    };
+  }
+
+  /**
+   * Converts ShortDate to NgbDate.
+   */
+  public fromShortDateToNgbDate(date: ShortDate): NgbDate {
+    return new NgbDate(date.year, date.month, date.day);
+  }
+
+  /**
+   * Creates a ShortDate from year, month, and day values.
+   */
+  public createShortDate(year: number, month: number, day: number): ShortDate {
+    return { year, month, day };
+  }
+
+  /**
+   * Gets today's date as ShortDate in UTC.
+   */
+  public todayAsShortDate(): ShortDate {
+    const today = dayjs.utc();
+    return {
+      year: today.year(),
+      month: today.month() + 1, // dayjs months are 0-indexed
+      day: today.date(),
+    };
+  }
+
+  /**
+   * Converts a ShortDate to an ISO 8601 UTC string (e.g. "2035-03-24T00:00:00.000Z").
+   */
+  public fromShortDateToISOString(date: ShortDate): string {
+    return dayjs
+      .utc()
+      .year(date.year)
+      .month(date.month - 1)
+      .date(date.day)
+      .hour(0)
+      .minute(0)
+      .second(0)
+      .millisecond(0)
+      .toISOString();
   }
 }

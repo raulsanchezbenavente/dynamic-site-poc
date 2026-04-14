@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import dayjs, { Dayjs } from 'dayjs';
 
 import { RfSelectDatePickerComponent } from './rf-select-date-picker.component';
 import { RfFormGroup } from '../../extensions/components/rf-form-group.component';
@@ -9,6 +8,7 @@ import { RfFormControl } from '../../extensions/components/rf-form-control.compo
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { ShortDate } from 'reactive-forms';
 
 @Component({
   standalone: true,
@@ -25,7 +25,7 @@ import { By } from '@angular/platform-browser';
 })
 class HostComponent {
   form = new RfFormGroup('HostForm', {
-    date: new RfFormControl<Dayjs | null>(null),
+    date: new RfFormControl<ShortDate | null>(null),
   });
   // Deterministic year range for tests
   yearRange = { startYear: 2020, endYear: 2022 };
@@ -67,9 +67,9 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
     expect(comp.years[2].value).toBe('2020');
   });
 
-  it('writeValue() with Dayjs fills the internal form (day/month/year) and does NOT emit changes to external if internal emitEvent=false', async () => {
+  it('writeValue() with ShortDate fills the internal form (day/month/year) and does NOT emit changes to external if internal emitEvent=false', async () => {
     const comp = getComp();
-    const d = dayjs.utc('2021-02-10T00:00:00.000Z'); // 10/02/2021
+    const d = { year: 2021, month: 2, day: 10 }; // 10/02/2021
     host.form.get('date')?.setValue(d); // this feeds the CVA
     await flushView(fixture);
 
@@ -78,17 +78,17 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
     expect(inner.get('month')?.value).toBe('2');
     expect(inner.get('year')?.value).toBe('2021');
 
-    // The external control must reflect the same dayjs (same year/month/day)
-    const out: Dayjs | null = host.form.get('date')?.value ?? null;
-    expect(dayjs.isDayjs(out)).toBeTrue();
-    expect(out?.year()).toBe(2021);
-    expect((out?.month() ?? -1) + 1).toBe(2);
-    expect(out?.date()).toBe(10);
+    // The external control must reflect the same ShortDate (same year/month/day)
+    const out: ShortDate | null = host.form.get('date')?.value ?? null;
+    expect(out).toBeTruthy();
+    expect(out?.year).toBe(2021);
+    expect(out?.month).toBe(2);
+    expect(out?.day).toBe(10);
   });
 
   it('writeValue() accepts FormControlState-like { value }', async () => {
     const comp = getComp();
-    const d = dayjs.utc('2022-12-05T00:00:00.000Z');
+    const d = { year: 2022, month: 12, day: 5 };
 
     // Simulates a FormControlState
     const formState = { value: d, disabled: false };
@@ -102,7 +102,7 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
     expect(inner.get('year')?.value).toBe('2022');
   });
 
-  it('when user changes internal form (day/month/year), CVA propagates a Dayjs to external control', async () => {
+  it('when user changes internal form (day/month/year), CVA propagates a ShortDate to external control', async () => {
     const comp = getComp();
     const inner = comp.getInnerFormGroup();
 
@@ -113,11 +113,11 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
 
     await flushView(fixture);
 
-    const out: Dayjs | null = host.form.get('date')?.value ?? null;
-    expect(dayjs.isDayjs(out)).toBeTrue();
-    expect(out?.year()).toBe(2020);
-    expect((out?.month() ?? -1) + 1).toBe(2);
-    expect(out?.date()).toBe(29);
+    const out: ShortDate | null = host.form.get('date')?.value ?? null;
+    expect(out).toBeTruthy();
+    expect(out?.year).toBe(2020);
+    expect(out?.month).toBe(2);
+    expect(out?.day).toBe(29);
   });
 
   it('setDisabledState(true/false) integrates with external RfFormControl and disables internal form', async () => {
@@ -185,7 +185,7 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
 
   it('writeValue() clears values when receiving null', async () => {
     const comp = getComp();
-    comp.writeValue(dayjs.utc('2021-02-10'));
+    comp.writeValue({ year: 2021, month: 2, day: 10 });
     await flushView(fixture);
 
     comp.writeValue(null as any);
@@ -199,7 +199,7 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
 
   it('writeValue() clears values when receiving undefined', async () => {
     const comp = getComp();
-    comp.writeValue(dayjs.utc('2021-02-10'));
+    comp.writeValue({ year: 2021, month: 2, day: 10 });
     await flushView(fixture);
 
     comp.writeValue(undefined as any);
@@ -213,15 +213,14 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
 
   it('normalizes time components to 00:00:00.000', async () => {
     const comp = getComp();
-    const d = dayjs.utc('2021-06-15T15:30:45.123Z');
+    const d = { year: 2021, month: 6, day: 15 };
     host.form.get('date')?.setValue(d);
     await flushView(fixture);
 
-    const out: Dayjs | null = host.form.get('date')?.value ?? null;
-    expect(out?.hour()).toBe(0);
-    expect(out?.minute()).toBe(0);
-    expect(out?.second()).toBe(0);
-    expect(out?.millisecond()).toBe(0);
+    const out: ShortDate | null = host.form.get('date')?.value ?? null;
+    expect(out?.year).toBe(2021);
+    expect(out?.month).toBe(6);
+    expect(out?.day).toBe(15);
   });
 
   it('registerOnChange invokes callback when user changes internal form', async () => {
@@ -237,8 +236,8 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
     inner.get('day')?.setValue('15');
     await flushView(fixture);
 
-    expect(dayjs.isDayjs(changedValue)).toBeTrue();
-    expect(changedValue?.year()).toBe(2020);
+    expect(changedValue).toBeTruthy();
+    expect(changedValue?.year).toBe(2020);
   });
 
   it('setDisabledState updates the isDisabled property', async () => {
@@ -314,10 +313,10 @@ describe('RfSelectDatePickerComponent — Public API con RfFormGroup/RfFormContr
     await flushView(fixture);
 
     const external = host.form.get('date')?.value;
-    expect(dayjs.isDayjs(external)).toBeTrue();
-    expect(external?.year()).toBe(2021);
-    expect((external?.month() ?? -1) + 1).toBe(7);
-    expect(external?.date()).toBe(20);
+    expect(external).toBeTruthy();
+    expect(external?.year).toBe(2021);
+    expect(external?.month).toBe(7);
+    expect(external?.day).toBe(20);
   });
 
   it('marks external control as touched when internal control is touched', async () => {

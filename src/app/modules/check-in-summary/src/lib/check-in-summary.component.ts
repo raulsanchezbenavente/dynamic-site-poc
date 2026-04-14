@@ -124,6 +124,7 @@ export class CheckInSummaryComponent implements OnInit {
     this.navigationGuard.setConfirmationPageAllowed(false);
 
     this.storageService.removeSessionStorage(EnumStorageKey.ConfirmationPassengersWithCheckIn);
+    this.storageService.removeLocalStorage(EnumStorageKey.PaxRegulatoryDetails);
     this.pageBackService.clearSavedUrl();
   }
 

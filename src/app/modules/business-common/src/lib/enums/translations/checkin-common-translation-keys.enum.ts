@@ -14,6 +14,15 @@ export enum CheckInCommonTranslationKeys {
   // Boarding Pass
   CheckIn_BoardingPass_Download_Title = 'CheckIn.BoardingPass.Download_Title',
   CheckIn_BoardingPass_Download_Button = 'CheckIn.BoardingPass.Download_Button',
+  CheckIn_BoardingPass_Blocked_NodeKey = 'CheckIn.BoardingPass.Blocked.',
+  CheckIn_BoardingPass_Blocked_Title = 'CheckIn.BoardingPass.Blocked.Title',
+  CheckIn_BoardingPass_Blocked_PassengerMessage = 'CheckIn.BoardingPass.Blocked.PassengerMessage',
+  CheckIn_BoardingPass_Blocked_Default = 'CheckIn.BoardingPass.Blocked.Default',
+  // Reasons for a blocked boarding pass
+  CheckIn_BoardingPass_Blocked_PassengerNotAccepted = 'CheckIn.BoardingPass.Blocked.PassengerNotAccepted',
+  CheckIn_BoardingPass_Blocked_CustomerEligibilityRule = 'CheckIn.BoardingPass.Blocked.CustomerEligibilityRule',
+  CheckIn_BoardingPass_Blocked_FlightEligibilityRule = 'CheckIn.BoardingPass.Blocked.FlightEligibilityRule',
+  CheckIn_BoardingPass_Blocked_Other = 'CheckIn.BoardingPass.Blocked.Other',
 
   // Alerts
   CheckIn_Alert_Oca_Title = 'CheckIn.Alert.Oca_Title',

@@ -15,8 +15,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { DEFAULT_SHOW_ERRORS_MODE, RfCheckboxComponent, RfFormControl, RfFormGroup } from 'reactive-forms';
 import { skip } from 'rxjs';
 
-import { CheckInPassenger } from '../../models/check-in-passenger.model';
 import { TranslationKeys } from '../../enums/translations-keys.enum';
+import { CheckInPassenger } from '../../models/check-in-passenger.model';
 
 @Component({
   selector: 'check-in-passenger-list',
@@ -53,7 +53,11 @@ export class CheckInPassengerListComponent extends CheckInPassengersListBaseComp
   public checkInForm!: RfFormGroup;
   public passengerField: { [key: string]: CheckInPassenger } = {};
 
-  protected readonly translateKeys = { ...CheckInCommonTranslationKeys, ...TranslationKeys, ...CommonTranslationKeys } as const;
+  protected readonly translateKeys = {
+    ...CheckInCommonTranslationKeys,
+    ...TranslationKeys,
+    ...CommonTranslationKeys,
+  } as const;
 
   public createSegmentform(): void {
     this.checkInForm = new RfFormGroup(

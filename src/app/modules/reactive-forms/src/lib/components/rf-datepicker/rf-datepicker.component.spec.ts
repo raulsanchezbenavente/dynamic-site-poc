@@ -169,7 +169,9 @@ describe('RfDatepickerComponent — Public API', () => {
   describe('writeValue()', () => {
     it('should set a single date value', () => {
       const comp = getComp(fixture);
-      const testDate = dayjs.utc('2024-06-15');
+      const testDate = {
+        year: 2024, month: 6, day: 15
+      };
 
       comp.writeValue(testDate);
       fixture.detectChanges();
@@ -184,9 +186,9 @@ describe('RfDatepickerComponent — Public API', () => {
       fixture.detectChanges();
 
       const comp = getComp(fixture);
-      const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-06-10'),
-        endDate: dayjs.utc('2024-06-20'),
+      const range: RfDatepickerRange = {  
+        startDate:{ year: 2024, month: 6, day: 10 },
+        endDate: { year: 2024, month: 6, day: 20 },
       };
 
       comp.writeValue(range);
@@ -202,7 +204,9 @@ describe('RfDatepickerComponent — Public API', () => {
 
     it('should handle FormControlState with a single date', () => {
       const comp = getComp(fixture);
-      const testDate = dayjs.utc('2024-07-25');
+      const testDate = {
+        year: 2024, month: 7, day: 25
+      };
       const state: FormControlState<RfDatepickerValue> = {
         value: testDate,
         disabled: false,
@@ -222,8 +226,8 @@ describe('RfDatepickerComponent — Public API', () => {
 
       const comp = getComp(fixture);
       const range: RfDatepickerRange = {
-        startDate: dayjs.utc('2024-08-01'),
-        endDate: dayjs.utc('2024-08-15'),
+        startDate: { year: 2024, month: 8, day: 1 },
+        endDate: { year: 2024, month: 8, day: 15 },
       };
       const state: FormControlState<RfDatepickerValue> = {
         value: range,
@@ -262,7 +266,9 @@ describe('RfDatepickerComponent — Public API', () => {
         capturedValues.push(val);
       });
 
-      const testDate = dayjs.utc('2024-09-10');
+      const testDate = {
+        year: 2024, month: 9, day: 10
+      };
       comp.writeValue(testDate);
       fixture.detectChanges();
 
