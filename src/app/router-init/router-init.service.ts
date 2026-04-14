@@ -1,12 +1,12 @@
 import { inject, Injectable, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route, Router } from '@angular/router';
 import {
-    LanguageSwitchService,
-    ProgressAsynGuard,
-    SiteConfigService,
-    SiteLayout,
-    SiteLayoutRow,
-    SitePage,
+  LanguageSwitchService,
+  ProgressAsynGuard,
+  SiteConfigService,
+  SiteLayout,
+  SiteLayoutRow,
+  SitePage,
 } from '@navigation';
 import { filter, fromEvent, take } from 'rxjs';
 
@@ -139,7 +139,7 @@ export class RouterInitService {
   private buildTabNamesById(page: SitePage): Record<string, string> {
     return this.getLayoutRows(page.layout)
       .flatMap((row) => row.cols ?? [])
-      .flatMap((col) => (col.baseConfig?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
+      .flatMap((col) => (col.config?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
       .reduce((accumulator: Record<string, string>, tab: TabConfigEntry) => {
         if (tab.pageId) {
           accumulator[tab.pageId] = tab.name ?? '';

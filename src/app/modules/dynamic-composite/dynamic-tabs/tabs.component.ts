@@ -1,21 +1,21 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    ElementRef,
-    HostListener,
-    inject,
-    input,
-    model,
-    OnDestroy,
-    OnInit,
-    QueryList,
-    signal,
-    ViewChild,
-    ViewChildren,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  HostListener,
+  inject,
+  input,
+  model,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  signal,
+  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
@@ -25,11 +25,11 @@ import { BehaviorSubject, filter, Subject, takeUntil } from 'rxjs';
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 import {
-    TabLayout,
-    TabLayoutCol,
-    TabLayoutRow,
-    TabsLayoutConfig,
-    TabStructure,
+  TabLayout,
+  TabLayoutCol,
+  TabLayoutRow,
+  TabsLayoutConfig,
+  TabStructure,
 } from './models/tab-layout-structure.model';
 
 type ViewTab = TabStructure & {
@@ -71,7 +71,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private static readonly MIN_SKELETON_VISIBLE_MS = 1000;
   private static readonly TAB_REVEAL_DELAY_MS = 80;
 
-  public baseConfig = input<TabsLayoutConfig | null | undefined>(undefined);
+  public config = input<TabsLayoutConfig | null | undefined>(undefined);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly routerHelper = inject(RouterHelperService);
@@ -105,7 +105,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   private readonly tabButtons?: QueryList<ElementRef<HTMLElement>>;
 
   public viewTabs = computed(() => {
-    const raw = this.baseConfig()?.tabs;
+    const raw = this.config()?.tabs;
     const arr = Array.isArray(raw) ? raw : [];
 
     const normalized = arr
@@ -337,7 +337,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getTabsId(): string | undefined {
-    const tabsId = String(this.baseConfig()?.tabsId ?? '').trim();
+    const tabsId = String(this.config()?.tabsId ?? '').trim();
     return tabsId || undefined;
   }
 

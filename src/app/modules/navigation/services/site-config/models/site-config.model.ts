@@ -14,7 +14,7 @@ export interface SiteSeoConfig {
 export interface SiteLayoutCol {
   component?: string;
   span?: number;
-  baseConfig?: SiteBlockConfig;
+  config?: SiteBlockConfig;
 }
 
 export interface SiteLayoutRow {

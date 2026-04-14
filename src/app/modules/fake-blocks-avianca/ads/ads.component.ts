@@ -12,7 +12,7 @@ const DEFAULT_HERO_IMAGE =
   styleUrl: './ads.component.scss',
 })
 export class AdsComponent {
-  public baseConfig = input<{ url?: string } | null>(null);
+  public config = input<{ url?: string } | null>(null);
 
-  public heroImageUrl = computed(() => this.baseConfig()?.url ?? DEFAULT_HERO_IMAGE);
+  public heroImageUrl = computed(() => this.config()?.url ?? DEFAULT_HERO_IMAGE);
 }

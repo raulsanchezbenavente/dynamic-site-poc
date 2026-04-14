@@ -16,7 +16,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -60,7 +60,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -96,7 +96,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -140,7 +140,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -184,7 +184,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -220,7 +220,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -261,7 +261,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -272,7 +272,7 @@
               {
                 "component": "loyaltyOverviewCard_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -283,7 +283,7 @@
               {
                 "component": "multiTabBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "tabsId": "111",
                   "tabs": [
                     {
@@ -385,7 +385,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/fr"
                 }
               }
@@ -396,7 +396,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Articles autorisés et interdits dans vos bagages</h2>\n<p class=\"intro\">Les articles restreints peuvent mettre en danger la santé et la sécurité des personnes, l’environnement ou les avions.</p>\n</div>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -408,7 +408,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 6,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/fr",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -416,7 +416,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 6,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/fr",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -428,7 +428,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/fr",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -440,7 +440,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "htmlContent": "<p>En cliquant sur \"Continuer\", vous indiquez que vous acceptez les <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">politiques de la compagnie aérienne sur le transport d’articles restreints</a>.</p>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
