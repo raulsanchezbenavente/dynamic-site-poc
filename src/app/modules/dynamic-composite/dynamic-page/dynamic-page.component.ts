@@ -9,7 +9,7 @@ import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 type PageLayoutCol = {
   component: string;
   span?: number;
-  baseConfig?: Record<string, unknown>;
+  config?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -182,11 +182,11 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
 
     if (componentName === DynamicPageComponent.TABS_COMPONENT) {
-      const tabsConfig = this.resolveTabsConfig(col.baseConfig);
+      const tabsConfig = this.resolveTabsConfig(col.config);
       return {
         ...col,
-        baseConfig: {
-          ...(col.baseConfig ?? {}),
+        config: {
+          ...(col.config ?? {}),
           ...tabsConfig,
           tabs: this.attachTabsTracking(tabsConfig.tabs, batchId, nextComponentId),
         },
@@ -201,12 +201,12 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     };
   }
 
-  private resolveTabsConfig(baseConfig: Record<string, unknown> | undefined): {
+  private resolveTabsConfig(config: Record<string, unknown> | undefined): {
     tabsId?: string;
     tabs: PageTab[];
   } {
-    const tabsId = String(baseConfig?.['tabsId'] ?? '').trim() || undefined;
-    const tabs = Array.isArray(baseConfig?.['tabs']) ? (baseConfig?.['tabs'] as PageTab[]) : [];
+    const tabsId = String(config?.['tabsId'] ?? '').trim() || undefined;
+    const tabs = Array.isArray(config?.['tabs']) ? (config?.['tabs'] as PageTab[]) : [];
     return { tabsId, tabs };
   }
 
@@ -256,7 +256,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
         }
 
         const componentName = String(col?.component ?? '').trim();
-        const tabs = this.resolveTabsConfig(col?.baseConfig).tabs;
+        const tabs = this.resolveTabsConfig(col?.config).tabs;
         if (componentName !== DynamicPageComponent.TABS_COMPONENT || tabs.length === 0) {
           continue;
         }

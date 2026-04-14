@@ -1,15 +1,15 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    effect,
-    HostBinding,
-    inject,
-    InjectionToken,
-    input,
-    signal,
-    Type,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  HostBinding,
+  inject,
+  InjectionToken,
+  input,
+  signal,
+  Type,
 } from '@angular/core';
 
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
@@ -30,7 +30,7 @@ const EMPTY_BLOCK_COMPONENT_REGISTRY: BlockComponentRegistry = {
 type DynamicBlockInput = {
   component?: string;
   span?: number;
-  baseConfig?: Record<string, unknown>;
+  config?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -142,11 +142,11 @@ export class BlockOutletComponent {
     delete rest['__dynamicPageComponentId'];
     delete rest['__dynamicPageComponentName'];
 
-    if (configInputName !== 'baseConfig' && Object.hasOwn(rest, 'baseConfig')) {
+    if (configInputName !== 'config' && Object.hasOwn(rest, 'config')) {
       if (!Object.hasOwn(rest, configInputName)) {
-        rest[configInputName] = rest['baseConfig'];
+        rest[configInputName] = rest['config'];
       }
-      delete rest['baseConfig'];
+      delete rest['config'];
     }
 
     if (!this.selfManagedReadiness() || !batchId || !componentId || !componentName) {
@@ -168,7 +168,7 @@ export class BlockOutletComponent {
   private getConfigInputName(componentKey: string): string {
     const configured = this.blockComponentRegistry.getConfigInputName?.(componentKey);
     const normalized = String(configured ?? '').trim();
-    return normalized.length > 0 ? normalized : 'baseConfig';
+    return normalized.length > 0 ? normalized : 'config';
   }
 
   private isSelfManagedReadyComponent(component: Type<unknown> | null): boolean {

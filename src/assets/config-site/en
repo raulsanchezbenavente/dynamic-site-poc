@@ -16,7 +16,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -35,7 +35,7 @@
               {
                 "component": "AdsComponentBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
                 }
               }
@@ -63,7 +63,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -99,7 +99,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -143,7 +143,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -187,7 +187,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -223,7 +223,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -264,7 +264,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -275,7 +275,7 @@
               {
                 "component": "loyaltyOverviewCard_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -286,7 +286,7 @@
               {
                 "component": "multiTabBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "tabsId": "111",
                   "tabs": [
                     {
@@ -388,7 +388,7 @@
               {
                 "component": "CorporateMainHeaderBlock_uiplus_EX",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "url": "/assets/config/loyalty/en"
                 }
               }
@@ -399,7 +399,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Items allowed and prohibited in your luggage</h2>\n<p class=\"intro\">Restricted items may endanger the health and safety of people, the environment, or aircraft.</p>\n</div>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -411,7 +411,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 6,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -419,7 +419,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 6,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -431,7 +431,7 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
+                "config": {
                   "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/en",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
@@ -443,8 +443,8 @@
               {
                 "component": "rteBlock_uiplus",
                 "span": 12,
-                "baseConfig": {
-                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
+                "config": {
+                  "htmlContent": "<p>By clicking “Continue,” you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
                   "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
                 }
               }

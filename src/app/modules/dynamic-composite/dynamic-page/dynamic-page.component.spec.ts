@@ -202,7 +202,7 @@ describe('DynamicPageComponent', () => {
           cols: [
             {
               component: 'multiTabBlock_uiplus',
-              baseConfig: {
+              config: {
                 tabs: [
                   {
                     tabId: 'a',
@@ -237,7 +237,7 @@ describe('DynamicPageComponent', () => {
     });
 
     const tabsBlock = component.rows[0]?.cols[0] as Record<string, unknown>;
-    const tabsConfig = (tabsBlock?.['baseConfig'] as Record<string, unknown> | undefined) ?? {};
+    const tabsConfig = (tabsBlock?.['config'] as Record<string, unknown> | undefined) ?? {};
     const trackedTabs = (tabsConfig['tabs'] as Array<Record<string, unknown>>) ?? [];
     const firstTabLayout = trackedTabs[0]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };
     const secondTabLayout = trackedTabs[1]?.['layout'] as { rows?: Array<{ cols?: Record<string, unknown>[] }> };

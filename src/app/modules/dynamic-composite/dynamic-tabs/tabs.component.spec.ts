@@ -90,7 +90,7 @@ describe('DsTabsComponent', () => {
 
     fixture = TestBed.createComponent(DsTabsComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('baseConfig', { tabs: tabsInput });
+    fixture.componentRef.setInput('config', { tabs: tabsInput });
   });
 
   it('should create', () => {
@@ -106,20 +106,22 @@ describe('DsTabsComponent', () => {
   });
 
   it('should support layout-based tab content format', () => {
-    fixture.componentRef.setInput('baseConfig', { tabs: [
-      {
-        tabId: 'tab-1',
-        name: 'overview',
-        title: 'Overview',
-        layout: {
-          rows: [
-            {
-              cols: [{ component: 'header' }],
-            },
-          ],
+    fixture.componentRef.setInput('config', {
+      tabs: [
+        {
+          tabId: 'tab-1',
+          name: 'overview',
+          title: 'Overview',
+          layout: {
+            rows: [
+              {
+                cols: [{ component: 'header' }],
+              },
+            ],
+          },
         },
-      },
-    ] as TabStructure[] });
+      ] as TabStructure[],
+    });
 
     fixture.detectChanges();
 
@@ -128,23 +130,25 @@ describe('DsTabsComponent', () => {
   });
 
   it('should preserve span values when rendering tab layout columns', () => {
-    fixture.componentRef.setInput('baseConfig', { tabs: [
-      {
-        tabId: 'tab-1',
-        name: 'overview',
-        title: 'Overview',
-        layout: {
-          rows: [
-            {
-              cols: [
-                { component: 'header', span: 7 },
-                { component: 'footer', span: 5 },
-              ],
-            },
-          ],
+    fixture.componentRef.setInput('config', {
+      tabs: [
+        {
+          tabId: 'tab-1',
+          name: 'overview',
+          title: 'Overview',
+          layout: {
+            rows: [
+              {
+                cols: [
+                  { component: 'header', span: 7 },
+                  { component: 'footer', span: 5 },
+                ],
+              },
+            ],
+          },
         },
-      },
-    ] as TabStructure[] });
+      ] as TabStructure[],
+    });
 
     fixture.detectChanges();
 
@@ -178,32 +182,35 @@ describe('DsTabsComponent', () => {
   });
 
   it('should activate the current-language tab when browser back restores a tab name from another language', () => {
-    fixture.componentRef.setInput('baseConfig', { tabsId: 'members-tabs', tabs: [
-      {
-        tabId: 'tab-1',
-        name: 'Datos personales',
-        title: 'Datos personales',
-        layout: {
-          rows: [
-            {
-              cols: [{ component: 'header' }],
-            },
-          ],
+    fixture.componentRef.setInput('config', {
+      tabsId: 'members-tabs',
+      tabs: [
+        {
+          tabId: 'tab-1',
+          name: 'Datos personales',
+          title: 'Datos personales',
+          layout: {
+            rows: [
+              {
+                cols: [{ component: 'header' }],
+              },
+            ],
+          },
         },
-      },
-      {
-        tabId: 'tab-2',
-        name: 'Mis viajes',
-        title: 'Mis viajes',
-        layout: {
-          rows: [
-            {
-              cols: [{ component: 'footer' }],
-            },
-          ],
+        {
+          tabId: 'tab-2',
+          name: 'Mis viajes',
+          title: 'Mis viajes',
+          layout: {
+            rows: [
+              {
+                cols: [{ component: 'footer' }],
+              },
+            ],
+          },
         },
-      },
-    ] as TabStructure[] });
+      ] as TabStructure[],
+    });
     tabSummaries = [
       { name: 'Personal data', tabId: 'tab-1' },
       { name: 'Datos personales', tabId: 'tab-1' },
@@ -221,7 +228,7 @@ describe('DsTabsComponent', () => {
   });
 
   it('should replace the activeTab query param with the translated active tab on language change', () => {
-    fixture.componentRef.setInput('baseConfig', { tabsId: 'members-tabs', tabs: tabsInput });
+    fixture.componentRef.setInput('config', { tabsId: 'members-tabs', tabs: tabsInput });
     tabSummaries = [
       { name: 'Datos personales', tabId: 'tab-1' },
       { name: 'Mis viajes', tabId: 'tab-2' },
