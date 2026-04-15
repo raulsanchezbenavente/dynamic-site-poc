@@ -2,7 +2,10 @@ import { provideHttpClient } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
+import { ANALYTICS_DICTIONARIES, ANALYTICS_EXPECTED_EVENTS, ANALYTICS_EXPECTED_KEYS_MAP } from '@dcx/module/analytics';
 import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
+import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
+import { ANALYTICS_INTERFACES_PROPERTIES, AnalyticsBusiness, AnalyticsEventType } from '@dcx/ui/business-common';
 import {
   BUSINESS_CONFIG,
   ConfigService,
@@ -10,8 +13,18 @@ import {
   initializeKeycloakFactory,
   KeycloakAuthService,
   MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
+  RepositoryRetrieveProxyService,
+  ResourcesRetrieveProxyService,
   ResourcesRetrieveService,
+  RETRIEVE_ALERTS_DATA_SERVICE,
+  RETRIEVE_MARKETS_DATA_SERVICE,
+  RETRIEVE_STATIONS_DATA_SERVICE,
+  RetrieveAlertsDataFromCms,
+  RetrieveMarketsDataFromPss,
+  RetrieveStationsDataFromPss,
   TabGuardService,
+  TIME_ALERT_EXPIRED_SESSION,
+  TIME_EXPIRED_SESSION,
   TIMEOUT_REDIRECT,
 } from '@dcx/ui/libs';
 import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
@@ -23,34 +36,9 @@ import { concatMap, firstValueFrom } from 'rxjs';
 
 import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
-import { AP_APP_PROVIDERS } from './modules/account-profile/src/lib/providers/app.providers';
-import {
-  ANALYTICS_DICTIONARIES,
-  ANALYTICS_EXPECTED_EVENTS,
-  ANALYTICS_EXPECTED_KEYS_MAP,
-} from './modules/analytics/src/lib/tokens/analytics-expected-keys.token';
-import { AnalyticsEventType } from './modules/business-common/src/lib/enums/analytics/analytics-events.enum';
-import { AnalyticsBusiness } from './modules/business-common/src/lib/enums/analytics/business/analytics-business-dictionaries';
-import { ANALYTICS_INTERFACES_PROPERTIES } from './modules/business-common/src/lib/models/analytics/analytics-events.interfaces';
+import { AP_APP_PROVIDERS } from './modules/account-profile/src/public-api';
 import { BLOCK_COMPONENT_REGISTRY } from './modules/dynamic-composite/block-outlet/block-outlet.component';
-import {
-  RETRIEVE_ALERTS_DATA_SERVICE,
-  RETRIEVE_MARKETS_DATA_SERVICE,
-  RETRIEVE_STATIONS_DATA_SERVICE,
-} from './modules/libs/src/lib/common/injection-tokens/injection-tokens';
-import { RetrieveAlertsDataFromCms } from './modules/libs/src/lib/common/services/impl/alerts/retrieve-alerts-data-from-cms.service';
-import { RetrieveMarketsDataFromCms } from './modules/libs/src/lib/common/services/impl/markets/retrieve-markets-data-from-cms.service';
-import { RetrieveMarketsDataFromPss } from './modules/libs/src/lib/common/services/impl/markets/retrieve-markets-data-from-pss.service';
-import { RetrieveStationsDataFromCms } from './modules/libs/src/lib/common/services/impl/retrieve-stations-data-from-cms';
-import { RetrieveStationsDataFromPss } from './modules/libs/src/lib/common/services/impl/retrieve-stations-data-from-pss';
-import { RepositoryRetrieveProxyService } from './modules/libs/src/lib/common/services/proxies/repository-retrieve-proxy.service';
-import { ResourcesRetrieveProxyService } from './modules/libs/src/lib/common/services/proxies/resources-retrieve-proxy.service';
-import {
-  TIME_ALERT_EXPIRED_SESSION,
-  TIME_EXPIRED_SESSION,
-} from './modules/libs/src/lib/core/injection-tokens/injectiontokens';
 import { SamePageIdReuseStrategy } from './same-page-id-reuse.strategy';
-import { MODULE_TRANSLATION_MAP } from './translations/module-translation-map';
 import { MODULE_TRANSLATION_MAP_TOKEN } from './translations/module-translation-map.token';
 
 const getLangFromUrl = (): AppLang => {
@@ -98,9 +86,9 @@ export const appConfig: ApplicationConfig = {
     RepositoryRetrieveProxyService,
     ResourcesRetrieveProxyService,
     ResourcesRetrieveService,
-    { provide: RETRIEVE_STATIONS_DATA_SERVICE, useClass: RetrieveStationsDataFromCms },
+    // { provide: RETRIEVE_STATIONS_DATA_SERVICE, useClass: RetrieveStationsDataFromCms },
     { provide: RETRIEVE_STATIONS_DATA_SERVICE, useClass: RetrieveStationsDataFromPss },
-    { provide: RETRIEVE_MARKETS_DATA_SERVICE, useClass: RetrieveMarketsDataFromCms },
+    // { provide: RETRIEVE_MARKETS_DATA_SERVICE, useClass: RetrieveMarketsDataFromCms },
     { provide: RETRIEVE_MARKETS_DATA_SERVICE, useClass: RetrieveMarketsDataFromPss },
     { provide: RETRIEVE_ALERTS_DATA_SERVICE, useClass: RetrieveAlertsDataFromCms },
     { provide: EXCLUDE_SESSION_EXPIRED_URLS, useValue: ['/check-in/login/', '/members/home/'] },
