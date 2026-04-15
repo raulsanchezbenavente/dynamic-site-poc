@@ -1,0 +1,26 @@
+@let fieldsData = fields();
+
+<panel [config]="panelConfig">
+    <panel-header>
+        <h2 panelTitle>{{ 'FindBookings.AddUpcomingTrips.Title' | translate }}</h2>
+    </panel-header>
+    <div panelContent>
+        <rf-form-builder
+            #addUpcomingTripsForm
+            [config]="bypassedConfig"
+            [displayErrorsMode]="displayErrorMode">
+            <grid-builder
+                [appearance]="formGridConfig.appearance"
+                [config]="fieldsData"
+                [columns]="formGridConfig.cols"
+                (configChange)="bypassedConfig = $event">
+                <ds-button
+                    id="btn-add-upcoming-trip"
+                    data-testid="btn-add-upcoming-trip"
+                    [config]="submitButtonConfig"
+                    (buttonClicked)="send()">
+                </ds-button>
+            </grid-builder>
+        </rf-form-builder>
+    </div>
+</panel>

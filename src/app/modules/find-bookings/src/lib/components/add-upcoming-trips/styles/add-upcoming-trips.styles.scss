@@ -1,0 +1,9 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host ::ng-deep {
+    .#{$ds}button-container {
+        display: inline-block;
+    }
+    .#{$ds}button {
+        white-space: nowrap;
+    }
+}

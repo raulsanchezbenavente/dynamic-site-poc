@@ -1,0 +1,27 @@
+@for (_ of [].constructor(2); let i = $index; track i) {
+    <div class="skeleton-card">
+        <div class="skeleton-card_journey-schedule">
+            <div class="skeleton-card_header">
+                <div class="skeleton-card_col">
+                    <div class="skeleton-card_route">
+                        <ds-skeleton [config]="skeletonConfig" />
+                    </div>
+                    <div class="skeleton-card_date">
+                        <ds-skeleton [config]="skeletonConfig" />
+                    </div>
+                </div>
+                <div class="skeleton-card_col">
+                    <div class="skeleton-card_status">
+                        <ds-skeleton [config]="skeletonConfig" />
+                    </div>
+                </div>
+            </div>
+            <div class="skeleton-card_content">
+                <ds-skeleton [config]="skeletonConfig" />
+            </div>
+        </div>
+        <div class="skeleton-card_action">
+            <ds-skeleton [config]="skeletonConfig" />
+        </div>
+    </div>
+}

@@ -1,0 +1,254 @@
+import { Meta } from '@storybook/blocks';
+
+import * as FindBookingsStories from '../find-bookings.stories.ts';
+
+<Meta of={FindBookingsStories} name="02 Accessibility" />
+
+# My Trips
+
+## Accessibility
+
+### ARIA Attributes
+
+The **My Trips** component uses semantic HTML and ARIA attributes to ensure accessibility for screen reader users and keyboard navigators.
+
+#### Upcoming Trips Section
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>role="region"</code></td>
+      <td>
+        Applied to the upcoming trips container to mark it as a distinct section.<br />
+        Helps screen readers identify the purpose of the content.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Should identify the section: "Upcoming Trips" or similar.<br />
+        Provides context when the visual layout is not self-explanatory.
+      </td>
+    </tr>
+    <tr>
+      <td><code>role="list"</code> & <code>role="listitem"</code></td>
+      <td>
+        Applied to the trips container and individual trip cards.<br />
+        Communicates to screen readers that this is a list of items (upcoming flights).
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Pagination Controls
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code> on pagination buttons</td>
+      <td>
+        Each page button should have a label: "Page 1", "Page 2", etc.<br />
+        The "Previous" and "Next" buttons must clearly identify their action.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaPressed</code></td>
+      <td>
+        Applied to the current page button to indicate the active state.<br />
+        Screen readers announce: "Page 2 button, pressed".
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDisabled</code></td>
+      <td>
+        Applied to "Previous" button on page 1 and "Next" button on last page.<br />
+        Keeps buttons focusable and in tab order while indicating they are unavailable.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Carousel (Past Trips)
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>role="region"</code></td>
+      <td>
+        Applied to the carousel container to identify it as a distinct section.<br />
+        Pairs with <code>ariaLabel="Past Trips Carousel"</code>.
+      </td>
+    </tr>
+    <tr>
+      <td><code>role="list"</code> & <code>role="listitem"</code></td>
+      <td>
+        Applied to carousel slides and items.<br />
+        Communicates list structure to assistive technologies.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaLive="polite"</code></td>
+      <td>
+        Applied to carousel status area (e.g., "Slide 3 of 5").<br />
+        Screen readers announce slide changes without interrupting user focus.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Loading & Empty States
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code> on loading container</td>
+      <td>
+        Should describe what is loading: "Loading upcoming trips".<br />
+        Informs users that content is being fetched.
+      </td>
+    </tr>
+    <tr>
+      <td><code>role="status"</code> or <code>ariaLive="polite"</code></td>
+      <td>
+        Applied to loading indicators and empty state messages.<br />
+        Ensures status updates are announced to screen readers.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+Users should be able to navigate the entire component using only the keyboard.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key / Combination</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>
+        Move focus to the next interactive element (pagination buttons, carousel controls, booking action buttons).<br />
+        Focus order: Upcoming Trips → Pagination → Past Trips Carousel → Action buttons
+      </td>
+    </tr>
+    <tr>
+      <td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+      <td>Move focus to the previous interactive element (reverse tab order).</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>
+        Activate focused button (pagination, carousel controls, "Check-in", "Check Baggage", etc.).<br />
+        Launches associated modal or navigates to destination.
+      </td>
+    </tr>
+    <tr>
+      <td><kbd>Left Arrow</kbd> / <kbd>Right Arrow</kbd></td>
+      <td>
+        Navigate carousel slides (if carousel has focus).<br />
+        Depends on carousel component implementation.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+#### Announcement Pattern
+
+When bookings load:
+1. Screen reader announces trip completion: "Upcoming trips loaded, 3 trips available"
+2. When user navigates pagination: "Page 2 of 4, showing 3 trips"
+3. When carousel moves: "Slide 2 of 5, showing past trip from January 10, 2025"
+
+#### Trip Card Context
+
+Each booking card should announce:
+- **Departure & Arrival**: "Flight from New York to London"
+- **Date & Time**: "Wednesday, March 12, 8:30 AM"
+- **Status**: "Upcoming", "Past", "Confirmed", "Cancelled"
+- **Actions Available**: "Check-in available" or "View baggage"
+
+#### Empty State
+
+When no bookings found:
+- Screen reader announces: "No upcoming trips found. Add a new trip using the button below."
+
+#### Error State
+
+When API fails:
+- Screen reader announces: "Failed to load bookings. Please try again later."
+- Retry button is clearly labeled and focusable.
+
+### Best Practices
+
+1. **Semantic Structure**
+   - Use `<section>` for major regions (Upcoming, Past)
+   - Use `<list>` and `<listitem>` for trip collections
+   - Avoid `<div>` spam; leverage native HTML semantics
+
+2. **Focus Management**
+   - Ensure all interactive elements are keyboard-accessible
+   - Maintain focus order logically (top-to-bottom, left-to-right)
+   - Show visible focus indicator (outline, background color)
+   - Never use `outline: none` without a custom focus style
+
+3. **Live Regions**
+   - Use `ariaLive="polite"` for status messages (loading, pagination changes)
+   - Use `ariaLive="assertive"` only for critical alerts (errors, warnings)
+   - Avoid excessive updates that cause notification fatigue
+
+4. **Labels & Descriptions**
+   - All buttons must have visible or accessible labels
+   - Avoid icon-only buttons; include text or proper `ariaLabel`
+   - Pagination buttons: "Previous", "Next", "Page X"
+   - Action buttons: "Check-in", "Check Baggage", "Manage Booking" (not just icons)
+
+5. **Color & Contrast**
+   - Don't rely on color alone to communicate state (upcoming vs. past)
+   - Maintain at least 4.5:1 contrast ratio for text
+   - Use text labels, badges, or icons in addition to color coding
+
+6. **Touch Targets**
+   - Pagination buttons and carousel controls must be at least 44×44 px
+   - Ensure sufficient spacing (minimum 8 px) between touch targets
+   - Avoid small, cramped clickable areas that frustrate keyboard & mobile users
+
+7. **Error Recovery**
+   - Provide clear error messages that describe what went wrong
+   - Include a "Retry" button for failed API calls
+   - Don't hide booking data permanently; offer workarounds
+
+8. **Animations & Motion**
+   - Carousel transitions should respect `prefers-reduced-motion` preference
+   - Avoid auto-playing carousels; let users control navigation
+   - If animations are present, provide a pause/play control (with proper ARIA)

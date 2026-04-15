@@ -1,0 +1,24 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// STYLES
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: $spacer-x-small;
+    padding: $spacer-medium;
+    background: var(--c-white);
+    box-shadow: inset 0 0 0 1px var(--c-border); // internal border so its not cut on carousel
+    border-radius: var(--#{$ds}border-radius-lg);
+    box-sizing: border-box;
+}
+.past-trip-card_route {
+    display: flex;
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-bold);
+}
+.past-trip-card_date {
+    font-size: var(--f-size-small);
+    line-height: var(--f-line-height-large);
+}

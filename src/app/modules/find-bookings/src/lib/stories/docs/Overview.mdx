@@ -1,0 +1,155 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as FindBookingsStories from '../find-bookings.stories';
+
+<Meta of={FindBookingsStories} name="01 Overview" />
+
+# My Trips
+
+<a href="https://figma.com/design/..." target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/find-bookings" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+The **My Trips** module (`FindBookings`) displays a user's upcoming and past flight bookings. It manages authentication, data loading, pagination for upcoming trips, carousel navigation for past trips, and provides integration with modals for managing bookings (check-in, add trips, etc.).
+
+## Basic Usage
+
+The component is embedded in the main application via CMS configuration. It handles the following responsibilities:
+
+- **Upcoming Trips**: Paginated list of future flights with check-in and booking management options
+- **Past Trips**: Carousel view of completed flights
+- **Loading States**: Skeleton loaders during data fetch
+- **Empty States**: User-friendly messaging when no bookings exist
+- **Error Handling**: Toast notifications for API failures
+
+```html
+<FindBookings #fbComponent />
+```
+
+```ts
+export class FindBookingsComponent implements OnInit, AfterViewInit, OnDestroy {
+  public config!: FindBookingsConfig;
+  public isLoaded = signal<boolean>(false);
+  public totalUpcomingTrips = signal<number>(0);
+  public currentUpcomingPage = signal<number>(1);
+  public upcomingTrips = signal<ManageBookingCardVM[]>([]);
+  public pastTrips = signal<PastTripCardVM[]>([]);
+  public isLoadingBookings = signal<boolean>(false);
+}
+```
+
+## Configuration
+
+The component is configured via `FindBookingsConfig`, which provides:
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>mmbUrl</code></td>
+      <td><code>string</code></td>
+      <td>URL to manage my bookings landing page</td>
+    </tr>
+    <tr>
+      <td><code>checkinUrl</code></td>
+      <td><code>string</code></td>
+      <td>URL to check-in functionality</td>
+    </tr>
+    <tr>
+      <td><code>earlyCheckinEligibleStationCodes</code></td>
+      <td><code>string[]</code></td>
+      <td>Station codes eligible for early check-in</td>
+    </tr>
+    <tr>
+      <td><code>dialogModalsRepository</code></td>
+      <td><code>DialogModalsRepositoryModel</code></td>
+      <td>Configuration for modal dialogs triggered by user actions</td>
+    </tr>
+    <tr>
+      <td><code>carriersList</code></td>
+      <td><code>CarrierItemModel[]</code></td>
+      <td>List of carriers for display and validation</td>
+    </tr>
+  </tbody>
+</table>
+
+## Variants
+
+### Upcoming Trips
+
+Displays a paginated list of future flights. Users can navigate pages, check-in (if eligible), or access booking management options.
+
+<Canvas of={FindBookingsStories.UPCOMING_TRIPS_NO_PAST_TRIPS} />
+
+### Past Trips
+
+Shows completed flights in a carousel format. Users can browse historical bookings.
+
+<Canvas of={FindBookingsStories.PAST_TRIPS_NO_UPCOMING_TRIPS} />
+
+### Loading State
+
+Skeleton loaders appear while fetching booking data from the API.
+
+<Canvas of={FindBookingsStories.LOADING} />
+
+## Key Features
+
+### Pagination & Carousel
+
+- **Upcoming Trips**: Server-side pagination (default 3 per page)
+- **Past Trips**: Carousel navigation with auto-scroll detection
+
+### Authentication Integration
+
+Checks Keycloak authentication status:
+- Authenticated → Load bookings via proxy service
+- Unauthenticated → Show empty state with CTA to log in
+
+### State Management
+
+Uses Angular Signals for reactive state:
+- `isLoaded`: Completion flag
+- `isLoadingBookings`: API request in-flight
+- `upcomingTrips` / `pastTrips`: Trip data
+- `currentUpcomingPage` / `totalUpcomingPages`: Pagination state
+
+### Toast Notifications
+
+Provides user feedback for:
+- Successful trip addition
+- API errors (with localized messages)
+- Booking actions
+
+### Modal Integration
+
+Triggers dialogs for:
+- Adding new trips
+- Managing bookings
+- Confirming actions
+
+## Translations
+
+The component uses the `@ngx-translate/core` library. Required translation modules:
+- `FindBookings`: Component-specific keys
+- `ManageBookingCard`: Shared keys for booking card UI
+- `Common`: Standard UI labels
+
+All translation keys are mocked in Storybook for predictable rendering.
+
+## Related Components
+
+- [**ManageBookingCard**](?path=/docs/modules-booking-management-manage-booking-card--overview): Individual upcoming trip card
+- [**PastTripCard**](?path=/docs/modules-booking-management-past-trip-card--overview): Individual past trip card
+- [**Carousel**](?path=/docs/atoms-carousel--overview): Container for past trips carousel
+- [**Paginator**](?path=/docs/atoms-paginator--overview): Pagination control for upcoming trips
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/main-my-trips-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/main-my-trips-changelog--docs) tab for version history.

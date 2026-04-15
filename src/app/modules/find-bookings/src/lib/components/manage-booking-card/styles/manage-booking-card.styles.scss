@@ -1,0 +1,65 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    --ds-btn-width: 100%;
+    --ds-btn-min-width: 100%;
+    --date-display-fontsize: var(--f-size-small);
+    --date-display-color: var(--c-text-secondary);
+    --date-display-lineheight: var(--f-line-height-large);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--c-white);
+    box-shadow: var(--#{$ds}box-shadow);
+    border-radius: var(--#{$ds}border-radius-lg);
+}
+.manage-booking-card_journey-schedule,
+.manage-booking-card_action {
+    width: 100%;
+    padding: calculateRem(16px);
+    box-sizing: border-box;
+}
+.manage-booking-card_action {
+    display: flex;
+    justify-content: center;
+    background-image: url('/assets/ui_plus/imgs/layout/dashed-divisor-horizontal.svg');
+    background-repeat: repeat-x;
+    background-size: calculateRem(10px) calculateRem(1px);
+}
+.manage-booking-card_journey-schedule {
+    width: 100%;
+}
+
+// Responsive
+@media #{$tablet-portrait} {
+    :host {
+        --ds-btn-width: auto;
+        --ds-btn-min-width: #{calculateRem(237px)};
+    }
+    .manage-booking-card_action {
+        padding: $pad-x-large;
+    }
+    .manage-booking-card_journey-schedule {
+        flex: 1;
+        padding: calculateRem(24px);
+    }
+}
+
+@media #{$desktop} {
+    :host {
+        flex-direction: row;
+        align-items: stretch;
+    }
+    .manage-booking-card_action {
+        flex: 1;
+        align-items: center;
+        background-image: url('/assets/ui_plus/imgs/layout/dashed-divisor-vertical.svg');
+        background-repeat: repeat-y;
+        background-size: calculateRem(1px) calculateRem(10px);
+        padding: calculateRem(32px);
+    }
+    .manage-booking-card_journey-schedule {
+        flex: 1 1 100%;
+        padding: calculateRem(32px);
+    }
+}

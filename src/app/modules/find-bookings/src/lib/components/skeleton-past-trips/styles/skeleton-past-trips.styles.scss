@@ -1,0 +1,12 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+.skeleton-past-trips {
+    --skeleton-line-height: #{calculateRem(80px)};
+
+    display: flex;
+    padding: calculateRem(8px) 0;
+}
+.skeleton-past-trips_item {
+    flex: 0 0 calc((100% / var(--skeleton-visible-items)) - calculateRem(16px));
+    margin: 0 calculateRem(8px);
+    box-sizing: border-box;
+}

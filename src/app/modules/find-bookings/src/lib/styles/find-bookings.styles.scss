@@ -1,0 +1,30 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    --schedule-details-margin: 0 #{$spacer-x-large};
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(36px);
+}
+.find-bookings_upcoming-trips {
+    position: relative;
+}
+.find-bookings_title {
+    margin-bottom: calculateRem(36px);
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-bold);
+}
+.find-bookings_title:has(+ .upcoming-trips .upcoming-trips_no-results) {
+    margin-bottom: calculateRem(4px);
+}
+@media #{$tablet-portrait} {
+    :host {
+        --data-not-found-text-fontsize: var(--f-size-large);
+        --data-not-found-padding: #{$pad-x-large};
+    }
+    .find-bookings_title {
+        font-size: var(--f-size-x-large);
+    }
+    .find-bookings_title:has(+ .upcoming-trips .upcoming-trips_no-results) {
+        margin-bottom: calculateRem(8px);
+    }
+}

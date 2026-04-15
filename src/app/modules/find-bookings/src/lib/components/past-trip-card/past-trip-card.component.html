@@ -1,0 +1,13 @@
+@let inputData = data();
+
+<div class="past-trip-card_route">
+    {{ 'City.' + inputData.origin.iata | translate }}
+    {{ 'Common.To' | translate }}
+    {{ 'City.' + inputData.destination.iata | translate }}
+</div>
+<div class="past-trip-card_date">
+    <date-display [config]="journeyDateConfig" />
+</div>
+<div class="past-trip-card_operated-by">
+    <transport-operated-by [data]="operatingCarriers" />
+</div>
