@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   AfterViewInit,
   Component,
@@ -6,6 +6,7 @@ import {
   ElementRef,
   inject,
   Injector,
+  input,
   OnDestroy,
   OnInit,
   runInInjectionContext,
@@ -54,6 +55,7 @@ import {
   LoggerService,
   ModalDialogActionType,
 } from '@dcx/ui/libs';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { filter, finalize, forkJoin, Observable, Subject, Subscription, takeUntil, tap } from 'rxjs';
 
@@ -107,8 +109,9 @@ import {
   ],
   standalone: true,
 })
-export class FindBookingsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class FindBookingsComponent extends DynamicPageReadinessBase implements OnInit, AfterViewInit, OnDestroy {
   public isLoaded = signal<boolean>(false);
+  public baseConfig = input<{ url: string } | null>(null);
   public config!: FindBookingsConfig;
   public totalUpcomingTrips = signal<number>(0);
   public totalUpcomingPages = signal<number>(1);
@@ -145,6 +148,7 @@ export class FindBookingsComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly injector = inject(Injector);
   private readonly analyticsService = inject(AnalyticsService);
   private readonly baseItemsMapper = inject(BaseItemsMapper);
+  private readonly http = inject(HttpClient);
 
   private readonly CMSKey = 'FindBookings';
   private readonly addFlightToastContainerId = 'mytripsAddFlightToast_Id';
@@ -359,13 +363,21 @@ export class FindBookingsComponent implements OnInit, AfterViewInit, OnDestroy {
    * @returns An Observable that is populated once configuration initialization has completed.
    */
   private initConfig(): Observable<FindBookingsConfig> {
-    return this.configService.getBusinessModuleConfig<FindBookingsConfig>(this.data().config).pipe(
-      tap((config) => {
-        this.config = config;
-        this.setCarouselConfig();
-        this.logger.info('FindBookingsComponent', 'Business module config', this.config);
-      })
-    );
+    if (this.baseConfig()) {
+      return this.http.get<FindBookingsConfig>(this.baseConfig()?.url || '').pipe(
+        tap((response) => {
+          this.config = response;
+          this.emitDynamicPageReady(this.baseConfig(), 'FindBookingsBlock_uiplus', DynamicPageReadyState.RENDERED);
+        })
+      );
+    } else {
+      return this.configService.getBusinessModuleConfig<FindBookingsConfig>(this.data().config).pipe(
+        tap((config) => {
+          this.config = config;
+          this.logger.info('FindBookingsComponent', 'Business module config', this.config);
+        })
+      );
+    }
   }
 
   /**
