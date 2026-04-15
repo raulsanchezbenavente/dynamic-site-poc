@@ -15,6 +15,7 @@ const publicHost = 'av-booking-local.newshore.es';
 const indexPath = path.join(__dirname, '../src/index.html');
 const analyticsScriptsPath = path.join(__dirname, '../src/assets/analytics/scripts');
 const configDir = path.join(__dirname, '../src/assets/config-site');
+const countriesFlagsDir = path.join(__dirname, '../src/app/modules/design-system/assets/ui_plus/imgs/countries-flags');
 const targetHost = 'localhost';
 const targetPort = 4200;
 const healthCheckPath = '/__proxy-health';
@@ -163,6 +164,12 @@ const renderIndexHtml = createRenderIndexHtml({
 app.get(healthCheckPath, (_req, res) => {
   res.status(200).type('text/plain').send('ok');
 });
+
+// Map static domain-like flag paths to local design-system assets.
+if (fs.existsSync(countriesFlagsDir)) {
+  app.use('/ui/assets/ui_plus/imgs/countries-flags', express.static(countriesFlagsDir));
+  app.use('/assets/ui_plus/imgs/countries-flags', express.static(countriesFlagsDir));
+}
 
 if (enableFakeApi) {
   app.use(express.json(), createFakeApiRouter());

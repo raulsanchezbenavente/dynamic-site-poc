@@ -12,6 +12,18 @@ const distAnalyticsScriptsPath = path.join(distDir, 'assets', 'analytics', 'scri
 const srcAnalyticsScriptsPath = path.join(__dirname, '..', 'src', 'assets', 'analytics', 'scripts');
 const distConfigDir = path.join(distDir, 'assets', 'config-site');
 const srcConfigDir = path.join(__dirname, '..', 'src', 'assets', 'config-site');
+const srcCountriesFlagsDir = path.join(
+  __dirname,
+  '..',
+  'src',
+  'app',
+  'modules',
+  'design-system',
+  'assets',
+  'ui_plus',
+  'imgs',
+  'countries-flags'
+);
 
 const configDir = fs.existsSync(distConfigDir) ? distConfigDir : srcConfigDir;
 const analyticsScriptsPath = fs.existsSync(distAnalyticsScriptsPath)
@@ -24,6 +36,11 @@ const renderIndexHtml = createRenderIndexHtml({
   configDir,
   analyticsScriptsPath,
 });
+
+if (fs.existsSync(srcCountriesFlagsDir)) {
+  app.use('/ui/assets/ui_plus/imgs/countries-flags', express.static(srcCountriesFlagsDir));
+  app.use('/assets/ui_plus/imgs/countries-flags', express.static(srcCountriesFlagsDir));
+}
 
 app.use(express.static(distDir));
 
