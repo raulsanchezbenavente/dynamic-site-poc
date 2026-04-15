@@ -83,7 +83,7 @@
           {
             "cols": [
               {
-                "component": "authorizationBlock_uiplusXX",
+                "component": "authorizationBlock_uiplus",
                 "span": 12,
                 "config": {
                   "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AuthorizationBlock_uiplus_95-74-3F-4E-EF-20-FF-42_en-us"
