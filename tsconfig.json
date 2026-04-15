@@ -32,6 +32,8 @@
       "@dcx/module/main-header": ["./src/app/modules/main-header/src/public-api.ts"],
       "@dcx/module/footer-main": ["./src/modules/footer-main/src/public-api.ts"],
 
+      "@dcx/module/group-options": ["./src/modules/group-options/src/public-api.ts"],
+
       "@fake-blocks-test": ["./src/app/modules/fake-blocks-test/index.ts"],
       "@fake-blocks-avianca": ["./src/app/modules/fake-blocks-avianca/index.ts"],
       "@fake-libs": ["./src/app/modules/fake-libs/index.ts"],

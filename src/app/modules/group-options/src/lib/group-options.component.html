@@ -1,0 +1,20 @@
+@if (isLoaded()) {
+    @if (config(); as configData) {
+        @if (isVisible()) {
+            @if (titleConfig(); as titleData) {
+                <ds-title-heading [config]="titleData" />
+            }
+            <section class="group-options_container">
+                <ds-group-options
+                    [templateStyle]="configData.groupOptionsModel.templateStyle"
+                    [templateGrid]="configData.groupOptionsModel.templateGrid"
+                    [enableHorizontalScroll]="configData.groupOptionsModel.enableHorizontalScroll"
+                    [optionList]="filteredOptions()" />
+            </section>
+        }
+    }
+} @else {
+    <span class="hide-visually">
+        {{ 'Common.A11y.Loading' | translate }}
+    </span>
+}
