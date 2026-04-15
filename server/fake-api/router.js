@@ -88,6 +88,10 @@ function createFakeApiRouter(options = {}) {
     sendJsonResponseFromFile(res, 'loyalty-programs.json');
   });
 
+  router.get('/booking/api/v1/booking/findFlights', (_req, res) => {
+    sendJsonResponseFromFile(res, 'booking/api/v1/findFlights.get.json');
+  });
+
   router.get('/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings', (_req, res) => {
     sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
   });
