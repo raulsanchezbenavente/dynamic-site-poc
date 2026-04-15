@@ -337,6 +337,8 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
   }
   private removeBootLoader(): void {
-    this.document.getElementById('boot-loader')?.remove();
+    requestAnimationFrame(() => {
+      this.document.getElementById('boot-loader')?.remove();
+    });
   }
 }
