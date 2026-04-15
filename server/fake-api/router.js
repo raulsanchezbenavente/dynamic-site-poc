@@ -96,6 +96,10 @@ function createFakeApiRouter(options = {}) {
     sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
   });
 
+  router.get('/AnalyticsSettings', (_req, res) => {
+    sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
+  });
+
   router.get('/configuration/api/v1/UI_PLUS/Config/PointOfSales', (req, res) => {
     const culture = req.query.culture || 'en';
     sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
