@@ -72,7 +72,6 @@ export class AuthorizationComponent implements OnInit {
       return this.http.get<AuthorizationConfig>(this.baseConfig()?.url || '').pipe(
         tap((response) => {
           this.config.set(response);
-          // this.emitDynamicPageReady(this.baseConfig(), 'authorizationBlock_uiplus', DynamicPageReadyState.RENDERED);
         })
       );
     } else {
