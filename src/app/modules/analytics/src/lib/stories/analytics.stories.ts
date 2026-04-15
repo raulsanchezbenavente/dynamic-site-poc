@@ -1,7 +1,4 @@
-import { importProvidersFrom } from '@angular/core';
 import { applicationConfig, type Meta, type StoryObj } from '@storybook/angular';
-
-import { AnalyticsModule } from '../analytics.module';
 
 import { AnalyticsStoryComponent } from './mock-components/analytics.component';
 import { STORYBOOK_PROVIDERS } from './providers/storybook.provider';
@@ -13,7 +10,7 @@ const META: Meta<AnalyticsStoryComponent> = {
   argTypes: {},
   decorators: [
     applicationConfig({
-      providers: [importProvidersFrom(AnalyticsModule), ...STORYBOOK_PROVIDERS],
+      providers: [...STORYBOOK_PROVIDERS],
     }),
   ],
 };

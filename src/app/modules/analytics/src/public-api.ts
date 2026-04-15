@@ -2,7 +2,6 @@
  * Public API Surface of analytics
  */
 
-export * from './lib/analytics.module';
 export * from './lib/enums/analytics-engines.enum';
 export * from './lib/interfaces/analytics-config.interface';
 export * from './lib/interfaces/events/analytics-event.interfaces';
