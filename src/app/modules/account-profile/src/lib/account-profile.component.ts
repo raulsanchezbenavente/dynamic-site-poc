@@ -160,31 +160,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
   private readonly dateHelper = inject(DateHelper);
   private readonly CMSKey = 'AccountProfile';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
-  private hasLoggedBaseConfig = false;
   private readonly http = inject(HttpClient);
-
-  constructor() {
-    super();
-    effect(() => {
-      const baseConfig = this.baseConfig();
-      if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
-        const url = baseConfig.url.trim();
-        console.log('[AccountProfileComponent] baseConfig received:', baseConfig);
-        this.hasLoggedBaseConfig = true;
-
-        this.http.get<AccountProfileConfig>(url).subscribe({
-          next: (response) => {
-            this.config.set(response);
-            this.isLoading.set(false);
-            this.emitDynamicPageReady(this.baseConfig(), 'AccountProfileBlock_uiplus', DynamicPageReadyState.RENDERED);
-          },
-          error: (error) => {
-            this.emitDynamicPageReady(this.baseConfig(), 'AccountProfileBlock_uiplus', DynamicPageReadyState.ERROR);
-          },
-        });
-      }
-    });
-  }
 
   private readonly registerEffect = effect(() => {
     this.communicationChannel = this.userData()?.communicationChannels ?? [];
@@ -210,6 +186,9 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
 
   public ngOnInit(): void {
     this.setDocumentOptions();
+    if (this.baseConfig()) {
+      this.translationsLoaded();
+    }
   }
 
   public translationsLoaded(): void {
@@ -457,6 +436,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
     this.subscribeComposerNotifier();
     this.composer.updateComposerRegisterStatus(this.data().id, ComposerStatusEnum.LOADED);
     this.isLoading.set(false);
+    this.emitDynamicPageReady(this.baseConfig(), 'accaccountProfile_uiplus', DynamicPageReadyState.RENDERED);
   }
 
   protected updateAccountPersonalInfo(form: AccountPersonalInformation): void {
@@ -630,7 +610,6 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
 
     const documentsToUpdate = this.documentsAllowed().map((documents, idx) => {
       const form = this.formStore.getFormGroup(this.formsNames.get('account-profile-documents')! + idx)?.getRawValue();
-      console.log('DEBUG TEST', form);
       return {
         type: form?.documentType || documents.type,
         number: form?.documentNumber || documents.number,
@@ -837,18 +816,28 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
   }
 
   private initConfig(): Observable<AccountProfileConfig> {
-    return this.configService.getBusinessModuleConfig<AccountProfileConfig>(this.data().config).pipe(
-      tap((config) => {
-        this.config.set(config);
-        this.cultureServiceEx.setCulture(this.config().culture);
-        this.setDocumentOptions();
-        this.genderOptions = this.genderMapperService.getGenderOptions();
-        this.setMyProfileConfig();
-        this.setTravelDocumentsConfig();
-        this.setAccountCompanionsConfig();
-        this.logger.info('AccountProfileComponent', 'Business module config', this.config);
-      })
-    );
+    if (this.baseConfig()) {
+      return this.http.get<AccountProfileConfig>(this.baseConfig()?.url || '').pipe(
+        tap((config) => {
+          this.assignConfig(config);
+        })
+      );
+    } else {
+      return this.configService
+        .getBusinessModuleConfig<AccountProfileConfig>(this.data().config)
+        .pipe(tap((config) => this.assignConfig(config)));
+    }
+  }
+
+  private assignConfig(config: AccountProfileConfig): void {
+    this.config.set(config);
+    this.cultureServiceEx.setCulture(this.config().culture);
+    this.setDocumentOptions();
+    this.genderOptions = this.genderMapperService.getGenderOptions();
+    this.setMyProfileConfig();
+    this.setTravelDocumentsConfig();
+    this.setAccountCompanionsConfig();
+    this.logger.info('AccountProfileComponent', 'Business module config', this.config);
   }
 
   private setMyProfileConfig(): void {
