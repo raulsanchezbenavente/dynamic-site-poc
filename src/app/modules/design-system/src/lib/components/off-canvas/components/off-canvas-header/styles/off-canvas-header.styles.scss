@@ -18,6 +18,12 @@
     font-size: var(--offcanvas-header-title-fontsize);
     font-weight: var(--offcanvas-header-title-fontweight);
 }
+.#{$ds}offcanvas-header_title_link {
+    display: inline-block;
+    line-height: 0;
+    text-decoration: none;
+    color: inherit;
+}
 .#{$ds}offcanvas-header_title_image {
     // only set height, width is auto
     height: var(--offcanvas-header-title-image-height, calculateRem(30px));

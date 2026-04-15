@@ -6,10 +6,28 @@
     </div>
     <h1 class="ds-offcanvas-header_title">
         @if (config.imageSrc) {
-            <img
-                class="ds-offcanvas-header_title_image"
-                [src]="config.imageSrc"
-                [alt]="config.title" />
+            @if (config.imageLink; as imageLink) {
+                @if (imageLink.url) {
+                    <a
+                        class="ds-offcanvas-header_title_link"
+                        [href]="imageLink.url"
+                        [attr.target]="imageLink.target ?? null"
+                        [attr.rel]="imageLink.target === linkTarget.BLANK ? 'noopener noreferrer' : null">
+                        <ng-container [ngTemplateOutlet]="logoImgTpl"></ng-container>
+                    </a>
+                } @else {
+                    <ng-container [ngTemplateOutlet]="logoImgTpl"></ng-container>
+                }
+            } @else {
+                <ng-container [ngTemplateOutlet]="logoImgTpl"></ng-container>
+            }
+
+            <ng-template #logoImgTpl>
+                <img
+                    class="ds-offcanvas-header_title_image"
+                    [src]="config.imageSrc"
+                    [alt]="config.title" />
+            </ng-template>
         } @else {
             {{ config.title }}
         }

@@ -1,3 +1,5 @@
+import { LinkModel } from '@dcx/ui/libs';
+
 export interface OffCanvasConfig {
   /**
    * Configures header. A title is mandatory for accessibility (A11Y) purposes.
@@ -46,4 +48,8 @@ export interface OffCanvasHeaderConfig {
    * If an image is set, the title is used as the image's alt attribute.
    */
   imageSrc?: string;
+  /**
+   * When set together with `imageSrc`, the image is wrapped in a link (ex. navigate to home).
+   */
+  imageLink?: LinkModel;
 }

@@ -166,7 +166,6 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
   }
 
   private handleAuthenticated(): void {
-    console.log('User authenticated, loading data...');
     this.loadData();
   }
 

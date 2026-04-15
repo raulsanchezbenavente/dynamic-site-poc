@@ -1,6 +1,8 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
+import { LinkTarget } from '@dcx/ui/libs';
 import { IconButtonComponent } from '../../../icon-button/icon-button.component';
 import { IconButtonConfig } from '../../../icon-button/models/icon-button.model';
 import { OffCanvasHeaderConfig } from '../../models/off-canvas-config.model';
@@ -11,7 +13,7 @@ import { OffCanvasHeaderConfig } from '../../models/off-canvas-config.model';
   styleUrls: ['./styles/off-canvas-header.styles.scss'],
   host: { class: 'ds-off-canvas-header' },
   encapsulation: ViewEncapsulation.None,
-  imports: [TranslateModule, IconButtonComponent],
+  imports: [CommonModule, TranslateModule, IconButtonComponent],
   standalone: true,
 })
 export class OffCanvasHeaderComponent implements OnInit {
@@ -20,6 +22,7 @@ export class OffCanvasHeaderComponent implements OnInit {
   @Output() private readonly closeClicked = new EventEmitter<void>();
 
   protected readonly translateService = inject(TranslateService);
+  protected readonly linkTarget = LinkTarget;
 
   public resolvedCloseButtonConfig!: Partial<IconButtonConfig>;
 

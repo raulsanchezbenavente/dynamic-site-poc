@@ -170,10 +170,12 @@ export class PointsOfSaleComponent implements OnDestroy {
   }
 
   protected setOffCanvasConfig(): void {
+    const resolvedHomeUrl = this.businessConfig.homeUrl ?? this.businessConfig.urlHome ?? '/';
     this.offCanvasConfig = {
       offCanvasHeaderConfig: {
         title: this.translate.instant('Common.LogoAltText'),
         imageSrc: this.logoPath,
+        imageLink: { url: resolvedHomeUrl },
       },
       animation: true,
       ariaLabelledBy: this.triggerId,
