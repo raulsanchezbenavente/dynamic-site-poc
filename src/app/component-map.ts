@@ -19,6 +19,10 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
   BreadcrumbBlock_uiplus: () =>
     import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
+  LoyaltyOverviewCardBlock_uiplus: () =>
+    import('./modules/loyalty-overview-card/src/lib/loyalty-overview-card.component').then(
+      (m) => m.LoyaltyOverviewCardComponent
+    ),
   accountProfile_uiplus: () =>
     import('./modules/account-profile/src/lib/account-profile.component').then((m) => m.AccountProfileComponent),
 
@@ -95,6 +99,7 @@ export const configInputAliases: Record<string, string> = {
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
   CorporateMainFooterBlock_uiplus: 'baseConfig',
   BreadcrumbBlock_uiplus: 'baseConfig',
+  LoyaltyOverviewCardBlock_uiplus: 'baseConfig',
   accountProfile_uiplus: 'baseConfig',
 };
 

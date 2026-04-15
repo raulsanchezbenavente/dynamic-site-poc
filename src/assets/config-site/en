@@ -94,6 +94,17 @@
           {
             "cols": [
               {
+                "component": "LoyaltyOverviewCardBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_LoyaltyOverviewCardBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
                 "component": "multiTabBlock_uiplus",
                 "span": 12,
                 "config": {

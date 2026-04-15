@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -7,6 +8,7 @@ import {
   ElementRef,
   HostBinding,
   inject,
+  input,
   OnDestroy,
   OnInit,
   Signal,
@@ -35,6 +37,7 @@ import {
   NotificationService,
   ViewportSizeService,
 } from '@dcx/ui/libs';
+import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 import {
@@ -72,7 +75,7 @@ import { LoyaltyOverviewCardBuilderService } from './services/loyalty-overview-c
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
+export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
   public isLoaded = signal<boolean>(false);
   public config = signal<LoyaltyOverviewCardConfig>({} as LoyaltyOverviewCardConfig);
   public tierMainColor = signal<string | null>(null);
@@ -108,6 +111,8 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   private readonly CMSKey = 'LoyaltyOverviewCard';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
   protected readonly translateKeys = LoyaltyOverviewCardTranslationKeys;
+  public baseConfig = input<{ url: string } | null>(null);
+  private readonly http = inject(HttpClient);
 
   private readonly updateTierAvatarConfigEffect = effect((onCleanup) => {
     const account = this.accountDto();
@@ -161,6 +166,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
   }
 
   private handleAuthenticated(): void {
+    console.log('User authenticated, loading data...');
     this.loadData();
   }
 
@@ -258,6 +264,7 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
             this.tierMainColor.set(data.mainColor ?? null);
             this.tierDarkerColor.set(data.darkerColor ?? null);
             this.cdr.markForCheck();
+            this.emitDynamicPageReady(this.baseConfig(), 'loyaltyOverviewCard_uiplus', DynamicPageReadyState.RENDERED);
           }
         }),
         catchError((error) => {
@@ -278,12 +285,20 @@ export class LoyaltyOverviewCardComponent implements OnInit, OnDestroy {
    * @returns An Observable that is populated once configuration initialization has completed.
    */
   private initConfig(): Observable<LoyaltyOverviewCardConfig> {
-    return this.configService.getBusinessModuleConfig<LoyaltyOverviewCardConfig>(this.data().config).pipe(
-      tap((config) => {
-        this.config.set(config);
-        this.logger.info('LoyaltyOverviewCardComponent', 'Business module config', this.config());
-      })
-    );
+    if (this.baseConfig()) {
+      return this.http.get<LoyaltyOverviewCardConfig>(this.baseConfig()?.url || '').pipe(
+        tap((response) => {
+          this.config.set(response);
+        })
+      );
+    } else {
+      return this.configService.getBusinessModuleConfig<LoyaltyOverviewCardConfig>(this.data().config).pipe(
+        tap((config) => {
+          this.config.set(config);
+          this.logger.info('LoyaltyOverviewCardComponent', 'Business module config', this.config());
+        })
+      );
+    }
   }
 
   private getDefaultLoyaltyData(): LoyaltyOverviewCard {
