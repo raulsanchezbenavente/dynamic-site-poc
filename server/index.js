@@ -1,3 +1,4 @@
+const compression = require('compression');
 const express = require('express');
 const fs = require('fs');
 const http = require('http');
@@ -13,6 +14,7 @@ const {
 } = require('./shared/runtime-utils');
 
 const app = express();
+app.use(compression());
 const httpPort = Number(process.env.BACKEND_HTTP_PORT || 4400);
 const httpsPort = Number(process.env.BACKEND_HTTPS_PORT || 443);
 const publicHost = process.env.PUBLIC_HOST || 'av-booking-local.newshore.es';
