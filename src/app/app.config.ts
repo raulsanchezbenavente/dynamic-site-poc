@@ -1,15 +1,29 @@
-import { provideHttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { HttpEvent, provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  APP_INITIALIZER,
+  ApplicationConfig,
+  importProvidersFrom,
+  inject,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { ANALYTICS_DICTIONARIES, ANALYTICS_EXPECTED_EVENTS, ANALYTICS_EXPECTED_KEYS_MAP } from '@dcx/module/analytics';
 import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
 import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
-import { ANALYTICS_INTERFACES_PROPERTIES, AnalyticsBusiness, AnalyticsEventType } from '@dcx/ui/business-common';
 import {
+  ANALYTICS_INTERFACES_PROPERTIES,
+  AnalyticsBusiness,
+  AnalyticsEventType,
+  ToastHttpInterceptor,
+} from '@dcx/ui/business-common';
+import {
+  AuthHttpInterceptor,
   BUSINESS_CONFIG,
   ConfigService,
+  ErrorHttpInterceptor,
   EXCLUDE_SESSION_EXPIRED_URLS,
+  HttpCacheInterceptor,
   initializeKeycloakFactory,
   KeycloakAuthService,
   MODAL_KEY_EVENT_STRATEGIES_PROVIDERS,
@@ -26,13 +40,15 @@ import {
   TIME_ALERT_EXPIRED_SESSION,
   TIME_EXPIRED_SESSION,
   TIMEOUT_REDIRECT,
+  TimeOutInterceptor,
 } from '@dcx/ui/libs';
 import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
 import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
 import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { KeycloakService } from 'keycloak-angular';
-import { concatMap, firstValueFrom } from 'rxjs';
+import { CookieModule } from 'ngx-cookie';
+import { concatMap, firstValueFrom, Observable } from 'rxjs';
 
 import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
@@ -59,6 +75,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
     provideZoneChangeDetection({ eventCoalescing: true }),
+    importProvidersFrom(CookieModule.forRoot()),
     KeycloakService,
     AccountClient,
     AccountV2Client,
@@ -82,7 +99,40 @@ export const appConfig: ApplicationConfig = {
         return firstValueFrom(svc.loadSite([getLangFromUrl()]));
       },
     },
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([
+        (req, next): Observable<HttpEvent<unknown>> => {
+          const interceptor = inject(AuthHttpInterceptor);
+          return interceptor.intercept(req, {
+            handle: next,
+          });
+        },
+        (req, next): Observable<HttpEvent<unknown>> => {
+          const interceptor = inject(ErrorHttpInterceptor);
+          return interceptor.intercept(req, {
+            handle: next,
+          });
+        },
+        (req, next): Observable<HttpEvent<unknown>> => {
+          const interceptor = inject(HttpCacheInterceptor);
+          return interceptor.intercept(req, {
+            handle: next,
+          });
+        },
+        (req, next): Observable<HttpEvent<unknown>> => {
+          const interceptor = inject(ToastHttpInterceptor);
+          return interceptor.intercept(req, {
+            handle: next,
+          });
+        },
+        (req, next): Observable<HttpEvent<unknown>> => {
+          const interceptor = inject(TimeOutInterceptor);
+          return interceptor.intercept(req, {
+            handle: next,
+          });
+        },
+      ])
+    ),
     RepositoryRetrieveProxyService,
     ResourcesRetrieveProxyService,
     ResourcesRetrieveService,
