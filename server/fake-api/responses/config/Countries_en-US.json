@@ -1,0 +1,1200 @@
+{
+  "countries": [
+    {
+      "codeIso2": "af",
+      "countryCode": "0101",
+      "countryName": "Afghanistan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "al",
+      "countryCode": "0102",
+      "countryName": "Albania",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "dz",
+      "countryCode": "A016",
+      "countryName": "Algeria",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ad",
+      "countryCode": "9901",
+      "countryName": "Andorra",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ao",
+      "countryCode": "0103",
+      "countryName": "Angola",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ai",
+      "countryCode": "A020",
+      "countryName": "Anguilla",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ag",
+      "countryCode": "0104",
+      "countryName": "Antigua And Barbuda",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ar",
+      "countryCode": "5510",
+      "countryName": "Argentina",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "am",
+      "countryCode": "A011",
+      "countryName": "Armenia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "aw",
+      "countryCode": "9759",
+      "countryName": "Aruba",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "au",
+      "countryCode": "0230",
+      "countryName": "Australia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "at",
+      "countryCode": "0620",
+      "countryName": "Austria",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "az",
+      "countryCode": "A005",
+      "countryName": "Azerbaijan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bs",
+      "countryCode": "9777",
+      "countryName": "Bahamas, The",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bh",
+      "countryCode": "0105",
+      "countryName": "Bahrain",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bd",
+      "countryCode": "4230",
+      "countryName": "Bangladesh",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bb",
+      "countryCode": "9730",
+      "countryName": "Barbados",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "be",
+      "countryCode": "0820",
+      "countryName": "Belgium",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bz",
+      "countryCode": "5811",
+      "countryName": "Belize",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bj",
+      "countryCode": "0107",
+      "countryName": "Benin",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bm",
+      "countryCode": "0108",
+      "countryName": "Bermuda",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bo",
+      "countryCode": "5610",
+      "countryName": "Bolivia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bq",
+      "countryCode": "A022",
+      "countryName": "Bonaire, Sint Eustatius And Saba",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ba",
+      "countryCode": "9800",
+      "countryName": "Bosnia And Herzegovina",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bw",
+      "countryCode": "A012",
+      "countryName": "Botswana",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "br",
+      "countryCode": "5710",
+      "countryName": "Brazil",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bn",
+      "countryCode": "0110",
+      "countryName": "Brunei",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bg",
+      "countryCode": "9789",
+      "countryName": "Bulgaria",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bf",
+      "countryCode": "0111",
+      "countryName": "Burkina Faso",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "bi",
+      "countryCode": "0112",
+      "countryName": "Burundi",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kh",
+      "countryCode": "0113",
+      "countryName": "Cambodia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cm",
+      "countryCode": "0114",
+      "countryName": "Cameroon",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ca",
+      "countryCode": "6000",
+      "countryName": "Canada",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cv",
+      "countryCode": "0176",
+      "countryName": "Cape Verde",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ky",
+      "countryCode": "9741",
+      "countryName": "Cayman Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "td",
+      "countryCode": "0115",
+      "countryName": "Chad",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cl",
+      "countryCode": "7510",
+      "countryName": "Chile",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cn",
+      "countryCode": "0830",
+      "countryName": "China",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "co",
+      "countryCode": "7610",
+      "countryName": "Colombia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "km",
+      "countryCode": "A013",
+      "countryName": "Comoros",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cg",
+      "countryCode": "0116",
+      "countryName": "Congo, Republic Of The",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ck",
+      "countryCode": "0133",
+      "countryName": "Cook Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cr",
+      "countryCode": "7710",
+      "countryName": "Costa Rica",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ci",
+      "countryCode": "9754",
+      "countryName": "Cote D'Ivoire",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "hr",
+      "countryCode": "0118",
+      "countryName": "Croatia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cw",
+      "countryCode": "9902",
+      "countryName": "Cura\u00e7ao",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cy",
+      "countryCode": "1420",
+      "countryName": "Cyprus",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "cz",
+      "countryCode": "9740",
+      "countryName": "Czech Republic",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "dk",
+      "countryCode": "1720",
+      "countryName": "Denmark",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "dj",
+      "countryCode": "A009",
+      "countryName": "Djibouti",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "do",
+      "countryCode": "9210",
+      "countryName": "Dominican Republic",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ec",
+      "countryCode": "7910",
+      "countryName": "Ecuador",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "eg",
+      "countryCode": "9020",
+      "countryName": "Egypt",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sv",
+      "countryCode": "8010",
+      "countryName": "El Salvador",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gq",
+      "countryCode": "9751",
+      "countryName": "Equatorial Guinea",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "er",
+      "countryCode": "A004",
+      "countryName": "Eritrea",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ee",
+      "countryCode": "6310",
+      "countryName": "Estonia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "et",
+      "countryCode": "0120",
+      "countryName": "Ethiopia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "fk",
+      "countryCode": "0134",
+      "countryName": "Falkland Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "fj",
+      "countryCode": "7912",
+      "countryName": "Fiji",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "fi",
+      "countryCode": "1920",
+      "countryName": "Finland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "fr",
+      "countryCode": "2020",
+      "countryName": "France",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gf",
+      "countryCode": "A001",
+      "countryName": "French Guiana",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pf",
+      "countryCode": "0174",
+      "countryName": "French Polynesia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pf",
+      "countryCode": "A017",
+      "countryName": "French Polynesia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ga",
+      "countryCode": "0121",
+      "countryName": "Gabon",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gm",
+      "countryCode": "0122",
+      "countryName": "Gambia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ge",
+      "countryCode": "0123",
+      "countryName": "Georgia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "de",
+      "countryCode": "2320",
+      "countryName": "Germany",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gh",
+      "countryCode": "5820",
+      "countryName": "Ghana",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gi",
+      "countryCode": "0124",
+      "countryName": "Gibraltar",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gr",
+      "countryCode": "2720",
+      "countryName": "Greece",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gd",
+      "countryCode": "0126",
+      "countryName": "Grenada",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gp",
+      "countryCode": "A019",
+      "countryName": "Guadeloupe",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gu",
+      "countryCode": "0127",
+      "countryName": "Guam",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gt",
+      "countryCode": "8210",
+      "countryName": "Guatemala",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gn",
+      "countryCode": "0128",
+      "countryName": "Guinea",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gw",
+      "countryCode": "0129",
+      "countryName": "Guinea-Bissau",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gy",
+      "countryCode": "5910",
+      "countryName": "Guyana",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ht",
+      "countryCode": "8310",
+      "countryName": "Haiti",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "hn",
+      "countryCode": "8410",
+      "countryName": "Honduras",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "hk",
+      "countryCode": "0130",
+      "countryName": "Hong Kong",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "hu",
+      "countryCode": "3120",
+      "countryName": "Hungary",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "is",
+      "countryCode": "3220",
+      "countryName": "Iceland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "in",
+      "countryCode": "1430",
+      "countryName": "India",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "id",
+      "countryCode": "1530",
+      "countryName": "Indonesia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ie",
+      "countryCode": "3620",
+      "countryName": "Ireland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "il",
+      "countryCode": "3720",
+      "countryName": "Israel",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "it",
+      "countryCode": "3820",
+      "countryName": "Italy",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "jm",
+      "countryCode": "8510",
+      "countryName": "Jamaica",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "jp",
+      "countryCode": "1630",
+      "countryName": "Japan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "jo",
+      "countryCode": "0141",
+      "countryName": "Jordan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kz",
+      "countryCode": "0143",
+      "countryName": "Kazakhstan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ke",
+      "countryCode": "0144",
+      "countryName": "Kenya",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kw",
+      "countryCode": "4220",
+      "countryName": "Kuwait",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kg",
+      "countryCode": "A007",
+      "countryName": "Kyrgyzstan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "la",
+      "countryCode": "0145",
+      "countryName": "Laos",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lv",
+      "countryCode": "9786",
+      "countryName": "Latvia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ls",
+      "countryCode": "0146",
+      "countryName": "Lesotho",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lr",
+      "countryCode": "0148",
+      "countryName": "Liberia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "li",
+      "countryCode": "A002",
+      "countryName": "Liechtenstein",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lt",
+      "countryCode": "9650",
+      "countryName": "Lithuania",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lu",
+      "countryCode": "4720",
+      "countryName": "Luxembourg",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mo",
+      "countryCode": "0150",
+      "countryName": "Macau",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mk",
+      "countryCode": "A015",
+      "countryName": "Macedonia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mg",
+      "countryCode": "0151",
+      "countryName": "Madagascar",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mw",
+      "countryCode": "0152",
+      "countryName": "Malawi",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "my",
+      "countryCode": "2030",
+      "countryName": "Malaysia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mv",
+      "countryCode": "0153",
+      "countryName": "Maldives",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ml",
+      "countryCode": "0154",
+      "countryName": "Mali",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mt",
+      "countryCode": "0155",
+      "countryName": "Malta",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mp",
+      "countryCode": "0156",
+      "countryName": "Mariana Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mh",
+      "countryCode": "0135",
+      "countryName": "Marshall Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mq",
+      "countryCode": "9766",
+      "countryName": "Martinique",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mr",
+      "countryCode": "0158",
+      "countryName": "Mauritania",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mu",
+      "countryCode": "0157",
+      "countryName": "Mauritius",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mx",
+      "countryCode": "8610",
+      "countryName": "Mexico",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "fm",
+      "countryCode": "0159",
+      "countryName": "Micronesia, Federated States Of",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "md",
+      "countryCode": "A008",
+      "countryName": "Moldova, Republic Of",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mc",
+      "countryCode": "0160",
+      "countryName": "Monaco",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mn",
+      "countryCode": "0161",
+      "countryName": "Mongolia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "me",
+      "countryCode": "A018",
+      "countryName": "Montenegro",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ma",
+      "countryCode": "9752",
+      "countryName": "Morocco",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mz",
+      "countryCode": "0163",
+      "countryName": "Mozambique",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "mm",
+      "countryCode": "0164",
+      "countryName": "Myanmar",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "na",
+      "countryCode": "0165",
+      "countryName": "Namibia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "np",
+      "countryCode": "0167",
+      "countryName": "Nepal",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "nl",
+      "countryCode": "5720",
+      "countryName": "Netherlands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "nc",
+      "countryCode": "2130",
+      "countryName": "New Caledonia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "nz",
+      "countryCode": "2430",
+      "countryName": "New Zealand",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ni",
+      "countryCode": "8810",
+      "countryName": "Nicaragua",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ne",
+      "countryCode": "0168",
+      "countryName": "Niger",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ng",
+      "countryCode": "5920",
+      "countryName": "Nigeria",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "nu",
+      "countryCode": "A014",
+      "countryName": "Niue",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "no",
+      "countryCode": "6020",
+      "countryName": "Norway",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "om",
+      "countryCode": "9803",
+      "countryName": "Oman",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pk",
+      "countryCode": "2730",
+      "countryName": "Pakistan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pw",
+      "countryCode": "0172",
+      "countryName": "Palau",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ps",
+      "countryCode": "A024",
+      "countryName": "Palestine",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pa",
+      "countryCode": "8910",
+      "countryName": "Panama",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pg",
+      "countryCode": "0173",
+      "countryName": "Papua New Guinea",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "py",
+      "countryCode": "9010",
+      "countryName": "Paraguay",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pe",
+      "countryCode": "9110",
+      "countryName": "Peru",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ph",
+      "countryCode": "2830",
+      "countryName": "Philippines",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pl",
+      "countryCode": "6320",
+      "countryName": "Poland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pt",
+      "countryCode": "6420",
+      "countryName": "Portugal",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pr",
+      "countryCode": "4010",
+      "countryName": "Puerto Rico",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "qa",
+      "countryCode": "6520",
+      "countryName": "Qatar",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "re",
+      "countryCode": "0177",
+      "countryName": "Reunion",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ro",
+      "countryCode": "9640",
+      "countryName": "Romania",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "rw",
+      "countryCode": "0178",
+      "countryName": "Rwanda",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sh",
+      "countryCode": "0181",
+      "countryName": "Saint Helena",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kn",
+      "countryCode": "A006",
+      "countryName": "Saint Kitts And Nevis",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lc",
+      "countryCode": "0182",
+      "countryName": "Saint Lucia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "pm",
+      "countryCode": "0189",
+      "countryName": "Saint Pierre And Miquelon",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "vc",
+      "countryCode": "0190",
+      "countryName": "Saint Vincent And The Grenadines",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ws",
+      "countryCode": "0179",
+      "countryName": "Samoa",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "st",
+      "countryCode": "0180",
+      "countryName": "Sao Tome And Principe",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sa",
+      "countryCode": "7120",
+      "countryName": "Saudi Arabia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sn",
+      "countryCode": "9748",
+      "countryName": "Senegal",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "rs",
+      "countryCode": "9530",
+      "countryName": "Serbia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sc",
+      "countryCode": "0137",
+      "countryName": "Seychelles Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sl",
+      "countryCode": "0183",
+      "countryName": "Sierra Leone",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sg",
+      "countryCode": "0184",
+      "countryName": "Singapore",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sx",
+      "countryCode": "A023",
+      "countryName": "Sint Maarten",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sk",
+      "countryCode": "9750",
+      "countryName": "Slovakia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "si",
+      "countryCode": "9773",
+      "countryName": "Slovenia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sb",
+      "countryCode": "0136",
+      "countryName": "Solomon Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "za",
+      "countryCode": "0192",
+      "countryName": "South Africa",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "kr",
+      "countryCode": "0117",
+      "countryName": "South Korea",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "es",
+      "countryCode": "7820",
+      "countryName": "Spain",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "lk",
+      "countryCode": "0187",
+      "countryName": "Sri Lanka",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sr",
+      "countryCode": "9753",
+      "countryName": "Suriname",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "sz",
+      "countryCode": "0193",
+      "countryName": "Swaziland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "se",
+      "countryCode": "8020",
+      "countryName": "Sweden",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ch",
+      "countryCode": "8120",
+      "countryName": "Switzerland",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tw",
+      "countryCode": "3430",
+      "countryName": "Taiwan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tj",
+      "countryCode": "A010",
+      "countryName": "Tajikistan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tz",
+      "countryCode": "0194",
+      "countryName": "Tanzania, United Republic Of",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "th",
+      "countryCode": "3530",
+      "countryName": "Thailand",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tg",
+      "countryCode": "0195",
+      "countryName": "Togo",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "to",
+      "countryCode": "0196",
+      "countryName": "Tonga",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tt",
+      "countryCode": "9310",
+      "countryName": "Trinidad And Tobago",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tn",
+      "countryCode": "0197",
+      "countryName": "Tunisia",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tr",
+      "countryCode": "8820",
+      "countryName": "Turkey",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tm",
+      "countryCode": "A003",
+      "countryName": "Turkmenistan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tc",
+      "countryCode": "0198",
+      "countryName": "Turks And Caicos Islands",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "tv",
+      "countryCode": "0199",
+      "countryName": "Tuvalu",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ug",
+      "countryCode": "0200",
+      "countryName": "Uganda",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "ae",
+      "countryCode": "0119",
+      "countryName": "United Arab Emirates",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "gb",
+      "countryCode": "9120",
+      "countryName": "United Kingdom",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "us",
+      "countryCode": "0100",
+      "countryName": "United States",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "uy",
+      "countryCode": "9410",
+      "countryName": "Uruguay",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "uz",
+      "countryCode": "0202",
+      "countryName": "Uzbekistan",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "vu",
+      "countryCode": "0203",
+      "countryName": "Vanuatu",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "vn",
+      "countryCode": "9521",
+      "countryName": "Vietnam",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "vg",
+      "countryCode": "0138",
+      "countryName": "Virgin Islands (Gb)",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "vi",
+      "countryCode": "0139",
+      "countryName": "Virgin Islands (Us)",
+      "defaultLanguage": "EN"
+    },
+    {
+      "codeIso2": "XX",
+      "countryCode": "44340",
+      "countryName": "TESTA",
+      "defaultLanguage": "EN"
+    }
+  ],
+  "entityCode": "CNTMST",
+  "companyCode": "LM"
+}

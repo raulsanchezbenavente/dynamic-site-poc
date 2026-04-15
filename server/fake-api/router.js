@@ -67,6 +67,11 @@ function createFakeApiRouter(options = {}) {
     sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
   });
 
+  router.get('/configuration/api/v1/Countries', (req, res) => {
+    const culture = req.query.culture || 'en-US';
+    sendJsonResponseFromFile(res, `config/Countries_${culture}.json`);
+  });
+
   router.get('/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys', (_req, res) => {
     sendJsonResponseFromFile(res, 'translation/GetByCultureAndKeys.json');
   });
