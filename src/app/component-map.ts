@@ -11,6 +11,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     ),
 
   //Avianca
+  authorizationBlock_uiplus: () =>
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   CorporateMainHeaderBlock_uiplus: () =>
     import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
   CorporateMainFooterBlock_uiplus: () =>
@@ -88,6 +90,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
 export const configInputAliases: Record<string, string> = {
   loyaltyOverviewCard_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
+
+  authorizationBlock_uiplus: 'baseConfig',
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
   CorporateMainFooterBlock_uiplus: 'baseConfig',
   BreadcrumbBlock_uiplus: 'baseConfig',

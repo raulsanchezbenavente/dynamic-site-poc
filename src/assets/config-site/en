@@ -86,7 +86,7 @@
                 "component": "authorizationBlock_uiplus",
                 "span": 12,
                 "config": {
-                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AuthorizationBlock_uiplus_95-74-3F-4E-EF-20-FF-42_en-us"
                 }
               }
             ]
@@ -109,7 +109,7 @@
                           {
                             "cols": [
                               {
-                                "component": "accountProfile_uiplus",
+                                "component": "accountProfile_uiplusXX",
                                 "span": 12,
                                 "config": {
                                   "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"

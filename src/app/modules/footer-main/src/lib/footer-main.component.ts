@@ -62,7 +62,6 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
 
   constructor() {
     super();
-
     effect(() => {
       const baseConfig = this.baseConfig();
       if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
@@ -93,13 +92,15 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
   }
 
   public ngOnInit(): void {
-    this.initConfig()
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.composer.updateComposerRegisterStatus(this.data().id, ComposerStatusEnum.LOADED);
-        this.isLoaded.set(true);
-      });
-    this.subscribeComposerNotifier();
+    if (!this.baseConfig()) {
+      this.initConfig()
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe(() => {
+          this.composer.updateComposerRegisterStatus(this.data().id, ComposerStatusEnum.LOADED);
+          this.isLoaded.set(true);
+        });
+      this.subscribeComposerNotifier();
+    }
     this.setIsResponsive();
   }
 

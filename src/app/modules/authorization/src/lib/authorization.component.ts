@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, ElementRef, inject, OnInit, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { ChangeDetectionStrategy, Component, ElementRef, inject, input, OnInit, signal } from '@angular/core';
 import {
   AuthService,
   CommonConfig,
@@ -25,6 +26,7 @@ import { AuthorizationConfig } from './models/authorization.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthorizationComponent implements OnInit {
+  public baseConfig = input<{ url: string } | null>(null);
   public config = signal<AuthorizationConfig | null>(null);
 
   private readonly destroy$ = new Subject<void>();
@@ -36,6 +38,7 @@ export class AuthorizationComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly redirectService = inject(RedirectionService);
   private readonly data = signal<DataModule>(this.configService.getDataModuleId(this.elementRef));
+  private readonly http = inject(HttpClient);
 
   public ngOnInit(): void {
     forkJoin([this.initConfig(), this.getBusinessConfig()]).subscribe(() => {
@@ -65,12 +68,21 @@ export class AuthorizationComponent implements OnInit {
    * @returns An Observable that is populated once configuration initialization has completed.
    */
   private initConfig(): Observable<AuthorizationConfig> {
-    return this.configService.getBusinessModuleConfig<AuthorizationConfig>(this.data().config).pipe(
-      tap((config) => {
-        this.config.set(config);
-        this.logger.info('AuthorizationComponent', 'Business module config', this.config);
-      })
-    );
+    if (this.baseConfig()) {
+      return this.http.get<AuthorizationConfig>(this.baseConfig()?.url || '').pipe(
+        tap((response) => {
+          this.config.set(response);
+          // this.emitDynamicPageReady(this.baseConfig(), 'authorizationBlock_uiplus', DynamicPageReadyState.RENDERED);
+        })
+      );
+    } else {
+      return this.configService.getBusinessModuleConfig<AuthorizationConfig>(this.data().config).pipe(
+        tap((config) => {
+          this.config.set(config);
+          this.logger.info('AuthorizationComponent', 'Business module config', this.config);
+        })
+      );
+    }
   }
 
   /**
