@@ -30,7 +30,7 @@ function sendJsonResponseFromFile(res, relativeFilePath) {
 
 function withDelay(handler) {
   return (req, res) => {
-    setTimeout(() => handler(req, res), 1000);
+    setTimeout(() => handler(req, res), 500);
   };
 }
 
@@ -52,12 +52,9 @@ function createFakeApiRouter(options = {}) {
     next();
   });
 
-  router.get(
-    '/health',
-    withDelay((_req, res) => {
-      res.status(200).json({ ok: true, service: 'fake-api' });
-    })
-  );
+  router.get('/health', (_req, res) => {
+    res.status(200).json({ ok: true, service: 'fake-api' });
+  });
 
   router.get(
     '/accounts/api/v2/session',
@@ -87,72 +84,54 @@ function createFakeApiRouter(options = {}) {
     })
   );
 
-  router.get(
-    '/LoyaltyPrograms',
-    withDelay((_req, res) => {
-      sendJsonResponseFromFile(res, 'loyalty-programs.json');
-    })
-  );
+  router.get('/LoyaltyPrograms', (_req, res) => {
+    sendJsonResponseFromFile(res, 'loyalty-programs.json');
+  });
 
-  router.get(
-    '/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings',
-    withDelay((_req, res) => {
-      sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
-    })
-  );
+  router.get('/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings', (_req, res) => {
+    sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
+  });
 
-  router.get(
-    '/configuration/api/v1/UI_PLUS/Config/PointOfSales',
-    withDelay((req, res) => {
-      const culture = req.query.culture || 'en';
-      sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
-    })
-  );
+  router.get('/configuration/api/v1/UI_PLUS/Config/PointOfSales', (req, res) => {
+    const culture = req.query.culture || 'en';
+    sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
+  });
 
-  router.get(
-    '/configuration/api/v1/Countries',
-    withDelay((req, res) => {
-      const culture = req.query.culture || 'en-US';
-      sendJsonResponseFromFile(res, `config/Countries_${culture}.json`);
-    })
-  );
+  router.get('/configuration/api/v1/Countries', (req, res) => {
+    const culture = req.query.culture || 'en-US';
+    sendJsonResponseFromFile(res, `config/Countries_${culture}.json`);
+  });
 
-  router.get(
-    '/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys',
-    withDelay((_req, res) => {
-      sendJsonResponseFromFile(res, 'translation/GetByCultureAndKeys.json');
-    })
-  );
+  router.get('/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys', (_req, res) => {
+    sendJsonResponseFromFile(res, 'translation/GetByCultureAndKeys.json');
+  });
 
-  router.get(
-    '/configuration/api/v1/UI_PLUS/Config/get',
-    withDelay((req, res) => {
-      const filePath = path.join(responsesDir, `config/${req.query.key}.json`);
-      try {
-        const raw = fs.readFileSync(filePath, 'utf8');
-        if (!raw.trim()) {
-          res.status(204).end();
-          return;
-        }
-        res.status(200).json(JSON.parse(raw));
-      } catch (error) {
-        if (error.code === 'ENOENT') {
-          res.status(404).json({ error: `No fake response for key: ${req.query.key}`, path: filePath });
-          return;
-        }
-        const message = error instanceof Error ? error.message : String(error);
-        res.status(500).json({
-          error: {
-            code: 'FAKE_API_RESPONSE_FILE_ERROR',
-            description: `Could not read fake API response file: config/${req.query.key}.json`,
-            trace: message,
-          },
-          success: false,
-          result: null,
-        });
+  router.get('/configuration/api/v1/UI_PLUS/Config/get', (req, res) => {
+    const filePath = path.join(responsesDir, `config/${req.query.key}.json`);
+    try {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      if (!raw.trim()) {
+        res.status(204).end();
+        return;
       }
-    })
-  );
+      res.status(200).json(JSON.parse(raw));
+    } catch (error) {
+      if (error.code === 'ENOENT') {
+        res.status(404).json({ error: `No fake response for key: ${req.query.key}`, path: filePath });
+        return;
+      }
+      const message = error instanceof Error ? error.message : String(error);
+      res.status(500).json({
+        error: {
+          code: 'FAKE_API_RESPONSE_FILE_ERROR',
+          description: `Could not read fake API response file: config/${req.query.key}.json`,
+          trace: message,
+        },
+        success: false,
+        result: null,
+      });
+    }
+  });
 
   return router;
 }
