@@ -30,7 +30,7 @@ function sendJsonResponseFromFile(res, relativeFilePath) {
 
 function withDelay(handler) {
   return (req, res) => {
-    setTimeout(() => handler(req, res), 500);
+    setTimeout(() => handler(req, res), 250);
   };
 }
 
