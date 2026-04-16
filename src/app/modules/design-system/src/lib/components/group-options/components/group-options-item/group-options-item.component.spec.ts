@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { DsGroupOptionsItemComponent } from './group-options-item.component';
 import { GroupOptionElementData } from '../models/group-option-element.model';
 import { ButtonStyles, LayoutSize } from '@dcx/ui/libs';
-import { GroupOptionsEventService } from '../../services';
+import { GroupOptionsEventService } from '../../services/group-options-event.service';
 
 describe('GroupOptionsItemComponent', () => {
   let component: DsGroupOptionsItemComponent;

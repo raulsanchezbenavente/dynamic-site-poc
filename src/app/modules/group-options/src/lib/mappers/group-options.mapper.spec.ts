@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AvailableOption } from '@dcx/ui/business-common';
-import { GroupOptionElementData } from '@dcx/ui/design-system';
+import { AvailableOption, GroupOptionElementData } from '@dcx/ui/design-system';
 import { GroupOptionsMapper } from './group-options.mapper';
 
 

@@ -1,5 +1,4 @@
 export * from './analytics/analytics-events.interfaces';
-export * from './group-options/available-option-state.model';
 export * from './loyalty/customer-account.model';
 export * from './loyalty/customer-balance.model';
 export * from './loyalty/customer-program.model';

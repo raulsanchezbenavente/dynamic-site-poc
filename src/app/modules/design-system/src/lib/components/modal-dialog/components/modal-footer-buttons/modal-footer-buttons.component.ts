@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Optional, Output, ViewEncapsulation } from '@angular/core';
-import { MergeConfigsService, ModalDialogActionType } from '@dcx/ui/libs';
+import { MergeConfigsService, ModalDialogActionType, PreventMouseFocusDirective } from '@dcx/ui/libs';
 
 import { DsButtonComponent } from '../../../ds-button/ds-button.component';
 import { ModalFooterButtonsConfig } from '../../models/modal-footer-buttons.config';
@@ -11,7 +11,7 @@ import { MODAL_FOOTER_BUTTONS_CONFIG } from '../../tokens/modal-footer-buttons-d
   styleUrls: ['./styles/modal-footer-buttons.styles.scss'],
   encapsulation: ViewEncapsulation.None,
   host: { class: 'modal-footer-buttons' },
-  imports: [DsButtonComponent],
+  imports: [DsButtonComponent, PreventMouseFocusDirective],
   standalone: true,
 })
 export class ModalFooterButtonsComponent implements OnInit {

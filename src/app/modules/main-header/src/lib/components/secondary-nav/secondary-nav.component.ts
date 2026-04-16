@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { LanguageSelectorComponent } from '@dcx/storybook/design-system';
 import { PointsOfSaleComponent } from '@dcx/ui/business-common';
 
-import { SecondaryNavLinkComponent } from './components/secondary-nav-link/secondary-nav-link.component';
 import { SecondaryNavComponents } from './enums/secondary-nav-components.enum';
 import { SecondaryNav } from './models/secondary-nav.model';
 
@@ -16,7 +15,7 @@ import { SecondaryNav } from './models/secondary-nav.model';
   host: {
     class: 'secondary-nav',
   },
-  imports: [SecondaryNavLinkComponent, LanguageSelectorComponent, PointsOfSaleComponent],
+  imports: [LanguageSelectorComponent, PointsOfSaleComponent],
   standalone: true,
 })
 export class SecondaryNavComponent {

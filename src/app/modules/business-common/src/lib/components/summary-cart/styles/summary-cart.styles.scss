@@ -14,14 +14,14 @@
     --skeleton-line-border-radius: 100vh;
 }
 .summary-cart-button {
+    --price-currency-fontsize: var(--f-size);
     --#{$ds}btn-width: 100%;
 
     display: inline-flex;
 
     ::ng-deep .#{$ds}button {
-        @include collapse-trigger-flex(inherit, inherit, right);
+        @include collapse-trigger-flex(var(--f-size-x-large), inherit, right);
         &::after {
-            font-size: var(--f-size-x-large);
             margin: 0;
         }
     }

@@ -9,10 +9,11 @@ export * from './group-options.component';
 // Enums
 export * from './enums/template-styles.enum';
 
-// Services
-export * from './services/available-option.service';
-export * from './services/group-options-event.service';
-
 // Models
 export * from './components/models/group-option-element.model';
 export * from './components/models/option-selected-event.model';
+export * from './models/available-option-state.model';
+
+// Services
+export * from './services/available-option.service';
+export * from './services/group-options-event.service';

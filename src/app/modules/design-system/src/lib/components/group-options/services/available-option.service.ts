@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AvailableOption, AvailableOptionsState } from '@dcx/ui/business-common';
 import { BehaviorSubject, Observable } from 'rxjs';
+
+import { AvailableOption, AvailableOptionsState } from '../models/available-option-state.model';
 
 @Injectable({ providedIn: 'root' })
 export class AvailableOptionService {

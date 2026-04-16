@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AvailableOption } from '@dcx/ui/business-common';
-import { GroupOptionElementData } from '@dcx/ui/design-system';
+import { AvailableOption, GroupOptionElementData } from '@dcx/ui/design-system';
 
 @Injectable({ providedIn: 'root' })
 export class GroupOptionsMapper {

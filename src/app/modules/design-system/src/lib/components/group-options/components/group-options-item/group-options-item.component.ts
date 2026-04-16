@@ -3,7 +3,7 @@ import { Component, computed, inject, input } from '@angular/core';
 import { ButtonConfig, ButtonStyles, LayoutSize } from '@dcx/ui/libs';
 
 import { DsButtonComponent } from '../../../ds-button/ds-button.component';
-import { GroupOptionsEventService } from '../../services';
+import { GroupOptionsEventService } from '../../services/group-options-event.service';
 import { GroupOptionElementData } from '../models/group-option-element.model';
 
 @Component({

@@ -1,5 +1,5 @@
 import { GroupOptionsTemplateStyles, TitleHeading } from '@dcx/ui/design-system';
-import { LinkTarget } from '@dcx/ui/libs';
+import { HorizontalAlign, LinkTarget } from '@dcx/ui/libs';
 
 import type { GroupOptionsConfig } from '../../lib/models/group-options-config.model';
 
@@ -65,7 +65,7 @@ const GROUP_OPTIONS = [
 export const DATA_INITIAL_VALUE: GroupOptionsConfig = {
   culture: 'es',
   groupOptionsModel: {
-    headingHorizAlignment: 'left',
+    headingHorizAlignment: HorizontalAlign.LEFT,
     titleHeadingTag: TitleHeading.H2,
     titleHeadingStyle: TitleHeading.H1,
     titleText: 'Gestiona tu reserva',

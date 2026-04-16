@@ -19,7 +19,6 @@
     "./preview.ts",
     "../../design-system/.storybook/i18n/**/*",
     "../../design-system/.storybook/utils/**/*",
-    "../../business-common/.storybook/session/**/*"
   ],
   "files": [
     "./typings.d.ts"
