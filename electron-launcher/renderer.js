@@ -3699,7 +3699,7 @@ byModuleOverlay?.addEventListener('click', (event) => {
 if (appLogoImg) {
   appLogoImg.setAttribute('role', 'button');
   appLogoImg.setAttribute('tabindex', '0');
-  appLogoImg.setAttribute('aria-label', 'About Dynamic Site Launcher');
+  appLogoImg.setAttribute('aria-label', 'About Script launcher application');
   appLogoImg.addEventListener('click', () => {
     openAboutDialog();
   });

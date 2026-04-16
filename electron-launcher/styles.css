@@ -235,7 +235,7 @@ body {
 }
 .about-dialog {
   position: relative;
-  width: min(31rem, calc(100vw - 2.2rem));
+  width: min(32rem, calc(100vw - 2.2rem));
   border: 2px solid #c9d8ec;
   border-radius: 1.35rem;
   background: #f6faff;
