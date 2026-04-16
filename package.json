@@ -67,7 +67,7 @@
   "private": true,
   "build": {
     "appId": "com.flyr.dynamic.site.launcher",
-    "productName": "Dynamic Site Launcher",
+    "productName": "Script launcher application",
     "directories": {
       "output": "dist-electron"
     },
@@ -101,7 +101,7 @@
       ],
       "category": "Development",
       "desktop": {
-        "Name": "Dynamic Site Launcher",
+        "Name": "Script launcher application",
         "StartupWMClass": "dynamic-site-launcher",
         "Icon": "avianca-icon"
       }
