@@ -20,6 +20,7 @@ const httpsPort = Number(process.env.BACKEND_HTTPS_PORT || 443);
 const publicHost = process.env.PUBLIC_HOST || 'av-booking-local.newshore.es';
 const healthCheckPath = '/__backend-health';
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
+const ssoBypassKeycloak = process.argv.includes('--sso-bypass-config');
 
 const distDir = path.join(__dirname, '..', 'dist', 'dynamic-site', 'browser');
 const distIndexPath = path.join(distDir, 'index.html');
@@ -80,6 +81,7 @@ mountSharedRoutes(app, {
   healthCheckPath,
   countriesFlagsDir: srcCountriesFlagsDir,
   enableFakeApi,
+  ssoBypassKeycloak,
   fakeApiLogLabel: '[Fake API] Enabled without prefix (backend)',
 });
 
