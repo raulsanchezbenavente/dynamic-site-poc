@@ -7,6 +7,7 @@ function mountSharedRoutes(app, options = {}) {
     healthCheckPath = '/__proxy-health',
     countriesFlagsDir,
     enableFakeApi = false,
+    ssoBypassKeycloak = false,
     fakeApiLogLabel = '[Fake API] Enabled without prefix',
   } = options;
 
@@ -19,8 +20,19 @@ function mountSharedRoutes(app, options = {}) {
     app.use('/assets/ui_plus/imgs/countries-flags', express.static(countriesFlagsDir));
   }
 
+  if (ssoBypassKeycloak) {
+    app.get('/__sso-bypass/finalize', (req, res) => {
+      const target = typeof req.query.target === 'string' ? req.query.target.trim() : '/';
+      const maxAgeSec = Number(process.env.SSO_BYPASS_SESSION_TTL_MS || 8 * 60 * 60);
+      const kySessionCookie = `KY_SESSION=true; Path=/; SameSite=Lax; Max-Age=${maxAgeSec}`;
+
+      res.setHeader('Set-Cookie', kySessionCookie);
+      res.redirect(target || '/');
+    });
+  }
+
   if (enableFakeApi) {
-    app.use(express.json(), createFakeApiRouter());
+    app.use(express.json(), createFakeApiRouter({ ssoBypassKeycloak }));
     console.log(fakeApiLogLabel);
   }
 }

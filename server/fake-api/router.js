@@ -35,7 +35,7 @@ function withDelay(handler) {
 }
 
 function createFakeApiRouter(options = {}) {
-  const { allowedOrigins = '*' } = options;
+  const { allowedOrigins = '*', ssoBypassKeycloak = false } = options;
 
   const router = express.Router();
 
@@ -120,7 +120,18 @@ function createFakeApiRouter(options = {}) {
   });
 
   router.get('/configuration/api/v1/UI_PLUS/Config/get', (req, res) => {
-    const filePath = path.join(responsesDir, `config/${req.query.key}.json`);
+    let key = '';
+    if (typeof req.query.key === 'string') {
+      key = req.query.key.trim();
+    } else if (Array.isArray(req.query.key) && typeof req.query.key[0] === 'string') {
+      key = req.query.key[0].trim();
+    }
+
+    const isBypassKeycloakConfig = ssoBypassKeycloak && key === 'common_KeycloakConfiguration';
+    const relativeConfigPath = isBypassKeycloakConfig
+      ? 'config/common_KeycloakConfiguration.sso-bypass.json'
+      : `config/${key}.json`;
+    const filePath = path.join(responsesDir, relativeConfigPath);
     try {
       const raw = fs.readFileSync(filePath, 'utf8');
       if (!raw.trim()) {
@@ -130,14 +141,14 @@ function createFakeApiRouter(options = {}) {
       res.status(200).json(JSON.parse(raw));
     } catch (error) {
       if (error.code === 'ENOENT') {
-        res.status(404).json({ error: `No fake response for key: ${req.query.key}`, path: filePath });
+        res.status(404).json({ error: `No fake response for key: ${key}`, path: filePath });
         return;
       }
       const message = error instanceof Error ? error.message : String(error);
       res.status(500).json({
         error: {
           code: 'FAKE_API_RESPONSE_FILE_ERROR',
-          description: `Could not read fake API response file: config/${req.query.key}.json`,
+          description: `Could not read fake API response file: ${relativeConfigPath}`,
           trace: message,
         },
         success: false,

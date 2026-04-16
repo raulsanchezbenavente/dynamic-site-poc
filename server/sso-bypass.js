@@ -401,6 +401,22 @@ const appendAuthResponseToUri = (uri, params, responseMode) => {
   return appendQueryToUri(uri, params);
 };
 
+const buildFinalizeRedirectUrl = (targetRedirectUri) => {
+  const redirectTarget = String(targetRedirectUri || '').trim();
+  if (!redirectTarget) {
+    return '/';
+  }
+
+  try {
+    const target = new URL(redirectTarget);
+    const finalizeUrl = new URL('/__sso-bypass/finalize', target.origin);
+    finalizeUrl.searchParams.set('target', redirectTarget);
+    return finalizeUrl.toString();
+  } catch {
+    return redirectTarget;
+  }
+};
+
 const normalizeUriForComparison = (rawUri) => {
   const input = String(rawUri || '').trim();
   if (!input) {
@@ -583,7 +599,7 @@ const handleDevLoginPost = async (req, res) => {
   });
 
   const redirectTo = appendAuthResponseToUri(redirectUri, { code, state, session_state: sessionId }, responseMode);
-  redirect(res, redirectTo);
+  redirect(res, buildFinalizeRedirectUrl(redirectTo));
 };
 
 const handleTokenRequest = async (req, res) => {
