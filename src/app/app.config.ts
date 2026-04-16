@@ -44,7 +44,7 @@ import {
 } from '@dcx/ui/libs';
 import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
 import { APP_LANGS, AppLang, SiteConfigService } from '@navigation';
-import { provideTranslateService, TranslateLoader, TranslateService } from '@ngx-translate/core';
+import { provideTranslateService, TranslateLoader } from '@ngx-translate/core';
 import { TRANSLATE_HTTP_LOADER_CONFIG, TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { KeycloakService } from 'keycloak-angular';
 import { CookieModule } from 'ngx-cookie';
@@ -180,17 +180,6 @@ export const appConfig: ApplicationConfig = {
       useValue: {
         prefix: '/assets/i18n/',
         suffix: '',
-      },
-    },
-    {
-      provide: APP_INITIALIZER,
-      multi: true,
-      deps: [TranslateService],
-      useFactory: (ts: TranslateService) => () => {
-        const lang = getLangFromUrl();
-
-        ts.setDefaultLang(lang);
-        return firstValueFrom(ts.use(lang));
       },
     },
   ],
