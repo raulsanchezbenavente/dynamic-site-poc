@@ -6,6 +6,7 @@
     "start:serve-proxy-sso-bypass",
     "build",
     "start:backend",
+    "start:backend:sso-bypass",
     "test",
     "test-by-module",
     "storybook-by-module"
