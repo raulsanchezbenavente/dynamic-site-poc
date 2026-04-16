@@ -9,7 +9,7 @@
     "start:proxy": "node --openssl-legacy-provider server/index-proxy.js",
     "start:sso-bypass": "node server/sso-bypass.js",
     "start:serve-proxy": "concurrently \"npm run start:serve\" \"npm run start:proxy\"",
-    "start:serve-proxy-sso-bypass": "concurrently \"npm run start:serve:bypass\" \"npm run start:proxy\" \"npm run start:sso-bypass\"",
+    "start:serve-proxy-sso-bypass": "concurrently \"npm run start:serve:bypass\" \"npm run start:proxy -- --sso-bypass-config\" \"npm run start:sso-bypass\"",
     "linux:enable-port-443": "bash ./enable-linux-port-443.sh",
     "build": "ng build",
     "build:compress": "node compress-dist.js",

@@ -7,6 +7,7 @@ function mountSharedRoutes(app, options = {}) {
     healthCheckPath = '/__proxy-health',
     countriesFlagsDir,
     enableFakeApi = false,
+    ssoBypassKeycloak = false,
     fakeApiLogLabel = '[Fake API] Enabled without prefix',
   } = options;
 
@@ -20,7 +21,7 @@ function mountSharedRoutes(app, options = {}) {
   }
 
   if (enableFakeApi) {
-    app.use(express.json(), createFakeApiRouter());
+    app.use(express.json(), createFakeApiRouter({ ssoBypassKeycloak }));
     console.log(fakeApiLogLabel);
   }
 }

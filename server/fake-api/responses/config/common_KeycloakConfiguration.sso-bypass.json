@@ -1,0 +1,8 @@
+{
+  "url": "http://localhost:4500/auth",
+  "realm": "lm-uat",
+  "clientId": "avianca-web",
+  "silentCheckSsoRedirectUri": "/auth/silent-check-sso.html",
+  "enableLogging": false,
+  "logoutRetryAttempts": 0
+}

@@ -26,6 +26,7 @@ const targetHost = 'localhost';
 const targetPort = 4200;
 const healthCheckPath = '/__proxy-health';
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
+const ssoBypassKeycloak = process.argv.includes('--sso-bypass-config');
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
 const sslPemPath = path.join(__dirname, 'cert', 'newshoreGeneral.pem');
@@ -102,6 +103,7 @@ mountSharedRoutes(app, {
   healthCheckPath,
   countriesFlagsDir,
   enableFakeApi,
+  ssoBypassKeycloak,
   fakeApiLogLabel: '[Fake API] Enabled without prefix',
 });
 
