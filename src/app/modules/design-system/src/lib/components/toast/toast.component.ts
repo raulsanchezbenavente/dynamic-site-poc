@@ -2,7 +2,6 @@ import { Component, ElementRef, inject, model, OnInit, output, viewChild } from 
 import { IconConfig } from '@dcx/ui/libs';
 import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import '@angular/localize/init';
 
 import { IconButtonComponent } from '../icon-button/icon-button.component';
 import { IconButtonConfig } from '../icon-button/models/icon-button.model';
