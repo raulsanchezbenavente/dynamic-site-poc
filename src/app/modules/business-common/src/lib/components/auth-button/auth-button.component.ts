@@ -234,6 +234,7 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
   }
 
   protected setButtonConfig(): void {
+    const signInTranslationKey = 'Auth.AuthButton.SignIn';
     this.notLoggedButtonConfig = {
       icon: {
         name: 'user-circle',
@@ -246,12 +247,18 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
     } as ButtonConfig;
 
     this.translate
-      .stream('Auth.AuthButton.SignIn')
+      .stream(signInTranslationKey)
       .pipe(takeUntil(this.destroy$))
       .subscribe((translated) => {
-        if (translated) {
-          this.notLoggedButtonConfig.label = translated;
-        }
+        const translatedLabel =
+          translated && translated !== signInTranslationKey ? translated : this.notLoggedButtonConfig.label;
+
+        this.notLoggedButtonConfig = {
+          ...this.notLoggedButtonConfig,
+          label: translatedLabel,
+        };
+
+        this.cdr.markForCheck();
       });
   }
 
