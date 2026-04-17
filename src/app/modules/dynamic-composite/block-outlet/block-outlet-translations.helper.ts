@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 const batchComponentKeys = new Map<string, Set<string>>();
 const batchLogTimers = new Map<string, ReturnType<typeof setTimeout>>();
 const fetchedTranslationBatches = new Set<string>();
+const translationsReadyMarkerKey = '__dynamicPageTranslationsReadyMarker';
 
 const BLOCK_KEY_TO_COMPONENT_NAME: Record<string, string> = {
   CorporateMainHeaderBlock_uiplus: 'CorporateMainHeader',
@@ -66,11 +67,7 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
     console.log('[block-outlet] final component keys (encoded):', encodedCsv);
 
     if (fetchedTranslationBatches.has(batchId)) {
-      document.dispatchEvent(
-        new CustomEvent('dynamic-page:translations-ready', {
-          detail: { batchId },
-        })
-      );
+      // Already loaded for this batch; do not emit remanent readiness events.
       return;
     }
 
@@ -84,9 +81,12 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
         translateService.setTranslation(culture, translations, true);
         translateService.setFallbackLang(culture);
         translateService.use(culture);
+
+        const marker = Date.now();
+        (document as Document & { [key: string]: unknown })[translationsReadyMarkerKey] = marker;
         document.dispatchEvent(
           new CustomEvent('dynamic-page:translations-ready', {
-            detail: { batchId },
+            detail: { batchId, marker },
           })
         );
       },

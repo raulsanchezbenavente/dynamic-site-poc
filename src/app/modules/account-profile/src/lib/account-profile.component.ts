@@ -8,7 +8,6 @@ import {
   ElementRef,
   inject,
   input,
-  OnInit,
   signal,
   viewChild,
 } from '@angular/core';
@@ -99,7 +98,7 @@ import { TravelDocumentsConfig } from './core/models/travel-documents.config';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true,
 })
-export class AccountProfileComponent extends DynamicPageReadinessBase implements OnInit {
+export class AccountProfileComponent extends DynamicPageReadinessBase {
   public baseConfig = input<{ url: string } | null>(null);
   public readonly config = signal<AccountProfileConfig>({} as AccountProfileConfig);
   protected readonly translateKeys = TranslationKeys;
@@ -177,6 +176,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
 
   private readonly translationsLoadedLogEffect = effect(() => {
     const loaded = this.dynamicPageTranslationsLoaded();
+    console.log(loaded);
     if (loaded && !this.hasInitializedInternalInit) {
       this.hasInitializedInternalInit = true;
       this.translationsLoaded();
@@ -190,13 +190,6 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
       const suffixCountry: string = countryCode ? '-' + countryCode : '';
       const prefix: string = channel.prefix + suffixCountry;
       channel.prefix = prefix;
-    }
-  }
-
-  public ngOnInit(): void {
-    this.setDocumentOptions();
-    if (this.baseConfig()) {
-      this.translationsLoaded();
     }
   }
 

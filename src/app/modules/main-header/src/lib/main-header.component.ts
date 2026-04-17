@@ -108,6 +108,8 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
 
   private readonly translationsLoadedLogEffect = effect(() => {
     const loaded = this.dynamicPageTranslationsLoaded();
+    console.log(loaded);
+
     if (loaded && !this.hasInitializedInternalInit) {
       this.hasInitializedInternalInit = true;
       this.internalInit();

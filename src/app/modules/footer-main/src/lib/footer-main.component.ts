@@ -94,6 +94,8 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
 
   private readonly translationsLoadedLogEffect = effect(() => {
     const loaded = this.dynamicPageTranslationsLoaded();
+    console.log(loaded);
+
     if (loaded && !this.hasInitializedInternalInit) {
       this.hasInitializedInternalInit = true;
       this.setIsResponsive();
