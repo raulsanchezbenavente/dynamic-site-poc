@@ -161,6 +161,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
   private readonly CMSKey = 'AccountProfile';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
   private readonly http = inject(HttpClient);
+  private hasInitializedInternalInit = false;
 
   private readonly registerEffect = effect(() => {
     this.communicationChannel = this.userData()?.communicationChannels ?? [];
@@ -171,6 +172,14 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
       for (const channel of contact?.channels ?? []) {
         this.setSuffixPrefix(channel);
       }
+    }
+  });
+
+  private readonly translationsLoadedLogEffect = effect(() => {
+    const loaded = this.dynamicPageTranslationsLoaded();
+    if (loaded && !this.hasInitializedInternalInit) {
+      this.hasInitializedInternalInit = true;
+      this.translationsLoaded();
     }
   });
 
