@@ -2,19 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
-  BANNER_BREAKPOINT_CONFIG,
-  BANNER_DEFAULT_CONFIG,
-  ComposerEvent,
-  ComposerEventStatusEnum,
-  ComposerEventTypeEnum,
-  ComposerService,
-  ComposerStatusEnum,
-  ConfigService,
-  createResponsiveSignal,
-  DataModule,
-  GenerateIdPipe,
-  LoggerService,
-  ViewportSizeService,
+    BANNER_BREAKPOINT_CONFIG,
+    BANNER_DEFAULT_CONFIG,
+    ComposerEvent,
+    ComposerEventStatusEnum,
+    ComposerEventTypeEnum,
+    ComposerService,
+    ComposerStatusEnum,
+    ConfigService,
+    createResponsiveSignal,
+    DataModule,
+    GenerateIdPipe,
+    LoggerService,
+    ViewportSizeService,
 } from '@dcx/ui/libs';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule } from '@ngx-translate/core';
@@ -47,7 +47,7 @@ import { MainHeaderConfig } from './models/main-header-config.interface';
   standalone: true,
 })
 export class CorporateMainHeaderComponent extends DynamicPageReadinessBase implements OnDestroy, OnInit {
-  public isResponsive!: Signal<boolean>;
+  public isResponsive: Signal<boolean> = signal(false);
   public isLoaded = signal(false);
   public baseConfig = input<{ url: string } | null>(null);
 
@@ -113,6 +113,8 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   });
 
   public ngOnInit(): void {
+    this.setIsResponsive();
+
     if (!this.baseConfig()) {
       this.internalInit();
     }
@@ -127,7 +129,6 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   }
 
   protected internalInit(): void {
-    this.setIsResponsive();
     this.translationsLoaded$.subscribe({
       next: () => {
         this.initConfig().subscribe(() => {
