@@ -79,21 +79,29 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
       const routeData = data as DynamicPageRouteData;
       const pageId = String(routeData.pageId ?? '');
       const sourceRows = Array.isArray(routeData.components) ? routeData.components : [];
-      const nextBatchId = this.createBatchId(pageId);
-      const trackedRows = this.attachComponentTracking(sourceRows, nextBatchId);
-      this.resetBatchTracking(nextBatchId, pageId, trackedRows);
+      const isSamePage = this.currentPageId === routeData.pageId;
+
+      if (isSamePage) {
+        // Same pageId reuses block-outlet instances, so no new readiness events are emitted.
+        // Keep the existing component tree and ensure the boot loader is hidden.
+        const trackedRowsForRefresh = this.attachComponentTracking(
+          sourceRows,
+          this.currentBatchId || this.createBatchId(pageId)
+        );
+        this.refreshLocalizedBlocks(trackedRowsForRefresh);
+        this.removeBootLoader();
+      } else {
+        const nextBatchId = this.createBatchId(pageId);
+        const trackedRows = this.attachComponentTracking(sourceRows, nextBatchId);
+        this.resetBatchTracking(nextBatchId, pageId, trackedRows);
+        this.currentPageId = routeData.pageId;
+        this.rows = trackedRows;
+      }
 
       // When the router reuses this component across a language switch (same pageId,
       // different language prefix), route.data still emits with structurally identical
       // components. Avoid reassigning `rows` in that case to prevent `@for` from
       // destroying and recreating every block outlet (visible rerender).
-      if (this.currentPageId !== routeData.pageId) {
-        this.currentPageId = routeData.pageId;
-        this.rows = trackedRows;
-      } else {
-        this.refreshLocalizedBlocks(trackedRows);
-      }
-
       this.titleService.setTitle(String(routeData.pageName ?? ''));
       this.seoSvc.applyPageSeo(routeData.path, routeData.pageName, routeData.seo, routeData.pageId);
     });
@@ -338,7 +346,10 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   }
   private removeBootLoader(): void {
     requestAnimationFrame(() => {
-      this.document.getElementById('boot-loader')?.remove();
+      const bootLoader = this.document.getElementById('boot-loader');
+      if (bootLoader instanceof HTMLElement) {
+        bootLoader.style.display = 'none';
+      }
     });
   }
 }

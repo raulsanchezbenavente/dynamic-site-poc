@@ -6,6 +6,9 @@
     (translationsLoaded)="translationsLoaded()" />
 
 @if (isLoaded()) {
+    <a href="/en/members/login" (click)="navigateWithBootLoader($event, '/en/members/login')">Go to members login</a>
+    <a href="/en/members/home" (click)="navigateWithBootLoader($event, '/en/members/home')">Go to members home</a>
+
     <!-- MAIN HEADER: small screens layout -->
     @if (config) {
         @if (isMobile) {

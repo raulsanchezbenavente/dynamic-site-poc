@@ -1,20 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
-    BANNER_BREAKPOINT_CONFIG,
-    BANNER_DEFAULT_CONFIG,
-    ComposerEvent,
-    ComposerEventStatusEnum,
-    ComposerEventTypeEnum,
-    ComposerService,
-    ComposerStatusEnum,
-    ConfigService,
-    createResponsiveSignal,
-    DataModule,
-    GenerateIdPipe,
-    LoggerService,
-    ViewportSizeService,
+  BANNER_BREAKPOINT_CONFIG,
+  BANNER_DEFAULT_CONFIG,
+  ComposerEvent,
+  ComposerEventStatusEnum,
+  ComposerEventTypeEnum,
+  ComposerService,
+  ComposerStatusEnum,
+  ConfigService,
+  createResponsiveSignal,
+  DataModule,
+  GenerateIdPipe,
+  LoggerService,
+  ViewportSizeService,
 } from '@dcx/ui/libs';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule } from '@ngx-translate/core';
@@ -66,6 +67,7 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
 
   private readonly viewportSizeService = inject(ViewportSizeService);
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   private readonly translationsLoadedSubject = new BehaviorSubject<boolean | null>(null);
   public readonly translationsLoaded$ = this.translationsLoadedSubject
@@ -126,6 +128,53 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
 
   public translationsLoaded(): void {
     this.translationsLoadedSubject.next(true);
+  }
+
+  public navigateWithBootLoader(event: Event, targetUrl: string): void {
+    event.preventDefault();
+
+    const bootLoader = this.ensureBootLoaderElement();
+    if (bootLoader instanceof HTMLElement) {
+      bootLoader.style.display = 'grid';
+    }
+
+    void this.router.navigateByUrl(targetUrl);
+  }
+
+  private ensureBootLoaderElement(): Element | null {
+    const existing = globalThis.document?.getElementById('boot-loader');
+    if (existing) {
+      return existing;
+    }
+
+    const doc = globalThis.document;
+    if (!doc?.body) {
+      return null;
+    }
+
+    const loader = doc.createElement('div');
+    loader.id = 'boot-loader';
+    loader.setAttribute('role', 'status');
+    loader.setAttribute('aria-live', 'polite');
+    loader.setAttribute('aria-label', 'Loading page');
+    loader.style.position = 'fixed';
+    loader.style.inset = '0';
+    loader.style.display = 'grid';
+    loader.style.placeItems = 'center';
+    loader.style.background = '#fff';
+    loader.style.zIndex = '9999';
+
+    const image = doc.createElement('img');
+    image.src = '/assets/loader/plane-loader.gif';
+    image.alt = 'Loading';
+    image.width = 180;
+    image.height = 180;
+    image.decoding = 'async';
+    image.setAttribute('fetchpriority', 'high');
+
+    loader.appendChild(image);
+    doc.body.appendChild(loader);
+    return loader;
   }
 
   protected internalInit(): void {
