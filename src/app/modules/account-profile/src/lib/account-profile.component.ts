@@ -1,70 +1,70 @@
 import { HttpClient } from '@angular/common/http';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  DestroyRef,
-  effect,
-  ElementRef,
-  inject,
-  input,
-  signal,
-  viewChild,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DestroyRef,
+    effect,
+    ElementRef,
+    inject,
+    input,
+    signal,
+    viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnalyticsService } from '@dcx/module/analytics';
 import { AccountClient, AccountModels, AccountV2Client, AccountV2Models } from '@dcx/module/api-clients';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
-  AnalyticsDataType,
-  AnalyticsEventType,
-  AnalyticsPages,
-  AnalyticsUserType,
-  BaseItemsMapper,
-  CountryMapperService,
-  CountryResult,
-  FormSummaryViews,
-  GenderMapperService,
-  GlobalLoaderService,
-  PhoneCountryService,
-  RfFormSummaryStore,
-  SessionModals,
+    AnalyticsDataType,
+    AnalyticsEventType,
+    AnalyticsPages,
+    AnalyticsUserType,
+    BaseItemsMapper,
+    CountryMapperService,
+    CountryResult,
+    FormSummaryViews,
+    GenderMapperService,
+    GlobalLoaderService,
+    PhoneCountryService,
+    RfFormSummaryStore,
+    SessionModals,
 } from '@dcx/ui/business-common';
 import {
-  mapModalRepositoryConfigToModalDialogConfig,
-  ModalDialogConfig,
-  ModalDialogService,
-  ModalDialogSize,
-  PanelAppearance,
-  PanelBaseConfig,
-  Toast,
-  ToastContainerComponent,
-  ToastService,
-  ToastStatus,
+    mapModalRepositoryConfigToModalDialogConfig,
+    ModalDialogConfig,
+    ModalDialogService,
+    ModalDialogSize,
+    PanelAppearance,
+    PanelBaseConfig,
+    Toast,
+    ToastContainerComponent,
+    ToastService,
+    ToastStatus,
 } from '@dcx/ui/design-system';
 import {
-  AuthService,
-  ButtonConfig,
-  ButtonStyles,
-  CommonConfig,
-  ComposerEvent,
-  ComposerEventStatusEnum,
-  ComposerEventTypeEnum,
-  ComposerService,
-  ComposerStatusEnum,
-  ConfigService,
-  CookieService,
-  CultureServiceEx,
-  DataModule,
-  LayoutSize,
-  LoggerService,
-  PointOfSaleService,
+    AuthService,
+    ButtonConfig,
+    ButtonStyles,
+    CommonConfig,
+    ComposerEvent,
+    ComposerEventStatusEnum,
+    ComposerEventTypeEnum,
+    ComposerService,
+    ComposerStatusEnum,
+    ConfigService,
+    CookieService,
+    CultureServiceEx,
+    DataModule,
+    LayoutSize,
+    LoggerService,
+    PointOfSaleService,
 } from '@dcx/ui/libs';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 import { DateHelper, RfFormStore, RfListOption } from 'reactive-forms';
-import { catchError, filter, forkJoin, Observable, of, Subscription, tap } from 'rxjs';
+import { catchError, filter, forkJoin, Observable, of, Subscription, take, tap, timeout } from 'rxjs';
 
 import { AccountCompanionsContainerComponent } from './components/account-companions-container/account-companions-container.component';
 import { AccountPersonalInformation } from './components/account-personal/models/account-personal-information.model';
@@ -161,6 +161,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
   private readonly http = inject(HttpClient);
   private hasInitializedInternalInit = false;
+  private reloadSubscription: Subscription | null = null;
 
   private readonly registerEffect = effect(() => {
     this.communicationChannel = this.userData()?.communicationChannels ?? [];
@@ -176,8 +177,11 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
 
   private readonly translationsLoadedLogEffect = effect(() => {
     const loaded = this.dynamicPageTranslationsLoaded();
-    console.log(loaded);
-    if (loaded && !this.hasInitializedInternalInit) {
+    if (!loaded) {
+      this.hasInitializedInternalInit = false;
+      return;
+    }
+    if (!this.hasInitializedInternalInit) {
       this.hasInitializedInternalInit = true;
       this.translationsLoaded();
     }
@@ -196,28 +200,73 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
   public translationsLoaded(): void {
     this.setDocumentOptions();
     this.cdr.markForCheck();
-    forkJoin([this.initConfig(), this.getBusinessConfig()])
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe({
-        next: () => {
-          const isAuthenticated$ = this.authService
-            .isAuthenticatedKeycloak$()
-            .pipe(takeUntilDestroyed(this.destroyRef));
-          isAuthenticated$
-            .pipe(filter(Boolean), takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => this.handleAuthenticated());
-          isAuthenticated$
-            .pipe(
-              filter((v) => !v),
-              takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe(() => this.handleUnauthenticated());
-        },
-        error: (err) => {
-          this.logger.error('Error loading data', err);
-          this.onDataLoadComplete();
-        },
-      });
+    this.reloadSubscription?.unsubscribe();
+    const sub = new Subscription();
+    this.reloadSubscription = sub;
+    sub.add(
+      forkJoin([this.initConfig(), this.getBusinessConfig()])
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
+          next: () => {
+            this.resolveAuthenticationAndLoadData();
+          },
+          error: (err) => {
+            this.logger.error('Error loading data', err);
+            this.onDataLoadComplete();
+          },
+        })
+    );
+  }
+
+  private resolveAuthenticationAndLoadData(): void {
+    const isAuthenticatedSync = this.authService.isAuthenticated?.();
+    if (isAuthenticatedSync === true) {
+      this.handleAuthenticated();
+      return;
+    }
+
+    this.reloadSubscription?.add(
+      this.authService
+        .isAuthenticatedKeycloak$()
+        .pipe(
+          filter((v): v is boolean => typeof v === 'boolean'),
+          take(1),
+          timeout({ first: 1500 }),
+          catchError(() => of(true)),
+          takeUntilDestroyed(this.destroyRef)
+        )
+        .subscribe((isAuthenticated) => {
+          if (isAuthenticated) {
+            this.handleAuthenticated();
+            return;
+          }
+          this.handleUnauthenticated();
+        })
+    );
+  }
+
+  public resetComponentStateAndRestart(): void {
+    this.reloadSubscription?.unsubscribe();
+    this.hasInitializedInternalInit = false;
+    this.isLoading.set(true);
+    this.userData.set(null);
+    this.contactData.set({} as SummaryContactData);
+    this.personaInfoData.set({} as PersonalInformation);
+    this.companionsData.set([]);
+    this.documentsAllowed.set([]);
+    this.documentsNotAllowed.set([]);
+    this.countryOptions.set([]);
+    this.countryPrefixOptions.set([]);
+    this.documentOptions.set([]);
+    this.myProfileConfig.set(null);
+    this.travelDocumentsConfig.set(null);
+    this.accountCompanionsConfig.set(null);
+    this.hasEmergencyContact.set(false);
+    this.cdr.markForCheck();
+
+    queueMicrotask(() => {
+      this.translationsLoaded();
+    });
   }
 
   // Idempotent setter for documentOptions using translate.instant
@@ -240,7 +289,8 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
   }
 
   private handleUnauthenticated(): void {
-    this.onDataLoadComplete();
+    // In SPA re-entry auth can transiently emit false before settling; still try session load.
+    this.loadData();
   }
 
   private showGetSessionErrorModal(error: unknown): void {
@@ -382,11 +432,21 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
     }
 
     this.previousCountry = account.addressCountry || '';
-    this.userData.set(account);
+    const accountView =
+      typeof structuredClone === 'function'
+        ? structuredClone(account)
+        : ({
+            ...account,
+            communicationChannels: [...(account.communicationChannels ?? [])],
+            contacts: [...(account.contacts ?? [])],
+            frequentTravelers: [...(account.frequentTravelers ?? [])],
+            documents: [...(account.documents ?? [])],
+          } as AccountV2Models.AccountDto);
+    this.userData.set(accountView);
 
     this.normalizeDocumentExpirationDates(account.documents);
     this.categorizeAndSetDocuments(account.documents);
-    this.companionsData.set(account.frequentTravelers!);
+    this.companionsData.set([...(accountView.frequentTravelers ?? [])]);
     this.updateEmergencyContactStatus();
   }
 
@@ -438,6 +498,9 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
     this.subscribeComposerNotifier();
     this.composer.updateComposerRegisterStatus(this.data().id, ComposerStatusEnum.LOADED);
     this.isLoading.set(false);
+    requestAnimationFrame(() => {
+      this.myProfileContainer()?.forceSyncDataToForms();
+    });
     this.emitDynamicPageReady(this.baseConfig(), 'accaccountProfile_uiplus', DynamicPageReadyState.RENDERED);
   }
 

@@ -1,36 +1,37 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  EventEmitter,
-  inject,
-  input,
-  OnInit,
-  Output,
-  signal,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    effect,
+    EventEmitter,
+    inject,
+    input,
+    OnInit,
+    Output,
+    signal,
 } from '@angular/core';
 import { ValidatorFn, Validators } from '@angular/forms';
 import { AccountModels, AccountV2Models } from '@dcx/module/api-clients';
 import { PersonCommunicationChannelType } from '@dcx/module/booking-api-client';
 import { RfFormSummaryStore } from '@dcx/ui/business-common';
 import {
-  PanelAppearance,
-  PanelBaseConfig,
-  PanelComponent,
-  PanelContentDirective,
-  PanelDescriptionDirective,
-  PanelHeaderComponent,
-  PanelTitleDirective,
+    PanelAppearance,
+    PanelBaseConfig,
+    PanelComponent,
+    PanelContentDirective,
+    PanelDescriptionDirective,
+    PanelHeaderComponent,
+    PanelTitleDirective,
 } from '@dcx/ui/design-system';
 import { TextHelperService } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  DateHelper,
-  RfFormControl,
-  RfFormGroup,
-  RfFormStore,
-  RfInputTextComponent,
-  RfPrefixPhoneComponent,
+    DateHelper,
+    RfFormControl,
+    RfFormGroup,
+    RfFormStore,
+    RfInputTextComponent,
+    RfPrefixPhoneComponent,
 } from 'reactive-forms';
 
 import { TranslationKeys } from '../../core/enum/translation-keys.enum';
@@ -62,7 +63,7 @@ import { ProfileEmergencyContactComponent } from '../profile-emergency-contact/p
   host: { class: 'my-profile-container' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MyProfileContainerComponent implements OnInit {
+export class MyProfileContainerComponent implements OnInit, AfterViewInit {
   public readonly data = input.required<AccountV2Models.AccountDto | null>();
   public readonly config = input.required<MyProfileConfig>();
   public readonly isLoading = input<boolean>(false);
@@ -84,6 +85,8 @@ export class MyProfileContainerComponent implements OnInit {
   protected readonly translateKeys = TranslationKeys;
 
   private lastUserData: AccountV2Models.AccountDto | null = null;
+  private syncRetryCount = 0;
+  private readonly maxSyncRetries = 180;
 
   private readonly formStore = inject(RfFormStore);
   private readonly summaryStore = inject(RfFormSummaryStore);
@@ -92,18 +95,49 @@ export class MyProfileContainerComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const data = this.data();
-      const form: RfFormGroup = this.formStore.getFormGroup('formPersonal')!;
-      if (!form || this.lastUserData === data || !data) return;
-      this.lastUserData = data;
-      this.setPersonalData();
-      this.setAccountContact();
-      this.setEmergencyContact();
+      this.trySyncDataToForms();
     });
   }
 
   public ngOnInit(): void {
     this.internalInit();
+    this.trySyncDataToForms();
+  }
+
+  public ngAfterViewInit(): void {
+    this.trySyncDataToForms();
+  }
+
+  public forceSyncDataToForms(): void {
+    this.lastUserData = null;
+    this.syncRetryCount = 0;
+    this.trySyncDataToForms();
+  }
+
+  private trySyncDataToForms(): void {
+    const data = this.data();
+    if (!data) {
+      this.lastUserData = null;
+      this.syncRetryCount = 0;
+      return;
+    }
+    if (this.lastUserData === data) return;
+
+    const formName = this.getAccountPersonalFormName();
+    const form = formName ? this.formStore.getFormGroup(formName) : null;
+    if (!form) {
+      if (this.syncRetryCount < this.maxSyncRetries) {
+        this.syncRetryCount++;
+        requestAnimationFrame(() => this.trySyncDataToForms());
+      }
+      return;
+    }
+
+    this.syncRetryCount = 0;
+    this.lastUserData = data;
+    this.setPersonalData();
+    this.setAccountContact();
+    this.setEmergencyContact();
   }
 
   protected cancelAccountPersonal(): void {
