@@ -59,6 +59,7 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
 
   private readonly data = signal<DataModule>(this.configService.getDataModuleId(this.elementRef));
   private hasLoggedBaseConfig = false;
+  private hasInitializedInternalInit = false;
 
   constructor() {
     super();
@@ -91,6 +92,14 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
     });
   }
 
+  private readonly translationsLoadedLogEffect = effect(() => {
+    const loaded = this.dynamicPageTranslationsLoaded();
+    if (loaded && !this.hasInitializedInternalInit) {
+      this.hasInitializedInternalInit = true;
+      this.setIsResponsive();
+    }
+  });
+
   public ngOnInit(): void {
     if (!this.baseConfig()) {
       this.initConfig()
@@ -100,8 +109,8 @@ export class CorporateFooterMainComponent extends DynamicPageReadinessBase imple
           this.isLoaded.set(true);
         });
       this.subscribeComposerNotifier();
+      this.setIsResponsive();
     }
-    this.setIsResponsive();
   }
 
   public toggleMenu(id: string): void {
