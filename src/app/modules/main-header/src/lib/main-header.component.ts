@@ -138,7 +138,25 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
       bootLoader.style.display = 'grid';
     }
 
-    void this.router.navigateByUrl(targetUrl);
+    void this.router
+      .navigateByUrl(targetUrl)
+      .then((navigated) => {
+        // Same-url navigations or cancelled transitions may return false and never
+        // trigger dynamic-page readiness events, so hide loader defensively.
+        if (!navigated) {
+          this.hideBootLoader();
+        }
+      })
+      .catch(() => {
+        this.hideBootLoader();
+      });
+  }
+
+  private hideBootLoader(): void {
+    const bootLoader = globalThis.document?.getElementById('boot-loader');
+    if (bootLoader instanceof HTMLElement) {
+      bootLoader.style.display = 'none';
+    }
   }
 
   private ensureBootLoaderElement(): Element | null {

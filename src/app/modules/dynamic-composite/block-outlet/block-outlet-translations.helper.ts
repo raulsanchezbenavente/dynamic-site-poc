@@ -66,6 +66,11 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
     console.log('[block-outlet] final component keys (encoded):', encodedCsv);
 
     if (fetchedTranslationBatches.has(batchId)) {
+      document.dispatchEvent(
+        new CustomEvent('dynamic-page:translations-ready', {
+          detail: { batchId },
+        })
+      );
       return;
     }
 
