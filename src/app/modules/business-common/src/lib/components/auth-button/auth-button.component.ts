@@ -1,47 +1,47 @@
 import { NgClass } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  effect,
-  ElementRef,
-  HostBinding,
-  inject,
-  input,
-  Input,
-  OnDestroy,
-  OnInit,
-  signal,
-  ViewChild,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    computed,
+    effect,
+    ElementRef,
+    HostBinding,
+    inject,
+    input,
+    Input,
+    OnDestroy,
+    OnInit,
+    signal,
+    ViewChild,
 } from '@angular/core';
 import { AccountClient, AccountFacade } from '@dcx/module/api-clients';
 import {
-  AvatarConfig,
-  AvatarSize,
-  DropdownComponent,
-  DsButtonComponent,
-  ModalDialogConfig,
-  ModalDialogService,
-  ModalDialogSize,
-  OffCanvasConfig,
-  SkeletonComponent,
-  TooltipTextComponent,
+    AvatarConfig,
+    AvatarSize,
+    DropdownComponent,
+    DsButtonComponent,
+    ModalDialogConfig,
+    ModalDialogService,
+    ModalDialogSize,
+    OffCanvasConfig,
+    SkeletonComponent,
+    TooltipTextComponent,
 } from '@dcx/ui/design-system';
 import {
-  AuthService,
-  ButtonConfig,
-  ButtonStyles,
-  DropdownLayoutType,
-  DropdownVM,
-  EnumAnimationSkeleton,
-  EnumAppearenceSkeleton,
-  KEYCLOAK_CONSTANTS,
-  KeycloakConfiguration,
-  LayoutSize,
-  SkeletonConfig,
-  StorageService,
-  TextHelperService,
+    AuthService,
+    ButtonConfig,
+    ButtonStyles,
+    DropdownLayoutType,
+    DropdownVM,
+    EnumAnimationSkeleton,
+    EnumAppearenceSkeleton,
+    KEYCLOAK_CONSTANTS,
+    KeycloakConfiguration,
+    LayoutSize,
+    SkeletonConfig,
+    StorageService,
+    TextHelperService,
 } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, finalize, of, retry, Subject, takeUntil } from 'rxjs';
@@ -249,9 +249,17 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
       .stream('Auth.AuthButton.SignIn')
       .pipe(takeUntil(this.destroy$))
       .subscribe((translated) => {
-        if (translated) {
-          this.notLoggedButtonConfig.label = translated;
+        const nextLabel = typeof translated === 'string' ? translated.trim() : '';
+        if (!nextLabel || nextLabel === 'Auth.AuthButton.SignIn') {
+          return;
         }
+
+        // Reassigning config + markForCheck ensures OnPush renders translation updates.
+        this.notLoggedButtonConfig = {
+          ...this.notLoggedButtonConfig,
+          label: nextLabel,
+        };
+        this.cdr.markForCheck();
       });
   }
 

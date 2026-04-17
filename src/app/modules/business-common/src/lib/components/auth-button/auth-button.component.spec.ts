@@ -1,23 +1,23 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, ViewChild } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
 import { AccountClient, AccountV2Client, AccountV2Models } from '@dcx/module/api-clients';
 import { ModalDialogService } from '@dcx/ui/design-system';
 import {
-  AuthService,
-  CultureServiceEx,
-  CurrencyFormatPipe,
-  CurrencyService,
-  KEYCLOAK_CONSTANTS,
-  KeycloakConfiguration,
-  TextHelperService,
+    AuthService,
+    CultureServiceEx,
+    CurrencyFormatPipe,
+    CurrencyService,
+    KEYCLOAK_CONSTANTS,
+    KeycloakConfiguration,
+    TextHelperService,
 } from '@dcx/ui/libs';
-import { of, Subject, throwError } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+import { of, ReplaySubject, Subject, throwError } from 'rxjs';
 
+import { CustomerAccount, CustomerBalance } from '../../models';
 import { GlobalLoaderService } from '../../services/global-loader.service';
 import { CustomerLoyaltyService } from '../../services/loyalty/customer-loyalty.service';
-import { CustomerAccount, CustomerBalance } from '../../models';
 import { AuthButtonComponent } from './auth-button.component';
 import { AuthButtonLayout } from './enums/auth-button-layout.enum';
 import { AuthButtonData } from './models/auth-button-data.model';
@@ -169,7 +169,7 @@ describe('AuthButtonComponent', () => {
     cultureServiceExStub.getCulture.and.returnValue('en-US');
 
     textHelperServiceStub = jasmine.createSpyObj<TextHelperService>('TextHelperService', ['getCapitalizeWords']);
-    textHelperServiceStub.getCapitalizeWords.and.callFake((text: string) => 
+    textHelperServiceStub.getCapitalizeWords.and.callFake((text: string) =>
       text.split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()).join(' ')
     );
 
@@ -245,7 +245,7 @@ describe('AuthButtonComponent', () => {
     it('should disconnect resize observer and complete destroy subject', () => {
       const disconnectSpy = jasmine.createSpy('disconnect');
       component['nameResizeObserver'] = { disconnect: disconnectSpy } as any;
-      
+
       const nextSpy = spyOn(component['destroy$'], 'next');
       const completeSpy = spyOn(component['destroy$'], 'complete');
 
@@ -357,7 +357,7 @@ describe('AuthButtonComponent', () => {
     it('should execute backend logout successfully', fakeAsync(() => {
       keycloakConfigSubject.next({ logoutRetryAttempts: 2 } as KeycloakConfiguration);
       const callbackSpy = jasmine.createSpy('callback');
-      
+
       component['executeBackendLogout'](callbackSpy);
       tick();
 
@@ -388,7 +388,7 @@ describe('AuthButtonComponent', () => {
     it('should show modal and logout after closing when session expires', fakeAsync(() => {
       spyOn(component, 'onLogout');
       component.ngOnInit();
-      
+
       expiredSessionSubject.next(true);
       tick();
 
@@ -465,8 +465,8 @@ describe('AuthButtonComponent', () => {
     });
 
     it('should set name initials from firstName when username is empty', () => {
-      const data: CustomerAccount = { 
-        ...mockCustomerAccount, 
+      const data: CustomerAccount = {
+        ...mockCustomerAccount,
         username: '',
       };
 
@@ -625,6 +625,22 @@ describe('AuthButtonComponent', () => {
       tick();
 
       expect(component.notLoggedButtonConfig.label).toBe('Iniciar Sesión');
+    }));
+
+    it('should ignore raw key emission and then apply translated label', fakeAsync(() => {
+      const translationStream$ = new ReplaySubject<string>(2);
+      translateServiceStub.stream.and.returnValue(translationStream$.asObservable());
+
+      component['setButtonConfig']();
+      translationStream$.next('Auth.AuthButton.SignIn');
+      tick();
+
+      expect(component.notLoggedButtonConfig.label).toBe('Sign In');
+
+      translationStream$.next('Iniciar Sesion');
+      tick();
+
+      expect(component.notLoggedButtonConfig.label).toBe('Iniciar Sesion');
     }));
   });
 });

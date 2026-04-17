@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, effect, ElementRef, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
   BANNER_BREAKPOINT_CONFIG,
@@ -58,65 +58,55 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   protected resizeObservable$: Observable<Event> = new Observable(); // review
   protected resizeSubscription$: Subscription = new Subscription(); // review
   protected windowWidthSubscription$: Subscription = new Subscription();
+  protected elementRef = inject(ElementRef);
+  protected configService = inject(ConfigService);
+  protected composer = inject(ComposerService);
+  protected logger = inject(LoggerService);
+  protected generateId = inject(GenerateIdPipe);
+
+  private readonly viewportSizeService = inject(ViewportSizeService);
+  private readonly http = inject(HttpClient);
 
   private readonly translationsLoadedSubject = new BehaviorSubject<boolean | null>(null);
   public readonly translationsLoaded$ = this.translationsLoadedSubject
     .asObservable()
     .pipe(filter((value) => value !== null));
 
-  private readonly data: DataModule;
+  private readonly data: DataModule = this.configService.getDataModuleId(this.elementRef);
   private destroyMediaQueryListener: () => void = () => {};
   private hasLoggedBaseConfig = false;
 
   private readonly CMSKey = 'CorporateMainHeader';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected configService: ConfigService,
-    protected composer: ComposerService,
-    protected logger: LoggerService,
-    protected generateId: GenerateIdPipe,
-    private readonly viewportSizeService: ViewportSizeService,
-    private readonly http: HttpClient
-  ) {
-    super();
-    this.data = this.configService.getDataModuleId(this.elementRef);
+  private readonly dynamicPageEffect = effect(() => {
+    const baseConfig = this.baseConfig();
+    const translationsLoaded = this.dynamicPageTranslationsLoaded();
 
-    effect(() => {
-      const baseConfig = this.baseConfig();
-      if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
-        const url = baseConfig.url.trim();
-        console.log('[CorporateMainHeaderComponent] baseConfig received:', baseConfig);
-        this.hasLoggedBaseConfig = true;
-
-        this.http.get<MainHeaderConfig>(url).subscribe({
-          next: (response) => {
-            this.config = this.resolveConfig(response);
-            this.isLoaded.set(true);
-            this.emitDynamicPageReady(
-              this.baseConfig(),
-              'CorporateMainHeaderBlock_uiplus',
-              DynamicPageReadyState.RENDERED
-            );
-          },
-          error: (error) => {
-            this.emitDynamicPageReady(
-              this.baseConfig(),
-              'CorporateMainHeaderBlock_uiplus',
-              DynamicPageReadyState.ERROR
-            );
-          },
-        });
-      }
-    });
-
-    effect(() => {
-      if (this.dynamicPageTranslationsLoaded()) {
+    const url = baseConfig?.url?.trim();
+    if (url && (!this.hasLoggedBaseConfig || translationsLoaded)) {
+      console.log('[CorporateMainHeaderComponent] baseConfig received:', baseConfig);
+      if (translationsLoaded) {
         console.log('[main-header] translations changed');
       }
-    });
-  }
+      this.hasLoggedBaseConfig = true;
+
+      this.http.get<MainHeaderConfig>(url).subscribe({
+        next: (response) => {
+          this.config = this.resolveConfig(response);
+          this.isLoaded.set(true);
+          this.emitDynamicPageReady(
+            this.baseConfig(),
+            'CorporateMainHeaderBlock_uiplus',
+            DynamicPageReadyState.RENDERED
+          );
+        },
+        error: () => {
+          this.emitDynamicPageReady(this.baseConfig(), 'CorporateMainHeaderBlock_uiplus', DynamicPageReadyState.ERROR);
+        },
+      });
+    }
+  });
 
   public ngOnInit(): void {
     this.internalInit();
@@ -127,6 +117,7 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   }
 
   public translationsLoaded(): void {
+    alert(8888);
     this.translationsLoadedSubject.next(true);
   }
 
