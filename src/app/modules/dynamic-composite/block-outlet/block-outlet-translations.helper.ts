@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 const batchComponentKeys = new Map<string, Set<string>>();
 const batchLogTimers = new Map<string, ReturnType<typeof setTimeout>>();
-const fetchedTranslationBatches = new Set<string>();
+const fetchedTranslationRequests = new Set<string>();
 const translationsReadyMarkerKey = '__dynamicPageTranslationsReadyMarker';
 
 const BLOCK_KEY_TO_COMPONENT_NAME: Record<string, string> = {
@@ -64,14 +64,21 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
 
     const csv = Array.from(finalKeys).join(',');
     const encodedCsv = encodeURIComponent(csv);
+    const requestSignature = `${culture}::${csv}`;
     console.log('[block-outlet] final component keys (encoded):', encodedCsv);
 
-    if (fetchedTranslationBatches.has(batchId)) {
-      // Already loaded for this batch; do not emit remanent readiness events.
+    if (fetchedTranslationRequests.has(requestSignature)) {
+      // Translations are already available locally; notify readiness for this current batch.
+      const marker = Date.now();
+      (document as Document & { [key: string]: unknown })[translationsReadyMarkerKey] = marker;
+      document.dispatchEvent(
+        new CustomEvent('dynamic-page:translations-ready', {
+          detail: { batchId, marker },
+        })
+      );
       return;
     }
 
-    fetchedTranslationBatches.add(batchId);
     const url =
       `https://av-booking-local.newshore.es/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys` +
       `?culture=${culture}&keys=${encodedCsv}`;
@@ -81,6 +88,7 @@ export function queueTranslationsByRenderedComponent(params: QueueTranslationsPa
         translateService.setTranslation(culture, translations, true);
         translateService.setFallbackLang(culture);
         translateService.use(culture);
+        fetchedTranslationRequests.add(requestSignature);
 
         const marker = Date.now();
         (document as Document & { [key: string]: unknown })[translationsReadyMarkerKey] = marker;
