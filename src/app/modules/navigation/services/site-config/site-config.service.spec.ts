@@ -47,6 +47,38 @@ describe('SiteConfigService', () => {
     expect(service.siteSnapshot?.pages?.length).toBe(2);
   });
 
+  it('should resolve layout when page layout is a URL string', () => {
+    let loadedPage: any;
+
+    service.loadSite(['es']).subscribe((result) => {
+      loadedPage = result.pages[0];
+    });
+
+    const siteReq = httpMock.expectOne('/assets/config-site/es');
+    siteReq.flush({
+      pages: [
+        {
+          pageId: '0',
+          path: 'es/inicio',
+          layout: '/assets/config-site/layouts/es/inicio',
+        },
+      ],
+    });
+
+    const layoutReq = httpMock.expectOne('/assets/config-site/layouts/es/inicio');
+    layoutReq.flush({
+      rows: [
+        {
+          cols: [{ component: 'CorporateMainHeaderBlock_uiplus_EX', span: 12 }],
+        },
+      ],
+    });
+
+    expect(Array.isArray(loadedPage.layout)).toBeFalse();
+    expect(loadedPage.layout.rows.length).toBe(1);
+    expect(loadedPage.layout.rows[0].cols[0].component).toBe('CorporateMainHeaderBlock_uiplus_EX');
+  });
+
   it('should resolve page path by page id and language', () => {
     service.configSitesByLanguage = {
       en: [{ pageId: '10', path: '/en/results' }],

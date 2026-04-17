@@ -1,12 +1,12 @@
 import { inject, Injectable, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route, Router } from '@angular/router';
 import {
-  LanguageSwitchService,
-  ProgressAsynGuard,
-  SiteConfigService,
-  SiteLayout,
-  SiteLayoutRow,
-  SitePage,
+    LanguageSwitchService,
+    ProgressAsynGuard,
+    SiteConfigService,
+    SiteLayout,
+    SiteLayoutRow,
+    SitePage,
 } from '@navigation';
 import { filter, fromEvent, take } from 'rxjs';
 
@@ -149,9 +149,13 @@ export class RouterInitService {
       }, {});
   }
 
-  private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | undefined): SiteLayoutRow[] {
+  private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {
     if (Array.isArray(layout)) {
       return layout;
+    }
+
+    if (typeof layout === 'string') {
+      return [];
     }
 
     return layout?.rows ?? [];

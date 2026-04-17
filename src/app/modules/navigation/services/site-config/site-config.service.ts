@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { TabConfigEntry, TabSummary } from '../../../dynamic-composite/dynamic-tabs/models/tab-config.model';
 
 import { AppLang } from './models/langs.model';
 import {
-  SiteBlockConfig,
-  SiteConfigResponse,
-  SiteLayoutCol,
-  SiteLayoutRow,
-  SitePage,
+    SiteBlockConfig,
+    SiteConfigResponse,
+    SiteLayout,
+    SiteLayoutCol,
+    SiteLayoutRow,
+    SitePage,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
@@ -67,6 +68,7 @@ export class SiteConfigService {
     const requests = missingLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
 
     return forkJoin(requests).pipe(
+      switchMap((sites) => forkJoin(sites.map((site) => this.resolveSiteLayouts(site)))),
       tap((sites) => {
         const loadedSitesByLanguage = missingLangs.reduce(
           (acc, lang, idx) => {
@@ -94,7 +96,7 @@ export class SiteConfigService {
     return { pages: mergedPages };
   }
 
-  private getURlFromLangAndContext(lang: AppLang | string): string {
+  private getURlFromLangAndContext(lang: string): string {
     return '/assets/config-site/' + lang;
   }
 
@@ -112,7 +114,7 @@ export class SiteConfigService {
     if (!page) {
       return undefined;
     }
-    const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+    const rows = this.getLayoutRows(page.layout);
     for (const row of rows) {
       for (const col of Array.isArray(row?.cols) ? row.cols : []) {
         if (col?.component === componentName) {
@@ -141,7 +143,7 @@ export class SiteConfigService {
       return undefined;
     }
 
-    const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+    const rows = this.getLayoutRows(page.layout);
     const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
     for (const col of cols) {
@@ -162,7 +164,7 @@ export class SiteConfigService {
     const tabMap = new Map<string, TabSummary>();
 
     for (const page of pages) {
-      const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+      const rows = this.getLayoutRows(page.layout);
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
@@ -310,5 +312,55 @@ export class SiteConfigService {
     }
 
     return decodedPath;
+  }
+
+  private resolveSiteLayouts(site: SiteConfigResponse): Observable<SiteConfigResponse> {
+    const pages = Array.isArray(site?.pages) ? site.pages : [];
+    if (!pages.length) {
+      return of({ pages: [] });
+    }
+
+    return forkJoin(pages.map((page) => this.resolvePageLayout(page))).pipe(map((resolvedPages) => ({ pages: resolvedPages })));
+  }
+
+  private resolvePageLayout(page: SitePage): Observable<SitePage> {
+    if (typeof page?.layout !== 'string') {
+      return of(page);
+    }
+
+    const layoutUrl = page.layout.trim();
+    if (!layoutUrl) {
+      return of({ ...page, layout: { rows: [] } });
+    }
+
+    return this.http.get<SiteLayout | SiteLayoutRow[]>(layoutUrl).pipe(
+      map((layoutResponse) => ({ ...page, layout: this.normalizeLayout(layoutResponse) })),
+      catchError((error) => {
+        console.warn('[SiteConfigService] Failed to resolve layout URL', { layoutUrl, pageId: page?.pageId, error });
+        return of({ ...page, layout: { rows: [] } });
+      })
+    );
+  }
+
+  private normalizeLayout(layout: SiteLayout | SiteLayoutRow[] | null | undefined): SiteLayout | SiteLayoutRow[] {
+    if (Array.isArray(layout)) {
+      return layout;
+    }
+
+    return {
+      rows: Array.isArray(layout?.rows) ? layout.rows : [],
+    };
+  }
+
+  private getLayoutRows(layout: SitePage['layout']): SiteLayoutRow[] {
+    if (Array.isArray(layout)) {
+      return layout;
+    }
+
+    if (typeof layout === 'string') {
+      return [];
+    }
+
+    return layout?.rows ?? [];
   }
 }

@@ -25,11 +25,13 @@ export interface SiteLayout {
   rows?: SiteLayoutRow[];
 }
 
+export type SiteLayoutSource = SiteLayout | SiteLayoutRow[] | string;
+
 export interface SitePage {
   pageId?: string;
   path?: string;
   name?: string;
-  layout?: SiteLayout | SiteLayoutRow[];
+  layout?: SiteLayoutSource;
   seo?: SiteSeoConfig;
 }
 
