@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { inject } from '@angular/core';
+import { DestroyRef, inject, signal } from '@angular/core';
 
 import { DynamicPageReadyState } from './models/dynamic-page-ready-state.enum';
 
@@ -11,8 +11,17 @@ export type DynamicPageReadyTrackingConfig = {
 
 export abstract class DynamicPageReadinessBase {
   public static readonly dynamicPageReadiness = 'self-managed' as const;
+  public readonly dynamicPageTranslationsLoaded = signal(false);
 
   private readonly readinessDocument = inject(DOCUMENT);
+  private readonly readinessDestroyRef = inject(DestroyRef);
+  private readonly onTranslationsReady = (event: Event): void => {
+    const detail = (event as CustomEvent<{ batchId?: string }>).detail;
+    if (detail?.batchId) {
+      this.dynamicPageTranslationsLoaded.set(true);
+    }
+  };
+  private readonly _translationsReadyListener = this.registerTranslationsReadyListener();
   private lastReadyKey = '';
 
   protected emitDynamicPageReady(
@@ -56,6 +65,15 @@ export abstract class DynamicPageReadinessBase {
         },
       })
     );
+
+    return true;
+  }
+
+  private registerTranslationsReadyListener(): true {
+    this.readinessDocument.addEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
+    this.readinessDestroyRef.onDestroy(() => {
+      this.readinessDocument.removeEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
+    });
 
     return true;
   }
