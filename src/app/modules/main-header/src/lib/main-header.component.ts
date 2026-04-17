@@ -86,11 +86,7 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
     const url = baseConfig?.url?.trim();
     if (url && (!this.hasLoggedBaseConfig || translationsLoaded)) {
       console.log('[CorporateMainHeaderComponent] baseConfig received:', baseConfig);
-      if (translationsLoaded) {
-        console.log('[main-header] translations changed');
-      }
       this.hasLoggedBaseConfig = true;
-
       this.http.get<MainHeaderConfig>(url).subscribe({
         next: (response) => {
           this.config = this.resolveConfig(response);
