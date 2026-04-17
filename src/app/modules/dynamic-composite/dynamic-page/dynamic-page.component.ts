@@ -142,6 +142,10 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
 
     this.translationsReadyForCurrentBatch = true;
+    console.log('[dynamic-page] translations loaded', {
+      pageId: this.currentBatchPageId,
+      batchId: this.currentBatchId,
+    });
     this.tryFinalizePageReady();
   };
 

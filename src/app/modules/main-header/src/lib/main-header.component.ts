@@ -110,6 +110,12 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
         });
       }
     });
+
+    effect(() => {
+      if (this.dynamicPageTranslationsLoaded()) {
+        console.log('[main-header] translations changed');
+      }
+    });
   }
 
   public ngOnInit(): void {

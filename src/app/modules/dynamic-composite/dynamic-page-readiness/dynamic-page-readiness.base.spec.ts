@@ -26,6 +26,10 @@ describe('DynamicPageReadinessBase', () => {
     expect(TestDynamicPageReadiness.dynamicPageReadiness).toBe('self-managed');
   });
 
+  it('should expose translation-loaded signal defaulting to false', () => {
+    expect(subject.dynamicPageTranslationsLoaded()).toBeFalse();
+  });
+
   it('should emit dynamic-page:component-ready with fallback component and extra detail', () => {
     const dispatchSpy = spyOn(document, 'dispatchEvent').and.callThrough();
 
@@ -136,5 +140,70 @@ describe('DynamicPageReadinessBase', () => {
     expect(duplicate).toBeFalse();
     expect(differentComponent).toBeTrue();
     expect(dispatchSpy).toHaveBeenCalledTimes(2);
+  });
+
+  it('should set translation-loaded signal to true when tracked batch translations are ready', () => {
+    subject.emit({
+      config: {
+        __dynamicPageBatchId: 'batch-5',
+        __dynamicPageComponentId: 'cmp-6',
+      },
+      fallbackComponent: 'fallback-block',
+      state: DynamicPageReadyState.LOADED,
+    });
+
+    expect(subject.dynamicPageTranslationsLoaded()).toBeFalse();
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:translations-ready', {
+        detail: {
+          batchId: 'batch-5',
+        },
+      })
+    );
+
+    expect(subject.dynamicPageTranslationsLoaded()).toBeTrue();
+  });
+
+  it('should ignore translation-ready events from a different batch', () => {
+    subject.emit({
+      config: {
+        __dynamicPageBatchId: 'batch-6',
+        __dynamicPageComponentId: 'cmp-7',
+      },
+      fallbackComponent: 'fallback-block',
+      state: DynamicPageReadyState.LOADED,
+    });
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:translations-ready', {
+        detail: {
+          batchId: 'other-batch',
+        },
+      })
+    );
+
+    expect(subject.dynamicPageTranslationsLoaded()).toBeFalse();
+  });
+
+  it('should keep translation-loaded signal true when translations were ready before tracking sync', () => {
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:translations-ready', {
+        detail: {
+          batchId: 'batch-7',
+        },
+      })
+    );
+
+    subject.emit({
+      config: {
+        __dynamicPageBatchId: 'batch-7',
+        __dynamicPageComponentId: 'cmp-8',
+      },
+      fallbackComponent: 'fallback-block',
+      state: DynamicPageReadyState.LOADED,
+    });
+
+    expect(subject.dynamicPageTranslationsLoaded()).toBeTrue();
   });
 });

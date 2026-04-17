@@ -180,7 +180,12 @@ describe('DynamicPageComponent', () => {
       })
     );
 
-    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    const readyCalls = consoleLogSpy
+      .calls
+      .allArgs()
+      .filter((args) => args[0] === '[dynamic-page] all mapped components ready');
+
+    expect(readyCalls.length).toBe(1);
     expect(consoleLogSpy).toHaveBeenCalledWith(
       '[dynamic-page] all mapped components ready',
       jasmine.objectContaining({
@@ -290,7 +295,12 @@ describe('DynamicPageComponent', () => {
       })
     );
 
-    expect(consoleLogSpy).toHaveBeenCalledTimes(1);
+    const readyCalls = consoleLogSpy
+      .calls
+      .allArgs()
+      .filter((args) => args[0] === '[dynamic-page] all mapped components ready');
+
+    expect(readyCalls.length).toBe(1);
     expect(consoleLogSpy).toHaveBeenCalledWith(
       '[dynamic-page] all mapped components ready',
       jasmine.objectContaining({
