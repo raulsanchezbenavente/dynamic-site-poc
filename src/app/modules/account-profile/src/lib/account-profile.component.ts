@@ -174,6 +174,11 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
     }
   });
 
+  private readonly dynamicPageEffect = effect(() => {
+    this.dynamicPageTranslationsLoaded();
+    this.translationsLoaded();
+  });
+
   private setSuffixPrefix(channel: AccountModels.PersonCommunicationChannelDto): void {
     if (channel?.type === 'Phone' && channel?.info && channel?.prefix) {
       const countryCodeResult: CountryResult = this.phoneCountryService.countryFromPrefix(channel.prefix, channel.info);
@@ -186,9 +191,6 @@ export class AccountProfileComponent extends DynamicPageReadinessBase implements
 
   public ngOnInit(): void {
     this.setDocumentOptions();
-    if (this.baseConfig()) {
-      this.translationsLoaded();
-    }
   }
 
   public translationsLoaded(): void {
