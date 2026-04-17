@@ -46,7 +46,7 @@ import { MainHeaderConfig } from './models/main-header-config.interface';
   ],
   standalone: true,
 })
-export class CorporateMainHeaderComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
+export class CorporateMainHeaderComponent extends DynamicPageReadinessBase implements OnDestroy, OnInit {
   public isResponsive!: Signal<boolean>;
   public isLoaded = signal(false);
   public baseConfig = input<{ url: string } | null>(null);
@@ -75,6 +75,7 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   private readonly data: DataModule = this.configService.getDataModuleId(this.elementRef);
   private destroyMediaQueryListener: () => void = () => {};
   private hasLoggedBaseConfig = false;
+  private hasInitializedInternalInit = false;
 
   private readonly CMSKey = 'CorporateMainHeader';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
@@ -103,8 +104,18 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
     }
   });
 
+  private readonly translationsLoadedLogEffect = effect(() => {
+    const loaded = this.dynamicPageTranslationsLoaded();
+    if (loaded && !this.hasInitializedInternalInit) {
+      this.hasInitializedInternalInit = true;
+      this.internalInit();
+    }
+  });
+
   public ngOnInit(): void {
-    this.internalInit();
+    if (!this.baseConfig()) {
+      this.internalInit();
+    }
   }
 
   public ngOnDestroy(): void {
