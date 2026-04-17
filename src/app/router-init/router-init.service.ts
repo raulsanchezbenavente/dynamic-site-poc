@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route, Router } from '@angular/router';
 import {
@@ -8,7 +9,7 @@ import {
     SiteLayoutRow,
     SitePage,
 } from '@navigation';
-import { filter, fromEvent, take } from 'rxjs';
+import { catchError, filter, fromEvent, map, Observable, of, shareReplay, take, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
@@ -17,9 +18,11 @@ import { TabConfigEntry } from '../modules/dynamic-composite/dynamic-tabs/models
 @Injectable({ providedIn: 'root' })
 export class RouterInitService {
   private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
   private readonly siteConfigService = inject(SiteConfigService);
   private readonly languageSwitchService = inject(LanguageSwitchService);
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
+  private readonly layoutRowsCache = new Map<string, Observable<SiteLayoutRow[]>>();
 
   private hasLoggedInitialSiteLoad = false;
   private shouldSyncLangFromUrl = false;
@@ -33,7 +36,6 @@ export class RouterInitService {
     this.isInitialized = true;
 
     this.logDirectBrowserEntry();
-    // this.removeBootLoaderAfterFirstNavigation();
     this.trackBrowserNavigationTrigger();
     this.syncLanguageOnNavigationEnd();
     this.resetRoutesFromSiteConfig();
@@ -122,8 +124,20 @@ export class RouterInitService {
         seo: page.seo,
         tabNamesById: this.buildTabNamesById(page),
       },
+      resolve: {
+        components: () => this.resolvePageComponents(page),
+        tabNamesById: () => this.resolveTabNamesById(page),
+      },
       canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],
     };
+  }
+
+  private resolvePageComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page);
+  }
+
+  private resolveTabNamesById(page: SitePage): Observable<Record<string, string>> {
+    return this.resolveLayoutRows(page).pipe(map((rows) => this.buildTabNamesByRows(rows)));
   }
 
   private getPageComponents(page: SitePage): SiteLayoutRow[] {
@@ -137,7 +151,11 @@ export class RouterInitService {
   }
 
   private buildTabNamesById(page: SitePage): Record<string, string> {
-    return this.getLayoutRows(page.layout)
+    return this.buildTabNamesByRows(this.getLayoutRows(page.layout));
+  }
+
+  private buildTabNamesByRows(rows: SiteLayoutRow[]): Record<string, string> {
+    return rows
       .flatMap((row) => row.cols ?? [])
       .flatMap((col) => (col.config?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
       .reduce((accumulator: Record<string, string>, tab: TabConfigEntry) => {
@@ -147,6 +165,39 @@ export class RouterInitService {
 
         return accumulator;
       }, {});
+  }
+
+  private resolveLayoutRows(page: SitePage): Observable<SiteLayoutRow[]> {
+    const layout = page.layout;
+
+    if (typeof layout !== 'string') {
+      const rows = this.getLayoutRows(layout);
+      this.siteConfigService.hydrateResolvedPageLayout(page.path, rows);
+      return of(rows);
+    }
+
+    const layoutUrl = layout.trim();
+    if (!layoutUrl) {
+      return of([]);
+    }
+
+    const cachedRequest = this.layoutRowsCache.get(layoutUrl);
+    if (cachedRequest) {
+      return cachedRequest;
+    }
+
+    const request$ = this.http.get<SiteLayout | SiteLayoutRow[]>(layoutUrl).pipe(
+      map((layoutResponse) => this.getLayoutRows(layoutResponse)),
+      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows)),
+      catchError((error) => {
+        console.warn('[RouterInitService] Failed to resolve layout URL', { layoutUrl, error });
+        return of([]);
+      }),
+      shareReplay(1)
+    );
+
+    this.layoutRowsCache.set(layoutUrl, request$);
+    return request$;
   }
 
   private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {

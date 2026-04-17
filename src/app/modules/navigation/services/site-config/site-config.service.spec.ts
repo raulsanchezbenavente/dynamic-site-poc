@@ -47,7 +47,7 @@ describe('SiteConfigService', () => {
     expect(service.siteSnapshot?.pages?.length).toBe(2);
   });
 
-  it('should resolve layout when page layout is a URL string', () => {
+  it('should keep layout URL unresolved when page layout is a string', () => {
     let loadedPage: any;
 
     service.loadSite(['es']).subscribe((result) => {
@@ -65,18 +65,8 @@ describe('SiteConfigService', () => {
       ],
     });
 
-    const layoutReq = httpMock.expectOne('/assets/config-site/layouts/es/inicio');
-    layoutReq.flush({
-      rows: [
-        {
-          cols: [{ component: 'CorporateMainHeaderBlock_uiplus_EX', span: 12 }],
-        },
-      ],
-    });
-
-    expect(Array.isArray(loadedPage.layout)).toBeFalse();
-    expect(loadedPage.layout.rows.length).toBe(1);
-    expect(loadedPage.layout.rows[0].cols[0].component).toBe('CorporateMainHeaderBlock_uiplus_EX');
+    expect(httpMock.match('/assets/config-site/layouts/es/inicio').length).toBe(0);
+    expect(loadedPage.layout).toBe('/assets/config-site/layouts/es/inicio');
   });
 
   it('should resolve page path by page id and language', () => {

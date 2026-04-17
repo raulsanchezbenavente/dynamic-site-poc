@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { TabConfigEntry, TabSummary } from '../../../dynamic-composite/dynamic-tabs/models/tab-config.model';
 
@@ -9,7 +9,6 @@ import { AppLang } from './models/langs.model';
 import {
     SiteBlockConfig,
     SiteConfigResponse,
-    SiteLayout,
     SiteLayoutCol,
     SiteLayoutRow,
     SitePage,
@@ -68,7 +67,6 @@ export class SiteConfigService {
     const requests = missingLangs.map((lang) => this.http.get<SiteConfigResponse>(this.getURlFromLangAndContext(lang)));
 
     return forkJoin(requests).pipe(
-      switchMap((sites) => forkJoin(sites.map((site) => this.resolveSiteLayouts(site)))),
       tap((sites) => {
         const loadedSitesByLanguage = missingLangs.reduce(
           (acc, lang, idx) => {
@@ -155,6 +153,45 @@ export class SiteConfigService {
     }
 
     return undefined;
+  }
+
+  public hydrateResolvedPageLayout(path: string | undefined, layoutRows: SiteLayoutRow[]): void {
+    const normalizedPath = this.normalizePath(path ?? '');
+    if (!normalizedPath) {
+      return;
+    }
+
+    const nextLayout = { rows: layoutRows };
+    let hasUpdates = false;
+
+    const configEntries = Object.entries(this.configSitesByLanguage) as Array<[AppLang, SitePage[] | undefined]>;
+    for (const [lang, pages] of configEntries) {
+      if (!Array.isArray(pages) || !pages.length) {
+        continue;
+      }
+
+      const { nextPages, updated } = this.replacePageLayoutByPath(pages, normalizedPath, nextLayout);
+      if (updated) {
+        this.configSitesByLanguage[lang] = nextPages;
+        hasUpdates = true;
+      }
+    }
+
+    const fullEntries = Object.entries(this.fullConfigSitesByLanguage) as Array<[AppLang, SitePage[] | undefined]>;
+    for (const [lang, pages] of fullEntries) {
+      if (!Array.isArray(pages) || !pages.length) {
+        continue;
+      }
+
+      const { nextPages, updated } = this.replacePageLayoutByPath(pages, normalizedPath, nextLayout);
+      if (updated) {
+        this.fullConfigSitesByLanguage[lang] = nextPages;
+      }
+    }
+
+    if (hasUpdates) {
+      this.persistConfigToSessionStorage();
+    }
   }
 
   public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): TabSummary[] {
@@ -314,42 +351,29 @@ export class SiteConfigService {
     return decodedPath;
   }
 
-  private resolveSiteLayouts(site: SiteConfigResponse): Observable<SiteConfigResponse> {
-    const pages = Array.isArray(site?.pages) ? site.pages : [];
-    if (!pages.length) {
-      return of({ pages: [] });
-    }
+  private replacePageLayoutByPath(
+    pages: SitePage[],
+    normalizedPath: string,
+    layout: { rows: SiteLayoutRow[] }
+  ): { nextPages: SitePage[]; updated: boolean } {
+    let updated = false;
 
-    return forkJoin(pages.map((page) => this.resolvePageLayout(page))).pipe(map((resolvedPages) => ({ pages: resolvedPages })));
-  }
+    const nextPages = pages.map((page) => {
+      const pagePath = this.normalizePath(page?.path ?? '');
+      if (pagePath !== normalizedPath) {
+        return page;
+      }
 
-  private resolvePageLayout(page: SitePage): Observable<SitePage> {
-    if (typeof page?.layout !== 'string') {
-      return of(page);
-    }
+      updated = true;
+      return {
+        ...page,
+        layout: {
+          rows: layout.rows,
+        },
+      };
+    });
 
-    const layoutUrl = page.layout.trim();
-    if (!layoutUrl) {
-      return of({ ...page, layout: { rows: [] } });
-    }
-
-    return this.http.get<SiteLayout | SiteLayoutRow[]>(layoutUrl).pipe(
-      map((layoutResponse) => ({ ...page, layout: this.normalizeLayout(layoutResponse) })),
-      catchError((error) => {
-        console.warn('[SiteConfigService] Failed to resolve layout URL', { layoutUrl, pageId: page?.pageId, error });
-        return of({ ...page, layout: { rows: [] } });
-      })
-    );
-  }
-
-  private normalizeLayout(layout: SiteLayout | SiteLayoutRow[] | null | undefined): SiteLayout | SiteLayoutRow[] {
-    if (Array.isArray(layout)) {
-      return layout;
-    }
-
-    return {
-      rows: Array.isArray(layout?.rows) ? layout.rows : [],
-    };
+    return { nextPages, updated };
   }
 
   private getLayoutRows(layout: SitePage['layout']): SiteLayoutRow[] {
