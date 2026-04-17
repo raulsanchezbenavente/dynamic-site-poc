@@ -18,9 +18,12 @@ import {
   HostBinding,
   Inject,
   Input,
+  NgZone,
+  OnDestroy,
   OnInit,
   Optional,
   Output,
+  Renderer2,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -52,10 +55,10 @@ import { MODAL_DIALOG_CONFIG } from './tokens/modal-dialog-default-config.token'
   imports: [TranslateModule, IconComponent, AlertPanelComponent, ModalFooterButtonsComponent],
   standalone: true,
 })
-export class ModalDialogComponent implements OnInit, AfterContentInit {
+export class ModalDialogComponent implements OnInit, AfterContentInit, OnDestroy {
   @Input({ required: true }) public modalDialogConfig!: ModalDialogConfig;
   @Output() public closeModal = new EventEmitter<void>();
-
+  private cleanupMousedownListener?: () => void;
   /**
    * Event emitter to propagate actions from the modal, such as confirm or cancel.
    */
@@ -92,6 +95,18 @@ export class ModalDialogComponent implements OnInit, AfterContentInit {
     return this.modalDialogConfig?.programmaticOpen ? '' : null;
   }
 
+  private setupBackdropMousedownListener(): void {
+    this.ngZone.runOutsideAngular(() => {
+      this.cleanupMousedownListener = this.renderer.listen('document', 'mousedown', (event: MouseEvent) => {
+        const target = event.target as HTMLElement;
+        /* ng-bootstrap overlay container classes */
+        if (target?.classList.contains('modal') || target?.classList.contains('modal-backdrop')) {
+          event.preventDefault();
+        }
+      });
+    });
+  }
+
   /**
    * Determines if the footer should be displayed
    */
@@ -119,15 +134,24 @@ export class ModalDialogComponent implements OnInit, AfterContentInit {
     @Inject(MODAL_DIALOG_CONFIG)
     private readonly defaultConfig: ModalDialogConfig,
     private readonly mergeConfigsService: MergeConfigsService,
-    private readonly eventBusService: EventBusService
+    private readonly eventBusService: EventBusService,
+    private readonly ngZone: NgZone,
+    private readonly renderer: Renderer2
   ) {}
 
   public ngOnInit(): void {
     this.initDefaultConfiguration();
+    this.setupBackdropMousedownListener();
   }
 
   public ngAfterContentInit(): void {
     this.hasCustomFooter = !!this.customFooter;
+  }
+
+  public ngOnDestroy(): void {
+    if (this.cleanupMousedownListener) {
+      this.cleanupMousedownListener();
+    }
   }
 
   protected close(action: ModalDialogActionType = ModalDialogActionType.CLOSE): void {

@@ -17,9 +17,6 @@ import { AuthAccountMenuOptionsConfig } from './models/auth-account-menu-options
   standalone: true,
 })
 export class AuthenticatedAccountMenuComponent implements OnInit {
-  private static readonly LOGOUT_TRANSLATION_KEY = 'Auth.AuthenticatedAccountMenu.Logout';
-  private static readonly ARIA_TRANSLATION_KEY = 'Auth.AuthenticatedAccountMenu.AriaLabel';
-
   public readonly config = input.required<AuthAccountMenuOptionsConfig>();
 
   public readonly logoutRequested = output<void>();
@@ -142,7 +139,6 @@ export class AuthenticatedAccountMenuComponent implements OnInit {
   private internalInit(): void {
     this.isLoading.set(false);
     this.setOptionsConfig();
-    this.setupReactiveTranslations();
     // Subscribe to tab changes (default group unless specified differently)
     this.tabsService
       .selectedTab$()
@@ -207,22 +203,14 @@ export class AuthenticatedAccountMenuComponent implements OnInit {
         id: `authAccountMenuOptions`,
       },
       ariaAttributes: {
-        ariaLabel: this.resolveTranslatedValue(
-          this.translate.instant(AuthenticatedAccountMenuComponent.ARIA_TRANSLATION_KEY),
-          'Account menu',
-          AuthenticatedAccountMenuComponent.ARIA_TRANSLATION_KEY
-        ),
+        ariaLabel: this.translate.instant('Auth.AuthenticatedAccountMenu.AriaLabel'),
       },
       mode: 'menu',
     });
     const logoutOption: OptionsList = {
       code: MenuType.LOGOUT,
       id: this.config().options.length.toString(),
-      name: this.resolveTranslatedValue(
-        this.translate.instant(AuthenticatedAccountMenuComponent.LOGOUT_TRANSLATION_KEY),
-        'Log out',
-        AuthenticatedAccountMenuComponent.LOGOUT_TRANSLATION_KEY
-      ),
+      name: this.translate.instant('Auth.AuthenticatedAccountMenu.Logout'),
       link: undefined,
       icon: {
         name: '',
@@ -235,74 +223,6 @@ export class AuthenticatedAccountMenuComponent implements OnInit {
         options: [...currentConfig.options, logoutOption],
       });
     }
-    this.cdr.markForCheck();
-  }
-
-  private setupReactiveTranslations(): void {
-    this.translate
-      .stream(AuthenticatedAccountMenuComponent.ARIA_TRANSLATION_KEY)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((translated) => {
-        const ariaLabel = this.resolveTranslatedValue(
-          translated,
-          'Account menu',
-          AuthenticatedAccountMenuComponent.ARIA_TRANSLATION_KEY
-        );
-        this.updateAriaLabel(ariaLabel);
-      });
-
-    this.translate
-      .stream(AuthenticatedAccountMenuComponent.LOGOUT_TRANSLATION_KEY)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((translated) => {
-        const logoutLabel = this.resolveTranslatedValue(
-          translated,
-          'Log out',
-          AuthenticatedAccountMenuComponent.LOGOUT_TRANSLATION_KEY
-        );
-        this.updateLogoutOptionLabel(logoutLabel);
-      });
-  }
-
-  private resolveTranslatedValue(value: string | null | undefined, fallback: string, key: string): string {
-    return value && value !== key ? value : fallback;
-  }
-
-  private updateAriaLabel(ariaLabel: string): void {
-    const current = this.optionsConfig();
-    if (!current) {
-      return;
-    }
-
-    this.optionsConfig.set({
-      ...current,
-      ariaAttributes: {
-        ...(current.ariaAttributes ?? {}),
-        ariaLabel,
-      },
-    });
-    this.cdr.markForCheck();
-  }
-
-  private updateLogoutOptionLabel(logoutLabel: string): void {
-    const current = this.optionsConfig();
-    if (!current) {
-      return;
-    }
-
-    const updatedOptions = current.options.map((option) =>
-      option.code === MenuType.LOGOUT
-        ? {
-            ...option,
-            name: logoutLabel,
-          }
-        : option
-    );
-
-    this.optionsConfig.set({
-      ...current,
-      options: updatedOptions,
-    });
     this.cdr.markForCheck();
   }
 

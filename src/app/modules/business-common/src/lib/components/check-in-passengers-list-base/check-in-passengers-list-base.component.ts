@@ -189,7 +189,12 @@ export abstract class CheckInPassengersListBaseComponent implements OnInit {
       // Detect if at least one seat is actually assigned (non-empty string)
       const hasAnySeatAssigned = seatsArray.some((s) => !!s && s.trim() !== '');
 
-      if (!hasAnySeatAssigned || this.hasOverbookedSegment(passenger) || this.hasStandBySegment(passenger)) {
+      if (
+        !hasAnySeatAssigned ||
+        this.hasOverbookedSegment(passenger) ||
+        this.hasStandBySegment(passenger) ||
+        this.isPassengerNonEligibleBoardingPass(passenger.id)
+      ) {
         // No seats at all -> single "--"
         this.passengerSeatsDisplay[passenger.id] = '--';
         continue;
