@@ -78,13 +78,16 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   private destroyMediaQueryListener: () => void = () => {};
   private hasLoggedBaseConfig = false;
   private hasInitializedInternalInit = false;
+  private readonly isDynamicTranslationsReady = signal(false);
 
   private readonly CMSKey = 'CorporateMainHeader';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
 
   private readonly dynamicPageEffect = effect(() => {
     const baseConfig = this.baseConfig();
-    if (!this.hasLoggedBaseConfig && baseConfig?.url?.trim()) {
+    const translationsReady = this.isDynamicTranslationsReady();
+
+    if (!this.hasLoggedBaseConfig && translationsReady && baseConfig?.url?.trim()) {
       const url = baseConfig.url.trim();
       console.log('[CorporateMainHeaderComponent] baseConfig received:', baseConfig);
       this.hasLoggedBaseConfig = true;
@@ -109,10 +112,10 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   private readonly translationsLoadedLogEffect = effect(() => {
     const loaded = this.dynamicPageTranslationsLoaded();
     console.log(loaded);
+    this.isDynamicTranslationsReady.set(loaded);
 
     if (loaded && !this.hasInitializedInternalInit) {
       this.hasInitializedInternalInit = true;
-      this.internalInit();
     }
   });
 
