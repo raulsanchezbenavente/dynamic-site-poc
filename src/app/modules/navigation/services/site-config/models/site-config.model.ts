@@ -13,13 +13,14 @@ export interface SiteSeoConfig {
 
 export interface SiteLayoutCol {
   component?: string;
+  slot?: string;
   span?: number;
   config?: SiteBlockConfig;
 }
 
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
-  contentSlot?: boolean;
+  slot?: string;
 }
 
 export interface SiteLayout {
@@ -27,13 +28,14 @@ export interface SiteLayout {
 }
 
 export type SiteLayoutSource = SiteLayout | SiteLayoutRow[] | string;
+export type SiteSlots = Record<string, SiteLayoutSource>;
 
 export interface SitePage {
   pageId?: string;
   path?: string;
   name?: string;
-  template?: string;
   layout?: SiteLayoutSource;
+  slots?: SiteSlots;
   seo?: SiteSeoConfig;
 }
 

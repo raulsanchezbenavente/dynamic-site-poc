@@ -12,7 +12,7 @@
       ]
     },
     {
-      "contentSlot": true
+      "slot": "main"
     },
     {
       "cols": [

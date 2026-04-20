@@ -9,7 +9,7 @@ import {
   SiteLayoutRow,
   SitePage,
 } from '@navigation';
-import { catchError, combineLatest, filter, fromEvent, map, Observable, of, shareReplay, take, tap } from 'rxjs';
+import { catchError, filter, forkJoin, fromEvent, map, Observable, of, shareReplay, switchMap, take, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
@@ -151,7 +151,11 @@ export class RouterInitService {
   }
 
   private buildTabNamesById(page: SitePage): Record<string, string> {
-    return this.buildTabNamesByRows(this.getLayoutRows(page.layout));
+    const rows = this.getLayoutRows(page.layout);
+    const shouldIncludeSlots = typeof page.layout === 'string';
+    const allRows = shouldIncludeSlots ? [...rows, ...this.getSlotsRows(page.slots)] : rows;
+
+    return this.buildTabNamesByRows(allRows);
   }
 
   private buildTabNamesByRows(rows: SiteLayoutRow[]): Record<string, string> {
@@ -168,26 +172,13 @@ export class RouterInitService {
   }
 
   private resolveLayoutRows(page: SitePage): Observable<SiteLayoutRow[]> {
-    const layout = page.layout;
-    const template = page.template;
-
-    const pageRows$ = this.resolveRowsFromLayout(layout).pipe(
+    return this.resolveRowsFromLayout(page.layout).pipe(
+      switchMap((layoutRows) =>
+        this.resolveSlotsRows(page.slots).pipe(
+          map((slotsRowsByName) => this.mergeLayoutRowsWithSlots(layoutRows, slotsRowsByName))
+        )
+      ),
       tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows))
-    );
-
-    if (typeof template !== 'string') {
-      return pageRows$;
-    }
-
-    const templateUrl = template.trim();
-    if (!templateUrl) {
-      return pageRows$;
-    }
-
-    const templateRows$ = this.resolveRowsFromUrl(templateUrl);
-
-    return combineLatest([templateRows$, pageRows$]).pipe(
-      map(([templateRows, pageRows]) => this.mergeTemplateRowsWithPageRows(templateRows, pageRows))
     );
   }
 
@@ -225,15 +216,49 @@ export class RouterInitService {
     return request$;
   }
 
-  private mergeTemplateRowsWithPageRows(templateRows: SiteLayoutRow[], pageRows: SiteLayoutRow[]): SiteLayoutRow[] {
-    const hasContentSlot = templateRows.some((row) => row.contentSlot === true);
+  private resolveSlotsRows(slots: SitePage['slots'] | undefined): Observable<Record<string, SiteLayoutRow[]>> {
+    const slotEntries = Object.entries(slots ?? {})
+      .map(([slotName, slotLayout]) => [slotName.trim(), slotLayout] as const)
+      .filter(([slotName]) => Boolean(slotName));
 
-    if (!hasContentSlot) {
-      console.warn('[RouterInitService] Template does not include contentSlot=true. Falling back to page layout rows.');
-      return pageRows;
+    if (!slotEntries.length) {
+      return of({});
     }
 
-    return templateRows.flatMap((row) => (row.contentSlot === true ? pageRows : [row]));
+    const slotRequests = slotEntries.map(([slotName, slotLayout]) =>
+      this.resolveRowsFromLayout(slotLayout).pipe(map((rows) => [slotName, rows] as const))
+    );
+
+    return forkJoin(slotRequests).pipe(
+      map((resolvedSlotEntries) => Object.fromEntries(resolvedSlotEntries) as Record<string, SiteLayoutRow[]>)
+    );
+  }
+
+  private mergeLayoutRowsWithSlots(
+    layoutRows: SiteLayoutRow[],
+    slotsRowsByName: Record<string, SiteLayoutRow[]>
+  ): SiteLayoutRow[] {
+    return layoutRows.flatMap((row) => {
+      const slotName = this.getSlotNameFromRow(row);
+      if (!slotName) {
+        return [row];
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(slotsRowsByName, slotName)) {
+        console.warn('[RouterInitService] Slot is not defined in page.slots and will be skipped.', { slotName });
+        return [];
+      }
+
+      return slotsRowsByName[slotName] ?? [];
+    });
+  }
+
+  private getSlotsRows(slots: SitePage['slots'] | undefined): SiteLayoutRow[] {
+    return Object.values(slots ?? {}).flatMap((slotLayout) => this.getLayoutRows(slotLayout));
+  }
+
+  private getSlotNameFromRow(row: SiteLayoutRow): string {
+    return String(row?.slot ?? '').trim();
   }
 
   private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {

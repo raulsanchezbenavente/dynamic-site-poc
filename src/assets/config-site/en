@@ -9,9 +9,19 @@
         "description": "Test login",
         "robots": ""
       },
-      "template": "/assets/config-site/templates/header-footer",
       "layout": {
         "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainHeaderBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
+                }
+              }
+            ]
+          },
           {
             "cols": [
               {
@@ -33,6 +43,17 @@
                 }
               }
             ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainFooterBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
+                }
+              }
+            ]
           }
         ]
       }
@@ -46,123 +67,125 @@
         "description": "",
         "robots": ""
       },
-      "template": "/assets/config-site/templates/header-footer",
-      "layout": {
-        "rows": [
-          {
-            "cols": [
-              {
-                "component": "authorizationBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AuthorizationBlock_uiplus_95-74-3F-4E-EF-20-FF-42_en-us"
+      "layout": "/assets/config-site/templates/header-footer",
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "authorizationBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AuthorizationBlock_uiplus_95-74-3F-4E-EF-20-FF-42_en-us"
+                  }
                 }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "LoyaltyOverviewCardBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_LoyaltyOverviewCardBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "LoyaltyOverviewCardBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_LoyaltyOverviewCardBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+                  }
                 }
-              }
-            ]
-          },
-          {
-            "cols": [
-              {
-                "component": "multiTabBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "tabsId": "111",
-                  "tabs": [
-                    {
-                      "tabId": "22",
-                      "name": "Personal data",
-                      "title": "Personal data",
-                      "secondaryText": "",
-                      "layout": {
-                        "rows": [
-                          {
-                            "cols": [
-                              {
-                                "component": "accountProfile_uiplus",
-                                "span": 12,
-                                "config": {
-                                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "multiTabBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "tabsId": "111",
+                    "tabs": [
+                      {
+                        "tabId": "22",
+                        "name": "Personal data",
+                        "title": "Personal data",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "accountProfile_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
+                                  }
                                 }
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "tabId": "33",
-                      "name": "My trips",
-                      "title": "My trips",
-                      "secondaryText": "",
-                      "layout": {
-                        "rows": [
-                          {
-                            "cols": [
-                              {
-                                "component": "FindBookingsBlock_uiplus",
-                                "span": 12,
-                                "config": {
-                                  "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_FindBookingsBlock_uiplus_49-49-AA-6D-4B-18-28-CC_en-us"
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "33",
+                        "name": "My trips",
+                        "title": "My trips",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "FindBookingsBlock_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_FindBookingsBlock_uiplus_49-49-AA-6D-4B-18-28-CC_en-us"
+                                  }
                                 }
-                              }
-                            ]
-                          }
-                        ]
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "44",
+                        "name": "Account settings",
+                        "title": "Account settings",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "accountSettings_uiplus_EX",
+                                  "span": 12
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "55",
+                        "name": "My elite status",
+                        "title": "My elite status",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "eliteStatus_uiplus_EX",
+                                  "span": 12
+                                }
+                              ]
+                            }
+                          ]
+                        }
                       }
-                    },
-                    {
-                      "tabId": "44",
-                      "name": "Account settings",
-                      "title": "Account settings",
-                      "secondaryText": "",
-                      "layout": {
-                        "rows": [
-                          {
-                            "cols": [
-                              {
-                                "component": "accountSettings_uiplus_EX",
-                                "span": 12
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    {
-                      "tabId": "55",
-                      "name": "My elite status",
-                      "title": "My elite status",
-                      "secondaryText": "",
-                      "layout": {
-                        "rows": [
-                          {
-                            "cols": [
-                              {
-                                "component": "eliteStatus_uiplus_EX",
-                                "span": 12
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    }
-                  ]
+                    ]
+                  }
                 }
-              }
-            ]
-          }
-        ]
+              ]
+            }
+          ]
+        }
       }
     },
     {

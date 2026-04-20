@@ -7,11 +7,11 @@ import { TabConfigEntry, TabSummary } from '../../../dynamic-composite/dynamic-t
 
 import { AppLang } from './models/langs.model';
 import {
-    SiteBlockConfig,
-    SiteConfigResponse,
-    SiteLayoutCol,
-    SiteLayoutRow,
-    SitePage,
+  SiteBlockConfig,
+  SiteConfigResponse,
+  SiteLayoutCol,
+  SiteLayoutRow,
+  SitePage,
 } from './models/site-config.model';
 
 @Injectable({ providedIn: 'root' })
@@ -112,7 +112,7 @@ export class SiteConfigService {
     if (!page) {
       return undefined;
     }
-    const rows = this.getLayoutRows(page.layout);
+    const rows = this.getPageRowsForLookups(page);
     for (const row of rows) {
       for (const col of Array.isArray(row?.cols) ? row.cols : []) {
         if (col?.component === componentName) {
@@ -141,7 +141,7 @@ export class SiteConfigService {
       return undefined;
     }
 
-    const rows = this.getLayoutRows(page.layout);
+    const rows = this.getPageRowsForLookups(page);
     const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
     for (const col of cols) {
@@ -201,7 +201,7 @@ export class SiteConfigService {
     const tabMap = new Map<string, TabSummary>();
 
     for (const page of pages) {
-      const rows = this.getLayoutRows(page.layout);
+      const rows = this.getPageRowsForLookups(page);
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
@@ -386,5 +386,19 @@ export class SiteConfigService {
     }
 
     return layout?.rows ?? [];
+  }
+
+  private getPageRowsForLookups(page: SitePage): SiteLayoutRow[] {
+    const rows = this.getLayoutRows(page.layout);
+
+    if (typeof page.layout !== 'string') {
+      return rows;
+    }
+
+    return [...rows, ...this.getSlotsRows(page.slots)];
+  }
+
+  private getSlotsRows(slots: SitePage['slots']): SiteLayoutRow[] {
+    return Object.values(slots ?? {}).flatMap((slotLayout) => this.getLayoutRows(slotLayout));
   }
 }
