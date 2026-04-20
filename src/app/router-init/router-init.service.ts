@@ -187,8 +187,7 @@ export class RouterInitService {
     const templateRows$ = this.resolveRowsFromUrl(templateUrl);
 
     return combineLatest([templateRows$, pageRows$]).pipe(
-      map(([templateRows, pageRows]) => this.mergeTemplateRowsWithPageRows(templateRows, pageRows)),
-      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows))
+      map(([templateRows, pageRows]) => this.mergeTemplateRowsWithPageRows(templateRows, pageRows))
     );
   }
 
