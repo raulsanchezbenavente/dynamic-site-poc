@@ -18,7 +18,9 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { AriaAttributes, generateIdWithUUID, KeyCodeEnum, ResizeSvc, SliderBreakpointsConfig } from '@dcx/ui/libs';
+import { AriaAttributes, generateIdWithUUID, KeyCodeEnum, ResizeSvc, SliderBreakpointsConfig ,
+  CommonTranslationKeys
+} from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
@@ -221,7 +223,7 @@ export class TabsComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Announce the selected tab label to screen readers
       const label = tab.tabTrigger.text;
-      this.announceAriaLiveMessage(`${label} ${this.translateService.instant('Common.A11y.IsSelected')}`);
+      this.announceAriaLiveMessage(`${label} ${this.translateService.instant(CommonTranslationKeys.Common_A11y_IsSelected)}`);
 
       this.tabsService.select(tab, this.group());
     }
@@ -325,7 +327,7 @@ export class TabsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.currentIndex.set(newIndex);
 
     const suffix = moved === 1 ? '1' : 'N';
-    const scrolled = this.translateService.instant(`Common.Tabs.Scrolled_Left_${suffix}`, { count: moved });
+    const scrolled = this.translateService.instant(`${CommonTranslationKeys.Common_Tabs_Scrolled_Left_KeyNode}${suffix}`, { count: moved });
 
     if (newIndex === 0) {
       const endMsg = this.translateService.instant(this.getNoMoreKey('Left'));
@@ -350,14 +352,14 @@ export class TabsComponent implements OnInit, AfterViewInit, OnDestroy {
     const count = Math.max(1, this.itemsToScroll);
     const suffix = count === 1 ? '1' : 'N';
     return {
-      btnKey: `Common.Tabs.Scroll_${dir}_${suffix}`, // prev/next buttons
-      liveKey: `Common.Tabs.Scrolled_${dir}_${suffix}`, // live region announcement
+      btnKey: `${CommonTranslationKeys.Common_Tabs_Scroll_KeyNode}${dir}_${suffix}`, // prev/next buttons
+      liveKey: `${CommonTranslationKeys.Common_Tabs_Scrolled_KeyNode}${dir}_${suffix}`, // live region announcement
       count,
     };
   }
 
   private getNoMoreKey(dir: 'Left' | 'Right'): string {
-    return dir === 'Left' ? 'Common.Tabs.NoMore_Left' : 'Common.Tabs.NoMore_Right';
+    return dir === 'Left' ? CommonTranslationKeys.Common_Tabs_NoMore_Left : CommonTranslationKeys.Common_Tabs_NoMore_Right;
   }
 
   private announceAriaLiveMessage(message: string): void {

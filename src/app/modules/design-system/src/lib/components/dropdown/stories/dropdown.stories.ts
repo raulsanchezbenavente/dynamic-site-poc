@@ -1,5 +1,5 @@
 import { DropdownComponent } from '@dcx/storybook/design-system';
-import { DropdownLayoutType } from '@dcx/ui/libs';
+import { DropdownLayoutType , CommonTranslationKeys } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -31,7 +31,7 @@ const DEFAULT_DROPDOWN_STORIE_TEMPLATE = `
   </dropdown>
 `;
 const DROPDOWN_STORIE_TRANSLATIONS = {
-  'Common.A11y.IsSelected': 'Is selected',
+  [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
 };
 
 export default META;

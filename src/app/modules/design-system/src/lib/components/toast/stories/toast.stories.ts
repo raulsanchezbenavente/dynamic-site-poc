@@ -6,6 +6,7 @@ import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.pro
 import { ToastStatus } from '../enums/toast-status.enum';
 import type { Toast } from '../models/toast.model';
 import { ToastComponent } from '../toast.component';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const SUCCESS_CONFIG: Toast = {
   status: ToastStatus.SUCCESS,
@@ -40,14 +41,14 @@ const META: Meta<ToastComponent> = {
     },
   }),
   parameters: {
-    i18nModules: ['Common.Close', 'Common.A11y.Status_Icon'],
+    i18nModules: [CommonTranslationKeys.Common_Close, 'Common.A11y.Status_Icon'],
     i18n: {
       mock: {
-        'Common.Close': 'Close',
-        'Common.A11y.Status_Icon.Success': 'Success',
-        'Common.A11y.Status_Icon.Error': 'Error',
-        'Common.A11y.Status_Icon.Info': 'Information',
-        'Common.A11y.Status_Icon.Warning': 'Warning',
+        [CommonTranslationKeys.Common_Close]: 'Close',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Success]: 'Success',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Error]: 'Error',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Info]: 'Information',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Warning]: 'Warning',
       },
     },
   },

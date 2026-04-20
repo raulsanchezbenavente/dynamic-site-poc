@@ -1,4 +1,5 @@
 import { AlertPanelComponent, PriceCurrencyComponent } from '@dcx/storybook/design-system';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 import { expect, waitFor, within } from '@storybook/test';
@@ -59,11 +60,11 @@ const META: Meta<AlertPanelComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Common.A11y.Status_Icon.Warning': 'Warning icon',
-        'Common.A11y.Status_Icon.Success': 'Success icon',
-        'Common.A11y.Status_Icon.Error': 'Error icon',
-        'Common.A11y.Status_Icon.Info': 'Info icon',
-        'Common.A11y.Status_Icon.Disabled': 'Disabled icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Warning]: 'Warning icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Success]: 'Success icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Error]: 'Error icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Info]: 'Info icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Disabled]: 'Disabled icon',
       },
     },
   },

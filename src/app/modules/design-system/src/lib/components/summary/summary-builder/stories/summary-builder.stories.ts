@@ -5,6 +5,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../../../stories/providers/storybook.providers';
 import type { SummaryDataRenderer } from '../../summary-renderer/models/summary-data-renderer.model';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const META: Meta<DsSummaryBuilderComponent> = {
   title: 'Molecules/Summary/Summary Builder',
@@ -50,7 +51,7 @@ export const EMPTYFIELDS: Story = {
       age: { label: 'Edad', value: '' },
     } as Record<string, SummaryDataRenderer>,
     translations: {
-      'Common.NotAvailable': 'No disponible',
+      [CommonTranslationKeys.Common_NotAvailable]: 'No disponible',
     },
   },
 };

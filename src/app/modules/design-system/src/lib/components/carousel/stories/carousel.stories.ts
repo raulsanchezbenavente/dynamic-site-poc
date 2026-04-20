@@ -6,6 +6,7 @@ import { expect, waitFor, within } from '@storybook/test';
 
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
 import type { CarouselConfig } from '../models/carousel.config';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const META: Meta<CarouselComponent> = {
   title: 'Atoms/Carousel',
@@ -21,8 +22,8 @@ const META: Meta<CarouselComponent> = {
       api: true,
       mock: {
         'Carousel.Title': 'Screen reader title for carousel',
-        'Common.Next': 'Next',
-        'Common.Previous': 'Previous',
+        [CommonTranslationKeys.Common_Next]: 'Next',
+        [CommonTranslationKeys.Common_Previous]: 'Previous',
       },
     },
   },

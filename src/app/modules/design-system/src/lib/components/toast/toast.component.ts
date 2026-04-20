@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, model, OnInit, output, viewChild } from '@angular/core';
-import { IconConfig } from '@dcx/ui/libs';
+import { CommonTranslationKeys, IconConfig } from '@dcx/ui/libs';
 import { NgbToast } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
@@ -32,10 +32,10 @@ export class ToastComponent implements OnInit {
   private readonly translate = inject(TranslateService);
 
   private readonly iconI18nKeyByStatus: Record<Toast['status'], string> = {
-    success: 'Common.A11y.Status_Icon.Success',
-    error: 'Common.A11y.Status_Icon.Error',
-    info: 'Common.A11y.Status_Icon.Info',
-    warning: 'Common.A11y.Status_Icon.Warning',
+    success: CommonTranslationKeys.Common_A11y_Status_Icon_Success,
+    error: CommonTranslationKeys.Common_A11y_Status_Icon_Error,
+    info: CommonTranslationKeys.Common_A11y_Status_Icon_Info,
+    warning: CommonTranslationKeys.Common_A11y_Status_Icon_Warning,
   };
 
   public ngOnInit(): void {
@@ -71,7 +71,7 @@ export class ToastComponent implements OnInit {
     };
     this.closeIconButtonConfig = {
       ariaAttributes: {
-        ariaLabel: this.translate.instant('Common.Close'),
+        ariaLabel: this.translate.instant(CommonTranslationKeys.Common_Close),
       },
       icon: {
         name: 'cross',

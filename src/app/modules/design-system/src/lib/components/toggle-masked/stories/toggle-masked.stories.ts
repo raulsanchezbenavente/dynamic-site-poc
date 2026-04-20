@@ -4,6 +4,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const meta: Meta<ToggleMaskedComponent> = {
@@ -32,10 +33,10 @@ export const DEFAULT: Story = {
     config: {
       mask: '******',
       translations: {
-        'Common.ToggleMasked.Status.Masked': 'Masked',
-        'Common.ToggleMasked.Status.Unmasked': 'Unmasked',
-        'Common.ToggleMasked.Action.Mask': 'Mask',
-        'Common.ToggleMasked.Action.Unmask': 'Unmask',
+        [CommonTranslationKeys.Common_ToggleMasked_Status_Masked]: 'Masked',
+        [CommonTranslationKeys.Common_ToggleMasked_Status_Unmasked]: 'Unmasked',
+        [CommonTranslationKeys.Common_ToggleMasked_Action_Mask]: 'Mask',
+        [CommonTranslationKeys.Common_ToggleMasked_Action_Unmask]: 'Unmask',
       },
     },
     data: {

@@ -4,6 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
 import { RemainingTimeComponent } from "@dcx/storybook/design-system";
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<RemainingTimeComponent> = {
@@ -21,8 +22,8 @@ const META: Meta<RemainingTimeComponent> = {
       api: false,
       mock: {
         'CheckIn.RemainingTime_Label': 'Check-in disponible en:',
-        'Common.LabelDays': 'días',
-        'Common.LabelHours': 'horas'
+        [CommonTranslationKeys.Common_LabelDays]: 'días',
+        [CommonTranslationKeys.Common_LabelHours]: 'horas'
       },
     },
   },

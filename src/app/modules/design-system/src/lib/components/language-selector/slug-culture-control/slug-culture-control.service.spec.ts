@@ -53,9 +53,14 @@ describe('SlugCultureControlService', () => {
     mockLocation(originalSearch, '/en/home');
 
     spyOn(window as any, 'fetch').and.returnValue(Promise.reject(new Error('Network error')));
+    spyOn(console, 'error');
 
     service.getFixedParameters('es').subscribe((val) => {
       expect(val).toBe(originalSearch);
+      expect(console.error).toHaveBeenCalledWith(
+        'Error fetching active tab translation:',
+        jasmine.any(Error)
+      );
       done();
     });
   });

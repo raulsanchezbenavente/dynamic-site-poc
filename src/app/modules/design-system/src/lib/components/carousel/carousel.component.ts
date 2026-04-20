@@ -17,10 +17,11 @@ import {
   ViewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { ResizeSvc, SliderBreakpointsConfig } from '@dcx/ui/libs';
+import { CommonTranslationKeys, ResizeSvc, SliderBreakpointsConfig } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { CarouselItemDirective } from './directives/carousel-item.directive';
+import { TranslationKeys } from './enums/translation-keys.enum';
 import { CarouselConfig } from './models/carousel.config';
 
 /**
@@ -37,6 +38,9 @@ import { CarouselConfig } from './models/carousel.config';
   standalone: true,
 })
 export class CarouselComponent implements OnInit, AfterViewInit, AfterContentInit {
+  protected readonly TranslationKeys = TranslationKeys;
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   @ViewChild('track', { static: true }) public trackRef!: ElementRef<HTMLDivElement>;
   @ViewChild('viewport', { static: true }) public viewportRef!: ElementRef<HTMLDivElement>;
   @ContentChildren(CarouselItemDirective) public items!: QueryList<CarouselItemDirective>;

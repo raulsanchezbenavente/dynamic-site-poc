@@ -17,6 +17,7 @@ import { distinctUntilChanged } from 'rxjs';
 import { IconComponent } from '../icon/icon.component';
 
 import { AvatarSize } from './enums/avatar-size.enum';
+import { TranslationKeys } from './enums/translation-keys.enum';
 import { AvatarConfig } from './models/avatar.config';
 import { AVATAR_CONFIG } from './tokens/avatar-default-config.token';
 
@@ -60,11 +61,11 @@ export class AvatarComponent implements OnInit, OnChanges {
   }
 
   public ngOnInit(): void {
-    this.notApplicableLabel = this.translate.instant('Avatar.NotApplicable_Text');
+    this.notApplicableLabel = this.translate.instant(TranslationKeys.Avatar_NotApplicable_Text);
 
     // Reactive updates on language/dictionary changes for this single key
     this.translate
-      .stream('Avatar.NotApplicable_Text')
+      .stream(TranslationKeys.Avatar_NotApplicable_Text)
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef))
       .subscribe((label: string): void => {
         this.notApplicableLabel = label;

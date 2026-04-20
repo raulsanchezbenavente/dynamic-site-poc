@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { AlertPanelType } from './enums/alert-panel-type.enum';
 import { AlertPanelConfig } from './models/alert-panel.config';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 @Component({
   selector: 'alert-panel',
@@ -14,6 +15,8 @@ import { AlertPanelConfig } from './models/alert-panel.config';
   standalone: true,
 })
 export class AlertPanelComponent {
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   public readonly config = input.required<Partial<AlertPanelConfig>>();
 
   /**

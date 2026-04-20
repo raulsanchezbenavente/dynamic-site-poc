@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, Input, OnInit } from '@angular/core';
 import {
+  CommonTranslationKeys,
   DropdownListConfig,
   EnumStorageKey,
   EventBusService,
@@ -78,7 +79,7 @@ export class LanguageSelectorComponent implements OnInit {
     this.config.dropdownModel.value = resolvedValue;
 
     // Set dropdown label from translations
-    this.config.dropdownModel.config.label = this.translate.instant('Common.LanguageSelector_List_Label');
+    this.config.dropdownModel.config.label = this.translate.instant(CommonTranslationKeys.Common_LanguageSelector_List_Label);
   }
 
   /**

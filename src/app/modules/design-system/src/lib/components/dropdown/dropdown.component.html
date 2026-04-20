@@ -8,7 +8,7 @@
         <button
             #dropdownTriggerRef
             class="ds-dropdown_trigger"
-            aria-haspopup="listbox"
+            [attr.aria-haspopup]="model.config.ariaAttributes?.ariaHaspopup ?? 'listbox'"
             [id]="triggerId"
             [class.ds-dropdown_trigger--active]="!!model.value"
             [attr.aria-expanded]="model.config.layoutConfig.isAlwaysVisible ? null : model.isVisible"
@@ -37,7 +37,7 @@
                             <ng-content select="[trigger-component]"></ng-content>
                         }
                     </span>
-                    <span class="hide-visually">&nbsp; {{ 'Common.A11y.IsSelected' | translate }} </span>
+                    <span class="hide-visually">&nbsp; {{ CommonTranslationKeys.Common_A11y_IsSelected | translate }} </span>
                 }
 
                 @if (dropdownTriggerSection) {

@@ -27,6 +27,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  CommonTranslationKeys,
   EventBusService,
   IbeEventTypeEnum,
   MergeConfigsService,
@@ -78,6 +79,8 @@ export class ModalDialogComponent implements OnInit, AfterContentInit, OnDestroy
    */
   @ContentChild(ModalFooterContentDirective) protected customFooter?: ModalFooterContentDirective;
   protected hasCustomFooter = false;
+
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
 
   @HostBinding('attr.tabindex')
   private get tabindex(): string | null {

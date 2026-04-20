@@ -1,5 +1,5 @@
 import { CurrencySelectorComponent } from '@dcx/storybook/design-system';
-import { DropdownLayoutType } from '@dcx/ui/libs';
+import { DropdownLayoutType , CommonTranslationKeys } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -21,8 +21,8 @@ const META: Meta<CurrencySelectorComponent> = {
     i18n: {
       api: true,
       mock: {
-        'Common.CurrencySelector_List_Label': 'Change currency, current',
-        'Common.A11y.IsSelected': 'selected',
+        [CommonTranslationKeys.Common_CurrencySelector_List_Label]: 'Change currency, current',
+        [CommonTranslationKeys.Common_A11y_IsSelected]: 'selected',
       },
     },
   },

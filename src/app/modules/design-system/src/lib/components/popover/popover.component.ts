@@ -17,6 +17,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import {
+  CommonTranslationKeys,
   DsNgbTriggerEvent,
   EnumModalKeyEventType,
   GenerateIdPipe,
@@ -348,7 +349,7 @@ export class PopoverComponent implements OnInit, OnChanges, OnDestroy {
     this.resolvedCloseButtonConfig = {
       ...config,
       ariaAttributes: {
-        ariaLabel: this.translateService.instant('Common.Close'),
+        ariaLabel: this.translateService.instant(CommonTranslationKeys.Common_Close),
       },
       icon: {
         ...config?.icon,

@@ -260,6 +260,9 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
       config: {
         closeOnSelection: true,
         isDisabled: false,
+        ariaAttributes: {
+          ariaHaspopup: 'menu',
+        },
         layoutConfig: {
           isAlwaysVisible: false,
           layout: DropdownLayoutType.PILLS,

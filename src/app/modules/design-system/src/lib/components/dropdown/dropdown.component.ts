@@ -23,6 +23,7 @@ import {
   IValueEmitterComponent,
   KeyCodeEnum,
   ModalKeyEventsDirective,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 import { fromEvent, Subscription } from 'rxjs';
@@ -38,6 +39,8 @@ import { IconComponent } from '../icon/icon.component';
   standalone: true,
 })
 export class DropdownComponent implements OnInit, AfterContentInit, OnDestroy, OnChanges, AfterViewInit {
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   @Input() public model!: DropdownVM;
   @Input() public innerComponent?: any;
   @Input() public triggerComponent?: boolean;

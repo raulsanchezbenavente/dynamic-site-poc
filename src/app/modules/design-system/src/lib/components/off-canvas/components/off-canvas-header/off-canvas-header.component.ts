@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { LinkTarget } from '@dcx/ui/libs';
+import { CommonTranslationKeys, LinkTarget } from '@dcx/ui/libs';
 import { IconButtonComponent } from '../../../icon-button/icon-button.component';
 import { IconButtonConfig } from '../../../icon-button/models/icon-button.model';
 import { OffCanvasHeaderConfig } from '../../models/off-canvas-config.model';
@@ -38,7 +38,7 @@ export class OffCanvasHeaderComponent implements OnInit {
     this.resolvedCloseButtonConfig = {
       ...config,
       ariaAttributes: {
-        ariaLabel: this.translateService.instant('Common.Close'),
+        ariaLabel: this.translateService.instant(CommonTranslationKeys.Common_Close),
       },
       icon: {
         ...config?.icon,

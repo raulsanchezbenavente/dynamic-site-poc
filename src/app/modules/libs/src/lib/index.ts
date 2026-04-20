@@ -8,7 +8,6 @@ import {
   CurrencySymbolPipe,
   ExternalLinkPipe,
   GenerateIdPipe,
-  KeydownSelectDirective,
   ModalKeyEventsDirective,
 } from './shared';
 
@@ -16,9 +15,4 @@ export const SHARED_MODULES = [CommonModule, FormsModule, ReactiveFormsModule];
 
 export const SHARED_PIPES = [CurrencyFormatPipe, CurrencySymbolPipe, ExternalLinkPipe, GenerateIdPipe];
 
-export const SHARED_DIRECTIVES = [
-  AccessibleLinkDirective,
-  ClickOutsideDirective,
-  KeydownSelectDirective,
-  ModalKeyEventsDirective,
-];
+export const SHARED_DIRECTIVES = [AccessibleLinkDirective, ClickOutsideDirective, ModalKeyEventsDirective];

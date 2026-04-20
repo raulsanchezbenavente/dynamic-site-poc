@@ -1,6 +1,8 @@
 import { NgClass } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, input, ViewEncapsulation } from '@angular/core';
-import { TextHelperService } from '@dcx/ui/libs';
+import { TextHelperService ,
+  CommonTranslationKeys
+} from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { StatusTagStyles } from './enums/status-tag-styles.enum';
@@ -50,7 +52,7 @@ export class StatusTagComponent<TStatus extends string = StatusTagType> {
   protected readonly iconAriaLabel = computed(() => {
     const status = this.mergedConfig().status;
     const titleCased = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase();
-    return this.translate.instant(`Common.A11y.Status_Icon.${titleCased}`);
+    return this.translate.instant(`${CommonTranslationKeys.Common_A11y_Status_Icon_KeyNode}${titleCased}`);
   });
 
   protected readonly StatusTagStyles = StatusTagStyles;

@@ -8,7 +8,7 @@
     [ngClass]="['alert-panel-type--' + (config.alertType | lowercase)]">
     <div class="alert-panel-icon">
         <span class="hide-visually">
-            {{ 'Common.A11y.Status_Icon.' + (config.alertType | titlecase) | translate }}
+            {{ CommonTranslationKeys.Common_A11y_Status_Icon_KeyNode + (config.alertType | titlecase) | translate }}
         </span>
     </div>
     <div class="alert-panel_inner">

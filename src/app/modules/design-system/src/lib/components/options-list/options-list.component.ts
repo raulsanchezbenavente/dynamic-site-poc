@@ -9,6 +9,7 @@ import {
   OptionsList,
   OptionsListConfig,
   OptionsListMode,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -30,6 +31,8 @@ export class OptionsListComponent implements OnInit, IValueEmitterComponent {
   /**
    * Emit event to filter selection
    */
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   @Output() public valueEmitter = new EventEmitter<OptionsList>();
 
   @Output() public idEmitter = new EventEmitter<string>();

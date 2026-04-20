@@ -1,5 +1,5 @@
 import { create } from '@storybook/theming/create';
-import logoUrl from '../../../projects/design-system/assets/ui_plus/imgs/logos/avianca-logo.svg';
+const logoUrl = '/assets/ui_plus/imgs/logos/avianca-logo.svg';
 
 export default create({
   // Typography

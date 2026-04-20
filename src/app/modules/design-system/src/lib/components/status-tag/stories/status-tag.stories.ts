@@ -5,6 +5,7 @@ import { expect } from '@storybook/test';
 
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
 import type { StatusTagConfig } from '../models/status-tag.config';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const STATUS_CONFIGS: Record<StatusTagType, StatusTagConfig<StatusTagType>> = {
   [StatusTagType.DEFAULT]: {
@@ -88,14 +89,14 @@ const META: Meta<StatusTagComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Common.A11y.Status_Icon.Default': 'Default status icon',
-        'Common.A11y.Status_Icon.Success': 'Success status icon',
-        'Common.A11y.Status_Icon.Warning': 'Warning status icon',
-        'Common.A11y.Status_Icon.Info': 'Info status icon',
-        'Common.A11y.Status_Icon.Error': 'Error status icon',
-        'Common.A11y.Status_Icon.Inactive': 'Inactive status icon',
-        'Common.A11y.Status_Icon.Pending': 'Pending status icon',
-        'Common.A11y.Status_Icon.Blocked': 'Blocked status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Default]: 'Default status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Success]: 'Success status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Warning]: 'Warning status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Info]: 'Info status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Error]: 'Error status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Inactive]: 'Inactive status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Pending]: 'Pending status icon',
+        [CommonTranslationKeys.Common_A11y_Status_Icon_Blocked]: 'Blocked status icon',
       },
     },
   },

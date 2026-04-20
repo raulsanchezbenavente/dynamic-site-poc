@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { MaskPipe, ToggleMaskedConfig, ToggleMaskedData } from '@dcx/ui/libs';
+import { CommonTranslationKeys, MaskPipe, ToggleMaskedConfig, ToggleMaskedData } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -42,19 +42,19 @@ export class ToggleMaskedComponent implements OnInit {
   protected setTexts(): void {
     if (this.config.translations) {
       this.maskedStatusText = this.replaceLabel(
-        this.translate.instant('Common.ToggleMasked.Status.Masked'),
+        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Masked),
         this.data.label!
       );
       this.unmaskedStatusText = this.replaceLabel(
-        this.translate.instant('Common.ToggleMasked.Status.Unmasked'),
+        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Unmasked),
         this.data.label!
       );
       this.maskActionText = this.replaceLabel(
-        this.translate.instant('Common.ToggleMasked.Action.Mask'),
+        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Mask),
         this.data.label!
       );
       this.unmaskActionText = this.replaceLabel(
-        this.translate.instant('Common.ToggleMasked.Action.Unmask'),
+        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Unmask),
         this.data.label!
       );
     }

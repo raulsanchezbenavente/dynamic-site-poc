@@ -1,6 +1,8 @@
 import { Component, effect, input, signal } from '@angular/core';
 import { SkeletonComponent } from '@dcx/ui/design-system';
-import { EnumAnimationSkeleton, EnumAppearenceSkeleton, SkeletonConfig } from '@dcx/ui/libs';
+import { EnumAnimationSkeleton, EnumAppearenceSkeleton, SkeletonConfig ,
+  CommonTranslationKeys
+} from '@dcx/ui/libs';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -12,6 +14,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   standalone: true,
 })
 export class TabSkeletonComponent {
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   public readonly config: SkeletonConfig = {
     animation: EnumAnimationSkeleton.PROGRESS,
     appearance: EnumAppearenceSkeleton.LINE,

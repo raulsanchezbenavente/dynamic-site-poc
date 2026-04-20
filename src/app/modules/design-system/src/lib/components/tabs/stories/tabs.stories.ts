@@ -7,6 +7,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
 import type { TabConfig } from '../models/tab.config';
 import type { TabsConfig } from '../models/tabs.config';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 @Component({
   selector: 'tabs-story-host',
@@ -57,7 +58,7 @@ class TabsStoryHostComponent implements OnInit {
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<TabsStoryHostComponent> = {
-  title: 'Molecules/Tabs',
+  title: 'Organisms/Tabs',
   component: TabsStoryHostComponent,
   tags: ['autodocs'],
   render: (args) => ({
@@ -69,18 +70,18 @@ const META: Meta<TabsStoryHostComponent> = {
     i18nModules: ['Common.Tabs', 'Common.A11y'],
     i18n: {
       mock: {
-        'Common.Tabs.Scroll_Left_1': 'Desplazar 1 pestaña a la izquierda',
-        'Common.Tabs.Scroll_Left_N': 'Desplazar {{count}} pestañas a la izquierda',
-        'Common.Tabs.Scroll_Right_1': 'Desplazar 1 pestaña a la derecha',
-        'Common.Tabs.Scroll_Right_N': 'Desplazar {{count}} pestañas a la derecha',
+        [CommonTranslationKeys.Common_Tabs_Scroll_Left_1]: 'Desplazar 1 pestaña a la izquierda',
+        [CommonTranslationKeys.Common_Tabs_Scroll_Left_N]: 'Desplazar {{count}} pestañas a la izquierda',
+        [CommonTranslationKeys.Common_Tabs_Scroll_Right_1]: 'Desplazar 1 pestaña a la derecha',
+        [CommonTranslationKeys.Common_Tabs_Scroll_Right_N]: 'Desplazar {{count}} pestañas a la derecha',
 
-        'Common.Tabs.Scrolled_Left_1': 'Se ha desplazado 1 pestaña a la izquierda.',
-        'Common.Tabs.Scrolled_Left_N': 'Se han desplazado {{count}} pestañas a la izquierda.',
-        'Common.Tabs.Scrolled_Right_1': 'Se ha desplazado 1 pestaña a la derecha.',
-        'Common.Tabs.Scrolled_Right_N': 'Se han desplazado {{count}} pestañas a la derecha.',
+        [CommonTranslationKeys.Common_Tabs_Scrolled_Left_1]: 'Se ha desplazado 1 pestaña a la izquierda.',
+        [CommonTranslationKeys.Common_Tabs_Scrolled_Left_N]: 'Se han desplazado {{count}} pestañas a la izquierda.',
+        [CommonTranslationKeys.Common_Tabs_Scrolled_Right_1]: 'Se ha desplazado 1 pestaña a la derecha.',
+        [CommonTranslationKeys.Common_Tabs_Scrolled_Right_N]: 'Se han desplazado {{count}} pestañas a la derecha.',
 
-        'Common.Tabs.NoMore_Left': 'No hay más pestañas a la izquierda.',
-        'Common.Tabs.NoMore_Right': 'No hay más pestañas a la derecha.',
+        [CommonTranslationKeys.Common_Tabs_NoMore_Left]: 'No hay más pestañas a la izquierda.',
+        [CommonTranslationKeys.Common_Tabs_NoMore_Right]: 'No hay más pestañas a la derecha.',
       },
     },
   },

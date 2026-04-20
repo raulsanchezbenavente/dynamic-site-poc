@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import {
+  CommonTranslationKeys,
   CurrencyService,
   DictionaryType,
   DropdownListConfig,
@@ -86,7 +87,7 @@ export class CurrencySelectorComponent implements OnInit, AfterViewInit {
     this.selectedCurrency = this.currencyService.getCurrentCurrency();
     this.getSelectedCurrency();
     this.subscribeToCurrencyChange();
-    this.label = this.translate.instant('Common.CurrencySelector_List_Label');
+    this.label = this.translate.instant(CommonTranslationKeys.Common_CurrencySelector_List_Label);
     this.config.dropdownModel.config.label = this.label;
   }
 

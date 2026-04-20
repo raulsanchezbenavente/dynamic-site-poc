@@ -7,7 +7,7 @@
 <nav
     role="navigation"
     class="pagination"
-    [attr.aria-label]="'Pagination.A11y.Navigation' | translate">
+    [attr.aria-label]="TranslationKeys.Paginator_A11y_Navigation | translate">
     <ul class="pagination_list">
         <!-- Previous button -->
         <li
@@ -17,7 +17,7 @@
                 <button
                     class="pagination_list_item_button"
                     [disabled]="config.currentPage === 1 ? true : null!"
-                    [attr.aria-label]="'Pagination.A11y.Previous_Page' | translate"
+                    [attr.aria-label]="TranslationKeys.Paginator_A11y_PreviousPage | translate"
                     (click)="onPrevious()"></button>
             }
         </li>
@@ -26,7 +26,7 @@
             <li class="pagination_list_item">
                 <button
                     class="pagination_list_item_button"
-                    [attr.aria-label]="'Pagination.A11y.First_Page' | translate"
+                    [attr.aria-label]="TranslationKeys.Paginator_A11y_FirstPage | translate"
                     (click)="onSelect(1)">
                     1
                 </button>
@@ -48,7 +48,7 @@
                 [class.active]="config.currentPage === item">
                 <button
                     class="pagination_list_item_button"
-                    [attr.aria-label]="('Pagination.A11y.Go_To_Page' | translate) + ' ' + item"
+                    [attr.aria-label]="(TranslationKeys.Paginator_A11y_GoToPage | translate) + ' ' + item"
                     [attr.aria-current]="config.currentPage === item ? 'page' : null"
                     (click)="onSelect(item)">
                     {{ item }}
@@ -68,7 +68,7 @@
             <li class="pagination_list_item">
                 <button
                     class="pagination_list_item_button"
-                    [attr.aria-label]="('Pagination.A11y.Go_To_Page' | translate) + ' ' + config.totalPages"
+                    [attr.aria-label]="(TranslationKeys.Paginator_A11y_GoToPage | translate) + ' ' + config.totalPages"
                     (click)="onSelect(config.totalPages)">
                     {{ config.totalPages }}
                 </button>
@@ -82,7 +82,7 @@
                 <button
                     class="pagination_list_item_button"
                     [disabled]="config.currentPage === config.totalPages ? true : null!"
-                    [attr.aria-label]="'Pagination.A11y.Next_Page' | translate"
+                    [attr.aria-label]="TranslationKeys.Paginator_A11y_NextPage | translate"
                     (click)="onNext()"></button>
             }
         </li>

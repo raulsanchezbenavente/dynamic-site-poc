@@ -1,7 +1,7 @@
 import {
   DropdownListComponent,
 } from '@dcx/storybook/design-system';
-import { DropdownLayoutType } from '@dcx/ui/libs';
+import { DropdownLayoutType , CommonTranslationKeys } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -81,7 +81,7 @@ const BASE_DROPDOWN_CONFIG_STORY = {
   },
 };
 const BASE_TRANSLATIONS_STORY = {
-  'Common.A11y.IsSelected': 'Is selected',
+  [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
 };
 
 // Dropdown options list layoutConfig

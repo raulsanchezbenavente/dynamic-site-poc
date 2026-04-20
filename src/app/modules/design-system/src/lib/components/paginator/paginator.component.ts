@@ -12,6 +12,7 @@ import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/mod
 import { ViewportSizeService } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { TranslationKeys } from './enums/translation-keys.enum';
 import { PaginatorConfig } from './models/paginator.config';
 
 @Component({
@@ -34,6 +35,8 @@ export class PaginatorComponent implements OnInit {
   public isResponsive = signal<boolean>(false);
   private mediaQuery!: MediaQueryList;
   private mediaQueryListener!: (event: MediaQueryListEvent) => void;
+  protected readonly TranslationKeys = TranslationKeys;
+
   private readonly CMSKey = 'Pagination';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
 

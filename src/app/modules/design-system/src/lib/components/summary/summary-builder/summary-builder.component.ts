@@ -1,6 +1,8 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, computed, effect, EventEmitter, input, model, Output } from '@angular/core';
-import { DictionaryType } from '@dcx/ui/libs';
+import { DictionaryType ,
+  CommonTranslationKeys
+} from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SummaryDataRenderer } from '../summary-renderer/models/summary-data-renderer.model';
@@ -15,6 +17,8 @@ import { SummaryBuilderGridConfig } from './models/summary-builder-grid-config.m
   standalone: true,
 })
 export class DsSummaryBuilderComponent {
+  protected readonly CommonTranslationKeys = CommonTranslationKeys;
+
   @Output() public configChange = new EventEmitter<any>();
   public formName = input<string>('');
 

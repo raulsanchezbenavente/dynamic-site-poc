@@ -6,6 +6,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { expect, within } from '@storybook/test';
 
 import { STORYBOOK_PROVIDERS } from '../../../../stories/providers/storybook.providers';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 const AVATAR_STACK_STYLES = 'display:flex; gap: 24px; flex-wrap: wrap; align-items: center;';
 
@@ -92,7 +93,7 @@ const META: Meta<AvatarComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Avatar.NotApplicable_Text': 'N/a',
+        [TranslationKeys.Avatar_NotApplicable_Text]: 'N/a',
       },
     },
   },
