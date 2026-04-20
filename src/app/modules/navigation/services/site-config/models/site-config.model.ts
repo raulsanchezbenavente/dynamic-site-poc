@@ -19,6 +19,7 @@ export interface SiteLayoutCol {
 
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
+  contentSlot?: boolean;
 }
 
 export interface SiteLayout {
@@ -31,6 +32,7 @@ export interface SitePage {
   pageId?: string;
   path?: string;
   name?: string;
+  template?: string;
   layout?: SiteLayoutSource;
   seo?: SiteSeoConfig;
 }

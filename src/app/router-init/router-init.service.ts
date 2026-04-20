@@ -2,14 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route, Router } from '@angular/router';
 import {
-    LanguageSwitchService,
-    ProgressAsynGuard,
-    SiteConfigService,
-    SiteLayout,
-    SiteLayoutRow,
-    SitePage,
+  LanguageSwitchService,
+  ProgressAsynGuard,
+  SiteConfigService,
+  SiteLayout,
+  SiteLayoutRow,
+  SitePage,
 } from '@navigation';
-import { catchError, filter, fromEvent, map, Observable, of, shareReplay, take, tap } from 'rxjs';
+import { catchError, combineLatest, filter, fromEvent, map, Observable, of, shareReplay, take, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
@@ -169,11 +169,34 @@ export class RouterInitService {
 
   private resolveLayoutRows(page: SitePage): Observable<SiteLayoutRow[]> {
     const layout = page.layout;
+    const template = page.template;
 
+    const pageRows$ = this.resolveRowsFromLayout(layout).pipe(
+      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows))
+    );
+
+    if (typeof template !== 'string') {
+      return pageRows$;
+    }
+
+    const templateUrl = template.trim();
+    if (!templateUrl) {
+      return pageRows$;
+    }
+
+    const templateRows$ = this.resolveRowsFromUrl(templateUrl);
+
+    return combineLatest([templateRows$, pageRows$]).pipe(
+      map(([templateRows, pageRows]) => this.mergeTemplateRowsWithPageRows(templateRows, pageRows)),
+      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows))
+    );
+  }
+
+  private resolveRowsFromLayout(
+    layout: SiteLayout | SiteLayoutRow[] | string | undefined
+  ): Observable<SiteLayoutRow[]> {
     if (typeof layout !== 'string') {
-      const rows = this.getLayoutRows(layout);
-      this.siteConfigService.hydrateResolvedPageLayout(page.path, rows);
-      return of(rows);
+      return of(this.getLayoutRows(layout));
     }
 
     const layoutUrl = layout.trim();
@@ -181,23 +204,37 @@ export class RouterInitService {
       return of([]);
     }
 
-    const cachedRequest = this.layoutRowsCache.get(layoutUrl);
+    return this.resolveRowsFromUrl(layoutUrl);
+  }
+
+  private resolveRowsFromUrl(url: string): Observable<SiteLayoutRow[]> {
+    const cachedRequest = this.layoutRowsCache.get(url);
     if (cachedRequest) {
       return cachedRequest;
     }
 
-    const request$ = this.http.get<SiteLayout | SiteLayoutRow[]>(layoutUrl).pipe(
+    const request$ = this.http.get<SiteLayout | SiteLayoutRow[]>(url).pipe(
       map((layoutResponse) => this.getLayoutRows(layoutResponse)),
-      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows)),
       catchError((error) => {
-        console.warn('[RouterInitService] Failed to resolve layout URL', { layoutUrl, error });
+        console.warn('[RouterInitService] Failed to resolve layout URL', { url, error });
         return of([]);
       }),
       shareReplay(1)
     );
 
-    this.layoutRowsCache.set(layoutUrl, request$);
+    this.layoutRowsCache.set(url, request$);
     return request$;
+  }
+
+  private mergeTemplateRowsWithPageRows(templateRows: SiteLayoutRow[], pageRows: SiteLayoutRow[]): SiteLayoutRow[] {
+    const hasContentSlot = templateRows.some((row) => row.contentSlot === true);
+
+    if (!hasContentSlot) {
+      console.warn('[RouterInitService] Template does not include contentSlot=true. Falling back to page layout rows.');
+      return pageRows;
+    }
+
+    return templateRows.flatMap((row) => (row.contentSlot === true ? pageRows : [row]));
   }
 
   private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {
