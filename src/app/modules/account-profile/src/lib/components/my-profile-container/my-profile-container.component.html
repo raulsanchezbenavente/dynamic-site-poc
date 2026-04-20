@@ -1,32 +1,32 @@
 <div
-    data-toast-slot="panel"
-    [id]="'accountMyProfileToast_Id'"></div>
+  data-toast-slot="panel"
+  [id]="'accountMyProfileToast_Id'"></div>
 
 <panel [config]="parentPanelsConfig">
-    <panel-header>
-        <h2
-            panelTitle
-            [id]="profileTitleId">
-            {{ config().personalFormConfig.title || translateKeys.AccountProfile_Title | translate }}
-        </h2>
-        <div
-            panelDescription
-            [innerHTML]="
-                config().personalFormConfig.description || translateKeys.AccountProfile_Description | translate
-            "></div>
-    </panel-header>
+  <panel-header>
+    <h2
+      panelTitle
+      [id]="profileTitleId">
+      {{ config().personalFormConfig.title || translateKeys.AccountProfile_Title | translate }}
+    </h2>
+    <div
+      panelDescription
+      [innerHTML]="
+        config().personalFormConfig.description || translateKeys.AccountProfile_Description | translate
+      "></div>
+  </panel-header>
 
-    <div panelContent>
-        <div class="account-profile-summaries">
-            <account-personal
-                #accountPersonal
-                [config]="accountPersonalConfig()!"
-                [isLoading]="isLoading()"
-                [formName]="formsNames().get('account-personal')!"
-                (cancelForm)="cancelAccountPersonal()"
-                (updateAccountPersonalInfo)="onUpdateAccountPersonalInfo($event)">
-            </account-personal>
-            <account-contact
+  <div panelContent>
+    <div class="account-profile-summaries">
+      <account-personal
+        #accountPersonal
+        [config]="accountPersonalConfig()!"
+        [isLoading]="isLoading()"
+        [formName]="formsNames().get('account-personal')!"
+        (cancelForm)="cancelAccountPersonal()"
+        (updateAccountPersonalInfo)="onUpdateAccountPersonalInfo($event)">
+      </account-personal>
+      <!-- <account-contact
                 #accountContact
                 [config]="accountContactConfig()!"
                 [isLoading]="isLoading()"
@@ -42,7 +42,7 @@
                 [isLoading]="isLoading()"
                 [formName]="formsNames().get('profile-emergency-contact')!"
                 (cancelForm)="cancelEmergencyContact()"
-                (updateProfileEmergencyContact)="onUpdateProfileEmergencyContact($event)" />
-        </div>
+                (updateProfileEmergencyContact)="onUpdateProfileEmergencyContact($event)" /> -->
     </div>
+  </div>
 </panel>

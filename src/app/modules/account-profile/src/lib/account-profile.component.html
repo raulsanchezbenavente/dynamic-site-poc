@@ -1,23 +1,27 @@
 @let isLoadingData = isLoading();
 <toast-container />
-<button type="button" (click)="resetComponentStateAndRestart()">Reiniciar account profile</button>
+<button
+  type="button"
+  (click)="resetComponentStateAndRestart()">
+  Reiniciar account profile
+</button>
 <ng-container
-    translationLoadStatus
-    [moduleKeys]="mappedKeys"
-    (translationsLoaded)="translationsLoaded()"></ng-container>
+  translationLoadStatus
+  [moduleKeys]="mappedKeys"
+  (translationsLoaded)="translationsLoaded()"></ng-container>
 
 @if (!isLoadingData) {
-    <my-profile-container
-        #myProfileContainer
-        [data]="userData()"
-        [config]="myProfileConfig()!"
-        [isLoading]="isLoadingData"
-        [formsNames]="formsNames"
-        (updateAccountPersonalInfo)="updateAccountPersonalInfo($event)"
-        (updateAccountContactInfo)="updateAccountContactInfo($event)"
-        (updateProfileEmergencyContact)="updateEmergencyContact($event)">
-    </my-profile-container>
-    <travel-documents-container
+  <my-profile-container
+    #myProfileContainer
+    [data]="userData()"
+    [config]="myProfileConfig()!"
+    [isLoading]="isLoadingData"
+    [formsNames]="formsNames"
+    (updateAccountPersonalInfo)="updateAccountPersonalInfo($event)"
+    (updateAccountContactInfo)="updateAccountContactInfo($event)"
+    (updateProfileEmergencyContact)="updateEmergencyContact($event)">
+  </my-profile-container>
+  <!-- <travel-documents-container
         [data]="documentsAllowed()"
         [config]="travelDocumentsConfig()!"
         [formsNames]="formsNames"
@@ -28,7 +32,7 @@
         [config]="accountCompanionsConfig()!"
         [formsNames]="formsNames"
         (updateAccountCompanionsInfo)="updateAccountCompanionsInfo($event)">
-    </account-companions-container>
+    </account-companions-container> -->
 } @else {
-    <p>{{ (translateKeys.AccountProfile_Loading | translate) || 'Loading...' }}</p>
+  <p>{{ (translateKeys.AccountProfile_Loading | translate) || 'Loading...' }}</p>
 }

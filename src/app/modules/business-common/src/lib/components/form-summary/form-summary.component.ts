@@ -1,4 +1,4 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { JsonPipe, NgTemplateOutlet } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -75,6 +75,7 @@ import { FORM_SUMMARY_CONFIG } from './tokens/form-summary-buttons-default-confi
     DsSummaryBuilderComponent,
     DsButtonComponent,
     LayoutSlotDirective,
+    JsonPipe,
   ],
 })
 export class FormSummaryComponent implements OnInit, OnDestroy {
@@ -187,11 +188,16 @@ export class FormSummaryComponent implements OnInit, OnDestroy {
   }
 
   public parseConfig(): void {
+    console.log(222222);
+    console.log(this.formBuilder()?.form);
+
     this.bypassConfigSummaryToCreator = this.summaryBuilderService.calculateConfig(
       this.formBuilder()!,
       this.additions(),
       this.subtractions()
     );
+    console.log(this.bypassConfigSummaryToCreator);
+
     this.changeDetector.markForCheck();
     this.storeDataForm();
   }

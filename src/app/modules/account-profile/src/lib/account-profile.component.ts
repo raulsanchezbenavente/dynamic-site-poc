@@ -1,64 +1,64 @@
 import { HttpClient } from '@angular/common/http';
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    DestroyRef,
-    effect,
-    ElementRef,
-    inject,
-    input,
-    signal,
-    viewChild,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  DestroyRef,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  viewChild,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AnalyticsService } from '@dcx/module/analytics';
 import { AccountClient, AccountModels, AccountV2Client, AccountV2Models } from '@dcx/module/api-clients';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
-    AnalyticsDataType,
-    AnalyticsEventType,
-    AnalyticsPages,
-    AnalyticsUserType,
-    BaseItemsMapper,
-    CountryMapperService,
-    CountryResult,
-    FormSummaryViews,
-    GenderMapperService,
-    GlobalLoaderService,
-    PhoneCountryService,
-    RfFormSummaryStore,
-    SessionModals,
+  AnalyticsDataType,
+  AnalyticsEventType,
+  AnalyticsPages,
+  AnalyticsUserType,
+  BaseItemsMapper,
+  CountryMapperService,
+  CountryResult,
+  FormSummaryViews,
+  GenderMapperService,
+  GlobalLoaderService,
+  PhoneCountryService,
+  RfFormSummaryStore,
+  SessionModals,
 } from '@dcx/ui/business-common';
 import {
-    mapModalRepositoryConfigToModalDialogConfig,
-    ModalDialogConfig,
-    ModalDialogService,
-    ModalDialogSize,
-    PanelAppearance,
-    PanelBaseConfig,
-    Toast,
-    ToastContainerComponent,
-    ToastService,
-    ToastStatus,
+  mapModalRepositoryConfigToModalDialogConfig,
+  ModalDialogConfig,
+  ModalDialogService,
+  ModalDialogSize,
+  PanelAppearance,
+  PanelBaseConfig,
+  Toast,
+  ToastContainerComponent,
+  ToastService,
+  ToastStatus,
 } from '@dcx/ui/design-system';
 import {
-    AuthService,
-    ButtonConfig,
-    ButtonStyles,
-    CommonConfig,
-    ComposerEvent,
-    ComposerEventStatusEnum,
-    ComposerEventTypeEnum,
-    ComposerService,
-    ComposerStatusEnum,
-    ConfigService,
-    CookieService,
-    CultureServiceEx,
-    DataModule,
-    LayoutSize,
-    LoggerService,
-    PointOfSaleService,
+  AuthService,
+  ButtonConfig,
+  ButtonStyles,
+  CommonConfig,
+  ComposerEvent,
+  ComposerEventStatusEnum,
+  ComposerEventTypeEnum,
+  ComposerService,
+  ComposerStatusEnum,
+  ConfigService,
+  CookieService,
+  CultureServiceEx,
+  DataModule,
+  LayoutSize,
+  LoggerService,
+  PointOfSaleService,
 } from '@dcx/ui/libs';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -198,6 +198,10 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
   }
 
   public translationsLoaded(): void {
+    console.log(6666666);
+    console.log(this.formStore.formGroups());
+    // console.log(this.formStore.getFormGroup('formPersonal'));
+
     this.setDocumentOptions();
     this.cdr.markForCheck();
     this.reloadSubscription?.unsubscribe();
@@ -246,24 +250,6 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
   }
 
   public resetComponentStateAndRestart(): void {
-    this.reloadSubscription?.unsubscribe();
-    this.hasInitializedInternalInit = false;
-    this.isLoading.set(true);
-    this.userData.set(null);
-    this.contactData.set({} as SummaryContactData);
-    this.personaInfoData.set({} as PersonalInformation);
-    this.companionsData.set([]);
-    this.documentsAllowed.set([]);
-    this.documentsNotAllowed.set([]);
-    this.countryOptions.set([]);
-    this.countryPrefixOptions.set([]);
-    this.documentOptions.set([]);
-    this.myProfileConfig.set(null);
-    this.travelDocumentsConfig.set(null);
-    this.accountCompanionsConfig.set(null);
-    this.hasEmergencyContact.set(false);
-    this.cdr.markForCheck();
-
     queueMicrotask(() => {
       this.translationsLoaded();
     });

@@ -59,6 +59,7 @@ export class SummaryBuilderService {
   }
 
   private getSummaryDataFromStrategy(form: RfFormGroup, rawValue: any, key: string): { label: string; value: string } {
+    // console.log(key, rawValue);
     const rfComponent = (form.controls[key] as RfFormControl)?.rfComponent;
     const rfTypeClass = Array.isArray(rfComponent) ? rfComponent[0]?.rfTypeClass : rfComponent?.rfTypeClass;
 
@@ -177,6 +178,9 @@ export class SummaryBuilderService {
     additions: SummaryBuilderAdditions,
     subtractions: string[]
   ): Record<string, SummaryDataRenderer> {
+    // console.log(form);
+    // console.log(this._form?.getRawValue());
+
     this.setForm(form);
     const rawValue = this._form?.getRawValue();
     const summary = this.buildBaseSummary(rawValue);
@@ -202,6 +206,7 @@ export class SummaryBuilderService {
   }
 
   private buildBaseSummary(rawValue: Record<string, unknown>): Record<string, SummaryDataRenderer> {
+    console.log(rawValue);
     const summary: Record<string, SummaryDataRenderer> = {};
 
     for (const key in rawValue) {
