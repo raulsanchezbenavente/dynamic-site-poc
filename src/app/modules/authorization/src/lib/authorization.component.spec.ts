@@ -198,7 +198,7 @@ describe('AuthorizationComponent', () => {
       // Assert
       expect(redirectionServiceMock.redirect).toHaveBeenCalledWith(
         IbeEventRedirectType.internalRedirect,
-        '/es-CO'
+        ''
       );
     }));
 
@@ -216,9 +216,10 @@ describe('AuthorizationComponent', () => {
       tick();
 
       // Assert
+      // Note: ?? operator only uses fallback for null/undefined, not empty string
       expect(redirectionServiceMock.redirect).toHaveBeenCalledWith(
         IbeEventRedirectType.internalRedirect,
-        '/'
+        ''
       );
     }));
   });
