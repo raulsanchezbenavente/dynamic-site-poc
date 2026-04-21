@@ -185,12 +185,10 @@ export class FormSummaryComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.destroyMediaQueryListener();
+    this.store.unregister(this.formName());
   }
 
   public parseConfig(): void {
-    console.log(222222);
-    console.log(this.formBuilder()?.form);
-
     this.bypassConfigSummaryToCreator = this.summaryBuilderService.calculateConfig(
       this.formBuilder()!,
       this.additions(),
