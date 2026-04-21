@@ -2,9 +2,9 @@ import { Subject } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TranslateService } from '@ngx-translate/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { RouterHelperService, SiteConfigService } from '@navigation';
 import { TabStructure } from './models/tab-layout-structure.model';
