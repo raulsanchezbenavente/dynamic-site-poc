@@ -1,5 +1,7 @@
 import { Component, input } from '@angular/core';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
 
 import { BLOCK_COMPONENT_REGISTRY, BlockComponentMap, BlockOutletComponent } from './block-outlet.component';
 
@@ -30,7 +32,7 @@ describe('BlockOutletComponent', () => {
     componentMap = {};
 
     await TestBed.configureTestingModule({
-      imports: [BlockOutletComponent],
+      imports: [BlockOutletComponent, HttpClientTestingModule],
       providers: [
         {
           provide: BLOCK_COMPONENT_REGISTRY,
@@ -39,6 +41,14 @@ describe('BlockOutletComponent', () => {
             loadBlockComponent: (key: string) => Promise.resolve(componentMap[key] ? componentMap[key]() : null),
             getConfigInputName: (key: string) => (key === '__alias-block__' ? 'colorConfig' : undefined),
           },
+        },
+        {
+          provide: TranslateService,
+          useValue: jasmine.createSpyObj<TranslateService>('TranslateService', [
+            'setTranslation',
+            'setFallbackLang',
+            'use',
+          ]),
         },
       ],
     }).compileComponents();

@@ -180,6 +180,16 @@ describe('DynamicPageComponent', () => {
       })
     );
 
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[dynamic-page] all mapped components ready', jasmine.any(Object));
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:translations-ready', {
+        detail: {
+          batchId,
+        },
+      })
+    );
+
     expect(consoleLogSpy).toHaveBeenCalledTimes(1);
     expect(consoleLogSpy).toHaveBeenCalledWith(
       '[dynamic-page] all mapped components ready',
@@ -286,6 +296,16 @@ describe('DynamicPageComponent', () => {
           componentId: secondNestedComponentId,
           component: 'mainHeader_uiplus',
           state: 'loaded',
+        },
+      })
+    );
+
+    expect(consoleLogSpy).not.toHaveBeenCalledWith('[dynamic-page] all mapped components ready', jasmine.any(Object));
+
+    document.dispatchEvent(
+      new CustomEvent('dynamic-page:translations-ready', {
+        detail: {
+          batchId,
         },
       })
     );
