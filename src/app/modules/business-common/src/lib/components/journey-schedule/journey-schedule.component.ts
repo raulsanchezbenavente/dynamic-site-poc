@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, computed, inject, input, OnInit } from '@angular/core';
 import { DateDisplayComponent, DateDisplayConfig } from '@dcx/ui/design-system';
-import { CultureServiceEx, JourneyStatus, JourneyVM } from '@dcx/ui/libs';
+import { CultureServiceEx, JourneyStatus, JourneyVM , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 
@@ -8,6 +8,7 @@ import { JourneyStatusComponent } from '../journey-status-tag/journey-status-tag
 import { ScheduleComponent } from '../schedules/components/schedule/schedule.component';
 
 import { JourneyScheduleConfig } from './models/journey-schedule.config';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'journey-schedule',
@@ -29,9 +30,11 @@ export class JourneyScheduleComponent implements OnInit {
 
   protected readonly translate = inject(TranslateService);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly cultureServiceEx = inject(CultureServiceEx);  
+  private readonly cultureServiceEx = inject(CultureServiceEx);
 
   protected readonly isReturnType = computed(() => this.data()?.journeyType === 'return');
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
 
   public ngOnInit(): void {
     this.internalInit();

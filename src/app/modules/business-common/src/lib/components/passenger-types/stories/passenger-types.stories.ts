@@ -4,6 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import { PassengerTypesComponent } from '../passenger-types.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<PassengerTypesComponent> = {
@@ -19,16 +20,16 @@ const META: Meta<PassengerTypesComponent> = {
     i18nModules: ['PassengersTypes'],
     i18n: {
       mock: {
-        'PassengerTypes.ADT': 'Adult',
-        'PassengerTypes.Plural_ADT': 'Adults',
-        'PassengerTypes.CHD': 'Child',
-        'PassengerTypes.Plural_CHD': 'Children',
-        'PassengerTypes.INF': 'Infant',
-        'PassengerTypes.Plural_INF': 'Infants',
-        'PassengerTypes.TNG': 'Teenager',
-        'PassengerTypes.Plural_TNG': 'Teenagers',
-        'PassengerTypes.EXST': 'Extra Seat',
-        'PassengerTypes.INS': 'Infant with Seat',
+        [TranslationKeys.PassengerTypes_ADT]: 'Adult',
+        [TranslationKeys.PassengerTypes_Plural_ADT]: 'Adults',
+        [TranslationKeys.PassengerTypes_CHD]: 'Child',
+        [TranslationKeys.PassengerTypes_Plural_CHD]: 'Children',
+        [TranslationKeys.PassengerTypes_INF]: 'Infant',
+        [TranslationKeys.PassengerTypes_Plural_INF]: 'Infants',
+        [TranslationKeys.PassengerTypes_TNG]: 'Teenager',
+        [TranslationKeys.PassengerTypes_Plural_TNG]: 'Teenagers',
+        [TranslationKeys.PassengerTypes_EXST]: 'Extra Seat',
+        [TranslationKeys.PassengerTypes_INS]: 'Infant with Seat',
       },
     },
   },

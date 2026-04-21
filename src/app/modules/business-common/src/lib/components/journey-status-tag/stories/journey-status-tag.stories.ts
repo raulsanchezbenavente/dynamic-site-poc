@@ -4,6 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import { JourneyStatusComponent } from '../journey-status-tag.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<JourneyStatusComponent> = {
@@ -16,18 +17,18 @@ const META: Meta<JourneyStatusComponent> = {
     },
   }),
   parameters: {
-    i18nModules: ['Journey.Status'],
+    i18nModules: [TranslationKeys.Journey_Status],
     i18n: {
       mock: {
-        'Journey.Status.Confirmed': 'Confirmado',
-        'Journey.Status.Delayed': 'Demorado',
-        'Journey.Status.Cancelled': 'Cancelado',
-        'Journey.Status.Departed': 'Despego',
-        'Journey.Status.Returned': 'Retorno al origen',
-        'Journey.Status.Diverted': 'Desviado',
-        'Journey.Status.Landed': 'Aterrizó',
-        'Journey.Status.OnTime': 'Confirmado',
-        'Journey.Status.OnRoute': 'Despegó',
+        [TranslationKeys.Journey_Status_Confirmed]: 'Confirmado',
+        [TranslationKeys.Journey_Status_Delayed]: 'Demorado',
+        [TranslationKeys.Journey_Status_Cancelled]: 'Cancelado',
+        [TranslationKeys.Journey_Status_Departed]: 'Despego',
+        [TranslationKeys.Journey_Status_Returned]: 'Retorno al origen',
+        [TranslationKeys.Journey_Status_Diverted]: 'Desviado',
+        [TranslationKeys.Journey_Status_Landed]: 'Aterrizó',
+        [TranslationKeys.Journey_Status_OnTime]: 'Confirmado',
+        [TranslationKeys.Journey_Status_OnRoute]: 'Despegó',
       },
     },
   },

@@ -5,6 +5,7 @@ import { culturalSettings } from './enums/dictionary-culture-currency-convention
 import { SummaryCartCurrencyConverterConfig } from './models/summary-cart-currency-converter.config';
 import { TranslateModule } from "@ngx-translate/core";
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslationKeys } from '../../../../enums/translation-keys.enum';
 
 @Component({
   selector: 'summary-currency-convert',
@@ -16,6 +17,8 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
     standalone: true
 })
 export class SummaryCartCurrencyConverterComponent {
+  protected readonly translationKeys = TranslationKeys;
+
   public readonly config = input.required<SummaryCartCurrencyConverterConfig>();
   public priceConverted = computed<string>(() => this.buildPriceConverted());
   public isOpen = signal<boolean>(false);

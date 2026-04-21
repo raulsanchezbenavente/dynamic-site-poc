@@ -8,6 +8,7 @@ import {
   input,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 @Component({
   selector: 'schedule-extra-day',
@@ -30,8 +31,8 @@ export class ScheduleExtraDayComponent {
     if (days < 1) return '';
     const unit =
       days === 1
-        ? this.translate.instant('Schedule.ExtraDay.Day_Label')
-        : this.translate.instant('Schedule.ExtraDay.Days_Label');
+        ? this.translate.instant(TranslationKeys.Schedule_ExtraDay_Day_Label)
+        : this.translate.instant(TranslationKeys.Schedule_ExtraDay_Days_Label);
     return `+${days} ${unit}`;
   });
 
@@ -40,8 +41,8 @@ export class ScheduleExtraDayComponent {
     const days = this.totalDays();
     if (days < 1) return '';
     if (days === 1) {
-      return this.translate.instant('Schedule.ExtraDay.Arrival_NextDay');
+      return this.translate.instant(TranslationKeys.Schedule_ExtraDay_Arrival_NextDay);
     }
-    return this.translate.instant('Schedule.ExtraDay.Arrival_NDaysLater', { count: days });
+    return this.translate.instant(TranslationKeys.Schedule_ExtraDay_Arrival_NDaysLater, { count: days });
   });
 }

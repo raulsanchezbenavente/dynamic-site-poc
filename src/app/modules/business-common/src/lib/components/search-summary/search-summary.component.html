@@ -4,13 +4,13 @@
 <div class="search-summary-inner">
     <div class="search-summary_route">
         <span class="search-summary_route_departure text-space-gap">
-            {{ 'City.' + originAndDestinationData[0] | translate }}
+            {{ translationKeys.City_KeyNode + originAndDestinationData[0] | translate }}
         </span>
         <span class="search-summary_route_connector text-space-gap">
-            {{ 'Common.To' | translate }}
+            {{ commonTranslationKeys.Common_To | translate }}
         </span>
         <span class="search-summary_route_return">
-            {{ 'City.' + originAndDestinationData[1] | translate }}
+            {{ translationKeys.City_KeyNode + originAndDestinationData[1] | translate }}
         </span>
     </div>
     @if (infoData) {

@@ -27,6 +27,7 @@ import { BannerControlsComponent } from './components/molecules/banner-controls/
 import { BannerItemComponent } from './components/molecules/banner-item/banner-item.component';
 import { BannerAnimationEffect, BannerType } from './enums';
 import { BannerAnimationConfig, BannerConfigParams, BannerControlsConfig, BannerItemConfig } from './models';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'banner',
@@ -39,6 +40,8 @@ import { BannerAnimationConfig, BannerConfigParams, BannerControlsConfig, Banner
   standalone: true,
 })
 export class BannerComponent implements OnInit, AfterViewInit {
+  protected readonly translationKeys = TranslationKeys;
+
   @Input({ required: true }) public config!: BannerConfigParams;
 
   @ViewChild('imagePopUpTemplate') public imagePopUpTemplate!: TemplateRef<unknown>;

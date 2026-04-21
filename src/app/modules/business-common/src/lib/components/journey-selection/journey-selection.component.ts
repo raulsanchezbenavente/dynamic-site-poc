@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit, Signal } from '@angular/core';
 import { OffCanvasComponent, OffCanvasConfig, PriceCurrencyComponent } from '@dcx/ui/design-system';
-import { createResponsiveSignal, Fare, GenerateIdPipe, ViewportSizeService } from '@dcx/ui/libs';
+import { createResponsiveSignal, Fare, GenerateIdPipe, ViewportSizeService , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { SelectionScheduleComponent } from '../schedules/components/selection-schedule/selection-schedule.component';
@@ -10,6 +10,7 @@ import { ScheduleService } from '../schedules/services/schedules.service';
 import { FaresOptionsComponent } from './components/fares-options/fares-options.component';
 import { FareOptions } from './components/fares-options/models/fare-options.model';
 import { JourneySelection } from './models/journey-selection.model';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'journey-selection',
@@ -28,6 +29,8 @@ import { JourneySelection } from './models/journey-selection.model';
   standalone: true,
 })
 export class JourneySelectionComponent implements OnInit, OnDestroy {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   @Input({ required: true }) public data!: JourneySelection;
 
   public translate = inject(TranslateService);
@@ -72,7 +75,7 @@ export class JourneySelectionComponent implements OnInit, OnDestroy {
   protected setOffCanvasConfig(): void {
     this.offCanvasConfig = {
       offCanvasHeaderConfig: {
-        title: this.translate.instant('Schedule.Compare_Fares'),
+        title: this.translate.instant(TranslationKeys.Schedule_Compare_Fares),
       },
       panelClass: 'fares-selection-offcanvas',
     };
@@ -85,7 +88,7 @@ export class JourneySelectionComponent implements OnInit, OnDestroy {
     const mapped = this.mapFaresToFareOptions(fares);
     this.fareOptions = {
       ...mapped,
-      title: this.translate.instant('Schedule.Fares.Title_Vertical'),
+      title: this.translate.instant(TranslationKeys.Schedule_Fares_Title_Vertical),
     };
     this.cdr.markForCheck?.();
   }

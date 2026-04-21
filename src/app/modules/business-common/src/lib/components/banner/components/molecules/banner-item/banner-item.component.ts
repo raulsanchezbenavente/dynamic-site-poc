@@ -20,6 +20,7 @@ import { BannerItemStyle } from '../../../enums';
 import { BannerItemConfig } from '../../../models/banner-item.config.model';
 import { LowestPriceConfig } from '../../../models/lowest-price.config.model';
 import { BannerMediaComponent } from '../../atoms/banner-media/banner-media.component';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 @Component({
   selector: 'banner-item',
@@ -119,7 +120,7 @@ export class BannerItemComponent implements OnChanges, OnInit, AfterViewInit {
         price: this.config.content.lowestPrice[this.currency],
         isEnabled: this.config.configuration.enableLowestPrice && this.config.content.lowestPrice[this.currency] > 0,
 
-        label: this.translate.instant('Banner.LowestPrice_Label'),
+        label: this.translate.instant(TranslationKeys.Banner_LowestPrice_Label),
       };
     } else {
       this.lowestPrice = {
@@ -127,7 +128,7 @@ export class BannerItemComponent implements OnChanges, OnInit, AfterViewInit {
         price: 0,
         isEnabled: false,
 
-        label: this.translate.instant('Banner.LowestPrice_Label'),
+        label: this.translate.instant(TranslationKeys.Banner_LowestPrice_Label),
       };
     }
   }

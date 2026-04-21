@@ -1,10 +1,11 @@
-import { PaxTypeCode } from '@dcx/ui/libs';
+import { PaxTypeCode , CommonTranslationKeys } from '@dcx/ui/libs';
 import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import type { SearchSummaryVM } from '../models/search-summary-vm.model';
 import { SearchSummaryComponent } from '../search-summary.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<SearchSummaryComponent> = {
@@ -20,20 +21,20 @@ const META: Meta<SearchSummaryComponent> = {
     i18nModules: ['SearchSummary', 'Common', 'City', 'PassengerTypes'],
     i18n: {
       mock: {
-        'Common.To': 'a',
-        'Common.Departure_Date': 'Fecha de salida',
-        'Common.Return_Date': 'Fecha de regreso',
-        'Common.Passengers': 'Pasajeros',
+        [CommonTranslationKeys.Common_To]: 'a',
+        [CommonTranslationKeys.Common_Departure_Date]: 'Fecha de salida',
+        [CommonTranslationKeys.Common_Return_Date]: 'Fecha de regreso',
+        [CommonTranslationKeys.Common_Passengers]: 'Pasajeros',
 
-        'City.BOG': 'Bogotá',
-        'City.MDE': 'Medellín',
+        [TranslationKeys.City_BOG]: 'Bogotá',
+        [TranslationKeys.City_MDE]: 'Medellín',
 
-        'PassengerTypes.ADT': 'adulto',
-        'PassengerTypes.Plural_ADT': 'adultos',
-        'PassengerTypes.CHD': 'niño',
-        'PassengerTypes.Plural_CHD': 'niños',
-        'PassengerTypes.INF': 'bebé',
-        'PassengerTypes.Plural_INF': 'bebés',
+        [TranslationKeys.PassengerTypes_ADT]: 'adulto',
+        [TranslationKeys.PassengerTypes_Plural_ADT]: 'adultos',
+        [TranslationKeys.PassengerTypes_CHD]: 'niño',
+        [TranslationKeys.PassengerTypes_Plural_CHD]: 'niños',
+        [TranslationKeys.PassengerTypes_INF]: 'bebé',
+        [TranslationKeys.PassengerTypes_Plural_INF]: 'bebés',
       },
     },
   },

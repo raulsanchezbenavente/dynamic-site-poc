@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SkeletonAuthenticatedAccountMenuComponent } from './components/skeleton/skeleton-authenticated-account-menu.component';
 import { MenuType } from './enums/menu-type.enum';
 import { AuthAccountMenuOptionsConfig } from './models/auth-account-menu-options.config';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'authenticated-account-menu',
@@ -203,14 +204,14 @@ export class AuthenticatedAccountMenuComponent implements OnInit {
         id: `authAccountMenuOptions`,
       },
       ariaAttributes: {
-        ariaLabel: this.translate.instant('Auth.AuthenticatedAccountMenu.AriaLabel'),
+        ariaLabel: this.translate.instant(TranslationKeys.Auth_AuthenticatedAccountMenu_AriaLabel),
       },
       mode: 'menu',
     });
     const logoutOption: OptionsList = {
       code: MenuType.LOGOUT,
       id: this.config().options.length.toString(),
-      name: this.translate.instant('Auth.AuthenticatedAccountMenu.Logout'),
+      name: this.translate.instant(TranslationKeys.Auth_AuthenticatedAccountMenu_Logout),
       link: undefined,
       icon: {
         name: '',

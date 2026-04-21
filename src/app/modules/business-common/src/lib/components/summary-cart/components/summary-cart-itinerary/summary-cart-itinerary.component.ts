@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input, OnInit } from '@angular/core';
 import { DateDisplayComponent, DateDisplayConfig, IconComponent, TagComponent, TagConfig } from '@dcx/ui/design-system';
-import { CultureServiceEx, JourneyType } from '@dcx/ui/libs';
+import { CultureServiceEx, JourneyType , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 
@@ -11,6 +11,7 @@ import { TransportOperatedByComponent } from '../../../schedules/components/atom
 
 import { SummaryCartItineraryConfig } from './models/summary-car-itinerary.config';
 import { SummaryCartScheduleComponent } from './summary-cart-schedule/summary-cart-schedule.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 @Component({
   selector: 'summary-cart-itinerary',
@@ -43,6 +44,8 @@ export class SummaryCartItineraryComponent implements OnInit {
   };
 
   protected readonly translate = inject(TranslateService);
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
   private readonly cdr = inject(ChangeDetectorRef);
   public operatingCarriers: TransportOperatedBy[] = [];
 
@@ -76,11 +79,11 @@ export class SummaryCartItineraryComponent implements OnInit {
     const journeyType = this.config().journey?.journeyType;
     switch (journeyType) {
       case JourneyType.OUTBOUND:
-        this.translatedLabel = this.translate.instant('Schedule.DepartureLabel');
+        this.translatedLabel = this.translate.instant(TranslationKeys.Schedule_DepartureLabel);
         break;
       case JourneyType.INBOUND:
       case JourneyType.RETURN:
-        this.translatedLabel = this.translate.instant('Schedule.ReturnLabel');
+        this.translatedLabel = this.translate.instant(TranslationKeys.Schedule_ReturnLabel);
         break;
       default:
         this.translatedLabel = '';

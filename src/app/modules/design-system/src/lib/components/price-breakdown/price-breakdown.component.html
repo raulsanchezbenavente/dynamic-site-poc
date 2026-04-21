@@ -14,10 +14,7 @@
                     class="price-breakdown_section_content"
                     [id]="priceBreakdown.accessibilityConfig.id"
                     [attr.aria-hidden]="priceBreakdown.header.config.isCollapsible ? ariaHiddenItems[index] : null!">
-                    <price-breakdown-items
-                        [model]="priceBreakdown.list"
-                        [translations]="translations">
-                    </price-breakdown-items>
+                    <price-breakdown-items [model]="priceBreakdown.list" />
                 </div>
             </div>
         }

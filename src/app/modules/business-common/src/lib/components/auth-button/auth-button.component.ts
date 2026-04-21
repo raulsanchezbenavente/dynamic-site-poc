@@ -59,6 +59,7 @@ import { TierAvatarComponent } from '../tier-avatar/tier-avatar.component';
 import { AuthButtonLayout } from './enums/auth-button-layout.enum';
 import { AuthButtonData } from './models/auth-button-data.model';
 import { AuthButtonConfig } from './models/auth-button.config';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'auth-button',
@@ -246,7 +247,7 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
     } as ButtonConfig;
 
     this.translate
-      .stream('Auth.AuthButton.SignIn')
+      .stream(TranslationKeys.Auth_AuthButton_SignIn)
       .pipe(takeUntil(this.destroy$))
       .subscribe((translated) => {
         if (translated) {

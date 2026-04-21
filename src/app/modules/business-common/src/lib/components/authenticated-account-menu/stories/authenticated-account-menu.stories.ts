@@ -6,6 +6,7 @@ import { AUTH_BUTTON_MENU_FAKE_OPTIONS } from '../../../../stories/mocks';
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import { AuthenticatedAccountMenuComponent } from '../authenticated-account-menu.component';
 import { SkeletonAuthenticatedAccountMenuComponent } from '../components/skeleton/skeleton-authenticated-account-menu.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<AuthenticatedAccountMenuComponent> = {
@@ -21,10 +22,10 @@ const META: Meta<AuthenticatedAccountMenuComponent> = {
     i18nModules: ['Auth', 'AuthenticatedAccountMenu'],
     i18n: {
       mock: {
-        'Auth.AuthButton.SignIn': 'Sign in (mock)',
-        'Auth.AuthButton.Welcome': 'Hello, {0} (mock)',
-        'Auth.AuthenticatedAccountMenu.Logout': 'Sign out (mock)',
-        'Auth.AuthenticatedAccountMenu.AriaLabel': 'Account menu (mock)',
+        [TranslationKeys.Auth_AuthButton_SignIn]: 'Sign in (mock)',
+        [TranslationKeys.Auth_AuthButton_Welcome]: 'Hello, {0} (mock)',
+        [TranslationKeys.Auth_AuthenticatedAccountMenu_Logout]: 'Sign out (mock)',
+        [TranslationKeys.Auth_AuthenticatedAccountMenu_AriaLabel]: 'Account menu (mock)',
       },
     },
   },

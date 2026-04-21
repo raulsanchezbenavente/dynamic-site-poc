@@ -198,7 +198,6 @@ describe('SummaryTypologyPerBookingComponent', () => {
       bundleCodes: [],
       scheduleSelection: undefined,
       useTypologyItem: true,
-      translations: {},
       displayPriceItemConcepts: false,
       useStaticDetails: false,
       bookingSellTypeServices: [],
@@ -225,7 +224,7 @@ describe('SummaryTypologyPerBookingComponent', () => {
       const result = component['getMergeJourneysResult']([mockDeparture, mockArrival, mockServices]);
 
       expect(result.length).toBe(2); // Merged journey + services
-      expect(result[0].price).toBe('220'); // 100 + 120 
+      expect(result[0].price).toBe('220'); // 100 + 120
     });
 
     it('should handle only departure without arrival', () => {
@@ -463,13 +462,13 @@ describe('SummaryTypologyPerBookingComponent', () => {
   describe('sortSummaryTypologyDataAndRecords', () => {
     it('should sort records with FARE first', () => {
       const data = [mockDeparture];
-      
+
       component['sortSummaryTypologyDataAndRecords'](data, 'Departure');
 
       // FARE records should be sorted before TAX
       const fareIndex = data[0].records!.findIndex((r) => r.type === EnumChargesType.FARE);
       const taxIndex = data[0].records!.findIndex((r) => r.type === EnumChargesType.TAX);
-      
+
       if (fareIndex !== -1 && taxIndex !== -1) {
         expect(fareIndex).toBeLessThan(taxIndex);
       }

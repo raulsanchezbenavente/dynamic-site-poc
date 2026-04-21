@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { BookingClient, BookingModels } from '@dcx/module/api-clients';
 import { DataEventModel, TRACK_ANALYTICS_ERROR_SERVICE_TOKEN } from '@dcx/ui/business-common';
-import { AlertType, CultureServiceEx, LoggerService, NotificationService } from '@dcx/ui/libs';
+import { AlertType, CommonTranslationKeys, CultureServiceEx, LoggerService, NotificationService } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 import { catchError, finalize, map, Observable, switchMap, throwError } from 'rxjs';
 
-import { translationKeys } from '../../components/boarding-pass/translations/translation-keys';
+import { TranslationKeys } from '../../components/boarding-pass/enums/translation-keys.enum';
 import { BoardingPassFormatType } from '../../enums';
 import { GlobalLoaderService } from '../global-loader.service';
 
@@ -54,7 +54,10 @@ export class DownloadBoardingPassService {
             `Error downloading boarding pass ${BoardingPassFormatType.PDF}`,
             error
           );
-          this.trackAnalyticsError(error, this.translationService.instant(translationKeys.BoardingPassDownloadErrorMessage));
+          this.trackAnalyticsError(
+            error,
+            this.translationService.instant(TranslationKeys.BoardingPass_DownloadErrorMessage)
+          );
         },
       });
   }
@@ -104,7 +107,10 @@ export class DownloadBoardingPassService {
             error
           );
           this.handleDownloadBoardingPassError();
-          this.trackAnalyticsError(error, this.translationService.instant(translationKeys.BoardingPassDownloadErrorMessage));
+          this.trackAnalyticsError(
+            error,
+            this.translationService.instant(TranslationKeys.BoardingPass_DownloadErrorMessage)
+          );
         },
       });
   }
@@ -131,10 +137,10 @@ export class DownloadBoardingPassService {
 
   private handleDownloadBoardingPassError(): void {
     this.notificationService.showNotification({
-      title: this.translationService.instant(translationKeys.BoardingPassDownloadErrorTitle),
-      message: this.translationService.instant(translationKeys.BoardingPassDownloadErrorMessage),
+      title: this.translationService.instant(TranslationKeys.BoardingPass_DownloadErrorTitle),
+      message: this.translationService.instant(TranslationKeys.BoardingPass_DownloadErrorMessage),
       alertType: AlertType.ERROR,
-      buttonPrimaryText: this.translationService.instant(translationKeys.BoardingPassDownloadErrorButtonPrimaryText),
+      buttonPrimaryText: this.translationService.instant(CommonTranslationKeys.Common_OK),
     });
   }
 
@@ -175,7 +181,7 @@ export class DownloadBoardingPassService {
   private trackAnalyticsError(error: any, message: string): void {
     const dataEvent = {
       message: message,
-      error_id: error?.error?.code
+      error_id: error?.error?.code,
     } as DataEventModel;
 
     this.trackAnalyticsErrorService.trackAnalyticsError(dataEvent);

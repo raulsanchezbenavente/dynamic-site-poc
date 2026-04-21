@@ -9,6 +9,7 @@ import {
 } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
+import { TranslationKeys } from '../enums/translation-keys.enum';
 import { SummaryCardBuilderInterface } from '../interfaces/summary-cart-builder.interface';
 import { SummaryCartConfig } from '../models/summary-cart.config';
 
@@ -43,7 +44,7 @@ export class SummaryCartBuilderService implements SummaryCardBuilderInterface {
         style: ButtonStyles.SECONDARY,
       },
       ariaAttributes: {
-        ariaLabel: this.translate.instant('Basket.Book_Summary_Title'),
+        ariaLabel: this.translate.instant(TranslationKeys.Basket_Book_Summary_Title),
       },
     };
   }
@@ -60,7 +61,6 @@ export class SummaryCartBuilderService implements SummaryCardBuilderInterface {
       displayPriceItemConcepts: true,
       summaryScopeView: SummaryTypologyTemplate.PER_BOOKING,
       booking: session.session.booking,
-      translations: {},
     };
   }
 }

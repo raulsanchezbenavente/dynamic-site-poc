@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BannerAnimationEffect } from '../../../enums';
 import { BannerAnimationConfig } from '../../../models/banner-animation.config.model';
 import { BannerControlsConfig } from '../../../models/banner-controls.config.model';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 @Component({
   selector: 'banner-controls',
@@ -15,6 +16,8 @@ import { BannerControlsConfig } from '../../../models/banner-controls.config.mod
   standalone: true,
 })
 export class BannerControlsComponent implements OnInit {
+  protected readonly translationKeys = TranslationKeys;
+
   @Input({ required: true }) public config!: BannerControlsConfig;
   @Input({ required: true }) public animation!: BannerAnimationConfig;
   @Output() public changeIndexEmitter = new EventEmitter<number>();

@@ -1,7 +1,7 @@
 <div
     class="banner-controls_inner"
     role="group"
-    [attr.aria-label]="'Banner.BannerControls.BannerControls_Title' | translate">
+    [attr.aria-label]="translationKeys.Banner_BannerControls_BannerControls_Title | translate">
     <button
         class="banner-controls_button banner-controls_button-control"
         [ngClass]="
@@ -12,8 +12,8 @@
         [id]="config.accessibilityConfig.id + '_playPauseControlsId'"
         [attr.aria-label]="
             pausedAnimation
-                ? ('Banner.BannerControls.BannerControls_Play_Text' | translate)
-                : ('Banner.BannerControls.BannerControls_Pause_Text' | translate)
+                ? (translationKeys.Banner_BannerControls_BannerControls_Play_Text | translate)
+                : (translationKeys.Banner_BannerControls_BannerControls_Pause_Text | translate)
         "
         [attr.aria-controls]="config.accessibilityConfig.id"
         (click)="manageSlideInterval()">
@@ -25,21 +25,21 @@
         class="banner-controls_button banner-controls_button--prev"
         [ngClass]="{ 'hide-visually': !config.showControls }"
         [id]="config.accessibilityConfig.id + '_bannerPreviousBtnId'"
-        [attr.aria-label]="'Banner.BannerControls.BannerControls_Previous_Text' | translate"
+        [attr.aria-label]="translationKeys.Banner_BannerControls_BannerControls_Previous_Text | translate"
         [attr.aria-controls]="config.accessibilityConfig.id"
         (click)="changeSlide('prev')"></button>
 
     <ul
         class="banner-controls_pagination"
         [ngClass]="{ 'hide-visually': !config.showPagination }"
-        [attr.aria-label]="'Banner.BannerControls.BannerControls_Pagination_Title' | translate">
+        [attr.aria-label]="translationKeys.Banner_BannerControls_BannerControls_Pagination_Title | translate">
         @for (item of config.items; track item; let index = $index) {
             <li class="banner-controls_pagination_item">
                 <button
                     class="banner-controls_pagination_button"
                     [id]="config.accessibilityConfig.id + '_paginationId_' + index"
                     [attr.aria-label]="
-                        ('Banner.BannerControls.BannerControls_Pagination_Button_GoTo' | translate) + index
+                        (translationKeys.Banner_BannerControls_BannerControls_Pagination_Button_GoTo | translate) + index
                     "
                     [attr.aria-controls]="config.accessibilityConfig.id"
                     [attr.aria-current]="selectedSlideIndex === index"
@@ -53,7 +53,7 @@
         class="banner-controls_button banner-controls_button--next"
         [ngClass]="{ 'hide-visually': !config.showControls }"
         [id]="config.accessibilityConfig.id + '_bannerNextBtnId'"
-        [attr.aria-label]="'Banner.BannerControls.BannerControls_Next_Text' | translate"
+        [attr.aria-label]="translationKeys.Banner_BannerControls_BannerControls_Next_Text | translate"
         [attr.aria-controls]="config.accessibilityConfig.id"
         (click)="changeSlide('next')"></button>
 </div>

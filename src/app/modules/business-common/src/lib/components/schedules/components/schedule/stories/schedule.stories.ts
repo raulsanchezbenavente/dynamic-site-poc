@@ -1,4 +1,4 @@
-import { JourneyStatus, JourneyType, PaxTypeCode, TransportType } from '@dcx/ui/libs';
+import { JourneyStatus, JourneyType, PaxTypeCode, TransportType , CommonTranslationKeys } from '@dcx/ui/libs';
 import { AVAILABLE_FARES_CLASSIC_FAKE } from '@dcx/ui/mock-repository';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
@@ -7,6 +7,7 @@ import { LEGS_RETURN_SEG_2_BC_FAKE } from '../../../../../../stories/mocks';
 import { JOURNEYS_BC_FAKE } from '../../../../../../stories/mocks/booking-fake/journeys-bc.fake';
 import { STORYBOOK_PROVIDERS } from '../../../../../providers/storybook.providers';
 import { ScheduleComponent } from '../schedule.component';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<ScheduleComponent> = {
@@ -22,25 +23,25 @@ const META: Meta<ScheduleComponent> = {
     i18nModules: ['Common', 'Schedule', 'City'],
     i18n: {
       mock: {
-        'City.GIG': 'Rio de Janeiro',
-        'City.PEI': 'Pereira',
-        'Common.Carriers.OperatedBy': 'Operado por',
-        'Common.Terminal': 'Terminal',
-        'Schedule.Connection_StopLabel': 'Stop:',
-        'Schedule.Connection_Title': 'Detalles del vuelo',
-        'Schedule.Direct': 'Direct',
-        'Schedule.ExtraDay_AccessibleLabel': 'Llegada {{count}} después',
-        'Schedule.ExtraDay.Day_Label': 'day',
-        'Schedule.ExtraDay.Days_Label': 'day',
-        'Schedule.Stop': 'stop',
-        'Schedule.Stops': 'stops',
-        'Schedule.Total_TravelTime_Label': 'Total travel time:',
-        'Schedule.PreviousTimeOfDeparture_Label': 'Hora de salida originalmente programada',
-        'Schedule.PreviousTimeOfArrival_Label': 'Hora de llegada originalmente programada',
-        'Schedule.NewTimeOfDeparture_Label': 'Nuevo horario de salida',
-        'Schedule.NewTimeOfArrival_Label': 'Nuevo horario de llegada',
-        'Schedule.ExtraDay.Arrival_NextDay': 'Llegada al día siguiente',
-        'Schedule.ExtraDay.Arrival_NDaysLater': 'Llega {{count}} días después',
+        [TranslationKeys.City_GIG]: 'Rio de Janeiro',
+        [TranslationKeys.City_PEI]: 'Pereira',
+        [CommonTranslationKeys.Common_Carriers_OperatedBy]: 'Operado por',
+        [CommonTranslationKeys.Common_Terminal]: 'Terminal',
+        [TranslationKeys.Schedule_Connection_StopLabel]: 'Stop:',
+        [TranslationKeys.Schedule_Connection_Title]: 'Detalles del vuelo',
+        [TranslationKeys.Schedule_Direct]: 'Direct',
+        [TranslationKeys.Schedule_ExtraDay_AccessibleLabel]: 'Llegada {{count}} después',
+        [TranslationKeys.Schedule_ExtraDay_Day_Label]: 'day',
+        [TranslationKeys.Schedule_ExtraDay_Days_Label]: 'day',
+        [TranslationKeys.Schedule_Stop]: 'stop',
+        [TranslationKeys.Schedule_Stops]: 'stops',
+        [TranslationKeys.Schedule_Total_TravelTime_Label]: 'Total travel time:',
+        [TranslationKeys.Schedule_PreviousTimeOfDeparture_Label]: 'Hora de salida originalmente programada',
+        [TranslationKeys.Schedule_PreviousTimeOfArrival_Label]: 'Hora de llegada originalmente programada',
+        [TranslationKeys.Schedule_NewTimeOfDeparture_Label]: 'Nuevo horario de salida',
+        [TranslationKeys.Schedule_NewTimeOfArrival_Label]: 'Nuevo horario de llegada',
+        [TranslationKeys.Schedule_ExtraDay_Arrival_NextDay]: 'Llegada al día siguiente',
+        [TranslationKeys.Schedule_ExtraDay_Arrival_NDaysLater]: 'Llega {{count}} días después',
       },
     },
   },

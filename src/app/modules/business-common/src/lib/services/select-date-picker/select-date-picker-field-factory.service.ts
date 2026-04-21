@@ -16,6 +16,7 @@ import {
 } from 'reactive-forms';
 
 import { SELECT_DATE_PICKER_MONTH_ABBREVIATION } from './select-date-picker-month-abbreviation.config';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const MONTH_KEYS = [
   'january',
@@ -85,9 +86,9 @@ export class RfSelectDatePickerFieldFactoryService {
     const locale = this.getCurrentLocale();
 
     return {
-      day: this.translateService.instant('Common.LabelDay'),
-      month: this.translateService.instant('Common.LabelMonth'),
-      year: this.translateService.instant('Common.LabelYear'),
+      day: this.translateService.instant(CommonTranslationKeys.Common_LabelDay),
+      month: this.translateService.instant(CommonTranslationKeys.Common_LabelMonth),
+      year: this.translateService.instant(CommonTranslationKeys.Common_LabelYear),
       months: this.buildMonthOptions(locale),
     };
   }

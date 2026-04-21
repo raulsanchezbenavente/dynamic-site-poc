@@ -19,7 +19,7 @@
                 [attr.aria-controls]="fareListId"
                 (click)="toggleFares()">
                 <price-currency
-                    [prefixText]="'Common.From' | translate"
+                    [prefixText]="commonTranslationKeys.Common_From | translate"
                     [price]="lowestFarePrice"
                     [currency]="'COP'" />
             </button>

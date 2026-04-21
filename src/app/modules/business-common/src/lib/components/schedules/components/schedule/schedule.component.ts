@@ -1,5 +1,5 @@
 import { Component, DestroyRef, inject, Input, OnChanges } from '@angular/core';
-import { FormatDurationPipe, JourneyStatus, JourneyVM } from '@dcx/ui/libs';
+import { FormatDurationPipe, JourneyStatus, JourneyVM , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { CarrierMapperService } from '../../../../services/carrier-mapper/carrier-mapper.service';
@@ -15,6 +15,7 @@ import { TransportOperatedByComponent } from '../atoms/transport-operated-by/tra
 
 import { CarriersDisplayMode } from './enums/carriers-display-mode.enum';
 import { ScheduleConfig } from './models/schedule.config';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 @Component({
   selector: 'schedule',
@@ -49,6 +50,8 @@ export class ScheduleComponent implements OnChanges {
   public arrivalTimes!: ScheduleTimeComparison;
 
   protected readonly translate = inject(TranslateService);
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
   private readonly scheduleService = inject(ScheduleService);
   private readonly carrierMapper = inject(CarrierMapperService);
   private readonly destroyRef = inject(DestroyRef);

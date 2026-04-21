@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, inject, input, OnInit } from '@angular/co
 import { StatusTagComponent, StatusTagConfig, StatusTagType } from '@dcx/ui/design-system';
 import { JourneyStatus } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'journey-status-tag',
@@ -26,7 +27,7 @@ export class JourneyStatusComponent implements OnInit {
 
   private setJourneyStatusTagConfig(): void {
     this.journeyStatusTagConfig = {
-      text: this.translate.instant(`Journey.Status.${this.status()}`),
+      text: this.translate.instant(`${TranslationKeys.Journey_Status_KeyNode}${this.status()}`),
       status: this.getStatusTagType(),
     };
     this.cdr.markForCheck();

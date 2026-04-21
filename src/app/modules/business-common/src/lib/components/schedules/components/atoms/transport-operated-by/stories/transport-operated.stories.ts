@@ -4,6 +4,7 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../../../../providers/storybook.providers';
 import { TransportOperatedByComponent } from '../transport-operated-by.component';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<TransportOperatedByComponent> = {
@@ -20,7 +21,7 @@ const META: Meta<TransportOperatedByComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Common.Carriers.OperatedBy': 'Operated by',
+        [CommonTranslationKeys.Common_Carriers_OperatedBy]: 'Operated by',
       },
     },
   },

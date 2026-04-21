@@ -14,11 +14,12 @@ import {
   SummaryTypologyDataVm,
   SummaryTypologyDataVmModelType,
 } from '@dcx/ui/libs';
+import { TranslateModule } from '@ngx-translate/core';
 
+import { PassengerTypesComponent } from '../../../passenger-types/passenger-types.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 import { SummaryTypologyBaseService } from '../../services/summary-typology-base.service';
 import { SummaryTypologyBaseComponent } from '../../summary-typology-base.component';
-import { TranslateModule } from '@ngx-translate/core';
-import { PassengerTypesComponent } from '../../../passenger-types/passenger-types.component';
 
 @Component({
   selector: 'summary-typology-per-journey',
@@ -28,6 +29,8 @@ import { PassengerTypesComponent } from '../../../passenger-types/passenger-type
   standalone: true,
 })
 export class SummaryTypologyPerJourneyComponent extends SummaryTypologyBaseComponent implements OnInit {
+  protected readonly translationKeys = TranslationKeys;
+
   public passengerTypesModel!: PassengerTypesVM;
   public hasServicesAndJourneys!: boolean;
 

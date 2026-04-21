@@ -8,6 +8,7 @@ import {
   RedirectionService,
   StorageService,
   WindowHelper,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -57,7 +58,7 @@ export class PageBackService {
       title: this.translationService.instant(ErrorsTranslationKeys.Error_Navigation_BackNotAllowed_Title),
       message: this.translationService.instant(ErrorsTranslationKeys.Error_Navigation_BackNotAllowed_Message),
       alertType: AlertType.ERROR,
-      buttonPrimaryText: this.translationService.instant('Common.OK'),
+      buttonPrimaryText: this.translationService.instant(CommonTranslationKeys.Common_OK),
       buttonPrimaryCallBack: () => this.redirectToPageBackUrl(),
       onBlurCallback: () => this.redirectToPageBackUrl(),
     });

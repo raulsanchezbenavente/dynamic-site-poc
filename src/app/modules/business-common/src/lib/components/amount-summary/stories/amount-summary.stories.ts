@@ -1,4 +1,4 @@
-import { ButtonStyles, LayoutSize } from '@dcx/ui/libs';
+import { ButtonStyles, LayoutSize , CommonTranslationKeys } from '@dcx/ui/libs';
 import { moduleMetadata } from '@storybook/angular';
 import type { Meta, StoryObj } from '@storybook/angular';
 
@@ -21,8 +21,8 @@ const META: Meta<AmountSummaryComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Common.Confirm_Btn': 'Confirm',
-        'Common.Cancel_Btn': 'Cancel',
+        [CommonTranslationKeys.Common_Confirm_Btn]: 'Confirm',
+        [CommonTranslationKeys.Common_Cancel_Btn]: 'Cancel',
       },
     },
   },

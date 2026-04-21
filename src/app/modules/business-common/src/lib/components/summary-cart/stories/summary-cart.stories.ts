@@ -5,6 +5,8 @@ import { SummaryCartComponent } from '../summary-cart.component';
 
 import { DATA_INITIAL_VALUE } from './mocks/data-inital-value.fake';
 import { SUMMARY_STORYBOOK_PROVIDERS } from './providers/storybook.provider';
+import { TranslationKeys } from '../enums/translation-keys.enum';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/angular/writing-stories/introduction
 const META: Meta<SummaryCartComponent> = {
@@ -20,13 +22,13 @@ const META: Meta<SummaryCartComponent> = {
     i18nModules: ['Common', 'Journey', ' City', 'Schedule', 'PassengerTypes', 'SummaryTypology', 'Ibe-codes'],
     i18n: {
       mock: {
-        'Common.Close': 'Close',
-        'Basket.Book_Summary_Title': 'Resumen de compra',
-        'Schedule.ReturnLabel': 'Vuelta',
-        'Schedule.DepartureLabel': 'Ida',
-        'Schedule.ExtraDay.Days_Label': 'día',
-        'PassengerTypes.Plural_TNG': 'Tennagers',
-        'SummaryTypology.PerBooking.Header_Title': 'Ver detalle',
+        [CommonTranslationKeys.Common_Close]: 'Close',
+        [TranslationKeys.Basket_Book_Summary_Title]: 'Resumen de compra',
+        [TranslationKeys.Schedule_ReturnLabel]: 'Vuelta',
+        [TranslationKeys.Schedule_DepartureLabel]: 'Ida',
+        [TranslationKeys.Schedule_ExtraDay_Days_Label]: 'día',
+        [TranslationKeys.PassengerTypes_Plural_TNG]: 'Tennagers',
+        [TranslationKeys.SummaryTypology_PerBooking_Header_Title]: 'Ver detalle',
       },
     },
   },

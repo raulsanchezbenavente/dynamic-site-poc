@@ -1,8 +1,9 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { BadgeComponent, ListComponent, PriceCurrencyComponent, TagConfig } from '@dcx/ui/design-system';
-import { DictionaryType, Fare, FareBenefitsList, FareItemApplicability, GenerateIdPipe } from '@dcx/ui/libs';
+import { DictionaryType, Fare, FareBenefitsList, FareItemApplicability, GenerateIdPipe , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 @Component({
   selector: 'fare-options-item',
@@ -15,6 +16,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   standalone: true,
 })
 export class FareOptionsItemComponent implements OnInit {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   @Input({ required: true }) public data!: Fare;
   @Input({ required: true }) public translations!: DictionaryType;
 
@@ -58,7 +61,7 @@ export class FareOptionsItemComponent implements OnInit {
   private setRecommendTag(): void {
     if (this.data.isRecommended) {
       this.recommendBadgeConfig = {
-        text: this.translate.instant('Common.Select_RecommendedBadge_Text'),
+        text: this.translate.instant(CommonTranslationKeys.Common_Select_RecommendedBadge_Text),
       };
     }
   }
@@ -128,14 +131,14 @@ export class FareOptionsItemComponent implements OnInit {
         return {
           name: 'currency',
           ariaAttributes: {
-            ariaLabel: this.translate.instant('Fare.Chargeable_IconLabel'),
+            ariaLabel: this.translate.instant(TranslationKeys.Fare_Chargeable_IconLabel),
           },
         };
       case FareItemApplicability.NOT_INCLUDED:
         return {
           name: 'cross',
           ariaAttributes: {
-            ariaLabel: this.translate.instant('Fare.NotIncluded_IconLabel'),
+            ariaLabel: this.translate.instant(TranslationKeys.Fare_NotIncluded_IconLabel),
           },
         };
       case FareItemApplicability.INCLUDED:
@@ -143,7 +146,7 @@ export class FareOptionsItemComponent implements OnInit {
         return {
           name: originalIconName,
           ariaAttributes: {
-            ariaLabel: this.translate.instant('Fare.Included_IconLabel'),
+            ariaLabel: this.translate.instant(TranslationKeys.Fare_Included_IconLabel),
           },
         };
     }

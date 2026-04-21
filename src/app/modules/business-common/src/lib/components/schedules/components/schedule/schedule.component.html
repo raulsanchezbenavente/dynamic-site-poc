@@ -4,7 +4,7 @@
             <!-- Display original (scheduled) time if flight was delayed or rescheduled -->
             @if (departureTimes.hasChanged) {
                 <span class="hide-visually text-space-gap">
-                    {{ 'Schedule.PreviousTimeOfDeparture_Label' | translate }}
+                    {{ translationKeys.Schedule_PreviousTimeOfDeparture_Label | translate }}
                 </span>
                 <del class="schedule-previous-time">
                     {{ departureTimes.scheduled }}
@@ -14,7 +14,7 @@
         <div class="schedule_time">
             @if (departureTimes.hasChanged) {
                 <span class="hide-visually text-space-gap">
-                    {{ 'Schedule.NewTimeOfDeparture_Label' | translate }}
+                    {{ translationKeys.Schedule_NewTimeOfDeparture_Label | translate }}
                 </span>
                 {{ departureTimes.actual !== '00:00' ? departureTimes.actual : departureTimes.estimated }}
             } @else {
@@ -31,7 +31,9 @@
             {{ data.origin.iata }}
         </div>
         @if (data.origin.terminal) {
-            <div class="schedule_terminal">{{ 'Common.Terminal' | translate }} {{ data.origin.terminal }}</div>
+            <div class="schedule_terminal">
+                {{ commonTranslationKeys.Common_Terminal | translate }} {{ data.origin.terminal }}
+            </div>
         }
     </div>
     <div class="schedule-details">
@@ -46,7 +48,9 @@
                 class="schedule_connection-duration-divisor"
                 aria-hidden="true"></div>
             <div class="schedule_duration">
-                <span class="hide-visually text-space-gap">{{ 'Schedule.Total_TravelTime' | translate }}</span>
+                <span class="hide-visually text-space-gap">{{
+                    translationKeys.Schedule_Total_TravelTime | translate
+                }}</span>
                 {{ data.duration | formatDuration }}
             </div>
         </div>
@@ -65,7 +69,7 @@
             <!-- Display original (schedule) time if flight was delayed or rescheduled -->
             @if (arrivalTimes.hasChanged) {
                 <span class="hide-visually text-space-gap">
-                    {{ 'Schedule.PreviousTimeOfArrival_Label' | translate }}
+                    {{ translationKeys.Schedule_PreviousTimeOfArrival_Label | translate }}
                 </span>
                 <del class="schedule-previous-time">
                     {{ arrivalTimes.scheduled }}
@@ -79,7 +83,7 @@
         <div class="schedule_time">
             @if (arrivalTimes.hasChanged) {
                 <span class="hide-visually text-space-gap">
-                    {{ 'Schedule.NewTimeOfArrival_Label' | translate }}
+                    {{ translationKeys.Schedule_NewTimeOfArrival_Label | translate }}
                 </span>
                 {{ arrivalTimes.actual !== '00:00' ? arrivalTimes.actual : arrivalTimes.estimated }}
             } @else {
@@ -100,7 +104,9 @@
             }
         </div>
         @if (data.destination.terminal) {
-            <div class="schedule_terminal">{{ 'Common.Terminal' | translate }} {{ data.destination.terminal }}</div>
+            <div class="schedule_terminal">
+                {{ commonTranslationKeys.Common_Terminal | translate }} {{ data.destination.terminal }}
+            </div>
         }
     </div>
 }

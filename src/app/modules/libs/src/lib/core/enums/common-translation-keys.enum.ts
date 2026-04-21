@@ -1,4 +1,7 @@
 export enum CommonTranslationKeys {
+  // --- Root Key Node ---
+  Common_KeyNode = 'Common.',
+
   // --- A11y ---
   Common_A11y_Decrease = 'Common.A11y.Decrease',
   Common_A11y_Increase = 'Common.A11y.Increase',
@@ -18,10 +21,9 @@ export enum CommonTranslationKeys {
   Common_A11y_Status_Icon_Success = 'Common.A11y.Status_Icon.Success',
   Common_A11y_Status_Icon_Warning = 'Common.A11y.Status_Icon.Warning',
 
-  // --- Actions ---
+  // --- Actions (Generic) ---
   Common_Accept_Btn = 'Common.Accept_Btn',
   Common_Add = 'Common.Add',
-  Common_Back = 'Common.Back',
   Common_Cancel = 'Common.Cancel',
   Common_Cancel_Btn = 'Common.Cancel_Btn',
   Common_Close = 'Common.Close',
@@ -29,48 +31,67 @@ export enum CommonTranslationKeys {
   Common_Continue = 'Common.Continue',
   Common_Delete = 'Common.Delete',
   Common_Modify = 'Common.Modify',
-  Common_Next = 'Common.Next',
   Common_OK = 'Common.OK',
-  Common_Prev = 'Common.Prev',
-  Common_Previous = 'Common.Previous',
   Common_Remove = 'Common.Remove',
 
-  // --- Labels ---
-  Common_Departure = 'Common.Departure',
-  Common_From = 'Common.From',
-  Common_NotAvailable = 'Common.NotAvailable',
-  Common_Passenger = 'Common.Passenger',
-  Common_Return = 'Common.Return',
-  Common_To = 'Common.To',
+  // --- Actions (Navigation) ---
+  Common_Back = 'Common.Back',
+  Common_Next = 'Common.Next',
+  Common_Next_Btn = 'Common.Next_Btn',
+  Common_Prev = 'Common.Prev',
+  Common_Previous = 'Common.Previous',
+  Common_Previous_Btn = 'Common.Previous_Btn',
+
+  // --- Travel/Flight Labels ---
   Common_Arrival = 'Common.Arrival',
   Common_Carriers_OperatedBy = 'Common.Carriers.OperatedBy',
+  Common_Departure = 'Common.Departure',
   Common_Departure_Date = 'Common.Departure_Date',
-  Common_FlightStatus = 'Common.FlightStatus',
+  Common_Flight = 'Common.Flight',
   Common_Flights = 'Common.Flights',
+  Common_FlightStatus = 'Common.FlightStatus',
+  Common_From = 'Common.From',
+  Common_Passenger = 'Common.Passenger',
+  Common_Passengers = 'Common.Passengers',
+  Common_Rerouted_Label = 'Common.Rerouted_Label',
+  Common_Return = 'Common.Return',
+  Common_Return_Date = 'Common.Return_Date',
+  Common_Terminal = 'Common.Terminal',
+  Common_To = 'Common.To',
+
+  // --- Booking/Services Labels ---
+  Common_Services = 'Common.Services',
+  Common_Summary = 'Common.Summary',
+
+  // --- Fare Selection ---
+  Common_Select_FareTypeName_ = 'Common.Select_FareTypeName_',
+  Common_Select_FareTypeName_BASIC = 'Common.Select_FareTypeName_BASIC',
+  Common_Select_FareTypeName_CLASSIC = 'Common.Select_FareTypeName_CLASSIC',
+  Common_Select_FareTypeName_FLEX = 'Common.Select_FareTypeName_FLEX',
+  Common_Select_FareType_Subtitle_ = 'Common.Select_FareType_Subtitle_',
+  Common_Select_FareType_Subtitle_BASIC = 'Common.Select_FareType_Subtitle_BASIC',
+  Common_Select_FareType_Subtitle_CLASSIC = 'Common.Select_FareType_Subtitle_CLASSIC',
+  Common_Select_FareType_Subtitle_FLEX = 'Common.Select_FareType_Subtitle_FLEX',
+  Common_Select_RecommendedBadge_Text = 'Common.Select_RecommendedBadge_Text',
+
+  // --- Date/Time Labels ---
   Common_LabelDay = 'Common.LabelDay',
+  Common_LabelDays = 'Common.LabelDays',
+  Common_LabelHours = 'Common.LabelHours',
   Common_LabelMonth = 'Common.LabelMonth',
   Common_LabelYear = 'Common.LabelYear',
-  Common_Next_Btn = 'Common.Next_Btn',
-  Common_Passengers = 'Common.Passengers',
-  Common_Previous_Btn = 'Common.Previous_Btn',
-  Common_Rerouted_Label = 'Common.Rerouted_Label',
-  Common_Return_Date = 'Common.Return_Date',
-  Common_Select_FareTypeName_ = 'Common.Select_FareTypeName_',
-  Common_Select_FareType_Subtitle_ = 'Common.Select_FareType_Subtitle_',
-  Common_Select_RecommendedBadge_Text = 'Common.Select_RecommendedBadge_Text',
-  Common_Services = 'Common.Services',
+  Common_ShortLabel_Hours = 'Common.ShortLabel_Hours',
+
+  // --- Financial Labels ---
   Common_Taxes = 'Common.Taxes',
-  Common_Terminal = 'Common.Terminal',
   Common_Total = 'Common.Total',
-  Common_KeyNode = 'Common.',
+
+  // --- General UI Labels ---
+  Common_NotAvailable = 'Common.NotAvailable',
 
   // --- Selection Controls ---
   Common_CurrencySelector_List_Label = 'Common.CurrencySelector_List_Label',
   Common_LanguageSelector_List_Label = 'Common.LanguageSelector_List_Label',
-
-  // --- Time Labels ---
-  Common_LabelDays = 'Common.LabelDays',
-  Common_LabelHours = 'Common.LabelHours',
 
   // --- Tabs ---
   Common_Tabs_Loading = 'Common.Tabs.Loading',

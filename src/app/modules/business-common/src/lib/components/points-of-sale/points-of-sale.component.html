@@ -17,11 +17,11 @@
             <span class="point-of-sale-selector_button_label_value"> ({{ selectedPointOfSale.currency.symbol }}) </span>
         </span>
         <span class="hide-visually">
-            {{ 'Common.A11y.IsSelected' | translate }}
+            {{ commonTranslationKeys.Common_A11y_IsSelected | translate }}
         </span>
     } @else {
         <span class="point-of-sale-selector_button_label">
-            {{ 'PointsOfSale.Trigger_Label' | translate }}
+            {{ translationKeys.PointsOfSale_Trigger_Label | translate }}
         </span>
     }
 </button>
@@ -34,7 +34,7 @@
                 <h2
                     class="points-of-sale_header_title"
                     [id]="titleId">
-                    {{ 'PointsOfSale.Title' | translate }}
+                    {{ translationKeys.PointsOfSale_Title | translate }}
                 </h2>
                 <div class="points-of-sale_body">
                     <div
@@ -67,7 +67,7 @@
 
                                 @if (selectedOption) {
                                     <span class="hide-visually">
-                                        {{ 'Common.A11y.IsSelected' | translate }}
+                                        {{ commonTranslationKeys.Common_A11y_IsSelected | translate }}
                                     </span>
                                 }
                             </button>

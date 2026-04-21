@@ -9,8 +9,6 @@ import {
   TransportType,
 } from '@dcx/ui/libs';
 
-import { SUMMARY_CART_TRANSLATIONS_BC } from './translations/summary-cart-translations-bc.fake';
-
 /**
  * Represents a fake SummaryCartConfig (`SUMMARY_CART_BC_FAKE`) used in business common
  * context for fake in storybook
@@ -464,9 +462,6 @@ export const SUMMARY_CART_BC_FAKE: SummaryCartConfig = {
       displayPriceItemConcepts: true,
       summaryScopeView: SummaryTypologyTemplate.PER_BOOKING,
       booking: {} as Booking,
-      translations: {
-        ...SUMMARY_CART_TRANSLATIONS_BC,
-      },
     },
   },
 };

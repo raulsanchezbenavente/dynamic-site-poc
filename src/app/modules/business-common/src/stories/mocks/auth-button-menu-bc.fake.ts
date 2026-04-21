@@ -1,4 +1,4 @@
-import { AuthAccountMenuOptionsConfig } from '@dcx/storybook/business-common';
+import type { AuthAccountMenuOptionsConfig } from '@dcx/storybook/business-common';
 import { LinkTarget } from '@dcx/ui/libs';
 
 export const AUTH_BUTTON_MENU_FAKE_OPTIONS: AuthAccountMenuOptionsConfig = {

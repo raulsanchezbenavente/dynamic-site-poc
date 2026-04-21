@@ -3,6 +3,7 @@ import { DateDisplayComponent, DsButtonComponent } from '@dcx/ui/design-system';
 import {
   ButtonConfig,
   ButtonStyles,
+  CommonTranslationKeys,
   DeviceInfoService,
   KeyCodeEnum,
   LayoutSize,
@@ -21,7 +22,7 @@ import {
   SessionService,
 } from '../../../services';
 import { AddWalletButtonComponent, AddWalletButtonConfig } from '../add-wallet-button';
-import { translationKeys } from '../translations/translation-keys';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 import { BoardingPassVM } from './models/boarding-pass-vm.model';
 
@@ -46,7 +47,8 @@ export class BoardingPassPreviewComponent implements OnInit {
 
   // internal vars
   public addWalletButtonConfig!: AddWalletButtonConfig;
-  protected readonly translateKeys = translationKeys;
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
 
   // Computed
   protected segments = computed(() => this.data().segments);
@@ -69,7 +71,7 @@ export class BoardingPassPreviewComponent implements OnInit {
   private readonly bookingSessionService = inject(SessionService);
 
   public pdfButtonConfig: ButtonConfig = {
-    label: this.translate.instant(this.translateKeys.BoardingPassDownloadPDF),
+    label: this.translate.instant(TranslationKeys.BoardingPass_DownloadPDF),
     layout: {
       size: LayoutSize.MEDIUM,
       style: ButtonStyles.SECONDARY,

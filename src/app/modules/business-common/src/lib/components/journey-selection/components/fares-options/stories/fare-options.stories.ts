@@ -4,6 +4,8 @@ import { moduleMetadata } from '@storybook/angular';
 import { JOURNEYS_BC_FAKE } from '../../../../../../stories/mocks/booking-fake/journeys-bc.fake';
 import { STORYBOOK_PROVIDERS } from '../../../../../providers/storybook.providers';
 import { FaresOptionsComponent } from '../fares-options.component';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<FaresOptionsComponent> = {
@@ -19,17 +21,17 @@ const META: Meta<FaresOptionsComponent> = {
     i18nModules: ['Common'],
     i18n: {
       mock: {
-        'Schedule.Fares.Title_Vertical': 'Elige cómo quieres volar',
-        'Common.Select_FareTypeName_BASIC': 'Basic (mock)',
-        'Common.Select_FareType_Subtitle_BASIC': 'The Basic essentials (mock)',
-        'Common.Select_FareTypeName_CLASSIC': 'Classic (mock)',
-        'Common.Select_FareType_Subtitle_CLASSIC': 'The Classic essentials (mock)',
-        'Common.Select_FareTypeName_FLEX': 'Flexible (mock)',
-        'Common.Select_FareType_Subtitle_FLEX': 'The Flex essentials (mock)',
-        'Common.Select_RecommendedBadge_Text': 'Recommended (mock)',
-        'Fare.Chargeable_IconLabel': 'Tiene costo adicional',
-        'Fare.NotIncluded_IconLabel': 'No incluido (mock)',
-        'Fare.Included_IconLabel': 'Incluido (mock)',
+        [TranslationKeys.Schedule_Fares_Title_Vertical]: 'Elige cómo quieres volar',
+        [CommonTranslationKeys.Common_Select_FareTypeName_BASIC]: 'Basic (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_BASIC]: 'The Basic essentials (mock)',
+        [CommonTranslationKeys.Common_Select_FareTypeName_CLASSIC]: 'Classic (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_CLASSIC]: 'The Classic essentials (mock)',
+        [CommonTranslationKeys.Common_Select_FareTypeName_FLEX]: 'Flexible (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_FLEX]: 'The Flex essentials (mock)',
+        [CommonTranslationKeys.Common_Select_RecommendedBadge_Text]: 'Recommended (mock)',
+        [TranslationKeys.Fare_Chargeable_IconLabel]: 'Tiene costo adicional',
+        [TranslationKeys.Fare_NotIncluded_IconLabel]: 'No incluido (mock)',
+        [TranslationKeys.Fare_Included_IconLabel]: 'Incluido (mock)',
       },
     },
   },

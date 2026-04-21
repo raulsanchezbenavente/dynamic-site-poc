@@ -6,6 +6,7 @@ import {
   PriceBreakdownVM,
 } from '@dcx/ui/design-system';
 import {
+  CommonTranslationKeys,
   EnumChargesType,
   GroupedCharges,
   ISummarySelectedJourneysService,
@@ -18,6 +19,7 @@ import {
 } from '@dcx/ui/libs';
 
 import { PassengerTypesComponent } from '../../../passenger-types/passenger-types.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 import { SummaryTypologyBaseService } from '../../services/summary-typology-base.service';
 import { SummaryTypologyBaseComponent } from '../../summary-typology-base.component';
 
@@ -184,7 +186,7 @@ export class SummaryTypologyPerBookingComponent extends SummaryTypologyBaseCompo
         {
           header: {
             config: {
-              label: this.translate.instant('SummaryTypology.PerBooking.Header_Title'),
+              label: this.translate.instant(TranslationKeys.SummaryTypology_PerBooking_Header_Title),
               price: this.booking.pricing.totalAmount,
               currency: this.booking.pricing.currency,
               isCollapsible: this.summaryConfig.isCollapsible,
@@ -206,7 +208,10 @@ export class SummaryTypologyPerBookingComponent extends SummaryTypologyBaseCompo
   protected getBreakdownItemsVm(summaryTypologyDataVm: SummaryTypologyDataVm[]): PriceBreakdownItemsVM[] {
     let priceBreakdownItemsVM: PriceBreakdownItemsVM[] = [];
 
-    this.sortSummaryTypologyDataAndRecords(summaryTypologyDataVm, this.translate.instant('Common.Services'));
+    this.sortSummaryTypologyDataAndRecords(
+      summaryTypologyDataVm,
+      this.translate.instant(CommonTranslationKeys.Common_Services)
+    );
 
     for (const summary of summaryTypologyDataVm) {
       const priceBreakdown = summary.records!.map(

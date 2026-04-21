@@ -8,12 +8,13 @@ import {
   DescriptionListOptionType,
   DescriptionListTextData,
 } from '@dcx/ui/design-system';
-import { EnumSeparators, PaxTypeCode, ViewportSizeService } from '@dcx/ui/libs';
+import { EnumSeparators, PaxTypeCode, ViewportSizeService , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 
 import { SearchSummaryPaxs } from './models/search-summary-pax.model';
 import { SearchSummaryVM } from './models/search-summary-vm.model';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'search-summary',
@@ -26,6 +27,9 @@ import { SearchSummaryVM } from './models/search-summary-vm.model';
   standalone: true,
 })
 export class SearchSummaryComponent implements OnInit {
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   public readonly data = input.required<SearchSummaryVM>();
 
   public origin = signal<string>('');
@@ -89,7 +93,7 @@ export class SearchSummaryComponent implements OnInit {
     const passengers = this.passengerTypesConfig();
     const total = passengers.reduce((sum, pax) => sum + pax.quantity, 0);
     const passengersMobile = `${total} ${
-      total > 1 ? this.translateService.instant('Common.Passengers') : this.translateService.instant('Common.Passenger')
+      total > 1 ? this.translateService.instant(CommonTranslationKeys.Common_Passengers) : this.translateService.instant(CommonTranslationKeys.Common_Passenger)
     }`;
 
     const passengerOrder = [
@@ -109,8 +113,8 @@ export class SearchSummaryComponent implements OnInit {
         (pax) =>
           `${pax.quantity} ${
             pax.quantity > 1
-              ? this.translateService.instant('PassengerTypes.Plural_' + pax.code)
-              : this.translateService.instant('PassengerTypes.' + pax.code)
+              ? this.translateService.instant(TranslationKeys.PassengerTypes_Plural_KeyNode + pax.code)
+              : this.translateService.instant(TranslationKeys.PassengerTypes_KeyNode + pax.code)
           }`
       )
       .join(`${EnumSeparators.COMMA} `);
@@ -123,7 +127,7 @@ export class SearchSummaryComponent implements OnInit {
     const { departureDate, returnDate } = this.data().dates;
 
     infoDescriptions.push({
-      term: this.translateService.instant('Common.Departure_Date') + ':',
+      term: this.translateService.instant(CommonTranslationKeys.Common_Departure_Date) + ':',
       type: DescriptionListOptionType.DATE,
       description: {
         date: { fullFormat: 'EEE DD MMM y' },
@@ -135,7 +139,7 @@ export class SearchSummaryComponent implements OnInit {
 
     if (returnDate) {
       infoDescriptions.push({
-        term: this.translateService.instant('Common.Return_Date') + ':',
+        term: this.translateService.instant(CommonTranslationKeys.Common_Return_Date) + ':',
         type: DescriptionListOptionType.DATE,
         description: {
           date: { fullFormat: 'EEE DD MMM y' },
@@ -151,7 +155,7 @@ export class SearchSummaryComponent implements OnInit {
       : this.buildPassengerStrings().passengersDesktop;
 
     infoDescriptions.push({
-      term: this.translateService.instant('Common.Passengers') + ':',
+      term: this.translateService.instant(CommonTranslationKeys.Common_Passengers) + ':',
       type: DescriptionListOptionType.TEXT,
       description: { text: passengersText } as DescriptionListTextData,
       iconConfig: { name: 'add-passengers' },

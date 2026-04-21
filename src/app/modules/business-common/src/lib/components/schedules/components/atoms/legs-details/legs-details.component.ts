@@ -6,10 +6,11 @@ import {
   PopoverContentDirective,
   PopoverTriggerDirective,
 } from '@dcx/ui/design-system';
-import { dateHelper, DsNgbTriggerEvent, FormatDurationPipe } from '@dcx/ui/libs';
+import { dateHelper, DsNgbTriggerEvent, FormatDurationPipe , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { LegsDetails } from './models/legs-details.config';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 /**
  * JourneyLegsInformation Component
@@ -42,6 +43,8 @@ export class LegsDetailsComponent implements OnInit {
   public popoverConfig!: PopoverConfig;
 
   protected readonly translateService = inject(TranslateService);
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
   private readonly cdr = inject(ChangeDetectorRef);
 
   public ngOnInit(): void {
@@ -52,7 +55,7 @@ export class LegsDetailsComponent implements OnInit {
   private setPopoverConfig(): void {
     const defaultConfig: PopoverConfig = {
       popoverHeaderConfig: {
-        title: this.translateService.instant('Schedule.Connection_Title'),
+        title: this.translateService.instant(TranslationKeys.Schedule_Connection_Title),
       },
       placement: 'bottom',
       customClass: 'popover-journey-details',

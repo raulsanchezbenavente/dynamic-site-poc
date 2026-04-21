@@ -1,16 +1,16 @@
 @let configData = config();
 
 <h3 class="summary-cart-itinerary_title">
-    {{ (isOutbound ? 'Schedule.DepartureLabel' : 'Schedule.ReturnLabel') | translate }}
+    {{ (isOutbound ? translationKeys.Schedule_DepartureLabel : translationKeys.Schedule_ReturnLabel) | translate }}
 </h3>
 
 <div class="summary-cart-itinerary_header">
     <div class="journey-header">
         <icon [config]="{ name: isOutbound ? 'flight-takeoff' : 'flight-takeoff-return' }"></icon>
         <span class="journey-header_stations">
-            {{ 'City.' + configData.journey.origin.iata | translate }}
-            {{ 'Common.To' | translate }}
-            {{ 'City.' + configData.journey.destination.iata | translate }}
+            {{ translationKeys.City_KeyNode + configData.journey.origin.iata | translate }}
+            {{ commonTranslationKeys.Common_To | translate }}
+            {{ translationKeys.City_KeyNode + configData.journey.destination.iata | translate }}
         </span>
     </div>
 </div>
@@ -20,7 +20,7 @@
         <date-display [config]="dateConfig" />
     </div>
     <div class="summary-cart-itinerary_fare">
-        <span class="hide-visually">{{ 'Schedule.Fare' | translate }}</span>
+        <span class="hide-visually">{{ translationKeys.Schedule_Fare | translate }}</span>
         <tag [config]="fareTagConfig" />
     </div>
 </div>

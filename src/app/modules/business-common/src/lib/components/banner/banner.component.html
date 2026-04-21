@@ -20,7 +20,7 @@
             <span
                 class="hide-visually"
                 role="status">
-                {{ 'Banner.Slide' | translate }} {{ selectedSlideIndex + 1 }}
+                {{ translationKeys.Banner_Slide | translate }} {{ selectedSlideIndex + 1 }}
                 {{
                     filteredItems[selectedSlideIndex].content.title
                         ? filteredItems[selectedSlideIndex].content.title
@@ -52,9 +52,9 @@
             <span
                 aria-atomic="true"
                 class="hide-visually">
-                {{ 'Banner.BannerControls.BannerControls_PaginationCount_Item' | translate }}
+                {{ translationKeys.Banner_BannerControls_BannerControls_PaginationCount_Item | translate }}
                 {{ selectedSlideIndex + 1 }}
-                {{ 'Banner.BannerControls.BannerControls_PaginationCount_Of' | translate }}
+                {{ translationKeys.Banner_BannerControls_BannerControls_PaginationCount_Of | translate }}
                 {{ filteredItems.length }}
             </span>
         </div>

@@ -6,63 +6,60 @@
 // STYLES
 // -------
 ::ng-deep :root {
-  --journey-overview-card-layout-breakpoint: #{$bp-tablet-portrait};
+    --journey-overview-card-layout-breakpoint: #{$bp-tablet-portrait};
 }
 :host {
-  --icon-button-color: var(--c-link);
-  // CHECK ADRIANA
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
+    --icon-button-color: var(--c-link);
+
+    display: block;
 }
 .loyalty-overview-card-inner {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: $spacer-x-large;
-  padding: var(--loyalty-overview-card-padding, $pad-x-medium);
-  border-radius: 0 0 var(--#{$ds}border-radius-lg) var(--#{$ds}border-radius-lg);
-  background: var(
-    --loyalty-overview-tier-gradient,
-    linear-gradient(0deg, $c-lifemiles-tier-1 0%, $c-lifemiles-tier-1-dark 100%)
-  );
-  box-sizing: border-box;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+    padding: var(--loyalty-overview-card-padding, $pad-x-medium);
+    border-radius: 0 0 var(--#{$ds}border-radius-lg) var(--#{$ds}border-radius-lg);
+    background: var(
+        --loyalty-overview-tier-gradient,
+        linear-gradient(0deg, $c-lifemiles-tier-1 0%, $c-lifemiles-tier-1-dark 100%)
+    );
+    box-sizing: border-box;
 }
 
 // Responsive
 @media #{$tablet-portrait} {
-  :host {
-    --loyalty-overview-card-padding: #{$pad-x-large};
-    --loyalty-overview-card-greeting-fontsize: var(--f-size-x-x-large);
+    :host {
+        --loyalty-overview-card-padding: #{$pad-x-large};
+        --loyalty-overview-card-greeting-fontsize: var(--f-size-x-x-large);
 
-    // tier
-    --loyalty-overview-card-tier-gap: #{$spacer-small};
-    --loyalty-overview-card-tier-fontsize: var(--f-size-x-x-large);
-    --loyalty-overview-card-tier-logo-fontsize: var(--f-size-large);
+        // tier
+        --loyalty-overview-card-tier-gap: #{$spacer-small};
+        --loyalty-overview-card-tier-fontsize: var(--f-size-x-x-large);
+        --loyalty-overview-card-tier-logo-fontsize: var(--f-size-large);
 
-    // info
-    --loyalty-overview-card-info-padding: #{$spacer-small} #{$spacer-x-large};
-    --loyalty-overview-card-item-expiration-date-padding: #{$spacer-x-x-large};
-    --loyalty-overview-card-info-gap: #{$spacer-x-x-large};
-  }
-  .loyalty-overview-card-inner {
-    border-radius: var(--#{$ds}border-radius-lg);
-  }
+        // info
+        --loyalty-overview-card-info-padding: #{$spacer-small} #{$spacer-x-large};
+        --loyalty-overview-card-item-expiration-date-padding: #{$spacer-x-x-large};
+        --loyalty-overview-card-info-gap: #{$spacer-x-x-large};
+    }
+    .loyalty-overview-card-inner {
+        border-radius: var(--#{$ds}border-radius-lg);
+    }
 
-  .container-fluid :host-context {
-    @include container-wrap;
+    .container-fluid :host-context {
+        @include container-wrap;
 
-    margin-top: #{cmsGridVars.$gl-margin-top};
-  }
+        margin-top: #{cmsGridVars.$gl-margin-top};
+    }
 }
 
 @media #{$desktop} {
-  :host {
-    --loyalty-overview-card-padding: #{$pad-x-x-large};
-    --loyalty-overview-card-tier-fontsize: var(--f-size-huge);
-    --loyalty-overview-card-tier-logo-fontsize: var(--f-size-x-x-large);
-    --loyalty-overview-card-info-item-value-fontsize: var(--f-size-x-x-large);
-    --loyalty-overview-card-greeting-fontsize: var(--f-size-huge);
-  }
+    :host {
+        --loyalty-overview-card-padding: #{$pad-x-x-large};
+        --loyalty-overview-card-tier-fontsize: var(--f-size-huge);
+        --loyalty-overview-card-tier-logo-fontsize: var(--f-size-x-x-large);
+        --loyalty-overview-card-info-item-value-fontsize: var(--f-size-x-x-large);
+        --loyalty-overview-card-greeting-fontsize: var(--f-size-huge);
+    }
 }

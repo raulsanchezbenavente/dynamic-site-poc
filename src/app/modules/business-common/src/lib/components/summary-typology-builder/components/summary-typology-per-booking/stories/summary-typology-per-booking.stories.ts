@@ -1,13 +1,19 @@
+import {
+  PriceBreakdownComponent,
+  PriceBreakdownHeaderComponent,
+  PriceBreakdownItemComponent,
+  PriceBreakdownItemsComponent,
+  PriceCurrencyComponent,
+} from '@dcx/storybook/design-system';
+import { PaxTypeCode, SummaryTypologyTemplate } from '@dcx/ui/libs';
 import { JOURNEYS_FAKE } from '@dcx/ui/mock-repository';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
-import { SUMMARY_CART_TRANSLATIONS_BC } from '../../../../../../stories/mocks/translations/summary-cart-translations-bc.fake';
 import { STORYBOOK_PROVIDERS } from '../../../../../providers/storybook.providers';
 import { PassengerTypesComponent } from '../../../../passenger-types';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 import { SummaryTypologyPerBookingComponent } from '../summary-typology-per-booking.component';
-import { PriceBreakdownItemComponent, PriceBreakdownItemsComponent, PriceBreakdownHeaderComponent, PriceCurrencyComponent, PriceBreakdownComponent } from '@dcx/storybook/design-system';
-import { SummaryTypologyTemplate, PaxTypeCode } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<SummaryTypologyPerBookingComponent> = {
@@ -57,8 +63,8 @@ const PRICE_BREAKDOWN_LIST = [
     subitems: [{ quantity: 2, code: 'code', price: 200, currency: 'COP' }],
   },
   { item: { quantity: 2, code: 'SCUB', price: 1440, currency: 'EUR' }, subitems: [] },
-  { item: { quantity: 1, code: 'WUDP.s', price: 340, currency: 'EUR' }, subitems: [] },
-  { item: { quantity: 1, code: 'ZQAD.s', price: 40, currency: 'EUR' }, subitems: [] },
+  { item: { quantity: 1, code: TranslationKeys.WUDP_s, price: 340, currency: 'EUR' }, subitems: [] },
+  { item: { quantity: 1, code: TranslationKeys.ZQAD_s, price: 40, currency: 'EUR' }, subitems: [] },
 ];
 
 export const DEFAULT: Story = {
@@ -68,9 +74,6 @@ export const DEFAULT: Story = {
       showInfoForSelectedFlight: false,
       voucherMask: 'Voucher',
       useTypologyItem: true,
-      translations: {
-        ...SUMMARY_CART_TRANSLATIONS_BC,
-      },
       showPaxGroup: true,
       useStaticDetails: true,
       isCollapsible: true,

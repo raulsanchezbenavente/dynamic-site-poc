@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject, input, OnInit, output } from '@angular/core';
 import { DsButtonComponent, TagConfig } from '@dcx/ui/design-system';
-import { ButtonConfig, ButtonStyles, JourneyVM, SummaryTotalConfig, SummaryTotalData } from '@dcx/ui/libs';
+import { ButtonConfig, ButtonStyles, JourneyVM, SummaryTotalConfig, SummaryTotalData , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { SummaryTotalComponent } from '../../../summary-total/summary-total.component';
@@ -70,14 +70,14 @@ export class SummaryCartDetailComponent implements OnInit {
   // --- Translation-driven setters (idempotent) ---
   protected setCloseButtonConfig(): void {
     this.closeButtonConfig = {
-      label: this.translate.instant('Common.Close'),
+      label: this.translate.instant(CommonTranslationKeys.Common_Close),
       layout: { style: ButtonStyles.LINK },
     };
   }
 
   protected setSummaryTotalConfig(): void {
     this.summaryTotalConfig = {
-      label: this.translate.instant('Common.Total'),
+      label: this.translate.instant(CommonTranslationKeys.Common_Total),
     } as SummaryTotalConfig;
   }
 

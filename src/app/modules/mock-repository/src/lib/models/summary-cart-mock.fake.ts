@@ -9,8 +9,6 @@ import {
   TransportType,
 } from '@dcx/ui/libs';
 
-import { SUMMARY_CART_TRANSLATIONS } from '../translations/summary-cart-translations.fake';
-
 export const SUMMARY_CART_FAKE: SummaryCartConfig = {
   toggleButton: {
     label: '',
@@ -456,9 +454,6 @@ export const SUMMARY_CART_FAKE: SummaryCartConfig = {
       displayPriceItemConcepts: true,
       summaryScopeView: SummaryTypologyTemplate.PER_BOOKING,
       booking: {} as Booking,
-      translations: {
-        ...SUMMARY_CART_TRANSLATIONS,
-      },
     },
   },
 };

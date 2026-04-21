@@ -5,6 +5,8 @@ import { moduleMetadata } from '@storybook/angular';
 import { JOURNEYS_BC_FAKE } from '../../../../stories/mocks';
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import { JourneySelectionComponent } from '../journey-selection.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<JourneySelectionComponent> = {
@@ -21,26 +23,26 @@ const META: Meta<JourneySelectionComponent> = {
     i18n: {
       api: false,
       mock: {
-        'City.BOG': 'Bogotá (mock)',
+        [TranslationKeys.City_BOG]: 'Bogotá (mock)',
 
-        'Schedule.Fares.Title_Vertical': 'Elige cómo quieres volar',
-        'Schedule.Stop': 'stop (mock)',
-        'Schedule.Stops': 'stops (mock)',
-        'Schedule.Connection_StopLabel': 'connection stop (mock)',
-        'Schedule.ExtraDay.Days_Label': 'day (mock)',
-        'Fare.Chargeable_IconLabel': 'Tiene costo adicional',
-        'Fare.NotIncluded_IconLabel': 'No incluido (mock)',
-        'Fare.Included_IconLabel': 'Incluido (mock)',
+        [TranslationKeys.Schedule_Fares_Title_Vertical]: 'Elige cómo quieres volar',
+        [TranslationKeys.Schedule_Stop]: 'stop (mock)',
+        [TranslationKeys.Schedule_Stops]: 'stops (mock)',
+        [TranslationKeys.Schedule_Connection_StopLabel]: 'connection stop (mock)',
+        [TranslationKeys.Schedule_ExtraDay_Days_Label]: 'day (mock)',
+        [TranslationKeys.Fare_Chargeable_IconLabel]: 'Tiene costo adicional',
+        [TranslationKeys.Fare_NotIncluded_IconLabel]: 'No incluido (mock)',
+        [TranslationKeys.Fare_Included_IconLabel]: 'Incluido (mock)',
 
-        'Common.ShortLabel_Hours': 'h (mock)',
-        'Common.From': 'From (mock)',
-        'Common.Select_FareTypeName_BASIC': 'Basic (mock)',
-        'Common.Select_FareType_Subtitle_BASIC': 'The Basic essentials (mock)',
-        'Common.Select_FareTypeName_CLASSIC': 'Classic (mock)',
-        'Common.Select_FareType_Subtitle_CLASSIC': 'The Classic essentials (mock)',
-        'Common.Select_FareTypeName_FLEX': 'Flexible (mock)',
-        'Common.Select_FareType_Subtitle_FLEX': 'The Flex essentials (mock)',
-        'Common.Select_RecommendedBadge_Text': 'Recommended (mock)',
+        [CommonTranslationKeys.Common_ShortLabel_Hours]: 'h (mock)',
+        [CommonTranslationKeys.Common_From]: 'From (mock)',
+        [CommonTranslationKeys.Common_Select_FareTypeName_BASIC]: 'Basic (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_BASIC]: 'The Basic essentials (mock)',
+        [CommonTranslationKeys.Common_Select_FareTypeName_CLASSIC]: 'Classic (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_CLASSIC]: 'The Classic essentials (mock)',
+        [CommonTranslationKeys.Common_Select_FareTypeName_FLEX]: 'Flexible (mock)',
+        [CommonTranslationKeys.Common_Select_FareType_Subtitle_FLEX]: 'The Flex essentials (mock)',
+        [CommonTranslationKeys.Common_Select_RecommendedBadge_Text]: 'Recommended (mock)',
       },
     },
   },

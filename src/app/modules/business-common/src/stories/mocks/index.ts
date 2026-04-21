@@ -13,5 +13,3 @@ export * from './booking-fake/segments-bc.fake';
 export * from './booking-fake/service-bc.fake';
 export * from './booking-fake/transport-bc.fake';
 export * from './summary-cart-bc.fake';
-export * from './translations/common-translations-bc.fake';
-export * from './translations/summary-cart-translations-bc.fake';

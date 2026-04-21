@@ -4,6 +4,7 @@ import { DictionaryType } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { AddWalletButtonConfig } from './models/add-wallet-button.config';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 @Component({
   selector: 'add-wallet-button',
@@ -16,6 +17,8 @@ import { AddWalletButtonConfig } from './models/add-wallet-button.config';
   standalone: true,
 })
 export class AddWalletButtonComponent {
+  protected readonly translationKeys = TranslationKeys;
+
   // inputs
   public config = input.required<AddWalletButtonConfig>();
 

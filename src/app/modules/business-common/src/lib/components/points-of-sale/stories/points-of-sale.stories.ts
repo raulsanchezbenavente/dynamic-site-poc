@@ -8,6 +8,7 @@ import type { PointsOfSaleData } from '../models/points-of-sale-data.model';
 import { PointsOfSaleComponent } from '../points-of-sale.component';
 
 import { DATA_INITIAL_VALUE } from './mocks/data-inital-value.fake';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 const createDataSignal = (initialData: PointsOfSaleData = DATA_INITIAL_VALUE): WritableSignal<PointsOfSaleData> =>
   signal(structuredClone(initialData));
@@ -28,12 +29,12 @@ const META: Meta<PointsOfSaleComponent> = {
     i18n: {
       api: false,
       mock: {
-        'Country.US': 'United States',
-        'Country.CO': 'Colombia',
-        'Country.ES': 'España',
-        'Country.GB': 'United Kingdom',
-        'Country.PE': 'Perú',
-        'PointsOfSale.Button_Apply_Label': 'Apply',
+        [TranslationKeys.Country_US]: 'United States',
+        [TranslationKeys.Country_CO]: 'Colombia',
+        [TranslationKeys.Country_ES]: 'España',
+        [TranslationKeys.Country_GB]: 'United Kingdom',
+        [TranslationKeys.Country_PE]: 'Perú',
+        [TranslationKeys.PointsOfSale_Button_Apply_Label]: 'Apply',
       },
     },
   },

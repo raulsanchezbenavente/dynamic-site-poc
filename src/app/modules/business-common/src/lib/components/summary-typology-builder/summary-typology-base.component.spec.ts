@@ -214,7 +214,6 @@ describe('SummaryTypologyBaseComponent', () => {
     servicesCodesToMerge: [],
     excludeChargesCode: [],
     useTypologyItem: true,
-    translations: {},
     displayPriceItemConcepts: false,
     bookingSellTypeServices: [],
     summaryScopeView: SummaryTypologyTemplate.PER_PAX,
@@ -273,7 +272,7 @@ describe('SummaryTypologyBaseComponent', () => {
     it('should set config and load summary typology vm', () => {
       component.summaryTypologyConfig = mockConfig;
       const newConfig = { ...mockConfig, isCollapsible: false };
-      
+
       component.summaryTypologyConfig = newConfig;
 
       expect(component.summaryConfig).toEqual(newConfig);
@@ -282,7 +281,7 @@ describe('SummaryTypologyBaseComponent', () => {
 
     it('should call loadSummaryTypologyVm', () => {
       const loadSpy = spyOn(component, 'loadSummaryTypologyVm');
-      
+
       component.summaryTypologyConfig = mockConfig;
 
       expect(loadSpy).toHaveBeenCalled();
@@ -290,7 +289,7 @@ describe('SummaryTypologyBaseComponent', () => {
 
     it('should initialize price breakdown model', () => {
       spyOn<any>(component, 'initPriceBreakdownModel').and.returnValue({} as any);
-      
+
       component.summaryTypologyConfig = mockConfig;
 
       expect(component['initPriceBreakdownModel']).toHaveBeenCalled();
@@ -369,7 +368,6 @@ describe('SummaryTypologyBaseComponent', () => {
         servicesCodesToMerge: [],
         excludeChargesCode: [],
         useTypologyItem: true,
-        translations: {},
         displayPriceItemConcepts: false,
         bookingSellTypeServices: [],
         summaryScopeView: SummaryTypologyTemplate.PER_PAX,
@@ -383,7 +381,7 @@ describe('SummaryTypologyBaseComponent', () => {
       expect(component.booking).toBeDefined();
       expect(component.booking.pax).toBeDefined();
       expect(component.booking.pax.length).toBe(3);
-      
+
       const result = component.initPassengerTypesModel();
 
       expect(result.config).toBeDefined();
@@ -397,20 +395,20 @@ describe('SummaryTypologyBaseComponent', () => {
       expect(component.booking).toBeDefined();
       expect(component.booking.pax).toBeDefined();
       expect(component.booking.pax.length).toBe(3);
-      
+
       // Log pax types for debugging
       const paxTypes = component.booking.pax.map(p => p.type.code);
       console.log('Pax types in booking:', paxTypes);
       console.log('PaxTypeCode.ADT value:', PaxTypeCode.ADT);
       console.log('Object.values(PaxTypeCode):', Object.values(PaxTypeCode));
-      
+
       const result = component.initPassengerTypesModel();
-      
+
       // Debug output
       if (result.config.length === 0) {
         fail(`result.config is empty. Booking defined: ${!!component.booking}, Pax count: ${component.booking?.pax?.length}, showInfoForSelectedFlight: ${component.summaryConfig.showInfoForSelectedFlight}`);
       }
-      
+
       const adultConfig = result.config.find((c) => c.code === PaxTypeCode.ADT);
 
       if (!adultConfig) {
@@ -424,7 +422,7 @@ describe('SummaryTypologyBaseComponent', () => {
 
     it('should count children correctly', () => {
       expect(component.booking).toBeDefined();
-      
+
       const result = component.initPassengerTypesModel();
       const childConfig = result.config.find((c) => c.code === PaxTypeCode.CHD);
 
@@ -439,7 +437,7 @@ describe('SummaryTypologyBaseComponent', () => {
 
     it('should count infants correctly', () => {
       expect(component.booking).toBeDefined();
-      
+
       const result = component.initPassengerTypesModel();
       const infantConfig = result.config.find((c) => c.code === PaxTypeCode.INF);
 
@@ -612,7 +610,7 @@ describe('SummaryTypologyBaseComponent', () => {
       const servicesVm = component.summaryTypologyVm.find(
         (vm) => vm.modelType === SummaryTypologyDataVmModelType.SERVICES
       );
-      
+
       expect(servicesVm?.records?.every((r) => r.serviceType !== undefined)).toBe(true);
     });
 
@@ -672,7 +670,7 @@ describe('SummaryTypologyBaseComponent', () => {
     it('should cache result on subsequent calls', () => {
       // Reset cache for initial call
       component['summaryTypologyPerRoute'] = undefined!;
-      
+
       component.getSummaryTypologyByRoute();
       summaryTypologyBaseService.buildSummaryTypologyDataPerRouteVm.calls.reset();
 
@@ -684,7 +682,7 @@ describe('SummaryTypologyBaseComponent', () => {
     it('should return summary typology per route', () => {
       // Reset cache to get fresh result
       component['summaryTypologyPerRoute'] = undefined!;
-      
+
       const result = component.getSummaryTypologyByRoute();
 
       expect(result).toEqual(mockSummaryTypologyDataVm);

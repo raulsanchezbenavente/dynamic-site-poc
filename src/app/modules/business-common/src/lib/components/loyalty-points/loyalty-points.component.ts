@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { LoyaltyPoints } from './models/loyalty-points.model';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'loyalty-points',
@@ -19,6 +20,6 @@ export class LoyaltyPointsComponent implements OnInit {
   }
 
   protected internalInit(): void {
-    this.loyaltyPointsModel.label ??= 'Loyalty.PointsUnit.Text';
+    this.loyaltyPointsModel.label ??= TranslationKeys.Loyalty_PointsUnit_Text;
   }
 }

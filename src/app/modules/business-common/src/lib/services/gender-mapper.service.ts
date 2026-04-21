@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { AccountV2Models } from '@dcx/module/api-clients';
 import { TranslateService } from '@ngx-translate/core';
 import { RfListOption } from 'reactive-forms';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 @Injectable({ providedIn: 'root' })
 export class GenderMapperService {
@@ -22,7 +23,7 @@ export class GenderMapperService {
 
     return genderOptions.map((option) => ({
       ...option,
-      content: this.translateService.instant(`Common.${option.value}`),
+      content: this.translateService.instant(`${CommonTranslationKeys.Common_KeyNode}${option.value}`),
     }));
   }
 }

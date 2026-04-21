@@ -11,6 +11,7 @@ import {
   SummaryTypologyBuilderConfig,
   SummaryTypologyDataVm,
   SummaryTypologyRecord,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -148,10 +149,10 @@ export class SummaryTypologyBaseComponent implements OnInit {
   public loadSummaryTypologyVm(): void {
     this.summaryTypologyVm = this.summaryTypologyBaseService.buildSummaryTypologyDataVm({
       booking: this.booking,
-      departureLabel: this.translate.instant('Common.Departure'),
-      returnLabel: this.translate.instant('Common.Return'),
-      servicesLabel: this.translate.instant('Common.Services'),
-      taxesLabel: this.translate.instant('Common.Taxes'),
+      departureLabel: this.translate.instant(CommonTranslationKeys.Common_Departure),
+      returnLabel: this.translate.instant(CommonTranslationKeys.Common_Return),
+      servicesLabel: this.translate.instant(CommonTranslationKeys.Common_Services),
+      taxesLabel: this.translate.instant(CommonTranslationKeys.Common_Taxes),
       scheduleSelection: this.summaryConfig.scheduleSelection!,
       servicesCodesToMerge: this.summaryConfig.servicesCodesToMerge ?? [],
       excludeChargesCode: this.summaryConfig.excludeChargesCode ?? [],
@@ -222,10 +223,10 @@ export class SummaryTypologyBaseComponent implements OnInit {
 
     this.summaryTypologyPerRoute = this.summaryTypologyBaseService.buildSummaryTypologyDataPerRouteVm({
       booking: this.booking,
-      departureLabel: this.translate.instant('Common.Departure'),
-      returnLabel: this.translate.instant('Common.Return'),
-      servicesLabel: this.translate.instant('Common.Services'),
-      taxesLabel: this.translate.instant('Common.Taxes'),
+      departureLabel: this.translate.instant(CommonTranslationKeys.Common_Departure),
+      returnLabel: this.translate.instant(CommonTranslationKeys.Common_Return),
+      servicesLabel: this.translate.instant(CommonTranslationKeys.Common_Services),
+      taxesLabel: this.translate.instant(CommonTranslationKeys.Common_Taxes),
       scheduleSelection: this.summaryConfig.scheduleSelection!,
       servicesCodesToMerge: this.summaryConfig.servicesCodesToMerge ?? [],
       excludeChargesCode: this.summaryConfig.excludeChargesCode ?? [],

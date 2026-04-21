@@ -14,11 +14,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { DsButtonComponent, PriceCurrencyComponent } from '@dcx/ui/design-system';
-import { ButtonConfig, ButtonStyles, LayoutSize, ViewportSizeService } from '@dcx/ui/libs';
+import { ButtonConfig, ButtonStyles, CommonTranslationKeys, LayoutSize, ViewportSizeService } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { AmountSummaryNavigationService } from '../../services';
 
+import { TranslationKeys } from './enums/translation-keys.enum';
 import { AmountSummaryVM } from './models/amount-summary-vm.model';
 
 @Component({
@@ -30,6 +31,8 @@ import { AmountSummaryVM } from './models/amount-summary-vm.model';
   standalone: true,
 })
 export class AmountSummaryComponent implements OnInit, AfterViewInit, OnDestroy {
+  protected readonly translationKeys = TranslationKeys;
+
   public readonly data = input.required<AmountSummaryVM>();
 
   @ViewChild('primaryButton') private readonly primaryButtonComponent?: DsButtonComponent;
@@ -45,14 +48,14 @@ export class AmountSummaryComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public isVisibleSecondaryButton = signal<boolean>(false);
   public primaryButtonConfig: ButtonConfig = {
-    label: this.translate.instant('Common.Confirm_Btn'),
+    label: this.translate.instant(CommonTranslationKeys.Common_Confirm_Btn),
     layout: {
       size: LayoutSize.MEDIUM,
       style: ButtonStyles.ACTION,
     },
   };
   public secondaryButtonConfig: ButtonConfig = {
-    label: this.translate.instant('Common.Cancel_Btn'),
+    label: this.translate.instant(CommonTranslationKeys.Common_Cancel_Btn),
     layout: {
       size: LayoutSize.MEDIUM,
       style: ButtonStyles.SECONDARY,
@@ -60,12 +63,12 @@ export class AmountSummaryComponent implements OnInit, AfterViewInit, OnDestroy 
   };
 
   public previousButtonConfig: ButtonConfig = {
-    label: this.translate.instant('Common.Previous_Btn'),
+    label: this.translate.instant(CommonTranslationKeys.Common_Previous_Btn),
     layout: { size: LayoutSize.MEDIUM, style: ButtonStyles.SECONDARY },
   };
 
   public nextButtonConfig: ButtonConfig = {
-    label: this.translate.instant('Common.Next_Btn'),
+    label: this.translate.instant(CommonTranslationKeys.Common_Next_Btn),
     layout: { size: LayoutSize.MEDIUM, style: ButtonStyles.ACTION },
   };
 

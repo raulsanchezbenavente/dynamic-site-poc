@@ -31,10 +31,12 @@ import {
   RedirectionService,
   ViewportSizeService,
   WindowHelper,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { PointsOfSaleData } from './models/points-of-sale-data.model';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'points-of-sale',
@@ -72,6 +74,8 @@ export class PointsOfSaleComponent implements OnDestroy {
   private readonly logoPath = '/assets/ui_plus/imgs/logos/avianca-logo.svg';
 
   protected readonly translate = inject(TranslateService);
+  protected readonly translationKeys = TranslationKeys;
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
 
   protected pointOfSaleToUpdate!: PointOfSaleVm;
 
@@ -173,7 +177,7 @@ export class PointsOfSaleComponent implements OnDestroy {
     const resolvedHomeUrl = this.businessConfig.homeUrl ?? this.businessConfig.urlHome ?? '/';
     this.offCanvasConfig = {
       offCanvasHeaderConfig: {
-        title: this.translate.instant('Common.LogoAltText'),
+        title: this.translate.instant(CommonTranslationKeys.Common_LogoAltText),
         imageSrc: this.logoPath,
         imageLink: { url: resolvedHomeUrl },
       },
@@ -186,7 +190,7 @@ export class PointsOfSaleComponent implements OnDestroy {
 
   protected setActionButtonConfig(): void {
     this.actionButtonConfig = {
-      label: this.translate.instant('PointsOfSale.Button_Apply_Label'),
+      label: this.translate.instant(TranslationKeys.PointsOfSale_Button_Apply_Label),
     };
   }
 
@@ -259,9 +263,9 @@ export class PointsOfSaleComponent implements OnDestroy {
       return pointOfSale.name;
     }
     if (this.isSingleCountry(pointOfSale)) {
-      return this.translate.instant('Country.' + pointOfSale.countryCode);
+      return this.translate.instant(TranslationKeys.Country_KeyNode + pointOfSale.countryCode);
     }
-    return this.translate.instant('PointsOfSale.Other_Country_Text');
+    return this.translate.instant(TranslationKeys.PointsOfSale_Other_Country_Text);
   }
 
   private getImage(pointOfSale: PointOfSale): string {

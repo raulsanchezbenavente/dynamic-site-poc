@@ -3,7 +3,7 @@ import { OffCanvasBodyDirective, OffCanvasComponent, OffCanvasConfig } from '@dc
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { BoardingPassPreviewComponent } from '../boarding-pass-preview/boarding-pass-preview.component';
-import { translationKeys } from '../translations/translation-keys';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 import { BoardingPassOffCanvasData } from './models/boarding-pass-off-canvas-data.model';
 
@@ -39,7 +39,7 @@ export class BoardingPassOffCanvasComponent implements OnInit {
   private setOffCanvasConfig(): void {
     this.offCanvasConfig = {
       offCanvasHeaderConfig: {
-        title: this.translate.instant(translationKeys.BoardingPassTitle),
+        title: this.translate.instant(TranslationKeys.BoardingPass_Title),
       },
       panelClass: 'boarding-pass-off-canvas',
     };

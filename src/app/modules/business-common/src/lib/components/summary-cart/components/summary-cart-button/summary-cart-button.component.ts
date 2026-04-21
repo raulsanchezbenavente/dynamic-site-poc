@@ -14,6 +14,7 @@ import { DsButtonComponent, PriceCurrencyComponent } from '@dcx/storybook/design
 import { TranslateService } from '@ngx-translate/core';
 
 import { SummaryCartButtonConfig } from './models/summary-cart-button.config';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 /**
  * SummaryCart wrapper for <ds-button>.
@@ -40,7 +41,7 @@ export class SummaryCartButtonComponent implements AfterViewChecked {
   private readonly translate = inject(TranslateService);
 
   public readonly summaryA11yTitleText = computed(() => {
-    return this.translate.instant('Basket.Book_Summary_Title');
+    return this.translate.instant(TranslationKeys.Basket_Book_Summary_Title);
   });
 
   constructor(

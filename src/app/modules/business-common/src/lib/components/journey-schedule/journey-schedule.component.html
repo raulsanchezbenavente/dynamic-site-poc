@@ -8,24 +8,24 @@
                 [attr.id]="'scheduleTitleId_' + journeyData.id">
                 <span class="hide-visually text-space-gap">
                     @if (isReturnType()) {
-                        {{ 'Common.Return' | translate }}:
+                        {{ commonTranslationKeys.Common_Return | translate }}:
                     } @else {
-                        {{ 'Common.Departure' | translate }}:
+                        {{ commonTranslationKeys.Common_Departure | translate }}:
                     }
                 </span>
-                {{ 'City.' + journeyData.origin.iata | translate }}
+                {{ translationKeys.City_KeyNode + journeyData.origin.iata | translate }}
 
-                {{ 'Common.To' | translate }}
+                {{ commonTranslationKeys.Common_To | translate }}
 
                 @if (
                     journeyData.status === journeyStatus.DIVERTED &&
                     journeyData.destination.iata !== journeyData.destination.iataOperation
                 ) {
-                    {{ 'City.' + journeyData.destination.iata | translate }}
-                    ({{ 'Common.Rerouted_Label' | translate }}
-                    {{ 'City.' + journeyData.destination.iataOperation | translate }})
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iata | translate }}
+                    ({{ commonTranslationKeys.Common_Rerouted_Label | translate }}
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iataOperation | translate }})
                 } @else {
-                    {{ 'City.' + journeyData.destination.iata | translate }}
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iata | translate }}
                 }
             </div>
             @if (journeyDateConfig) {
@@ -37,7 +37,9 @@
     </div>
     @if (journeyData.status) {
         <div class="journey-schedule_header-status">
-            <span class="hide-visually text-space-gap">{{ 'Common.FlightStatus' | translate }}:</span>
+            <span class="hide-visually text-space-gap">
+                {{ commonTranslationKeys.Common_FlightStatus | translate }}:
+            </span>
             <journey-status-tag [status]="journeyData.status" />
         </div>
     }

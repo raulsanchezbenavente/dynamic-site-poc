@@ -1,9 +1,8 @@
 import { Component, Input, ViewEncapsulation } from '@angular/core';
-import { DictionaryType } from '@dcx/ui/libs';
 
+import { PriceBreakdownHeaderComponent } from './components/price-breakdown-header/price-breakdown-header.component';
+import { PriceBreakdownItemsComponent } from './components/price-breakdown-items/price-breakdown-items.component';
 import { PriceBreakdownVM } from './models/price-breakdown.config';
-import { PriceBreakdownHeaderComponent } from "./components/price-breakdown-header/price-breakdown-header.component";
-import { PriceBreakdownItemsComponent } from "./components/price-breakdown-items/price-breakdown-items.component";
 
 @Component({
   selector: 'price-breakdown',
@@ -11,10 +10,9 @@ import { PriceBreakdownItemsComponent } from "./components/price-breakdown-items
   styleUrls: ['./styles/price-breakdown.style.scss'],
   encapsulation: ViewEncapsulation.None,
   imports: [PriceBreakdownHeaderComponent, PriceBreakdownItemsComponent],
-    standalone: true
+  standalone: true,
 })
 export class PriceBreakdownComponent {
-  @Input({ required: true }) public translations!: DictionaryType;
   public ariaHiddenItems: boolean[];
   private _config!: PriceBreakdownVM;
 

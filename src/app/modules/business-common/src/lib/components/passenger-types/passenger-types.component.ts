@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PassengerTypesVM } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'passenger-types',
@@ -10,5 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
 })
 export class PassengerTypesComponent {
+  protected readonly translationKeys = TranslationKeys;
+
   @Input() public model!: PassengerTypesVM;
 }

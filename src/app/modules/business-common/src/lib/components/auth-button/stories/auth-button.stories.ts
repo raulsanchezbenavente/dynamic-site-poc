@@ -15,6 +15,7 @@ import { CustomerLoyaltyService } from '../../../services/loyalty/customer-loyal
 import { AuthButtonComponent } from '../auth-button.component';
 import { AuthButtonLayout } from '../enums/auth-button-layout.enum';
 import type { AuthButtonData } from '../models/auth-button-data.model';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 const mockCustomerAccount: CustomerAccount = {
   username: 'victormorenogomez',
@@ -132,9 +133,9 @@ const META: Meta<AuthButtonComponent> = {
     i18nModules: ['Auth', 'Loyalty'],
     i18n: {
       mock: {
-        'Auth.AuthButton.SignIn': 'Sign In',
-        'Loyalty.Lifemiles_Miles_Label': 'Miles',
-        'Loyalty.Lifemiles_Text': 'LifeMiles',
+        [TranslationKeys.Auth_AuthButton_SignIn]: 'Sign In',
+        [TranslationKeys.Loyalty_Lifemiles_Miles_Label]: 'Miles',
+        [TranslationKeys.Loyalty_Lifemiles_Text]: 'LifeMiles',
       },
     },
   },

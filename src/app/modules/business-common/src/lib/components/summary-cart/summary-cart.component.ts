@@ -39,6 +39,7 @@ import { SummaryCartConfig } from './models/summary-cart.config';
 import { BookingMapperService } from './services/booking-mapper.service';
 import { SharedSessionService } from './services/shared-session.service';
 import { SUMMARY_CART_BUILDER_SERVICE } from './tokens/injection-tokens';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'summary-cart',
@@ -163,7 +164,7 @@ export class SummaryCartComponent implements OnInit {
   private setOffCanvasConfig(): void {
     this.offCanvasConfig.set({
       offCanvasHeaderConfig: {
-        title: this.translate.instant('Basket.Book_Summary_Title'),
+        title: this.translate.instant(TranslationKeys.Basket_Book_Summary_Title),
       },
       panelClass: 'summary-cart-offcanvas',
     });

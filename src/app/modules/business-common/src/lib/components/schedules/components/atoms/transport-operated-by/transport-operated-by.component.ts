@@ -1,5 +1,5 @@
 import { Component, computed, inject, input } from '@angular/core';
-import { CultureServiceEx } from '@dcx/ui/libs';
+import { CultureServiceEx , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { TransportOperatedBy } from './models/transport-operated-by.model';
@@ -22,7 +22,7 @@ export class TransportOperatedByComponent {
 
   public readonly operatedByText = computed(() => {
     const carriers = this.data();
-    const operatedByLabel = this.translateService.instant('Common.Carriers.OperatedBy');
+    const operatedByLabel = this.translateService.instant(CommonTranslationKeys.Common_Carriers_OperatedBy);
 
     const locale = this.cultureService.getLanguageAndRegion();
 

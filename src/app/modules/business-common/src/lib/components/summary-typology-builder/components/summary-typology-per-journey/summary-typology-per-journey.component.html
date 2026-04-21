@@ -4,17 +4,14 @@
             <passenger-types [model]="passengerTypesModel" />
         </div>
     }
-    @if ('SummaryTypology.PerJourney_Title' | translate) {
+    @if (translationKeys.SummaryTypology_PerJourney_Title | translate) {
         <h2 class="summary-typology_title">
-            {{ 'SummaryTypology.PerJourney_Title' | translate }}
+            {{ translationKeys.SummaryTypology_PerJourney_Title | translate }}
         </h2>
     }
     <section
         class="summary-typology_price-breakdown"
         [class.summary-typology_price-breakdown--has-services-and-journeys]="hasServicesAndJourneys">
-        <price-breakdown
-            [model]="priceBreakdownModel"
-            [translations]="summaryConfig.translations">
-        </price-breakdown>
+        <price-breakdown [model]="priceBreakdownModel"> </price-breakdown>
     </section>
 }

@@ -2,15 +2,15 @@
 <popover [config]="popoverConfig">
     <span popoverTrigger>
         @if (data.model.stopsNumber === 0) {
-            {{ 'Schedule.Direct' | translate }}
+            {{ translationKeys.Schedule_Direct | translate }}
         }
         @if (data.model.stopsNumber > 1) {
-            {{ data.model.stopsNumber }} {{ 'Schedule.Stops' | translate }}
+            {{ data.model.stopsNumber }} {{ translationKeys.Schedule_Stops | translate }}
         }
         @if (data.model.stopsNumber === 1) {
-            {{ data.model.stopsNumber }} {{ 'Schedule.Stop' | translate }}
+            {{ data.model.stopsNumber }} {{ translationKeys.Schedule_Stop | translate }}
         }
-        <span class="hide-visually"> &nbsp;{{ 'Schedule.A11y_ViewFlightDetails' | translate }} </span>
+        <span class="hide-visually"> &nbsp;{{ translationKeys.Schedule_A11y_ViewFlightDetails | translate }} </span>
     </span>
     <div popoverContent>
         <div class="legs-details-inner">
@@ -18,12 +18,14 @@
                 @for (leg of data.model.legs; track leg; let index = $index) {
                     <div class="legs-details_group">
                         <div class="legs-details_item legs-details_item--journey">
-                            <span class="hide-visually"> {{ 'Common.Departure' | translate }}&nbsp; </span>
+                            <span class="hide-visually">
+                                {{ commonTranslationKeys.Common_Departure | translate }}&nbsp;
+                            </span>
                             <span class="time text-space-gap">
                                 {{ leg.std | date: 'HH:mm' }}
                             </span>
                             <span class="station text-space-gap">
-                                {{ 'City.' + leg.origin | translate }}
+                                {{ translationKeys.City_KeyNode + leg.origin | translate }}
                                 <span class="station-code text-space-gap">{{ leg.origin }}</span>
                             </span>
                         </div>
@@ -32,13 +34,13 @@
                             <div class="transport-info">
                                 <span class="time text-space-gap">
                                     <span class="hide-visually text-space-gap">
-                                        {{ 'Schedule.A11y_DurationPrefix' | translate }}
+                                        {{ translationKeys.Schedule_A11y_DurationPrefix | translate }}
                                     </span>
                                     {{ leg.duration | formatDuration }}
                                 </span>
                                 <span class="transport-number text-space-gap">
                                     <span class="hide-visually text-space-gap">
-                                        {{ 'Schedule.A11y_FlightNumber' | translate }}
+                                        {{ translationKeys.Schedule_A11y_FlightNumber | translate }}
                                     </span>
                                     {{ leg.transport.carrier.code }}{{ leg.transport.number }}
                                 </span>
@@ -48,27 +50,27 @@
                                         aria-hidden="true"></span>
                                     <span class="transport-model">
                                         <span class="hide-visually text-space-gap">
-                                            {{ 'Schedule.A11y_Aircraft' | translate }}
+                                            {{ translationKeys.Schedule_A11y_Aircraft | translate }}
                                         </span>
                                         {{ leg.transport.manufacturer }}{{ leg.transport.model }}
                                     </span>
                                 }
                             </div>
                             <div class="transport-operated-by">
-                                {{ 'Common.Carriers.OperatedBy' | translate }}
+                                {{ commonTranslationKeys.Common_Carriers_OperatedBy | translate }}
                                 {{ leg.transport.carrier.name }}
                             </div>
                         </div>
                         <!-- connections arrival -->
                         <div class="legs-details_item legs-details_item--journey">
                             <span class="hide-visually text-space-gap">
-                                {{ 'Common.Arrival' | translate }}
+                                {{ commonTranslationKeys.Common_Arrival | translate }}
                             </span>
                             <span class="time text-space-gap">
                                 {{ leg.sta | date: 'HH:mm' }}
                             </span>
                             <span class="station text-space-gap">
-                                {{ 'City.' + leg.destination | translate }}
+                                {{ translationKeys.City_KeyNode + leg.destination | translate }}
                                 <span class="station-code">{{ leg.destination }}</span>
                             </span>
                         </div>
@@ -77,12 +79,12 @@
                     @if (stopOvers[index] && data.showStopoverInfo) {
                         <div class="legs-details_stop">
                             <span class="legs-details_stop_label">
-                                {{ 'Schedule.Connection_StopLabel' | translate }}
+                                {{ translationKeys.Schedule_Connection_StopLabel | translate }}
                             </span>
                             <span class="legs-details_stop_station">
                                 <span class="legs-details_stop_station">
                                     <span class="legs-details_stop_station-name">
-                                        {{ 'City.' + leg.destination | translate }}
+                                        {{ translationKeys.City_KeyNode + leg.destination | translate }}
                                         <span class="legs-details_stop_station-code">({{ leg.destination }})</span>
                                     </span>
                                     @if (stopDurations[index]) {
@@ -101,7 +103,7 @@
             @if (showTotalDuration) {
                 <div class="legs-details_total">
                     <span class="legs-details_total_label text-space-gap">
-                        {{ 'Schedule.Total_TravelTime' | translate }}
+                        {{ translationKeys.Schedule_Total_TravelTime | translate }}
                     </span>
                     <span class="legs-details_total_time text-space-gap">
                         {{ data.model.duration | formatDuration }}

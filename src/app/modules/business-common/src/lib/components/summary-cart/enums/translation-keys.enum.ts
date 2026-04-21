@@ -1,0 +1,16 @@
+export enum TranslationKeys {
+  Basket_Book_Summary_Title = 'Basket.Book_Summary_Title',
+  Basket_CurrencyConvert = 'Basket.CurrencyConvert',
+  Basket_CurrencyConvertError = 'Basket.CurrencyConvertError',
+  Basket_ExchangeTotal = 'Basket.ExchangeTotal',
+  City_KeyNode = 'City.',
+  PassengerTypes_Plural_TNG = 'PassengerTypes.Plural_TNG',
+  Schedule_ArrivalTime_Label = 'Schedule.ArrivalTime_Label',
+  Schedule_DepartureLabel = 'Schedule.DepartureLabel',
+  Schedule_DepartureTime_Label = 'Schedule.DepartureTime_Label',
+  Schedule_ExtraDay_Days_Label = 'Schedule.ExtraDay.Days_Label',
+  Schedule_Fare = 'Schedule.Fare',
+  Schedule_ReturnLabel = 'Schedule.ReturnLabel',
+  Schedule_Total_TravelTime = 'Schedule.Total_TravelTime',
+  SummaryTypology_PerBooking_Header_Title = 'SummaryTypology.PerBooking.Header_Title',
+}

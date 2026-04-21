@@ -5,6 +5,7 @@ import { applicationConfig, moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../../../../providers/storybook.providers';
 import { LegsDetailsComponent } from '../legs-details.component';
+import { TranslationKeys } from '../../../../enums/translation-keys.enum';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<LegsDetailsComponent> = {
@@ -20,9 +21,9 @@ const META: Meta<LegsDetailsComponent> = {
     i18nModules: ['Common', 'City', 'Schedule'],
     i18n: {
       mock: {
-        'Schedule.Stop': 'stop (mock)',
-        'Schedule.Stops': 'stops (mock)',
-        'Schedule.Connection_Title': 'Detalles del vuelo (mock)',
+        [TranslationKeys.Schedule_Stop]: 'stop (mock)',
+        [TranslationKeys.Schedule_Stops]: 'stops (mock)',
+        [TranslationKeys.Schedule_Connection_Title]: 'Detalles del vuelo (mock)',
       },
     },
   },

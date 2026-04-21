@@ -14,6 +14,7 @@ import { CarrierNumbersComponent } from '../../../../schedules/components/atoms/
 import { LegsDetailsComponent } from '../../../../schedules/components/atoms/legs-details/legs-details.component';
 import { ScheduleExtraDayComponent } from '../../../../schedules/components/atoms/schedule-extra-day/schedule-extra-day.component';
 import { ScheduleGraphicLineComponent } from '../../../../schedules/components/atoms/schedule-graphic-line/schedule-graphic-line.component';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 @Component({
   selector: 'summary-cart-schedule',
@@ -45,6 +46,7 @@ export class SummaryCartScheduleComponent implements OnChanges {
   public arrivalTime!: ScheduleTimeComparison;
 
   protected readonly translate = inject(TranslateService);
+  protected readonly translationKeys = TranslationKeys;
   private readonly scheduleService = inject(ScheduleService);
 
   public get carriersDisplayModeResolved(): CarriersDisplayMode {

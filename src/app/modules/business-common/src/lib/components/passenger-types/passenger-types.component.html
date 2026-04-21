@@ -9,8 +9,8 @@
                     <span class="passenger-types_list_item_label">
                         {{
                             type.quantity > 1
-                                ? ('PassengerTypes.Plural_' + type.code | translate)
-                                : ('PassengerTypes.' + type.code | translate)
+                                ? (translationKeys.PassengerTypes_Plural_KeyNode + type.code | translate)
+                                : (translationKeys.PassengerTypes_KeyNode + type.code | translate)
                         }}
                     </span>
                 </li>

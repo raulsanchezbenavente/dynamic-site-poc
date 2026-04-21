@@ -1,6 +1,6 @@
 <div
     class="boarding-pass_tabs"
-    [attr.aria-label]="translateKeys.BoardingPassTabsAriaLabel | translate">
+    [attr.aria-label]="translationKeys.BoardingPass_Tabs_AriaLabel | translate">
     <div class="boarding-pass_tabs_wrapper">
         <div
             class="boarding-pass_tabs_scroll"
@@ -15,7 +15,7 @@
                     [attr.aria-controls]="getTabPanelId(i)"
                     [attr.tabindex]="selectedSegmentIndex() === i ? 0 : -1"
                     [attr.aria-label]="
-                        segment.origin + ' ' + (translateKeys.BoardingPassTo | translate) + ' ' + segment.destination
+                        segment.origin + ' ' + (commonTranslationKeys.Common_To | translate) + ' ' + segment.destination
                     "
                     (click)="onSegmentTabClick(i)"
                     (keydown)="onTabKeydown($event, i)">
@@ -42,7 +42,7 @@
             <img
                 src="/assets/ui_plus/imgs/logos/avianca-logo.svg"
                 class="boarding-pass_airline-logo"
-                [attr.alt]="(translateKeys.BoardingPassLogoAltText | translate) + ' logo'" />
+                [attr.alt]="(commonTranslationKeys.Common_LogoAltText | translate) + ' logo'" />
         </div>
         <div class="boarding-pass_route">
             <div class="boarding-pass_route-item">
@@ -50,7 +50,7 @@
                 <div class="boarding-pass_route-city">{{ activeSegment().origin }}</div>
             </div>
             <div class="boarding-pass_route-icon">
-                <span class="hide-visually">{{ translateKeys.BoardingPassTo | translate }}</span>
+                <span class="hide-visually">{{ commonTranslationKeys.Common_To | translate }}</span>
             </div>
 
             <div class="boarding-pass_route-item">
@@ -60,36 +60,38 @@
         </div>
         <div class="boarding-pass_details">
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassDepartureTime | translate }}</div>
+                <div class="boarding-pass_detail-label">
+                    {{ translationKeys.BoardingPass_DepartureTime | translate }}
+                </div>
                 <div class="boarding-pass_detail-value">{{ activeSegment().departureTime }}</div>
             </div>
 
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassGate | translate }}</div>
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Gate | translate }}</div>
                 <div class="boarding-pass_detail-value">{{ activeSegment().gate }}</div>
             </div>
 
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassSeat | translate }}</div>
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Seat | translate }}</div>
                 <div class="boarding-pass_detail-value">
                     {{
                         isPaxInStandByForActiveSegment()
-                            ? (translateKeys.BoardingPassSeatWithStandbyStatus | translate)
+                            ? (translationKeys.BoardingPass_SeatWithStandbyStatus | translate)
                             : activeSegment().seat
                     }}
                 </div>
             </div>
 
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassFlight | translate }}</div>
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Flight | translate }}</div>
                 <div class="boarding-pass_detail-value">{{ activeSegment().flightNumber }}</div>
             </div>
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassPassenger | translate }}</div>
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Passenger | translate }}</div>
                 <div class="boarding-pass_detail-value">{{ data().passengerName }}</div>
             </div>
             <div class="boarding-pass_detail-item">
-                <div class="boarding-pass_detail-label">{{ translateKeys.BoardingPassDate | translate }}</div>
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Date | translate }}</div>
                 <div class="boarding-pass_detail-value">
                     <date-display [config]="activeSegment().departureDate"></date-display>
                 </div>

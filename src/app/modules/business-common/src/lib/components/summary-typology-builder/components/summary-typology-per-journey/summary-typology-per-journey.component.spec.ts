@@ -199,7 +199,6 @@ describe('SummaryTypologyPerJourneyComponent', () => {
       bundleCodes: [],
       scheduleSelection: undefined,
       useTypologyItem: true,
-      translations: {},
       displayPriceItemConcepts: false,
       useStaticDetails: false,
       bookingSellTypeServices: [],
@@ -308,7 +307,7 @@ describe('SummaryTypologyPerJourneyComponent', () => {
       expect(component['getPriceBreakdown']).toHaveBeenCalled();
       // Verify only service records are included
       const callArgs = (component['getPriceBreakdown'] as jasmine.Spy).calls.mostRecent().args[0];
-      expect(callArgs.every((route: SummaryTypologyDataVm) => 
+      expect(callArgs.every((route: SummaryTypologyDataVm) =>
         route.records?.every((r) => r.chargeType === EnumChargesType.SERVICE) || !route.records?.length
       )).toBe(true);
     });
@@ -455,7 +454,6 @@ describe('SummaryTypologyPerJourneyComponent', () => {
         bundleCodes: [],
         scheduleSelection: undefined,
         useTypologyItem: true,
-        translations: {},
         displayPriceItemConcepts: false,
         useStaticDetails: false,
         bookingSellTypeServices: [],

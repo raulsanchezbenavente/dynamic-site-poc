@@ -6,6 +6,7 @@ import { expect, within } from '@storybook/test';
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
 import type { TierAvatarConfig } from '../models/tier-avatar.config';
 import { TierAvatarComponent } from '../tier-avatar.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
 const META: Meta<TierAvatarComponent> = {
   title: 'Components/Loyalty/Tier Avatar',
@@ -30,7 +31,7 @@ type Story = StoryObj<TierAvatarComponent>;
 const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
   SMALLEST: {
     size: AvatarSize.SMALLEST,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -40,7 +41,7 @@ const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   EXTRA_SMALL: {
     size: AvatarSize.EXTRA_SMALL,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -50,7 +51,7 @@ const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   SMALL: {
     size: AvatarSize.SMALL,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -60,7 +61,7 @@ const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   MEDIUM: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -70,7 +71,7 @@ const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   LARGE: {
     size: AvatarSize.LARGE,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -84,7 +85,7 @@ const SIZE_CONFIGS: Record<string, TierAvatarConfig> = {
 const TIER_CONFIGS: Record<string, TierAvatarConfig> = {
   SILVER: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.Silver',
+    tierName: TranslationKeys.Loyalty_Tiers_Silver,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -94,7 +95,7 @@ const TIER_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   GOLD: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.Gold',
+    tierName: TranslationKeys.Loyalty_Tiers_Gold,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -104,7 +105,7 @@ const TIER_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   DIAMOND: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.Diamond',
+    tierName: TranslationKeys.Loyalty_Tiers_Diamond,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -114,7 +115,7 @@ const TIER_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   RED_PLUS: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.RedPlus',
+    tierName: TranslationKeys.Loyalty_Tiers_RedPlus,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {
@@ -124,7 +125,7 @@ const TIER_CONFIGS: Record<string, TierAvatarConfig> = {
   },
   LIFEMILES: {
     size: AvatarSize.MEDIUM,
-    tierName: 'Loyalty.Tiers.Lifemiles',
+    tierName: TranslationKeys.Loyalty_Tiers_Lifemiles,
     icon: {
       name: 'lifemiles',
       ariaAttributes: {

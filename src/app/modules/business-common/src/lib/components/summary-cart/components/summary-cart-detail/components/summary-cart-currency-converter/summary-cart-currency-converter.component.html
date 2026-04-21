@@ -13,7 +13,7 @@
             class="summary-cart-currency-converter_trigger"
             (click)="onClickToggle()">
             <div class="button_label">
-                {{ 'Basket.ExchangeTotal' | translate }}
+                {{ translationKeys.Basket_ExchangeTotal | translate }}
             </div>
         </button>
 
@@ -30,7 +30,7 @@
                         <div class="summary_exchange_error-message_container">
                             <div class="summary_exchange_error-message">
                                 <span class="summary_exchange_error-message_span">
-                                    {{ 'Basket.CurrencyConvertError' | translate }}
+                                    {{ translationKeys.Basket_CurrencyConvertError | translate }}
                                 </span>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
 @if (configData.isConversionSuccessful) {
     <div class="summary_exchange_description">
         <span class="summary_exchange_description_text">
-            {{ 'Basket.CurrencyConvert' | translate }}
+            {{ translationKeys.Basket_CurrencyConvert | translate }}
         </span>
     </div>
 }

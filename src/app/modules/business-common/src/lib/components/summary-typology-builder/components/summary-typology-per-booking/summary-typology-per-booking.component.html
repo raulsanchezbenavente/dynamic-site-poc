@@ -5,8 +5,6 @@
 }
 @if (priceBreakdownModel.config[0].list.length) {
     <section class="summary-typology_price-breakdown">
-        <price-breakdown
-            [model]="priceBreakdownModel"
-            [translations]="summaryConfig.translations" />
+        <price-breakdown [model]="priceBreakdownModel" />
     </section>
 }

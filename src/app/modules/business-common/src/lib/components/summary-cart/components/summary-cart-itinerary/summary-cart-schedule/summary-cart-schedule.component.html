@@ -1,7 +1,7 @@
 @if (data) {
     <div class="summary-cart-schedule-item">
         <div class="summary-cart-schedule_time">
-            <span class="hide-visually text-space-gap">{{ 'Schedule.DepartureTime_Label' | translate }}</span>
+            <span class="hide-visually text-space-gap">{{ translationKeys.Schedule_DepartureTime_Label | translate }}</span>
             {{ departureTime.scheduled }}
         </div>
     </div>
@@ -11,7 +11,7 @@
                 <legs-details [data]="legsDetails" />
             </div>
             <div class="summary-cart-schedule_duration">
-                <span class="hide-visually text-space-gap">{{ 'Schedule.Total_TravelTime' | translate }}</span>
+                <span class="hide-visually text-space-gap">{{ translationKeys.Schedule_Total_TravelTime | translate }}</span>
                 {{ data.duration | formatDuration }}
             </div>
         </div>
@@ -27,7 +27,7 @@
             class="text-space-gap"
             [totalDays]="totalDaysOfJourney" />
         <div class="summary-cart-schedule_time">
-            <span class="hide-visually text-space-gap">{{ 'Schedule.ArrivalTime_Label' | translate }}</span>
+            <span class="hide-visually text-space-gap">{{ translationKeys.Schedule_ArrivalTime_Label | translate }}</span>
             {{ arrivalTime.scheduled }}
         </div>
     </div>
