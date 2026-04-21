@@ -5,9 +5,6 @@ import type { AccountProfileConfig } from '../../core/models/account-profile-con
 
 export const DATA_INITIAL_VALUE: AccountProfileConfig = {
   culture: 'en',
-  translations: {
-    ...COMMON_TRANSLATIONS,
-  },
   statusTags: [EnumStatusTag.COMPLETE, EnumStatusTag.INCOMPLETE],
   personalFormConfig: {
     title: 'AccountProfile.Title',

@@ -1,9 +1,8 @@
 import { EnumStatusTag } from '@dcx/ui/design-system';
-import { DialogModalsRepositoryModel, DictionaryType } from '@dcx/ui/libs';
+import { DialogModalsRepositoryModel } from '@dcx/ui/libs';
 
 export interface AccountProfileConfig {
   culture: string;
-  translations: DictionaryType;
   statusTags: EnumStatusTag[];
   personalFormConfig: {
     title: string;
