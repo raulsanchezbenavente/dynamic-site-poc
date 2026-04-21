@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject, input, model } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, input, model, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControlState, FormsModule, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
@@ -64,7 +64,7 @@ import { RfFormBuilderValue } from '../models/rf-form-builder-value.interface';
   templateUrl: './rf-form-builder.component.html',
   standalone: true,
 })
-export class RfFormBuilderComponent {
+export class RfFormBuilderComponent implements OnDestroy {
   /** Service to generate unique IDs used internally (e.g., label IDs, form keys). */
   public idService = inject(IdService);
 
@@ -125,6 +125,12 @@ export class RfFormBuilderComponent {
     private readonly changeDetector: ChangeDetectorRef,
     public sanitizer: DomSanitizer
   ) {}
+
+  public ngOnDestroy(): void {
+    for (const form of this._formsCollection) {
+      this.formStore.removeFormGroup(form.formName);
+    }
+  }
 
   /**
    * Reactive effect triggered whenever the input config changes.

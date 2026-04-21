@@ -184,6 +184,7 @@ export class FormSummaryComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.destroyMediaQueryListener();
+    this.store.unregister(this.formName());
   }
 
   public parseConfig(): void {
