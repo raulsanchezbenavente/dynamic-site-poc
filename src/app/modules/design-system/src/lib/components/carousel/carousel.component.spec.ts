@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Subject } from 'rxjs';
-import { ResizeSvc } from '@dcx/ui/libs';
+import { ResizeSvc, CommonTranslationKeys } from '@dcx/ui/libs';
 import { CarouselComponent } from './carousel.component';
 import { CarouselItemDirective } from './directives/carousel-item.directive';
 import { By } from '@angular/platform-browser';
 import { i18nTestingImportsWithMemoryLoader } from '@dcx/ui/storybook-i18n';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   template: `
@@ -54,9 +55,9 @@ describe('CarouselComponent', () => {
       imports: [
         HostCarouselTestComponent,
         ...i18nTestingImportsWithMemoryLoader({
-          'Common.Prev': 'Prev',
-          'Common.Next': 'Next',
-          'Carousel.Title': 'Carousel',
+          [CommonTranslationKeys.Common_Prev]: 'Prev',
+          [CommonTranslationKeys.Common_Next]: 'Next',
+          [TranslationKeys.Carousel_Title]: 'Carousel',
         }),
       ],
       providers: [{ provide: ResizeSvc, useValue: mockResizeSvc }],

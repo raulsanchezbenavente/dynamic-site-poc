@@ -1,12 +1,4 @@
-import {
-  PriceBreakdownComponent,
-  PriceBreakdownHeaderComponent,
-  PriceBreakdownItemComponent,
-  PriceBreakdownItemsComponent,
-  PriceCurrencyComponent,
-} from '@dcx/storybook/design-system';
-
-import { IBE_CODES_TRANSLATIONS } from '@dcx/ui/mock-repository';
+import { PriceBreakdownComponent } from '@dcx/storybook/design-system';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -59,9 +51,6 @@ type Story = StoryObj<PriceBreakdownComponent>;
 export const COLLAPSED: Story = {
   name: 'Collapsed',
   args: {
-    translations: {
-      ...IBE_CODES_TRANSLATIONS,
-    },
     model: {
       config: [
         {
@@ -90,9 +79,6 @@ export const COLLAPSED: Story = {
 export const EXPANDED: Story = {
   name: 'Expanded',
   args: {
-    translations: {
-      ...IBE_CODES_TRANSLATIONS,
-    },
     model: {
       config: [
         {
@@ -111,9 +97,6 @@ export const EXPANDED: Story = {
 export const NOT_COLLAPSIBLE: Story = {
   name: 'Not collapsible',
   args: {
-    translations: {
-      ...IBE_CODES_TRANSLATIONS,
-    },
     model: {
       config: [
         {

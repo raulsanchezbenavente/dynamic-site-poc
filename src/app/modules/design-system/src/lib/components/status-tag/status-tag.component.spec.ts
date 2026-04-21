@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { TextHelperService } from '@dcx/ui/libs';
+import { TextHelperService, CommonTranslationKeys } from '@dcx/ui/libs';
 
 import { StatusTagComponent } from './status-tag.component';
 import { StatusTagStyles } from './enums/status-tag-styles.enum';
@@ -278,7 +278,7 @@ describe('StatusTagComponent', () => {
       const icon = fixture.nativeElement.querySelector('.status-tag_icon');
       const ariaLabel = icon.getAttribute('aria-label');
       expect(ariaLabel).toBeTruthy();
-      expect(mockTranslateService.instant).toHaveBeenCalledWith('Common.A11y.Status_Icon.Success');
+      expect(mockTranslateService.instant).toHaveBeenCalledWith(CommonTranslationKeys.Common_A11y_Status_Icon_Success);
     });
 
     it('should generate correct translation key for ARIA label', () => {
@@ -291,7 +291,7 @@ describe('StatusTagComponent', () => {
       fixture.detectChanges();
 
       // Assert
-      expect(mockTranslateService.instant).toHaveBeenCalledWith('Common.A11y.Status_Icon.Error');
+      expect(mockTranslateService.instant).toHaveBeenCalledWith(CommonTranslationKeys.Common_A11y_Status_Icon_Error);
     });
 
     it('should handle uppercase status for ARIA label', () => {
@@ -304,7 +304,7 @@ describe('StatusTagComponent', () => {
       fixture.detectChanges();
 
       // Assert
-      expect(mockTranslateService.instant).toHaveBeenCalledWith('Common.A11y.Status_Icon.Warning');
+      expect(mockTranslateService.instant).toHaveBeenCalledWith(CommonTranslationKeys.Common_A11y_Status_Icon_Warning);
     });
   });
 

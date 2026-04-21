@@ -2,8 +2,7 @@ import { Component, Directive, ElementRef, EventEmitter, Input, Output, Pipe, Pi
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { LanguageSelectorComponent } from './language-selector.component';
-import {
-  EventBusService,
+import { EventBusService,
   GenerateIdPipe,
   OptionsList,
   DropdownListConfig,
@@ -11,7 +10,7 @@ import {
   RedirectionService,
   IbeEventRedirectType,
   ExternalLinkPipe,
-} from '@dcx/ui/libs';
+  CommonTranslationKeys } from '@dcx/ui/libs';
 import { i18nTestingImportsWithMemoryLoader, i18nTestingProvidersWithServiceStub } from '@dcx/ui/storybook-i18n';
 
 /* --------------------------
@@ -96,7 +95,7 @@ describe('LanguageSelectorComponent', () => {
         MockAccessibleLinkDirective,
         MockExternalLinkPipe,
         ...i18nTestingImportsWithMemoryLoader({
-          'Common.LanguageSelector_List_Label': 'translated:Common.LanguageSelector_List_Label'
+          [CommonTranslationKeys.Common_LanguageSelector_List_Label]: 'translated:Common.LanguageSelector_List_Label'
         }),
       ],
       providers: [
@@ -105,7 +104,7 @@ describe('LanguageSelectorComponent', () => {
         { provide: GenerateIdPipe, useValue: generateIdPipeMock },
         { provide: ElementRef, useValue: new ElementRef(document.createElement('div')) },
         ...i18nTestingProvidersWithServiceStub({
-            'Common.LanguageSelector_List_Label': 'translated:Common.LanguageSelector_List_Label'
+            [CommonTranslationKeys.Common_LanguageSelector_List_Label]: 'translated:Common.LanguageSelector_List_Label'
         }),
         { provide: ExternalLinkPipe, useValue: { transform: () => true } },
       ]

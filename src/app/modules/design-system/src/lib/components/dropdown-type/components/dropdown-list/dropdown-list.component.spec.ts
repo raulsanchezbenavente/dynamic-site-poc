@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DropdownListComponent } from './dropdown-list.component';
-import { DropdownListConfig, OptionsList, DictionaryType, DropdownLayoutType, OptionsListConfig } from '@dcx/ui/libs';
+import { DropdownListConfig, OptionsList, DictionaryType, DropdownLayoutType, OptionsListConfig, CommonTranslationKeys } from '@dcx/ui/libs';
 import { resolveDropdownValueFromOptions } from './helpers/dropdown-value-from-options.helper';
 
 describe('DropdownListComponent', () => {
@@ -37,7 +37,7 @@ describe('DropdownListComponent', () => {
   };
 
   const translationsMock: DictionaryType = {
-    'Common.A11y.IsSelected': 'Is selected',
+    [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
   };
 
   beforeAll(() => {

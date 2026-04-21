@@ -5,6 +5,7 @@ import { ToastComponent } from './toast.component';
 import { TranslateService } from '@ngx-translate/core';
 import { Toast } from './models/toast.model';
 import { ToastStatus } from './enums/toast-status.enum';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 describe('ToastComponent', () => {
   let fixture: ComponentFixture<ToastComponent>;
@@ -87,11 +88,11 @@ describe('ToastComponent', () => {
 
     expect(component.config()).toEqual(toastConfig);
     expect(component.iconConfig.name).toBe('check-circle-filled');
-    expect(component.iconConfig.ariaAttributes?.ariaLabel).toBe('Common.A11y.Status_Icon.Success');
-    expect(component.closeIconButtonConfig.ariaAttributes?.ariaLabel).toBe('Common.Close');
+    expect(component.iconConfig.ariaAttributes?.ariaLabel).toBe(CommonTranslationKeys.Common_A11y_Status_Icon_Success);
+    expect(component.closeIconButtonConfig.ariaAttributes?.ariaLabel).toBe(CommonTranslationKeys.Common_Close);
 
-    expect(translateServiceMock.instant).toHaveBeenCalledWith('Common.A11y.Status_Icon.Success');
-    expect(translateServiceMock.instant).toHaveBeenCalledWith('Common.Close');
+    expect(translateServiceMock.instant).toHaveBeenCalledWith(CommonTranslationKeys.Common_A11y_Status_Icon_Success);
+    expect(translateServiceMock.instant).toHaveBeenCalledWith(CommonTranslationKeys.Common_Close);
   });
 
   it('setConfig() without param should derive defaults from current config', () => {
@@ -103,7 +104,7 @@ describe('ToastComponent', () => {
     (component as any)['setConfig']();
 
     expect(component.iconConfig.name).toBe('info-circle-filled');
-    expect(component.iconConfig.ariaAttributes?.ariaLabel).toBe('Common.A11y.Status_Icon.Info');
+    expect(component.iconConfig.ariaAttributes?.ariaLabel).toBe(CommonTranslationKeys.Common_A11y_Status_Icon_Info);
   });
 
   it('resolveIconName should map all statuses and fallback', () => {
