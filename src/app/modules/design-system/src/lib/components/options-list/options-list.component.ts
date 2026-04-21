@@ -2,14 +2,13 @@ import { NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, inject, input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import {
   AccessibleLinkDirective,
-  DictionaryType,
+  CommonTranslationKeys,
   GenerateIdPipe,
   IValueEmitterComponent,
   LinkTarget,
   OptionsList,
   OptionsListConfig,
   OptionsListMode,
-  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -26,7 +25,6 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class OptionsListComponent implements OnInit, IValueEmitterComponent {
   public readonly config = input.required<OptionsListConfig>();
-  public readonly translations = input<DictionaryType | null>(null);
 
   /**
    * Emit event to filter selection

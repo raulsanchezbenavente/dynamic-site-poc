@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FareOptionsItemComponent } from './fare-options-item.component';
-import { BUSINESS_CONFIG, DictionaryType, Fare, FareItemApplicability, GenerateIdPipe } from '@dcx/ui/libs';
+import { BUSINESS_CONFIG, Fare, FareItemApplicability, GenerateIdPipe } from '@dcx/ui/libs';
 import { BUSINESS_CONFIG_MOCK } from '@dcx/ui/mock-repository';
 
 /**
@@ -19,11 +19,6 @@ describe('FareOptionsItemComponent', () => {
   let fixture: ComponentFixture<FareOptionsItemComponent>;
   let mockTranslateService: jasmine.SpyObj<TranslateService>;
   let mockGenerateIdPipe: jasmine.SpyObj<GenerateIdPipe>;
-
-  const mockTranslations: DictionaryType = {
-    key1: 'Translation 1',
-    key2: 'Translation 2',
-  };
 
   const mockFareData: Fare = {
     id: 'FARE1',
@@ -112,7 +107,6 @@ describe('FareOptionsItemComponent', () => {
     fixture = TestBed.createComponent(FareOptionsItemComponent);
     component = fixture.componentInstance;
     component.data = mockFareData;
-    component.translations = mockTranslations;
   });
 
   it('should create', () => {
@@ -198,17 +192,17 @@ describe('FareOptionsItemComponent', () => {
       component.ngOnInit();
 
       const items = component.benefitsListConfig.items;
-      
+
       // INCLUDED
       expect(items[0].icon?.name).toBe('check');
       expect((items[0] as any).cssClass).toBe('benefit--included');
       expect(items[0].content).toBe('Carry-on bag');
-      
+
       // CHARGEABLE
       expect(items[1].icon?.name).toBe('currency');
       expect((items[1] as any).cssClass).toBe('benefit--chargeable');
       expect(items[1].content).toBe('Checked bag');
-      
+
       // NOT_INCLUDED
       expect(items[2].icon?.name).toBe('cross');
       expect((items[2] as any).cssClass).toBe('benefit--not-offered');

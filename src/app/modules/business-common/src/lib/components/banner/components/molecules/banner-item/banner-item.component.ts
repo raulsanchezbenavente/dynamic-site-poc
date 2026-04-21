@@ -108,9 +108,6 @@ export class BannerItemComponent implements OnChanges, OnInit, AfterViewInit {
     this.setLowestPrice();
 
     this.layoutClasses = this.layoutStyleClasses();
-    if (this.hasVideoMedia()) {
-      this.layoutClasses.push('banner-item-html--has-video');
-    }
   }
 
   private setLowestPrice(): void {
@@ -162,10 +159,6 @@ export class BannerItemComponent implements OnChanges, OnInit, AfterViewInit {
 
   private getFontSize(): string {
     return this.config.layout?.fontSize ?? LayoutSize.MEDIUM;
-  }
-
-  private hasVideoMedia(): boolean {
-    return !!this.config.media.videoMedia;
   }
 
   private setLinksTabIndex(text: string | undefined): void {

@@ -20,11 +20,8 @@ export * from './models/banner-params.config.model';
 export * from './models/bannner-container.config-params.model';
 export * from './models/image-media.config.model';
 export * from './models/lowest-price.config.model';
-export * from './models/upload-video-media.config.model';
-export * from './models/video-media.config.model';
 
 // TODO: Rename files
 export * from './enums/banner-animation-effect';
-export * from './enums/banner-canplay';
 export * from './enums/banner-item-style';
 export * from './enums/banner-type';

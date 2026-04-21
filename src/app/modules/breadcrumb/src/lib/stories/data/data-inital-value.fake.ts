@@ -4,7 +4,6 @@ import { COMMON_TRANSLATIONS } from '@dcx/ui/mock-repository';
 import type { BreadcrumbConfig } from '../../models/breadcrumb.config';
 
 export const DATA_INITIAL_VALUE: BreadcrumbConfig = {
-  translations: COMMON_TRANSLATIONS,
   home: {
     title: 'Home',
     url: '/',

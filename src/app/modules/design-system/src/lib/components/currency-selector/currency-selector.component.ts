@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, EventEmitter, inject, Input, OnIn
 import {
   CommonTranslationKeys,
   CurrencyService,
-  DictionaryType,
   DropdownListConfig,
   EventBusService,
   GenerateIdPipe,
@@ -25,7 +24,6 @@ import { CurrencyListVM } from './models/currency-list-config';
   standalone: true,
 })
 export class CurrencySelectorComponent implements OnInit, AfterViewInit {
-  @Input({ required: false }) public translations!: DictionaryType;
   @Input({ required: true }) public config!: DropdownListConfig;
   @Input() public reloadPageOnSelection: boolean = true;
   @Input() public quotedCurrency!: string;
@@ -128,7 +126,7 @@ export class CurrencySelectorComponent implements OnInit, AfterViewInit {
   }
 
   private initCurrencies(): void {
-    if (this.config?.optionsListConfig?.options.length > 0 && this.translations) {
+    if (this.config?.optionsListConfig?.options.length > 0) {
       for (const bc of this.config.optionsListConfig.options) {
         const currencyName = `CurrencyName_${bc.code}`;
         bc.name = this.translate.instant(currencyName);

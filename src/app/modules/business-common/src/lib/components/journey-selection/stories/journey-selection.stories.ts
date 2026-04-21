@@ -1,12 +1,11 @@
-
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
 import { JOURNEYS_BC_FAKE } from '../../../../stories/mocks';
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
-import { JourneySelectionComponent } from '../journey-selection.component';
 import { TranslationKeys } from '../enums/translation-keys.enum';
-import { CommonTranslationKeys } from '@dcx/ui/libs';
+import { JourneySelectionComponent } from '../journey-selection.component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const META: Meta<JourneySelectionComponent> = {
@@ -62,7 +61,6 @@ export const DEFAULT: Story = {
   args: {
     data: {
       journey: JOURNEYS_BC_FAKE[0],
-      translations: {},
     },
   },
 };

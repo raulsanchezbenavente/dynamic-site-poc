@@ -14,7 +14,6 @@ import {
   PanelHeaderComponent,
   PanelTitleDirective,
 } from '@dcx/ui/design-system';
-import { DictionaryType } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { LoyaltyStatusVm } from '../../models/loyalty-status-vm.model';
@@ -40,7 +39,6 @@ import { LoyaltyTierBadgeComponent } from '../loyalty-tier-badge/loyalty-tier-ba
   ],
 })
 export class LoyaltyStatusBenefitsComponent implements OnInit {
-  @Input() public translations = signal<DictionaryType>({});
   @Input() public data = signal<LoyaltyStatusVm>({} as LoyaltyStatusVm);
   public tierInfo!: LoyaltyStatus;
   public tierBadgeConfig!: LoyaltyTierBadgeConfig;

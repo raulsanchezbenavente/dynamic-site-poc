@@ -23,7 +23,6 @@ import {
   ComposerStatusEnum,
   ConfigService,
   DataModule,
-  DictionaryType,
   HorizontalAlign,
   LayoutSize,
   LoggerService,
@@ -69,7 +68,6 @@ export class LoyaltyStatusOverviewComponent implements OnInit {
   public LoyaltyStatusOverviewVm = signal<LoyaltyStatusOverviewVM>({} as LoyaltyStatusOverviewVM);
   public currentTier = signal<LoyaltyStatusVm>({} as LoyaltyStatusVm);
   public nextTier = signal<LoyaltyStatusVm>({} as LoyaltyStatusVm);
-  public translations = signal<DictionaryType>({});
 
   private readonly elementRef = inject(ElementRef);
   private readonly configService = inject(ConfigService);
@@ -141,7 +139,6 @@ export class LoyaltyStatusOverviewComponent implements OnInit {
     return this.configService.getBusinessModuleConfig<LoyaltyStatusOverviewConfig>(this.data().config).pipe(
       tap((config) => {
         this.config.set(config);
-        this.translations.set(config.translations);
         this.setMainPanelConfig();
         this.setDiscoverPanelConfig();
         this.setDiscoverButtonConfig();

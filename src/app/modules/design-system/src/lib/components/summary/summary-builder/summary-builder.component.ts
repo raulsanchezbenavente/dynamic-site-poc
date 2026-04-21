@@ -1,8 +1,6 @@
 import { KeyValuePipe, NgClass } from '@angular/common';
 import { Component, computed, effect, EventEmitter, input, model, Output } from '@angular/core';
-import { DictionaryType ,
-  CommonTranslationKeys
-} from '@dcx/ui/libs';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { SummaryDataRenderer } from '../summary-renderer/models/summary-data-renderer.model';
@@ -22,7 +20,6 @@ export class DsSummaryBuilderComponent {
   @Output() public configChange = new EventEmitter<any>();
   public formName = input<string>('');
 
-  public translations = input<DictionaryType>({});
   public config = input<Record<string, SummaryDataRenderer>>({});
   public gridConfig = model<SummaryBuilderGridConfig>();
   public emptyMask = input<string>('-');

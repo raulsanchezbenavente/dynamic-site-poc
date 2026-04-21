@@ -1,11 +1,10 @@
-
+import { DescriptionListComponent, DescriptionListOptionType, PriceCurrencyComponent } from '@dcx/ui/design-system';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
 import { STORYBOOK_PROVIDERS } from '../../../providers/storybook.providers';
-import { SummaryPriceDetailsComponent } from '../summary-price-details.component';
 import { SummaryTotalComponent } from '../../summary-total';
-import { DescriptionListComponent, DescriptionListOptionType, PriceCurrencyComponent } from '@dcx/ui/design-system';
+import { SummaryPriceDetailsComponent } from '../summary-price-details.component';
 
 // More on how to set up stories at: https://storybook.js.org/docs/7.0/angular/writing-stories/introduction
 const meta: Meta<SummaryPriceDetailsComponent> = {
@@ -19,12 +18,7 @@ const meta: Meta<SummaryPriceDetailsComponent> = {
   }),
   decorators: [
     moduleMetadata({
-      imports: [
-        SummaryPriceDetailsComponent,
-        SummaryTotalComponent,
-        PriceCurrencyComponent,
-        DescriptionListComponent,
-      ],
+      imports: [SummaryPriceDetailsComponent, SummaryTotalComponent, PriceCurrencyComponent, DescriptionListComponent],
       providers: [STORYBOOK_PROVIDERS],
     }),
   ],
@@ -38,7 +32,6 @@ export const DEFAULT: Story = {
   args: {
     config: {
       label: 'Price Details',
-      translations: {},
       culture: 'en-US',
     },
     descriptionList: [

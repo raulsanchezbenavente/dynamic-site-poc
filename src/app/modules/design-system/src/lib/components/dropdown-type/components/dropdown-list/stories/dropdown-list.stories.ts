@@ -1,7 +1,5 @@
-import {
-  DropdownListComponent,
-} from '@dcx/storybook/design-system';
-import { DropdownLayoutType , CommonTranslationKeys } from '@dcx/ui/libs';
+import { DropdownListComponent } from '@dcx/storybook/design-system';
+import { CommonTranslationKeys, DropdownLayoutType } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -80,9 +78,6 @@ const BASE_DROPDOWN_CONFIG_STORY = {
     },
   },
 };
-const BASE_TRANSLATIONS_STORY = {
-  [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
-};
 
 // Dropdown options list layoutConfig
 export const DROPDOWN_OPTION_LIST: Story = {
@@ -99,7 +94,6 @@ export const DROPDOWN_OPTION_LIST: Story = {
     config: {
       ...structuredClone(BASE_DROPDOWN_CONFIG_STORY),
     },
-    translations: BASE_TRANSLATIONS_STORY,
   },
 };
 
@@ -119,6 +113,5 @@ export const DROPDOWN_OPTION_LIST_ALWAYS_VISIBLE: Story = {
         },
       },
     },
-    translations: BASE_TRANSLATIONS_STORY,
   },
 };

@@ -63,6 +63,20 @@ export class PrimaryNavSubMenuComponent {
 
   @HostListener('keydown', ['$event'])
   public onKeyDown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case KeyCodeEnum.ESCAPE: {
+        event.preventDefault();
+        this.closeMenuExternal.emit();
+        break;
+      }
+
+      case KeyCodeEnum.TAB: {
+        if (this.isResponsive) return;
+        this.submenuTabOut.emit(event);
+        break;
+      }
+    }
+
     const items = this.submenuItemRefs.toArray();
     if (!items?.length) return;
 
@@ -88,19 +102,6 @@ export class PrimaryNavSubMenuComponent {
         items[prevIndex].nativeElement.focus();
         break;
       }
-
-      case KeyCodeEnum.ESCAPE: {
-        event.preventDefault();
-        this.closeMenuExternal.emit();
-        break;
-      }
-
-      case KeyCodeEnum.TAB: {
-        if (this.isResponsive) return;
-        this.submenuTabOut.emit(event);
-        break;
-      }
-
       default:
         break;
     }

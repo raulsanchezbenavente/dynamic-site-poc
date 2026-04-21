@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
   templateUrl: './toggle-masked.component.html',
   styleUrls: ['./styles/toggle-masked.style.scss'],
   imports: [],
-  standalone: true
+  standalone: true,
 })
 export class ToggleMaskedComponent implements OnInit {
   public maskActionText: string = '';
@@ -40,24 +40,22 @@ export class ToggleMaskedComponent implements OnInit {
   }
 
   protected setTexts(): void {
-    if (this.config.translations) {
-      this.maskedStatusText = this.replaceLabel(
-        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Masked),
-        this.data.label!
-      );
-      this.unmaskedStatusText = this.replaceLabel(
-        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Unmasked),
-        this.data.label!
-      );
-      this.maskActionText = this.replaceLabel(
-        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Mask),
-        this.data.label!
-      );
-      this.unmaskActionText = this.replaceLabel(
-        this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Unmask),
-        this.data.label!
-      );
-    }
+    this.maskedStatusText = this.replaceLabel(
+      this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Masked),
+      this.data.label!
+    );
+    this.unmaskedStatusText = this.replaceLabel(
+      this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Status_Unmasked),
+      this.data.label!
+    );
+    this.maskActionText = this.replaceLabel(
+      this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Mask),
+      this.data.label!
+    );
+    this.unmaskActionText = this.replaceLabel(
+      this.translate.instant(CommonTranslationKeys.Common_ToggleMasked_Action_Unmask),
+      this.data.label!
+    );
   }
 
   protected handleMask(): void {

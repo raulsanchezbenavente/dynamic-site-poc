@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { FaresOptionsComponent } from './fares-options.component';
-import { BUSINESS_CONFIG, DictionaryType, Fare } from '@dcx/ui/libs';
+import { BUSINESS_CONFIG, Fare } from '@dcx/ui/libs';
 import { FareOptions } from './models/fare-options.model';
 import { By } from '@angular/platform-browser';
 
@@ -31,11 +31,6 @@ const mockBusinessConfig = {
 describe('FaresOptionsComponent', () => {
   let component: FaresOptionsComponent;
   let fixture: ComponentFixture<FaresOptionsComponent>;
-
-  const mockTranslations: DictionaryType = {
-    'fare.select': 'Select Fare',
-    'fare.economy': 'Economy',
-  };
 
   const mockFares: Fare[] = [
     {
@@ -95,7 +90,6 @@ describe('FaresOptionsComponent', () => {
     fixture = TestBed.createComponent(FaresOptionsComponent);
     component = fixture.componentInstance;
     component.data = mockFareOptions;
-    component.translations = mockTranslations;
   });
 
   it('should create', () => {
@@ -131,9 +125,7 @@ describe('FaresOptionsComponent', () => {
       const fareItems = fixture.debugElement.queryAll(By.css('fare-options-item'));
 
       expect(fareItems[0].componentInstance.data).toEqual(mockFares[0]);
-      expect(fareItems[0].componentInstance.translations).toEqual(mockTranslations);
       expect(fareItems[1].componentInstance.data).toEqual(mockFares[1]);
-      expect(fareItems[1].componentInstance.translations).toEqual(mockTranslations);
     });
   });
 

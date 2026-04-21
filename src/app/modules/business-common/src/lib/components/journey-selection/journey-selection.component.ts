@@ -1,7 +1,7 @@
 import { formatDate } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit, Signal } from '@angular/core';
 import { OffCanvasComponent, OffCanvasConfig, PriceCurrencyComponent } from '@dcx/ui/design-system';
-import { createResponsiveSignal, Fare, GenerateIdPipe, ViewportSizeService , CommonTranslationKeys } from '@dcx/ui/libs';
+import { CommonTranslationKeys, createResponsiveSignal, Fare, GenerateIdPipe, ViewportSizeService } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { SelectionScheduleComponent } from '../schedules/components/selection-schedule/selection-schedule.component';
@@ -9,8 +9,8 @@ import { ScheduleService } from '../schedules/services/schedules.service';
 
 import { FaresOptionsComponent } from './components/fares-options/fares-options.component';
 import { FareOptions } from './components/fares-options/models/fare-options.model';
-import { JourneySelection } from './models/journey-selection.model';
 import { TranslationKeys } from './enums/translation-keys.enum';
+import { JourneySelection } from './models/journey-selection.model';
 
 @Component({
   selector: 'journey-selection',

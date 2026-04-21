@@ -1,8 +1,9 @@
 import { NgClass, UpperCasePipe } from '@angular/common';
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { BadgeComponent, ListComponent, PriceCurrencyComponent, TagConfig } from '@dcx/ui/design-system';
-import { DictionaryType, Fare, FareBenefitsList, FareItemApplicability, GenerateIdPipe , CommonTranslationKeys } from '@dcx/ui/libs';
+import { CommonTranslationKeys, Fare, FareBenefitsList, FareItemApplicability, GenerateIdPipe } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+
 import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 @Component({
@@ -19,7 +20,6 @@ export class FareOptionsItemComponent implements OnInit {
   protected readonly commonTranslationKeys = CommonTranslationKeys;
 
   @Input({ required: true }) public data!: Fare;
-  @Input({ required: true }) public translations!: DictionaryType;
 
   public isSoldOut = false;
   public price = 0;

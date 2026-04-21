@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { DictionaryType } from '@dcx/ui/libs';
 
 import { FareOptionsItemComponent } from '../fare-options-item/fare-options-item.component';
 
@@ -17,5 +16,4 @@ import { FareOptions } from './models/fare-options.model';
 })
 export class FaresOptionsComponent {
   @Input({ required: true }) public data!: FareOptions;
-  @Input({ required: true }) public translations!: DictionaryType;
 }

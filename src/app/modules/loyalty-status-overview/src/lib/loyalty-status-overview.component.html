@@ -13,15 +13,11 @@
         <div panelContent>
             <div class="loyalty-status-overview_items">
                 <div class="loyalty-status-overview_item loyalty-status-overview_item--current">
-                    <loyalty-status-benefits
-                        [data]="currentTier"
-                        [translations]="translations" />
+                    <loyalty-status-benefits [data]="currentTier" />
                 </div>
                 @if (nextTier()) {
                     <div class="loyalty-status-overview_item loyalty-status-overview_item--next">
-                        <loyalty-status-benefits
-                            [data]="nextTier"
-                            [translations]="translations" />
+                        <loyalty-status-benefits [data]="nextTier" />
                     </div>
                 }
             </div>

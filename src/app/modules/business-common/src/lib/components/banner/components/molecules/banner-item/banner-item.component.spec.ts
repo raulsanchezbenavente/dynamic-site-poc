@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ElementRef, SimpleChange } from '@angular/core';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { BannerItemComponent } from './banner-item.component';
 import { BannerItemConfig } from '../../../models/banner-item.config.model';
@@ -78,6 +78,9 @@ describe('BannerItemComponent', () => {
 
     fixture = TestBed.createComponent(BannerItemComponent);
     component = fixture.componentInstance;
+    const translate = TestBed.inject(TranslateService);
+    translate.setTranslation('en', { 'Banner.LowestPrice_Label': 'From' });
+    translate.use('en');
     // Create a fresh copy of the config for each test to avoid mutation issues
     component.config = JSON.parse(JSON.stringify(mockBannerItemConfig));
     component.index = 0;
@@ -97,7 +100,7 @@ describe('BannerItemComponent', () => {
       expect(component.lowestPrice.currency).toBe('USD');
       expect(component.lowestPrice.price).toBe(100);
       expect(component.lowestPrice.isEnabled).toBe(true);
-      expect(component.lowestPrice.label).toBe('Banner.LowestPrice_Label');
+      expect(component.lowestPrice.label).toBe('From');
     });
 
     it('should disable lowestPrice when enableLowestPrice is false', () => {
@@ -117,34 +120,13 @@ describe('BannerItemComponent', () => {
       expect(component.lowestPrice.isEnabled).toBe(false);
     });
 
-    it('should set layout classes correctly including video and style classes', () => {
+    it('should set layout classes correctly', () => {
       component.ngOnInit();
 
       expect(component.layoutClasses).toContain('banner-item-html--style-default');
       expect(component.layoutClasses).toContain('banner-item-html--halign-center');
       expect(component.layoutClasses).toContain('banner-item-html--valign-middle');
       expect(component.layoutClasses).toContain('banner-item-html--fontsize-medium');
-    });
-
-    it('should add has-video class when videoMedia is present', () => {
-      component.config.media.videoMedia = {
-        sourceOption: 'upload',
-        text: 'Test video',
-        upload: {
-          url: 'test-video.mp4',
-          extension: 'mp4',
-          height: '720',
-          width: '1280',
-          autoplay: true,
-          muted: true,
-          controls: false,
-          loop: true,
-        },
-      } as any;
-
-      component.ngOnInit();
-
-      expect(component.layoutClasses).toContain('banner-item-html--has-video');
     });
   });
 
@@ -186,9 +168,9 @@ describe('BannerItemComponent', () => {
       component.ngOnInit();
       component.ngAfterViewInit();
 
-      // innerHTML is set by ngAfterViewInit
-      expect(mockElement.innerHTML).toBe('<a href="#" tabindex="-1">Test Link</a>');
-      expect(mockElement.querySelector('a')?.getAttribute('tabindex')).toBe('-1');
+      const renderedLink = mockElement.querySelector('a');
+      expect(renderedLink?.textContent).toBe('Test Link');
+      expect(renderedLink?.getAttribute('tabindex')).toBe('-1');
     });
 
     it('should not set tabindex for visible carousel items', () => {

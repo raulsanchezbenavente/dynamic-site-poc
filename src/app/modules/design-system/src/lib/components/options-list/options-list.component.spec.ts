@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { OptionsListComponent } from './options-list.component';
 import {
-  DictionaryType,
   ExternalLinkPipe,
   GenerateIdPipe,
   LinkTarget,
@@ -18,7 +17,6 @@ import { i18nTestingImportsWithMemoryLoader } from '@dcx/ui/storybook-i18n';
 })
 class MockAccessibleLinkDirective {
   @Input() link: any;
-  @Input() translations: any;
   @Input() skipRel: boolean = false;
   @Input() showIcon: boolean = true;
 }
@@ -29,12 +27,6 @@ describe('OptionsListComponent', () => {
 
   // Centralized mocks
   let generateIdPipeMock: jasmine.SpyObj<GenerateIdPipe>;
-
-  // Base mock data
-  const translationsMock: DictionaryType = {
-    select: 'Select',
-    menu: 'Menu',
-  } as unknown as DictionaryType;
 
   const optionsMock: OptionsList[] = [
     { code: 'A', name: 'Option A', isSelected: false, isDisabled: false } as OptionsList,
@@ -74,7 +66,6 @@ describe('OptionsListComponent', () => {
 
     // Set required inputs by default
     fixture.componentRef.setInput('config', structuredClone(baseConfig));
-    fixture.componentRef.setInput('translations', translationsMock);
 
     fixture.detectChanges();
     tick();
@@ -167,7 +158,6 @@ describe('OptionsListComponent', () => {
     const emitSpy = spyOn(comp.idEmitter, 'emit');
 
     fx.componentRef.setInput('config', configWithId);
-    fx.componentRef.setInput('translations', translationsMock);
 
     fx.detectChanges();
     tick();

@@ -1,5 +1,5 @@
 import { OptionsListComponent } from '@dcx/storybook/design-system';
-import type { DictionaryType, OptionsListConfig } from '@dcx/ui/libs';
+import type { OptionsListConfig } from '@dcx/ui/libs';
 import { LinkTarget } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
@@ -13,7 +13,6 @@ interface VariantDefinition {
   config: OptionsListConfig;
 }
 
-const BASE_TRANSLATIONS: DictionaryType = {};
 const CLONE_CONFIG = (config: OptionsListConfig): OptionsListConfig => ({
   ...config,
   options: config.options.map((option) => ({
@@ -241,7 +240,6 @@ export const MODES: Story = {
   name: 'List Roles (a11y)',
   render: () => ({
     props: {
-      translations: BASE_TRANSLATIONS,
       variants: BUILD_VARIANT_PROPS(MODE_VARIANTS),
     },
     template: `
@@ -287,7 +285,6 @@ export const CONTENT_LAYOUTS: Story = {
   name: 'Content Layouts',
   render: () => ({
     props: {
-      translations: BASE_TRANSLATIONS,
       variants: BUILD_VARIANT_PROPS(CONTENT_LAYOUT_VARIANTS),
     },
     template: `
@@ -331,7 +328,6 @@ export const STATES: Story = {
   name: 'States',
   render: () => ({
     props: {
-      translations: BASE_TRANSLATIONS,
       variants: BUILD_VARIANT_PROPS(STATE_MATRIX_VARIANTS),
     },
     template: `

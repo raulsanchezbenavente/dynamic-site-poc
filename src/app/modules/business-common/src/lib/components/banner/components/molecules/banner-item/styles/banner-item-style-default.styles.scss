@@ -37,15 +37,6 @@
         padding: $banner-default-html-padding;
         box-sizing: border-box;
     }
-    &.banner-item-html--has-video {
-        // remove image gradient overlay when is a video so video controls do not get blocked
-        &::after {
-            display: none;
-        }
-        .banner-item-html_content {
-            margin: $banner-default-html-hasvideo-margin;
-        }
-    }
     .banner-item-html_content-inner {
         display: flex;
         flex-direction: column;

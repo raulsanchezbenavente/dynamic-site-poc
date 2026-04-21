@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { JourneySelectionComponent } from './journey-selection.component';
-import { BUSINESS_CONFIG, DictionaryType, Fare, GenerateIdPipe, JourneyVM, ViewportSizeService } from '@dcx/ui/libs';
+import { BUSINESS_CONFIG, Fare, JourneyVM } from '@dcx/ui/libs';
 import { JourneySelection } from './models/journey-selection.model';
 import { ScheduleService } from '../schedules/services/schedules.service';
 
@@ -33,11 +33,6 @@ describe('JourneySelectionComponent', () => {
   let fixture: ComponentFixture<JourneySelectionComponent>;
   let mockTranslateService: jasmine.SpyObj<TranslateService>;
   let mockScheduleService: jasmine.SpyObj<ScheduleService>;
-
-  const mockTranslations: DictionaryType = {
-    'Schedule.Compare_Fares': 'Compare Fares',
-    'Schedule.Fares.Title_Vertical': 'Select Your Fare',
-  };
 
   const mockFares: Fare[] = [
     {
@@ -104,7 +99,6 @@ describe('JourneySelectionComponent', () => {
 
   const mockJourneySelection: JourneySelection = {
     journey: mockJourneyData,
-    translations: mockTranslations,
   };
 
   beforeEach(async () => {
@@ -165,7 +159,7 @@ describe('JourneySelectionComponent', () => {
   describe('toggleFares', () => {
     it('should toggle isOpen state', () => {
       expect(component.isOpen).toBe(false);
-      
+
       component.toggleFares();
       expect(component.isOpen).toBe(true);
 
@@ -281,7 +275,6 @@ describe('JourneySelectionComponent', () => {
     it('should handle empty fares array', () => {
       component.data = {
         journey: { ...mockJourneyData, fares: [] },
-        translations: mockTranslations,
       };
 
       component.ngOnInit();
@@ -292,7 +285,6 @@ describe('JourneySelectionComponent', () => {
     it('should handle undefined fares', () => {
       component.data = {
         journey: { ...mockJourneyData, fares: undefined },
-        translations: mockTranslations,
       };
 
       component.ngOnInit();

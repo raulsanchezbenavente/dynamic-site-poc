@@ -29,7 +29,7 @@ describe('StatusTagComponent', () => {
   beforeEach(async () => {
     // Initialize translation subjects with BehaviorSubject for immediate emission
     langChangeSubject = new BehaviorSubject<any>({ lang: 'es-CO' });
-    translationChangeSubject = new BehaviorSubject<any>({ translations: {} });
+    translationChangeSubject = new BehaviorSubject<any>({ lang: 'es-CO' });
 
     // Create typed spies using jasmine.createSpyObj with properties object
     mockTranslateService = jasmine.createSpyObj('TranslateService', ['instant'], {

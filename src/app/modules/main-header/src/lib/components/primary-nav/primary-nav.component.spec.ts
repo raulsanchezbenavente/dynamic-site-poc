@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ElementRef, NO_ERRORS_SCHEMA, QueryList } from '@angular/core';
-import { DictionaryType, GenerateIdPipe, KeyCodeEnum } from '@dcx/ui/libs';
+import { GenerateIdPipe, KeyCodeEnum } from '@dcx/ui/libs';
 
 import { MainMenuItem } from '../../models/main-menu-item.model';
 import { PrimaryNavSubMenuComponent } from '../primary-nav-sub-menu/primary-nav-sub-menu.component';

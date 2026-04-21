@@ -31,9 +31,7 @@
                 [config]="offCanvasConfig"
                 (offcanvasClosedEmitter)="toggleFares()">
                 <div offCanvasBody>
-                    <fares-options
-                        [data]="fareOptions"
-                        [translations]="data.translations"></fares-options>
+                    <fares-options [data]="fareOptions" />
                 </div>
             </off-canvas>
         }
@@ -42,9 +40,7 @@
             class="journey-selection_fares"
             [attr.aria-hidden]="!isOpen"
             [id]="fareListId">
-            <fares-options
-                [data]="fareOptions"
-                [translations]="data.translations"></fares-options>
+            <fares-options [data]="fareOptions" />
         </div>
     }
 </div>

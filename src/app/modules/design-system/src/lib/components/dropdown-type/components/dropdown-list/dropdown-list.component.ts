@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
-import { DictionaryType, DropdownListConfig, OptionsList } from '@dcx/ui/libs';
+import { DropdownListConfig, OptionsList } from '@dcx/ui/libs';
 
-import { resolveDropdownValueFromOptions } from './helpers/dropdown-value-from-options.helper';
 import { DropdownComponent } from '../../../dropdown/dropdown.component';
 import { OptionsListComponent } from '../../../options-list/options-list.component';
+
+import { resolveDropdownValueFromOptions } from './helpers/dropdown-value-from-options.helper';
 
 @Component({
   selector: 'dropdown-list',
@@ -11,11 +12,10 @@ import { OptionsListComponent } from '../../../options-list/options-list.compone
   encapsulation: ViewEncapsulation.None,
   host: { class: 'ds-dropdown-list' },
   imports: [DropdownComponent, OptionsListComponent],
-  standalone: true
+  standalone: true,
 })
 export class DropdownListComponent implements OnInit {
   @Input() public config!: DropdownListConfig;
-  @Input() public translations!: DictionaryType;
 
   @ViewChild('dropdownRef', { static: false })
   private readonly dropdownRef!: DropdownComponent;

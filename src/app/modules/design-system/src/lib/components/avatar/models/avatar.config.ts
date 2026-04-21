@@ -1,4 +1,4 @@
-import { DictionaryType, IconConfig } from '@dcx/ui/libs';
+import { IconConfig } from '@dcx/ui/libs';
 
 import { AvatarSize } from '../enums/avatar-size.enum';
 
@@ -7,5 +7,4 @@ export interface AvatarConfig {
   size?: AvatarSize;
   icon?: IconConfig;
   ariaLabel?: string;
-  translations?: DictionaryType;
 }

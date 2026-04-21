@@ -1,5 +1,5 @@
 import { DropdownComponent } from '@dcx/storybook/design-system';
-import { DropdownLayoutType , CommonTranslationKeys } from '@dcx/ui/libs';
+import { CommonTranslationKeys, DropdownLayoutType } from '@dcx/ui/libs';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
 
@@ -30,9 +30,6 @@ const DEFAULT_DROPDOWN_STORIE_TEMPLATE = `
     </div>
   </dropdown>
 `;
-const DROPDOWN_STORIE_TRANSLATIONS = {
-  [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
-};
 
 export default META;
 type Story = StoryObj<DropdownComponent>;
@@ -64,7 +61,6 @@ export const DEFAULT_LAYOUT: Story = {
       value: '',
       isVisible: true,
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 
@@ -96,7 +92,6 @@ export const DEFAULT_LAYOUT_WHIT_ICON_INITIALLY_OPEN: Story = {
       value: '',
       isVisible: true,
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 
@@ -121,7 +116,6 @@ export const PILLS_LAYOUT: Story = {
       value: '',
       isVisible: true,
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 export const PILLS_LAYOUT_WITH_ICON: Story = {
@@ -151,7 +145,6 @@ export const PILLS_LAYOUT_WITH_ICON: Story = {
       },
       value: '',
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 export const PILLS_LAYOUT_WITH_ICON_SELECTED: Story = {
@@ -181,7 +174,6 @@ export const PILLS_LAYOUT_WITH_ICON_SELECTED: Story = {
       },
       value: 'Direct',
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 
@@ -206,7 +198,6 @@ export const SQUEARE_LAYOUT: Story = {
       },
       value: '',
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };
 export const SQUEARE_LAYOUT_WITH_ICON: Story = {
@@ -236,6 +227,5 @@ export const SQUEARE_LAYOUT_WITH_ICON: Story = {
       },
       value: '',
     },
-    translations: DROPDOWN_STORIE_TRANSLATIONS,
   },
 };

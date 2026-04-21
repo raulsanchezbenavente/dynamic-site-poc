@@ -1,18 +1,6 @@
 import type { LoyaltyStatusOverviewConfig } from '../../models/loyalty-status-overview.config';
 
 export const DATA_INITIAL_VALUE: LoyaltyStatusOverviewConfig = {
-  translations: {
-    'Loyalty.StatusOverview.Title': 'Discover the benefits of being elite',
-    'Loyalty.StatusOverview.Description':
-      'Reach one of the elite statuses by accumulating qualifying miles with avianca and our partners.',
-    'Loyalty.StatusOverview.DiscoverTitle': 'Discover all benefits',
-    'Loyalty.StatusOverview.DiscoverDescription':
-      'Enjoy all the benefits of being an Elite member on your flights with Avianca and Star Alliance member airlines.',
-    'Loyalty.StatusBenefits.Title': 'Your current status',
-    'Loyalty.StatusBenefitsRequirements.Title': 'How to achieve it',
-    'Loyalty.StatusBenefitsRequirements.Miles': 'Qualifying Miles',
-    'Loyalty.StatusBenefitsRequirements.AviancaMiles': 'Qualifying Miles with Avianca',
-  },
   culture: 'en-US',
   title: 'Discover the benefits of being elite',
   description: 'Reach one of the elite statuses by accumulating qualifying miles with avianca and our partners.',

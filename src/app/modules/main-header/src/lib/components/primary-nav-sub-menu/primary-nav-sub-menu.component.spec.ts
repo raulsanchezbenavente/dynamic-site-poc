@@ -186,6 +186,36 @@ describe('PrimaryNavSubMenuComponent', () => {
       expect(closeSpy).toHaveBeenCalled();
     });
 
+    it('should emit closeMenuExternal on Escape when focus is on a banner element (not in submenuItemRefs)', () => {
+      // AC1 & AC2: Escape must close the submenu even when focus is on the banner
+      const bannerLink = document.createElement('a');
+      spyOnProperty(document, 'activeElement', 'get').and.returnValue(bannerLink);
+
+      const event = new KeyboardEvent('keydown', { key: KeyCodeEnum.ESCAPE });
+      const closeSpy = spyOn(component.closeMenuExternal, 'emit');
+
+      component.onKeyDown(event);
+
+      expect(closeSpy).toHaveBeenCalled();
+    });
+
+    it('should emit closeMenuExternal on Escape when submenu has no items (only banner rendered)', () => {
+      // AC1: Escape closes the submenu even if submenuItemRefs is empty
+      Object.defineProperty(component, 'submenuItemRefs', {
+        value: new QueryList<ElementRef<HTMLElement>>(),
+        writable: true,
+      });
+      const bannerButton = document.createElement('button');
+      spyOnProperty(document, 'activeElement', 'get').and.returnValue(bannerButton);
+
+      const event = new KeyboardEvent('keydown', { key: KeyCodeEnum.ESCAPE });
+      const closeSpy = spyOn(component.closeMenuExternal, 'emit');
+
+      component.onKeyDown(event);
+
+      expect(closeSpy).toHaveBeenCalled();
+    });
+
     it('should emit submenuTabOut on Tab if not responsive', () => {
       setFocus(1);
       component.isResponsive = false;

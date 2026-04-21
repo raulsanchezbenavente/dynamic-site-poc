@@ -16,14 +16,13 @@ import {
 } from '@angular/core';
 import {
   ClickOutsideDirective,
-  DictionaryType,
+  CommonTranslationKeys,
   DropdownVM,
   EnumModalKeyEventType,
   GenerateIdPipe,
   IValueEmitterComponent,
   KeyCodeEnum,
   ModalKeyEventsDirective,
-  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 import { fromEvent, Subscription } from 'rxjs';
@@ -45,7 +44,6 @@ export class DropdownComponent implements OnInit, AfterContentInit, OnDestroy, O
   @Input() public innerComponent?: any;
   @Input() public triggerComponent?: boolean;
   @Input() public dropdownTriggerSection?: boolean;
-  @Input() public translations!: DictionaryType;
 
   /**
    * If true, dropdown will open on first load.

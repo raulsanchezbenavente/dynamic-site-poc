@@ -3,8 +3,9 @@ import { BoardingPassFormatType } from '@dcx/ui/business-common';
 import { DictionaryType } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { AddWalletButtonConfig } from './models/add-wallet-button.config';
 import { TranslationKeys } from '../enums/translation-keys.enum';
+
+import { AddWalletButtonConfig } from './models/add-wallet-button.config';
 
 @Component({
   selector: 'add-wallet-button',

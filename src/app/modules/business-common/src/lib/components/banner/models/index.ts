@@ -9,5 +9,3 @@ export * from './banner-params.config.model';
 export * from './bannner-container.config-params.model';
 export * from './image-media.config.model';
 export * from './lowest-price.config.model';
-export * from './upload-video-media.config.model';
-export * from './video-media.config.model';

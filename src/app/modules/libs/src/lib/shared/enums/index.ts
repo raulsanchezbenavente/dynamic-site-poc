@@ -40,4 +40,3 @@ export * from './section-colors.enum';
 export * from './skeleton';
 export * from './summary-typology';
 export * from './transport-type.enum';
-export * from './video-source-option';

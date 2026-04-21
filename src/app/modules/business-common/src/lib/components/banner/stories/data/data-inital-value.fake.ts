@@ -1,5 +1,4 @@
 import { EnumVerticalAlign, HorizontalAlign, LayoutSize, LinkTarget, SectionColors } from '@dcx/ui/libs';
-import { VideoSourceOption } from '@dcx/ui/libs';
 
 import { BannerAnimationEffect, BannerItemStyle, BannerType } from '../../enums';
 import type { BannerContainerConfigParams, BannerItemConfig } from '../../models';
@@ -198,52 +197,6 @@ export const BANNER_ITEM_DESTINATIONS: BannerItemConfig = {
   },
 };
 
-// Banner with Video
-export const BANNER_ITEM_VIDEO: BannerItemConfig = {
-  ...BANNER_ITEM_DEFAULT,
-  configuration: {
-    ...BANNER_ITEM_DEFAULT.configuration,
-    enableLowestPrice: false,
-    showButton: false,
-  },
-  layout: {
-    ...BANNER_ITEM_DEFAULT.layout,
-    horizontalAlign: HorizontalAlign.LEFT,
-    verticalAlign: EnumVerticalAlign.MIDDLE,
-  },
-  media: {
-    videoMedia: {
-      sourceOption: VideoSourceOption.UPLOAD,
-      text: 'Test slider 1',
-      upload: {
-        extension: 'mp4',
-        height: '100%',
-        width: '100%',
-        autoplay: true,
-        muted: false,
-        controls: false,
-        url: 'https://placehold.co/640x360?text=Video+Placeholder',
-        loop: true,
-      },
-      fallbackImage: {
-        bg: {
-          title: 'Image title 1',
-          url: 'https://placehold.co/640x360?text=Image+For+Video+Placeholder+Default',
-        },
-        bgM: {
-          title: 'Image title 1',
-          url: 'https://placehold.co/640x360?text=Image+For+Video+Placeholder+Medium+Screens',
-        },
-        bgL: {
-          title: 'Image title 1',
-          url: 'https://placehold.co/640x360?text=Image+For+Video+Placeholder+Large+Screens',
-        },
-        text: 'Test slider 1',
-      },
-    },
-  },
-};
-
 // Banners Items
 export const BANNER_ITEM_1: BannerItemConfig = {
   ...BANNER_ITEM_PROMO_DESTINATIONS,
@@ -266,7 +219,7 @@ export const BANNER_ITEM_4: BannerItemConfig = {
   },
 };
 export const BANNER_ITEM_5: BannerItemConfig = {
-  ...BANNER_ITEM_VIDEO,
+  ...BANNER_ITEM_DESTINATIONS,
 };
 // aside box
 export const BANNER_ITEM_6: BannerItemConfig = {

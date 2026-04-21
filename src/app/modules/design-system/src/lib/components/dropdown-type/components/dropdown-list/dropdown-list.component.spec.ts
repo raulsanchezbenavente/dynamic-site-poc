@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { DropdownListComponent } from './dropdown-list.component';
-import { DropdownListConfig, OptionsList, DictionaryType, DropdownLayoutType, OptionsListConfig, CommonTranslationKeys } from '@dcx/ui/libs';
+import { DropdownListConfig, OptionsList, DropdownLayoutType } from '@dcx/ui/libs';
 import { resolveDropdownValueFromOptions } from './helpers/dropdown-value-from-options.helper';
 
 describe('DropdownListComponent', () => {
@@ -36,10 +36,6 @@ describe('DropdownListComponent', () => {
     },
   };
 
-  const translationsMock: DictionaryType = {
-    [CommonTranslationKeys.Common_A11y_IsSelected]: 'Is selected',
-  };
-
   beforeAll(() => {
     mockDropdownRef = jasmine.createSpyObj('MockDropdownComponent',
       ['scrollToSelectedOptionInContent', 'getContentElement']);
@@ -65,7 +61,6 @@ describe('DropdownListComponent', () => {
     component = fixture.componentInstance;
 
     component.config = structuredClone(configMock);
-    component.translations = translationsMock;
     (component as any).dropdownOptionValueEmitter.subscribe(emitSpy);
 
     // Set up dropdownInstance after component initialization

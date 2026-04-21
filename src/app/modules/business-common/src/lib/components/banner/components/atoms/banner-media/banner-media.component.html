@@ -25,31 +25,3 @@
         }
     </picture>
 }
-
-<!-- video -->
-@if (config.videoMedia) {
-    <div class="banner-media_video">
-        @if (config.videoMedia.upload.url) {
-            <video
-                #videoPlayer
-                class="banner-video"
-                playsinline
-                [attr.width]="config.videoMedia.upload.width"
-                [attr.height]="config.videoMedia.upload.height"
-                [attr.title]="config.videoMedia.upload.controls ? config.videoMedia.text : null"
-                [autoplay]="config.videoMedia.upload.autoplay"
-                [muted]="config.videoMedia.upload.muted"
-                [controls]="config.videoMedia.upload.controls"
-                [loop]="config.videoMedia.upload.loop">
-                <source
-                    [src]="config.videoMedia.upload.url"
-                    [attr.type]="'video/' + config.videoMedia.upload.extension" />
-            </video>
-        }
-        @if (!config.videoMedia.upload.controls) {
-            <span class="hide-visually">
-                {{ config.videoMedia.text }}
-            </span>
-        }
-    </div>
-}
