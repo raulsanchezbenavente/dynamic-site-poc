@@ -1,0 +1,8 @@
+{
+  "/static-config": {
+    "target": "https://av-static-dev3.newshore.es",
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug"
+  }
+}
