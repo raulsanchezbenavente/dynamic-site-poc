@@ -8,9 +8,23 @@ function stripStaticConfigDomain(url: string): string {
     return url;
   }
 
-  // Handle malformed URLs without protocol, e.g. av-static-dev3.newshore.es/static-config/...
-  if (trimmed.startsWith(`${STATIC_CONFIG_DOMAIN}/`)) {
-    return `/${trimmed.slice(STATIC_CONFIG_DOMAIN.length + 1)}`;
+  // Support URLs with or without protocol and optional port.
+  const withoutProtocol =
+    trimmed.toLowerCase().startsWith('http://') || trimmed.toLowerCase().startsWith('https://')
+      ? trimmed.slice(trimmed.indexOf('//') + 2)
+      : trimmed;
+
+  const firstSlash = withoutProtocol.indexOf('/');
+  if (firstSlash <= 0) {
+    return url;
+  }
+
+  const hostWithOptionalPort = withoutProtocol.slice(0, firstSlash);
+  const pathWithQueryHash = withoutProtocol.slice(firstSlash + 1);
+  const host = hostWithOptionalPort.split(':')[0]?.toLowerCase();
+
+  if (host === STATIC_CONFIG_DOMAIN && pathWithQueryHash.length > 0) {
+    return `/${pathWithQueryHash}`;
   }
 
   if (!/^https?:\/\//i.test(trimmed)) {
