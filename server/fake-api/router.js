@@ -3,6 +3,18 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const responsesDir = path.join(__dirname, 'responses');
+const staticConfigurationDir = path.join(responsesDir, 'configuration');
+const staticConfigDir = path.join(responsesDir, 'static-config');
+
+function jsonStaticOptions() {
+  return {
+    setHeaders: (res, filePath) => {
+      if (!path.extname(filePath)) {
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      }
+    },
+  };
+}
 
 function readJsonResponse(relativeFilePath) {
   const filePath = path.join(responsesDir, relativeFilePath);
@@ -103,6 +115,9 @@ function createFakeApiRouter(options = {}) {
 
     next();
   });
+
+  router.use('/configuration', express.static(staticConfigurationDir, jsonStaticOptions()));
+  router.use('/static-config', express.static(staticConfigDir));
 
   router.get('/health', (_req, res) => {
     res.status(200).json({ ok: true, service: 'fake-api' });

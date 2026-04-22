@@ -35,21 +35,6 @@
                 "glob": "**/*",
                 "input": "src/assets",
                 "output": "assets"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/static-config",
-                "output": "static-config"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/configuration/",
-                "output": "configuration"
-              },
-              {
-                "glob": "**/*",
-                "input": "src/accounts/",
-                "output": "accounts"
               }
             ],
             "styles": [
