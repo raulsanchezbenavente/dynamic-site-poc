@@ -95,7 +95,9 @@ export class SiteConfigService {
   }
 
   private getURlFromLangAndContext(lang: string): string {
-    return '/assets/config-site/' + lang;
+    // return '/assets/config-site/' + lang;
+    //return '/static-config/site/config-site_en-us.json';
+    return '/static-config/pages/en/members/home.json';
   }
 
   public get siteSnapshot(): SiteConfigResponse | null {

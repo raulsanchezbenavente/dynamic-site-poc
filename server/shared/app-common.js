@@ -1,4 +1,5 @@
-const fs = require('fs');
+const fs = require('node:fs');
+const https = require('node:https');
 const express = require('express');
 const { createFakeApiRouter } = require('../fake-api/router');
 
@@ -13,6 +14,36 @@ function mountSharedRoutes(app, options = {}) {
 
   app.get(healthCheckPath, (_req, res) => {
     res.status(200).type('text/plain').send('ok');
+  });
+
+  app.use('/static-config', (req, res) => {
+    const upstreamReq = https.request(
+      {
+        hostname: 'av-static-dev3.newshore.es',
+        method: req.method,
+        path: `/static-config${req.url}`,
+      },
+      (upstreamRes) => {
+        res.status(upstreamRes.statusCode || 502);
+
+        Object.entries(upstreamRes.headers).forEach(([header, value]) => {
+          if (value !== undefined) {
+            res.setHeader(header, value);
+          }
+        });
+
+        upstreamRes.pipe(res);
+      }
+    );
+
+    upstreamReq.on('error', (error) => {
+      res.status(502).json({
+        error: 'Static config upstream unavailable',
+        details: error instanceof Error ? error.message : String(error),
+      });
+    });
+
+    req.pipe(upstreamReq);
   });
 
   if (countriesFlagsDir && fs.existsSync(countriesFlagsDir)) {
