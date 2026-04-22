@@ -177,9 +177,13 @@ function createFakeApiRouter(options = {}) {
     }
 
     const isBypassKeycloakConfig = ssoBypassKeycloak && key === 'common_KeycloakConfiguration';
-    const relativeConfigPath = isBypassKeycloakConfig
-      ? 'config/common_KeycloakConfiguration.sso-bypass.json'
-      : `config/${key}.json`;
+    const isBypassEndpointsConfig = ssoBypassKeycloak && key === 'common_EndpointsConfiguration';
+    let relativeConfigPath = `config/${key}.json`;
+    if (isBypassKeycloakConfig) {
+      relativeConfigPath = 'config/common_KeycloakConfiguration.sso-bypass.json';
+    } else if (isBypassEndpointsConfig) {
+      relativeConfigPath = 'config/common_EndpointsConfiguration_bypass.json';
+    }
     const filePath = path.join(responsesDir, relativeConfigPath);
     try {
       const raw = fs.readFileSync(filePath, 'utf8');
