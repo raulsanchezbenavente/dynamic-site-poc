@@ -33,12 +33,12 @@ import {
   RfPrefixPhoneComponent,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
 import { AccountContactConfig } from '../../core/models/account-contact.config';
 import { AccountPersonalConfig } from '../../core/models/account-personal.config';
 import { EmergencyContactData } from '../../core/models/emergency-contact-data';
 import { MyProfileConfig } from '../../core/models/my-profile.config';
 import { SummaryContactData } from '../../core/models/summary-contact-data';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 import { AccountContactComponent } from '../account-contact/account-contact.component';
 import { accountContactRegex } from '../account-contact/regex/account-contact.regex';
 import { AccountPersonalComponent } from '../account-personal/account-personal.component';
@@ -81,7 +81,7 @@ export class MyProfileContainerComponent implements OnInit {
 
   protected readonly hasEmergencyContact = signal<boolean>(false);
   protected readonly hasContactInformation = signal<boolean>(false);
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
 
   private lastUserData: AccountV2Models.AccountDto | null = null;
 

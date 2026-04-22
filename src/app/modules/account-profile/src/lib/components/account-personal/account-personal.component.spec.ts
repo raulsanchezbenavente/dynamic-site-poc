@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { AccountPersonalComponent } from './account-personal.component';
 import { FormSummaryViews } from '@dcx/ui/business-common';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 // Mock pipes
 @Pipe({
@@ -181,10 +182,10 @@ describe('AccountPersonalComponent', () => {
     it('should create buttons configuration with translated labels', () => {
       mockTranslateService.instant.and.callFake((key: string) => {
         const translations: { [key: string]: string } = {
-          'AccountProfile.PersonalForm.AddPersonalInformationButton_Label': 'Add Personal Info',
-          'AccountProfile.ConfirmButton_Label': 'Confirm',
-          'AccountProfile.CancelButton_Label': 'Cancel',
-          'AccountProfile.EditButton_Label': 'Edit'
+          [TranslationKeys.AccountProfile_PersonalForm_AddPersonalInformationButton_Label]: 'Add Personal Info',
+          [TranslationKeys.AccountProfile_ConfirmButton_Label]: 'Confirm',
+          [TranslationKeys.AccountProfile_CancelButton_Label]: 'Cancel',
+          [TranslationKeys.AccountProfile_EditButton_Label]: 'Edit'
         };
         return translations[key] || key;
       });
@@ -334,8 +335,8 @@ describe('AccountPersonalComponent', () => {
         // Mock translation keys based on TranslationKeys enum
         mockTranslateService.instant.and.callFake((key: string) => {
           const translations: { [key: string]: string } = {
-            'AccountProfile.PersonalForm.Name_Label': 'Name',
-            'AccountProfile.PersonalForm.LastName_Label': 'Last Name'
+            [TranslationKeys.AccountProfile_PersonalForm_Name_Label]: 'Name',
+            [TranslationKeys.AccountProfile_PersonalForm_LastName_Label]: 'Last Name'
           };
           return translations[key] || key;
         });
@@ -561,8 +562,8 @@ describe('AccountPersonalComponent', () => {
       expect(component['FormSummaryViews']).toBeDefined();
     });
 
-    it('should have translateKeys reference', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have translationKeys reference', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
 
     it('should have selectedTemplate with default value', () => {

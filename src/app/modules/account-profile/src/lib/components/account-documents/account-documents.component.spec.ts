@@ -9,6 +9,7 @@ import { FormSummaryViews, RfFormSummaryStore } from '@dcx/ui/business-common';
 import { signal } from '@angular/core';
 
 import { AccountProfileDocumentsComponent } from './account-documents.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 // Mock pipes
 @Pipe({
@@ -221,11 +222,11 @@ describe('AccountProfileDocumentsComponent', () => {
     it('should create buttons configuration with translated labels', () => {
       mockTranslateService.instant.and.callFake((key: string) => {
         const translations: { [key: string]: string } = {
-          'AccountProfile.DocumentsForm.AddDocumentButton_Label': 'Add Document',
-          'AccountProfile.ConfirmButton_Label': 'Confirm',
-          'AccountProfile.SavingButton_Label': 'Saving...',
-          'AccountProfile.CancelButton_Label': 'Cancel',
-          'AccountProfile.EditButton_Label': 'Edit'
+          [TranslationKeys.AccountProfile_DocumentsForm_AddDocumentButton_Label]: 'Add Document',
+          [TranslationKeys.AccountProfile_ConfirmButton_Label]: 'Confirm',
+          [TranslationKeys.AccountProfile_SavingButton_Label]: 'Saving...',
+          [TranslationKeys.AccountProfile_CancelButton_Label]: 'Cancel',
+          [TranslationKeys.AccountProfile_EditButton_Label]: 'Edit'
         };
         return translations[key] || key;
       });
@@ -404,7 +405,7 @@ describe('AccountProfileDocumentsComponent', () => {
     it('should subscribe to documentType control valueChanges', () => {
       const mockControl = jasmine.createSpyObj('FormControl', ['']);
       mockControl.valueChanges = jasmine.createSpyObj('Observable', ['subscribe']);
-      
+
       const mockFormGroup = jasmine.createSpyObj('FormGroup', ['get']);
       mockFormGroup.get.and.returnValue(mockControl);
       mockFormStore.getFormGroup.and.returnValue(mockFormGroup);
@@ -430,8 +431,8 @@ describe('AccountProfileDocumentsComponent', () => {
       expect(component['FormSummaryViews']).toBeDefined();
     });
 
-    it('should have correct translateKeys reference', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have correct translationKeys reference', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
 
     it('should handle custom columns input', () => {
@@ -553,9 +554,9 @@ describe('AccountProfileDocumentsComponent', () => {
       const newDocumentOptions = [
         { value: 'V', label: 'Visa', content: 'Visa' }
       ];
-      
+
       fixture.componentRef.setInput('documentOptions', newDocumentOptions);
-      
+
       expect(component.documentOptions()).toEqual(newDocumentOptions);
     });
 
@@ -563,9 +564,9 @@ describe('AccountProfileDocumentsComponent', () => {
       const newCountryOptions = [
         { value: 'CA', label: 'Canada', content: 'Canada' }
       ];
-      
+
       fixture.componentRef.setInput('countryOptions', newCountryOptions);
-      
+
       expect(component.countryOptions()).toEqual(newCountryOptions);
     });
   });

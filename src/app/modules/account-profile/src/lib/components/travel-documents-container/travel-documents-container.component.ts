@@ -36,8 +36,8 @@ import {
   RfListOption,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
 import { TravelDocumentsConfig } from '../../core/models/travel-documents.config';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 import { AccountProfileDocumentsComponent } from '../account-documents/account-documents.component';
 
 @Component({

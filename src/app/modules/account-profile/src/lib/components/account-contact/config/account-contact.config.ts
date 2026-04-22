@@ -11,7 +11,7 @@ import {
   RfPrefixPhoneField,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 import { prefixPhoneRegex } from '../../../core/regex/prefix-phone.regex';
 import { accountContactRegex } from '../regex/account-contact.regex';
 export function getConfig(prefixOptions: RfListOption[], translateService: TranslateService): FormBuilderConfig {

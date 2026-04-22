@@ -2,7 +2,7 @@
     <form-summary
         #formSummary
         [initialView]="FormSummaryViews.SUMMARY"
-        [title]="translateKeys.AccountProfile_ContactForm_Title | translate"
+        [title]="translationKeys.AccountProfile_ContactForm_Title | translate"
         [titleParentElementId]="'accountProfileTitleId'"
         [titleElementId]="ownLabelledById()"
         [formName]="formName()"
@@ -12,5 +12,5 @@
         (cancelForm)="cancelAccountContact($event)"
         (saveForm)="saveContact($event)" />
 } @placeholder {
-    <p>{{ translateKeys.AccountProfile_Loading | translate }}</p>
+    <p>{{ translationKeys.AccountProfile_Loading | translate }}</p>
 }

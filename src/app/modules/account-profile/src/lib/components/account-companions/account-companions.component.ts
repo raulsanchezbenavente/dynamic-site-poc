@@ -16,7 +16,7 @@ import {
   SummaryBuilderAdditions,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 import { getConfig } from './config/account-companions.config';
 
@@ -53,6 +53,7 @@ export class AccountCompanionsComponent implements OnInit {
   public countryOptions = input<RfListOption[]>([]);
   public hideEditButton = input<boolean>(false);
   protected readonly columns = input<number>(2);
+  protected readonly TranslationKeys = TranslationKeys;
   protected FormSummaryViews = FormSummaryViews;
   private readonly translateService = inject(TranslateService);
   private readonly selectDatePickerFieldFactory = inject(RfSelectDatePickerFieldFactoryService);

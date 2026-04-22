@@ -13,9 +13,9 @@ import { FormSummaryButtonsConfig, FormSummaryComponent, FormSummaryViews } from
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormBuilderConfig } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
 import { AccountContactConfig } from '../../core/models/account-contact.config';
 import { SummaryContactData } from '../../core/models/summary-contact-data';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 import { getConfig } from './config/account-contact.config';
 
@@ -43,7 +43,7 @@ export class AccountContactComponent implements OnInit {
   protected formId!: string;
   protected FormSummaryViews = FormSummaryViews;
   protected readonly columns = input<number>(2);
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
   private readonly translateService = inject(TranslateService);
 
   public ngOnInit(): void {

@@ -11,14 +11,14 @@
             panelTitle
             [id]="travelDocumentsTitleId">
             {{
-                config().documentsFormConfig.title || translateKeys.AccountProfile_DocumentsForm_MainDocument_Title
+                config().documentsFormConfig.title || translationKeys.AccountProfile_DocumentsForm_MainDocument_Title
                     | translate
             }}
         </h2>
         <div
             panelDescription
             [innerHTML]="
-                config().documentsFormConfig.description || translateKeys.AccountProfile_DocumentsForm_Description
+                config().documentsFormConfig.description || translationKeys.AccountProfile_DocumentsForm_Description
                     | translate
             "></div>
     </panel-header>
@@ -29,7 +29,7 @@
                 @for (item of documents(); track $index; let index = $index) {
                     <account-profile-documents
                         [title]="
-                            (translateKeys.AccountProfile_DocumentsForm_SecondaryDocument_Title | translate) +
+                            (translationKeys.AccountProfile_DocumentsForm_SecondaryDocument_Title | translate) +
                             ' ' +
                             ($index + 1)
                         "

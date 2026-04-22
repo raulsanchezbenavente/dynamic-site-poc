@@ -4,7 +4,7 @@ import { EnumSeparators } from '@dcx/ui/libs';
 import { TranslateService } from '@ngx-translate/core';
 import { AutocompleteTypes, FormBuilderConfig, RfFormBuilderFieldType, RfListOption } from 'reactive-forms';
 
-import { TranslationKeys } from '../../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 import { accountPersonalRegex } from '../../../core/regex/account-personal.regex';
 
 export function getConfig(

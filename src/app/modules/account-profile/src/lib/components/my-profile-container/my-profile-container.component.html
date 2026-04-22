@@ -7,12 +7,12 @@
         <h2
             panelTitle
             [id]="profileTitleId">
-            {{ config().personalFormConfig.title || translateKeys.AccountProfile_Title | translate }}
+            {{ config().personalFormConfig.title || translationKeys.AccountProfile_Title | translate }}
         </h2>
         <div
             panelDescription
             [innerHTML]="
-                config().personalFormConfig.description || translateKeys.AccountProfile_Description | translate
+                config().personalFormConfig.description || translationKeys.AccountProfile_Description | translate
             "></div>
     </panel-header>
 

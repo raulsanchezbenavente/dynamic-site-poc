@@ -10,7 +10,7 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { FormBuilderConfig, RfFormStore, RfListOption, RfSelectField } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 import { getConfig } from './config/account-documents.config';
 @Component({
@@ -36,7 +36,7 @@ export class AccountProfileDocumentsComponent implements OnInit {
   public documentOptions = input<RfListOption[]>([]);
   public countryOptions = input<RfListOption[]>([]);
   public hasDocuments = input.required<boolean>();
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
   protected columns = input<number>(2);
   protected subtractions: string[] = [];
   protected FormSummaryViews = FormSummaryViews;
@@ -100,17 +100,17 @@ export class AccountProfileDocumentsComponent implements OnInit {
   private createButtonsConfig(): void {
     this.buttonsConfig.set({
       addButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_DocumentsForm_AddDocumentButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_DocumentsForm_AddDocumentButton_Label),
       },
       saveButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_ConfirmButton_Label),
-        loadingLabel: this.translateService.instant(this.translateKeys.AccountProfile_SavingButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_ConfirmButton_Label),
+        loadingLabel: this.translateService.instant(this.translationKeys.AccountProfile_SavingButton_Label),
       },
       cancelButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_CancelButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_CancelButton_Label),
       },
       editButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_EditButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_EditButton_Label),
       },
     });
   }

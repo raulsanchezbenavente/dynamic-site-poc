@@ -1,10 +1,10 @@
 import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 import { type Meta, type StoryObj } from '@storybook/angular';
 
 import { AccountProfileComponent } from '../account-profile.component';
+import { TranslationKeys } from '../enums/translation-keys.enum';
 
-// ===== Story Meta =====
-// IMPORTANTE: NO usar decorators aquí
 // Todos los providers van al preview.ts para evitar conflictos con withStoryTranslationsAuto
 const META: Meta<AccountProfileComponent> = {
   title: 'Main/Account Profile (Personal Data)',
@@ -21,9 +21,9 @@ const META: Meta<AccountProfileComponent> = {
     i18nModules: MODULE_TRANSLATION_MAP['AccountProfile'],
     i18n: {
       mock: {
-        'AccountProfile.PersonalForm.Alert_Saved_Message': 'Guardado (mock)',
-        'Common.OK': 'OK',
-        'AccountProfile.Error.Title': 'Error',
+        [TranslationKeys.AccountProfile_PersonalForm_Alert_Saved_Message]: 'Guardado (mock)',
+        [CommonTranslationKeys.Common_OK]: 'OK',
+        [TranslationKeys.AccountProfile_Error_Title]: 'Error',
       },
     },
   },

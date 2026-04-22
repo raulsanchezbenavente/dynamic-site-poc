@@ -220,8 +220,8 @@ describe('MyProfileContainerComponent', () => {
       expect(component['parentPanelsConfig']).toBeDefined();
     });
 
-    it('should have translateKeys reference', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have translationKeys reference', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
 
     it('should have accountPersonalConfig signal initialized', () => {
@@ -244,9 +244,9 @@ describe('MyProfileContainerComponent', () => {
   describe('ngOnInit', () => {
     it('should call internalInit', () => {
       spyOn(component as any, 'internalInit');
-      
+
       component.ngOnInit();
-      
+
       expect((component as any).internalInit).toHaveBeenCalled();
     });
   });
@@ -260,9 +260,9 @@ describe('MyProfileContainerComponent', () => {
       const mockForm = mockFormStore.getFormGroup('formPersonal');
       const markAsUntouched = jasmine.createSpy('markAsUntouched');
       mockForm.markAsUntouched = markAsUntouched;
-      
+
       (component as any).cancelAccountPersonal();
-      
+
       expect(mockFormStore.getFormGroup).toHaveBeenCalledWith('formPersonal');
       expect(markAsUntouched).toHaveBeenCalled();
     });
@@ -271,9 +271,9 @@ describe('MyProfileContainerComponent', () => {
       const mockForm = mockFormStore.getFormGroup('formContact');
       const markAsUntouched = jasmine.createSpy('markAsUntouched');
       mockForm.markAsUntouched = markAsUntouched;
-      
+
       (component as any).cancelAccountContact();
-      
+
       expect(mockFormStore.getFormGroup).toHaveBeenCalledWith('formContact');
       expect(markAsUntouched).toHaveBeenCalled();
     });
@@ -282,16 +282,16 @@ describe('MyProfileContainerComponent', () => {
       const mockForm = mockFormStore.getFormGroup('formEmergency');
       const markAsUntouched = jasmine.createSpy('markAsUntouched');
       mockForm.markAsUntouched = markAsUntouched;
-      
+
       (component as any).cancelEmergencyContact();
-      
+
       expect(mockFormStore.getFormGroup).toHaveBeenCalledWith('formEmergency');
       expect(markAsUntouched).toHaveBeenCalled();
     });
 
     it('should handle null form gracefully in cancelAccountPersonal', () => {
       mockFormStore.getFormGroup.and.returnValue(null);
-      
+
       expect(() => {
         (component as any).cancelAccountPersonal();
       }).not.toThrow();
@@ -299,7 +299,7 @@ describe('MyProfileContainerComponent', () => {
 
     it('should handle null form gracefully in cancelAccountContact', () => {
       mockFormStore.getFormGroup.and.returnValue(null);
-      
+
       expect(() => {
         (component as any).cancelAccountContact();
       }).not.toThrow();
@@ -307,7 +307,7 @@ describe('MyProfileContainerComponent', () => {
 
     it('should handle null form gracefully in cancelEmergencyContact', () => {
       mockFormStore.getFormGroup.and.returnValue(null);
-      
+
       expect(() => {
         (component as any).cancelEmergencyContact();
       }).not.toThrow();
@@ -318,27 +318,27 @@ describe('MyProfileContainerComponent', () => {
     it('should emit updateAccountPersonalInfo when onUpdateAccountPersonalInfo is called', () => {
       spyOn(component.updateAccountPersonalInfo, 'emit');
       const mockData: any = { firstName: 'John', lastName: 'Doe' };
-      
+
       (component as any).onUpdateAccountPersonalInfo(mockData);
-      
+
       expect(component.updateAccountPersonalInfo.emit).toHaveBeenCalledWith(mockData);
     });
 
     it('should emit updateAccountContactInfo when onUpdateAccountContactInfo is called', () => {
       spyOn(component.updateAccountContactInfo, 'emit');
       const mockData: any = { email: 'test@example.com', prefix: '+1', number: '555' };
-      
+
       (component as any).onUpdateAccountContactInfo(mockData);
-      
+
       expect(component.updateAccountContactInfo.emit).toHaveBeenCalledWith(mockData);
     });
 
     it('should emit updateProfileEmergencyContact when onUpdateProfileEmergencyContact is called', () => {
       spyOn(component.updateProfileEmergencyContact, 'emit');
       const mockData: any = { firstName: 'Jane', lastName: 'Doe' };
-      
+
       (component as any).onUpdateProfileEmergencyContact(mockData);
-      
+
       expect(component.updateProfileEmergencyContact.emit).toHaveBeenCalledWith(mockData);
     });
   });

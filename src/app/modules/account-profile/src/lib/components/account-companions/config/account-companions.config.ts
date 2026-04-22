@@ -3,7 +3,7 @@ import { RfSelectDatePickerFieldFactoryService } from '@dcx/ui/business-common';
 import { TranslateService } from '@ngx-translate/core';
 import { AutocompleteTypes, FormBuilderConfig, RfFormBuilderFieldType, RfListOption } from 'reactive-forms';
 
-import { TranslationKeys } from '../../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 import { accountCompanionRegex } from '../../../core/regex/account-companion.regex';
 
 export function getConfig(

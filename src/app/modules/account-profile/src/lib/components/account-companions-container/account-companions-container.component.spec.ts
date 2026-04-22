@@ -12,6 +12,7 @@ import { FormSummaryViews, RfFormSummaryStore } from '@dcx/ui/business-common';
 import dayjs from 'dayjs';
 
 import { AccountCompanionsContainerComponent } from './account-companions-container.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 // Mock pipes
 @Pipe({
@@ -136,7 +137,7 @@ describe('AccountCompanionsContainerComponent', () => {
           isFirstChange: () => false
         }
       };
-      
+
       spyOn(component as any, 'orderCompanions');
       spyOn(component as any, 'setMaxCompanions');
       spyOn(component as any, 'setCompanionData');
@@ -363,7 +364,7 @@ describe('AccountCompanionsContainerComponent', () => {
           personInfo: {
             dateOfBirth: '1990-05-15',
             init: jasmine.createSpy(),
-            toJSON: jasmine.createSpy() 
+            toJSON: jasmine.createSpy()
           },
           init: jasmine.createSpy('init'),
           toJSON: jasmine.createSpy('toJSON')
@@ -373,7 +374,7 @@ describe('AccountCompanionsContainerComponent', () => {
 
       (component as any).orderCompanions();
 
-      expect(component.data()[0]?.name?.last).toBe('Doe'); 
+      expect(component.data()[0]?.name?.last).toBe('Doe');
       expect(component.data()[1]?.name?.last).toBe('Smith');
     });
   });
@@ -515,7 +516,7 @@ describe('AccountCompanionsContainerComponent', () => {
 
       expect(component.companionTitles.length).toBe(2);
       expect(component.companionTitles).toEqual(['Adult 1:', 'Adult 2:']);
-      expect(getCompanionTitleSpy).toHaveBeenCalledWith(0, {paxType: 'ADT', count: 1}); 
+      expect(getCompanionTitleSpy).toHaveBeenCalledWith(0, {paxType: 'ADT', count: 1});
       expect(getCompanionTitleSpy).toHaveBeenCalledWith(1, {paxType: 'ADT', count: 2});
       expect(getCompanionTitleSpy).toHaveBeenCalledTimes(2);
     });
@@ -738,22 +739,22 @@ describe('AccountCompanionsContainerComponent', () => {
   describe('getPassengerTypeTranslate', () => {
     it('should return correct translation key for ADT', () => {
       const result = (component as any).getPassengerTypeTranslate(PaxTypeCode.ADT);
-      expect(result).toBe('AccountProfile.CompanionsForm.ADT_Label');
+      expect(result).toBe(TranslationKeys.AccountProfile_CompanionsForm_ADT_Label);
     });
 
     it('should return correct translation key for CHD', () => {
       const result = (component as any).getPassengerTypeTranslate(PaxTypeCode.CHD);
-      expect(result).toBe('AccountProfile.CompanionsForm.CHD_Label');
+      expect(result).toBe(TranslationKeys.AccountProfile_CompanionsForm_CHD_Label);
     });
 
     it('should return correct translation key for TNG', () => {
       const result = (component as any).getPassengerTypeTranslate(PaxTypeCode.TNG);
-      expect(result).toBe('AccountProfile.CompanionsForm.TNG_Label');
+      expect(result).toBe(TranslationKeys.AccountProfile_CompanionsForm_TNG_Label);
     });
 
     it('should return correct translation key for INF', () => {
       const result = (component as any).getPassengerTypeTranslate(PaxTypeCode.INF);
-      expect(result).toBe('AccountProfile.CompanionsForm.INF_Label');
+      expect(result).toBe(TranslationKeys.AccountProfile_CompanionsForm_INF_Label);
     });
 
     it('should return empty string for unknown passenger type', () => {
@@ -911,8 +912,8 @@ describe('AccountCompanionsContainerComponent', () => {
       expect(component['MAX_COMPANIONS']).toBe(4);
     });
 
-    it('should have translateKeys reference', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have translationKeys reference', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
 
     it('should have addButtonCompanion signal', () => {
@@ -1012,7 +1013,7 @@ describe('AccountCompanionsContainerComponent', () => {
     it('should handle undefined formsNames values', () => {
       const emptyMap = new Map();
       fixture.componentRef.setInput('formsNames', emptyMap);
-      
+
       const result = (component as any).areAllCompanionsInSummaryView();
       expect(result).toBe(true);
     });

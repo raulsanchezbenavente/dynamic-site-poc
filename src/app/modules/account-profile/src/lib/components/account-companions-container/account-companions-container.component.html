@@ -10,12 +10,12 @@
         <h2
             panelTitle
             [id]="frequentCompanionsTitleId">
-            {{ config().companionsFormConfig.title || translateKeys.AccountProfile_CompanionsForm_Title | translate }}
+            {{ config().companionsFormConfig.title || translationKeys.AccountProfile_CompanionsForm_Title | translate }}
         </h2>
         <div
             panelDescription
             [innerHTML]="
-                config().companionsFormConfig.description || translateKeys.AccountProfile_CompanionsForm_Description
+                config().companionsFormConfig.description || translationKeys.AccountProfile_CompanionsForm_Description
                     | translate
             "></div>
     </panel-header>

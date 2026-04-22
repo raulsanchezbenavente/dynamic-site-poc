@@ -6,6 +6,7 @@ import { TranslateService } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 
 import { AccountCompanionsComponent } from './account-companions.component';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 // Mock pipes
 @Pipe({
@@ -203,10 +204,10 @@ describe('AccountCompanionsComponent', () => {
     it('should create buttons configuration with translated labels', () => {
       mockTranslateService.instant.and.callFake((key: string) => {
         const translations: { [key: string]: string } = {
-          'AccountProfile.CompanionsForm.AddCompanionButton_Label': 'Add Companion',
-          'AccountProfile.ConfirmButton_Label': 'Confirm',
-          'AccountProfile.CancelButton_Label': 'Cancel',
-          'AccountProfile.EditButton_Label': 'Edit'
+          [TranslationKeys.AccountProfile_CompanionsForm_AddCompanionButton_Label]: 'Add Companion',
+          [TranslationKeys.AccountProfile_ConfirmButton_Label]: 'Confirm',
+          [TranslationKeys.AccountProfile_CancelButton_Label]: 'Cancel',
+          [TranslationKeys.AccountProfile_EditButton_Label]: 'Edit'
         };
         return translations[key] || key;
       });

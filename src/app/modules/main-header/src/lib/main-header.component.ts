@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
   BANNER_BREAKPOINT_CONFIG,
@@ -67,7 +66,6 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
 
   private readonly viewportSizeService = inject(ViewportSizeService);
   private readonly http = inject(HttpClient);
-  private readonly router = inject(Router);
 
   private readonly translationsLoadedSubject = new BehaviorSubject<boolean | null>(null);
   public readonly translationsLoaded$ = this.translationsLoadedSubject
@@ -133,28 +131,6 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
 
   public translationsLoaded(): void {
     this.translationsLoadedSubject.next(true);
-  }
-
-  public navigateWithBootLoader(event: Event, targetUrl: string): void {
-    event.preventDefault();
-
-    const bootLoader = this.ensureBootLoaderElement();
-    if (bootLoader instanceof HTMLElement) {
-      bootLoader.style.display = 'grid';
-    }
-
-    void this.router
-      .navigateByUrl(targetUrl)
-      .then((navigated) => {
-        // Same-url navigations or cancelled transitions may return false and never
-        // trigger dynamic-page readiness events, so hide loader defensively.
-        if (!navigated) {
-          this.hideBootLoader();
-        }
-      })
-      .catch(() => {
-        this.hideBootLoader();
-      });
   }
 
   private hideBootLoader(): void {

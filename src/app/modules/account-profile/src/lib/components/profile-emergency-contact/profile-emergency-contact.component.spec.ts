@@ -159,8 +159,8 @@ describe('ProfileEmergencyContactComponent', () => {
       expect(component.buttonsConfig()).toBeDefined();
     });
 
-    it('should have translateKeys defined', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have translationKeys defined', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
   });
 
@@ -418,8 +418,8 @@ describe('ProfileEmergencyContactComponent', () => {
       expect(component['FormSummaryViews']).toBeDefined();
     });
 
-    it('should have translateKeys', () => {
-      expect(component['translateKeys']).toBeDefined();
+    it('should have translationKeys', () => {
+      expect(component['translationKeys']).toBeDefined();
     });
 
     it('should have bypassConfigToReplace object', () => {
@@ -519,7 +519,7 @@ describe('ProfileEmergencyContactComponent', () => {
         number: '123',
         prefix: '+1'
       };
-      
+
       component.previousValues.set('key1', mockData);
       expect(component.previousValues.get('key1')).toEqual(mockData);
     });
@@ -542,7 +542,7 @@ describe('ProfileEmergencyContactComponent', () => {
       const initialConfig = component.formBuilderConfig();
       component['internalInit']();
       const updatedConfig = component.formBuilderConfig();
-      
+
       // Config should be updated after internalInit
       expect(updatedConfig).not.toBe(initialConfig);
     });

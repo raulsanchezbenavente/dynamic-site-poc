@@ -5,8 +5,8 @@ import { TextHelperService } from '@dcx/ui/libs';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { FormBuilderConfig, RfErrorDisplayModes, RfFormStore, RfInputField, RfListOption } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
 import { EmergencyContactData } from '../../core/models/emergency-contact-data';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 import { getEmergencyFormConfig } from './configs/emergency-contact.config';
 
@@ -34,7 +34,7 @@ export class ProfileEmergencyContactComponent implements OnInit {
   public formSummary = viewChild<FormSummaryComponent>('formSummary');
   public updateProfileEmergencyContact = output<EmergencyContactData>();
   protected readonly columns = input<number>(2);
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
 
   protected displayErrorMode = RfErrorDisplayModes.TOUCHED;
   protected FormSummaryViews = FormSummaryViews;
@@ -84,18 +84,18 @@ export class ProfileEmergencyContactComponent implements OnInit {
     this.buttonsConfig.set({
       addButton: {
         label: this.translateService.instant(
-          this.translateKeys.AccountProfile_EmergencyForm_AddEmergencyContactButton_Label
+          this.translationKeys.AccountProfile_EmergencyForm_AddEmergencyContactButton_Label
         ),
       },
       saveButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_ConfirmButton_Label),
-        loadingLabel: this.translateService.instant(this.translateKeys.AccountProfile_SavingButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_ConfirmButton_Label),
+        loadingLabel: this.translateService.instant(this.translationKeys.AccountProfile_SavingButton_Label),
       },
       cancelButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_CancelButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_CancelButton_Label),
       },
       editButton: {
-        label: this.translateService.instant(this.translateKeys.AccountProfile_EditButton_Label),
+        label: this.translateService.instant(this.translationKeys.AccountProfile_EditButton_Label),
       },
     });
   }

@@ -1,24 +1,23 @@
 import { EnumStatusTag } from '@dcx/ui/design-system';
-import { COMMON_TRANSLATIONS } from '@dcx/ui/mock-repository';
 
 import type { AccountProfileConfig } from '../../core/models/account-profile-config';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 
 export const DATA_INITIAL_VALUE: AccountProfileConfig = {
   culture: 'en',
   statusTags: [EnumStatusTag.COMPLETE, EnumStatusTag.INCOMPLETE],
   personalFormConfig: {
-    title: 'AccountProfile.Title',
-    description: 'AccountProfile.Description',
+    title: TranslationKeys.AccountProfile_Title,
+    description: TranslationKeys.AccountProfile_Description,
   },
   documentsFormConfig: {
-    title: 'AccountProfile.DocumentsForm.MainDocument_Title',
-    description: 'AccountProfile.DocumentsForm.Description',
+    title: TranslationKeys.AccountProfile_DocumentsForm_MainDocument_Title,
+    description: TranslationKeys.AccountProfile_DocumentsForm_Description,
   },
   companionsFormConfig: {
-    title: 'AccountProfile.CompanionsForm.Title',
-    description: 'AccountProfile.CompanionsForm.Description',
+    title: TranslationKeys.AccountProfile_CompanionsForm_Title,
+    description: TranslationKeys.AccountProfile_CompanionsForm_Description,
   },
-  dialogModalsRepository: {
-    modalDialogExceptions: [],
-  },
+  sessionDialogModalsRepository: {} as any,
+  accountProfileDialogModalsRepository: {} as any,
 };

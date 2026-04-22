@@ -38,8 +38,8 @@ import {
   RfFormStore,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../core/enum/translation-keys.enum';
 import { AccountCompanionsConfig } from '../../core/models/account-companions.config';
+import { TranslationKeys } from '../../enums/translation-keys.enum';
 import { AccountCompanionsComponent } from '../account-companions/account-companions.component';
 
 @Component({
@@ -79,7 +79,7 @@ export class AccountCompanionsContainerComponent implements OnChanges {
   };
 
   protected readonly MAX_COMPANIONS = 4;
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
   protected readonly addButtonCompanion = signal<ButtonConfig>({
     icon: { name: 'plus-circle-filled' },
     label: '',
@@ -108,7 +108,9 @@ export class AccountCompanionsContainerComponent implements OnChanges {
     if (changes['config']) {
       this.addButtonCompanion.update((config) => ({
         ...config,
-        label: this.translateService.instant(this.translateKeys.AccountProfile_CompanionsForm_AddCompanionButton_Label),
+        label: this.translateService.instant(
+          this.translationKeys.AccountProfile_CompanionsForm_AddCompanionButton_Label
+        ),
       }));
       this.setCompanionTitles();
     }
@@ -317,7 +319,7 @@ export class AccountCompanionsContainerComponent implements OnChanges {
 
     const label = paxType
       ? this.translateService.instant(this.getPassengerTypeTranslate(paxType as PaxTypeCode))
-      : this.translateService.instant(this.translateKeys.AccountProfile_CompanionsForm_Companion_Label);
+      : this.translateService.instant(this.translationKeys.AccountProfile_CompanionsForm_Companion_Label);
 
     return `${label} ${count}:`;
   }
@@ -325,13 +327,13 @@ export class AccountCompanionsContainerComponent implements OnChanges {
   private getPassengerTypeTranslate(paxTypeCode: PaxTypeCode): string {
     switch (paxTypeCode) {
       case PaxTypeCode.ADT:
-        return this.translateKeys.AccountProfile_CompanionsForm_ADT_Label;
+        return this.translationKeys.AccountProfile_CompanionsForm_ADT_Label;
       case PaxTypeCode.CHD:
-        return this.translateKeys.AccountProfile_CompanionsForm_CHD_Label;
+        return this.translationKeys.AccountProfile_CompanionsForm_CHD_Label;
       case PaxTypeCode.TNG:
-        return this.translateKeys.AccountProfile_CompanionsForm_TNG_Label;
+        return this.translationKeys.AccountProfile_CompanionsForm_TNG_Label;
       case PaxTypeCode.INF:
-        return this.translateKeys.AccountProfile_CompanionsForm_INF_Label;
+        return this.translationKeys.AccountProfile_CompanionsForm_INF_Label;
       default:
         return '';
     }

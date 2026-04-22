@@ -11,7 +11,7 @@ import {
   RfListOption,
 } from 'reactive-forms';
 
-import { TranslationKeys } from '../../../core/enum/translation-keys.enum';
+import { TranslationKeys } from '../../../enums/translation-keys.enum';
 
 export function getConfig(
   documentOptions: RfListOption[],

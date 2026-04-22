@@ -73,7 +73,6 @@ import { TravelDocumentsContainerComponent } from './components/travel-documents
 import { AccountProfileModals } from './core/enum/account-profile-modals.enum';
 import { CookiesKeys } from './core/enum/cookies-keys.enum';
 import { ErrorCodesAsyncValidators } from './core/enum/error-codes.enum';
-import { TranslationKeys } from './core/enum/translation-keys.enum';
 import { AccountCompanionsConfig } from './core/models/account-companions.config';
 import { AccountProfileConfig } from './core/models/account-profile-config';
 import { EmergencyContactData } from './core/models/emergency-contact-data';
@@ -81,6 +80,7 @@ import { MyProfileConfig } from './core/models/my-profile.config';
 import { PersonalInformation } from './core/models/personal-information';
 import { SummaryContactData } from './core/models/summary-contact-data';
 import { TravelDocumentsConfig } from './core/models/travel-documents.config';
+import { TranslationKeys } from './enums/translation-keys.enum';
 
 @Component({
   selector: 'account-profile',
@@ -101,7 +101,7 @@ import { TravelDocumentsConfig } from './core/models/travel-documents.config';
 export class AccountProfileComponent extends DynamicPageReadinessBase {
   public baseConfig = input<{ url: string } | null>(null);
   public readonly config = signal<AccountProfileConfig>({} as AccountProfileConfig);
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
   protected readonly formsNames: Map<string, string> = new Map([
     ['account-personal', 'formPersonal'],
     ['account-contact', 'contact'],
@@ -595,7 +595,7 @@ export class AccountProfileComponent extends DynamicPageReadinessBase {
     this.toastService.show(
       {
         status: ToastStatus.SUCCESS,
-        message: 'AccountProfile.PersonalForm.Alert_Saved_Message',
+        message: TranslationKeys.AccountProfile_PersonalForm_Alert_Saved_Message,
       } as Toast,
       'accountMyProfileToast_Id'
     );
