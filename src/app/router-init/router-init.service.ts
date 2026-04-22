@@ -93,7 +93,11 @@ export class RouterInitService {
       const pages = site?.pages ?? [];
       const routes = pages.map((page, index) => this.buildPageRoute(page, index));
 
-      this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
+      this.router.resetConfig([
+        { path: '', redirectTo: 'en/members/home', pathMatch: 'full' },
+        ...routes,
+        { path: '**', redirectTo: 'en/members/home' },
+      ]);
 
       if (!this.hasLoggedInitialSiteLoad) {
         this.hasLoggedInitialSiteLoad = true;
