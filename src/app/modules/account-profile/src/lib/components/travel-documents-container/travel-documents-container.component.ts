@@ -75,7 +75,7 @@ export class TravelDocumentsContainerComponent implements OnChanges {
   };
 
   protected readonly MAX_DOCUMENTS = 2;
-  protected readonly translateKeys = TranslationKeys;
+  protected readonly translationKeys = TranslationKeys;
   protected readonly hasDocuments = signal<boolean>(true);
   protected readonly addButtonDocument = signal<ButtonConfig>({
     icon: { name: 'plus-circle-filled' },
@@ -101,7 +101,7 @@ export class TravelDocumentsContainerComponent implements OnChanges {
     if (changes['config']) {
       this.addButtonDocument.update((config) => ({
         ...config,
-        label: this.translate.instant(this.translateKeys.AccountProfile_DocumentsForm_AddDocumentButton_Label),
+        label: this.translate.instant(this.translationKeys.AccountProfile_DocumentsForm_AddDocumentButton_Label),
       }));
     }
   }
