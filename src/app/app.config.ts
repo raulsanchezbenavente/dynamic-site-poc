@@ -52,7 +52,6 @@ import { concatMap, firstValueFrom, Observable } from 'rxjs';
 
 import { routes } from './app.routes';
 import { blockComponentRegistry } from './component-map';
-import { staticConfigDomainStripInterceptor } from './interceptors/static-config-domain-strip.interceptor';
 import { AP_APP_PROVIDERS } from './modules/account-profile/src/public-api';
 import { BLOCK_COMPONENT_REGISTRY } from './modules/dynamic-composite/block-outlet/block-outlet.component';
 import { SamePageIdReuseStrategy } from './same-page-id-reuse.strategy';
@@ -112,7 +111,7 @@ export const appConfig: ApplicationConfig = {
     }),
     provideHttpClient(
       withInterceptors([
-        staticConfigDomainStripInterceptor,
+        // staticConfigDomainStripInterceptor,
         (req, next): Observable<HttpEvent<unknown>> => {
           const interceptor = inject(AuthHttpInterceptor);
           return interceptor.intercept(req, {
