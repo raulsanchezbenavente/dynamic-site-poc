@@ -62,12 +62,12 @@
       "pageId": "ef3834b5-c025-40bb-9008-19718f6f8f13",
       "path": "en/members/home",
       "name": "Home",
-      "layout": "/static-config/layouts/page-layout_en-us.json",
       "seo": {
         "title": "Home",
         "description": "",
         "robots": ""
       },
+      "layout": "/assets/config-site/templates/header-footer",
       "slots": {
         "main": {
           "rows": [
@@ -77,14 +77,18 @@
                   "component": "authorizationBlock_uiplus",
                   "span": 12,
                   "config": {
-                    "url": "/static-config/components/config_AuthorizationBlock_uiplus_4C-77-C0-6B-FA-94-11-4F_en-us.json"
+                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AuthorizationBlock_uiplus_95-74-3F-4E-EF-20-FF-42_en-us"
                   }
-                },
+                }
+              ]
+            },
+            {
+              "cols": [
                 {
-                  "component": "loyaltyOverviewCardBlock_uiplus",
+                  "component": "LoyaltyOverviewCardBlock_uiplus",
                   "span": 12,
                   "config": {
-                    "url": "/static-config/components/config_LoyaltyOverviewCardBlock_uiplus_4C-CE-0C-15-FF-94-11-D7_en-us.json"
+                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_LoyaltyOverviewCardBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
                   }
                 }
               ]
@@ -95,23 +99,22 @@
                   "component": "multiTabBlock_uiplus",
                   "span": 12,
                   "config": {
-                    "url": "/static-config/components/config_MultiTabBlock_uiplus_7E-52-D3-99-11-A5-87-2C_en-us.json",
-                    "tabsId": "05096978-bf00-4289-a34f-f122694c9c24",
+                    "tabsId": "111",
                     "tabs": [
                       {
-                        "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
-                        "name": "Personal Data - Tab",
-                        "title": "Personal Data",
+                        "tabId": "22",
+                        "name": "Personal data",
+                        "title": "Personal data",
                         "secondaryText": "",
                         "layout": {
                           "rows": [
                             {
                               "cols": [
                                 {
-                                  "component": "accountProfileBlock_uiplus",
+                                  "component": "accountProfile_uiplus",
                                   "span": 12,
                                   "config": {
-                                    "url": "/static-config/components/config_AccountProfileBlock_uiplus_6C-51-8E-0D-26-51-7A-F1_en-us.json"
+                                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_en-us"
                                   }
                                 }
                               ]
@@ -120,19 +123,19 @@
                         }
                       },
                       {
-                        "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
-                        "name": "My trips - Tab",
-                        "title": "My Trips",
+                        "tabId": "33",
+                        "name": "My trips",
+                        "title": "My trips",
                         "secondaryText": "",
                         "layout": {
                           "rows": [
                             {
                               "cols": [
                                 {
-                                  "component": "findBookingsBlock_uiplus",
+                                  "component": "FindBookingsBlock_uiplus",
                                   "span": 12,
                                   "config": {
-                                    "url": "av-static-dev3.newshore.es/static-config/components/config_FindBookingsBlock_uiplus_56-2E-48-29-E2-F7-EE-36_en-us.json"
+                                    "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_FindBookingsBlock_uiplus_49-49-AA-6D-4B-18-28-CC_en-us"
                                   }
                                 }
                               ]
@@ -141,20 +144,17 @@
                         }
                       },
                       {
-                        "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
-                        "name": "Account Settings - Tab",
-                        "title": "Account Settings",
+                        "tabId": "44",
+                        "name": "Account settings",
+                        "title": "Account settings",
                         "secondaryText": "",
                         "layout": {
                           "rows": [
                             {
                               "cols": [
                                 {
-                                  "component": "rteBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "av-static-dev3.newshore.es/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                                  }
+                                  "component": "accountSettings_uiplus_EX",
+                                  "span": 12
                                 }
                               ]
                             }
@@ -162,20 +162,17 @@
                         }
                       },
                       {
-                        "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
-                        "name": "My Elite Status - Tab",
-                        "title": "My Elite Status",
+                        "tabId": "55",
+                        "name": "My elite status",
+                        "title": "My elite status",
                         "secondaryText": "",
                         "layout": {
                           "rows": [
                             {
                               "cols": [
                                 {
-                                  "component": "loyaltyStatusOverviewBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "av-static-dev3.newshore.es/static-config/components/.json"
-                                  }
+                                  "component": "eliteStatus_uiplus_EX",
+                                  "span": 12
                                 }
                               ]
                             }
