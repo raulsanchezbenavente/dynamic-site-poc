@@ -1,0 +1,81 @@
+{
+  "tabsConfig": {
+    "autoSelectOnFocus": false,
+    "breakPointConfig": {
+      "xs": {
+        "visibleItems": 1,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      },
+      "s": {
+        "visibleItems": 2,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      },
+      "m": {
+        "visibleItems": 2,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      },
+      "l": {
+        "visibleItems": 3,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      },
+      "xl": {
+        "visibleItems": 4,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      },
+      "xxl": {
+        "visibleItems": 4,
+        "itemsMargin": null,
+        "itemsToScroll": null
+      }
+    },
+    "items": [
+      {
+        "id": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
+        "tabTrigger": {
+          "text": "Personal Data",
+          "secondaryText": "",
+          "icon": null
+        },
+        "isDisabled": null,
+        "content": "\r\n\r\n\r\n        <div class=\"container-wrap\">\r\n            <div class=\"grid\">\r\n\r\n                        <div class=\"grid-col col-12 col-lg-12\">\r\n                                        <dcx-component data-module-id=fd2ce4f9-a92c-4ec5-adee-6e65a79fb05c\r\n                                                       data-module-name=AccountProfile\r\n                                                       data-module-config=\"config_AccountProfileBlock_uiplus_2E-14-72-B5-7A-F2-94-D1_es-es\"\r\n                                                       data-isolated-loading>\r\n                                        </dcx-component>\r\n                        </div>\r\n            </div>\r\n        </div>\r\n\r\n\r\n\r\n"
+      },
+      {
+        "id": "bfc3e995-1892-412f-9753-0445d72c16af",
+        "tabTrigger": {
+          "text": "My Trips",
+          "secondaryText": "",
+          "icon": null
+        },
+        "isDisabled": null,
+        "content": "\r\n\r\n\r\n        <div class=\"container-wrap\">\r\n            <div class=\"grid grid--no-padding-bottom\">\r\n\r\n                        <div class=\"grid-col col-12 col-lg-12\">\r\n                                        <dcx-component data-module-id=bfd2e76c-ef2a-4a51-a559-88252e26cdc7\r\n                                                       data-module-name=FindBookings\r\n                                                       data-module-config=\"config_FindBookingsBlock_uiplus_56-2E-48-29-E2-F7-EE-36_es-es\"\r\n                                                       data-isolated-loading>\r\n                                        </dcx-component>\r\n                        </div>\r\n            </div>\r\n        </div>\r\n\r\n\r\n\r\n"
+      },
+      {
+        "id": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
+        "tabTrigger": {
+          "text": "Account Settings",
+          "secondaryText": "",
+          "icon": null
+        },
+        "isDisabled": null,
+        "content": "\r\n\r\n\r\n        <div class=\"container-wrap\">\r\n            <div class=\"grid\">\r\n\r\n                        <div class=\"grid-col col-12 col-lg-12\">\r\n\r\n\r\n<p>Account settings section</p>\r\n                        </div>\r\n            </div>\r\n        </div>\r\n\r\n\r\n\r\n"
+      },
+      {
+        "id": "f6f35a66-e836-480e-88f9-4abc9e28d793",
+        "tabTrigger": {
+          "text": "My Elite Status",
+          "secondaryText": "",
+          "icon": null
+        },
+        "isDisabled": null,
+        "content": "\r\n\r\n\r\n        <div class=\"container-wrap\">\r\n            <div class=\"grid\">\r\n\r\n                        <div class=\"grid-col col-12 col-lg-12\">\r\n                                        <dcx-component data-module-id=11e4af57-d083-41ff-89f7-8b0672ad09e8\r\n                                                       data-module-name=loyaltyStatusOverviewBlock_uiplus_error: Resolver not found for module: LoyaltyStatusOverviewBlock_uiplus\r\n                                                       \r\n                                                       data-isolated-loading>\r\n                                        </dcx-component>\r\n                        </div>\r\n            </div>\r\n        </div>\r\n\r\n\r\n\r\n"
+      }
+    ]
+  },
+  "culture": "en-us",
+  "additionalKey": null
+}

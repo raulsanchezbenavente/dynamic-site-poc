@@ -95,7 +95,14 @@ export class SiteConfigService {
   }
 
   private getURlFromLangAndContext(lang: string): string {
-    return '/assets/config-site/' + lang;
+    const cultureLang = {
+      en: 'en-us',
+      es: 'es-co',
+      fr: 'fr-fr',
+      pt: 'pt-br',
+    };
+    // return '/assets/config-site/' + lang;
+    return '/static-config/site/config-site_' + (cultureLang[lang as keyof typeof cultureLang] ?? lang) + '.json';
   }
 
   public get siteSnapshot(): SiteConfigResponse | null {
