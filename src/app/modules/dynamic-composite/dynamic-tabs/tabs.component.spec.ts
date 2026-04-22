@@ -1,8 +1,10 @@
 import { Subject } from 'rxjs';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 
 import { RouterHelperService, SiteConfigService } from '@navigation';
 import { TabStructure } from './models/tab-layout-structure.model';
@@ -38,6 +40,12 @@ describe('DsTabsComponent', () => {
     getTabNamesByTabsId: (_tabsId: string): Array<{ name: string; tabId?: string }> => tabSummaries,
   };
 
+  const translateServiceMock = jasmine.createSpyObj<TranslateService>('TranslateService', [
+    'setTranslation',
+    'setFallbackLang',
+    'use',
+  ]);
+
   const tabsInput: TabStructure[] = [
     {
       tabId: 'tab-1',
@@ -70,7 +78,7 @@ describe('DsTabsComponent', () => {
     tabSummaries = [];
 
     await TestBed.configureTestingModule({
-      imports: [DsTabsComponent],
+      imports: [DsTabsComponent, HttpClientTestingModule],
       providers: [
         {
           provide: Router,
@@ -81,6 +89,7 @@ describe('DsTabsComponent', () => {
         { provide: ActivatedRoute, useValue: routeMock },
         { provide: RouterHelperService, useValue: routerHelperMock },
         { provide: SiteConfigService, useValue: siteConfigMock },
+        { provide: TranslateService, useValue: translateServiceMock },
         {
           provide: Title,
           useValue: jasmine.createSpyObj<Title>('Title', ['setTitle']),
