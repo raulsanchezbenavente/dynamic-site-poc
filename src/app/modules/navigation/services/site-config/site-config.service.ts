@@ -102,12 +102,12 @@ export class SiteConfigService {
       pt: 'pt-br',
     };
     // return '/assets/config-site/' + lang;
-    // return '/static-config/site/config-site_' + (cultureLang[lang as keyof typeof cultureLang] ?? lang) + '.json';
-    return (
-      'https://av-static-dev3.newshore.es/static-config/site/config-site_' +
-      (cultureLang[lang as keyof typeof cultureLang] ?? lang) +
-      '.json'
-    );
+    return '/static-config/site/config-site_' + (cultureLang[lang as keyof typeof cultureLang] ?? lang) + '.json';
+    // return (
+    //   'https://av-static-dev3.newshore.es/static-config/site/config-site_' +
+    //   (cultureLang[lang as keyof typeof cultureLang] ?? lang) +
+    //   '.json'
+    // );
   }
 
   public get siteSnapshot(): SiteConfigResponse | null {
