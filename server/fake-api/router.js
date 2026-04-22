@@ -1,6 +1,6 @@
 const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 
 const responsesDir = path.join(__dirname, 'responses');
 
@@ -26,6 +26,58 @@ function sendJsonResponseFromFile(res, relativeFilePath) {
       result: null,
     });
   }
+}
+
+function getSingleQueryString(value, fallback = '') {
+  if (typeof value === 'string') {
+    return value;
+  }
+
+  if (Array.isArray(value) && typeof value[0] === 'string') {
+    return value[0];
+  }
+
+  return fallback;
+}
+
+function resolvePointOfSalesResponseFile(cultureQuery) {
+  const rawCulture = getSingleQueryString(cultureQuery, 'en').trim();
+  const safeCulture = rawCulture.replaceAll(/[^a-zA-Z-]/g, '');
+  const normalizedCulture = safeCulture || 'en';
+  const baseCulture = normalizedCulture.split('-')[0] || normalizedCulture;
+
+  const candidates = [normalizedCulture, normalizedCulture.toLowerCase(), baseCulture.toLowerCase(), 'en'];
+  const uniqueCandidates = [...new Set(candidates.filter(Boolean))];
+
+  for (const culture of uniqueCandidates) {
+    const relativePath = `config/PointOfSales_${culture}.json`;
+    const absolutePath = path.join(responsesDir, relativePath);
+    if (fs.existsSync(absolutePath)) {
+      return relativePath;
+    }
+  }
+
+  return 'config/PointOfSales_en.json';
+}
+
+function resolveTranslationResponseFile(cultureQuery) {
+  const rawCulture = getSingleQueryString(cultureQuery, '').trim();
+  const safeCulture = rawCulture.replaceAll(/[^a-zA-Z-]/g, '');
+  const normalizedCulture = safeCulture;
+  const baseCulture = normalizedCulture.split('-')[0] || normalizedCulture;
+
+  const candidates = [normalizedCulture, normalizedCulture.toLowerCase(), baseCulture.toLowerCase()];
+  const uniqueCandidates = [...new Set(candidates.filter(Boolean))];
+
+  for (const culture of uniqueCandidates) {
+    const relativePath = `translation/GetByCultureAndKeys_${culture}.json`;
+    const absolutePath = path.join(responsesDir, relativePath);
+    if (fs.existsSync(absolutePath)) {
+      return relativePath;
+    }
+  }
+
+  return 'translation/GetByCultureAndKeys.json';
 }
 
 function withDelay(handler) {
@@ -84,39 +136,21 @@ function createFakeApiRouter(options = {}) {
     })
   );
 
-  router.get('/LoyaltyPrograms', (_req, res) => {
-    sendJsonResponseFromFile(res, 'loyalty-programs.json');
-  });
-
   router.get('/booking/api/v1/booking/findFlights', (_req, res) => {
     sendJsonResponseFromFile(res, 'booking/api/v1/findFlights.get.json');
   });
 
-  router.get('/configuration/api/v1/UI_PLUS/Config/AnalyticsSettings', (_req, res) => {
-    sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
-  });
-
-  router.get('/AnalyticsSettings', (_req, res) => {
-    sendJsonResponseFromFile(res, 'config/AnalyticsSettings.json');
-  });
-
   router.get('/configuration/api/v1/UI_PLUS/Config/PointOfSales', (req, res) => {
-    const culture = req.query.culture || 'en';
-    sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
-  });
-
-  router.get('/PointOfSales', (req, res) => {
-    const culture = req.query.culture || 'en';
-    sendJsonResponseFromFile(res, `config/PointOfSales_${culture}.json`);
+    sendJsonResponseFromFile(res, resolvePointOfSalesResponseFile(req.query.culture));
   });
 
   router.get('/configuration/api/v1/Countries', (req, res) => {
-    const culture = req.query.culture || 'en-US';
+    const culture = getSingleQueryString(req.query.culture, 'en-US');
     sendJsonResponseFromFile(res, `config/Countries_${culture}.json`);
   });
 
-  router.get('/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys', (_req, res) => {
-    sendJsonResponseFromFile(res, 'translation/GetByCultureAndKeys.json');
+  router.get('/configuration/api/v1/UI_PLUS/Translation/GetByCultureAndKeys', (req, res) => {
+    sendJsonResponseFromFile(res, resolveTranslationResponseFile(req.query.culture));
   });
 
   router.get('/configuration/api/v1/UI_PLUS/Config/get', (req, res) => {
