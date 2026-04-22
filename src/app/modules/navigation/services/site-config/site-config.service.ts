@@ -97,7 +97,7 @@ export class SiteConfigService {
   private getURlFromLangAndContext(lang: string): string {
     const cultureLang = {
       en: 'en-us',
-      es: 'es-co',
+      es: 'es-es',
       fr: 'fr-fr',
       pt: 'pt-br',
     };
