@@ -9,7 +9,7 @@ import {
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter, RouteReuseStrategy } from '@angular/router';
 import { ANALYTICS_DICTIONARIES, ANALYTICS_EXPECTED_EVENTS, ANALYTICS_EXPECTED_KEYS_MAP } from '@dcx/module/analytics';
-import { AccountClient, AccountV2Client, CmsConfigClient } from '@dcx/module/api-clients';
+import { AccountClient, AccountV2Client, CmsConfigClient, provideApiClients } from '@dcx/module/api-clients';
 import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
 import {
   ANALYTICS_INTERFACES_PROPERTIES,
@@ -100,6 +100,16 @@ export const appConfig: ApplicationConfig = {
         return firstValueFrom(svc.loadSite([getLangFromUrl()]));
       },
     },
+    provideApiClients({
+      endpointsConfig: () => {
+        const configService = inject(ConfigService);
+        return configService.getEndpointsConfig();
+      },
+      apiBaseUrl: () => {
+        const configService = inject(ConfigService);
+        return configService.getMainConfig().staticConfigUrl;
+      },
+    }),
     provideHttpClient(
       withInterceptors([
         staticConfigDomainStripInterceptor,
