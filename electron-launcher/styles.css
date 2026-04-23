@@ -237,7 +237,7 @@ body {
   position: relative;
   width: min(32rem, calc(100vw - 2.2rem));
   border: 2px solid #c9d8ec;
-  border-radius: 1.35rem;
+  border-radius: 1rem;
   background: #f6faff;
   box-shadow: 0 22px 40px rgba(13, 31, 58, 0.26);
   color: #172944;
