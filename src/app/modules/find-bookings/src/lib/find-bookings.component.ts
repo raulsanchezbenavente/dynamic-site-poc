@@ -110,8 +110,8 @@ import {
   standalone: true,
 })
 export class FindBookingsComponent extends DynamicPageReadinessBase implements OnInit, AfterViewInit, OnDestroy {
-  public isLoaded = signal<boolean>(false);
   public baseConfig = input<{ url: string } | null>(null);
+  public isLoaded = signal<boolean>(false);
   public config!: FindBookingsConfig;
   public totalUpcomingTrips = signal<number>(0);
   public totalUpcomingPages = signal<number>(1);
@@ -148,15 +148,25 @@ export class FindBookingsComponent extends DynamicPageReadinessBase implements O
   private readonly injector = inject(Injector);
   private readonly analyticsService = inject(AnalyticsService);
   private readonly baseItemsMapper = inject(BaseItemsMapper);
-  private readonly http = inject(HttpClient);
 
   private readonly CMSKey = 'FindBookings';
   private readonly addFlightToastContainerId = 'mytripsAddFlightToast_Id';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
+  private readonly http = inject(HttpClient);
+  private hasInitializedInternalInit = false;
 
   public ngOnInit(): void {
     this.internalInit();
   }
+
+  private readonly translationsLoadedLogEffect = effect(() => {
+    const loaded = this.dynamicPageTranslationsLoaded();
+    console.log(loaded);
+    if (loaded && !this.hasInitializedInternalInit) {
+      this.hasInitializedInternalInit = true;
+      this.loadTranslations();
+    }
+  });
 
   public ngAfterViewInit(): void {
     this.initScrollManagement();
@@ -209,6 +219,7 @@ export class FindBookingsComponent extends DynamicPageReadinessBase implements O
     this.subscribeComposerNotifier();
     this.composer.updateComposerRegisterStatus(this.data().id, ComposerStatusEnum.LOADED);
     this.isLoaded.set(true);
+    this.emitDynamicPageReady(this.baseConfig(), 'findBookingsBlock_uiplus', DynamicPageReadyState.RENDERED);
   }
 
   private retrieveFindBookings(showAddToast: boolean = false): void {
@@ -365,19 +376,29 @@ export class FindBookingsComponent extends DynamicPageReadinessBase implements O
   private initConfig(): Observable<FindBookingsConfig> {
     if (this.baseConfig()) {
       return this.http.get<FindBookingsConfig>(this.baseConfig()?.url || '').pipe(
-        tap((response) => {
-          this.config = response;
-          this.emitDynamicPageReady(this.baseConfig(), 'FindBookingsBlock_uiplus', DynamicPageReadyState.RENDERED);
+        tap((config) => {
+          this.config = config;
+          this.setCarouselConfig();
+          this.logger.info('FindBookingsComponent', 'Business module config', this.config);
         })
       );
     } else {
       return this.configService.getBusinessModuleConfig<FindBookingsConfig>(this.data().config).pipe(
         tap((config) => {
           this.config = config;
+          this.setCarouselConfig();
           this.logger.info('FindBookingsComponent', 'Business module config', this.config);
         })
       );
     }
+
+    return this.configService.getBusinessModuleConfig<FindBookingsConfig>(this.data().config).pipe(
+      tap((config) => {
+        this.config = config;
+        this.setCarouselConfig();
+        this.logger.info('FindBookingsComponent', 'Business module config', this.config);
+      })
+    );
   }
 
   /**

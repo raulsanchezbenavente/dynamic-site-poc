@@ -25,7 +25,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     ),
   accountProfileBlock_uiplus: () =>
     import('./modules/account-profile/src/lib/account-profile.component').then((m) => m.AccountProfileComponent),
-  FindBookingsBlock_uiplus: () =>
+  findBookingsBlock_uiplus: () =>
     import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
 
   // Avianca Fake
@@ -103,7 +103,7 @@ export const configInputAliases: Record<string, string> = {
   BreadcrumbBlock_uiplus: 'baseConfig',
   loyaltyOverviewCardBlock_uiplus: 'baseConfig',
   accountProfileBlock_uiplus: 'baseConfig',
-  FindBookingsBlock_uiplus: 'baseConfig',
+  findBookingsBlock_uiplus: 'baseConfig',
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();

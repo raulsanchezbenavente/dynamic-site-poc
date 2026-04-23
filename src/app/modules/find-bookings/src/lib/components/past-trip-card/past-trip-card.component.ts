@@ -1,7 +1,7 @@
 import { Component, inject, input, OnInit } from '@angular/core';
 import { TransportOperatedBy, TransportOperatedByComponent } from '@dcx/ui/business-common';
 import { DateDisplayComponent, DateDisplayConfig } from '@dcx/ui/design-system';
-import { CultureServiceEx } from '@dcx/ui/libs';
+import { CultureServiceEx , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 import dayjs from 'dayjs';
 
@@ -18,6 +18,8 @@ import { PastTripCardVM } from './models/past-trip-card-vm.model';
   standalone: true,
 })
 export class PastTripCardComponent implements OnInit {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   public readonly data = input.required<PastTripCardVM>();
   private readonly cultureServiceEx = inject(CultureServiceEx);
 

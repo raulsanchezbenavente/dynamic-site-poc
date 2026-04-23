@@ -72,7 +72,7 @@
                     {
                       "cols": [
                         {
-                          "component": "FindBookingsBlock_uiplus",
+                          "component": "findBookingsBlock_uiplus",
                           "span": 12,
                           "config": {
                             "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_FindBookingsBlock_uiplus_49-49-AA-6D-4B-18-28-CC_en-us"

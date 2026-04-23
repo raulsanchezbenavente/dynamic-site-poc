@@ -3,7 +3,7 @@ import { Component, inject, Input, ViewChild } from '@angular/core';
 import { MODULE_TRANSLATION_MAP } from '@dcx/module/translation';
 import type { Toast } from '@dcx/ui/design-system';
 import { ToastService, ToastStatus } from '@dcx/ui/design-system';
-import { AuthService } from '@dcx/ui/libs';
+import { AuthService, CommonTranslationKeys } from '@dcx/ui/libs';
 import { AUTH_STORYBOOK_PROVIDERS, StorybookAuthServiceMock } from '@dcx/ui/storybook-session';
 import type { Meta, StoryObj } from '@storybook/angular';
 import { moduleMetadata } from '@storybook/angular';
@@ -196,11 +196,9 @@ const META: Meta<FindBookingsStoryWrapperComponent> = {
         'FindBookings.AddTripButtonLabel': 'Add Trip',
         'FindBookings.AddTrip.Alert_Add_Message': 'Flight added successfully!',
         'FindBookings.Loading': 'Loading...',
-        'Common.Loading': 'Loading...',
-        'Common.Retry': 'Retry',
-        'Common.Carriers.OperatedBy': 'Operado por',
-        'Common.Terminal': 'Terminal',
-        'Common.To': 'a',
+        [CommonTranslationKeys.Common_Carriers_OperatedBy]: 'Operado por',
+        [CommonTranslationKeys.Common_Terminal]: 'Terminal',
+        [CommonTranslationKeys.Common_To]: 'a',
         'City.BOG': 'Bogotá',
         'City.MIA': 'Miami',
         'City.MAD': 'Madrid',

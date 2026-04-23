@@ -4,6 +4,7 @@ import { moduleMetadata } from '@storybook/angular';
 import { PAST_TRIP_DEFAULT, PAST_TRIP_SINGLE_CARRIER } from '../../../stories/mocks/past-trip-card.mock';
 import { STORYBOOK_PROVIDERS } from '../../../stories/providers/storybook.provider';
 import { PastTripCardComponent } from '../past-trip-card.component';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 const META: Meta<PastTripCardComponent> = {
   title: 'Molecules/Past trip card',
@@ -21,7 +22,7 @@ const META: Meta<PastTripCardComponent> = {
         'City.BOG': 'Bogotá',
         'City.MIA': 'Miami',
         'City.JFK': 'New York',
-        'Common.Carriers.OperatedBy': 'Operated by',
+        [CommonTranslationKeys.Common_Carriers_OperatedBy]: 'Operated by',
       },
     },
   },
