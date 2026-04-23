@@ -2,6 +2,7 @@ const fs = require('node:fs');
 const https = require('node:https');
 const express = require('express');
 const { createFakeApiRouter } = require('../fake-api/router');
+const { isUmbracoPath } = require('./umbraco-proxy-middleware');
 
 function mountSharedRoutes(app, options = {}) {
   const {
@@ -146,7 +147,23 @@ function mountSharedRoutes(app, options = {}) {
   }
 
   if (enableFakeApi) {
-    app.use(express.json(), createFakeApiRouter({ ssoBypassKeycloak }));
+    const parseJsonBody = express.json();
+    const fakeApiRouter = createFakeApiRouter({ ssoBypassKeycloak });
+
+    app.use((req, res, next) => {
+      if (isUmbracoPath(req.path)) {
+        next();
+        return;
+      }
+
+      parseJsonBody(req, res, (error) => {
+        if (error) {
+          next(error);
+          return;
+        }
+        fakeApiRouter(req, res, next);
+      });
+    });
     console.log(fakeApiLogLabel);
   }
 }

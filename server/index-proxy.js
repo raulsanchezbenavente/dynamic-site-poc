@@ -24,6 +24,8 @@ const configDir = path.join(__dirname, '../src/assets/config-site');
 const countriesFlagsDir = path.join(__dirname, '../src/app/modules/design-system/assets/ui_plus/imgs/countries-flags');
 const targetHost = 'localhost';
 const targetPort = 4200;
+const umbracoTargetHost = publicHost;
+const umbracoTargetPort = 80;
 const healthCheckPath = '/__proxy-health';
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
 const ssoBypassKeycloak = process.argv.includes('--sso-bypass-config');
@@ -111,6 +113,8 @@ app.use(
   createIndexProxyMiddleware({
     targetHost,
     targetPort,
+    umbracoTargetHost,
+    umbracoTargetPort,
     renderIndexHtml,
   })
 );
