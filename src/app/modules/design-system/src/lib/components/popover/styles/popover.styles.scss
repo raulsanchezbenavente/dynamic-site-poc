@@ -169,6 +169,8 @@
 
 // header
 .#{$ds}popover-header {
+    display: flex;
+    flex-wrap: wrap;
     position: relative;
     color: var(--popover-header-color);
     margin-bottom: var(--popover-header-mb);

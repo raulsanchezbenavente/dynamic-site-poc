@@ -8,4 +8,5 @@ export interface Transport {
   number: string;
   model?: string;
   manufacturer?: string;
+  aircraftConfigurationVersion?: string;
 }

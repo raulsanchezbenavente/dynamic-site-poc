@@ -1,3 +1,4 @@
+export * from './aircraft-configuration-version-config';
 export * from './cultures';
 export * from './currencies';
 export * from './currency-selector';

@@ -28,6 +28,7 @@ import {
   ConfigService,
   DataModule,
   LoggerService,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { TranslateModule } from '@ngx-translate/core';
 import { filter, forkJoin, Observable, tap } from 'rxjs';
@@ -46,6 +47,8 @@ import { GroupOptionsConfig } from './models/group-options-config.model';
   encapsulation: ViewEncapsulation.None,
 })
 export class GroupOptionsComponent implements OnInit {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   public readonly isLoaded = signal<boolean>(false);
   public readonly config = signal<GroupOptionsConfig | undefined>(undefined);
   public readonly isVisible = signal<boolean>(false);

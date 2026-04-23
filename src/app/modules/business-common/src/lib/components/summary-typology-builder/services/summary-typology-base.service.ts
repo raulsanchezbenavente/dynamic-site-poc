@@ -16,6 +16,7 @@ import {
   PerPricing,
   PerPricingVm,
   ScheduleSelection,
+  SEAT_CATEGORY_CONTENT_BY_ACV,
   SegmentVM,
   SellTypeOfService,
   Service,
@@ -32,6 +33,8 @@ import {
   UtilitiesHelper,
 } from '@dcx/ui/libs';
 
+import { SeatCode } from '../../../enums';
+
 @Injectable({ providedIn: 'root' })
 export class SummaryTypologyBaseService {
   constructor(
@@ -39,6 +42,34 @@ export class SummaryTypologyBaseService {
     @Inject(SUMMARY_SELECTED_JOURNEYS_SERVICE)
     protected summarySelectedJourneysService: ISummarySelectedJourneysService
   ) {}
+
+  private readonly DEFAULT_NAME_SEAT_BUSINESS: string = 'businessClass';
+
+  /**
+   * Validates ACV charges for departure and arrival journeys
+   * @param servicesByRoute Services grouped by route (departure, arrival, per booking)
+   * @param params Parameters containing booking and configuration data
+   */
+  private validateAcvForAllJourneys<T extends SummaryTypologyDataVmParams | SummaryTypologyDataPerRouteVmParams>(
+    servicesByRoute: {
+      departureJourneyList: PerPricingVm[];
+      arrivalJourneyList: PerPricingVm[];
+      perBookingServiceList: PerPricingVm[];
+    },
+    params: T
+  ): void {
+    for (const item of servicesByRoute.arrivalJourneyList) {
+      for (const charge of item.charges) {
+        this.verifyIsAcv(charge, params, item);
+      }
+    }
+
+    for (const item of servicesByRoute.departureJourneyList) {
+      for (const charge of item.charges) {
+        this.verifyIsAcv(charge, params, item);
+      }
+    }
+  }
 
   public buildSummaryTypologyDataVm(params: SummaryTypologyDataVmParams): SummaryTypologyDataVm[] {
     const result: SummaryTypologyDataVm[] = [];
@@ -49,6 +80,8 @@ export class SummaryTypologyBaseService {
       params.excludeChargesCode,
       params.showInfoForSelectedFlight
     );
+
+    this.validateAcvForAllJourneys(servicesByRoute, params);
 
     if (servicesByRoute.departureJourneyList.length > 0) {
       result.push(
@@ -114,6 +147,9 @@ export class SummaryTypologyBaseService {
       params.excludeChargesCode,
       params.showInfoForSelectedFlight
     );
+
+    this.validateAcvForAllJourneys(servicesByRoute, params);
+
     const serviceByBooking = params.sellTypePerServices
       .filter((s) => s.scope === EnumSellType.PER_BOOKING || s.scope === EnumSellType.PER_PAX)
       .map((s) => s.code);
@@ -335,7 +371,7 @@ export class SummaryTypologyBaseService {
           ...pb,
           sellType: EnumSellType.PER_BOOKING,
         };
-        
+
         const exists = perBookingServiceList.some((existingItem) => existingItem.charges === newItem.charges);
         if (!exists) {
           perBookingServiceList.push(newItem);
@@ -361,16 +397,15 @@ export class SummaryTypologyBaseService {
       summaryTypologyDataVm.label = label;
       summaryTypologyDataVm.labelText = labelText;
 
-      const filteredPricing = perPricing
-        .filter((priceItem) => {
-          const principalCharge = this.getPrincipalChargeType(priceItem);
-          return (
-            principalCharge &&
-            (principalCharge.type !== EnumChargesType.SERVICE ||
-              (includeServices === true && !skipServices?.includes(principalCharge.code as string)))
-          );
-        });
-      
+      const filteredPricing = perPricing.filter((priceItem) => {
+        const principalCharge = this.getPrincipalChargeType(priceItem);
+        return (
+          principalCharge &&
+          (principalCharge.type !== EnumChargesType.SERVICE ||
+            (includeServices === true && !skipServices?.includes(principalCharge.code as string)))
+        );
+      });
+
       for (const priceItem of filteredPricing) {
         const principalCharge = this.getPrincipalChargeType(priceItem);
 
@@ -442,8 +477,20 @@ export class SummaryTypologyBaseService {
       perPaxSegmentList = result.perPaxSegmentList;
     }
 
-    this.processPerPaxJourneyLists(booking, scheduleSelection, departureJourneyList, arrivalJourneyList, perPaxJourneyList);
-    this.processPerPaxSegmentList(booking, scheduleSelection, departureJourneyList, arrivalJourneyList, perPaxSegmentList);
+    this.processPerPaxJourneyLists(
+      booking,
+      scheduleSelection,
+      departureJourneyList,
+      arrivalJourneyList,
+      perPaxJourneyList
+    );
+    this.processPerPaxSegmentList(
+      booking,
+      scheduleSelection,
+      departureJourneyList,
+      arrivalJourneyList,
+      perPaxSegmentList
+    );
 
     const perBookingServiceList = this.getServiceListPerBooking(booking, showInfoForSelectedFlight);
 
@@ -466,14 +513,22 @@ export class SummaryTypologyBaseService {
     perPaxJourneyList: PerPaxJourney[],
     perPaxSegmentList: PerPaxSegment[]
   ): { perPaxJourneyList: PerPaxJourney[]; perPaxSegmentList: PerPaxSegment[] } {
-    const selectedJourneys = booking.journeys.filter((j: JourneyVM) =>
-      selectedJourneysToCheckIn.includes(j.id)
-    );
+    const selectedJourneys = booking.journeys.filter((j: JourneyVM) => selectedJourneysToCheckIn.includes(j.id));
     const selectedSegments = selectedJourneys.reduce<SegmentVM[]>((s, j) => [...s, ...j.segments], []);
 
     return {
-      perPaxJourneyList: this.getPaxJourneyList(selectedJourneys, booking, showInfoForSelectedFlight, perPaxJourneyList),
-      perPaxSegmentList: this.getPaxSegmentList(selectedSegments, booking, showInfoForSelectedFlight, perPaxSegmentList),
+      perPaxJourneyList: this.getPaxJourneyList(
+        selectedJourneys,
+        booking,
+        showInfoForSelectedFlight,
+        perPaxJourneyList
+      ),
+      perPaxSegmentList: this.getPaxSegmentList(
+        selectedSegments,
+        booking,
+        showInfoForSelectedFlight,
+        perPaxSegmentList
+      ),
     };
   }
 
@@ -640,16 +695,15 @@ export class SummaryTypologyBaseService {
     summaryTypologyDataVm.currency = '';
     summaryTypologyDataVm.label = label;
 
-    const filteredPerPricing = perPricing
-      .filter((priceItem) => {
-        const principalCharge = this.getPrincipalChargeType(priceItem);
-        return (
-          principalCharge &&
-          chargesTypes.includes(principalCharge.type as string) &&
-          !excludeChargesCode.includes(principalCharge.code as string)
-        );
-      });
-    
+    const filteredPerPricing = perPricing.filter((priceItem) => {
+      const principalCharge = this.getPrincipalChargeType(priceItem);
+      return (
+        principalCharge &&
+        chargesTypes.includes(principalCharge.type as string) &&
+        !excludeChargesCode.includes(principalCharge.code as string)
+      );
+    });
+
     for (const priceItem of filteredPerPricing) {
       const principalCharge = this.getPrincipalChargeType(priceItem);
 
@@ -1214,6 +1268,43 @@ export class SummaryTypologyBaseService {
       }
     }
     return relatedCharge ?? perPricing?.charges?.[0];
+  }
+
+  private verifyIsAcv(charge: Charge, params: SummaryTypologyDataVmParams, item: PerPricingVm): void {
+    if (!charge.code) return;
+
+    const chargeCode = charge.code.toUpperCase();
+
+    const segment = params.booking.journeys
+      .flatMap((journey) => journey.segments ?? [])
+      .find((currentSegment) => currentSegment.id === item.sellKey);
+
+    const segmentTransport = segment?.transport as
+      | { aircraftConfigurationVersion?: string; model?: string }
+      | undefined;
+    const businessSeatType = this.resolveBusinessSeatType(
+      segmentTransport?.aircraftConfigurationVersion ?? '',
+      segmentTransport?.model ?? '',
+      chargeCode ?? ''
+    );
+
+    charge.code = businessSeatType;
+  }
+
+  private resolveBusinessSeatType(aircraftConfigurationVersion: string, model: string, fare: string): string {
+    const normalizedFare = fare.trim().toUpperCase();
+    if (normalizedFare !== SeatCode.BUSINESS && normalizedFare !== SeatCode.FLATBED) {
+      return fare;
+    }
+    const normalizedAcv = aircraftConfigurationVersion.trim().toUpperCase();
+    const normalizedModel = model.trim().toUpperCase();
+    const acvRule = SEAT_CATEGORY_CONTENT_BY_ACV[normalizedAcv];
+
+    if (!acvRule) {
+      return fare;
+    }
+
+    return acvRule.models.some((m) => normalizedModel.includes(m)) ? acvRule.label : this.DEFAULT_NAME_SEAT_BUSINESS;
   }
 
   /**

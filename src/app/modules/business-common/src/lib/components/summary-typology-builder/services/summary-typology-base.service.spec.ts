@@ -16,6 +16,8 @@ import {
   SummaryTypologyDataPerRouteVmParams,
 } from '@dcx/ui/libs';
 
+import { SeatCode } from '../../../enums';
+
 describe('SummaryTypologyBaseService', () => {
   let service: SummaryTypologyBaseService;
   let sessionStore: jasmine.SpyObj<SessionStore>;
@@ -421,6 +423,106 @@ describe('SummaryTypologyBaseService', () => {
 
       expect(summarySelectedJourneysService.getJourneysToRequest).toHaveBeenCalled();
       expect(result).toBeDefined();
+    });
+
+    it('should map BUSINESS and FLATBED charge codes by ACV rule for departure and arrival journeys', () => {
+      const bookingWithAcv = JSON.parse(JSON.stringify(mockBooking)) as Booking;
+
+      bookingWithAcv.journeys[0].segments[0].transport = {
+        aircraftConfigurationVersion: '312',
+        model: 'A320',
+      } as any;
+      bookingWithAcv.journeys[1].segments[0].transport = {
+        aircraftConfigurationVersion: '312',
+        model: '787',
+      } as any;
+
+      bookingWithAcv.pricing.breakdown.perPaxJourney = [];
+      bookingWithAcv.pricing.breakdown.perPaxSegment = [
+        {
+          paxId: 'PAX1',
+          segmentId: 'segment1',
+          referenceId: 'pax1-segment1-business',
+          totalAmount: 20,
+          currency: 'USD',
+          charges: [
+            {
+              code: SeatCode.BUSINESS,
+              amount: 20,
+              type: EnumChargesType.SERVICE,
+              currency: 'USD',
+            },
+          ],
+        },
+        {
+          paxId: 'PAX1',
+          segmentId: 'segment2',
+          referenceId: 'pax1-segment2-flatbed',
+          totalAmount: 25,
+          currency: 'USD',
+          charges: [
+            {
+              code: SeatCode.FLATBED,
+              amount: 25,
+              type: EnumChargesType.SERVICE,
+              currency: 'USD',
+            },
+          ],
+        },
+      ] as any;
+
+      const acvParams: SummaryTypologyDataVmParams = {
+        ...params,
+        booking: bookingWithAcv,
+      };
+
+      const result = service.buildSummaryTypologyDataVm(acvParams);
+      const servicesData = result.find((data) => data.label === 'Services');
+      const serviceCodes = servicesData?.records?.map((record) => record.code) ?? [];
+
+      expect(serviceCodes).toContain('PREMIUM');
+      expect(serviceCodes).toContain('businessClass');
+      expect(serviceCodes).not.toContain(SeatCode.BUSINESS);
+      expect(serviceCodes).not.toContain(SeatCode.FLATBED);
+    });
+
+    it('should keep service charge code when it is not BUSINESS or FLATBED', () => {
+      const bookingWithoutAcvApply = JSON.parse(JSON.stringify(mockBooking)) as Booking;
+
+      bookingWithoutAcvApply.journeys[0].segments[0].transport = {
+        aircraftConfigurationVersion: '312',
+        model: 'A320',
+      } as any;
+
+      bookingWithoutAcvApply.pricing.breakdown.perPaxJourney = [];
+      bookingWithoutAcvApply.pricing.breakdown.perPaxSegment = [
+        {
+          paxId: 'PAX1',
+          segmentId: 'segment1',
+          referenceId: 'pax1-segment1-seat',
+          totalAmount: 20,
+          currency: 'USD',
+          charges: [
+            {
+              code: 'SEAT1',
+              amount: 20,
+              type: EnumChargesType.SERVICE,
+              currency: 'USD',
+            },
+          ],
+        },
+      ] as any;
+
+      const noAcvParams: SummaryTypologyDataVmParams = {
+        ...params,
+        booking: bookingWithoutAcvApply,
+      };
+
+      const result = service.buildSummaryTypologyDataVm(noAcvParams);
+      const servicesData = result.find((data) => data.label === 'Services');
+      const serviceCodes = servicesData?.records?.map((record) => record.code) ?? [];
+
+      expect(serviceCodes).toContain('SEAT1');
     });
   });
 

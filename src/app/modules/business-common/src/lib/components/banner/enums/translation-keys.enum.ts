@@ -12,13 +12,6 @@ export enum TranslationKeys {
   Banner_BannerControls_BannerControls_Play_Text = 'Banner.BannerControls.BannerControls_Play_Text',
   Banner_BannerControls_BannerControls_Previous_Text = 'Banner.BannerControls.BannerControls_Previous_Text',
   Banner_BannerControls_BannerControls_Title = 'Banner.BannerControls.BannerControls_Title',
-  Banner_CountDown = 'Banner.CountDown',
-  Banner_CountDown_Days_Label = 'Banner.CountDown.Days_Label',
-  Banner_CountDown_DuringOffer_Label = 'Banner.CountDown.DuringOffer_Label',
-  Banner_CountDown_Hours_Label = 'Banner.CountDown.Hours_Label',
-  Banner_CountDown_Minutes_Label = 'Banner.CountDown.Minutes_Label',
-  Banner_CountDown_Seconds_Label = 'Banner.CountDown.Seconds_Label',
-  Banner_CountDown_StartOffer_Label = 'Banner.CountDown.StartOffer_Label',
   Banner_LowestPrice_Label = 'Banner.LowestPrice_Label',
   Banner_Slide = 'Banner.Slide',
 }

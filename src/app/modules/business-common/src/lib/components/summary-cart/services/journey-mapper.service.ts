@@ -70,7 +70,7 @@ export class JourneyMapperService {
     const origin = this.mapLocation(api.origin, undefined, api.originCountry);
     const destination = this.mapLocation(api.destination, undefined, api.destinationCountry);
     const schedule = this.mapSchedule(api.std, api.stdutc, api.sta, api.stautc);
-    const transport = this.mapTransport(api.transport);
+    const transport = this.mapTransport(api.transport, api.operatingTransport);
 
     const legs: LegVM[] = (api.legs || []).map((leg) => this.mapLeg(leg, api.duration, transport));
 
@@ -101,8 +101,8 @@ export class JourneyMapperService {
     } as LegVM;
   }
 
-  private mapTransport(api?: ApiTransport): Transport {
-    if (!api) {
+  private mapTransport(api?: ApiTransport, operatingApi?: ApiTransport): Transport {
+    if (!api && !operatingApi) {
       // minimal transport placeholder
       return {
         carrier: { code: '', name: '' },
@@ -110,14 +110,15 @@ export class JourneyMapperService {
       } as Transport;
     }
     return {
-      type: api.type,
+      type: operatingApi?.type,
       carrier: {
-        code: api.carrier?.code,
-        name: api.carrier?.name,
-        operatingAirlineCode: api.carrier?.operatingAirlineCode,
+        code: operatingApi?.carrier?.code || api?.carrier?.code,
+        name: operatingApi?.carrier?.name || api?.carrier?.name,
+        operatingAirlineCode: operatingApi?.carrier?.operatingAirlineCode || api?.carrier?.operatingAirlineCode,
       },
-      number: api.number,
-      model: api.model,
+      number: operatingApi?.number || api?.number,
+      model: operatingApi?.model || api?.model,
+      aircraftConfigurationVersion: operatingApi?.aircraftConfigurationVersion || api?.aircraftConfigurationVersion,
       // manufacturer not provided by API transport dto
     } as Transport;
   }

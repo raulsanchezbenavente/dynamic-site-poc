@@ -17,7 +17,7 @@
                     <!-- toggle menu go back -->
                     <button
                         class="main-header_menu_trigger main-header_menu_trigger--back"
-                        [attr.aria-label]="'Common.Toggle_Menu_GoBack' | translate"
+                        [attr.aria-label]="commonTranslationKeys.Common_Toggle_Menu_GoBack | translate"
                         (click)="goBackSubMenu()"></button>
                 } @else if (!toggleMenuOpen) {
                     <!-- toggle menu open/close -->
@@ -35,7 +35,7 @@
                             [attr.target]="config.logo.link.target ?? null">
                             <img
                                 [src]="config.logoMobile?.src"
-                                [alt]="('Common.LogoAltText' | translate) + ' logo'" />
+                                [alt]="(commonTranslationKeys.Common_LogoAltText | translate) + ' logo'" />
                         </a>
                     </div>
                 }
@@ -88,7 +88,7 @@
             #toggleMenuButton
             class="main-header_menu_trigger main-header_menu_trigger--toggle"
             [attr.inert]="subMenuOpen ? '' : null"
-            [attr.aria-label]="'Common.Toggle_Menu' | translate"
+            [attr.aria-label]="commonTranslationKeys.Common_Toggle_Menu | translate"
             (click)="toggleMenu()"></button>
     </ng-template>
 }

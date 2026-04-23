@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AuthButtonComponent, AuthButtonLayout } from '@dcx/ui/business-common';
-import { ViewportSizeService } from '@dcx/ui/libs';
+import { ViewportSizeService , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { PrimaryNavComponent } from '../../components/primary-nav/primary-nav.component';
@@ -39,6 +39,8 @@ import { MainHeaderBaseComponent } from '../main-header-base/main-header-base.co
   standalone: true,
 })
 export class MainHeaderLayoutToggleComponent extends MainHeaderBaseComponent implements AfterViewInit, OnDestroy {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   @ViewChild('bottomMenuRef', { static: false }) public secondaryMenuRef!: ElementRef;
   @ViewChild('toggleMenuButton', { static: false }) public toggleMenuBtnRef!: ElementRef<HTMLButtonElement>;
   @ViewChild(PrimaryNavComponent) private readonly primaryNavRef!: PrimaryNavComponent;

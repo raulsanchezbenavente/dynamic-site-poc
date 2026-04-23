@@ -11,7 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { AuthButtonComponent, AuthButtonLayout } from '@dcx/ui/business-common';
-import { ViewportSizeService } from '@dcx/ui/libs';
+import { ViewportSizeService , CommonTranslationKeys } from '@dcx/ui/libs';
 import { TranslatePipe } from '@ngx-translate/core';
 
 import { PrimaryNavComponent } from '../../components/primary-nav/primary-nav.component';
@@ -34,6 +34,8 @@ import { MainHeaderBaseComponent } from '../main-header-base/main-header-base.co
   standalone: true,
 })
 export class MainHeaderLayoutComponent extends MainHeaderBaseComponent implements AfterViewInit, OnDestroy {
+  protected readonly commonTranslationKeys = CommonTranslationKeys;
+
   @ViewChild('mainHeader', { static: true }) public mainHeaderRef!: ElementRef<HTMLDivElement>;
   @ViewChild('secondaryNav', { static: false }) private readonly secondaryNavRef?: ElementRef<HTMLDivElement>;
 

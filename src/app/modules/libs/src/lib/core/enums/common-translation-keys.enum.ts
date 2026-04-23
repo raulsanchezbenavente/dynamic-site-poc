@@ -116,4 +116,9 @@ export enum CommonTranslationKeys {
   Common_ToggleMasked_Status_Unmasked = 'Common.ToggleMasked.Status.Unmasked',
 
   Common_LogoAltText = 'Common.LogoAltText',
+
+  // --- Labels ---
+  Common_Copyright_Text = 'Common.Copyright.Text',
+  Common_Toggle_Menu = 'Common.Toggle_Menu',
+  Common_Toggle_Menu_GoBack = 'Common.Toggle_Menu_GoBack',
 }

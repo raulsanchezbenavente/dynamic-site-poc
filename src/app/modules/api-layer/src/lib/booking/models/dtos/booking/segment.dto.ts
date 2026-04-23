@@ -15,4 +15,5 @@ export interface Segment {
   departureGate: string;
   legs: Leg[];
   transport: Transport;
+  operatingTransport?: Transport;
 }

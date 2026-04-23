@@ -36,6 +36,7 @@ import {
   LoggerService,
   NotificationService,
   ViewportSizeService,
+  CommonTranslationKeys,
 } from '@dcx/ui/libs';
 import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -377,7 +378,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
         response?.error?.code ?? LoyaltyOverviewCardTranslationKeys.OverviewCard_Exception
       ),
       alertType: AlertType.ERROR,
-      buttonPrimaryText: this.translateService.instant('Common.OK'),
+      buttonPrimaryText: this.translateService.instant(CommonTranslationKeys.Common_OK),
     });
   }
 }

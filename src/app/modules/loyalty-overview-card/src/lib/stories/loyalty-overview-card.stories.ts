@@ -8,6 +8,7 @@ import { Observable, throwError } from 'rxjs';
 import { LoyaltyOverviewCardComponent } from '../loyalty-overview-card.component';
 
 import { AccountClientFake } from './mocks/account-client.fake';
+import { CommonTranslationKeys } from '@dcx/ui/libs';
 
 /**
  * Creates a mock AccountFacade for different loyalty tiers
@@ -75,7 +76,7 @@ const META: Meta<LoyaltyOverviewCardComponent> = {
         'Loyalty.Lifemiles_Text': 'Lifemiles',
         'Loyalty.Lifemiles_Miles_Label': 'Miles',
         'Loyalty.LifemilesNumber_Text': 'Lifemiles Number',
-        'Common.OK': 'OK',
+        [CommonTranslationKeys.Common_OK]: 'OK',
         'Loyalty.Tiers.Lifemiles': 'Lifemiles',
         'Loyalty.Tiers.RedPlus': 'Red Plus',
         'Loyalty.Tiers.Diamond': 'Diamond',
