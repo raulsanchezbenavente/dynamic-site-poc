@@ -1,0 +1,46 @@
+@use 'sass:meta';
+@use 'sass:string';
+
+$icons-path-from-bundle: '../webfonts/icomoon/fonts';
+
+@use './icomoon/variables' as icons with (
+    $icomoon-font-path: $icons-path-from-bundle
+);
+
+@font-face {
+    font-family: '#{icons.$icomoon-font-family}';
+    src:
+        // url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.woff2') format('woff2'),
+        url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.woff') format('woff'),
+        url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.ttf') format('truetype'),
+        url('#{icons.$icomoon-font-path}/#{icons.$icomoon-font-family}.svg##{icons.$icomoon-font-family}') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+// icons base as icomoon original file
+[class^='icon-'],
+[class*=' icon-'] {
+    font-family: '#{icons.$icomoon-font-family}' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$icon-vars: meta.module-variables(icons);
+
+@each $name, $glyph in $icon-vars {
+    @if string.index($name, 'icon-') == 1 {
+        $class: string.slice($name, 6);
+        /* stylelint-disable-next-line custom/selector-class-pattern */
+        .icon-#{$class}::before {
+            content: #{$glyph} / '';
+        }
+    }
+}

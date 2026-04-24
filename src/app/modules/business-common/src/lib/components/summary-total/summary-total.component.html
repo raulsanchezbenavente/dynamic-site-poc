@@ -1,0 +1,13 @@
+<footer class="summary-total">
+    <div class="summary-total_header">
+        <div class="summary-total_title">
+            {{ config.label }}
+        </div>
+    </div>
+    <div class="summary-total_content">
+        <price-currency
+            [price]="data.amount"
+            [currency]="data.currency">
+        </price-currency>
+    </div>
+</footer>

@@ -1,0 +1,299 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Prefix phone / AriaLabelledBy</div>
+            <rf-prefix-phone
+                formControlName="phoneNumber1"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber1'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [appearance]="RfAppearanceTypes.DEFAULT"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="allPrefix"
+                [errorMessages]="errorMessagesPhone"
+                [ariaLabelledBy]="{ prefix: 'prefix-1', phone: 'phone-1' }" />
+
+            <div hoverOpacity>
+                <em id="prefix-1">Enter the prefix</em>
+                <br />
+                <em id="phone-1">Enter the phone number</em>
+            </div>
+
+            <div class="stbook-title">
+                Prefix phone / AriaLabelledBy / 'prefix-field-group--always-inline' - Custom Class for Responsive Styles
+            </div>
+            <rf-prefix-phone
+                formControlName="phoneNumber1a"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber1a'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [appearance]="RfAppearanceTypes.DEFAULT"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="allPrefix"
+                [errorMessages]="errorMessagesPhone"
+                [classes]="prefixPhoneInlineCustomClasses" />
+
+            <div class="stbook-title">
+                Prefix phone / Integrated appearance / Combined validation / Mask / Input pattern
+            </div>
+            <rf-prefix-phone
+                formControlName="phoneNumber2"
+                [title]="'Phone (prefix and number)'"
+                [phoneName]="'phoneNumber2'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="prefixOptions"
+                [mask]="prefixMask"
+                [typeaheadIncludes]="true"
+                [inputPatternPhone]="onlyNumbers"
+                [errorMessages]="errorMessagesPhone" />
+
+            <div class="stbook-title">
+                Prefix phone / Integrated appearance / Hint message / Combined validation and Hint
+            </div>
+            <rf-prefix-phone
+                formControlName="phoneNumber3"
+                [title]="'Phone (prefix and number)'"
+                [phoneName]="'phoneNumber3'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [separatedErrors]="false"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="prefixOptions"
+                [errorMessages]="errorMessagesPhone"
+                [hintMessages]="hintMessagesGeneralPrefixPhone" />
+
+            <div class="stbook-title">Prefix phone / Integrated appearance / Separated Validation and Hint</div>
+            <rf-prefix-phone
+                formControlName="phoneNumber4"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber4'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [separatedErrors]="true"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="prefixOptions"
+                [errorMessages]="errorMessagesPhone"
+                [hintMessages]="hintMessagesSpecificPrefixPhone" />
+
+            <br /><br />
+            <div class="stbook-title">Prefix phone / Config by directive</div>
+            <rf-prefix-phone
+                defaultPrefixPhone
+                formControlName="phoneNumber5"
+                [phoneName]="'phoneNumber5'"
+                [autocompletePhone]="autocompleteTypes.PHONE" />
+
+            <div class="stbook-title">Prefix phone / Readonly</div>
+            <rf-prefix-phone
+                formControlName="phoneNumber6"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber6'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [readonly]="true"
+                [options]="prefixOptions"
+                [errorMessages]="errorMessagesPhone" />
+
+            <div class="stbook-title">Prefix phone / Disabled</div>
+            <rf-prefix-phone
+                formControlName="phoneNumber7"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber7'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="prefixOptions"
+                [errorMessages]="errorMessagesPhone" />
+
+            <div class="stbook-title">Prefix phone / Custom classes / Validation</div>
+            <rf-prefix-phone
+                formControlName="phoneNumber8"
+                [title]="'Phone'"
+                [phoneName]="'phoneNumber8'"
+                [autocompletePhone]="autocompleteTypes.PHONE"
+                [animatedLabelPrefix]="'Prefix'"
+                [animatedLabelPhone]="'Phone number'"
+                [options]="prefixOptions"
+                [classes]="prefixPhoneCustomClasses"
+                [errorMessages]="errorMessagesPhone" />
+        </form>
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <div class="stbook-title">Prefix phone / AriaLabelledBy</div>
+        <rf-prefix-phone
+            #prefixphone1
+            [title]="'Phone'"
+            [phoneName]="'phone1'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [appearance]="RfAppearanceTypes.DEFAULT"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="allPrefix"
+            [errorMessages]="errorMessagesPhone"
+            [ariaLabelledBy]="{ prefix: 'prefix-1s', phone: 'phone-1s' }" />
+
+        <div hoverOpacity>
+            <em id="prefix-1s">Enter the prefix</em>
+            <br />
+            <em id="phone-1s">Enter the phone number</em>
+        </div>
+
+        <div class="stbook-title">
+            Prefix phone / AriaLabelledBy / 'prefix-field-group--always-inline' - Custom Class for Responsive Styles
+        </div>
+        <rf-prefix-phone
+            #prefixphone1a
+            [title]="'Phone'"
+            [phoneName]="'phone1a'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [appearance]="RfAppearanceTypes.DEFAULT"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="allPrefix"
+            [errorMessages]="errorMessagesPhone"
+            [classes]="prefixPhoneInlineCustomClasses" />
+
+        <div class="stbook-title">
+            Prefix phone / Integrated appearance / Combined validation / Mask / Input pattern
+        </div>
+        <rf-prefix-phone
+            #prefixphone2
+            [title]="'Phone (prefix and number)'"
+            [phoneName]="'phone2'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [separatedErrors]="false"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="prefixOptions"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }"
+            [value]="{ prefix: '+34', phone: '855698745' }"
+            [mask]="prefixMask"
+            [typeaheadIncludes]="true"
+            [inputPatternPhone]="onlyNumbers"
+            [errorMessages]="errorMessagesPhone" />
+
+        <div class="stbook-title">
+            Prefix phone / Integrated appearance / Hint message / Combined validation and Hint
+        </div>
+        <rf-prefix-phone
+            #prefixphone3
+            [title]="'Phone (prefix and number)'"
+            [phoneName]="'phone3'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [separatedErrors]="false"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="prefixOptions"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }"
+            [errorMessages]="errorMessagesPhone"
+            [hintMessages]="hintMessagesGeneralPrefixPhone" />
+
+        <div class="stbook-title">Prefix phone / Integrated appearance / Separated Validation and Hint</div>
+        <rf-prefix-phone
+            #prefixphone4
+            [title]="'Phone'"
+            [phoneName]="'phone4'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [separatedErrors]="true"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="prefixOptions"
+            [value]="{ prefix: '+57', phone: '98856558' }"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }"
+            [errorMessages]="errorMessagesPhone"
+            [hintMessages]="hintMessagesSpecificPrefixPhone" />
+
+        <br /><br />
+        <div class="stbook-title">Prefix phone / Config by directive</div>
+        <rf-prefix-phone
+            #prefixphone5
+            defaultPrefixPhone
+            [phoneName]="'phone5'"
+            [autocompletePhone]="autocompleteTypes.PHONE" />
+
+        <div class="stbook-title">Prefix phone / Readonly</div>
+        <rf-prefix-phone
+            #prefixphone6
+            [title]="'Phone'"
+            [phoneName]="'phone6'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [readonly]="true"
+            [options]="prefixOptions"
+            [value]="{ prefix: '+34', phone: '647558961' }"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }"
+            [errorMessages]="errorMessagesPhone" />
+
+        <div class="stbook-title">Prefix phone / Disabled</div>
+        <rf-prefix-phone
+            #prefixphone7
+            [title]="'Phone'"
+            [phoneName]="'phone7'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="prefixOptions"
+            [value]="{ prefix: '', phone: '' }"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }"
+            [disabled]="true"
+            [errorMessages]="errorMessagesPhone" />
+
+        <div class="stbook-title">Prefix phone / Custom classes / Validation</div>
+        <rf-prefix-phone
+            #prefixphone8
+            [title]="'Phone'"
+            [phoneName]="'phone8'"
+            [autocompletePhone]="autocompleteTypes.PHONE"
+            [animatedLabelPrefix]="'Prefix'"
+            [animatedLabelPhone]="'Phone number'"
+            [options]="prefixOptions"
+            [classes]="prefixPhoneCustomClasses"
+            [errorMessages]="errorMessagesPhone"
+            [value]="{ prefix: '+33', phone: '789588715' }"
+            [validators]="{
+                prefix: [Validators.required],
+                phone: [Validators.required, this.validatorPattern, Validators.minLength(9), Validators.maxLength(9)],
+            }" />
+
+        <standalone-validation-features
+            [components]="[
+                prefixphone1,
+                prefixphone1a,
+                prefixphone2,
+                prefixphone3,
+                prefixphone4,
+                prefixphone5,
+                prefixphone6,
+                prefixphone7,
+                prefixphone8,
+            ]" />
+    </div>
+</tab-presentation>

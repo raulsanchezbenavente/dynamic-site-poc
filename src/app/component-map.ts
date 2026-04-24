@@ -9,6 +9,25 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/dynamic-composite/core-blocks/rte-injector/rte-injector.component').then(
       (m) => m.RteInjectorComponent
     ),
+
+  //Avianca
+  authorizationBlock_uiplus: () =>
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
+  CorporateMainHeaderBlock_uiplus: () =>
+    import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
+  CorporateMainFooterBlock_uiplus: () =>
+    import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
+  BreadcrumbBlock_uiplus: () =>
+    import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
+  loyaltyOverviewCardBlock_uiplus: () =>
+    import('./modules/loyalty-overview-card/src/lib/loyalty-overview-card.component').then(
+      (m) => m.LoyaltyOverviewCardComponent
+    ),
+  accountProfileBlock_uiplus: () =>
+    import('./modules/account-profile/src/lib/account-profile.component').then((m) => m.AccountProfileComponent),
+  findBookingsBlock_uiplus: () =>
+    import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
+
   // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
@@ -51,6 +70,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
     import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   thankYou_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+
   // Test examples
   login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
   header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
@@ -66,6 +86,7 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   'payment-success': () =>
     import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
   explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
+
   // Games
   'icon-hunter_uiplus_EX': () =>
     import('./modules/games/icon-hunter/icon-hunter.component').then((m) => m.IconHunterUiplusComponent),
@@ -75,6 +96,14 @@ export const componentMap: Record<string, BlockComponentLoader> = {
 export const configInputAliases: Record<string, string> = {
   loyaltyOverviewCard_uiplus_EX: 'colorConfig',
   CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
+
+  authorizationBlock_uiplus: 'baseConfig',
+  CorporateMainHeaderBlock_uiplus: 'baseConfig',
+  CorporateMainFooterBlock_uiplus: 'baseConfig',
+  BreadcrumbBlock_uiplus: 'baseConfig',
+  loyaltyOverviewCardBlock_uiplus: 'baseConfig',
+  accountProfileBlock_uiplus: 'baseConfig',
+  findBookingsBlock_uiplus: 'baseConfig',
 };
 
 const resolvedComponentCache = new Map<string, Type<unknown>>();

@@ -1,0 +1,41 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+$description-list-layout-dd-date-gap: var(--description-list-layout-dd-date-gap, 0);
+
+// status
+$description-list-dd-status-gap: var(--description-list-dd-status-gap, calculateRem(4px));
+
+// warning status
+$description-list-status-icon-warning: var(--description-list-status-icon-warning, $icon-cross-circle-filled);
+$description-list-status-icon-color-warning: var(--description-list-status-icon-color-warning, var(--c-warning));
+
+// success status
+$description-list-status-icon-success: var(--description-list-status-icon-success, $icon-check-circle-filled);
+$description-list-status-icon-color-success: var(--description-list-status-icon-color-success, var(--c-success));
+
+// error status
+$description-list-status-icon-error: var(--description-list-status-icon-error, $icon-cross-circle-filled);
+$description-list-status-icon-color-error: var(--description-list-status-icon-color-error, var(--c-error));
+
+// inactive status
+$description-list-status-icon-inactive: var(--description-list-status-icon-inactive, undefined);
+$description-list-status-icon-color-inactive: var(
+    --description-list-status-icon-color-inactive,
+    var(--c-inactive-darken)
+);
+
+// layout default
+$description-list-layout-default-grid-columns: var(--description-list-layout-default-grid-columns, 1fr 2fr);
+$description-list-layout-default-grid-gap: var(--description-list-layout-default-grid-gap, $spacer-small);
+$description-list-layout-default-dd-halign: var(--description-list-layout-default-dd-halign, right);
+
+// layout column
+$description-list-layout-column-grid-gap: var(--description-list-layout-column-grid-gap, calculateRem(16px));
+$description-list-layout-column-dd-padding: var(--description-list-layout-column-dd-padding, 0 0 calculateRem(16px) 0);
+$description-list-layout-column-dd-list-item-grid-gap: var(
+    --description-list-layout-column-dd-list-item-grid-gap,
+    calculateRem(8px)
+);

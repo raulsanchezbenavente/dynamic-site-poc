@@ -1,0 +1,115 @@
+<form
+    [formGroup]="form"
+    [ngClass]="[
+        classes()?.container || '',
+        appearance() === appearanceTypes.INTEGRATED ? 'rf-field-group--integrated-appearance' : '',
+        readonly() ? 'is-readonly' : '',
+        disabled() ? 'is-disabled' : '',
+        hasGroupError ? 'group-has-error' : '',
+    ]">
+    <fieldset
+        #fieldsetElement
+        class="rf-field_fieldset">
+        <legend
+            class="rf-field_legend"
+            [class.hide-visually]="appearance() !== appearanceTypes.INTEGRATED">
+            {{ title() + (isRequired ? MANDATORY_SYMBOL : '') }}
+        </legend>
+
+        <div class="rf-field-group_grid">
+            @for (part of dateFormatOrder; track part) {
+                @switch (part) {
+                    @case ('DD') {
+                        <rf-select
+                            #firstControl
+                            formControlName="day"
+                            [animatedLabel]="selectsLabels()?.day ?? ''"
+                            [options]="days"
+                            [appearance]="appearance()"
+                            [showErrorMessages]="separatedErrors()"
+                            [displayErrorsMode]="displayErrorsMode()"
+                            [errorMessages]="errorMessages()?.day"
+                            [hintMessages]="hintMessages()?.specific?.day"
+                            [hasGeneralHint]="!!hintMessages()?.general"
+                            [ariaId]="separatedErrors() || !hintMessages()?.general ? null : ariaIdCombined"
+                            [readonly]="readonly()"
+                            [parentId]="autoIdDay"
+                            [attr.required]="isRequired || null"
+                            [ariaLabelledBy]="ariaLabelledBy()?.day"
+                            [classes]="classes()?.day">
+                        </rf-select>
+                    }
+                    @case ('MM') {
+                        <rf-select
+                            formControlName="month"
+                            [animatedLabel]="selectsLabels()?.month ?? ''"
+                            [options]="months"
+                            [appearance]="appearance()"
+                            [showErrorMessages]="separatedErrors()"
+                            [displayErrorsMode]="displayErrorsMode()"
+                            [errorMessages]="errorMessages()?.month"
+                            [hintMessages]="hintMessages()?.specific?.month"
+                            [hasGeneralHint]="!!hintMessages()?.general"
+                            [ariaId]="separatedErrors() || !hintMessages()?.general ? null : ariaIdCombined"
+                            [readonly]="readonly()"
+                            [parentId]="autoIdMonth"
+                            [attr.required]="isRequired || null"
+                            [ariaLabelledBy]="ariaLabelledBy()?.month"
+                            [classes]="classes()?.month"
+                            [mask]="abbreviationMonthsApplied">
+                        </rf-select>
+                    }
+                    @case ('YYYY') {
+                        <rf-select
+                            formControlName="year"
+                            [animatedLabel]="selectsLabels()?.year ?? ''"
+                            [options]="years"
+                            [appearance]="appearance()"
+                            [showErrorMessages]="separatedErrors()"
+                            [displayErrorsMode]="displayErrorsMode()"
+                            [errorMessages]="errorMessages()?.year"
+                            [hintMessages]="hintMessages()?.specific?.year"
+                            [hasGeneralHint]="!!hintMessages()?.general"
+                            [ariaId]="separatedErrors() || !hintMessages()?.general ? null : ariaIdCombined"
+                            [readonly]="readonly()"
+                            [parentId]="autoIdYear"
+                            [attr.required]="isRequired || null"
+                            [ariaLabelledBy]="ariaLabelledBy()?.year"
+                            [classes]="classes()?.year">
+                        </rf-select>
+                    }
+                }
+            }
+        </div>
+    </fieldset>
+</form>
+
+<rf-hint-messages
+    [id]="ariaIdCombined"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()?.general"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="{
+        day: form.get('day'),
+        month: form.get('month'),
+        year: form.get('year'),
+    }"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages() && !separatedErrors()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="{
+        day: form.get('day'),
+        month: form.get('month'),
+        year: form.get('year'),
+    }"
+    [classes]="classes()?.errorMessages || ''" />
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()">
+</rf-debug-state>

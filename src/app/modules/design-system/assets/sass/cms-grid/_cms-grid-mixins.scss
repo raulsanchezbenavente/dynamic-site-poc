@@ -1,0 +1,105 @@
+/* stylelint-disable custom/selector-class-pattern */
+/* stylelint-disable scss/at-mixin-pattern */
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use './cms-grid-vars' as *;
+@use './cms-grid-preprocessing' as *;
+@use 'sass:math';
+@use 'sass:map';
+@use 'sass:list';
+
+// Make the breakpoints
+@mixin bp($breakpoint) {
+    $query: map.get($gl-mq-list, $breakpoint);
+
+    @if $query {
+        @media ($gl-mq-width: #{list.nth($query, 1)}) {
+            @content;
+        }
+    }
+}
+
+// Function to generate the grid by number
+@mixin makeGridByNumber($grid) {
+    @for $i from 1 through $gl-colcount {
+        .#{$grid}-#{$i} > .#{$gl-colclass} {
+            $fraction: math.div(1, $i);
+
+            flex-basis: map.get($gl-colFractions, $fraction);
+            max-width: map.get($gl-colFractions, $fraction);
+        }
+    }
+}
+
+// Function to generate the grid by columns
+@mixin makeCol($col) {
+    @for $i from 1 through $gl-colcount {
+        .#{$col}-#{$i} {
+            flex-basis: map.get($gl-colPortions, $i);
+            max-width: map.get($gl-colPortions, $i);
+        }
+    }
+}
+
+// Function to generate the -first & -last base on mq keys (as lg-first)
+@mixin makeFirstLast {
+    .#{$gl-colname}-first {
+        order: -1;
+    }
+    .#{$gl-colname}-last {
+        order: 1;
+    }
+}
+
+@mixin makeFirstLastResponsive($mq) {
+    .#{$gl-colname}-#{$mq}-first {
+        order: -1;
+    }
+    .#{$gl-colname}-#{$mq}-last {
+        order: 1;
+    }
+}
+
+// VERTICAL ALIGNMENT
+// -------
+// Function to generate the vertical align helper classes base on mq keys (as _lg-middle)
+// VERTICAL ALIGN
+@mixin verticalAlign {
+    @each $align, $value in $gl-v-list {
+        // GRID
+        .#{$gl-gridclass}-#{$align} {
+            align-items: $value;
+        }
+
+        // COL
+        .#{$gl-colname}-#{$align} {
+            align-self: $value;
+        }
+    }
+}
+
+@mixin verticalAlignResponsive($mq) {
+    @each $align, $value in $gl-v-list {
+        // GRID
+        .#{$gl-gridclass}-#{$mq}-#{$align} {
+            align-items: $value;
+        }
+
+        // COL
+        .#{$gl-colname}-#{$mq}-#{$align} {
+            align-self: $value;
+        }
+    }
+}
+
+@mixin container-wrap() {
+    max-width: $gl-max-width;
+    padding-right: $gl-gutter-sides;
+    padding-left: $gl-gutter-sides;
+    margin-right: auto;
+    margin-left: auto;
+
+    @media #{$gl-gutter-sides-breakpoint} {
+        padding-left: $gl-gutter-sides-desktop;
+        padding-right: $gl-gutter-sides-desktop;
+    }
+}

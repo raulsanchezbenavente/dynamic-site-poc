@@ -1,0 +1,14 @@
+@use '../../../storybook/stories/reactive-forms/styles/stories-styles' as *;
+
+.submit-explanation {
+    width: calc(100% - 200px);
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 10px;
+    height: 43px;
+    vertical-align: middle;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: -9px;
+}

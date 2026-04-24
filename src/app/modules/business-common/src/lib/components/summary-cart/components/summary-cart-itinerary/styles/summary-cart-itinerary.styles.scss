@@ -1,0 +1,71 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// move this to its component journey-header
+.journey-header {
+    --icon-fontsize: 20px;
+
+    display: flex;
+    gap: calculateRem(8px);
+    .#{$ds}icon {
+        margin-top: calculateRem(1px);
+    }
+}
+.journey-header_stations {
+    display: flex;
+    gap: calculateRem(7px);
+    font-size: var(--f-size-medium);
+    font-weight: var(--f-weight-bold);
+}
+.summary-cart-itinerary_title {
+    font-size: var(--f-size-large);
+    margin: 0 0 calculateRem(21px);
+}
+.summary-cart-itinerary_date-fare {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: $spacer-small 0 calculateRem(10px);
+}
+.summary-cart-itinerary_date {
+    color: var(--c-text-secondary);
+}
+.summary-cart-schedule {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: calculateRem(16px);
+}
+.summary-cart-itinerary_operated-by {
+    display: flex;
+}
+.transport-operated-by {
+    width: 100%;
+}
+.summary-cart-itinerary_time {
+    display: flex;
+    align-items: center;
+    font-size: calculateRem(22px); // TODO: token
+    font-weight: var(--f-weight-bold);
+}
+.summary-cart-itinerary_time_connector {
+    position: relative;
+    flex: 1 1 100%;
+    display: flex;
+    width: 100%;
+    height: calculateRem(1px);
+    margin: 0 calculateRem(16px);
+    &::before,
+    &::after {
+        position: absolute;
+        top: calculateRem(-5px);
+        left: 0;
+        content: '';
+        width: calculateRem(10px);
+        height: calculateRem(10px);
+        border-radius: 100vh;
+        background-color: var(--c-tertiary);
+    }
+    &::after {
+        left: auto;
+        right: 0;
+    }
+}

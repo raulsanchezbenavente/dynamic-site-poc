@@ -1,0 +1,83 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// Banner controls
+$banner-controls-position-halign: var(
+    --banner-controls-position-halign,
+    center
+); // accepts: flex-start, center and flex-end
+$banner-controls-buttons-gap: var(--banner-controls-buttons-gap, calculateRem(16px));
+$banner-controls-button-width: var(--banner-controls-button-width, calculateRem(32px));
+$banner-controls-button-height: var(--banner-controls-button-height, $banner-controls-button-width);
+$banner-controls-button-fontsize: var(--banner-controls-button-fontsize, var(--f-size-x-tiny));
+$banner-controls-button-color: var(--banner-controls-button-color, var(--c-white));
+$banner-controls-button-border-width: var(--banner-controls-button-border-width, calculateRem(2px));
+$banner-controls-button-border-color: var(--banner-controls-button-border-color, $banner-controls-button-color);
+$banner-controls-button-border-radius: var(--banner-controls-button-border-radius, 50%);
+$banner-controls-button-background: var(--banner-controls-button-background, transparent);
+
+// Banner controls: hover
+$banner-controls-button-color-hover: var(--banner-controls-button-color-hover, var(--c-white));
+$banner-controls-button-background-hover: var(--banner-controls-button-background-hover, var(--c-primary));
+$banner-controls-button-focus-color-outline: var(--banner-controls-button-focus-color-outline, var(--c-white));
+
+// Controls play/pause
+$banner-controls-button-control-color: var(--banner-controls-button-control-color, var(--c-primary));
+$banner-controls-button-control-border-width: var(--banner-controls-button-control-border-width, calculateRem(2px));
+$banner-controls-button-control-border-color: var(--banner-controls-button-control-border-color, var(--c-white));
+$banner-controls-button-control-border-radius: $banner-controls-button-border-radius !default;
+$banner-controls-button-control-background: var(--banner-controls-button-control-background, var(--c-white));
+
+// Controls play/pause: hover
+$banner-controls-button-control-color-hover: var(--banner-controls-button-control-color-hover, var(--c-white));
+$banner-controls-button-control-border-color-hover: var(
+    --banner-controls-button-control-border-color-hover,
+    var(--c-primary)
+);
+$banner-controls-button-control-background-hover: var(
+    --banner-controls-button-control-background-hover,
+    var(--c-primary)
+);
+
+// Icons
+$banner-controls-button-prev-icon: var(--banner-controls-button-prev-icon, '\e908');
+$banner-controls-button-next-icon: var(--banner-controls-button-next-icon, '\e909');
+$banner-controls-button-play-icon: var(--banner-controls-button-play-icon, '\e905');
+$banner-controls-button-pause-icon: var(--banner-controls-button-pause-icon, '\ea38');
+$banner-controls-button-pagination-icon: var(--banner-controls-button-pagination-icon, null);
+
+// Pagination
+$banner-controls-pagination-buttons-gap: var(--banner-controls-pagination-buttons-gap, calculateRem(8px));
+$banner-controls-pagination-button-width: var(--banner-controls-pagination-button-width, calculateRem(14px));
+$banner-controls-pagination-button-height: var(
+    --banner-controls-pagination-button-height,
+    $banner-controls-pagination-button-width
+);
+$banner-controls-pagination-button-color: var(--banner-controls-pagination-button-color, var(--c-white));
+$banner-controls-pagination-button-background: var(--banner-controls-pagination-button-background, transparent);
+$banner-controls-pagination-button-border-width: var(
+    --banner-controls-pagination-button-border-width,
+    calculateRem(2px)
+);
+$banner-controls-pagination-button-border-color: var(--banner-controls-pagination-button-border-color, var(--c-white));
+$banner-controls-pagination-button-border-radius: var(--banner-controls-pagination-button-border-radius, 50%);
+$banner-controls-pagination-button-outline-color: var(
+    --banner-controls-pagination-button-outline-color,
+    var(--c-white)
+);
+
+// current
+$banner-controls-pagination-button-color-current: var(
+    --banner-controls-pagination-button-color-current,
+    var(--c-white)
+);
+$banner-controls-pagination-button-background-current: var(
+    --banner-controls-pagination-button-background-current,
+    var(--c-white)
+);
+$banner-controls-pagination-button-border-color-current: var(
+    --banner-controls-pagination-button-border-color-current,
+    $banner-controls-pagination-button-border-color
+);

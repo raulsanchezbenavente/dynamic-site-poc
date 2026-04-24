@@ -1,0 +1,174 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as GroupOptionsStories from '../group-options.stories';
+
+<Meta of={GroupOptionsStories} name="01 Overview" />
+
+# Group Options
+
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/group-options" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `ds-group-options` in templates: how to configure it, which layout styles to pick, and how to display collections of clickable option cards with images, descriptions, and links.
+
+## Basic usage
+
+The Group Options component is configured through input properties. It displays a grid or scrollable list of option cards that users can click to navigate or trigger actions.
+
+```html
+<ds-group-options
+  [templateStyle]="'horizontal'"
+  [templateGrid]="'3'"
+  [enableHorizontalScroll]="true"
+  [optionList]="options" />
+```
+
+```ts
+import { LinkTarget } from '@dcx/ui/libs';
+
+options = [
+  {
+    title: 'Help Center',
+    description: 'Find useful information to answer your questions.',
+    image: {
+      src: '//static.avianca.com/media/1239/centro-de-ayuda.svg',
+      altText: 'A magnifying glass',
+    },
+    link: {
+      url: 'https://example.com/help',
+      target: LinkTarget.BLANK,
+    },
+    buttonText: 'Learn more',
+  },
+  {
+    title: 'Online Check-in',
+    description: 'Get your boarding pass and save time at the airport.',
+    image: {
+      src: '//static.avianca.com/media/1240/check-in.svg',
+    },
+  },
+];
+```
+
+## Variants
+
+### Template Styles
+
+The component supports two layout styles that affect how options are displayed:
+
+<Canvas of={GroupOptionsStories.HORIZONTAL} />
+
+- **Horizontal**: Options are laid out in a horizontal grid with side-by-side cards. Best for desktop layouts with multiple columns.
+- **Vertical**: Options are stacked vertically. Better for narrow viewports or when emphasizing sequential content.
+- **Horizontal Compact**: Denser two-column layout intended for secondary navigation contexts (e.g., Web Check-in Manage).
+- **Cover Image**: Full-bleed image cards with a call-to-action button. The button style is automatically set to `SECONDARY` for this template style.
+
+<Canvas of={GroupOptionsStories.COVER_IMAGE} />
+
+### Grid Configurations
+
+Control how many columns appear in the grid layout by setting the `templateGrid` property:
+
+- **2 columns**: Wider cards, suitable for content-heavy options
+- **3 columns**: Balanced layout for desktop (recommended)
+- **4 columns**: More compact, fits more options above the fold
+- **6 columns**: Dense layout for simple icon-based options
+
+### Horizontal Scroll
+
+Enable or disable horizontal scrolling in grid layouts with the `enableHorizontalScroll` property (default: `true`). When disabled, the grid will wrap to multiple rows instead of scrolling horizontally.
+
+### Image Modes
+
+Each option can display an image in two modes:
+
+- **Standard image**: Image appears as an icon or thumbnail above the text content (set `imageEdgeAligned: false` or omit)
+- **Full-width image**: Image spans the entire card width, creating a banner-style card (set `imageEdgeAligned: true`)
+
+### Responsive Behavior
+
+On mobile viewports (below the breakpoint), the component automatically switches to horizontal scroll mode when `enableHorizontalScroll` is `true`. This allows users to swipe through options without breaking the layout.
+
+## Option Data Structure
+
+Each option in `optionList` supports:
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>code</code></td>
+      <td>string</td>
+      <td>Identifier emitted when <code>emitsEvent</code> is true</td>
+    </tr>
+    <tr>
+      <td><code>title</code></td>
+      <td>string</td>
+      <td>Main heading for the option</td>
+    </tr>
+    <tr>
+      <td><code>description</code></td>
+      <td>string</td>
+      <td>Supporting text describing the option</td>
+    </tr>
+    <tr>
+      <td><code>image</code></td>
+      <td>Image</td>
+      <td>Visual representation (src, altText)</td>
+    </tr>
+    <tr>
+      <td><code>link</code></td>
+      <td>LinkModel</td>
+      <td>Navigation target (url, target)</td>
+    </tr>
+    <tr>
+      <td><code>buttonText</code></td>
+      <td>string</td>
+      <td>Custom call-to-action text</td>
+    </tr>
+    <tr>
+      <td><code>imageEdgeAligned</code></td>
+      <td>boolean</td>
+      <td>Stretch image across full card width</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td>boolean</td>
+      <td>Disable interaction with the option</td>
+    </tr>
+    <tr>
+      <td><code>cssClass</code></td>
+      <td>string</td>
+      <td>Additional CSS class applied to the inner wrapper element</td>
+    </tr>
+    <tr>
+      <td><code>emitsEvent</code></td>
+      <td>boolean</td>
+      <td>Trigger event instead of navigation</td>
+    </tr>
+  </tbody>
+</table>
+
+## When to use
+
+Use Group Options when you need to:
+
+- Present multiple navigation destinations or actions
+- Create a feature showcase or service menu
+- Display product categories or content sections
+- Provide quick access to common tasks or resources
+
+## Related components
+
+- [**Button**](?path=/docs/atoms-button--overview): For single call-to-action elements
+- [**Card**](?path=/docs/atoms-card--overview): For more complex content layouts
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/organisms-group-options-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/organisms-group-options-changelog--docs) tab for version history.

@@ -1,0 +1,57 @@
+<div class="stbook-title">PhoneCountryService — countryFromPrefix (Form)</div>
+<form [formGroup]="myForm">
+    <rf-prefix-phone
+        formControlName="phoneNumber1"
+        [title]="'Phone'"
+        [phoneName]="'phoneNumber1'"
+        [autocompletePhone]="autocompleteTypes.PHONE"
+        [animatedLabelPrefix]="'Prefix'"
+        [animatedLabelPhone]="'Phone number'"
+        [options]="allPrefix" />
+
+    <rf-prefix-phone
+        formControlName="phoneNumber1a"
+        [title]="'Phone'"
+        [phoneName]="'phoneNumber1a'"
+        [autocompletePhone]="autocompleteTypes.PHONE"
+        [animatedLabelPrefix]="'Prefix'"
+        [animatedLabelPhone]="'Phone number'"
+        [options]="allPrefix" />
+
+    <div class="stbook-title">Native Select</div>
+    <select
+        title="Select a phone number"
+        (change)="onSelectChange($event, false)">
+        @for (opt of options; track opt) {
+            <option [value]="opt.prefix + '|' + opt.phone">{{ opt.prefix }} {{ opt.phone }} – {{ opt.country }}</option>
+        }
+    </select>
+</form>
+
+<div class="stbook-title">PhoneCountryService — countryFromPrefix (Standalone)</div>
+<rf-prefix-phone
+    #prefixphone1
+    [title]="'Phone'"
+    [phoneName]="'phone1'"
+    [autocompletePhone]="autocompleteTypes.PHONE"
+    [animatedLabelPrefix]="'Prefix'"
+    [animatedLabelPhone]="'Phone number'"
+    [options]="allPrefix" />
+
+<rf-prefix-phone
+    #prefixphone1a
+    [title]="'Phone'"
+    [phoneName]="'phone1a'"
+    [autocompletePhone]="autocompleteTypes.PHONE"
+    [animatedLabelPrefix]="'Prefix'"
+    [animatedLabelPhone]="'Phone number'"
+    [options]="allPrefix" />
+
+<div class="stbook-title">Native Select</div>
+<select
+    title="Select a phone number"
+    (change)="onSelectChange($event, true)">
+    @for (opt of options; track opt) {
+        <option [value]="opt.prefix + '|' + opt.phone">{{ opt.prefix }} {{ opt.phone }} – {{ opt.country }}</option>
+    }
+</select>

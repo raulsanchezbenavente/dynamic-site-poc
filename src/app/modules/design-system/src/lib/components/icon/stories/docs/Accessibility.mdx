@@ -1,0 +1,82 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../icon.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Icon
+
+## Accessibility
+
+### ARIA Attributes
+
+Use the icon as either informative (`ariaLabel` provided) or decorative (`ariaLabel` omitted).
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Required when the icon communicates meaning on its own. The component trims this value and applies it as <code>aria-label</code>, while also setting <code>role="img"</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>aria-hidden</code></td>
+      <td>
+        Applied automatically as <code>true</code> when <code>ariaLabel</code> is not provided, making the icon decorative and ignored by assistive technologies.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+`icon` is a non-interactive element and does not receive keyboard focus.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Skips the icon because it is not focusable.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- With `ariaLabel`: announced as an image with the provided label.
+- Without `ariaLabel`: hidden from the accessibility tree through `aria-hidden="true"`.
+
+### Best Practices
+
+- Provide `ariaLabel` only when the icon adds information not already present in adjacent text.
+- Keep decorative icons unlabeled to reduce screen reader noise.
+- Do not rely on icon color alone to communicate critical status; pair with visible text.
+- Use meaningful, concise labels such as `Error`, `Success`, or `Email notifications`.

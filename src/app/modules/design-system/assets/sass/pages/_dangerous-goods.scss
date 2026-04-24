@@ -1,0 +1,101 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+.dangerous-good {
+    display: grid;
+    grid-template-areas:
+        'image title'
+        'content content';
+    grid-template-columns: auto 1fr;
+    border-radius: var(--#{$ds}border-radius-lg);
+    align-items: center;
+    background-color: var(--c-white);
+    box-shadow: var(--#{$ds}shadow-default);
+    padding: var(--dangerous-good-panel-padding, #{$pad-x-medium});
+}
+.dangerous-good_image-wrapper {
+    grid-area: image;
+    margin-right: var(--dangerous-good-margin-image, calculateRem(14px));
+}
+.dangerous-good_title-wrapper {
+    grid-area: title;
+    display: flex;
+    align-items: center;
+}
+.dangerous-good_content {
+    grid-area: content;
+}
+.dangerous-good_image {
+    width: var(--dangerous-good-icon-size-width, calculateRem(48px));
+    height: var(--dangerous-good-icon-size-height, calculateRem(60px));
+}
+.dangerous-good_title {
+    font-size: calculateRem(22px);
+}
+.dangerous-good_list {
+    padding-top: var(--dangerous-good-list-padding-top, calculateRem(17px));
+    .dangerous-good_list-item {
+        gap: calculateRem(6px);
+    }
+}
+.dangerous-good_list--cabin {
+    padding-bottom: var(--dangerous-good-list-padding-bottom, calculateRem(12px));
+}
+.dangerous-good_list-item {
+    --list-item-fontsize: var(--f-size);
+
+    @include iconfont($icon-check, before, var(--c-active));
+    &::before {
+        font-size: var(--f-size-x-large);
+    }
+    display: flex;
+    align-items: flex-start;
+}
+.dangerous-good_list-item--restricted {
+    @include iconfont($icon-cross, before, var(--c-error));
+}
+.dangerous-good_note {
+    font-size: var(--f-size-tiny);
+    color: var(--c-text-secondary);
+}
+
+@media #{$mobile-sm} {
+    .dangerous-good {
+        --dangerous-good-panel-padding: #{$pad-x-large};
+    }
+}
+
+@media #{$desktop} {
+    .dangerous-good {
+        --dangerous-good-panel-padding: #{$pad-x-x-large};
+        --dangerous-good-margin-image: #{calculateRem(46px)};
+        --dangerous-good-icon-size-width: #{calculateRem(104px)};
+        --dangerous-good-icon-size-height: #{calculateRem(152px)};
+        --dangerous-good-list-padding-bottom: #{calculateRem(17px)};
+        --dangerous-good-list-padding-top: 0;
+
+        grid-template-areas:
+            'image title'
+            'image content';
+        grid-template-columns: auto 1fr;
+        min-height: calculateRem(260px);
+        height: 100%;
+        box-sizing: border-box;
+    }
+    .dangerous-good_image-wrapper {
+        display: flex;
+        align-items: center;
+    }
+    .dangerous-good_title {
+        padding-bottom: calculateRem(21px);
+    }
+    .dangerous-good_list {
+        gap: calculateRem(16px);
+    }
+    .dangerous-good_content--restricted {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: calculateRem(52px);
+    }
+    .dangerous-good_note {
+        font-size: var(--f-size-small);
+    }
+}

@@ -1,0 +1,7 @@
+<dt class="loyalty-overview-card_info-item_label">
+    {{ translateKeys.OverviewCard_TotalMiles_Text | translate }}
+</dt>
+<dd class="loyalty-overview-card_info-item_value">
+    <tier-avatar [config]="tierAvatarConfig()"></tier-avatar>
+    <span class="total-amount">{{ amount() }}</span>
+</dd>

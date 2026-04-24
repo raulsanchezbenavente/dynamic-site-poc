@@ -1,0 +1,19 @@
+@let inputData = data();
+
+@if (hasData()) {
+    @for (manageBookingCard of inputData; track manageBookingCard) {
+        <div class="upcoming-trips_item">
+            <manage-booking-card
+                [data]="manageBookingCard"
+                [config]="manageBookingCardConfig" />
+        </div>
+    }
+} @else {
+    <div class="upcoming-trips_no-results">
+        @if (dataNotFoundConfig.text) {
+            <div>
+                {{ dataNotFoundConfig.text }}
+            </div>
+        }
+    </div>
+}

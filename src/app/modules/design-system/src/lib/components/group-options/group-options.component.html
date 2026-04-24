@@ -1,0 +1,17 @@
+@let optionListData = optionList();
+@let templateStyleClass = templateStyle();
+@let templateGridConfig = templateGrid();
+@let scrollEnabled = enableHorizontalScroll();
+
+<div
+    class="group-options"
+    [ngClass]="'go-style--' + templateStyleClass"
+    [id]="optionListId()">
+    <div class="group-options_list">
+        <ds-group-options-list
+            [optionList]="optionListData"
+            [templateGrid]="templateGridConfig"
+            [enableHorizontalScroll]="scrollEnabled"
+            [buttonStyle]="buttonStyle()" />
+    </div>
+</div>

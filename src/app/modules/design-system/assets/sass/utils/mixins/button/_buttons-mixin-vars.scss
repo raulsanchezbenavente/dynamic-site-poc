@@ -1,0 +1,181 @@
+// ********************
+//  Buttons variables
+//  @core mixin: sass/utils/mixins/_buttons.scss
+//  @doc: https://bit.ly/3cpRFBT
+// ********************
+
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+
+// + Button common
+// -------
+$button-height: var(--#{$ds}btn-height);
+$button-fontfamily: var(--#{$ds}btn-fontfamily);
+$button-fontsize: var(--#{$ds}btn-fontsize);
+$button-fontweight: var(--#{$ds}btn-fontweight);
+$button-icon-fontsize: var(--#{$ds}btn-icon-fontsize);
+$button-color: var(--#{$ds}btn-color);
+$button-border-color: var(--#{$ds}btn-border-color);
+$button-border-width: var(--#{$ds}btn-border-width);
+$button-border-radius: var(--#{$ds}btn-border-radius);
+$button-background: var(--#{$ds}btn-background);
+$button-padding-top-bottom: var(--#{$ds}btn-padding-top-bottom);
+$button-padding-left-right: var(--#{$ds}btn-padding-left-right);
+$button-padding: $button-padding-top-bottom $button-padding-left-right;
+$button-transition: var(--#{$ds}btn-transition);
+
+// Sizes
+// Small
+$button-small-height: var(--#{$ds}btn-small-height);
+$button-small-fontsize: var(--#{$ds}btn-small-fontsize);
+$button-small-icon-fontsize: var(--#{$ds}btn-small-icon-fontsize);
+$button-small-border-width: var(--#{$ds}btn-small-border-width, 2px);
+$button-small-padding-top-bottom: var(--#{$ds}btn-small-padding-top-bottom);
+$button-small-padding-left-right: var(--#{$ds}btn-small-padding-left-right);
+
+// Large
+$button-large-fontsize: var(--#{$ds}btn-large-fontsize);
+$button-large-padding-top-bottom: var(--#{$ds}btn-large-padding-top-bottom);
+$button-large-padding-left-right: var(--#{$ds}btn-large-padding-left-right);
+
+// Styles
+// Action button (CTA)
+// default
+$btn-action-color: var(--#{$ds}btn-action-color);
+$btn-action-background: var(--#{$ds}btn-action-background);
+$btn-action-bordercolor: var(--#{$ds}btn-action-bordercolor);
+
+// focus and hover
+$btn-action-color-hover: var(--#{$ds}btn-action-color-hover);
+$btn-action-background-hover: var(--#{$ds}btn-action-background-hover);
+$btn-action-bordercolor-hover: var(--#{$ds}btn-action-bordercolor-hover);
+
+// active (pressed)
+$btn-action-color-active: var(--#{$ds}btn-action-color-active);
+$btn-action-background-active: var(--#{$ds}btn-action-background-active);
+$btn-action-bordercolor-active: var(--#{$ds}btn-action-bordercolor-active);
+
+// disabled
+$btn-action-color-disabled: var(--#{$ds}btn-action-color-disabled);
+$btn-action-background-disabled: var(--#{$ds}btn-action-background-disabled);
+$btn-action-bordercolor-disabled: var(--#{$ds}btn-action-bordercolor-disabled);
+
+// -------
+// ++ Primary button
+// default
+$btn-primary-color: var(--#{$ds}btn-primary-color);
+$btn-primary-background: var(--#{$ds}btn-primary-background);
+$btn-primary-bordercolor: var(--#{$ds}btn-primary-bordercolor);
+
+// focus and hover
+$btn-primary-color-hover: var(--#{$ds}btn-primary-color-hover);
+$btn-primary-background-hover: var(--#{$ds}btn-primary-background-hover);
+$btn-primary-bordercolor-hover: var(--#{$ds}btn-primary-bordercolor-hover);
+
+// active (pressed)
+$btn-primary-color-active: var(--#{$ds}btn-primary-color-active);
+$btn-primary-background-active: var(--#{$ds}btn-primary-background-active);
+$btn-primary-bordercolor-active: var(--#{$ds}btn-primary-bordercolor-active);
+
+// disabled
+$btn-primary-color-disabled: var(--#{$ds}btn-primary-color-disabled);
+$btn-primary-background-disabled: var(--#{$ds}btn-primary-background-disabled);
+$btn-primary-bordercolor-disabled: var(--#{$ds}btn-primary-bordercolor-disabled);
+
+// -------
+// ++ Secondary button
+// default
+$btn-secondary-color: var(--#{$ds}btn-secondary-color);
+$btn-secondary-background: var(--#{$ds}btn-secondary-background);
+$btn-secondary-bordercolor: var(--#{$ds}btn-secondary-bordercolor);
+
+// focus and hover
+$btn-secondary-color-hover: var(--#{$ds}btn-secondary-color-hover);
+$btn-secondary-background-hover: var(--#{$ds}btn-secondary-background-hover);
+$btn-secondary-bordercolor-hover: var(--#{$ds}btn-secondary-bordercolor-hover);
+
+// active (pressed)
+$btn-secondary-color-active: var(--#{$ds}btn-secondary-color-active);
+$btn-secondary-background-active: var(--#{$ds}btn-secondary-background-active);
+$btn-secondary-bordercolor-active: var(--#{$ds}btn-secondary-bordercolor-active);
+
+// disabled
+$btn-secondary-color-disabled: var(--#{$ds}btn-secondary-color-disabled);
+$btn-secondary-background-disabled: var(--#{$ds}btn-secondary-background-disabled);
+$btn-secondary-bordercolor-disabled: var(--#{$ds}btn-secondary-bordercolor-disabled);
+
+// -------
+// ++ Inverse button
+// default
+$btn-inverse-color: var(--#{$ds}btn-inverse-color);
+$btn-inverse-background: var(--#{$ds}btn-inverse-background);
+$btn-inverse-bordercolor: var(--#{$ds}btn-inverse-bordercolor);
+
+// focus and hover
+$btn-inverse-color-hover: var(--#{$ds}btn-inverse-color-hover);
+$btn-inverse-background-hover: var(--#{$ds}btn-inverse-background-hover);
+$btn-inverse-bordercolor-hover: var(--#{$ds}btn-inverse-bordercolor-hover);
+
+// active (pressed)
+$btn-inverse-color-active: var(--#{$ds}btn-inverse-color-active);
+$btn-inverse-background-active: var(--#{$ds}btn-inverse-background-active);
+$btn-inverse-bordercolor-active: var(--#{$ds}btn-inverse-bordercolor-active);
+
+// disabled
+$btn-inverse-color-disabled: var(--#{$ds}btn-inverse-color-disabled);
+$btn-inverse-background-disabled: var(--#{$ds}btn-inverse-background-disabled);
+$btn-inverse-bordercolor-disabled: var(--#{$ds}btn-inverse-bordercolor-disabled);
+
+// -------
+// ++ Light button
+// default
+$btn-light-color: var(--#{$ds}btn-light-color);
+$btn-light-background: var(--#{$ds}btn-light-background);
+$btn-light-bordercolor: var(--#{$ds}btn-light-bordercolor);
+
+// focus and hover
+$btn-light-color-hover: var(--#{$ds}btn-light-color-hover);
+$btn-light-background-hover: var(--#{$ds}btn-light-background-hover);
+$btn-light-bordercolor-hover: var(--#{$ds}btn-light-bordercolor-hover);
+
+// active (pressed)
+$btn-light-color-active: var(--#{$ds}btn-light-color-active);
+$btn-light-background-active: var(--#{$ds}btn-light-background-active);
+$btn-light-bordercolor-active: var(--#{$ds}btn-light-bordercolor-active);
+
+// disabled
+$btn-light-color-disabled: var(--#{$ds}btn-light-color-disabled);
+$btn-light-background-disabled: var(--#{$ds}btn-light-background-disabled);
+$btn-light-bordercolor-disabled: var(--#{$ds}btn-light-bordercolor-disabled);
+
+// -------
+// ++ Link button
+// default
+$btn-link-color: var(--#{$ds}btn-link-color);
+$btn-link-background: var(--#{$ds}btn-link-background);
+$btn-link-bordercolor: var(--#{$ds}btn-link-bordercolor);
+$btn-link-text-decoration: var(--#{$ds}btn-link-text-decoration);
+
+// focus and hover
+$btn-link-color-hover: var(--#{$ds}btn-link-color-hover);
+$btn-link-background-hover: var(--#{$ds}btn-link-background-hover);
+$btn-link-bordercolor-hover: var(--#{$ds}btn-link-bordercolor-hover);
+$btn-link-text-decoration-hover: var(--#{$ds}btn-link-text-decoration-hover);
+
+// active (pressed)
+$btn-link-color-active: var(--#{$ds}btn-link-color-active);
+$btn-link-background-active: var(--#{$ds}btn-link-background-active);
+$btn-link-bordercolor-active: var(--#{$ds}btn-link-bordercolor-active);
+
+// disabled
+$btn-link-color-disabled: var(--#{$ds}btn-link-color-disabled);
+$btn-link-background-disabled: var(--#{$ds}btn-link-background-disabled);
+$btn-link-bordercolor-disabled: var(--#{$ds}btn-link-bordercolor-disabled);
+
+// -------
+// ++ Button loading
+// button with loading animation
+$button-loader-size: var(--#{$ds}button-loader-size, calculateRem(23px));
+$button-loader-gap: var(--#{$ds}button-loader-gap, calculateRem(8px));
+$button-loader-border-size: var(--#{$ds}button-loader-border-size, calculateRem(3px));
+$button-loader-position: var(--#{$ds}button-loader-position, left);

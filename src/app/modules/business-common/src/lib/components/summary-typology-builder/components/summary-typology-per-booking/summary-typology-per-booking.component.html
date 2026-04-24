@@ -1,0 +1,10 @@
+@if (summaryConfig.showPaxGroup) {
+    <div class="summary-typology_passenger-types">
+        <passenger-types [model]="passengerTypesModel" />
+    </div>
+}
+@if (priceBreakdownModel.config[0].list.length) {
+    <section class="summary-typology_price-breakdown">
+        <price-breakdown [model]="priceBreakdownModel" />
+    </section>
+}

@@ -1,0 +1,29 @@
+{
+  "rows": [
+    {
+      "cols": [
+        {
+          "component": "CorporateMainHeaderBlock_uiplus",
+          "span": 12,
+          "config": {
+            "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainHeaderBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
+          }
+        }
+      ]
+    },
+    {
+      "slot": "main"
+    },
+    {
+      "cols": [
+        {
+          "component": "CorporateMainFooterBlock_uiplus",
+          "span": 12,
+          "config": {
+            "url": "/configuration/api/v1/UI_PLUS/Config/get?key=config_CorporateMainFooterBlock_uiplus_B6-81-A3-B2-17-B7-F0-31_en-us"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../avatar.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Avatar
+
+Figma Design (not on library) |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/avatar" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`avatar` renders user initials or brand icons inside circular tokens sized from smallest to large. Pass an `AvatarConfig` to control initials, ARIA labels, icon overrides, and responsive sizes.
+
+## Basic usage
+
+`AvatarComponent` receives a `config` object. If `avatarText` is empty, the component falls back to the "Not applicable" translation and exposes the string via `aria-label`.
+
+```html
+<avatar [config]="exampleConfig" />
+```
+
+```ts
+exampleConfig: AvatarConfig = {
+  avatarText: 'SR',
+  ariaLabel: 'Simon Ramirez',
+  size: AvatarSize.MEDIUM,
+};
+```
+
+## Variants
+
+### Sizes
+
+Avatar scales through four prescriptive sizes. Use `SMALLEST` in dense lists, `SMALL` for cards, `MEDIUM` for default profile headers, and `LARGE` when the avatar is the focal point.
+
+<Canvas of={ComponentStories.SIZES} />
+
+### Content types
+
+Display initials by default or provide an icon to show airline badges, loyalty levels, or fallback glyphs.
+
+<Canvas of={ComponentStories.CONTENT_TYPES} />
+
+### Edge cases
+
+When `avatarText` is missing, Avatar emits the translated "Not applicable" label. Use `ariaLabel` for screen readers to announce the person's name.
+
+<Canvas of={ComponentStories.EDGE_CASES} />
+
+## Related components
+
+## References
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-avatar-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-avatar-changelog--docs) tab for version history.
+

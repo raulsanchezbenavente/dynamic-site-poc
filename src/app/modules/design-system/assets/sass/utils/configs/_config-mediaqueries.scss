@@ -1,0 +1,35 @@
+// + Breakpoints
+// -------
+// mobile
+$bp-mobile-small: 480px !default;
+$bp-mobile-small-max: 480px - 1 !default;
+$bp-mobile: 640px !default;
+$bp-mobile-max: 640px - 1 !default;
+$bp-mobile-min: 480px + 1 !default;
+
+// tablet
+$bp-tablet-portrait: 768px !default;
+$bp-tablet-portrait-max: 768px - 1 !default;
+$bp-tablet-portrait-min: 640px + 1 !default;
+$bp-tablet-landscape: 992px !default;
+$bp-tablet-landscape-max: 992px - 1 !default;
+$bp-tablet-landscape-min: 768px + 1 !default;
+
+// desktop
+$bp-desktop: 1248px !default;
+$bp-desktop-max: 1248px - 1 !default;
+$bp-desktop-min: 992px + 1 !default;
+
+// + Media queries
+// -------
+$mobile-sm: '(min-width: #{$bp-mobile-small})' !default; // >=480px
+$mobile: '(min-width: #{$bp-mobile})' !default; // >=640px
+$tablet-portrait: '(min-width: #{$bp-tablet-portrait})' !default; // >=768px
+$tablet-landscape: '(min-width: #{$bp-tablet-landscape})' !default; // >=992px
+$desktop: '(min-width: #{$bp-desktop})' !default; // >=1248px
+
+$until-mobile-sm: '(max-width: #{$bp-mobile-small-max})' !default; // <=480px
+$until-mobile: '(max-width: #{$bp-mobile-max})' !default; // <=640px
+$until-tablet-portrait: '(max-width: #{$bp-tablet-portrait-max})' !default; // <=768px
+$until-tablet-landscape: '(max-width: #{$bp-tablet-landscape-max})' !default; // <=992px
+$until-desktop: '(max-width: #{$bp-desktop-max})' !default; // <1248px

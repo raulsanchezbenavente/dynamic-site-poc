@@ -1,0 +1,104 @@
+<!-- eslint-disable-next-line @angular-eslint/template/interactive-supports-focus -->
+<div
+    class="rf-field-group-wrapper"
+    (focusout)="handleFocusOut($event)"
+    (keydown)="onKeyDown($event)">
+    <form
+        class="rf-field-group"
+        [ngClass]="{
+            'has-icon has-icon--left': leftIcon(),
+            'has-icon has-icon--right': rightIcon(),
+        }"
+        [formGroup]="form">
+        <rf-drop
+            #drop
+            [disabled]="disabled() || isDisabled || readonly()"
+            (open)="onOpen($event)">
+            <div
+                class="rf-select_drop"
+                (focusin)="onFocus()"
+                (focusout)="onBlur()">
+                <rf-generic-drop-button
+                    #genericbutton
+                    [value]="value()"
+                    [animatedLabel]="
+                        animatedLabel() +
+                        (isRequired && appearance() === appearanceTypes.DEFAULT ? MANDATORY_SYMBOL : '')
+                    "
+                    [floatingLabel]="floatingLabel"
+                    [placeholder]="placeholder()"
+                    [appearance]="appearance()"
+                    [errorMessagesShouldBeDisplayed]="errorMessagesShouldBeDisplayed"
+                    [disabled]="disabled() || isDisabled"
+                    [readonly]="readonly()"
+                    [classes]="classes()?.button"
+                    [dropIsOpen]="dropIsOpen"
+                    [rightIcon]="rightIcon()"
+                    [leftIcon]="leftIcon()"
+                    [hideCaret]="hideCaret()"
+                    [ariaId]="errorMessagesShouldBeDisplayed || hintMessages() || hasGeneralHint() ? ariaId() : null"
+                    [e2eId]="autoId"
+                    [ariaLabelledBy]="ariaLabelledBy()"
+                    [required]="isRequired"
+                    [ariaReadonly]="readonly()"
+                    [invalid]="control?.errors ? true : false"
+                    [activeDescendant]="activeOptionId"
+                    [controls]="listboxBase"
+                    (keydownButton)="onKeyDownButon($event)">
+                    <div class="rf-select_value-container">
+                        <span
+                            class="rf-select_value"
+                            [ngClass]="classes()?.containerItemSelected || ''"
+                            [innerHTML]="
+                                mask() && selectedOption?.content
+                                    ? mask()!(selectedOption?.content!)
+                                    : selectedOption?.content || placeholder() || ''
+                            ">
+                        </span>
+                    </div>
+                </rf-generic-drop-button>
+
+                <rf-list
+                    #list
+                    contentdrop
+                    closedrop
+                    class="rf-select_list"
+                    formControlName="list"
+                    [hideDebug]="false"
+                    [parentId]="listboxBase"
+                    [parentAutoId]="autoId"
+                    [filter]="filter()"
+                    [classes]="classes()?.list"
+                    [options]="options()"
+                    [displayErrorsMode]="displayErrorsMode()"
+                    [showErrorMessages]="false"
+                    [typeaheadIncludes]="typeaheadIncludes()"
+                    (selectOption)="updateValue($event)"
+                    (blurFilter)="onBlurFilter($event)"
+                    (keyPressed)="onKeyPressed($event)"></rf-list>
+            </div>
+        </rf-drop>
+    </form>
+
+    <rf-hint-messages
+        [id]="ariaId()"
+        [showHintMessages]="showHintMessages()"
+        [hintMessage]="hintMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control"
+        [classes]="classes()?.list?.hintMessages || ''" />
+
+    <rf-error-messages
+        [id]="ariaId()"
+        [classes]="classes()?.list?.errorMessages || ''"
+        [showErrorMessages]="showErrorMessages()"
+        [errorMessages]="errorMessages()"
+        [displayErrorsMode]="displayErrorsMode()"
+        [control]="control" />
+</div>
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [hide]="hideDebug()"
+    [displayErrorsMode]="displayErrorsMode()" />

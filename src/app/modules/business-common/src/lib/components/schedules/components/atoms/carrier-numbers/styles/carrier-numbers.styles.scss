@@ -1,0 +1,24 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.carrier-number_list {
+    display: inline-flex;
+    gap: calculateRem(8px);
+    line-height: 1.2;
+    padding: calculateRem(8px) calculateRem(16px);
+    border-radius: 100vh;
+    background-color: var(--c-color4);
+}
+.carrier-number_item {
+    display: inline-flex;
+    &::after {
+        content: ',';
+    }
+    &:last-child {
+        &::after {
+            display: none;
+        }
+    }
+}

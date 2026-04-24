@@ -258,7 +258,7 @@ function ensureLinuxDevDesktopEntry() {
     '[Desktop Entry]',
     'Type=Application',
     'Version=1.0',
-    `Name=${escapeDesktopEntryValue('Dynamic Site Launcher')}`,
+    `Name=${escapeDesktopEntryValue('Script launcher application')}`,
     `Exec=${execCommand}`,
     `TryExec=${escapeDesktopEntryValue(process.execPath)}`,
     `Icon=${escapeDesktopEntryValue(iconPath)}`,

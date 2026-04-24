@@ -1,0 +1,124 @@
+export enum CommonTranslationKeys {
+  // --- Root Key Node ---
+  Common_KeyNode = 'Common.',
+
+  // --- A11y ---
+  Common_A11y_Decrease = 'Common.A11y.Decrease',
+  Common_A11y_Increase = 'Common.A11y.Increase',
+  Common_A11y_IsSelected = 'Common.A11y.IsSelected',
+  Common_A11y_Loading = 'Common.A11y.Loading',
+  Common_BreadcrumbNav_AriaLabel = 'Common.BreadcrumbNav.AriaLabel',
+
+  // --- A11y — Status Icons ---
+  Common_A11y_Status_Icon_KeyNode = 'Common.A11y.Status_Icon.',
+  Common_A11y_Status_Icon_Blocked = 'Common.A11y.Status_Icon.Blocked',
+  Common_A11y_Status_Icon_Default = 'Common.A11y.Status_Icon.Default',
+  Common_A11y_Status_Icon_Disabled = 'Common.A11y.Status_Icon.Disabled',
+  Common_A11y_Status_Icon_Error = 'Common.A11y.Status_Icon.Error',
+  Common_A11y_Status_Icon_Inactive = 'Common.A11y.Status_Icon.Inactive',
+  Common_A11y_Status_Icon_Info = 'Common.A11y.Status_Icon.Info',
+  Common_A11y_Status_Icon_Pending = 'Common.A11y.Status_Icon.Pending',
+  Common_A11y_Status_Icon_Success = 'Common.A11y.Status_Icon.Success',
+  Common_A11y_Status_Icon_Warning = 'Common.A11y.Status_Icon.Warning',
+
+  // --- Actions (Generic) ---
+  Common_Accept_Btn = 'Common.Accept_Btn',
+  Common_Add = 'Common.Add',
+  Common_Cancel = 'Common.Cancel',
+  Common_Cancel_Btn = 'Common.Cancel_Btn',
+  Common_Close = 'Common.Close',
+  Common_Confirm_Btn = 'Common.Confirm_Btn',
+  Common_Continue = 'Common.Continue',
+  Common_Delete = 'Common.Delete',
+  Common_Modify = 'Common.Modify',
+  Common_OK = 'Common.OK',
+  Common_Remove = 'Common.Remove',
+
+  // --- Actions (Navigation) ---
+  Common_Back = 'Common.Back',
+  Common_Next = 'Common.Next',
+  Common_Next_Btn = 'Common.Next_Btn',
+  Common_Prev = 'Common.Prev',
+  Common_Previous = 'Common.Previous',
+  Common_Previous_Btn = 'Common.Previous_Btn',
+
+  // --- Travel/Flight Labels ---
+  Common_Arrival = 'Common.Arrival',
+  Common_Carriers_OperatedBy = 'Common.Carriers.OperatedBy',
+  Common_Departure = 'Common.Departure',
+  Common_Departure_Date = 'Common.Departure_Date',
+  Common_Flight = 'Common.Flight',
+  Common_Flights = 'Common.Flights',
+  Common_FlightStatus = 'Common.FlightStatus',
+  Common_From = 'Common.From',
+  Common_Passenger = 'Common.Passenger',
+  Common_Passengers = 'Common.Passengers',
+  Common_Rerouted_Label = 'Common.Rerouted_Label',
+  Common_Return = 'Common.Return',
+  Common_Return_Date = 'Common.Return_Date',
+  Common_Terminal = 'Common.Terminal',
+  Common_To = 'Common.To',
+
+  // --- Booking/Services Labels ---
+  Common_Services = 'Common.Services',
+  Common_Summary = 'Common.Summary',
+
+  // --- Fare Selection ---
+  Common_Select_FareTypeName_ = 'Common.Select_FareTypeName_',
+  Common_Select_FareTypeName_BASIC = 'Common.Select_FareTypeName_BASIC',
+  Common_Select_FareTypeName_CLASSIC = 'Common.Select_FareTypeName_CLASSIC',
+  Common_Select_FareTypeName_FLEX = 'Common.Select_FareTypeName_FLEX',
+  Common_Select_FareType_Subtitle_ = 'Common.Select_FareType_Subtitle_',
+  Common_Select_FareType_Subtitle_BASIC = 'Common.Select_FareType_Subtitle_BASIC',
+  Common_Select_FareType_Subtitle_CLASSIC = 'Common.Select_FareType_Subtitle_CLASSIC',
+  Common_Select_FareType_Subtitle_FLEX = 'Common.Select_FareType_Subtitle_FLEX',
+  Common_Select_RecommendedBadge_Text = 'Common.Select_RecommendedBadge_Text',
+
+  // --- Date/Time Labels ---
+  Common_LabelDay = 'Common.LabelDay',
+  Common_LabelDays = 'Common.LabelDays',
+  Common_LabelHours = 'Common.LabelHours',
+  Common_LabelMonth = 'Common.LabelMonth',
+  Common_LabelYear = 'Common.LabelYear',
+  Common_ShortLabel_Hours = 'Common.ShortLabel_Hours',
+
+  // --- Financial Labels ---
+  Common_Taxes = 'Common.Taxes',
+  Common_Total = 'Common.Total',
+
+  // --- General UI Labels ---
+  Common_NotAvailable = 'Common.NotAvailable',
+
+  // --- Selection Controls ---
+  Common_CurrencySelector_List_Label = 'Common.CurrencySelector_List_Label',
+  Common_LanguageSelector_List_Label = 'Common.LanguageSelector_List_Label',
+
+  // --- Tabs ---
+  Common_Tabs_Loading = 'Common.Tabs.Loading',
+  Common_Tabs_NoMore_Left = 'Common.Tabs.NoMore_Left',
+  Common_Tabs_NoMore_Right = 'Common.Tabs.NoMore_Right',
+  Common_Tabs_Scroll_KeyNode = 'Common.Tabs.Scroll_',
+  Common_Tabs_Scroll_Left_1 = 'Common.Tabs.Scroll_Left_1',
+  Common_Tabs_Scroll_Left_N = 'Common.Tabs.Scroll_Left_N',
+  Common_Tabs_Scroll_Right_1 = 'Common.Tabs.Scroll_Right_1',
+  Common_Tabs_Scroll_Right_N = 'Common.Tabs.Scroll_Right_N',
+  Common_Tabs_Scrolled_KeyNode = 'Common.Tabs.Scrolled_',
+  Common_Tabs_Scrolled_Left_1 = 'Common.Tabs.Scrolled_Left_1',
+  Common_Tabs_Scrolled_Left_N = 'Common.Tabs.Scrolled_Left_N',
+  Common_Tabs_Scrolled_Right_1 = 'Common.Tabs.Scrolled_Right_1',
+  Common_Tabs_Scrolled_Right_N = 'Common.Tabs.Scrolled_Right_N',
+  Common_Tabs_Scrolled_Left_KeyNode = 'Common.Tabs.Scrolled_Left_',
+
+  // --- Toggle Masked ---
+  Common_ToggleMasked_Action_Mask = 'Common.ToggleMasked.Action.Mask',
+  Common_ToggleMasked_Action_Unmask = 'Common.ToggleMasked.Action.Unmask',
+  Common_ToggleMasked_Status_Masked = 'Common.ToggleMasked.Status.Masked',
+  Common_ToggleMasked_Status_Unmasked = 'Common.ToggleMasked.Status.Unmasked',
+
+  Common_LogoAltText = 'Common.LogoAltText',
+
+  // --- Labels ---
+  Common_Copyright_Text = 'Common.Copyright.Text',
+  Common_Toggle_Menu = 'Common.Toggle_Menu',
+  Common_Toggle_Menu_GoBack = 'Common.Toggle_Menu_GoBack',
+}

@@ -1,0 +1,5 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// BREAKPOINTS VARIABLES
+$wci-pax-list-breakpoint-max: $until-mobile;
+$wci-pax-list-breakpoint-min: $mobile;

@@ -1,0 +1,30 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+
+// ********************
+//  Custom scroll
+//  @core mixin: sass/utils/mixins/_custom-scroll.scss
+// ********************
+
+$scroll-bar-width: var(--scroll-bar-width, calculateRem(12px));
+$scroll-bar-height: var(--scroll-bar-height, calculateRem(4px));
+$custom-scroll-border-radius: var(--custom-scroll-border-radius, calculateRem(10px));
+$custom-scroll-thumb-height: var(--custom-scroll-thumb-height, calculateRem(40px));
+$custom-scroll-thumb-border-width: var(--custom-scroll-thumb-border-width, calculateRem(4px));
+
+// bar default
+$custom-scroll-bar-background: var(--custom-scroll-bar-background, var(--c-border));
+$custom-scroll-thumb-border-color: var(--custom-scroll-thumb-border-color, transparent);
+$custom-scroll-thumb-border-color-xscroll: var(
+    --custom-scroll-thumb-border-color-xscroll,
+    $custom-scroll-bar-background
+);
+$custom-scroll-background: var(--custom-scroll-background, transparent);
+
+// bar darken
+$custom-scroll-darken-bar-background: var(--custom-scroll-darken-bar-background, var(--c-primary));
+$custom-scroll-darken-thumb-border-color: var(--custom-scroll-darken-thumb-border-color, transparent);
+$custom-scroll-darken-thumb-border-color-xscroll: var(
+    --custom-scroll-darken-thumb-border-color-xscroll,
+    $custom-scroll-darken-bar-background
+);
+$custom-scroll-darken-background: var(--custom-scroll-darken-background, transparent);

@@ -1,0 +1,153 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../minus-plus.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Minus Plus
+
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/minus-plus" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `minus-plus` in templates: how to configure it, which variants to pick, and how to handle accessibility labels for numeric steppers.
+
+## Basic usage
+
+The minus-plus component is configured through a `minusPlusVM` object. This object controls the form control, value range, and accessibility labels.
+
+```html
+<minus-plus [minusPlusVM]="minusPlusConfig" />
+```
+
+```ts
+import { FormControl } from '@angular/forms';
+
+minusPlusConfig: MinusPlusVM = {
+  formValidationConfig: {
+    formControlName: 'quantity',
+    formControl: new FormControl(1),
+    minValue: 0,
+    maxValue: 10,
+    isReadOnly: true,
+  },
+  labelledBy: 'quantity-label',
+  statusLabel: 'Quantity',
+  minusLabel: 'Decrease quantity',
+  plusLabel: 'Increase quantity',
+};
+```
+
+### Configuration Properties
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>formValidationConfig.formControl</code></td>
+      <td><code>FormControl</code></td>
+      <td>Angular FormControl instance that holds the current numeric value.</td>
+    </tr>
+    <tr>
+      <td><code>formValidationConfig.formControlName</code></td>
+      <td><code>string</code></td>
+      <td>Name identifier for the form control.</td>
+    </tr>
+    <tr>
+      <td><code>formValidationConfig.minValue</code></td>
+      <td><code>number</code></td>
+      <td>Minimum allowed value. The minus button is disabled when the current value reaches this limit.</td>
+    </tr>
+    <tr>
+      <td><code>formValidationConfig.maxValue</code></td>
+      <td><code>number</code></td>
+      <td>Maximum allowed value. The plus button is disabled when the current value reaches this limit.</td>
+    </tr>
+    <tr>
+      <td><code>formValidationConfig.isReadOnly</code></td>
+      <td><code>boolean</code></td>
+      <td>Whether the input field is read-only (users can only change the value via the buttons).</td>
+    </tr>
+    <tr>
+      <td><code>labelledBy</code></td>
+      <td><code>string</code></td>
+      <td>Identifier available in the view model for external labeling conventions in consuming flows.</td>
+    </tr>
+    <tr>
+      <td><code>statusLabel</code></td>
+      <td><code>string</code></td>
+      <td>Accessible label for the status container (e.g., "Adults", "Children").</td>
+    </tr>
+    <tr>
+      <td><code>minusLabel</code></td>
+      <td><code>string</code></td>
+      <td>Accessible label for the minus button (e.g., "Decrease adults").</td>
+    </tr>
+    <tr>
+      <td><code>plusLabel</code></td>
+      <td><code>string</code></td>
+      <td>Accessible label for the plus button (e.g., "Increase adults").</td>
+    </tr>
+  </tbody>
+</table>
+
+### Outputs
+
+The component defines two output events in the class:
+
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>minusEmmited</code></td>
+      <td>Triggered when the minus action runs and the value decreases by one.</td>
+    </tr>
+    <tr>
+      <td><code>plusEmmited</code></td>
+      <td>Triggered when the plus action runs and the value increases by one.</td>
+    </tr>
+  </tbody>
+</table>
+
+> Note: these outputs are currently declared as `private` in the component class.
+
+## Variants
+
+### States
+
+The component has several interactive states based on the current value relative to the min/max range:
+
+<Canvas of={ComponentStories.STATES} />
+
+- **Default**: Both buttons are enabled — the value is between the minimum and maximum.
+- **At minimum**: The minus action is unavailable — the current value equals `minValue`.
+- **At maximum**: The plus action is unavailable — the current value equals `maxValue`.
+- **Single value**: Both actions are unavailable — `minValue` equals `maxValue`.
+
+### Ranges
+
+Different min/max configurations control the allowed range:
+
+<Canvas of={ComponentStories.RANGES} />
+
+- **Small range (0–3)**: For selections with few options (e.g., infants).
+- **Standard range (1–9)**: Common range for passenger counts.
+- **Large range (0–99)**: For quantity selectors with wide ranges.
+
+## Related components
+
+- [**Button**](?path=/docs/atoms-button--overview): For general-purpose actions outside of numeric stepping.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/molecules-selection-controls-minus-plus--accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/molecules-selection-controls-minus-plus--changelog) tab for version history.

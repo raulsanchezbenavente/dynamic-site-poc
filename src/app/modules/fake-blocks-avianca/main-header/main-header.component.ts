@@ -202,7 +202,11 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
 
       if (!url) {
         // Keep previous tone while config/url settles to avoid UI flicker.
-        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
+        this.emitDynamicPageReady(
+          this.colorConfig(),
+          'CorporateMainHeaderBlock_uiplus',
+          DynamicPageReadyState.RENDERED
+        );
         return;
       }
 
@@ -213,11 +217,15 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
             this.headerTone.set(tone);
             this.loyaltyToneSvc.tone.set(tone);
           }
-          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
+          this.emitDynamicPageReady(
+            this.colorConfig(),
+            'CorporateMainHeaderBlock_uiplus',
+            DynamicPageReadyState.LOADED
+          );
         },
         error: () => {
           // Keep previous tone on transient request errors.
-          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
+          this.emitDynamicPageReady(this.colorConfig(), 'CorporateMainHeaderBlock_uiplus', DynamicPageReadyState.ERROR);
         },
       });
 
@@ -524,14 +532,6 @@ export class MainHeaderComponent extends DynamicPageReadinessBase implements OnI
     } catch {
       return trimmed;
     }
-  }
-
-  private emitDynamicPageReady(state: DynamicPageReadyState): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.colorConfig() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
-      state,
-    });
   }
 
   private async loadSessionData(): Promise<void> {

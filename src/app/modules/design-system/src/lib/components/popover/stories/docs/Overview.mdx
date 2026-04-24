@@ -1,0 +1,138 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../popover.stories';
+
+<Meta of={ComponentStories} title="Atoms/Popover/Overview" />
+
+# Popover
+
+<a href="https://www.figma.com" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/popover" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`ds-popover` reveals rich content when the user clicks or hovers on a trigger. It automatically switches to an off-canvas sheet on compact screens, supports projected headers and body content, and exposes keyboard-friendly behaviors for hover triggers.
+
+## Basic usage
+
+Configure the component with a `PopoverConfig` object and optional `offCanvasConfig`. The trigger/content pair use the dedicated directives.
+
+<Source
+  code={`@Component({
+  selector: 'app-popover-demo',
+  template: ` + "`" + `
+    <popover [config]="popoverConfig" [offCanvasConfig]="offCanvasConfig">
+      <button type="button" popoverTrigger class="ds-button ds-btn-secondary">
+        View fare details
+      </button>
+
+      <div popoverContent>
+        <h3 class="ds-heading-04">Included in Plus fare</h3>
+        <ul>
+          <li>1 checked bag (23 kg)</li>
+          <li>Seat selection</li>
+          <li>Priority boarding</li>
+        </ul>
+      </div>
+    </popover>
+  ` + "`" + `,
+  standalone: true,
+  imports: [PopoverComponent, PopoverTriggerDirective, PopoverContentDirective],
+})
+export class PopoverDemoComponent {
+  popoverConfig: PopoverConfig = {
+    popoverHeaderConfig: { title: 'Plus fare benefits' },
+    responsiveOffCanvas: true,
+    placement: 'bottom',
+  };
+
+  offCanvasConfig: OffCanvasConfig = {
+    offCanvasHeaderConfig: { title: 'Plus fare benefits' },
+  };
+}
+`}
+  language="ts"
+/>
+
+<table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>popoverHeaderConfig.title</code></td>
+      <td>Heading displayed in both the popover panel and the responsive off-canvas sheet.</td>
+      <td><code>''</code></td>
+    </tr>
+    <tr>
+      <td><code>responsiveOffCanvas</code></td>
+      <td>Enables the off-canvas fallback when the viewport crosses <code>--popover-layout-breakpoint</code>.</td>
+      <td><code>true</code></td>
+    </tr>
+    <tr>
+      <td><code>triggers</code></td>
+      <td>Interaction mode: <code>click</code>, <code>hover</code>, or <code>hover click</code> (through <code>DsNgbTriggerEvent</code>).</td>
+      <td><code>click</code></td>
+    </tr>
+    <tr>
+      <td><code>iconTrigger</code></td>
+      <td>Shows the built-in information icon instead of projecting custom trigger content.</td>
+      <td><code>false</code></td>
+    </tr>
+    <tr>
+      <td><code>triggerAriaLabel</code></td>
+      <td>Accessible label for icon-only triggers so screen readers can announce the action.</td>
+      <td><code>undefined</code></td>
+    </tr>
+  </tbody>
+</table>
+
+## Variants
+
+### Responsive layouts
+
+Demonstrates how the component chooses between the inline popover and the off-canvas drawer depending on the breakpoint.
+
+<Canvas of={ComponentStories.LAYOUTS} />
+
+- **Responsive**: Keeps the inline popover on desktop while switching to the drawer on mobile.
+- **Inline only**: Forces the popover layout even on small screens.
+
+### Trigger styles
+
+Showcases the icon trigger and alternative trigger events, including hover interactivity and multiple instances sharing different handlers.
+
+<Canvas of={ComponentStories.TRIGGER_MODES} />
+
+- **Icon trigger**: Uses the default information glyph when no trigger content is projected.
+- **Hover trigger**: Opens on pointer hover but still handles keyboard activation and ESC/TAB flows.
+- **Hover + handler**: Executes a custom callback before closing to support analytics or chained actions.
+
+### Placement options
+
+Illustrates how `placement` changes the attachment point around the trigger.
+
+<Canvas of={ComponentStories.PLACEMENTS} />
+
+- **Start**: Useful for aligning with labels on the left side of a form.
+- **Top**: Keeps the panel above the trigger to avoid covering inputs beneath it.
+- **End**: Pins the panel to the right edge for quick-reading flows.
+
+## Accessibility
+
+- Wraps the trigger in a focusable button and restores focus after closing so keyboard users keep context.
+- Overrides Bootstrap's default tooltip role to `dialog`, sets `aria-modal`, and wires `aria-controls` to the popover content for screen readers.
+- Provides `triggerAriaLabel` for icon triggers and enforces an accessible close button with translated labels.
+- Hover triggers automatically convert to click-with-keyboard behavior so users relying on keys can still open the panel.
+
+## Related components
+
+- [**Tooltip**](?path=/docs/atoms-tooltip-overview--docs): Use when content is read-only and short, without interactive controls.
+- [**Off Canvas**](?path=/docs/atoms-off-canvas-overview--docs): When the experience should always be a drawer instead of conditionally responsive.
+- [**Modal Dialog**](?path=/docs/atoms-modal-dialog-overview--docs): For blocking flows or when a full-screen overlay is required.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-popover-changelog--docs) tab for version history.

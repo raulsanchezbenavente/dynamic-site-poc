@@ -1,0 +1,27 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.checkin-summary_list {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+.checkin-summary_item {
+    flex: 1;
+}
+
+// [Responsive]
+@media #{$tablet-landscape} {
+    .checkin-summary_list {
+        flex-direction: row;
+    }
+}
+
+// Keep this breakpoint to provide more spacing between items on wider screens like iPad landscape
+@media (width >= 1110px) {
+    .checkin-summary_list {
+        gap: $spacer-x-huge;
+    }
+}

@@ -1,0 +1,102 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../status-tag.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Status Tag
+
+## Accessibility
+
+### ARIA Attributes
+
+Status Tag uses semantic roles and ARIA labels to communicate state information to assistive technologies.
+
+#### Icon ARIA Labels
+
+The component automatically generates ARIA labels for status icons using translation keys from `Common.A11y.Status_Icon.*`. Each status type maps to a descriptive label:
+
+<table>
+  <thead>
+    <tr>
+      <th>Status Type</th>
+      <th>Translation Key</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>SUCCESS</code></td>
+      <td><code>Common.A11y.Status_Icon.Success</code></td>
+      <td>Indicates successful completion or positive status</td>
+    </tr>
+    <tr>
+      <td><code>WARNING</code></td>
+      <td><code>Common.A11y.Status_Icon.Warning</code></td>
+      <td>Indicates caution or potential issues</td>
+    </tr>
+    <tr>
+      <td><code>ERROR</code></td>
+      <td><code>Common.A11y.Status_Icon.Error</code></td>
+      <td>Indicates errors or failed operations</td>
+    </tr>
+    <tr>
+      <td><code>INFO</code></td>
+      <td><code>Common.A11y.Status_Icon.Info</code></td>
+      <td>Provides informational messages</td>
+    </tr>
+    <tr>
+      <td><code>PENDING</code></td>
+      <td><code>Common.A11y.Status_Icon.Pending</code></td>
+      <td>Indicates in-progress or awaiting status</td>
+    </tr>
+    <tr>
+      <td><code>INACTIVE</code></td>
+      <td><code>Common.A11y.Status_Icon.Inactive</code></td>
+      <td>Indicates disabled or inactive state</td>
+    </tr>
+    <tr>
+      <td><code>BLOCKED</code></td>
+      <td><code>Common.A11y.Status_Icon.Blocked</code></td>
+      <td>Indicates blocked or restricted access</td>
+    </tr>
+    <tr>
+      <td><code>DEFAULT</code></td>
+      <td><code>Common.A11y.Status_Icon.Default</code></td>
+      <td>Default neutral status indicator</td>
+    </tr>
+  </tbody>
+</table>
+
+### Semantic HTML
+
+Status Tag renders as a `<span>` element, making it suitable for inline placement within text or alongside other components. The icon span includes `role="img"` and `aria-label` for proper screen reader announcement.
+
+### Screen Reader Support
+
+Screen readers will announce:
+1. The status icon's `aria-label` (e.g., "Success icon", "Warning icon")
+2. The visible status text (e.g., "Confirmed", "Delayed")
+
+**Example announcement**: "Success icon, Confirmed"
+
+### Best Practices
+
+- **Provide descriptive text**: Always set meaningful `text` in the config that explains the status in user terms (e.g., "Booking confirmed" instead of just "Success").
+- **Maintain translation keys**: Ensure `Common.A11y.Status_Icon.*` translation keys exist for all status types, including custom status types.
+- **Don't rely on color alone**: Status Tags use both icons and text to communicate state, ensuring users with color blindness can understand the status.
+- **Non-interactive by design**: Status Tag is a presentational component. If the status requires user action, wrap it in a `<button>` or `<a>` element with appropriate ARIA attributes.
+- **Custom status types**: When using custom status enums, provide corresponding icon ARIA label translations following the pattern `Common.A11y.Status_Icon.{CustomStatus}`.
+- **NO_ICON style considerations**: When using `StatusTagStyles.NO_ICON`, ensure the text alone is sufficiently descriptive since no icon ARIA label will be announced.
+
+### Contrast Requirements
+
+Status Tag color combinations meet WCAG 2.1 Level AA contrast requirements (minimum 4.5:1 for text). The design system defines semantic color tokens for each status type that ensure sufficient contrast in both light and dark themes.
+
+### Focus and Keyboard Navigation
+
+Status Tag itself is not focusable since it's purely informational. If status changes require user interaction:
+
+- Wrap the component in a focusable element (`<button>`, `<a>`)
+- Ensure the wrapper has appropriate keyboard handlers (`Enter`, `Space` for buttons)
+- Use `aria-live="polite"` on the parent container if status updates dynamically to announce changes to screen readers

@@ -1,0 +1,63 @@
+//  Icon Fonts
+//	Easily add icons fonts to a html element.
+
+@use 'sass:list';
+
+@mixin iconfont($icon, $pos: before, $color: false) {
+    // mixin arguments validation
+    @if not list.index('before' 'after' 'self', $pos) {
+        @error '`#{$pos}` is not a valid value for the `$pos` argument in ' + 'the `iconfont` mixin. Must be either `before`, `after` or `self`.';
+    } @else if $pos == before {
+        &::before {
+            content: #{$icon} / ''; // Fallback to empty string to avoid printing an unwanted symbol in screen readers
+            display: inline-block;
+            font-family: var(--f-icons);
+            font-weight: normal;
+            line-height: 1;
+
+            @if $color {
+                color: $color;
+            }
+        }
+    } @else if $pos == after {
+        &::after {
+            content: #{$icon} / ''; // Fallback to empty string to avoid printing an unwanted symbol in screen readers
+            display: inline-block;
+            font-family: var(--f-icons);
+            font-weight: normal;
+            line-height: 1;
+
+            @if $color {
+                color: $color;
+            }
+        }
+    } @else if $pos == self {
+        content: #{$icon} / ''; // Fallback to empty string to avoid printing an unwanted symbol in screen readers
+        display: inline-block;
+        font-family: var(--f-icons);
+        font-weight: normal;
+        line-height: 1;
+    }
+}
+
+// Iconfonts within background (2 colors)
+// -------
+// set icon with background color (solving issue of 2 colors, 2 path icons)
+@mixin icon-circle-background(
+    $icon-size: 'inherit',
+    $background-reduction: 2px // to calibrate background icon coverage
+) {
+    font-size: $icon-size;
+    display: inline-flex;
+    justify-content: center;
+    flex-direction: column; // IE11 Support
+    align-items: center;
+    box-sizing: border-box;
+    width: ($icon-size - $background-reduction);
+    height: ($icon-size - $background-reduction);
+    margin: $background-reduction;
+    color: var(--c-circle-icon-color, var(--c-white));
+    line-height: 0;
+    background-color: var(--c-circle-icon-background, var(--c-primary));
+    border-radius: 50%;
+}

@@ -1,0 +1,99 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'banner-item-vars.styles' as *;
+
+// Styles variations: default
+.banner-item-html--style-default {
+    min-height: $banner-default-height;
+    // fontsize caption
+    &.banner-item-html--fontsize-medium {
+        .banner-item_caption_title {
+            font-size: $banner-default-html-caption-title-fontsize-medium;
+            ::ng-deep small {
+                font-size: $banner-default-html-caption-title-small-fontsize-medium;
+            }
+        }
+        .banner-item_caption_subtitle {
+            font-size: $banner-default-html-caption-subtitle-fontsize-medium;
+        }
+        .banner-item_caption_text {
+            font-size: $banner-default-html-caption-text-fontsize-medium;
+            ::ng-deep small {
+                font-size: $banner-default-html-caption-text-small-fontsize-medium;
+            }
+        }
+    }
+    &.banner-item-html--fontsize-large {
+        .banner-item_caption_title {
+            font-size: $banner-default-html-caption-title-fontsize-large;
+        }
+        .banner-item_caption_subtitle {
+            font-size: $banner-default-html-caption-subtitle-fontsize-large;
+        }
+    }
+    .banner-item-html_content {
+        z-index: 1; // keep html caption over banner gradient overlay
+        position: relative;
+        width: 100%;
+        padding: $banner-default-html-padding;
+        box-sizing: border-box;
+    }
+    .banner-item-html_content-inner {
+        display: flex;
+        flex-direction: column;
+    }
+    // price
+    .banner-item_caption_price {
+        font-size: $banner-default-html-caption-price-fontsize;
+        color: $banner-default-html-caption-price-color;
+        margin: $banner-default-html-caption-price-margin;
+        ::ng-deep {
+            // <ibe-price-currency>
+            .price_currency {
+                white-space: nowrap;
+                .from {
+                    display: block;
+                    font-size: $banner-default-html-caption-price-from-fontsize;
+                    white-space: nowrap;
+                    margin: $banner-default-html-caption-price-from-margin;
+                }
+                .decimals {
+                    font-size: $banner-default-html-caption-price-decimals-fontsize;
+                }
+            }
+        }
+    }
+
+    @media #{$banner-default-breakpoint-min} {
+        &.banner-item-html {
+            &--fontsize-small {
+                font-size: #{$banner-default-html-caption-title-fontsize-desktop-small};
+                font-size: #{$banner-default-html-caption-subtitle-fontsize-desktop-small};
+            }
+
+            // Font size large to be implemented in the future - missing design definition
+            &--fontsize-medium {
+                --banner-default-html-caption-title-fontsize-medium: #{calculateRem(48px)}; // TODO: token
+                --banner-default-html-caption-title-small-fontsize-medium: var(--f-size-x-large);
+                --banner-default-html-caption-subtitle-fontsize-medium: #{calculateRem(26px)}; // TODO: tokens
+                --banner-default-html-caption-text-fontsize-medium: #{calculateRem(54px)}; // TODO: token
+                --banner-default-html-caption-text-small-fontsize-medium: var(--f-size-large);
+            }
+            &--fontsize-large {
+                --banner-default-html-caption-title-fontsize-large: #{calculateRem(96px)}; // TODO: token
+                --banner-default-html-caption-subtitle-fontsize-large: var(--f-size-xx-large);
+            }
+        }
+    }
+}
+
+// has controls
+// when banner has controls, add a margin between controls and content
+.banner--has-controls :host-context {
+    .banner-item-html--style-default {
+        .banner-item-html_content {
+            margin-bottom: calc(
+                #{$banner-default-html-padding-v} + #{$banner-controls-padding-bottom} + #{$banner-controls-margin}
+            );
+        }
+    }
+}

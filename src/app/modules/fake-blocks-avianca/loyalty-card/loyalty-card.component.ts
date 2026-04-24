@@ -81,7 +81,7 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
 
       if (!url) {
         // Keep the previous tone if URL is temporarily unavailable while language/config settles.
-        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
+        this.emitDynamicPageReady(this.colorConfig(), 'loyaltyOverviewCard_uiplus_EX', DynamicPageReadyState.RENDERED);
         return;
       }
 
@@ -94,11 +94,11 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
             this.loyaltyToneSvc.tone.set(tone);
           }
 
-          this.emitDynamicPageReady(DynamicPageReadyState.LOADED);
+          this.emitDynamicPageReady(this.colorConfig(), 'loyaltyOverviewCard_uiplus_EX', DynamicPageReadyState.LOADED);
         },
         error: () => {
           // Keep previous tone on transient request errors.
-          this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
+          this.emitDynamicPageReady(this.colorConfig(), 'loyaltyOverviewCard_uiplus_EX', DynamicPageReadyState.ERROR);
         },
       });
 
@@ -263,13 +263,5 @@ export class LoyaltyOverviewCardComponent extends DynamicPageReadinessBase imple
     } catch {
       return trimmed;
     }
-  }
-
-  private emitDynamicPageReady(state: DynamicPageReadyState): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.colorConfig() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'loyaltyOverviewCard_uiplus',
-      state,
-    });
   }
 }

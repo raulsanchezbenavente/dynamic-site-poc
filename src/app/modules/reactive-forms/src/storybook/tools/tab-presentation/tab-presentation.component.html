@@ -1,0 +1,55 @@
+<ul
+    class="nav nav-tabs"
+    id="myTab"
+    role="tablist">
+    <li
+        class="nav-item"
+        role="presentation">
+        <button
+            class="nav-link"
+            id="home-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#form"
+            type="button"
+            role="tab"
+            aria-controls="mockFormId"
+            aria-selected="true"
+            [ngClass]="activeTab === 0 ? 'active' : ''"
+            (click)="activateTab(0)">
+            <span class="h4">RfFormGroup</span>
+        </button>
+    </li>
+    <li
+        class="nav-item"
+        role="presentation">
+        <button
+            class="nav-link"
+            id="profile-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#standalone"
+            type="button"
+            role="tab"
+            aria-controls="mockFormStandaloneId"
+            aria-selected="false"
+            [ngClass]="activeTab === 1 ? 'active' : ''"
+            (click)="activateTab(1)">
+            <span class="h4">Standalone</span>
+        </button>
+    </li>
+</ul>
+<div
+    class="tab-content"
+    id="myTabContent">
+    <div
+        role="tabpanel"
+        id="mockFormId"
+        [ngClass]="activeTab === 0 ? 'tab-active' : 'tab-inactive'">
+        <ng-content select="[form]"></ng-content>
+    </div>
+    <div
+        role="tabpanel"
+        id="mockFormStandaloneId"
+        [ngClass]="activeTab === 1 ? 'tab-active' : 'tab-inactive'">
+        <ng-content select="[standalone]"></ng-content>
+    </div>
+</div>

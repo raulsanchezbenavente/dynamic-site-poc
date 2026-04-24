@@ -1,6 +1,8 @@
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, inject, input, signal } from '@angular/core';
-import { DynamicPageReadinessBase, DynamicPageReadyState } from '@dynamic-composite';
+
+import { DynamicPageReadinessBase } from '../../dynamic-page-readiness/dynamic-page-readiness.base';
+import { DynamicPageReadyState } from '../../dynamic-page-readiness/models/dynamic-page-ready-state.enum';
 
 import { RteInjectorConfig } from './models/rte-injector-config.model';
 
@@ -52,7 +54,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
 
       if (urls.length === 0) {
         this.fetchedContent.set('');
-        this.emitDynamicPageReady(DynamicPageReadyState.RENDERED, {
+        this.emitDynamicPageReady(this.config(), 'rteBlock_uiplus', DynamicPageReadyState.RENDERED, {
           requested: 0,
           succeeded: 0,
           failed: 0,
@@ -204,16 +206,7 @@ export class RteInjectorComponent extends DynamicPageReadinessBase {
       requestedUrls,
     };
 
-    this.emitDynamicPageReady(DynamicPageReadyState.LOADED, detail);
-  }
-
-  private emitDynamicPageReady(state: DynamicPageReadyState, extraDetail: Record<string, unknown>): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'rteBlock_uiplus',
-      state,
-      extraDetail,
-    });
+    this.emitDynamicPageReady(this.config(), 'rteBlock_uiplus', DynamicPageReadyState.LOADED, detail);
   }
 
   private async fetchContent(url: string, signal: AbortSignal): Promise<ContentFetchResult> {

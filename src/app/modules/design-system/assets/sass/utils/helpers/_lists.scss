@@ -1,0 +1,43 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/tokens/scss/spacing.token' as *;
+
+// Use of <li> is necessary to allow proper rendering when implemented via CMS RTE
+.#{$ds}list {
+    .#{$ds}icon {
+        position: relative;
+        top: calculateEm(2px);
+    }
+}
+.#{$ds}list_list {
+    --list-item-bullet-size: #{calculateEm(7px)};
+    --icon-fontsize: var(--f-size);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--list-gap, $spacer-small);
+    li {
+        position: relative;
+        display: flex;
+        font-size: var(--list-item-fontsize, var(--f-size-small));
+        gap: var(--list-item-gap, calculateEm(10px));
+    }
+}
+.#{$ds}list_item--disabled {
+    color: var(--c-text-secondary);
+}
+
+// Appearance: Bullet List
+.#{$ds}list_list--style-bullet {
+    li {
+        &::before {
+            flex: 0 0 var(--list-item-bullet-size);
+            content: '';
+            width: var(--list-item-bullet-size);
+            height: var(--list-item-bullet-size);
+            margin-top: calculateEm(8px);
+            border-radius: 50%;
+            background-color: var(--c-tertiary);
+        }
+    }
+}

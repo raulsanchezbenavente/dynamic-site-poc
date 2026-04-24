@@ -1,0 +1,76 @@
+.nav-tabs {
+    // Container for the tabs
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #0056b3;
+}
+.nav-item {
+    // Styling each tab item
+    margin-right: 1rem;
+    button {
+        // Styling the tab buttons
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        background-color: transparent;
+        border: 1px solid #ddd; // Default border for inactive tabs
+        border-radius: 4px 4px 0 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #495057; // Default text color for inactive tabs
+        text-align: center;
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #c9d6e4; // Focus state styling
+        }
+        &.active {
+            // Active tab styles
+            background-color: #005cbe;
+            color: white;
+            border-color: #005cbe;
+            span {
+                font-weight: bold;
+            }
+        }
+        &:hover:not(.active) {
+            // Hover effect for inactive tabs to make them more like a tab
+            background-color: #f1f3f5; // Lighter background for hover effect
+            border-color: #005cbe; // Highlight border color when hovered
+        }
+        span {
+            // Styling the span inside button for tab label
+            font-weight: normal;
+        }
+    }
+}
+.nav-link {
+    text-align: center;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.25rem;
+    color: #495057;
+    font-weight: normal;
+    &:focus {
+        outline: none;
+    }
+}
+
+// Optional: Adjusting for larger screens and specific design needs
+.nav-link span {
+    font-size: 1.1rem;
+    font-weight: normal;
+}
+
+// Styling for the tab content section
+.tab-content {
+    margin-top: 20px;
+    padding: 16px;
+}
+.tab-active {
+    display: block;
+}
+.tab-inactive {
+    display: none;
+}
+::ng-deep .css-xzp052 {
+    overflow: hidden;
+}

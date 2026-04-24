@@ -1,0 +1,44 @@
+<div class="form-summary">
+    <panel [config]="panelConfig">
+        <panel-header>
+            <h2
+                panelTitle
+                [attr.id]="titleElementId() !== null ? titleElementId() : null">
+                @if (checked() && currentView() === 'EMPTY') {
+                    <span panelIcon>
+                        <icon [config]="panelConfig.icon!" />
+                    </span>
+                }
+                <div class="form-summary_title-container">
+                    <span class="form-summary_title">{{ title() }}:</span>
+                    @if (secondaryTitle()) {
+                        <span class="form-summary_secondary-title">
+                            {{ secondaryTitle() }}
+                        </span>
+                    }
+                </div>
+            </h2>
+            <div panelHeaderAside>
+                @if (currentView() === 'EMPTY' && opened()) {
+                    <ds-button
+                        #editBtn
+                        [config]="buttonsConfig()!.editButton!"
+                        (buttonClicked)="onLayoutChange('FORM')">
+                    </ds-button>
+                }
+            </div>
+        </panel-header>
+        <div
+            panelContent
+            [style]="currentView() === 'EMPTY' ? 'display: none' : ''">
+            <ds-layout-swapper #layoutSwap>
+                <ng-template layoutSlot="FORM">
+                    <div class="form-summary_form-builder">
+                        <ng-content></ng-content>
+                    </div>
+                </ng-template>
+                <ng-template layoutSlot="EMPTY"></ng-template>
+            </ds-layout-swapper>
+        </div>
+    </panel>
+</div>

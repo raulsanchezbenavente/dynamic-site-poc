@@ -1,0 +1,17 @@
+export enum TranslationKeys {
+  Banner_BannerA11y = 'Banner.BannerA11y',
+  Banner_BannerControls = 'Banner.BannerControls',
+  Banner_BannerControls_BannerControls_AriaLabel = 'Banner.BannerControls.BannerControls_AriaLabel',
+  Banner_BannerControls_BannerControls_Next_Text = 'Banner.BannerControls.BannerControls_Next_Text',
+  Banner_BannerControls_BannerControls_Pagination_AriaLabel = 'Banner.BannerControls.BannerControls_Pagination_AriaLabel',
+  Banner_BannerControls_BannerControls_Pagination_Button_GoTo = 'Banner.BannerControls.BannerControls_Pagination_Button_GoTo',
+  Banner_BannerControls_BannerControls_Pagination_Title = 'Banner.BannerControls.BannerControls_Pagination_Title',
+  Banner_BannerControls_BannerControls_PaginationCount_Item = 'Banner.BannerControls.BannerControls_PaginationCount_Item',
+  Banner_BannerControls_BannerControls_PaginationCount_Of = 'Banner.BannerControls.BannerControls_PaginationCount_Of',
+  Banner_BannerControls_BannerControls_Pause_Text = 'Banner.BannerControls.BannerControls_Pause_Text',
+  Banner_BannerControls_BannerControls_Play_Text = 'Banner.BannerControls.BannerControls_Play_Text',
+  Banner_BannerControls_BannerControls_Previous_Text = 'Banner.BannerControls.BannerControls_Previous_Text',
+  Banner_BannerControls_BannerControls_Title = 'Banner.BannerControls.BannerControls_Title',
+  Banner_LowestPrice_Label = 'Banner.LowestPrice_Label',
+  Banner_Slide = 'Banner.Slide',
+}

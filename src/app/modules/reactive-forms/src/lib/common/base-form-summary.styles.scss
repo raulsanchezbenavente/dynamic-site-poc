@@ -1,0 +1,48 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    --panel-title-gap: #{$spacer-x-small};
+}
+.form-summary_secondary-title {
+    font-weight: var(--f-weight-normal);
+    overflow-wrap: anywhere;
+}
+.form-summary_form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-medium;
+}
+.form-summary_form-builder {
+    position: relative;
+}
+.form-summary_actions {
+    display: flex;
+    flex-flow: column wrap;
+    gap: calculateRem(16px);
+
+    --ds-btn-width: 100%;
+}
+.form-summary_sections {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+}
+.form-summary_sections_item {
+    position: relative;
+}
+
+@media #{$mobile-sm} {
+    .form-summary_form {
+        gap: $spacer-x-large;
+    }
+    .form-summary_actions {
+        flex-flow: row nowrap;
+        justify-content: flex-end;
+
+        --ds-btn-width: auto;
+    }
+}

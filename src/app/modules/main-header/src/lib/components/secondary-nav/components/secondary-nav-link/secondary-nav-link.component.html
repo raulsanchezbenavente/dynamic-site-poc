@@ -1,0 +1,10 @@
+<a
+    accessibleLink
+    class="secondary-nav-link_link"
+    [link]="config.link"
+    [showIcon]="false">
+    @if (config.icon) {
+        <icon [config]="config.icon"></icon>
+    }
+    <span class="link_label">{{ config.link.title }}</span>
+</a>

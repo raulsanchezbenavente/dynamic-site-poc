@@ -1,0 +1,17 @@
+<span
+    #triggerEl
+    class="tooltip-text_trigger"
+    [attr.aria-describedby]="isTooltipVisible ? tooltipId : null">
+    <ng-content></ng-content>
+</span>
+
+@if (isTooltipVisible) {
+    <div
+        class="tooltip-text_popup"
+        role="tooltip"
+        [id]="tooltipId"
+        [ngClass]="popupClasses()"
+        [ngStyle]="styles()">
+        {{ tooltip() }}
+    </div>
+}

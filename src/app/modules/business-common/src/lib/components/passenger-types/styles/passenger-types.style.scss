@@ -1,0 +1,41 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.passenger-types {
+    @include iconfont($icon-passenger, before, var(--c-text));
+
+    display: flex;
+    align-items: stretch;
+    &::before {
+        font-size: var(--f-size-large);
+        position: relative;
+        top: calculateRem(-3px);
+        margin: 0 calculateRem(10px) 0 0;
+    }
+}
+.passenger-types_list {
+    display: inline-flex;
+    flex-wrap: wrap;
+    line-height: 1.1;
+}
+.passenger-types_list_item {
+    font-size: var(--f-size);
+    display: flex;
+    margin-right: calculateRem(4px);
+    font-weight: var(--f-weight-light);
+    white-space: nowrap;
+    &::after {
+        content: ',';
+    }
+    &:last-child {
+        margin-right: 0;
+        &::after {
+            display: none;
+        }
+    }
+}
+.passenger-types_list_item_label {
+    margin-left: calculateRem(4px);
+}

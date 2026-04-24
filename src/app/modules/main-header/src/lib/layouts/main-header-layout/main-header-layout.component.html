@@ -1,0 +1,52 @@
+@let isMobile = isResponsive();
+
+<header
+    #mainHeader
+    class="main-header">
+    <!-- MAIN HEADER SECONDARY NAV -->
+    @if (secondaryNavOptions.config) {
+        <div
+            #secondaryNav
+            class="main-header_nav-secondary">
+            <secondary-nav [secondaryNavOptions]="secondaryNavOptions" />
+        </div>
+    }
+    <div class="main-header_container">
+        <!-- MAIN HEADER LOGO -->
+        <div class="main-header_logo">
+            <div class="main-header_logo_container">
+                <a
+                    class="main-header_logo_link"
+                    [href]="config.logo.link.url"
+                    [attr.target]="config.logo.link.target ?? null">
+                    <img
+                        [src]="config.logo.src"
+                        [alt]="(commonTranslationKeys.Common_LogoAltText | translate) + ' logo'" />
+                </a>
+            </div>
+        </div>
+        <!-- MAIN HEADER PRIMARY NAV -->
+        <div class="main-header_nav-primary">
+            <primary-nav
+                [mainMenuList]="config.mainMenuList"
+                [disableClickOutside]="false"
+                [isResponsive]="isMobile"
+                (subMenuOpened)="subMenuOpened.set($event)" />
+        </div>
+        <!-- AUTH --->
+        @if (config.showAuthButton && config.authData) {
+            <div class="main-header_auth">
+                <auth-button
+                    [layout]="authButtonLayout()"
+                    [data]="config.authData"
+                    [config]="authButtonConfig" />
+            </div>
+        }
+    </div>
+</header>
+
+@if (subMenuOpened()) {
+    <div
+        class="main-header_overlay"
+        aria-hidden="true"></div>
+}

@@ -1,0 +1,86 @@
+@let tabItemsData = tabItems();
+@let hasPrevData = hasPrev();
+@let hasNextData = hasNext();
+@let transformData = transformStyle();
+@let selectedTab = selectedTabIndex();
+@let focusedTab = focusedTabIndex();
+@let keyboardNavigation = isKeyboardNavigation();
+@let projectedTabs = hasProjectedTabs();
+@let hasNavigationData = hasNavigation();
+
+<span
+    role="status"
+    class="hide-visually">
+    {{ ariaLiveMessage() }}
+</span>
+<div class="tabs-list-inner">
+    <button
+        class="tabs-list_control tabs-list_control--prev"
+        [attr.aria-disabled]="!hasPrevData ? true : null"
+        (click)="prev()">
+        <span class="hide-visually">
+            {{ scrollLeftAriaLabel() }}
+        </span>
+    </button>
+    <div class="tabs-list_content-outer">
+        <div
+            #tablistContent
+            class="tabs-list_content"
+            role="tablist"
+            [class.tabs-list_content--all-visible]="!hasNavigationData"
+            [style.transform]="transformData">
+            @for (tab of tabItemsData; track tab; let i = $index) {
+                <div class="tabs-trigger">
+                    <button
+                        #tabButton
+                        role="tab"
+                        class="tabs-trigger_tab"
+                        [attr.aria-selected]="selectedTab === i"
+                        [attr.aria-controls]="ids[i].ariaControls"
+                        [attr.id]="tab.id"
+                        [attr.aria-disabled]="tab.isDisabled"
+                        [class.active]="selectedTab === i"
+                        [attr.tabindex]="keyboardNavigation ? (focusedTab === i ? 0 : -1) : selectedTab === i ? 0 : -1"
+                        (click)="selectTab(i)"
+                        (keydown)="onKeyDown($event)"
+                        (focus)="onTabFocus(i)">
+                        <div class="tabs-trigger_tab-text-primary">
+                            @if (tab.tabTrigger.icon) {
+                                <icon [config]="tab.tabTrigger.icon"></icon>
+                            }
+                            <span class="tabs-trigger_tab-text">{{ tab.tabTrigger.text }}</span>
+                        </div>
+                        @if (tab.tabTrigger.secondaryText) {
+                            <div
+                                class="tabs-trigger_tab-text-secondary"
+                                [innerHTML]="tab.tabTrigger.secondaryText"></div>
+                        }
+                    </button>
+                </div>
+            }
+            <div
+                class="tabs-active-indicator"
+                aria-hidden="true"
+                [style.left.%]="indicatorTranslateX()"
+                [style.width.%]="indicatorWidth()"></div>
+        </div>
+    </div>
+    <button
+        class="tabs-list_control tabs-list_control--next"
+        [attr.aria-disabled]="!hasNextData ? true : null"
+        (click)="next()">
+        <span class="hide-visually">
+            {{ scrollRightAriaLabel() }}
+        </span>
+    </button>
+</div>
+
+<div class="tab-panel_content">
+    @if (projectedTabs) {
+        <ng-content></ng-content>
+    } @else {
+        @for (tab of tabItemsData; track tab) {
+            <tab [content]="tab.content ?? null"></tab>
+        }
+    }
+</div>

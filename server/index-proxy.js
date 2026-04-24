@@ -6,7 +6,13 @@ const path = require('path');
 const express = require('express');
 const { createIndexProxyMiddleware } = require('./index-rendering/proxy-middleware');
 const { createRenderIndexHtml } = require('./index-rendering/render-context');
-const { createFakeApiRouter } = require('./fake-api/router');
+const { mountSharedRoutes } = require('./shared/app-common');
+const {
+  checkPortInUse,
+  checkPublicHostReachability,
+  logError,
+  resolveHttpsConfiguration,
+} = require('./shared/runtime-utils');
 
 const app = express();
 const httpPort = 4300;
@@ -15,68 +21,25 @@ const publicHost = 'av-booking-local.newshore.es';
 const indexPath = path.join(__dirname, '../src/index.html');
 const analyticsScriptsPath = path.join(__dirname, '../src/assets/analytics/scripts');
 const configDir = path.join(__dirname, '../src/assets/config-site');
+const countriesFlagsDir = path.join(__dirname, '../src/app/modules/design-system/assets/ui_plus/imgs/countries-flags');
 const targetHost = 'localhost';
 const targetPort = 4200;
 const healthCheckPath = '/__proxy-health';
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
+const ssoBypassKeycloak = process.argv.includes('--sso-bypass-config');
 
 const sslPfxPath = path.join(__dirname, 'cert', 'newshoreGeneral.pfx');
 const sslPemPath = path.join(__dirname, 'cert', 'newshoreGeneral.pem');
 const sslPfxPassphrase = '123456';
 
-const hasPemHttpsConfig = fs.existsSync(sslPemPath);
-const hasPfxHttpsConfig = fs.existsSync(sslPfxPath);
-const hasHttpsConfig = hasPemHttpsConfig || hasPfxHttpsConfig;
+const { hasHttpsConfig, getHttpsOptions } = resolveHttpsConfiguration({
+  sslPemPath,
+  sslPfxPath,
+  sslPfxPassphrase,
+});
 
 const httpsBaseUrl = `https://${publicHost}${httpsPort === 443 ? '' : `:${httpsPort}`}`;
 const httpBaseUrl = `http://localhost:${httpPort}`;
-
-function formatErrorLog(message) {
-  if (process.env.NO_COLOR) {
-    return `[ERROR] ${message}`;
-  }
-  return `\u001b[31m[ERROR] ${message}\u001b[0m`;
-}
-
-function logError(message) {
-  // Some launchers only preserve ANSI colors consistently on stdout.
-  console.log(formatErrorLog(message));
-}
-
-function checkPublicHostReachability(baseUrl, timeoutMs = 3500) {
-  return new Promise((resolve) => {
-    const target = new URL(baseUrl);
-    const client = target.protocol === 'https:' ? https : http;
-    const isHttps = target.protocol === 'https:';
-    const req = client.request(
-      {
-        hostname: target.hostname,
-        port: target.port || (target.protocol === 'https:' ? 443 : 80),
-        path: healthCheckPath,
-        method: 'GET',
-        timeout: timeoutMs,
-        // Local proxy can run with self-signed certs; this check is only for reachability.
-        ...(isHttps ? { rejectUnauthorized: false } : {}),
-      },
-      (res) => {
-        const status = Number(res.statusCode || 0);
-        // Drain response to release socket quickly.
-        res.resume();
-        resolve({ ok: status >= 200 && status < 500, status });
-      }
-    );
-
-    req.on('timeout', () => {
-      req.destroy(new Error(`timeout after ${timeoutMs}ms`));
-    });
-
-    req.on('error', (error) => {
-      resolve({ ok: false, error: error instanceof Error ? error.message : String(error) });
-    });
-
-    req.end();
-  });
-}
 
 /**
  * Forwards WebSocket upgrade requests transparently to the Angular dev server.
@@ -115,32 +78,8 @@ function attachWebSocketProxy(server) {
   });
 }
 
-function checkPortInUse(port, host = '0.0.0.0') {
-  return new Promise((resolve) => {
-    const tester = net.createServer();
-
-    tester.once('error', (error) => {
-      const code = error && typeof error === 'object' && 'code' in error ? error.code : undefined;
-
-      if (code === 'EADDRINUSE') {
-        resolve({ inUse: true });
-        return;
-      }
-
-      const message = error instanceof Error ? error.message : String(error);
-      resolve({ inUse: false, error: message });
-    });
-
-    tester.once('listening', () => {
-      tester.close(() => resolve({ inUse: false }));
-    });
-
-    tester.listen(port, host);
-  });
-}
-
 async function warnIfPublicHostIsUnreachable() {
-  const result = await checkPublicHostReachability(httpsBaseUrl);
+  const result = await checkPublicHostReachability(httpsBaseUrl, healthCheckPath);
   if (result.ok) {
     return;
   }
@@ -160,14 +99,13 @@ const renderIndexHtml = createRenderIndexHtml({
   analyticsScriptsPath,
 });
 
-app.get(healthCheckPath, (_req, res) => {
-  res.status(200).type('text/plain').send('ok');
+mountSharedRoutes(app, {
+  healthCheckPath,
+  countriesFlagsDir,
+  enableFakeApi,
+  ssoBypassKeycloak,
+  fakeApiLogLabel: '[Fake API] Enabled without prefix',
 });
-
-if (enableFakeApi) {
-  app.use(express.json(), createFakeApiRouter());
-  console.log('[Fake API] Enabled without prefix');
-}
 
 app.use(
   createIndexProxyMiddleware({
@@ -209,21 +147,7 @@ async function startProxyServers() {
   }
 
   try {
-    let httpsOptions;
-
-    if (hasPemHttpsConfig) {
-      // Use PEM format (better compatibility)
-      httpsOptions = {
-        cert: fs.readFileSync(sslPemPath),
-        key: fs.readFileSync(sslPemPath),
-      };
-    } else {
-      // Fallback to PFX format
-      httpsOptions = {
-        pfx: fs.readFileSync(sslPfxPath),
-        ...(sslPfxPassphrase ? { passphrase: sslPfxPassphrase } : {}),
-      };
-    }
+    const httpsOptions = getHttpsOptions();
 
     const httpsServer = https.createServer(httpsOptions, app);
     attachWebSocketProxy(httpsServer);

@@ -1,0 +1,62 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../summary-builder.stories';
+
+<Meta of={ComponentStories} />
+
+# Use of Summary Builder in Reactive Forms
+
+This example demonstrates how to use the **SummaryRenderer** and **SummaryBuilder** components in the context of a reactive form built with `RfFormBuilder`. It showcases how to:
+
+- Build a dynamic form using `RfFormBuilder` and `GridBuilder`
+- Capture and transform form data with `SummaryBuilderService`
+- Present a customizable summary using `SummaryRenderer` and optionally `SummaryBuilder`
+- Navigate between form and summary using `LayoutSwapper`
+
+
+## How it works
+
+1. The form is created using `RfFormBuilder`, configured with a dynamic schema.
+2. When the user clicks **Save**, the `SummaryBuilderService` reads the form state and prepares a summary config.
+3. That config is passed to `SummaryRenderer`, which injects the data into either:
+   - a custom HTML structure using `summary-data-label` / `summary-data-value`, or
+   - the `SummaryBuilder` layout.
+4. Navigation between **form view** and **summary view** is handled by `LayoutSwapper`.
+
+
+## Example flow (simplified)
+
+```html
+<!-- LayoutSwapper controls form and summary view -->
+<ds-layout-swapper #layoutSwap>
+
+  <!-- SECTION_1: Form -->
+  <ng-template layoutSlot="SECTION_1">
+    <rf-form-builder [config]="bypassedConfig">...</rf-form-builder>
+    <button (click)="parseConfig()">Save</button>
+  </ng-template>
+
+  <!-- SECTION_2: Summary -->
+  <ng-template layoutSlot="SECTION_2">
+    <ds-summary-renderer [config]="bypassConfigToReplace">
+      <ds-summary-builder [config]="bypassConfigSummaryToCreator" />
+    </ds-summary-renderer>
+    <button (click)="layoutSwap.showProjection('SECTION_1')">Edit</button>
+  </ng-template>
+
+</ds-layout-swapper>
+```
+
+```ts
+// On save
+this.bypassConfigSummaryToCreator = this.summaryBuilderService.calculateConfig(
+  this.formAviation,
+  this.myAdditions,
+  ['name', 'surname']
+);
+```
+- calculateConfig builds a summary from selected fields.
+- summary can be extended using custom computed fields (like fullName).
+
+## Custom Layout Option
+Alternatively, SummaryRenderer allows projecting a fully custom layout:

@@ -1,0 +1,27 @@
+@let configData = config();
+@let inputData = data();
+
+<div class="manage-booking-card_journey-schedule">
+    <journey-schedule
+        [data]="inputData.journeyVM"
+        [config]="configData.journeyScheduleConfig" />
+</div>
+
+@if (inputData?.journeyVM?.status !== journeyStatus.CANCELLED) {
+    <div class="manage-booking-card_action">
+        @if (inputData.isCheckInAvailable) {
+            <ds-button
+                id="btn-check-in"
+                data-testid="btn-check-in"
+                [config]="checkInButtonConfig"
+                (onClick)="redirectCheckin()" />
+        }
+        @if (inputData.isMmbAvailable) {
+            <ds-button
+                id="btn-manage-booking"
+                data-testid="btn-manage-booking"
+                [config]="manageButtonConfig"
+                (onClick)="redirectMmb()" />
+        }
+    </div>
+}

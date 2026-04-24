@@ -1,0 +1,8 @@
+<ng-template #content>
+    <off-canvas-header
+        [config]="resolvedConfig().offCanvasHeaderConfig"
+        (closeClicked)="dismiss()">
+        <ng-content select="[offCanvasHeaderContent]"></ng-content>
+    </off-canvas-header>
+    <ng-content select="[offCanvasBody]" />
+</ng-template>

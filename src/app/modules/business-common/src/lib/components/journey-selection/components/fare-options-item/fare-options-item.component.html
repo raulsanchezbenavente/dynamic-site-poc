@@ -1,0 +1,39 @@
+<div
+    class="fare-option-item-inner"
+    role="button"
+    tabindex="0"
+    [attr.aria-labelledby]="headerId + ' ' + priceId + ' ' + benefitsId + ' ' + footerId"
+    [class.fare-option-item--selected]="data.isSelected"
+    [class.fare-option-item--recommended]="data.isRecommended"
+    [class.fare-option-item--soldout]="isSoldOut"
+    [ngClass]="data.order != null ? 'fare' + data.order : null">
+    @if (data.isRecommended) {
+        <badge [config]="recommendBadgeConfig!" />
+    }
+    <div
+        class="fare-option-item_header"
+        [id]="headerId">
+        <div class="fare-option-item_header_title">
+            {{ commonTranslationKeys.Common_Select_FareTypeName_ + (data.productClass | uppercase) | translate }}
+        </div>
+        <div class="fare-option-item_header_subtitle">
+            {{ commonTranslationKeys.Common_Select_FareType_Subtitle_ + (data.productClass | uppercase) | translate }}
+        </div>
+    </div>
+    <div
+        class="fare-option-item_price"
+        [id]="priceId">
+        <price-currency
+            [price]="price"
+            [currency]="currency" />
+    </div>
+    <ds-list
+        [id]="benefitsId"
+        [config]="benefitsListConfig" />
+    <div
+        class="fare-option-item_footer"
+        [id]="footerId">
+        <div class="ds-button fare-option-item_footer_button">Seleccionar</div>
+        <div class="fare-option-item_footer_note">Precio por pasajero</div>
+    </div>
+</div>

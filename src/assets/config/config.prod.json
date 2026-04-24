@@ -1,0 +1,17 @@
+{
+  "staticConfigUrl": "https://localhost:44382/configuration/api/v1/UI_PLUS/Config/",
+  "staticTranslationUrl": "https://localhost:44382/configuration/api/v1/UI_PLUS/Translation/",
+  "isDevEnvironment": true,
+  "showTools": false,
+  "cacheTime": 300000,
+  "composerTimeout": 10000,
+  "fliptEnabled": false,
+  "keycloak": {
+    "url": "https://sso.lifemiles.net/auth",
+    "realm": "lm-uat",
+    "clientId": "avianca-web",
+    "silentCheckSsoRedirectUri": "/auth/silent-check-sso.html",
+    "enableLogging": false,
+    "logoutRetryAttempts": 0
+  }
+}

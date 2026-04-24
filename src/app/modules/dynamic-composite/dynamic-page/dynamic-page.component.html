@@ -1,15 +1,37 @@
-<div class="page">
-  @for (row of rows; track row) {
-    <div
-      class="row-grid"
-      [class.row-grid--with-rte]="hasRteInjector(row)">
+<div class="page-wrap">
+  <div
+    class="main-header-wrap"
+    id="mainHeaderDiv">
+    @for (row of headerRows; track row) {
       @for (col of row.cols; track col) {
+        <block-outlet [block]="col"></block-outlet>
+      }
+    }
+  </div>
+  <main
+    class="content-wrap"
+    id="mainContent">
+    <div class="container-wrap">
+      @for (row of rows; track row) {
         <div
-          class="col"
-          [style.gridColumn]="'span ' + (col.span ?? 12)">
-          <block-outlet [block]="col"></block-outlet>
+          class="grid-row"
+          [class.row-grid--with-rte]="hasRteInjector(row)">
+          @for (col of row.cols; track col) {
+            <div
+              class="grid-col col-12"
+              [style.class]="'col-' + (col.span ?? 12)">
+              <block-outlet [block]="col"></block-outlet>
+            </div>
+          }
         </div>
       }
     </div>
-  }
+  </main>
+  <div class="main-footer-wrap">
+    @for (row of footerRows; track row) {
+      @for (col of row.cols; track col) {
+        <block-outlet [block]="col"></block-outlet>
+      }
+    }
+  </div>
 </div>

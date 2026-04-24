@@ -1,0 +1,22 @@
+@if (model.config.length) {
+    <div class="price-breakdown_elements">
+        @for (priceBreakdown of model.config; track priceBreakdown; let index = $index) {
+            <div
+                class="price-breakdown"
+                [class.price-breakdown_section--collapsible]="priceBreakdown.header.config.isCollapsible">
+                <div class="price-breakdown_section_header">
+                    <price-breakdown-header
+                        [model]="priceBreakdown.header"
+                        (collapsedEmitter)="collapsedEmitter($event, index)">
+                    </price-breakdown-header>
+                </div>
+                <div
+                    class="price-breakdown_section_content"
+                    [id]="priceBreakdown.accessibilityConfig.id"
+                    [attr.aria-hidden]="priceBreakdown.header.config.isCollapsible ? ariaHiddenItems[index] : null!">
+                    <price-breakdown-items [model]="priceBreakdown.list" />
+                </div>
+            </div>
+        }
+    </div>
+}

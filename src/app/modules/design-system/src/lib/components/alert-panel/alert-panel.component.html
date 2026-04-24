@@ -1,0 +1,27 @@
+@let config = resolvedConfig();
+
+<div
+    class="alert-panel"
+    role="alert"
+    [attr.aria-labelledby]="config.ariaAttributes.ariaLabelledBy ?? null"
+    [attr.id]="id()"
+    [ngClass]="['alert-panel-type--' + (config.alertType | lowercase)]">
+    <div class="alert-panel-icon">
+        <span class="hide-visually">
+            {{ CommonTranslationKeys.Common_A11y_Status_Icon_KeyNode + (config.alertType | titlecase) | translate }}
+        </span>
+    </div>
+    <div class="alert-panel_inner">
+        @if (config.title) {
+            <div
+                class="alert-panel_title"
+                [innerHtml]="config.title"></div>
+        }
+        @if (config.description) {
+            <div
+                class="alert-panel_description"
+                [innerHtml]="config.description"></div>
+        }
+        <ng-content></ng-content>
+    </div>
+</div>

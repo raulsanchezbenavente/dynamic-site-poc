@@ -1,0 +1,61 @@
+@let configData = config();
+@let travelDocumentsTitleId = 'travelDocsTitleId';
+
+<div
+    data-toast-slot="panel"
+    [id]="'travelDocumentsToast_Id'"></div>
+
+<panel [config]="parentPanelsConfig">
+    <panel-header>
+        <h2
+            panelTitle
+            [id]="travelDocumentsTitleId">
+            {{
+                config().documentsFormConfig.title || translationKeys.AccountProfile_DocumentsForm_MainDocument_Title
+                    | translate
+            }}
+        </h2>
+        <div
+            panelDescription
+            [innerHTML]="
+                config().documentsFormConfig.description || translationKeys.AccountProfile_DocumentsForm_Description
+                    | translate
+            "></div>
+    </panel-header>
+
+    @if (documents().length) {
+        <div panelContent>
+            <div class="account-profile-summaries">
+                @for (item of documents(); track $index; let index = $index) {
+                    <account-profile-documents
+                        [title]="
+                            (translationKeys.AccountProfile_DocumentsForm_SecondaryDocument_Title | translate) +
+                            ' ' +
+                            ($index + 1)
+                        "
+                        [formName]="formsNames().get('account-profile-documents')! + $index"
+                        [parentLabelledById]="travelDocumentsTitleId"
+                        [ownLabelledById]="'accountDocumentsTitleId_' + index"
+                        [culture]="configData.culture"
+                        [documentOptions]="filterDocumentOptions(config().documentOptions, item.type)"
+                        [countryOptions]="config().countryOptions"
+                        [hasDocuments]="hasDocuments()"
+                        (cancelForm)="onCancelDocument($event, $index)"
+                        (updateAccountDocumentsInfo)="onUpdateAccountDocumentsInfo($event, $index)"
+                        (focusEdit)="focusEditAction($event)" />
+                }
+            </div>
+        </div>
+    }
+    <div
+        panelFooter
+        [ngStyle]="{
+            display: !(documents().length < MAX_DOCUMENTS && !anyFormBuilderActive()) ? 'none' : null,
+        }">
+        <ds-button
+            #buttonAdd
+            [config]="addButtonDocument()"
+            (click)="onAddDocument($event)">
+        </ds-button>
+    </div>
+</panel>

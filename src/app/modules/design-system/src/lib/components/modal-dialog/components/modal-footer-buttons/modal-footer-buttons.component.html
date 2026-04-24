@@ -1,0 +1,12 @@
+@if (config.actionButton) {
+    <ds-button
+        preventMouseFocusOnClick
+        [config]="config.actionButton"
+        (buttonClicked)="primaryAction()" />
+}
+@if (config.secondaryButton) {
+    <ds-button
+        preventMouseFocusOnClick
+        [config]="config.secondaryButton"
+        (buttonClicked)="secondaryAction()" />
+}

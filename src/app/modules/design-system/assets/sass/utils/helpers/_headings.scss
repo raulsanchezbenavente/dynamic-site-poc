@@ -1,0 +1,30 @@
+// -------
+// Headings helpers classes
+// -------
+@use 'design-system/assets/sass/utils/mixins/headings' as *;
+
+.context-h1 {
+    @include title-style('h1');
+}
+.context-h2 {
+    @include title-style('h2');
+}
+.context-h3 {
+    @include title-style('h3');
+}
+.context-h4 {
+    @include title-style('h4');
+}
+
+// Color 2 and 3 are from RTE Format
+.context-h1,
+.context-h2,
+.context-h3,
+.context-h4 {
+    &.color-2 {
+        color: var(--c-secondary);
+    }
+    &.color-3 {
+        color: var(--c-tertiary);
+    }
+}

@@ -1,0 +1,118 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../carousel.stories.ts';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Carousel
+
+## Accessibility
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Provides an accessible name for the carousel region. Describes the carousel's content or purpose (e.g., "Featured destinations carousel", "Product offers slider").<br />
+        Applied to the root carousel container via <code>ariaAttributes.ariaLabel</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>next.ariaAttributes.ariaLabel</code></td>
+      <td>
+        Provides an accessible name for the next navigation button. Should describe the navigation action contextually (e.g., "View next destinations", "Show more offers").<br />
+        Overrides the default "Next" translation when specified in config.
+      </td>
+    </tr>
+    <tr>
+      <td><code>prev.ariaAttributes.ariaLabel</code></td>
+      <td>
+        Provides an accessible name for the previous navigation button. Should describe the navigation action contextually (e.g., "View previous destinations", "Show earlier offers").<br />
+        Overrides the default "Previous" translation when specified in config.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaRole</code></td>
+      <td>
+        Override the default <code>region</code> role if needed. The carousel uses <code>role="region"</code> by default, which is appropriate for landmark navigation.<br />
+        Only override if the carousel serves a different semantic purpose in your application.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDescribedBy</code></td>
+      <td>
+        References the ID of an element that provides additional description or instructions for using the carousel.<br />
+        Useful for complex carousels that require usage guidance (e.g., "Use arrow buttons or swipe to browse items").
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+The carousel navigation buttons follow standard button keyboard interaction patterns:
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Moves focus to the next interactive element (previous button, carousel content, next button).</td>
+    </tr>
+    <tr>
+      <td><kbd>Shift</kbd> + <kbd>Tab</kbd></td>
+      <td>Moves focus to the previous interactive element in reverse order.</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> or <kbd>Space</kbd></td>
+      <td>Activates the focused navigation button (previous or next).</td>
+    </tr>
+  </tbody>
+</table>
+
+**Note**: Interactive elements inside projected `carouselItem` content maintain their natural focus order. Ensure these elements remain reachable and don't rely solely on carousel navigation to access content.
+
+### Screen Reader Support
+
+- **Region announcement**: Screen readers announce the carousel as a landmark region with the provided `ariaLabel` (e.g., "Featured destinations carousel region").
+- **Navigation buttons**: When navigation buttons receive focus, screen readers announce their accessible name (customized via `next.ariaAttributes.ariaLabel` and `prev.ariaAttributes.ariaLabel`, or defaults to "Next" and "Previous").
+- **Content updates**: When the carousel slides change, screen readers rely on focus management within projected content. Items that scroll out of view remain in the DOM and accessibility tree.
+- **Slide count**: The carousel does not automatically announce the current slide position. Consider adding live region announcements if users need to know "Slide 2 of 5" information.
+
+### Best Practices
+
+- **Always provide ariaLabel**: Set `ariaAttributes.ariaLabel` in the carousel config to describe the carousel's purpose. Generic labels like "Carousel" don't provide enough context. Use specific descriptions like "Travel destinations carousel" or "Product recommendations slider".
+- **Keep itemsToScroll small on mobile**: Setting `itemsToScroll` to more than 2-3 on small screens can cause users to miss content. Configure breakpoints with `itemsToScroll: 1` for XS/S viewports.
+- **Maintain focus order for projected content**: Ensure interactive elements inside `carouselItem` blocks (buttons, links, form controls) maintain logical tab order. Items currently scrolled out of view remain in the accessibility tree.
+- **Pair navigation labels with content context**: Customize `next.ariaAttributes.ariaLabel` and `prev.ariaAttributes.ariaLabel` to match the carousel content (e.g., "View next destination" instead of generic "Next").
+- **Set totalCarouselItems for async content**: When carousel items load asynchronously, provide the `totalCarouselItems` input to ensure assistive technologies report accurate slide counts and navigation states.
+- **Ensure minimum touch target size**: Navigation buttons should meet WCAG minimum touch target requirements (44x44px). The default carousel button styling already meets this requirement.
+- **Test with reduced motion preferences**: Users with motion sensitivity may have `prefers-reduced-motion` enabled. The carousel respects this preference by disabling slide transition animations in CSS.

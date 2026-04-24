@@ -1,0 +1,58 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../tabs.stories';
+
+<Meta of={ComponentStories} />
+
+# Tabs
+
+Documentation: [DS Tabs Component – Confluence](https://flyr.atlassian.net/wiki/spaces/DC/pages/5205098761/DS+Tabs)
+
+# TabsComponent
+
+The `TabsComponent` is used to display and control a set of navigable tabs. It supports both projected content and dynamic configuration via an input.
+
+## Basic Usage
+
+```ts
+tabsConfig = {
+  items: [
+    { id: 'tab1', tabTrigger: { label: 'Info' } },
+    { id: 'tab2', tabTrigger: { label: 'Detalles' } }
+  ]
+};
+```
+
+```html
+<tabs [config]="tabsConfig">
+  <tab>Contenido de Tab 1</tab>
+  <tab>Contenido de Tab 2</tab>
+</tabs>
+```
+
+## Inputs
+<table>
+<tr>
+  <th>Name</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>`config: TabsConfig`</td>
+  <td>Configuración del componente: define items, estilo, comportamiento, etc.</td>
+</tr>
+<tr>
+  <td>`selectedId: string | null`</td>
+  <td>Id del tab seleccionado inicialmente o por cambios externos.</td>
+</tr>
+</table>
+
+## Best Practices
+- Do not mix projected content and config-driven tabs.
+- Use selectedId to sync external tab state.
+- Ensure content is defined as string | null (not undefined).
+
+## Supported Features
+- Active/selected tab tracking.
+- Disabled tab support via isDisabled.
+- Emitting user selection via output.
+

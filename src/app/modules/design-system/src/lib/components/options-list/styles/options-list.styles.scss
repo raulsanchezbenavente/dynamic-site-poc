@@ -1,0 +1,52 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+.#{$ds}options-list {
+    display: flex;
+}
+.#{$ds}options-list_item_option {
+    @include dropdown-item-style;
+
+    // avoid hover styles on checkbox/radios
+    &.is-disabled {
+        pointer-events: none;
+    }
+}
+.#{$ds}options-list_item_option--has-external-icon {
+    @include iconfont($icon-external, after);
+}
+
+.#{$ds}options-list_item--selected {
+    --#{$ds}option-list-item-option-color: var(--c-text);
+    --#{$ds}option-list-item-option-fontweight: var(--f-weight-bold);
+}
+.#{$ds}options-list_item_option_content_description {
+    font-size: var(--#{$ds}dropdown-item-description-fontsize, var(--f-size-small));
+    color: var(--#{$ds}dropdown-item-description-color, var(--c-text-secondary));
+}
+.#{$ds}options-list_item_option_image-wrapper {
+    --icon-fontsize: var(--f-size-x-large);
+
+    display: flex;
+    align-items: center;
+}
+.#{$ds}options-list_item_option_content {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-tiny;
+}
+.#{$ds}options-list_item_option_description {
+    font-size: var(--f-size-small);
+    color: var(--c-text-secondary);
+}
+
+@supports (hanging-punctuation: first) and (font: -apple-system-body) and (-webkit-appearance: none) {
+    @media (hover: none) and (pointer: coarse) {
+        .#{$ds}options-list_item_option {
+            outline: 0;
+        }
+    }
+}

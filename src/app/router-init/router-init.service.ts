@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, Type } from '@angular/core';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Route, Router } from '@angular/router';
 import {
@@ -8,7 +9,7 @@ import {
   SiteLayoutRow,
   SitePage,
 } from '@navigation';
-import { filter, fromEvent, take } from 'rxjs';
+import { catchError, filter, forkJoin, fromEvent, map, Observable, of, shareReplay, switchMap, take, tap } from 'rxjs';
 
 import { environment } from '../../environments/environment';
 import { RouteAssetsPreloadGuard } from '../guards/route-assets-preload.guard';
@@ -17,9 +18,11 @@ import { TabConfigEntry } from '../modules/dynamic-composite/dynamic-tabs/models
 @Injectable({ providedIn: 'root' })
 export class RouterInitService {
   private readonly router = inject(Router);
+  private readonly http = inject(HttpClient);
   private readonly siteConfigService = inject(SiteConfigService);
   private readonly languageSwitchService = inject(LanguageSwitchService);
   private readonly bootLoaderMinDurationMs = environment.bootLoaderMinDurationMs;
+  private readonly layoutRowsCache = new Map<string, Observable<SiteLayoutRow[]>>();
 
   private hasLoggedInitialSiteLoad = false;
   private shouldSyncLangFromUrl = false;
@@ -33,7 +36,6 @@ export class RouterInitService {
     this.isInitialized = true;
 
     this.logDirectBrowserEntry();
-    // this.removeBootLoaderAfterFirstNavigation();
     this.trackBrowserNavigationTrigger();
     this.syncLanguageOnNavigationEnd();
     this.resetRoutesFromSiteConfig();
@@ -91,7 +93,11 @@ export class RouterInitService {
       const pages = site?.pages ?? [];
       const routes = pages.map((page, index) => this.buildPageRoute(page, index));
 
-      this.router.resetConfig([...routes, { path: '**', redirectTo: 'en/home' }]);
+      this.router.resetConfig([
+        { path: '', redirectTo: 'en/members/home', pathMatch: 'full' },
+        ...routes,
+        { path: '**', redirectTo: 'en/members/home' },
+      ]);
 
       if (!this.hasLoggedInitialSiteLoad) {
         this.hasLoggedInitialSiteLoad = true;
@@ -117,27 +123,67 @@ export class RouterInitService {
       data: {
         path: page.path,
         components: this.getPageComponents(page),
+        headerComponents: this.getPageHeaderComponents(page),
+        footerComponents: this.getPageFooterComponents(page),
         pageId: page.pageId,
         pageName: page.name,
         seo: page.seo,
         tabNamesById: this.buildTabNamesById(page),
       },
+      resolve: {
+        components: () => this.resolvePageComponents(page),
+        headerComponents: () => this.resolvePageHeaderComponents(page),
+        footerComponents: () => this.resolvePageFooterComponents(page),
+        tabNamesById: () => this.resolveTabNamesById(page),
+      },
       canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],
     };
   }
 
+  private resolvePageComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => !this.getSlotTypeFromRow(row)))
+    );
+  }
+
+  private resolvePageHeaderComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => this.getSlotTypeFromRow(row) === 'header'))
+    );
+  }
+
+  private resolvePageFooterComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => this.getSlotTypeFromRow(row) === 'footer'))
+    );
+  }
+
+  private resolveTabNamesById(page: SitePage): Observable<Record<string, string>> {
+    return this.resolveLayoutRows(page).pipe(map((rows) => this.buildTabNamesByRows(rows)));
+  }
+
   private getPageComponents(page: SitePage): SiteLayoutRow[] {
-    const { layout } = page;
+    return this.getLayoutRows(page.layout).filter((row) => !this.getSlotTypeFromRow(row));
+  }
 
-    if (Array.isArray(layout)) {
-      return layout;
-    }
+  private getPageHeaderComponents(page: SitePage): SiteLayoutRow[] {
+    return this.getLayoutRows(page.layout).filter((row) => this.getSlotTypeFromRow(row) === 'header');
+  }
 
-    return this.getLayoutRows(layout);
+  private getPageFooterComponents(page: SitePage): SiteLayoutRow[] {
+    return this.getLayoutRows(page.layout).filter((row) => this.getSlotTypeFromRow(row) === 'footer');
   }
 
   private buildTabNamesById(page: SitePage): Record<string, string> {
-    return this.getLayoutRows(page.layout)
+    const rows = this.getLayoutRows(page.layout);
+    const shouldIncludeSlots = typeof page.layout === 'string';
+    const allRows = shouldIncludeSlots ? [...rows, ...this.getSlotsRows(page.slots)] : rows;
+
+    return this.buildTabNamesByRows(allRows);
+  }
+
+  private buildTabNamesByRows(rows: SiteLayoutRow[]): Record<string, string> {
+    return rows
       .flatMap((row) => row.cols ?? [])
       .flatMap((col) => (col.config?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
       .reduce((accumulator: Record<string, string>, tab: TabConfigEntry) => {
@@ -149,9 +195,107 @@ export class RouterInitService {
       }, {});
   }
 
-  private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | undefined): SiteLayoutRow[] {
+  private resolveLayoutRows(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveRowsFromLayout(page.layout).pipe(
+      switchMap((layoutRows) =>
+        this.resolveSlotsRows(page.slots).pipe(
+          map((slotsRowsByName) => this.mergeLayoutRowsWithSlots(layoutRows, slotsRowsByName))
+        )
+      ),
+      tap((rows) => this.siteConfigService.hydrateResolvedPageLayout(page.path, rows))
+    );
+  }
+
+  private resolveRowsFromLayout(
+    layout: SiteLayout | SiteLayoutRow[] | string | undefined
+  ): Observable<SiteLayoutRow[]> {
+    if (typeof layout !== 'string') {
+      return of(this.getLayoutRows(layout));
+    }
+
+    const layoutUrl = layout.trim();
+    if (!layoutUrl) {
+      return of([]);
+    }
+
+    return this.resolveRowsFromUrl(layoutUrl);
+  }
+
+  private resolveRowsFromUrl(url: string): Observable<SiteLayoutRow[]> {
+    const cachedRequest = this.layoutRowsCache.get(url);
+    if (cachedRequest) {
+      return cachedRequest;
+    }
+
+    const request$ = this.http.get<SiteLayout | SiteLayoutRow[]>(url).pipe(
+      map((layoutResponse) => this.getLayoutRows(layoutResponse)),
+      catchError((error) => {
+        console.warn('[RouterInitService] Failed to resolve layout URL', { url, error });
+        return of([]);
+      }),
+      shareReplay(1)
+    );
+
+    this.layoutRowsCache.set(url, request$);
+    return request$;
+  }
+
+  private resolveSlotsRows(slots: SitePage['slots'] | undefined): Observable<Record<string, SiteLayoutRow[]>> {
+    const slotEntries = Object.entries(slots ?? {})
+      .map(([slotName, slotLayout]) => [slotName.trim(), slotLayout] as const)
+      .filter(([slotName]) => Boolean(slotName));
+
+    if (!slotEntries.length) {
+      return of({});
+    }
+
+    const slotRequests = slotEntries.map(([slotName, slotLayout]) =>
+      this.resolveRowsFromLayout(slotLayout).pipe(map((rows) => [slotName, rows] as const))
+    );
+
+    return forkJoin(slotRequests).pipe(
+      map((resolvedSlotEntries) => Object.fromEntries(resolvedSlotEntries) as Record<string, SiteLayoutRow[]>)
+    );
+  }
+
+  private mergeLayoutRowsWithSlots(
+    layoutRows: SiteLayoutRow[],
+    slotsRowsByName: Record<string, SiteLayoutRow[]>
+  ): SiteLayoutRow[] {
+    return layoutRows.flatMap((row) => {
+      const slotName = this.getSlotNameFromRow(row);
+      if (!slotName) {
+        return [row];
+      }
+
+      if (!Object.prototype.hasOwnProperty.call(slotsRowsByName, slotName)) {
+        console.warn('[RouterInitService] Slot is not defined in page.slots and will be skipped.', { slotName });
+        return [];
+      }
+
+      return slotsRowsByName[slotName] ?? [];
+    });
+  }
+
+  private getSlotsRows(slots: SitePage['slots'] | undefined): SiteLayoutRow[] {
+    return Object.values(slots ?? {}).flatMap((slotLayout) => this.getLayoutRows(slotLayout));
+  }
+
+  private getSlotNameFromRow(row: SiteLayoutRow): string {
+    return String(row?.slot ?? '').trim();
+  }
+
+  private getSlotTypeFromRow(row: SiteLayoutRow): string {
+    return String(row?.slotType ?? '').trim();
+  }
+
+  private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {
     if (Array.isArray(layout)) {
       return layout;
+    }
+
+    if (typeof layout === 'string') {
+      return [];
     }
 
     return layout?.rows ?? [];

@@ -1,0 +1,22 @@
+// Tokens
+// CSS Variables for Global Use
+@use '../tokens/colors/border.token';
+@use '../tokens/colors/calendar.token';
+@use '../tokens/colors/fares.token';
+@use '../tokens/colors/foundations.token';
+@use '../tokens/colors/page.token';
+@use '../tokens/colors/seats.token';
+@use '../tokens/colors/sections.token';
+@use '../tokens/colors/states.token';
+@use '../tokens/colors/text.token';
+
+// design system components variables
+@use '../tokens/accessibility.token';
+@use '../tokens/border-radius.token';
+@use '../tokens/box-shadow.token';
+@use '../tokens/buttons.token';
+@use '../tokens/dropdown';
+@use '../tokens/form.token';
+@use '../tokens/headings.token';
+@use '../tokens/typography.token';
+@use '../tokens/z-index.token';

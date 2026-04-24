@@ -1,0 +1,54 @@
+<div
+    class="rf-field-group"
+    [ngClass]="{
+        'has-label-on-top': isLabelOnTop,
+        'has-icon has-icon--left': leftIcon(),
+        'has-icon has-icon--right': rightIcon(),
+        'is-readonly': readonly(),
+        'is-disabled': disabled(),
+        'has-error': errorMessagesShouldBeDisplayed(),
+    }">
+    @if (animatedLabel()) {
+        <rf-animated-label
+            [for]="labelId"
+            [e2eId]="e2eId()"
+            [floating]="isLabelOnTop"
+            [hide]="appearance() === appearanceTypes.INTEGRATED && (value() || placeholder()) ? true : false"
+            [focused]="floatingLabel()"
+            [disabled]="disabled()"
+            [error]="errorMessagesShouldBeDisplayed()">
+            {{ animatedLabel() }}
+        </rf-animated-label>
+    }
+    @if (leftIcon()) {
+        <div class="rf-field-icon">
+            <icon [config]="{ name: leftIcon() }"></icon>
+        </div>
+    }
+    <button
+        #input
+        buttondrop
+        role="combobox"
+        type="button"
+        class="rf-field-control rf-drop-button_button"
+        [ngClass]="[hideCaret() ? 'rf-drop-button_button--hide-caret' : '', classes() || '']"
+        [attr.id]="labelId"
+        [attr.data-qe-id]="e2eId() + '::button' || null"
+        [disabled]="disabled()"
+        [attr.aria-expanded]="dropIsOpen()"
+        [attr.aria-describedby]="ariaId() || null"
+        [attr.aria-invalid]="errorMessagesShouldBeDisplayed() ? errorMessagesShouldBeDisplayed() : null"
+        [attr.required]="required() || null"
+        [attr.aria-activedescendant]="activeDescendant()"
+        [attr.aria-controls]="controls()"
+        [attr.aria-disabled]="ariaReadonly() || null"
+        (click)="handleClick($event)"
+        (keydown)="handleKeyDown($event)">
+        <ng-content></ng-content>
+    </button>
+    @if (rightIcon()) {
+        <div class="rf-field-icon rf-field-icon--right">
+            <icon [config]="{ name: rightIcon() }"></icon>
+        </div>
+    }
+</div>

@@ -1,0 +1,18 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Molecules/Pnr/Changelog" />
+
+# [0.1.0]
+
+#### Added
+
+- Added css custom properties (styles)
+
+#### Changed
+
+- Changed input names, replace @Input() inputValues!: PnrInput; by `@Input() config!: PnrConfig;`
+- Changed PnrConfig model, replace properties:
+  - itineraryTitlePnr by `label`
+  - pnr by `code`
+- Changed model file name to `pnr-config.model.ts`
+- Changed html template classes

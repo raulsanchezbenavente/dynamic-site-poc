@@ -1,0 +1,79 @@
+<ul
+    role="listbox"
+    class="rf-list_dropdown"
+    [tabindex]="parentId() || disabled() ? -1 : 0"
+    [attr.id]="parentId() ?? autoId"
+    [ngClass]="[
+        classes()?.drop || '',
+        readonly() ? 'is-readonly' : '',
+        errorMessagesShouldBeDisplayed ? 'has-error' : '',
+    ]"
+    [attr.data-qe-id]="autoId + '::list'"
+    [attr.aria-describedby]="!parentId() && (errorMessagesShouldBeDisplayed || hintMessages()) ? ariaId() : null"
+    [attr.aria-labelledby]="parentId() ? null : ariaLabelledBy()"
+    [attr.aria-invalid]="parentId() ? null : control?.errors ? true : null"
+    (focusout)="handleFocusOut($event)"
+    (keydown)="handleKeyDown($event)">
+    @if (filter()?.enabled) {
+        <li role="none">
+            <input
+                #filterElement
+                closeexceptiondrop
+                type="text"
+                class="rf-list_dropdown-list_filter"
+                [ngClass]="classes()?.filter"
+                [placeholder]="filter()?.placeholder ?? null"
+                [disabled]="disabled()"
+                [readonly]="readonly()"
+                [(ngModel)]="filterValue"
+                (focusout)="onBlurFilter($event)" />
+        </li>
+    }
+    @for (option of filteredOptions(); track option.value; let i = $index) {
+        <li
+            role="none"
+            [attr.closeexceptiondrop]="option.disabled ? '' : null">
+            <button
+                type="button"
+                role="option"
+                class="rf-list_dropdown_item_option"
+                [tabindex]="
+                    option.value === selectedOption?.value || option.value === selectedOptionReadonly?.value ? 0 : -1
+                "
+                [ngClass]="[readonly() ? 'is-readonly' : '', classes()?.option || '']"
+                [attr.id]="(parentId() ? parentId() : getFullFormControlName()) + '-' + option.value"
+                [attr.data-qe-id]="autoId + '||' + option.value + '::item'"
+                [attr.aria-selected]="option.value === selectedOption?.value"
+                [attr.aria-disabled]="disabled() || option.disabled"
+                [innerHTML]="option.content"
+                (click)="updateValue(option.value, $event)"></button>
+        </li>
+        @if (i === lastPreferredIndex()) {
+            <li
+                class="rf-list_dropdown_separator-item"
+                role="none"></li>
+        }
+    }
+</ul>
+
+<rf-hint-messages
+    [id]="ariaId()"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.errorMessages || ''" />
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()"
+    [hide]="hideDebug()" />

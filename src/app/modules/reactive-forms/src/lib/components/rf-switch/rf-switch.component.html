@@ -1,0 +1,53 @@
+<div
+    tabindex="-1"
+    class="rf-switch-inner"
+    [ngClass]="classes()?.container || ''"
+    (focusout)="handleFocusOut($event)">
+    <input
+        #switch
+        class="rf-switch_input"
+        type="checkbox"
+        role="switch"
+        [ngClass]="[readonly() ? 'is-readonly' : '', classes()?.switch || '']"
+        [attr.id]="autoId"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        [checked]="value()"
+        [attr.data-qe-id]="autoId + '::switch'"
+        [attr.aria-describedby]="errorMessagesShouldBeDisplayed || hintMessages() ? ariaId() : null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        [attr.aria-invalid]="errorMessagesShouldBeDisplayed ? errorMessagesShouldBeDisplayed : null"
+        [attr.required]="isRequired ? isRequired : null"
+        (keydown)="restrictKeyboardActions($event)"
+        (change)="toggleSwitch($event)" />
+    @if (label()) {
+        <label
+            class="rf-switch_label"
+            [ngClass]="[classes()?.label || '', readonly() ? 'is-readonly' : '', disabled() ? 'is-disabled' : '']"
+            [attr.data-qe-id]="autoId + '::label'"
+            [attr.for]="autoId"
+            >{{ label() }}</label
+        >
+    }
+</div>
+
+<rf-hint-messages
+    [id]="ariaId()"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.errorMessages || ''"></rf-error-messages>
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()"></rf-debug-state>

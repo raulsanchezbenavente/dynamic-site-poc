@@ -1,0 +1,22 @@
+@let contentData = safeContent();
+@let idsData = ids();
+@let isSelectedData = isSelected();
+@let isFirstLoadData = isFirstLoad();
+
+<div
+    role="tabpanel"
+    class="tab-panel"
+    [ngStyle]="{ display: visibilityStatus }"
+    [attr.id]="idsData.ariaControls"
+    [attr.aria-hidden]="!isSelectedData ? true : null">
+    <tab-skeleton [isLoading]="isLoadingComponent()" />
+    @if (isFirstLoadData) {
+        <div [hidden]="isContentHidden()">
+            @if (contentData) {
+                <div [innerHTML]="contentData"></div>
+            } @else {
+                <ng-content></ng-content>
+            }
+        </div>
+    }
+</div>

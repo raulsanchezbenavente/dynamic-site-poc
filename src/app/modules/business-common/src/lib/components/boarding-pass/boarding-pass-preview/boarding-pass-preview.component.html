@@ -1,0 +1,115 @@
+<div
+    class="boarding-pass_tabs"
+    [attr.aria-label]="translationKeys.BoardingPass_Tabs_AriaLabel | translate">
+    <div class="boarding-pass_tabs_wrapper">
+        <div
+            class="boarding-pass_tabs_scroll"
+            role="tablist">
+            @for (segment of segments(); track segment.id; let i = $index) {
+                <button
+                    role="tab"
+                    class="boarding-pass_tab"
+                    [id]="getTabId(i)"
+                    [class.boarding-pass_tab--active]="selectedSegmentIndex() === i"
+                    [attr.aria-selected]="selectedSegmentIndex() === i"
+                    [attr.aria-controls]="getTabPanelId(i)"
+                    [attr.tabindex]="selectedSegmentIndex() === i ? 0 : -1"
+                    [attr.aria-label]="
+                        segment.origin + ' ' + (commonTranslationKeys.Common_To | translate) + ' ' + segment.destination
+                    "
+                    (click)="onSegmentTabClick(i)"
+                    (keydown)="onTabKeydown($event, i)">
+                    <span
+                        class="boarding-pass_tab-route"
+                        aria-hidden="true">
+                        <span class="boarding-pass_tab-code">{{ segment.originCode }}</span>
+                        <span class="boarding-pass_tab-separator">-</span>
+                        <span class="boarding-pass_tab-code">{{ segment.destinationCode }}</span>
+                    </span>
+                </button>
+            }
+        </div>
+    </div>
+</div>
+
+<div
+    class="boarding-pass_content"
+    role="tabpanel"
+    [id]="getTabPanelId(selectedSegmentIndex())"
+    [attr.aria-labelledby]="getTabId(selectedSegmentIndex())">
+    <div class="boarding-pass_card">
+        <div class="boarding-pass_airline">
+            <img
+                src="/assets/ui_plus/imgs/logos/avianca-logo.svg"
+                class="boarding-pass_airline-logo"
+                [attr.alt]="(commonTranslationKeys.Common_LogoAltText | translate) + ' logo'" />
+        </div>
+        <div class="boarding-pass_route">
+            <div class="boarding-pass_route-item">
+                <div class="boarding-pass_route-code">{{ activeSegment().originCode }}</div>
+                <div class="boarding-pass_route-city">{{ activeSegment().origin }}</div>
+            </div>
+            <div class="boarding-pass_route-icon">
+                <span class="hide-visually">{{ commonTranslationKeys.Common_To | translate }}</span>
+            </div>
+
+            <div class="boarding-pass_route-item">
+                <div class="boarding-pass_route-code">{{ activeSegment().destinationCode }}</div>
+                <div class="boarding-pass_route-city">{{ activeSegment().destination }}</div>
+            </div>
+        </div>
+        <div class="boarding-pass_details">
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">
+                    {{ translationKeys.BoardingPass_DepartureTime | translate }}
+                </div>
+                <div class="boarding-pass_detail-value">{{ activeSegment().departureTime }}</div>
+            </div>
+
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Gate | translate }}</div>
+                <div class="boarding-pass_detail-value">{{ activeSegment().gate }}</div>
+            </div>
+
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Seat | translate }}</div>
+                <div class="boarding-pass_detail-value">
+                    {{
+                        isPaxInStandByForActiveSegment()
+                            ? (translationKeys.BoardingPass_SeatWithStandbyStatus | translate)
+                            : activeSegment().seat
+                    }}
+                </div>
+            </div>
+
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Flight | translate }}</div>
+                <div class="boarding-pass_detail-value">{{ activeSegment().flightNumber }}</div>
+            </div>
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Passenger | translate }}</div>
+                <div class="boarding-pass_detail-value">{{ data().passengerName }}</div>
+            </div>
+            <div class="boarding-pass_detail-item">
+                <div class="boarding-pass_detail-label">{{ translationKeys.BoardingPass_Date | translate }}</div>
+                <div class="boarding-pass_detail-value">
+                    <date-display [config]="activeSegment().departureDate"></date-display>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="boarding-pass_actions">
+    @if (addWalletButtonConfig) {
+        <add-wallet-button
+            [config]="addWalletButtonConfig"
+            (buttonClicked)="onClickAddToWallet($event)">
+        </add-wallet-button>
+    }
+    <ds-button
+        class="boarding-pass_button boarding-pass_button--pdf"
+        [config]="pdfButtonConfig"
+        (buttonClicked)="onClickDownloadPdf()">
+    </ds-button>
+</div>

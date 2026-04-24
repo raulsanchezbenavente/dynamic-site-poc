@@ -1,4 +1,5 @@
 import { CommonModule, DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -11,6 +12,11 @@ import {
   signal,
   Type,
 } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+
+import { MODULE_TRANSLATION_MAP_TOKEN } from '../../../translations/module-translation-map.token';
+
+import { queueTranslationsByRenderedComponent } from './block-outlet-translations.helper';
 
 export type BlockComponentLoader = () => Promise<Type<unknown>>;
 export type BlockComponentMap = Record<string, BlockComponentLoader>;
@@ -74,6 +80,9 @@ export class BlockOutletComponent {
   private readonly blockComponentRegistry =
     inject(BLOCK_COMPONENT_REGISTRY, { optional: true }) ?? EMPTY_BLOCK_COMPONENT_REGISTRY;
   private readonly document = inject(DOCUMENT);
+  private readonly http = inject(HttpClient);
+  private readonly translateService = inject(TranslateService);
+  private readonly moduleTranslationMap = inject(MODULE_TRANSLATION_MAP_TOKEN, { optional: true }) ?? {};
   private loadSequence = 0;
 
   @HostBinding('attr.data-dynamic-component-map-name')
@@ -99,6 +108,15 @@ export class BlockOutletComponent {
         this.isLoading.set(false);
         return;
       }
+
+      queueTranslationsByRenderedComponent({
+        batchId: this.toText(b?.__dynamicPageBatchId),
+        componentKey: key,
+        moduleTranslationMap: this.moduleTranslationMap,
+        document: this.document,
+        http: this.http,
+        translateService: this.translateService,
+      });
 
       const currentLoad = ++this.loadSequence;
       this.isLoading.set(true);

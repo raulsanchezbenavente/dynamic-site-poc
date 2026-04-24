@@ -1,0 +1,306 @@
+@use 'sass:list';
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/utils/mixins/hover-only' as *;
+@use 'design-system/assets/tokens/scss/spacing.token' as *;
+@use 'buttons-mixin-vars' as *;
+
+// ********************
+//  Buttons
+//	-------
+//	Mixin that easily set or change buttons styles, as well as :hover,
+// 	and disabled options for all buttons
+//	Buttons core styles:
+// 		btn-action, btn-primary, btn-secondary,
+//		btn-inverse, btn-light, btn-link, btn-tab
+//		btn-sm (small size button)
+// ********************
+
+@mixin button-generator(
+    // default state
+    $color,
+    $background,
+    $bordercolor,
+    // hover state
+    $color-hover,
+    $background-hover,
+    $bordercolor-hover,
+    // active
+    $color-active,
+    $background-active,
+    $bordercolor-active,
+    // disabled state
+    $color-disabled,
+    $background-disabled,
+    $bordercolor-disabled
+) {
+    --#{$ds}btn-color: #{$color};
+    --#{$ds}btn-border-color: #{$bordercolor};
+    --#{$ds}btn-background: #{$background};
+
+    // state: hover
+    @include hover-only {
+        --#{$ds}btn-color: #{$color-hover};
+        --#{$ds}btn-border-color: #{$bordercolor-hover};
+        --#{$ds}btn-background: #{$background-hover};
+    }
+
+    // state: active (pressed)
+    &:active {
+        --#{$ds}btn-color: #{$color-active};
+        --#{$ds}btn-border-color: #{$bordercolor-active};
+        --#{$ds}btn-background: #{$background-active};
+    }
+
+    // state: disabled
+    &[disabled],
+    &[aria-disabled='true'] {
+        cursor: default;
+        user-select: none;
+        pointer-events: none;
+    }
+    &[disabled] {
+        --#{$ds}btn-color: #{$color-disabled};
+        --#{$ds}btn-border-color: #{$bordercolor-disabled};
+        --#{$ds}btn-background: #{$background-disabled};
+    }
+}
+
+// + Button
+// -------
+@mixin button {
+    height: $button-height;
+    display: inline-flex;
+    width: 100%;
+    gap: var(--#{$ds}btn-gap, calculateRem(8px));
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    font-size: $button-fontsize;
+    color: $button-color;
+    text-transform: none;
+    white-space: nowrap;
+    font-weight: $button-fontweight;
+    line-height: var(--#{$ds}btn-line-height, var(--f-line-height));
+    min-width: var(--#{$ds}btn-min-width, auto);
+    padding: $button-padding;
+    border-radius: $button-border-radius;
+    box-sizing: border-box;
+    user-select: none;
+    background: $button-background;
+    transition: $button-transition;
+    border: solid $button-border-width $button-border-color;
+}
+
+// + Button size
+// -------
+@mixin btn-small {
+    --#{$ds}btn-height: #{$button-small-height};
+    --#{$ds}btn-fontsize: #{$button-small-fontsize};
+    --#{$ds}btn-icon-fontsize: #{$button-small-icon-fontsize};
+    --#{$ds}btn-border-width: #{$button-small-border-width};
+    --#{$ds}btn-padding-left-right: #{$button-small-padding-left-right};
+    --#{$ds}btn-padding-top-bottom: #{$button-small-padding-top-bottom};
+}
+
+@mixin btn-large {
+    --#{$ds}btn-fontsize: #{$button-large-fontsize};
+    --#{$ds}btn-padding-top-bottom: #{$button-large-padding-top-bottom};
+    --#{$ds}btn-padding-left-right: #{$button-large-padding-left-right};
+}
+
+// + Button styles
+// -------
+@mixin btn-action {
+    @include button-generator(
+        // default state
+        $btn-action-color,
+        $btn-action-background,
+        $btn-action-bordercolor,
+        // hover state
+        $btn-action-color-hover,
+        $btn-action-background-hover,
+        $btn-action-bordercolor-hover,
+        // active (pressed)
+        $btn-action-color-active,
+        $btn-action-background-active,
+        $btn-action-bordercolor-active,
+        // disabled state
+        $btn-action-color-disabled,
+        $btn-action-background-disabled,
+        $btn-action-bordercolor-disabled
+    );
+}
+
+@mixin btn-primary {
+    @include button-generator(
+        // default state
+        $btn-primary-color,
+        $btn-primary-background,
+        $btn-primary-bordercolor,
+        // hover state
+        $btn-primary-color-hover,
+        $btn-primary-background-hover,
+        $btn-primary-bordercolor-hover,
+        // active (pressed)
+        $btn-primary-color-active,
+        $btn-primary-background-active,
+        $btn-primary-bordercolor-active,
+        // disabled state
+        $btn-primary-color-disabled,
+        $btn-primary-background-disabled,
+        $btn-primary-bordercolor-disabled
+    );
+}
+
+@mixin btn-secondary {
+    @include button-generator(
+        // default state
+        $btn-secondary-color,
+        $btn-secondary-background,
+        $btn-secondary-bordercolor,
+        // hover state
+        $btn-secondary-color-hover,
+        $btn-secondary-background-hover,
+        $btn-secondary-bordercolor-hover,
+        // active (pressed)
+        $btn-secondary-color-active,
+        $btn-secondary-background-active,
+        $btn-secondary-bordercolor-active,
+        // disabled state
+        $btn-secondary-color-disabled,
+        $btn-secondary-background-disabled,
+        $btn-secondary-bordercolor-disabled
+    );
+}
+
+@mixin btn-inverse {
+    @include button-generator(
+        // default state
+        $btn-inverse-color,
+        $btn-inverse-background,
+        $btn-inverse-bordercolor,
+        // hover state
+        $btn-inverse-color-hover,
+        $btn-inverse-background-hover,
+        $btn-inverse-bordercolor-hover,
+        // active (pressed)
+        $btn-inverse-color-active,
+        $btn-inverse-background-active,
+        $btn-inverse-bordercolor-active,
+        // disabled state
+        $btn-inverse-color-disabled,
+        $btn-inverse-background-disabled,
+        $btn-inverse-bordercolor-disabled
+    );
+}
+
+@mixin btn-light {
+    @include button-generator(
+        // default state
+        $btn-light-color,
+        $btn-light-background,
+        $btn-light-bordercolor,
+        // hover state
+        $btn-light-color-hover,
+        $btn-light-background-hover,
+        $btn-light-bordercolor-hover,
+        // active (pressed)
+        $btn-light-color-active,
+        $btn-light-background-active,
+        $btn-light-bordercolor-active,
+        // disabled state
+        $btn-light-color-disabled,
+        $btn-light-background-disabled,
+        $btn-light-bordercolor-disabled
+    );
+}
+
+@mixin btn-link {
+    --#{$ds}btn-border-radius: var(--#{$ds}border-radius);
+    --#{$ds}btn-border-width: 0;
+    --#{$ds}btn-fontweight: var(--f-weight-normal);
+    --#{$ds}btn-padding-top-bottom: 0;
+    --#{$ds}btn-padding-left-right: 0;
+    --#{$ds}btn-height: auto;
+
+    .#{$ds}button_label {
+        text-decoration: $btn-link-text-decoration;
+        text-underline-offset: var(--link-text-underline-offset);
+    }
+    &:hover {
+        --#{$ds}btn-link-text-decoration: #{$btn-link-text-decoration-hover};
+        --#{$ds}btn-fontweight: var(--f-weight-bold);
+    }
+
+    @include button-generator(
+        // default state
+        $btn-link-color,
+        $btn-link-background,
+        $btn-link-bordercolor,
+        // hover state
+        $btn-link-color-hover,
+        $btn-link-background-hover,
+        $btn-link-bordercolor-hover,
+        // active (pressed)
+        $btn-link-color-active,
+        $btn-link-background-active,
+        $btn-link-bordercolor-active,
+        // disabled state
+        $btn-link-color-disabled,
+        $btn-link-background-disabled,
+        $btn-link-bordercolor-disabled
+    );
+}
+
+// button with loading animation
+@mixin btn-loader-element {
+    position: relative;
+    width: $button-loader-size;
+    height: $button-loader-size;
+    background: conic-gradient(transparent 0deg, currentColor 360deg);
+    mask-repeat: no-repeat;
+    mask-size: cover;
+    mask-position: center;
+    animation: buttonLoaderRotate 1s linear infinite;
+
+    @keyframes buttonLoaderRotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+// button loading
+@mixin btn-loader($pos: $button-loader-position) {
+    position: relative;
+    display: flex;
+    gap: $button-loader-gap;
+    .#{$ds}button_loader {
+        // loader element
+        @include btn-loader-element;
+    }
+}
+
+// !Deprecation note: this mixin is being deprecated gradually. Its functionality will be integrated into components implementing DsButtonComponent.
+// mixin used at UI to define button type styles through component encapsulated variable
+@mixin button-type-styles($button-type) {
+    @if not list.index('action' 'primary' 'secondary' 'inverse' 'light' 'link', $button-type) {
+        @error "`#{$button-type}` is not a valid value for the `$button-type` argument in " + "the `button-type-styles` mixin. It accepts the values `action`, `primary`, `secondary`, `inverse`, `light` or `link`.";
+    } @else if $button-type == 'action' {
+        @include btn-action;
+    } @else if $button-type == 'primary' {
+        @include btn-primary;
+    } @else if $button-type == 'secondary' {
+        @include btn-secondary;
+    } @else if $button-type == 'inverse' {
+        @include btn-inverse;
+    } @else if $button-type == 'light' {
+        @include btn-light;
+    } @else if $button-type == 'link' {
+        @include btn-link;
+    }
+}

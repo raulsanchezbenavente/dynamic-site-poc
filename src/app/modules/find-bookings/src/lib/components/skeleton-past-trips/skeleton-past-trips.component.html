@@ -1,0 +1,9 @@
+<div
+    class="skeleton-past-trips"
+    #track>
+    @for (_ of [].constructor(visibleItems()); let i = $index; track i) {
+        <div class="skeleton-past-trips_item">
+            <ds-skeleton [config]="skeletonConfig" />
+        </div>
+    }
+</div>

@@ -1,0 +1,108 @@
+// ********************
+//  Custom scroll
+//	-------
+//	Generates scroll custom styles
+// ********************
+
+@use 'sass:list';
+@use 'custom-scroll-mixin-vars' as *;
+
+$custom-scroll-styles: ('default', 'darken') !default;
+$custom-scroll-directions: ('yscroll', 'xscroll', 'scroll') !default;
+
+/// @mixin custom-scroll
+/// Generates custom scroll styles.
+///
+/// @param {string} $style [default]
+///   Scroll style. Options: `'default'` or `'darken'`.
+///
+/// @param {string} $direction [yscroll]
+///   Scroll direction. Options: `'yscroll'`, `'xscroll'`, or `'scroll'`.
+///
+/// @param {string} $maxsize [100%]
+///   Max size for the scroll container. Can be in `px`, `%`, `rem`, etc.
+
+@mixin custom-scroll($style: default, $direction: yscroll, $maxsize: 100%) {
+    overflow: hidden;
+
+    // mixin arguments validation
+    @if not list.index($custom-scroll-styles, $style) {
+        @error '`#{$style}` is not a valid `$style`. Accepted values: #{list.join($custom-scroll-styles, ", ")}.';
+    }
+
+    @if not list.index($custom-scroll-directions, $direction) {
+        @error '`#{$direction}` is not a valid `$direction`. Accepted values: #{list.join($custom-scroll-directions, ", ")}.';
+    } @else if $direction == yscroll {
+        overflow-y: auto;
+        max-height: $maxsize;
+    } @else if $direction == xscroll {
+        overflow-x: auto;
+        max-width: $maxsize;
+    } @else if $direction == scroll {
+        overflow: auto;
+    }
+
+    // the entire scrollbar
+    &::-webkit-scrollbar {
+        width: $scroll-bar-width;
+        height: $scroll-bar-height;
+
+        @if $style == default {
+            background-color: $custom-scroll-background;
+        } @else if $style == darken {
+            background-color: $custom-scroll-darken-background;
+        }
+    }
+
+    // the draggable scrolling handle
+    &::-webkit-scrollbar-thumb {
+        height: $custom-scroll-thumb-height;
+        border-width: $custom-scroll-thumb-border-width;
+        border-style: solid;
+        background-clip: padding-box;
+        border-radius: $custom-scroll-border-radius;
+
+        @if $style == default {
+            background-color: $custom-scroll-bar-background;
+
+            @if $direction == yscroll {
+                border-color: $custom-scroll-thumb-border-color;
+            } @else if $direction == xscroll {
+                border-color: $custom-scroll-thumb-border-color-xscroll;
+            }
+        } @else if $style == darken {
+            background-color: $custom-scroll-darken-bar-background;
+
+            @if $direction == yscroll {
+                border-color: $custom-scroll-darken-thumb-border-color;
+            } @else if $direction == xscroll {
+                border-color: $custom-scroll-darken-thumb-border-color-xscroll;
+            }
+        }
+    }
+
+    // buttons on the scrollbar (arrows pointing upwards and downwards)
+    &::-webkit-scrollbar-button {
+        width: 0;
+        height: 0;
+        display: none;
+    }
+
+    // bottom corner of the scrollbar, where both horizontal and vertical scrollbars meet
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
+
+    @media (hover: none) {
+        &::-webkit-scrollbar {
+            display: none;
+        }
+        &::-webkit-scrollbar-thumb {
+            @if $style == default {
+                border-color: $custom-scroll-thumb-border-color;
+            } @else if $style == darken {
+                border-color: $custom-scroll-darken-thumb-border-color;
+            }
+        }
+    }
+}

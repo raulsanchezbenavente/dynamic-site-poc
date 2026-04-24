@@ -1,0 +1,33 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-fields.styles' as *;
+
+// -------
+// COMPONENT STYLES
+// -------
+:host {
+    --#{$ds}dropdown-content-maxheight: #{calculateRem(204px)};
+}
+.rf-select_drop {
+    position: relative;
+}
+.rf-select_list {
+    width: 100%;
+    min-width: calculateRem(160px);
+    z-index: var(--zindex-dropdown);
+}
+.rf-select_value-container {
+    position: absolute;
+    width: calc(
+        100% - var(--rf-field-control-pad-left) - var(--rf-field-control-pad-right) - var(--rf-drop-button-arrow-size)
+    );
+    left: var(--rf-field-control-pad-left);
+}
+.rf-select_value {
+    @include ellipsis;
+
+    gap: $spacer-tiny;
+    align-items: center;
+    position: relative;
+}

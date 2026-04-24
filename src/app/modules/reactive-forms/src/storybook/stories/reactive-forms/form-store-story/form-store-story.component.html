@@ -1,0 +1,191 @@
+<div class="form-store-demo">
+    <div class="forms-section">
+        <div class="form-card">
+            <h3>
+                Form 1
+                <span
+                    class="badge"
+                    [ngClass]="{ valid: myForm.valid, invalid: !myForm.valid }"
+                    >{{ myForm.valid ? 'VALID' : 'INVALID' }}</span
+                >
+            </h3>
+            <form [formGroup]="myForm">
+                <rf-input-text
+                    id="name"
+                    name="input"
+                    [formControlName]="'name'"
+                    [animatedLabel]="'Name'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+                <div class="control-state">
+                    <span
+                        class="badge"
+                        [ngClass]="{ dirty: myForm.controls['name'].dirty }"
+                        >Dirty: {{ myForm.controls['name'].dirty }}</span
+                    >
+                    <span
+                        class="badge"
+                        [ngClass]="{ touched: myForm.controls['name'].touched }"
+                        >Touched: {{ myForm.controls['name'].touched }}</span
+                    >
+                    @if (myForm.controls['name'].errors) {
+                        <span class="badge error">Error</span>
+                    }
+                </div>
+                @if (form1NameErrors.length > 0) {
+                    <div class="error-list">
+                        @for (err of form1NameErrors; track err) {
+                            <span class="error-detail">{{ err }}</span>
+                        }
+                    </div>
+                }
+                <rf-input-text
+                    name="input2"
+                    formControlName="email"
+                    [animatedLabel]="'Email'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+                <div class="control-state">
+                    <span
+                        class="badge"
+                        [ngClass]="{ dirty: myForm.controls['email'].dirty }"
+                        >Dirty: {{ myForm.controls['email'].dirty }}</span
+                    >
+                    <span
+                        class="badge"
+                        [ngClass]="{ touched: myForm.controls['email'].touched }"
+                        >Touched: {{ myForm.controls['email'].touched }}</span
+                    >
+                    @if (myForm.controls['email'].errors) {
+                        <span class="badge error">Error</span>
+                    }
+                </div>
+                @if (form1EmailErrors.length > 0) {
+                    <div class="error-list">
+                        @for (err of form1EmailErrors; track err) {
+                            <span class="error-detail">{{ err }}</span>
+                        }
+                    </div>
+                }
+                <rf-input-text
+                    name="input3"
+                    formControlName="age"
+                    [animatedLabel]="'Age'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+                <div class="control-state">
+                    <span
+                        class="badge"
+                        [ngClass]="{ dirty: myForm.controls['age'].dirty }"
+                        >Dirty: {{ myForm.controls['age'].dirty }}</span
+                    >
+                    <span
+                        class="badge"
+                        [ngClass]="{ touched: myForm.controls['age'].touched }"
+                        >Touched: {{ myForm.controls['age'].touched }}</span
+                    >
+                    @if (myForm.controls['age'].errors) {
+                        <span class="badge error">Error</span>
+                    }
+                </div>
+                @if (form1AgeErrors.length > 0) {
+                    <div class="error-list">
+                        @for (err of form1AgeErrors; track err) {
+                            <span class="error-detail">{{ err }}</span>
+                        }
+                    </div>
+                }
+            </form>
+            <div class="form-actions">
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="disableEmail()"
+                    >Disable Email</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="enableEmail()"
+                    >Enable Email</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="disableAllForm()"
+                    >Disable All</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="enableAllForm()"
+                    >Enable All</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="resetForm()"
+                    >Reset</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="changeValue()"
+                    >Change Name</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="changeValidator()"
+                    >Add Validator</ds-button
+                >
+                <ds-button
+                    [config]="buttonConfig"
+                    (buttonClicked)="removeForm1()"
+                    >Remove Form1</ds-button
+                >
+            </div>
+            <div class="form-debug">
+                <h5>onFormValueChanges (StoryForm)</h5>
+                <pre>{{ form1ValueChanges | json }}</pre>
+            </div>
+        </div>
+        <div class="form-card">
+            <h3>
+                Form 2
+                <span
+                    class="badge"
+                    [ngClass]="{ valid: myForm2.valid, invalid: !myForm2.valid }"
+                    >{{ myForm2.valid ? 'VALID' : 'INVALID' }}</span
+                >
+            </h3>
+            <form [formGroup]="myForm2">
+                <rf-input-text
+                    id="name2"
+                    name="inputName2"
+                    [formControlName]="'name'"
+                    [animatedLabel]="'Name'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+                <rf-input-text
+                    name="inputEmail2"
+                    formControlName="email"
+                    [animatedLabel]="'Email'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+                <rf-input-text
+                    name="inputAge2"
+                    formControlName="age"
+                    [animatedLabel]="'Age'"
+                    [autocomplete]="AutocompleteTypes.OFF"></rf-input-text>
+            </form>
+        </div>
+    </div>
+    <div class="store-inspector">
+        <h3>FormStore Inspector</h3>
+        <div class="inspector-section">
+            <strong>formGroups (keys):</strong>
+            <pre>{{ formGroupsKeys | json }}</pre>
+        </div>
+        <div class="inspector-section">
+            <strong>Controles por formulario:</strong>
+            <pre>{{ controlsSummary | json }}</pre>
+        </div>
+        <div class="inspector-section">
+            <strong>Errores de todos los controles:</strong>
+            <pre>{{ allControlErrors | json }}</pre>
+        </div>
+        <div class="inspector-section">
+            <strong>Valores de todos los controles:</strong>
+            <pre>{{ allControlValues | json }}</pre>
+        </div>
+    </div>
+</div>

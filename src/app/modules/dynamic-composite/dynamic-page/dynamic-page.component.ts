@@ -28,6 +28,8 @@ type SeoConfig = {
 };
 type DynamicPageRouteData = {
   components?: PageLayoutRow[];
+  headerComponents?: PageLayoutRow[];
+  footerComponents?: PageLayoutRow[];
   path?: string;
   pageName?: string;
   pageId?: string;
@@ -41,6 +43,10 @@ type ComponentReadyDetail = {
   state?: string;
 };
 
+type TranslationsReadyDetail = {
+  batchId?: string;
+};
+
 @Component({
   selector: 'dynamic-page',
   standalone: true,
@@ -52,6 +58,8 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private static readonly TABS_COMPONENT = 'multiTabBlock_uiplus';
 
   public rows: PageLayoutRow[] = [];
+  public headerRows: PageLayoutRow[] = [];
+  public footerRows: PageLayoutRow[] = [];
 
   private document = inject(DOCUMENT);
   private route = inject(ActivatedRoute);
@@ -64,30 +72,50 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private expectedComponentIds = new Set<string>();
   private completedCompletions = 0;
   private completedComponentIds = new Set<string>();
+  private translationsReadyForCurrentBatch = false;
   private batchSequence = 0;
 
   public ngOnInit(): void {
     this.document.addEventListener('dynamic-page:component-ready', this.onComponentReady);
+    this.document.addEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
 
     this.route.data.subscribe((data) => {
       const routeData = data as DynamicPageRouteData;
       const pageId = String(routeData.pageId ?? '');
       const sourceRows = Array.isArray(routeData.components) ? routeData.components : [];
-      const nextBatchId = this.createBatchId(pageId);
-      const trackedRows = this.attachComponentTracking(sourceRows, nextBatchId);
-      this.resetBatchTracking(nextBatchId, pageId, trackedRows);
+      const sourceHeaderRows = Array.isArray(routeData.headerComponents) ? routeData.headerComponents : [];
+      const sourceFooterRows = Array.isArray(routeData.footerComponents) ? routeData.footerComponents : [];
+      const isSamePage = this.currentPageId === routeData.pageId;
+
+      if (isSamePage) {
+        // Same pageId reuses block-outlet instances, so no new readiness events are emitted.
+        // Keep the existing component tree and ensure the boot loader is hidden.
+        const allSourceRows = [...sourceHeaderRows, ...sourceRows, ...sourceFooterRows];
+        const allTracked = this.attachComponentTracking(
+          allSourceRows,
+          this.currentBatchId || this.createBatchId(pageId)
+        );
+        const hLen = sourceHeaderRows.length;
+        const mLen = sourceRows.length;
+        this.refreshLocalizedBlocks(allTracked.slice(hLen, hLen + mLen));
+        this.removeBootLoader();
+      } else {
+        const nextBatchId = this.createBatchId(pageId);
+        const allSourceRows = [...sourceHeaderRows, ...sourceRows, ...sourceFooterRows];
+        const allTrackedRows = this.attachComponentTracking(allSourceRows, nextBatchId);
+        const hLen = sourceHeaderRows.length;
+        const mLen = sourceRows.length;
+        this.resetBatchTracking(nextBatchId, pageId, allTrackedRows);
+        this.currentPageId = routeData.pageId;
+        this.headerRows = allTrackedRows.slice(0, hLen);
+        this.rows = allTrackedRows.slice(hLen, hLen + mLen);
+        this.footerRows = allTrackedRows.slice(hLen + mLen);
+      }
 
       // When the router reuses this component across a language switch (same pageId,
       // different language prefix), route.data still emits with structurally identical
       // components. Avoid reassigning `rows` in that case to prevent `@for` from
       // destroying and recreating every block outlet (visible rerender).
-      if (this.currentPageId !== routeData.pageId) {
-        this.currentPageId = routeData.pageId;
-        this.rows = trackedRows;
-      } else {
-        this.refreshLocalizedBlocks(trackedRows);
-      }
-
       this.titleService.setTitle(String(routeData.pageName ?? ''));
       this.seoSvc.applyPageSeo(routeData.path, routeData.pageName, routeData.seo, routeData.pageId);
     });
@@ -95,6 +123,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.document.removeEventListener('dynamic-page:component-ready', this.onComponentReady);
+    this.document.removeEventListener('dynamic-page:translations-ready', this.onTranslationsReady);
   }
 
   public getInputs(col: PageLayoutCol): Record<string, unknown> {
@@ -125,12 +154,30 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
     this.completedComponentIds.add(componentId);
     this.completedCompletions += 1;
+    this.tryFinalizePageReady();
+  };
+
+  private onTranslationsReady = (event: Event): void => {
+    const detail = (event as CustomEvent<TranslationsReadyDetail>).detail;
+    if (detail?.batchId !== this.currentBatchId) {
+      return;
+    }
+
+    this.translationsReadyForCurrentBatch = true;
+    this.tryFinalizePageReady();
+  };
+
+  private tryFinalizePageReady(): void {
+    if (!this.translationsReadyForCurrentBatch) {
+      return;
+    }
+
     if (this.completedCompletions < this.expectedCompletions) {
       return;
     }
 
     this.logAndFinalizePageReady();
-  };
+  }
 
   private logAndFinalizePageReady(): void {
     console.log('[dynamic-page] all mapped components ready', {
@@ -155,6 +202,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     this.expectedCompletions = this.expectedComponentIds.size;
     this.completedCompletions = 0;
     this.completedComponentIds.clear();
+    this.translationsReadyForCurrentBatch = false;
   }
 
   private attachComponentTracking(rows: PageLayoutRow[], batchId: string): PageLayoutRow[] {
@@ -311,6 +359,11 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     }
   }
   private removeBootLoader(): void {
-    this.document.getElementById('boot-loader')?.remove();
+    requestAnimationFrame(() => {
+      const bootLoader = this.document.getElementById('boot-loader');
+      if (bootLoader instanceof HTMLElement) {
+        bootLoader.style.display = 'none';
+      }
+    });
   }
 }

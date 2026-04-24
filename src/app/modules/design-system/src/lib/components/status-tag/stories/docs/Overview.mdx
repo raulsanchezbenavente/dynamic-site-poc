@@ -1,0 +1,81 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../status-tag.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Status Tag
+
+Status Tag is a compact label that communicates the state of an element (success, warning, blocked, etc.) and complements fare-specific tags. It combines a status enum, an optional icon, and a style token so journeys, payments, and alerts can surface status at a glance.
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=13738-2255&t=2ZxtqNTQy6zswbDe-1" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/status-tag" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+## Basic usage
+
+Configure the component through a `StatusTagConfig` object that sets `status`, optional `style`, label text, and icon overrides.
+
+```html
+<status-tag [config]="bookingStatus"></status-tag>
+```
+
+```ts
+import { StatusTagConfig, StatusTagStyles, StatusTagType } from '@dcx/ui/design-system';
+
+public bookingStatus: StatusTagConfig = {
+	status: StatusTagType.SUCCESS,
+	text: 'Confirmed',
+	style: StatusTagStyles.FILLED,
+};
+```
+
+## Variants
+
+### Status types
+
+`StatusTagType` exposes the default set of statuses (`DEFAULT`, `SUCCESS`, `WARNING`, `INFO`, `ERROR`, `INACTIVE`, `PENDING`, `BLOCKED`). Each type maps to a color token and optional icon defined by the design system. Override `text` when you need human-friendly labels per locale.
+
+<Canvas of={ComponentStories.STATUS_TYPES} />
+
+### Styles
+
+Use the `style` property to switch between:
+
+- **Default**: light background with subtle border.
+- **Filled**: solid background for high-emphasis alerts.
+- **Outline**: neutral background with colored border.
+- **No icon**: set `style: StatusTagStyles.NO_ICON` to hide pictograms when the status is already spelled out.
+
+Use the **Styles** canvas to compare each treatment with the same semantic status.
+
+<Canvas of={ComponentStories.STYLES} />
+
+## Custom status enums
+
+You can supply a custom enum or union type to `StatusTagConfig<T>` to guarantee type safety for domain-specific states (e.g., journey or payment statuses).
+
+```ts
+type JourneyStatus = 'on-time' | 'delayed' | 'cancelled';
+
+public journeyStatusTag: StatusTagConfig<JourneyStatus> = {
+	status: 'on-time',
+	text: 'On time',
+};
+```
+
+## Accessibility
+
+- Provide concise `text` to ensure screen readers announce the state alongside the surrounding component context.
+- Each icon gets a translated aria-label via `Common.A11y.Status_Icon.*`; keep translation keys up to date when adding new statuses.
+- `StatusTag` should not be interactive—wrap it with buttons or links if the state change triggers an action.
+
+## Related components
+
+- [**Tag**](?path=/docs/atoms-badge-tag-tag--overview): For fare labels or categorical metadata without status semantics.
+- [**Badge**](?path=/docs/atoms-badge-tag-badge--overview): Decorative highlights with optional icons for marketing content.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-tags-badge-status-tag--02-accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-tags-badge-status-tag--changelog) tab for version history.
+

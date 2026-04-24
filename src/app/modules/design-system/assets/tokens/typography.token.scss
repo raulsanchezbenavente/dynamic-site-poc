@@ -1,0 +1,43 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+:root {
+    --font-name: 'Red Hat Display';
+    --font-filename: var(--font-name);
+    --font-sanserif: 'Red Hat Display';
+    --font-icon-name: 'avianca-icons';
+    --f-body: var(--font-name), sans-serif;
+    --f-title: var(--font-sanserif), sans-serif;
+    --f-icons: var(--font-icon-name);
+    --f-line-height: 1.323;
+    --f-line-height-large: 1.5;
+    --paragraph-margin: #{calculateRem(24px)};
+
+    // AV FontSize Tokens
+    --f-size-x-tiny: #{calculateRem(10px)};
+    --f-size-tiny: #{calculateRem(12px)};
+    --f-size-small: #{calculateRem(14px)};
+    --f-size: #{calculateRem(16px)};
+    --f-size-medium: #{calculateRem(18px)};
+    --f-size-large: #{calculateRem(20px)};
+    --f-size-x-large: #{calculateRem(24px)};
+    --f-size-x-x-large: #{calculateRem(28px)};
+    --f-size-huge: #{calculateRem(32px)};
+    --f-size-x-huge: #{calculateRem(36px)};
+    --f-size-x-x-huge: #{calculateRem(44px)};
+    --f-size-gigant: #{calculateRem(52px)};
+
+    // font weight
+    --f-weight-light: 300;
+    --f-weight-normal: 400;
+    --f-weight-medium: 500;
+    --f-weight-semibold: 600;
+    --f-weight-bold: 700;
+    --f-weight-xbold: 900;
+
+    // font icon size
+    --f-iconsize-sm: #{calculateRem(20px)};
+    --f-iconsize: #{calculateRem(24px)};
+    --f-iconsize-md: #{calculateRem(40px)};
+    --f-iconsize-lg: #{calculateRem(48px)};
+    --f-iconsize-xlg: #{calculateRem(64px)};
+    --f-iconsize-xxlg: #{calculateRem(72px)};
+}

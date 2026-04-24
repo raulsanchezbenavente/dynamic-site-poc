@@ -1,0 +1,97 @@
+import { Meta } from '@storybook/blocks';
+
+import * as TitleHeadingStories from '../title-heading.stories';
+
+<Meta of={TitleHeadingStories} name="02 Accessibility" />
+
+# Title Heading
+
+## Accessibility
+
+### ARIA Attributes
+
+The `ds-title-heading` component renders native heading elements (`h1`–`h6`), which inherently carry the `heading` role and appropriate `aria-level`. No additional ARIA attributes are required for basic usage.
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>isVisuallyHidden</code></td>
+      <td>
+        When set to <code>true</code>, the heading is visually hidden using the <code>hide-visually</code> CSS class, but remains in the DOM and is announced by screen readers. Use this for headings that provide structure for assistive technology without cluttering the visual interface.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Heading Hierarchy
+
+Proper heading hierarchy is critical for accessibility:
+
+<table>
+  <thead>
+    <tr>
+      <th>Rule</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Single H1</td>
+      <td>Each page should have exactly one <code>h1</code> element identifying the main content.</td>
+    </tr>
+    <tr>
+      <td>Sequential nesting</td>
+      <td>Do not skip heading levels (e.g., <code>h2</code> → <code>h4</code>). Use <code>htmlTag</code> for proper sequence and <code>styleClass</code> for visual styling.</td>
+    </tr>
+    <tr>
+      <td>Semantic vs visual</td>
+      <td>Use <code>htmlTag</code> for document outline, <code>styleClass</code> for visual appearance. This allows proper heading structure while achieving design requirements.</td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+Heading elements are not interactive by default, so no keyboard navigation is needed. However, screen reader users rely on headings for navigation:
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>H</kbd> (in screen reader)</td>
+      <td>Jump to next heading</td>
+    </tr>
+    <tr>
+      <td><kbd>1</kbd>–<kbd>6</kbd> (in screen reader)</td>
+      <td>Jump to next heading of that level (e.g., <kbd>2</kbd> jumps to next <code>h2</code>)</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- The component uses native heading elements, which are universally supported by all screen readers.
+- Screen readers announce the heading level automatically (e.g., "Heading level 2, Welcome").
+- Visually hidden headings (`isVisuallyHidden: true`) are still announced — this is the intended behavior for providing structural navigation without visual clutter.
+- The `introText` is rendered as a `div` with `innerHTML`, so ensure its content is accessible (no complex interactive elements).
+
+### Best Practices
+
+- **Always set `htmlTag` based on the document outline**, not visual design. Use `styleClass` independently for visual styling.
+- **Never skip heading levels** in the document structure. If you need an `h2` that looks like an `h1`, set `htmlTag: TitleHeading.H2` and `styleClass: TitleHeading.H1`.
+- **Use `isVisuallyHidden`** for section headings that screen reader users need but shouldn't be displayed (e.g., main content area landmark headings).
+- **Keep `introText` simple** — since it uses `innerHTML`, avoid embedding complex interactive content. Plain text and basic formatting (`<br>`, `<strong>`, `<em>`) are appropriate.
+- **Avoid empty headings** — always provide meaningful `title` text. Empty headings confuse screen reader navigation.

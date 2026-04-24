@@ -1,0 +1,47 @@
+/* stylelint-disable value-keyword-case */
+@use 'design-system/assets/sass/utils/configs' as *;
+
+$gl-colcount: 12 !default;
+$gl-gridname: grid !default;
+$gl-colname: col !default;
+$gl-attributename: class !default;
+$gl-gridclass: grid !default;
+$gl-colclass: grid-col !default;
+$gl-gutter: 1rem !default; // Total left + right
+$gl-gutter-vertical: 2.25rem !default; // 36px
+$gl-margin-top: 2.25rem !default; // 36px
+$gl-margin-bottom: $gl-margin-top !default;
+$gl-padding-top: $gl-margin-top !default;
+$gl-padding-bottom: $gl-margin-top !default;
+$gl-mq-width: 'min-width' !default;
+$gl-mq-list: (
+    xs: $bp-mobile-small,
+    sm: $bp-mobile,
+    md: $bp-tablet-portrait,
+    lg: $bp-tablet-landscape,
+    xl: $bp-desktop,
+) !default;
+$gl-v-list: (
+    top: flex-start,
+    middle: center,
+    bottom: flex-end,
+) !default;
+$gl-properties: (
+    noGutter: no-gutter,
+    noBottom: no-padding-bottom,
+    column: column,
+    reverse: reverse,
+) !default;
+
+// vars
+$gl-max-width: $container-max-width !default;
+$gl-gutter-sides-breakpoint: $tablet-landscape !default; // 992px by default
+$gl-gutter-sides: $app-gutter-sides !default; // whole web container padding left/right
+$gl-gutter-sides-desktop: $app-gutter-sides-large !default;
+
+// background colors
+$gl-background-colors: (
+    1: var(--grid-bgcolor-1),
+    2: var(--grid-bgcolor-2),
+    3: var(--grid-bgcolor-3),
+) !default;

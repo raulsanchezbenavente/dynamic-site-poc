@@ -1,0 +1,8 @@
+{
+  "url": "https://sso.lifemiles.net/auth",
+  "realm": "lm-uat",
+  "clientId": "avianca-web",
+  "silentCheckSsoRedirectUri": "/auth/silent-check-sso.html",
+  "enableLogging": true,
+  "logoutRetryAttempts": 0
+}

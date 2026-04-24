@@ -1,0 +1,71 @@
+<section
+    class="banner-section"
+    [id]="config.accessibilityConfig.id"
+    [class.banner--is-carousel]="isCarousel"
+    [class.banner--has-controls]="isCarousel && (config.showControls || config.showPagination)"
+    [ngClass]="[
+        isCarousel ? 'banner--carousel-effect-' + config.animationEffect : '',
+        isFullWidth ? 'banner--is-fullwidth' : 'banner--is-autowidth',
+    ]"
+    [attr.aria-roledescription]="isCarousel ? 'carousel' : null"
+    [attr.aria-label]="config.ariaAttributes.ariaLabel || null"
+    [attr.role]="isCarousel ? 'region' : null"
+    (focusin)="onFocusIn()"
+    (focusout)="onFocusOut()">
+    <div
+        class="banner_inner"
+        [ngClass]="{ 'banner_inner--focused': isFocused }">
+        <!-- SLIDER ITEMS -->
+        @if (areBannerElementsFocused) {
+            <span
+                class="hide-visually"
+                role="status">
+                {{ translationKeys.Banner_Slide | translate }} {{ selectedSlideIndex + 1 }}
+                {{
+                    filteredItems[selectedSlideIndex].content.title
+                        ? filteredItems[selectedSlideIndex].content.title
+                        : filteredItems[selectedSlideIndex].media.imageMedia
+                          ? filteredItems[selectedSlideIndex].media.imageMedia?.text
+                          : ''
+                }}
+            </span>
+        }
+        <div
+            class="banner_slider"
+            [id]="config.accessibilityConfig.id + '_bannerSliderId'">
+            @for (item of filteredItems; track $index) {
+                <div
+                    #slides
+                    class="banner_slider_item"
+                    [attr.aria-hidden]="isCarousel ? selectedSlideIndex != $index : null">
+                    <banner-item
+                        [config]="item"
+                        [index]="$index"
+                        [currency]="currency"
+                        [selectedSlideIndex]="selectedSlideIndex"
+                        [isCarouselItem]="isCarousel"
+                        (fullClickFocus)="onFullClickFocus()"
+                        (fullClickBlur)="onFullClickBlur()">
+                    </banner-item>
+                </div>
+            }
+            <span
+                aria-atomic="true"
+                class="hide-visually">
+                {{ translationKeys.Banner_BannerControls_BannerControls_PaginationCount_Item | translate }}
+                {{ selectedSlideIndex + 1 }}
+                {{ translationKeys.Banner_BannerControls_BannerControls_PaginationCount_Of | translate }}
+                {{ filteredItems.length }}
+            </span>
+        </div>
+    </div>
+    <!-- SLIDER CONTROLS -->
+    @if (isCarousel) {
+        <banner-controls
+            [config]="bannerControlsConfig"
+            [animation]="animation"
+            (changeIndexEmitter)="changeSlide($event)"
+            (changePausedEmitter)="changePaused($event)">
+        </banner-controls>
+    }
+</section>

@@ -1,0 +1,214 @@
+<tab-presentation>
+    <ng-template #cultureSelects>
+        <div>
+            <div class="title-validation">Select primary culture</div>
+            <select
+                class="form-select form-select-custom mt-2 mb-3 w-auto fw-bold d-inline align-baseline custom-height"
+                [value]="selectedCultureIds.primary"
+                (change)="onCultureChange($any($event.target).value)">
+                @for (option of cultureOptions; track trackByCultureId($index, option)) {
+                    <option [value]="option.id">
+                        {{ option.label }}
+                    </option>
+                }
+            </select>
+            <div class="title-validation">Select secondary culture</div>
+            <select
+                class="form-select form-select-custom mt-2 mb-3 w-auto fw-bold d-inline align-baseline custom-height"
+                [value]="selectedCultureIds.secondary"
+                (change)="onCultureChange($any($event.target).value, 'secondary')">
+                @for (option of cultureOptions; track trackByCultureId($index, option)) {
+                    <option [value]="option.id">
+                        {{ option.label }}
+                    </option>
+                }
+            </select>
+        </div>
+    </ng-template>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Select date picker / AriaLabelledBy / Validation</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker1"
+                [title]="'Birthday'"
+                [selectsLabels]="customSelectsLabelValues"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [separatedErrors]="true"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [yearRange]="{ startYear: 1950, endYear: 2000 }"
+                [ariaLabelledBy]="{ day: 'labelledDay-1', month: 'labelledMonth-1', year: 'labelledYear-1' }"
+                [abbreviationMonth]="abbreviationBehaviour" />
+            <div hoverOpacity>
+                <em id="labelledDay-1">Enter the day</em>&nbsp; <em id="labelledMonth-1">Enter the month</em>&nbsp;
+                <em id="labelledYear-1">Enter the year</em>
+            </div>
+
+            <div class="stbook-title">
+                Select date picker / Integrated appearance / Hint message / Combined validation
+            </div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker2"
+                [title]="'Birthday'"
+                [selectsLabels]="selectsLabelValues"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [separatedErrors]="false"
+                [errorMessages]="unifiedErrorMessagesSelectDatePicker"
+                [hintMessages]="hintMessagesGeneralSelectDatePicker" />
+
+            <div class="stbook-title">Select date picker / Integrated appearance / Separated validation</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker3"
+                [title]="'Birthday'"
+                [selectsLabels]="selectsLabelValues"
+                [appearance]="RfAppearanceTypes.INTEGRATED"
+                [separatedErrors]="true"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [hintMessages]="hintMessagesSpecificSelectDatePicker" />
+
+            <div class="stbook-title">Select date picker / Date format change / Primary culture</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker4"
+                [title]="'Birthday'"
+                [selectsLabels]="selectsLabelValues"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [culture]="primaryCulture" />
+
+            <div class="stbook-title">Select date picker / Readonly / Primary culture</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker5"
+                [title]="'Birthday'"
+                [readonly]="true"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [selectsLabels]="selectsLabelValues"
+                [culture]="primaryCulture" />
+
+            <div class="stbook-title">Select date picker / Disabled / Secondary culture</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker6"
+                [title]="'Birthday'"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [selectsLabels]="selectsLabelValues"
+                [culture]="secondaryCulture" />
+
+            <div class="stbook-title">Select date picker / Custom classes / Validation</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker7"
+                [title]="'Birthday'"
+                [selectsLabels]="selectsLabelValues"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [classes]="datePickerCustomClasses" />
+
+            <div class="stbook-title">Select date picker / Custom labels</div>
+            <rf-select-date-picker
+                formControlName="selectDatePicker8"
+                [title]="'Birthday'"
+                [errorMessages]="errorMessagesSelectDatePicker"
+                [selectsLabels]="customSelectsLabelValues" />
+        </form>
+        <br />
+        <ng-container *ngTemplateOutlet="cultureSelects"></ng-container>
+
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <div class="stbook-title">Select date picker / AriaLabelledBy / Validation</div>
+        <rf-select-date-picker
+            #selectDatePicker1
+            [title]="'Birthday'"
+            [selectsLabels]="selectsLabelValues"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [separatedErrors]="true"
+            [yearRange]="{ startYear: 1950, endYear: 2000 }"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [value]="DateCustomUTCShortDate"
+            [ariaLabelledBy]="{ day: 'labelledDay-1', month: 'labelledMonth-1', year: 'labelledYear-1' }" />
+        <div hoverOpacity>
+            <em id="labelledDay-1">Enter the day</em>&nbsp; <em id="labelledMonth-1">Enter the month</em>&nbsp;
+            <em id="labelledYear-1">Enter the year</em>
+        </div>
+
+        <div class="stbook-title">Select date picker / Integrated appearance / Hint message / Combined validation</div>
+        <rf-select-date-picker
+            #selectDatePicker2
+            [title]="'Birthday'"
+            [selectsLabels]="selectsLabelValues"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [separatedErrors]="false"
+            [validators]="CommonValidator"
+            [errorMessages]="unifiedErrorMessagesSelectDatePicker"
+            [hintMessages]="hintMessagesGeneralSelectDatePicker" />
+
+        <div class="stbook-title">Select date picker / Integrated appearance / Separated validation</div>
+        <rf-select-date-picker
+            #selectDatePicker3
+            [title]="'Birthday'"
+            [selectsLabels]="selectsLabelValues"
+            [appearance]="RfAppearanceTypes.INTEGRATED"
+            [validators]="CommonValidator"
+            [separatedErrors]="true"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [hintMessages]="hintMessagesSpecificSelectDatePicker" />
+
+        <div class="stbook-title">Select date picker / Date format change / Primary culture</div>
+        <rf-select-date-picker
+            #selectDatePicker4
+            [title]="'Birthday'"
+            [selectsLabels]="selectsLabelValues"
+            [value]="DateCustom1ShortDate"
+            [validators]="CommonValidator"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [culture]="primaryCulture" />
+
+        <div class="stbook-title">Select date picker / Readonly / Primary culture</div>
+        <rf-select-date-picker
+            #selectDatePicker5
+            [title]="'Birthday'"
+            [readonly]="true"
+            [value]="DateCustom2ShortDate"
+            [validators]="CommonValidator"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [selectsLabels]="selectsLabelValues"
+            [culture]="primaryCulture" />
+
+        <div class="stbook-title">Select date picker / Disabled / Secondary culture</div>
+        <rf-select-date-picker
+            #selectDatePicker6
+            [title]="'Birthday'"
+            [value]="NewDateShortDate"
+            [validators]="CommonValidator"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [selectsLabels]="selectsLabelValues"
+            [culture]="secondaryCulture" />
+
+        <div class="stbook-title">Select date picker / Custom classes / Validation</div>
+        <rf-select-date-picker
+            #selectDatePicker7
+            [title]="'Birthday'"
+            [selectsLabels]="selectsLabelValues"
+            [validators]="CommonValidator"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [classes]="datePickerCustomClasses" />
+
+        <div class="stbook-title">Select date picker / Custom labels</div>
+        <rf-select-date-picker
+            #selectDatePicker8
+            [title]="'Birthday'"
+            [validators]="CommonValidator"
+            [errorMessages]="errorMessagesSelectDatePicker"
+            [selectsLabels]="customSelectsLabelValues" />
+        <br />
+        <ng-container *ngTemplateOutlet="cultureSelects"></ng-container>
+
+        <standalone-validation-features
+            [components]="[
+                selectDatePicker1,
+                selectDatePicker2,
+                selectDatePicker3,
+                selectDatePicker4,
+                selectDatePicker5,
+                selectDatePicker6,
+                selectDatePicker7,
+                selectDatePicker8,
+            ]" />
+    </div>
+</tab-presentation>

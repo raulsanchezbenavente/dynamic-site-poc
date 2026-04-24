@@ -1,0 +1,18 @@
+@charset 'UTF-8';
+
+// ********************
+//  Remove RTE (CMS rich text) <p> margins
+// ********************
+
+/// This mixin removes the top margin from the first paragraph and the bottom margin
+/// from the last paragraph within a rich text editor (RTE) block.
+/// Use this mixin to ensure consistent spacing in RTE content.
+
+@mixin remove-rte-p-margins() {
+    p:first-of-type {
+        margin-top: 0;
+    }
+    p:last-of-type {
+        margin-bottom: 0;
+    }
+}

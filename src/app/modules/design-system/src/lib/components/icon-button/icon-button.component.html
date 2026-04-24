@@ -1,0 +1,15 @@
+@if (config()?.icon) {
+    <button
+        type="button"
+        class="ds-icon-button_button"
+        [attr.aria-label]="config()?.ariaAttributes?.ariaLabel || null"
+        [disabled]="config()?.isDisabled || null"
+        [attr.aria-controls]="config()?.ariaAttributes?.ariaControls || null"
+        [attr.aria-disabled]="config()?.ariaAttributes?.ariaDisabled || null"
+        [attr.aria-expanded]="(ariaExpanded ?? config()?.ariaAttributes?.ariaExpanded) || null"
+        [attr.aria-haspopup]="config()?.ariaAttributes?.ariaHaspopup ?? null"
+        [attr.aria-pressed]="(ariaPressed ?? config()?.ariaAttributes?.ariaPressed) || null"
+        (click)="onClick()">
+        <icon [config]="config()?.icon!" />
+    </button>
+}

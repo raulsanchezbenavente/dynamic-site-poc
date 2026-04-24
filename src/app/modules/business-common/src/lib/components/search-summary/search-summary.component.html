@@ -1,0 +1,21 @@
+@let infoData = infoDataDescriptionList();
+@let originAndDestinationData = originAndDestination();
+
+<div class="search-summary-inner">
+    <div class="search-summary_route">
+        <span class="search-summary_route_departure text-space-gap">
+            {{ translationKeys.City_KeyNode + originAndDestinationData[0] | translate }}
+        </span>
+        <span class="search-summary_route_connector text-space-gap">
+            {{ commonTranslationKeys.Common_To | translate }}
+        </span>
+        <span class="search-summary_route_return">
+            {{ translationKeys.City_KeyNode + originAndDestinationData[1] | translate }}
+        </span>
+    </div>
+    @if (infoData) {
+        <div class="search-summary_data">
+            <description-list [config]="infoData"></description-list>
+        </div>
+    }
+</div>

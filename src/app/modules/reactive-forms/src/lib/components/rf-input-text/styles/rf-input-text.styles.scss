@@ -1,0 +1,33 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-fields.styles' as *;
+
+// -------
+// COMPONENT STYLES
+// -------
+.rf-field-group {
+    flex: 1;
+}
+
+// Type range
+input[type='range'] {
+    appearance: none;
+    height: calculateRem(62px);
+}
+input[type='range']::-webkit-slider-runnable-track {
+    height: calculateRem(6px);
+    background: var(--c-color19);
+    border-radius: calculateRem(3px);
+}
+input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    height: calculateRem(20px);
+    width: calculateRem(20px);
+    background: var(--c-active);
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: calculateRem(-7px);
+    box-shadow: 0 0 calculateRem(2px) rgba(0, 0, 0, 0.3);
+    border: none;
+}

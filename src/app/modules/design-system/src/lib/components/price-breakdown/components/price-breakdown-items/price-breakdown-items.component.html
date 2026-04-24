@@ -1,0 +1,16 @@
+<ul class="price-breakdown-items">
+    @for (priceBreakDownItems of model; track priceBreakDownItems) {
+        <li class="price-breakdown-items_item">
+            <price-breakdown-item [model]="priceBreakDownItems.item" />
+            @if (priceBreakDownItems.subitems.length > 1) {
+                <ul class="price-breakdown-items--subitems">
+                    @for (subitem of priceBreakDownItems.subitems; track subitem) {
+                        <li class="price-breakdown-items_item price-breakdown-items_item--subitems">
+                            <price-breakdown-item [model]="subitem" />
+                        </li>
+                    }
+                </ul>
+            }
+        </li>
+    }
+</ul>

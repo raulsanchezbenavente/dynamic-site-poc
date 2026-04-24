@@ -1,0 +1,11 @@
+<dropdown
+    #dropdownRef
+    [model]="config.dropdownModel"
+    [innerComponent]="innerComponent"
+    (opened)="onDropdownOpened()">
+    <options-list
+        #innerComponent
+        [config]="config.optionsListConfig"
+        (valueEmitter)="selectOption($event)">
+    </options-list>
+</dropdown>

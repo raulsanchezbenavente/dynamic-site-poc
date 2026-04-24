@@ -1,0 +1,16 @@
+@defer (when !isLoading()) {
+    <form-summary
+        #formSummary
+        [initialView]="FormSummaryViews.SUMMARY"
+        [title]="translationKeys.AccountProfile_ContactForm_Title | translate"
+        [titleParentElementId]="'accountProfileTitleId'"
+        [titleElementId]="ownLabelledById()"
+        [formName]="formName()"
+        [columns]="columns()"
+        [buttonsConfig]="buttonsConfig()"
+        [formBuilderConfig]="formBuilderConfig()"
+        (cancelForm)="cancelAccountContact($event)"
+        (saveForm)="saveContact($event)" />
+} @placeholder {
+    <p>{{ translationKeys.AccountProfile_Loading | translate }}</p>
+}

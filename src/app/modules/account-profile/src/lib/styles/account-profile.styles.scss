@@ -1,0 +1,22 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-huge;
+    ::ng-deep .account-profile-summaries {
+        display: flex;
+        flex-direction: column;
+        gap: $spacer-medium;
+    }
+}
+
+// Responsive
+@media #{$mobile-sm} {
+    :host ::ng-deep .account-profile-summaries {
+        gap: $spacer-x-large;
+    }
+}

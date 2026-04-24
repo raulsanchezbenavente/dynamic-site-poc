@@ -1,0 +1,29 @@
+@use 'sass:math';
+
+//  + Convert px into rem
+// -------
+$parent-size: 16px;
+
+@function calculateRem($size) {
+    $unit: math.unit($size);
+
+    @if $unit == '' or $unit != 'px' {
+        $size: $size * 1px;
+
+        @error 'Assuming value `#{$size}` to be in pixels; calculateRem function accepts only pixel units.';
+    }
+
+    @return math.div($size, $parent-size) * 1rem;
+}
+
+@function calculateEm($size, $currentSize: 16px) {
+    $rem-size: math.div($size, $currentSize);
+
+    @return #{$rem-size}em;
+}
+
+@function calculateVw($size) {
+    $vw-context: (1000 * 0.01) * 1px;
+
+    @return (math.div($size, $vw-context)) * 1vw;
+}

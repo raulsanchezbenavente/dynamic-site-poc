@@ -1,0 +1,123 @@
+@use '../../styles/stories-styles' as *;
+
+:host ::ng-deep {
+    .d-flex {
+        display: flex !important;
+    }
+    .align-items-center {
+        align-items: center !important;
+    }
+    .gap-1 {
+        gap: 0.25rem !important; /* equivale a 4px */
+    }
+    .ms-2 {
+        margin-left: 0.5rem !important; /* en LTR */
+    }
+    .text-white {
+        color: #fff !important;
+    }
+    .fs-2 {
+        font-size: 2rem !important; /* equivale a 32px con base 16px */
+    }
+    .fw-bold {
+        font-weight: 700 !important;
+    }
+
+    .route-option {
+        .arrow {
+            display: inline-block;
+            animation: pulse-arrow 1.2s ease-in-out infinite;
+        }
+    }
+    @keyframes pulse-arrow {
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+        50% {
+            transform: translateX(4px);
+        }
+    }
+    .plane {
+        animation: flight 4s ease-in-out infinite;
+    }
+    @keyframes flight {
+        0% {
+            transform: translateX(0) rotate(45deg);
+        }
+        25% {
+            transform: translateX(50px) rotate(45deg);
+        }
+        35% {
+            transform: translateX(50px) rotate(225deg);
+        }
+        50% {
+            transform: translateX(50px) rotate(225deg);
+        }
+        75% {
+            transform: translateX(0px) rotate(225deg);
+        }
+        85% {
+            transform: translateX(0px) rotate(405deg);
+        }
+        100% {
+            transform: translateX(0px) rotate(405deg);
+        }
+    }
+    .flag {
+        object-fit: cover;
+        border-radius: 2px;
+    }
+
+    .button-select-custom {
+        color: rgb(0, 0, 0) !important;
+        border-radius: 15px !important;
+        border-width: 3px !important;
+        background-color: rgb(117, 214, 255) !important;
+    }
+    .button-select-custom:hover {
+        background-color: rgb(197, 240, 255) !important;
+    }
+
+    .list-custom-filter-class {
+        font-size: 26px !important;
+        font-weight: bolder !important;
+        background-color: rgb(197, 240, 255);
+    }
+    .button-list-custom {
+        font-size: 26px !important;
+        font-weight: bolder !important;
+        background-color: rgb(117, 214, 255) !important;
+        padding-top: 16px !important;
+    }
+    .button-list-custom:hover {
+        background-color: rgb(197, 237, 254) !important;
+    }
+    .list-custom-class {
+        height: 600px !important;
+        border-width: 3px !important;
+        border-radius: 15px !important;
+        background-color: rgb(156, 223, 252) !important;
+    }
+    .container-selected-height-custom {
+        height: 25px;
+    }
+    .list-custom-option-class {
+        font-size: 26px !important;
+        font-weight: bolder !important;
+    }
+    .list-custom-option-class:hover {
+        background-color: rgb(117, 214, 255);
+    }
+    .list-custom-option-class.active {
+        background-color: rgb(60, 197, 255) !important;
+    }
+    .list-custom-option-class.active:hover {
+        background-color: rgb(117, 214, 255) !important;
+    }
+    .list-custom-option-class.active::after {
+        content: '\e920';
+        font-family: 'avianca-icons';
+        margin-left: auto;
+    }
+}

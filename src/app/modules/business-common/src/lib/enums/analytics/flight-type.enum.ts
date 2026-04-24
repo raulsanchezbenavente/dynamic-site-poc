@@ -1,0 +1,4 @@
+export enum FlightType {
+  INTERNATIONAL = 'INTERNATIONAL',
+  DOMESTIC = 'DOMESTIC',
+}

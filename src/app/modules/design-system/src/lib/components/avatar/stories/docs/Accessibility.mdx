@@ -1,0 +1,65 @@
+import { Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../avatar.stories';
+
+<Meta of={ComponentStories} name="02 Accessibility" />
+
+# Avatar
+
+## Accessibility
+
+### ARIA Attributes
+
+The avatar component relies on `aria-label` to provide accessible names when visual initials alone are insufficient.
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaLabel</code></td>
+      <td>
+        Provides the full name or description of the person/entity represented by the avatar.<br />
+        Essential when initials might be ambiguous (e.g., "SR" could be multiple people). Pass via <code>config.ariaLabel</code>.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+This component does not use state-specific ARIA attributes. The `aria-label` is the primary accessibility mechanism.
+
+### Keyboard Navigation
+
+The avatar is informational and not interactive by default, so it does not receive keyboard focus or respond to keyboard events.
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N/A</td>
+      <td>Avatar is not keyboard-interactive unless wrapped in a clickable element (button, link)</td>
+    </tr>
+  </tbody>
+</table>
+
+> **Note**: If you make the avatar interactive (e.g., wrapping it in a button), ensure the button has an accessible label describing the action, not just the person's name.
+
+### Screen Reader Support
+
+- **Text initials**: When `avatarText` is provided (e.g., "SR"), the visually displayed initials are marked `aria-hidden="true"` to prevent redundant announcements. The screen reader instead announces the `ariaLabel` (e.g., "Simon Ramirez")
+- **Icon badges**: When an icon is rendered instead of initials, the icon's `ariaLabel` is announced. Ensure the icon's label describes what it represents (e.g., "Diamond loyalty member")
+- **Fallback text**: When `avatarText` is empty, the component displays the translated `Avatar.NotApplicable_Text` (default: "N/a"). Screen readers announce the `ariaLabel` if provided, or the fallback text if no label exists
+- **Language changes**: The component reactively updates the fallback text when the user changes language, ensuring the "Not applicable" label is always localized

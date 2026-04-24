@@ -1,0 +1,67 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    --accordion-item-padding-vertical: #{$pad-x-large};
+    --accordion-item-padding-horizontal: #{$pad-x-medium};
+
+    display: block;
+    background-color: var(--c-white);
+    box-shadow: var(--#{$ds}box-shadow-lg);
+    border-radius: var(--#{$ds}border-radius-lg);
+    overflow: hidden;
+}
+
+.#{$ds}accordion-item_trigger {
+    @include collapse-trigger-flex(var(--f-size-large), var(--c-text));
+
+    width: 100%;
+    align-items: center;
+    text-align: left;
+    padding: var(--accordion-item-padding-vertical) var(--accordion-item-padding-horizontal);
+    &::after {
+        // arrow
+        flex: 0 0 calculateRem(32px);
+        padding: $pad-small 0;
+        text-align: center;
+        background-color: var(--c-color4);
+        height: calculateRem(32px);
+        width: calculateRem(32px);
+        box-sizing: border-box;
+        border-radius: 50%;
+    }
+}
+.#{$ds}accordion-item_trigger_title {
+    font-size: var(--f-size-medium);
+    color: var(--c-text);
+    font-weight: var(--f-weight-light);
+}
+.#{$ds}accordion-item_body {
+    padding: 0 var(--accordion-item-padding-horizontal) var(--accordion-item-padding-vertical);
+    line-height: var(--f-line-height-large);
+
+    // styles for RTE content
+    img {
+        max-width: 100%;
+    }
+    ul,
+    ol {
+        margin: 0;
+    }
+    p:first-child {
+        margin-top: 0;
+    }
+    p:last-child,
+    ul:last-child,
+    ol:last-child {
+        margin-bottom: 0;
+    }
+}
+
+@media #{$mobile} {
+    :host {
+        --accordion-item-padding-horizontal: #{$pad-x-large};
+    }
+}

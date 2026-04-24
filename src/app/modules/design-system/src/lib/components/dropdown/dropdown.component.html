@@ -1,0 +1,76 @@
+<div
+    class="ds-dropdown"
+    [ngClass]="'ds-dropdown-layout--' + model.config.layoutConfig.layout"
+    [class.ds-dropdown-layout--always-visible]="model.config.layoutConfig.isAlwaysVisible"
+    [clickOutsideListenerIsActive]="model.isVisible!"
+    (clickOutside)="model.isVisible = !!$event">
+    @if (!model.config.layoutConfig.isAlwaysVisible) {
+        <button
+            #dropdownTriggerRef
+            class="ds-dropdown_trigger"
+            [attr.aria-haspopup]="model.config.ariaAttributes?.ariaHaspopup ?? 'listbox'"
+            [id]="triggerId"
+            [class.ds-dropdown_trigger--active]="!!model.value"
+            [attr.aria-expanded]="model.config.layoutConfig.isAlwaysVisible ? null : model.isVisible"
+            [attr.aria-controls]="model.isVisible ? ariaControlsId : null"
+            [disabled]="model.config.isDisabled ? 'disabled' : null"
+            (click)="model.isVisible ? closeDropdown() : openDropdown()"
+            (mouseenter)="triggerMouseEnter.emit()"
+            (mouseleave)="triggerMouseLeave.emit()"
+            (focus)="triggerFocus.emit()"
+            (blur)="triggerBlur.emit()">
+            @if (model.config!.icon) {
+                <icon [config]="model.config.icon"></icon>
+            }
+            <span class="ds-dropdown_trigger_inner">
+                @if (model.config.label && !model.value) {
+                    <span class="ds-dropdown_trigger_label">
+                        {{ model.config.label }}
+                    </span>
+                }
+                @if (model.value) {
+                    <span class="ds-dropdown_trigger_value">
+                        @if (!triggerComponent) {
+                            {{ model.displayLabel || model.value }}
+                        }
+                        @if (triggerComponent) {
+                            <ng-content select="[trigger-component]"></ng-content>
+                        }
+                    </span>
+                    <span class="hide-visually">&nbsp; {{ CommonTranslationKeys.Common_A11y_IsSelected | translate }} </span>
+                }
+
+                @if (dropdownTriggerSection) {
+                    <ng-content select="[dropdown-trigger]"></ng-content>
+                }
+            </span>
+        </button>
+    } @else {
+        <h3
+            class="ds-dropdown_trigger_label"
+            [id]="triggerId">
+            {{ model.config.label }}
+        </h3>
+    }
+
+    @if (model.isVisible || model.config.layoutConfig.isAlwaysVisible) {
+        <ng-container [ngTemplateOutlet]="dropdownContentTemplate"></ng-container>
+    }
+</div>
+
+<ng-template #dropdownContentTemplate>
+    <div
+        #dropdownContentRef
+        class="ds-dropdown_content"
+        role="none"
+        modalKeyEvents
+        [id]="contentId"
+        [modalKeyEventType]="modalKeyEventType"
+        [keyEventsListenerIsActive]="model.isVisible ?? false"
+        [mouseTrappingSectionId]="contentId"
+        [elementsToDisableLRKeys]="model.config.accessibilityConfig?.elementsToDisableLRKeys || []"
+        [disableAutoFocus]="model.config.layoutConfig.isAlwaysVisible ?? false"
+        (closeModalEvent)="closeDropdown()">
+        <ng-content></ng-content>
+    </div>
+</ng-template>

@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <button
+        class="modal-close"
+        (click)="close()">
+        <span class="button_label">
+            {{ CommonTranslationKeys.Common_Close | translate }}
+        </span>
+    </button>
+    @if (modalDialogConfig.titleImageSrc) {
+        <div class="modal-header-image-container">
+            <img
+                class="modal-header-image"
+                [src]="modalDialogConfig.titleImageSrc"
+                [alt]="modalDialogConfig.title" />
+        </div>
+    }
+    @if (modalDialogConfig.title || modalDialogConfig.icon) {
+        <h1
+            class="modal-title"
+            [attr.id]="modalDialogConfig.ariaAttributes?.ariaLabelledBy">
+            @if (modalDialogConfig.icon) {
+                <span class="modal-title_icon">
+                    <icon [config]="modalDialogConfig.icon"></icon>
+                </span>
+            }
+            @if (modalDialogConfig.title) {
+                <span class="modal-title_text">
+                    {{ modalDialogConfig.title }}
+                </span>
+            }
+        </h1>
+        @if (modalDialogConfig.subtitle) {
+            <div
+                class="modal-subtitle"
+                [innerHtml]="modalDialogConfig.subtitle"></div>
+        }
+    }
+</div>
+<div class="modal-body">
+    @if (modalDialogConfig.alertPanelConfig) {
+        <alert-panel [config]="modalDialogConfig.alertPanelConfig" />
+    }
+
+    @if (modalDialogConfig.introText) {
+        <div
+            class="modal-intro"
+            [innerHtml]="modalDialogConfig.introText"></div>
+    }
+    <ng-content></ng-content>
+</div>
+
+@if (shouldShowFooter) {
+    <div class="modal-footer">
+        @if (hasButtonsToRender) {
+            <modal-footer-buttons
+                [config]="modalDialogConfig.footerButtonsConfig!"
+                (actionEmitter)="handleAction($event)">
+            </modal-footer-buttons>
+        }
+        <ng-content select="[modalFooterContent]" />
+    </div>
+}

@@ -1,0 +1,107 @@
+@if (config.responsiveOffCanvas && isResponsive) {
+    <!-- Button trigger: off-canvas -->
+    <button
+        #offCanvasTrigger
+        class="ds-popover_trigger-button"
+        [id]="btnOpenPopoverId"
+        [attr.aria-label]="config.triggerAriaLabel ? config.triggerAriaLabel : null"
+        [attr.aria-expanded]="isOffCanvasOpen"
+        [attr.aria-controls]="'detailsPopoverId'"
+        (click)="toggleOpen()">
+        <ng-template [ngTemplateOutlet]="popoverTriggerTemplate"></ng-template>
+    </button>
+    @if (isPopoverOpen) {
+        <off-canvas
+            [config]="offCanvasConfig"
+            (offcanvasClosedEmitter)="onOffCanvasClosed()">
+            <off-canvas-header>
+                <ng-template [ngTemplateOutlet]="popoverHeaderTemplate"></ng-template>
+            </off-canvas-header>
+            <div offCanvasBody>
+                <ng-template [ngTemplateOutlet]="popoverBodyTemplate"></ng-template>
+            </div>
+        </off-canvas>
+    }
+} @else {
+    <!-- Button trigger: popover -->
+    <button
+        #popoverTriggerButton
+        #popoverRef="ngbPopover"
+        class="ds-popover_trigger-button"
+        [id]="btnOpenPopoverId"
+        [placement]="config.placement!"
+        [container]="config.container!"
+        [ngbPopover]="popoverTemplate"
+        [attr.aria-label]="config.triggerAriaLabel ? config.triggerAriaLabel : null"
+        [attr.aria-expanded]="isPopoverOpen"
+        [triggers]="config.triggers!"
+        [openDelay]="config.openDelay!"
+        [closeDelay]="config.closeDelay!"
+        [autoClose]="config.autoClose!"
+        [popoverClass]="'ds-popover-modal ' + config.customClass!"
+        [popperOptions]="popperOptionsFn"
+        (shown)="onPopoverShown()"
+        (hidden)="onPopoverHidden()"
+        (keydown)="onKeydown($event)"
+        (mouseleave)="onMouseLeave()"
+        (click)="onPopoverTriggerClick()"
+        (focus)="onPopoverTriggerFocus()"
+        (blur)="onTriggerBlur()">
+        <ng-template [ngTemplateOutlet]="popoverTriggerTemplate"></ng-template>
+    </button>
+}
+
+<ng-template #popoverTriggerTemplate>
+    @if (config.iconTrigger) {
+        <span class="ds-popover-trigger_icon"></span>
+    } @else {
+        <ng-content select="[popoverTrigger]"></ng-content>
+    }
+</ng-template>
+<ng-template #popoverHeaderTemplate>
+    @if (!hasProjectedHeader) {
+        <div class="ds-popover-header">
+            @if (config.triggers === DsNgbTriggerEvent.CLICK) {
+                <div class="ds-popover-header_close">
+                    <icon-button
+                        [config]="resolvedCloseButtonConfig"
+                        (clickEvent)="closeButtonClick()" />
+                </div>
+            }
+            <h2 class="ds-popover-header_title">
+                @if (config.popoverHeaderConfig.imageSrc) {
+                    <img
+                        class="ds-popover-header_title_image"
+                        [src]="config.popoverHeaderConfig.imageSrc"
+                        [alt]="config.popoverHeaderConfig.title" />
+                } @else {
+                    {{ config.popoverHeaderConfig.title }}
+                }
+            </h2>
+            @if (config.popoverHeaderConfig.subtitle) {
+                <div class="ds-popover-header_subtitle">
+                    {{ config.popoverHeaderConfig.subtitle }}
+                </div>
+            }
+        </div>
+    } @else {
+        <ng-content select="[popoverHeader]"></ng-content>
+    }
+</ng-template>
+<ng-template #popoverBodyTemplate>
+    <ng-content select="[popoverContent]"></ng-content>
+</ng-template>
+
+<ng-template #popoverTemplate>
+    <div
+        modalKeyEvents
+        [modalKeyEventType]="modalKeyEventType"
+        [keyEventsListenerIsActive]="isPopoverOpen"
+        [mouseTrappingSectionId]="popoverContentId"
+        (closeModalEvent)="closeButtonClick()">
+        <div [id]="popoverContentId">
+            <ng-template [ngTemplateOutlet]="popoverHeaderTemplate"></ng-template>
+            <ng-template [ngTemplateOutlet]="popoverBodyTemplate"></ng-template>
+        </div>
+    </div>
+</ng-template>

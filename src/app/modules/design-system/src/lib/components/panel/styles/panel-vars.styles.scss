@@ -1,0 +1,10 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// breakpoint
+$panel-breakpoint-small-min: $mobile;
+$panel-breakpoint-small-max: $until-mobile;
+$panel-breakpoint-large-min: $desktop;
+$panel-breakpoint-large-max: $until-desktop;

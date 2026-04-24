@@ -1,0 +1,166 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'banner-item-vars.styles' as *;
+
+// Styles variations: default, box and aside-box
+@use 'banner-item-style-default.styles' as *;
+@use 'banner-item-style-aside-box.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.banner-item-link {
+    display: block;
+    height: 100%;
+    .banner-media {
+        position: relative;
+    }
+}
+.banner-item-html {
+    --c-link: 'inherit';
+    --c-link-hover: 'inherit';
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: content-box;
+    user-select: none; // avoid text highlight
+
+    // layout: alignments
+    &--halign-left {
+        text-align: left;
+        justify-content: flex-start;
+    }
+    &--halign-right {
+        text-align: right;
+        justify-content: flex-end;
+    }
+    &--halign-center {
+        text-align: center;
+    }
+    &--valign-top {
+        align-items: flex-start;
+    }
+    &--valign-bottom {
+        align-items: flex-end;
+    }
+}
+.banner-item_countdown + .banner-item_action {
+    margin: $banner-item-action-button-margin;
+}
+.banner-item_action_button {
+    @include button-type-styles($banner-item-action-button-type);
+    &:hover {
+        text-decoration: none;
+    }
+}
+.container-fluid :host-context {
+    .banner-item-html {
+        @include container-wrap;
+    }
+}
+.banner-item-html_fullclick,
+.banner-item-link_fullclick {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    &:focus-visible {
+        box-sizing: border-box; // to render the border inside the div space because of overflow hidden
+        border: 3px solid var(--banner-item-html-fullclick-outline-color, var(--accessibility-outline-color));
+    }
+}
+
+// Banner pictures
+.banner-media {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--banner-media-height, 100%);
+    ::ng-deep {
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+}
+:host ::ng-deep {
+    .banner-media_image {
+        display: flex;
+        width: 100%;
+    }
+
+    // CTA button
+    .#{$ds}button {
+        width: auto;
+    }
+}
+.banner-item-html_content {
+    ::ng-deep {
+        a,
+        a:hover,
+        a:focus-visible {
+            // color: $banner-default-html-link-color;
+            text-decoration: underline;
+        }
+        .#{$ds}button,
+        .#{$ds}button:hover,
+        .#{$ds}button:focus-visible {
+            // color: $banner-default-html-button-color;
+            text-decoration: none;
+        }
+        .#{$ds}button:focus-visible {
+            outline-color: $banner-default-html-button-focus-color;
+            box-shadow: none;
+            outline-offset: $banner-default-html-button-focus-outline-offset;
+        }
+    }
+}
+
+// html content
+.banner-item_caption_title {
+    font-size: $banner-default-html-caption-title-fontsize;
+    line-height: $banner-default-html-caption-title-lineheight;
+    font-weight: $banner-default-html-caption-title-fontweight;
+    color: $banner-default-html-caption-title-color;
+    ::ng-deep small {
+        display: block;
+        font-size: $banner-default-html-caption-title-small-fontsize;
+        line-height: 1;
+    }
+}
+.banner-item_caption_subtitle {
+    font-size: $banner-default-html-caption-subtitle-fontsize;
+    line-height: $banner-default-html-caption-subtitle-lineheight;
+    font-weight: $banner-default-html-caption-subtitle-fontweight;
+    color: $banner-default-html-caption-subtitle-color;
+    margin: $banner-default-html-caption-subtitle-margin;
+}
+.banner-item_caption_text {
+    font-size: $banner-default-html-caption-text-fontsize;
+    line-height: $banner-default-html-caption-text-lineheight;
+    color: $banner-default-html-caption-text-color;
+    font-weight: $banner-default-html-caption-text-fontweight;
+    margin: $banner-default-html-caption-text-margin;
+}
+.banner-item_caption_footnote {
+    font-size: $banner-default-html-caption-footnote-fontsize;
+    line-height: $banner-default-html-caption-footnote-lineheight;
+    color: $banner-default-html-caption-footnote-color;
+    font-weight: $banner-default-html-caption-footnote-fontweight;
+    margin: $banner-default-html-caption-footnote-margin;
+}
+
+// Responsive
+@media #{$banner-default-breakpoint-min} {
+    // html content
+    .banner-item-html {
+        --banner-default-html-caption-title-fontsize: var(--f-size-xx-large);
+        --banner-default-html-caption-title-small-fontsize: var(--f-size-x-huge);
+        --banner-default-html-caption-subtitle-fontsize: var(--f-size);
+    }
+    .banner-item_caption_text {
+        --banner-default-html-caption-text-fontsize: var(--f-size);
+    }
+}

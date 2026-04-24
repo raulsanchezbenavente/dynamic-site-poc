@@ -1,0 +1,49 @@
+@let isMobile = isResponsive();
+@let titleId = navTitleId();
+@let menuId = navMenuId();
+@let collapsed = isCollapsed();
+@let currentData = data();
+@let isResponsiveData = isResponsive();
+
+<div
+    class="main-footer-nav"
+    [class.collapsible]="isResponsiveData">
+    @if (isMobile) {
+        <button
+            class="main-footer-nav_title"
+            [id]="titleId"
+            [attr.aria-expanded]="!collapsed"
+            [attr.aria-controls]="menuId"
+            (click)="collapseNav()">
+            <span class="button_label">{{ currentData.title }}</span>
+        </button>
+    } @else {
+        <div
+            class="main-footer-nav_title"
+            [id]="titleId">
+            {{ currentData.title }}
+        </div>
+    }
+    @if (!collapsed) {
+        <ul
+            class="main-footer-nav_menu"
+            [id]="menuId"
+            [attr.aria-hidden]="isMobile ? collapsed : null"
+            [@collapseAnimation]="collapsed ? 'closed' : 'open'"
+            [attr.aria-labelledby]="titleId">
+            @for (item of currentData.items; track item; let index = $index) {
+                <li class="main-footer-nav_menu_item">
+                    <a
+                        accessibleLink
+                        class="main-footer-nav_menu_item_link"
+                        [link]="{
+                            url: item.url,
+                            target: item.target ?? null,
+                        }">
+                        <span class="link-label">{{ item.title }}</span>
+                    </a>
+                </li>
+            }
+        </ul>
+    }
+</div>

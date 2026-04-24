@@ -1,0 +1,8 @@
+@if (showHintMessages() && hintMessage() && !isErrorBeingDisplayed) {
+    <div
+        class="rf-field-message"
+        [id]="id()"
+        [ngClass]="classes()?.message || ''">
+        {{ hintMessage() }}
+    </div>
+}

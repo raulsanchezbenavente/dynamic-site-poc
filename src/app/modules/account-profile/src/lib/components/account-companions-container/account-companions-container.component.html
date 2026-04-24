@@ -1,0 +1,56 @@
+@let configData = config();
+@let frequentCompanionsTitleId = 'companionsTitleId';
+
+<div
+    data-toast-slot="panel"
+    [id]="'accountCompanionsToast_Id'"></div>
+
+<panel [config]="parentPanelsConfig">
+    <panel-header>
+        <h2
+            panelTitle
+            [id]="frequentCompanionsTitleId">
+            {{ config().companionsFormConfig.title || translationKeys.AccountProfile_CompanionsForm_Title | translate }}
+        </h2>
+        <div
+            panelDescription
+            [innerHTML]="
+                config().companionsFormConfig.description || translationKeys.AccountProfile_CompanionsForm_Description
+                    | translate
+            "></div>
+    </panel-header>
+
+    @if (data().length) {
+        <div panelContent>
+            <div class="account-profile-summaries">
+                @for (item of data(); track $index; let index = $index) {
+                    <account-companions
+                        #accountCompanion
+                        [formName]="formsNames().get('account-companions')! + index"
+                        [title]="companionTitles[index]"
+                        [parentLabelledById]="frequentCompanionsTitleId"
+                        [ownLabelledById]="'accountCompanionsTitleId_' + index"
+                        [culture]="configData.culture"
+                        [genderOptions]="configData.genderOptions"
+                        [hideEditButton]="configData.hideEditButton"
+                        [countryOptions]="configData.countryOptions"
+                        (cancelForm)="cancelCompanion($event, index)"
+                        (updateAccountCompanionsInfo)="onUpdateAccountCompanionsInfo($event, $index)"
+                        (focusEdit)="focusEditAction($event)" />
+                }
+            </div>
+        </div>
+    }
+    <div
+        panelFooter
+        [ngStyle]="{
+            display: !(data().length < maxCompanions && areAllCompanionsInSummaryView()) ? 'none' : null,
+        }">
+        @if (!configData.hideContainerAddButton) {
+            <ds-button
+                #buttonAdd
+                [config]="addButtonCompanion()"
+                (click)="addCompanion($event)" />
+        }
+    </div>
+</panel>

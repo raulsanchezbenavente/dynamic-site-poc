@@ -1,0 +1,30 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.rf-animated-label_label {
+    @include ellipsis($width: var(--rf-animated-label-width, 90%));
+
+    pointer-events: none;
+    z-index: 1; // to be on top of the form-control
+    position: absolute;
+    top: var(--rf-animated-label-top-position, calculateRem(21px));
+    left: var(--rf-animated-label-padding-left, var(--rf-field-control-pad-left));
+    font-size: var(--rf-animated-label-font-size, var(--f-size-small));
+    color: var(--rf-animated-label-color, var(--c-text-secondary));
+    box-sizing: border-box;
+    cursor: var(--rf-animated-label-cursor, default);
+    transition: all 0.1s ease;
+    line-height: var(--f-line-height-large);
+}
+.rf-animated-label--error {
+    --rf-animated-label-color: var(--rf-field-control-label-color-error);
+}
+.rf-animated-label--disabled {
+    --rf-animated-label-color: var(--rf-field-control-disabled-color);
+}
+.rf-animated-label--on-top {
+    top: var(--rf-animated-label-top-position-active, calculateRem(12px));
+    font-size: var(--rf-animated-label-top-font-size, var(--f-size-tiny));
+}

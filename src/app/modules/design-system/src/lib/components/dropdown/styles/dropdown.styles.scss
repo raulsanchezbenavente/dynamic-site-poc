@@ -1,0 +1,200 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use './dropdown-vars.styles' as *;
+
+// -------
+// STYLES
+// -------
+.#{$ds}dropdown {
+    --#{$ds}dropdown-content-minwidth: #{calculateRem(180px)};
+    --#{$ds}dropdown-content-maxheight: #{calculateRem(221px)};
+
+    position: relative;
+
+    // options list inside dropdown
+    .#{$ds}options-list {
+        margin: 0 calc(var(--#{$ds}dropdown-content-padding-x) / -1);
+    }
+    .#{$ds}options-list_list {
+        width: 100%;
+    }
+
+    // dropdown type with apply button
+    .#{$ds}dropdown_actions {
+        @include dropdown-remove-content-y-padding;
+
+        display: flex;
+        justify-content: center;
+        padding: $dropdown-actions-padding;
+        margin-top: #{calculateRem(12px)};
+        box-shadow: $dropdown-actions-box-shadow;
+    }
+}
+.#{$ds}dropdown_trigger {
+    --icon-fontsize: #{$dropdown-trigger-icon-fontsize};
+
+    @include collapse-trigger-flex($dropdown-trigger-arrow-fontsize, $dropdown-trigger-arrow-color, right);
+
+    display: flex;
+    align-items: center;
+    gap: $dropdown-trigger-gap;
+    color: $dropdown-trigger-color;
+    font-size: $dropdown-trigger-fontsize;
+    min-height: $dropdown-trigger-min-height;
+    font-weight: $dropdown-trigger-fontweight;
+    text-align: var(--#{$ds}dropdown-trigger-textalign, left);
+    line-height: var(--#{$ds}dropdown-trigger-lineheight, 1);
+    box-sizing: border-box;
+    padding: $dropdown-trigger-padding;
+    background: $dropdown-trigger-background-color;
+    border-radius: $dropdown-trigger-border-radius;
+}
+.#{$ds}dropdown_trigger--active {
+    .#{$ds}dropdown_trigger_label {
+        @include hide-visually;
+    }
+}
+.#{$ds}dropdown_content {
+    // Prevent touch events from interfering with scroll gestures on mobile
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    -webkit-tap-highlight-color: transparent;
+
+    @include dropdown-content-style;
+
+    // Optimize menu items for touch devices
+    .#{$ds}options-list_item_option {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+}
+.#{$ds}dropdown_trigger_inner {
+    flex: 1 1 100%;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+}
+
+// Dropdown layout types
+@mixin dropdown-style-pills {
+    --#{$ds}dropdown-trigger-fontweight: #{$dropdown-style-pills-trigger-fontweight};
+    --#{$ds}dropdown-trigger-min-height: #{$dropdown-style-pills-trigger-min-height};
+    --#{$ds}dropdown-trigger-padding: #{$dropdown-style-pills-trigger-padding};
+    --#{$ds}dropdown-trigger-border-radius: #{$dropdown-style-pills-trigger-border-radius};
+    --#{$ds}dropdown-trigger-background-color: #{$dropdown-style-pills-trigger-background-color};
+
+    .#{$ds}dropdown_trigger {
+        white-space: nowrap;
+        box-shadow: inset 0 0 0 $dropdown-style-pills-trigger-border-width $dropdown-style-pills-trigger-border-color;
+
+        // Optimize touch interactions
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        &:hover {
+            --#{$ds}dropdown-trigger-background-color: var(--color-21);
+        }
+        &[disabled],
+        &[aria-disabled='true'] {
+            cursor: default;
+        }
+        &.#{$ds}dropdown_trigger--active {
+            // need the specificity and must be after aria-expanded styles
+            --#{$ds}dropdown-trigger-color: #{$dropdown-style-pills-trigger-color-active};
+            --#{$ds}dropdown-trigger-background-color: #{$dropdown-style-pills-trigger-background-color-active};
+            --#{$ds}dropdown-style-pills-trigger-border-width: #{$dropdown-style-pills-trigger-border-width-active};
+            --#{$ds}dropdown-style-pills-trigger-border-color: #{$dropdown-style-pills-trigger-border-color-active};
+        }
+    }
+    .#{$ds}dropdown_trigger_value {
+        font-weight: $dropdown-style-pills-trigger-value-fontweight;
+    }
+
+    // Only apply :active styles on devices with precise hover (mouse)
+    @media (hover: hover) and (pointer: fine) {
+        .#{$ds}dropdown_trigger:active {
+            --#{$ds}dropdown-trigger-background-color: var(--c-color3);
+        }
+    }
+
+    // For touch devices, use focus-visible and disable problematic :active
+    @media (hover: none) and (pointer: coarse) {
+        .#{$ds}dropdown_trigger {
+            &:active {
+                --#{$ds}dropdown-trigger-background-color: transparent;
+            }
+            &:focus-visible {
+                --#{$ds}dropdown-trigger-background-color: var(--c-color3);
+            }
+        }
+
+        @supports (hanging-punctuation: first) and (font: -apple-system-body) and (-webkit-appearance: none) {
+            .#{$ds}dropdown_trigger {
+                &:focus-visible {
+                    outline: 0;
+                }
+            }
+        }
+    }
+}
+
+@mixin dropdown-style-square {
+    --#{$ds}dropdown-trigger-min-height: #{$dropdown-style-square-trigger-min-height};
+    --#{$ds}dropdown-trigger-padding: #{$dropdown-style-square-trigger-padding};
+    --#{$ds}dropdown-trigger-border-radius: #{$dropdown-style-square-trigger-border-radius};
+    --#{$ds}dropdown-trigger-background-color: #{$dropdown-style-square-trigger-background-color};
+
+    .#{$ds}dropdown_trigger {
+        --icon-fontsize: #{$dropdown-style-square-trigger-icon-fontsize};
+
+        box-shadow: $dropdown-style-square-trigger-box-shadow;
+        box-sizing: border-box;
+    }
+}
+
+// .dropdown-layout-- : default, pills, square
+.#{$ds}dropdown-layout--pills {
+    @include dropdown-style-pills;
+}
+.#{$ds}dropdown-layout--square {
+    @include dropdown-style-square;
+}
+
+// always visible dropdown
+.#{$ds}dropdown-layout--always-visible {
+    --#{$ds}dropdown-multiselect-content-maxheight: none;
+    --#{$ds}dropdown-content-maxheight: 100%;
+    --#{$ds}dropdown-content-background: none;
+    --#{$ds}dropdown-content-box-shadow: none;
+    --#{$ds}dropdown-content-border-radius: 0;
+    --#{$ds}dropdown-content-margin-top: 0;
+    --#{$ds}dropdown-content-padding-x: 0;
+    --#{$ds}dropdown-content-position-left: 0;
+    --#{$ds}dropdown-content-position-right: 0;
+    --#{$ds}dropdown-item-background-hover: none;
+
+    .#{$ds}options-list_list {
+        width: 100%;
+    }
+    .#{$ds}dropdown_trigger--active .#{$ds}dropdown_trigger_label {
+        @include hide-visually('unhide');
+    }
+    .#{$ds}dropdown_trigger_label {
+        font-size: $dropdown-always-visible-trigger-label-fontsize;
+        font-weight: $dropdown-always-visible-trigger-label-fontweight;
+    }
+    .#{$ds}dropdown_trigger {
+        pointer-events: none;
+        cursor: pointer;
+        margin: $dropdown-always-visible-trigger-margin;
+
+        // remove collapsible arrow from trigger
+        &::after {
+            display: none;
+        }
+    }
+    .#{$ds}dropdown_content {
+        position: relative;
+        top: 0;
+    }
+}

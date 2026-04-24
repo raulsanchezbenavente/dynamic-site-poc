@@ -1,0 +1,65 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: block;
+    width: 100%;
+}
+.schedule-graphic {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    // dot line
+    &::before,
+    &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        border-top: 1px dashed var(--c-border-darker);
+        transform: translateY(-50%);
+        width: calc(50% - calculateRem(14px)); // 14px to give an space gap betweeen line and icon
+    }
+    &::before {
+        left: 0;
+    }
+    &::after {
+        right: 0;
+    }
+}
+.schedule-graphic_line {
+    // circles
+    &::before,
+    &::after {
+        z-index: 2;
+        position: absolute;
+        top: 50%;
+        content: '';
+        display: block;
+        width: var(--schedule-graphic-line-circle-size, calculateRem(6px));
+        height: var(--schedule-graphic-line-circle-size, calculateRem(6px));
+        border-radius: 50%;
+        transform: translateY(-50%);
+        background-color: var(--c-tertiary-darker);
+    }
+    &::before {
+        left: 0;
+    }
+    &::after {
+        right: 0;
+    }
+}
+.schedule-graphic_plane,
+.schedule-graphic_stop {
+    @include iconfont(var(--schedule-graphic-icon, $icon-airplane-right));
+
+    position: relative;
+    display: inline-flex;
+    font-size: var(--f-size-large);
+}
+.schedule-graphic_stop {
+    --schedule-graphic-icon: #{$icon-stop};
+}

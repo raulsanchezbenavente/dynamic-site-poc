@@ -1,0 +1,74 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../components/schedule/styles/schedule.style.scss' as *;
+@use '../../../../journey-selection/styles/journey-selection-vars.styles.scss' as bp;
+
+// -------
+// VARIABLES
+// -------
+$selection-schedule-layout-breakpoint: bp.$journey-selection-layout-breakpoint;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    --schedule-time-fontsize: #{calculateRem(22px)}; // TODO: token
+    --schedule-iata-fontsize: var(--f-size-medium);
+    --schedule-iata-fontweight: var(--f-weight-bold);
+    --schedule-connection-duration-gap: #{calculateRem(4px)};
+    --schedule-extra-day-fontsize: var(--f-size-small);
+}
+.schedule-item {
+    gap: calculateRem(7px);
+}
+
+// connections and duration time
+.schedule_connection {
+    &::after {
+        display: none;
+    }
+}
+.schedule_duration {
+    font-weight: var(--f-weight-bold);
+}
+
+// Responsive
+@media (min-width: $selection-schedule-layout-breakpoint) {
+    :host {
+        --schedule-time-fontsize: #{calculateRem(34px)}; // TODO: token
+        --schedule-iata-fontsize: var(--f-size-medium);
+    }
+    .schedule_connection-duration {
+        position: relative;
+        flex-direction: column;
+        margin-top: calculateRem(-8px); // use margin top so it has its space
+    }
+    .schedule_duration {
+        position: relative;
+        top: calculateRem(8px);
+    }
+}
+
+// hide visually iata code on small screens
+@media (max-width: ($selection-schedule-layout-breakpoint - 1)) {
+    :host {
+        --schedule-connection-duration-gap: #{$spacer-small};
+    }
+    .schedule_iata {
+        @include hide-visually;
+    }
+    .schedule-details {
+        top: calculateRem(-10px);
+    }
+    .schedule_connection-duration {
+        flex-wrap: wrap;
+    }
+    .schedule-graphic-line {
+        flex-direction: 0 0 100%;
+        order: 6;
+        ::ng-deep {
+            .schedule-graphic_icon {
+                display: none;
+            }
+        }
+    }
+}

@@ -1,0 +1,125 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// VARIABLES
+// -------
+:host ::ng-deep {
+    --rf-switch-width: #{calculateRem(40px)};
+    --rf-switch-height: #{calculateRem(20px)};
+    --rf-switch-padding: #{calculateRem(1px)};
+    --rf-switch-margin: #{$spacer-small};
+    --rf-switch-top: #{calculateRem(1px)};
+    --rf-switch-border-radius: calc(var(--rf-switch-height) / 2);
+    --rf-switch-bg-color-off: var(--c-color2);
+    --rf-switch-bg-color-on: var(--c-active);
+
+    // thumb
+    --rf-switch-thumb-size: calc(var(--rf-switch-height) - (var(--rf-switch-padding) * 2));
+    --rf-switch-thumb-box-shadow: 0 0 #{calculateRem(6px)} rgba(var(--c-color2-rgb), 0.2);
+    --rf-switch-thumb-bg-color: var(--c-white);
+}
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: inline-flex;
+    flex-direction: column;
+    position: relative;
+}
+.rf-switch-inner {
+    display: flex;
+    user-select: none;
+}
+
+// Label
+.rf-switch_label {
+    position: relative;
+    cursor: pointer;
+    padding-left: calc(var(--rf-switch-width) + var(--rf-switch-margin));
+    display: flex;
+    align-items: center;
+    min-height: var(--rf-switch-height);
+
+    // track
+    &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: var(--rf-switch-top);
+        width: var(--rf-switch-width);
+        height: var(--rf-switch-height);
+        background-color: var(--rf-switch-bg-color-off);
+        border-radius: var(--rf-switch-border-radius);
+        transition: background-color 0.2s ease-in-out;
+    }
+
+    // thumb
+    &::after {
+        content: '';
+        position: absolute;
+        left: var(--rf-switch-padding);
+        top: calc(var(--rf-switch-top) + var(--rf-switch-padding));
+        width: var(--rf-switch-thumb-size);
+        height: var(--rf-switch-thumb-size);
+        background-color: var(--rf-switch-thumb-bg-color);
+        border-radius: 50%;
+        transition: 0.2s ease-in-out;
+        transition-property: left, box-shadow;
+    }
+
+    // hover
+    &:hover {
+        // thumb
+        &::after {
+            box-shadow: var(--rf-switch-thumb-box-shadow);
+        }
+    }
+
+    // readonly and disabled
+    &.is-readonly,
+    &.is-disabled {
+        --rf-switch-bg-color-off: var(--c-color3);
+        --rf-switch-bg-color-on: var(--c-color19);
+
+        cursor: default;
+        pointer-events: none;
+    }
+}
+
+// Input
+.rf-switch_input {
+    position: absolute;
+    opacity: 0; // Hide native input
+    cursor: pointer;
+    height: 0;
+    width: 0;
+    z-index: -1;
+
+    // Focus
+    &:focus-visible + .rf-switch_label {
+        // track
+        &::before {
+            --accessibility-outline-border-radius: var(--rf-switch-border-radius);
+
+            @include accessibility-outline;
+        }
+
+        // thumb
+        &::after {
+            box-shadow: var(--rf-switch-thumb-box-shadow);
+        }
+    }
+
+    // Checked
+    &:checked + .rf-switch_label {
+        // track
+        &::before {
+            background-color: var(--rf-switch-bg-color-on);
+        }
+
+        // thumb
+        &::after {
+            left: calc(var(--rf-switch-width) - var(--rf-switch-thumb-size) - var(--rf-switch-padding));
+        }
+    }
+}

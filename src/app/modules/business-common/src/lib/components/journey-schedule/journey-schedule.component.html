@@ -1,0 +1,51 @@
+@let journeyData = data();
+
+<div class="journey-schedule_header">
+    <div class="journey-schedule_header-content">
+        <div class="journey-schedule_header-info">
+            <div
+                class="journey-schedule_route"
+                [attr.id]="'scheduleTitleId_' + journeyData.id">
+                <span class="hide-visually text-space-gap">
+                    @if (isReturnType()) {
+                        {{ commonTranslationKeys.Common_Return | translate }}:
+                    } @else {
+                        {{ commonTranslationKeys.Common_Departure | translate }}:
+                    }
+                </span>
+                {{ translationKeys.City_KeyNode + journeyData.origin.iata | translate }}
+
+                {{ commonTranslationKeys.Common_To | translate }}
+
+                @if (
+                    journeyData.status === journeyStatus.DIVERTED &&
+                    journeyData.destination.iata !== journeyData.destination.iataOperation
+                ) {
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iata | translate }}
+                    ({{ commonTranslationKeys.Common_Rerouted_Label | translate }}
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iataOperation | translate }})
+                } @else {
+                    {{ translationKeys.City_KeyNode + journeyData.destination.iata | translate }}
+                }
+            </div>
+            @if (journeyDateConfig) {
+                <div class="journey-schedule_date">
+                    <date-display [config]="journeyDateConfig" />
+                </div>
+            }
+        </div>
+    </div>
+    @if (journeyData.status) {
+        <div class="journey-schedule_header-status">
+            <span class="hide-visually text-space-gap">
+                {{ commonTranslationKeys.Common_FlightStatus | translate }}:
+            </span>
+            <journey-status-tag [status]="journeyData.status" />
+        </div>
+    }
+</div>
+<div class="journey-schedule_content">
+    <schedule
+        [data]="journeyData"
+        [config]="config().scheduleConfig" />
+</div>

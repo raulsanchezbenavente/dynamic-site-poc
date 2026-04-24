@@ -1,0 +1,73 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// common styles
+@use '../../common/styles/rf-common-checkbox-radio.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+// Checkbox styles share rules with radio styles
+// located at: common/rf-common-checkbox-radio.styles.scss
+::ng-deep :root {
+    --checkbox-ripple-scale: 3.5;
+    --checkbox-ripple-mid-scale: (var(--checkbox-ripple-scale) - 1.5);
+    --checkbox-ripple-background: rgba(35, 200, 71, 0.2);
+}
+
+// Ripple animation keyframes
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 1;
+    }
+    18% {
+        transform: scale(var(--checkbox-ripple-mid-scale), var(--checkbox-ripple-mid-scale));
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+        transform: scale(var(--checkbox-ripple-scale), var(--checkbox-ripple-scale));
+    }
+}
+:host {
+    // Position the validation message absolutely relative to its input field
+    position: relative;
+}
+.rf-checkbox-radio_input[type='checkbox'] {
+    + .rf-checkbox-radio_label {
+        &::before {
+            border-radius: var(--rf-checkbox-radio-border-radius);
+        }
+
+        // Ripple effect on ::after - override common styles
+        &::after {
+            content: '';
+            top: 0;
+            left: 0;
+            width: var(--rf-checkbox-radio-size);
+            height: var(--rf-checkbox-radio-size);
+            border-radius: 50%;
+            box-sizing: border-box;
+            transform: scale(0);
+            opacity: 0;
+            background-color: var(--checkbox-ripple-background);
+            transition: none;
+            padding: 0;
+        }
+    }
+
+    // When checkbox is checked ::before show the checkmark icon and ::after show the ripple effect
+    &:checked + .rf-checkbox-radio_label {
+        @include iconfont($icon-check, before);
+        &::before {
+            font-size: var(--f-size-small);
+            padding: calculateRem(2px) 0;
+            line-height: 1;
+            font-weight: var(--f-weight-normal);
+            text-align: center;
+        }
+        &::after {
+            animation: ripple 0.7s ease-out;
+        }
+    }
+}

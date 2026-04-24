@@ -1,0 +1,164 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use './check-in-passenger-list-vars.styles.scss' as wciPaxListBreakpoints;
+
+$wci-pax-elements-gap: $spacer-small;
+$wci-pax-col-button-width: calculateRem(132px);
+$wci-pax-col-seat-width: calculateRem(90px);
+
+// VARIABLES
+::ng-deep :root {
+    --wci-pax-padding-left: #{calculateRem(28px)};
+}
+
+// STYLES
+:host {
+    display: block;
+    padding: 0 var(--panel-padding);
+}
+.wci-pax-list_list {
+    display: flex;
+    flex-direction: column;
+}
+.wci-pax-list_item-extra-info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-tiny;
+    color: var(--c-text-secondary);
+    font-size: var(--f-size-small);
+    line-height: var(--f-line-height-large);
+    padding-left: var(--wci-pax-padding-left);
+}
+.wci-pax-list_item {
+    --checkbox-label-color: var(--c-text);
+
+    border-bottom: calculateRem(1px) solid var(--c-border);
+    padding: $spacer-large 0 $spacer-large $spacer-x-large;
+    &:last-child {
+        border: 0;
+    }
+}
+
+// pax info (name/seat) + pax extra info
+.wci-pax-list_item-info-wrapper {
+    flex: 1 1 100%;
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(8px);
+}
+.wci-pax-list_item-inner {
+    display: flex;
+    flex-direction: column;
+    gap: $wci-pax-elements-gap 0;
+}
+
+// pax name + seat
+.wci-pax-list_item-info {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: $spacer-tiny;
+    justify-content: space-between;
+}
+.wci-pax-list_item-name {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: center;
+    gap: $wci-pax-elements-gap;
+    font-weight: var(--f-weight-bold);
+}
+.wci-pax-list_item-seat {
+    flex: 0 0 auto;
+}
+.wci-pax-list_item-button {
+    // controls seat alignment in the passenger list; adjust this based on button text length to maintain visual consistency
+    flex: 0 0 auto;
+    min-width: $wci-pax-col-button-width;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+// states and modifiers
+// checked in, not allowed, has no shown seat
+.wci-pax-list_item--checkedin,
+.wci-pax-list_item--notallowed {
+    .wci-pax-list_item-name {
+        @include iconfont($icon-check-circle-filled, before, var(--c-active));
+
+        // pax checkin status icon
+        &::before {
+            font-size: var(--f-size-large);
+        }
+    }
+}
+.wci-pax-list_item--notallowed {
+    .wci-pax-list_item-inner {
+        flex-wrap: wrap; // "Not allowed" message should appear below the details section
+    }
+    .wci-pax-list_item-name {
+        // status icon
+        &::before {
+            content: $icon-error-circle-filled;
+            color: var(--c-warning);
+        }
+    }
+}
+.wci-pax-list_item--no-seat {
+    .wci-pax-list_item-info-wrapper {
+        max-width: 100%;
+    }
+}
+.wci-pax-list_item-pax-name {
+    font-weight: var(--f-weight-bold);
+}
+.wci-pax-list_item-pax-seats {
+    @include iconfont($icon-seat-airplane, before);
+
+    display: flex;
+    align-items: center;
+    gap: $spacer-tiny;
+    font-size: var(--f-size-small);
+    line-height: var(--f-line-height-large);
+
+    // seat icon
+    &::before {
+        font-size: var(--f-size-large);
+    }
+}
+.wci-pax-list_item-message {
+    flex: 0 0 100%;
+    font-size: var(--f-size-small);
+    line-height: var(--f-line-height-large);
+    padding-left: var(--wci-pax-padding-left);
+    box-sizing: border-box;
+}
+
+.wci-pax-list_item-message--not-eligible {
+    color: var(--c-text-secondary);
+    font-size: var(--f-size-small);
+    margin-top: #{$spacer-small};
+    padding-left: #{$spacer-x-x-large};
+}
+// [Responsive]
+@media #{wciPaxListBreakpoints.$wci-pax-list-breakpoint-min} {
+    ::ng-deep :root {
+        --wci-pax-padding-left: #{$pad-x-x-large};
+    }
+    .wci-pax-list_item {
+        padding-left: calculateRem(24px);
+    }
+    .wci-pax-list_item-inner {
+        display: grid;
+        grid-template-columns: calc(48% + #{$wci-pax-col-seat-width}) 1fr; // keep this value so seat keeps centered between name and button
+    }
+    .wci-pax-list_item-seat {
+        // Sets the minimum width to vertically align seat elements — optimized for layouts with up to 2 assigned seats
+        min-width: $wci-pax-col-seat-width;
+    }
+}
+
+@media #{wciPaxListBreakpoints.$wci-pax-list-breakpoint-max} {
+    .wci-pax-list_item-button {
+        --ds-btn-width: 100%;
+    }
+}

@@ -1,0 +1,11 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+// @use 'design-system/assets/sass/' as *;
+
+// -------
+// STYLES
+// -------
+:host ::ng-deep {
+    .#{$ds}options-list_item:last-child {
+        @include dropdown-divisor-line;
+    }
+}

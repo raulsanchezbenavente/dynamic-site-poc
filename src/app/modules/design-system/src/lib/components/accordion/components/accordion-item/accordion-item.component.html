@@ -1,0 +1,25 @@
+<div
+    class="ds-accordion-item_header"
+    [id]="config().id">
+    <button
+        class="ds-accordion-item_trigger"
+        [attr.aria-expanded]="!collapsed()"
+        [attr.aria-controls]="config().id"
+        (click)="toggleCollapse()">
+        <span class="ds-accordion-item_trigger_title">
+            {{ config().title }}
+        </span>
+    </button>
+</div>
+@if (!collapsed()) {
+    <div
+        role="region"
+        [id]="config().id"
+        [@collapseAnimation]="collapsed()">
+        <div class="ds-accordion-item_body">
+            <div
+                class="ds-accordion-item_body_content"
+                [innerHtml]="config().itemContent"></div>
+        </div>
+    </div>
+}

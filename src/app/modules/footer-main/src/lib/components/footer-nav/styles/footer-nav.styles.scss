@@ -1,0 +1,82 @@
+/* stylelint-disable rule-empty-line-before */
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.main-footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-x-large;
+    font-size: var(--main-footer-nav-fontsize, var(--f-size-small));
+    color: var(--main-footer-nav-color, var(--c-white));
+}
+.main-footer-nav_title {
+    position: relative;
+    font-weight: var(--f-weight-bold);
+    font-size: var(--f-size);
+
+    &[aria-expanded] {
+        @include collapse-trigger-flex(var(--f-size-x-large), inherit, right);
+    }
+}
+.main-footer-nav_menu {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-small;
+
+    .main-footer-nav_menu_item_link {
+        --accessible-link-gap: #{calculateRem(8px)};
+
+        color: var(--main-footer-nav-menu-link-color, var(--c-text-light));
+        text-decoration: none;
+        position: relative;
+        font-size: var(--f-size-small);
+
+        // external and/or blank links icon
+        &::after {
+            font-size: var(--f-size-small);
+        }
+
+        &:hover,
+        &:active {
+            font-weight: var(--f-weight-bold);
+        }
+        &:hover {
+            color: inherit;
+            .link-label {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+// [Responsive]
+@media #{$mobile} {
+    .main-footer-nav {
+        gap: $spacer-x-large;
+    }
+    .main-footer-nav_title {
+        &[aria-expanded] {
+            // Remove collapse icon on tablet+
+            &::after {
+                display: none;
+            }
+        }
+    }
+}
+
+@media #{$tablet-portrait} {
+    .main-footer-nav_title {
+        font-size: var(--f-size-medium);
+    }
+    .main-footer-nav_menu {
+        .main-footer-nav_menu_item_link {
+            font-size: var(--f-size-medium);
+
+            &::after {
+                font-size: var(--f-size-small);
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+  "extends": "../tsconfig.lib.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "rootDir": "../../.."
+  },
+  "exclude": [
+    "../src/test.ts",
+    "../src/**/*.spec.ts"
+  ],
+  "include": [
+    "../src/**/*",
+    "./preview.ts",
+    "../../design-system/.storybook/i18n/**/*",
+    "../../design-system/.storybook/utils/**/*",
+    "../../business-common/.storybook/session/**/*"
+  ],
+  "files": [
+    "./typings.d.ts"
+  ]
+}

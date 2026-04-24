@@ -1,0 +1,12 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.ip-input-text {
+    width: calculateRem(70px);
+}
+.ip-input-text-dot {
+    line-height: 1;
+    padding: calculateRem(3px);
+}

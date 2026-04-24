@@ -1,0 +1,49 @@
+@let isLoadedData = isLoaded();
+
+@if (isLoadedData) {
+    <panel [config]="mainPanelConfig">
+        <panel-header>
+            <h2 panelTitle>
+                {{ config().title }}
+            </h2>
+            <div panelDescription>
+                {{ config().description }}
+            </div>
+        </panel-header>
+        <div panelContent>
+            <div class="loyalty-status-overview_items">
+                <div class="loyalty-status-overview_item loyalty-status-overview_item--current">
+                    <loyalty-status-benefits [data]="currentTier" />
+                </div>
+                @if (nextTier()) {
+                    <div class="loyalty-status-overview_item loyalty-status-overview_item--next">
+                        <loyalty-status-benefits [data]="nextTier" />
+                    </div>
+                }
+            </div>
+
+            <div class="loyalty-status-overview_discover">
+                <panel [config]="discoverPanelConfig">
+                    <panel-header>
+                        <h2 panelTitle>
+                            @if (config().discover.icon) {
+                                <span panelIcon>
+                                    <icon [config]="config().discover.icon!"></icon>
+                                </span>
+                            }
+                            {{ config().discover.title }}
+                        </h2>
+                        <div panelDescription>
+                            {{ config().discover.description }}
+                        </div>
+                        <div panelHeaderAside>
+                            <ds-button [config]="discoverButtonConfig"></ds-button>
+                        </div>
+                    </panel-header>
+                </panel>
+            </div>
+        </div>
+    </panel>
+} @else {
+    <p>Loading....</p>
+}

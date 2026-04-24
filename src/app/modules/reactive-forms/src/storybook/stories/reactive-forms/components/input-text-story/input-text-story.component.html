@@ -1,0 +1,238 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">Input Text / Icon left / Hint message / Validation / Aria labelledby</div>
+            <rf-input-text
+                formControlName="surname"
+                [type]="RfInputTypes.TEXT"
+                [name]="'surname'"
+                [autocomplete]="autocompleteTypes.LAST_NAME"
+                [leftIcon]="'user'"
+                [hintMessages]="'Enter a valid surname'"
+                [errorMessages]="errorMessages"
+                [animatedLabel]="'Surname'"
+                [ariaLabelledBy]="'labelled-surname'"
+                [inputPattern]="spanishOnlyLetters"
+                (blurInputText)="onBlur($event)" />
+
+            <div hoverOpacity>
+                <em id="labelled-surname">Enter the surname</em>
+            </div>
+            <div id="notification-container"></div>
+
+            <button
+                class="button-change"
+                (click)="changeValidation()">
+                Change async validator (current status is: <b>{{ isBlocked() }}</b
+                >)
+            </button>
+
+            <div class="stbook-title">Input Text / Password / Validation</div>
+            <rf-input-text
+                formControlName="password"
+                [type]="RfInputTypes.PASSWORD"
+                [name]="'password'"
+                [autocomplete]="autocompleteTypes.ON"
+                [placeholder]="'Place your password'"
+                [errorMessages]="errorMessages"
+                [animatedLabel]="'Password'"
+                [messages]="{ showPassword: 'Show password', hidePassword: 'Hide password' }" />
+
+            <div class="stbook-title">Input Text / Icon left & right / Validation</div>
+            <rf-input-text
+                formControlName="address"
+                [type]="RfInputTypes.TEXT"
+                [name]="'address'"
+                [autocomplete]="autocompleteTypes.ADDRESS"
+                [leftIcon]="'home'"
+                [rightIcon]="'user'"
+                [placeholder]="'Place your address'"
+                [errorMessages]="errorMessages"
+                [animatedLabel]="'Address'" />
+
+            <div class="stbook-title">Input Text / Email validation</div>
+            <rf-input-text
+                formControlName="email"
+                [name]="'email'"
+                [autocomplete]="autocompleteTypes.EMAIL"
+                [animatedLabel]="'Email'"
+                [errorMessages]="errorMessages" />
+
+            <div class="stbook-title">Input Text / Number</div>
+            <rf-input-text
+                formControlName="zip"
+                [type]="RfInputTypes.NUMBER"
+                [name]="'zip'"
+                [autocomplete]="autocompleteTypes.POSTAL_CODE"
+                [animatedLabel]="'Zip'"
+                [leftIcon]="'language'" />
+
+            <div class="stbook-title">Input Text / Range</div>
+            <rf-input-text
+                formControlName="range"
+                [type]="RfInputTypes.RANGE"
+                [name]="'range'"
+                [autocomplete]="autocompleteTypes.ON"
+                [animatedLabel]="'Range'" />
+
+            <div class="stbook-title">Input Text / Readonly</div>
+            <rf-input-text
+                formControlName="idcard"
+                [name]="'idcard'"
+                [autocomplete]="autocompleteTypes.ON"
+                [animatedLabel]="'Id card'"
+                [leftIcon]="'user'"
+                [hintMessages]="'Hint message'"
+                [readonly]="true" />
+
+            <div class="stbook-title">Input Text / Disabled</div>
+            <rf-input-text
+                formControlName="countryDisabled"
+                [name]="'country'"
+                [autocomplete]="autocompleteTypes.ON"
+                [animatedLabel]="'Country'"
+                [leftIcon]="'user'"
+                [hintMessages]="'Hint message'" />
+            <br />
+
+            <div class="stbook-title">Input Text / Custom classes / Validation</div>
+            <rf-input-text
+                formControlName="city"
+                [name]="'city'"
+                [autocomplete]="autocompleteTypes.CITY"
+                [placeholder]="'Put your text here'"
+                [errorMessages]="errorMessages"
+                [classes]="{
+                    input: 'custom-class-input-text-example',
+                    errorMessages: { message: 'big-text' },
+                }" />
+        </form>
+        <form-validation-features [form]="myForm"></form-validation-features>
+    </div>
+    <div standalone>
+        <div class="stbook-title">Input Text / Icon left / Hint message / Validation / Aria labelledby</div>
+        <rf-input-text
+            #inputtext1
+            [type]="RfInputTypes.TEXT"
+            [name]="'surname'"
+            [autocomplete]="autocompleteTypes.LAST_NAME"
+            [leftIcon]="'user'"
+            [hintMessages]="hintMessages"
+            [errorMessages]="errorMessages"
+            [animatedLabel]="'Surname'"
+            [value]="''"
+            [validators]="[Validators.required]"
+            [ariaLabelledBy]="'labelled-surname'"
+            [inputPattern]="spanishOnlyLetters"
+            (blurInputText)="onBlur($event)" />
+        <div hoverOpacity>
+            <em id="labelled-surname">Enter the surname</em>
+        </div>
+
+        <div class="stbook-title">Input Text / Password / Validation</div>
+        <rf-input-text
+            #inputtext2
+            [type]="RfInputTypes.PASSWORD"
+            [name]="'password'"
+            [autocomplete]="autocompleteTypes.ON"
+            [placeholder]="'Place your password'"
+            [errorMessages]="errorMessages"
+            [animatedLabel]="'Password'"
+            [value]="'123456789'"
+            [validators]="[Validators.required]" />
+
+        <div class="stbook-title">Input Text / Icon left & right / Validation</div>
+        <rf-input-text
+            #inputtext3
+            [type]="RfInputTypes.TEXT"
+            [name]="'address'"
+            [autocomplete]="autocompleteTypes.ADDRESS"
+            [leftIcon]="'home'"
+            [rightIcon]="'user'"
+            [placeholder]="'Place your address'"
+            [errorMessages]="errorMessages"
+            [animatedLabel]="'Address'"
+            [validators]="[Validators.required]"
+            [value]="'No name street, 666'" />
+
+        <div class="stbook-title">Input Text / Email validation</div>
+        <rf-input-text
+            #inputtext4
+            [name]="'email'"
+            [autocomplete]="autocompleteTypes.EMAIL"
+            [animatedLabel]="'Email'"
+            [errorMessages]="errorMessages"
+            [value]="'test@flyr.com'"
+            [validators]="[Validators.required, StrictEmailValidator()]" />
+
+        <div class="stbook-title">Input Text / Number</div>
+        <rf-input-text
+            #inputtext5
+            [type]="RfInputTypes.NUMBER"
+            [name]="'zip'"
+            [autocomplete]="autocompleteTypes.POSTAL_CODE"
+            [animatedLabel]="'Zip'"
+            [leftIcon]="'language'"
+            [value]="'66666'"
+            [validators]="[Validators.required, Validators.maxLength(5)]" />
+
+        <div class="stbook-title">Input Text / Range</div>
+        <rf-input-text
+            #inputtext6
+            [type]="RfInputTypes.RANGE"
+            [name]="'range'"
+            [autocomplete]="autocompleteTypes.OFF"
+            [animatedLabel]="'Range'"
+            [value]="'50'"
+            [validators]="[ExactValueValidator(50)]" />
+
+        <div class="stbook-title">Input Text / Readonly</div>
+        <rf-input-text
+            #inputtext7
+            [name]="'idCard'"
+            [autocomplete]="autocompleteTypes.ON"
+            [animatedLabel]="'Id card'"
+            [readonly]="true"
+            [value]="'123456789'"
+            [leftIcon]="'user'"
+            [hintMessages]="'Hint message'"
+            [validators]="[Validators.required]" />
+
+        <div class="stbook-title">Input Text / Disabled</div>
+        <rf-input-text
+            #inputtext8
+            [name]="'country'"
+            [autocomplete]="autocompleteTypes.ON"
+            [animatedLabel]="'Country'"
+            [leftIcon]="'user'"
+            [hintMessages]="'Hint message'"
+            [disabled]="true"
+            [value]="'Botswana'" />
+        <br />
+
+        <div class="stbook-title">Input Text / Custom classes / Validation</div>
+        <rf-input-text
+            #inputtext9
+            [name]="'text'"
+            [autocomplete]="autocompleteTypes.ON"
+            [placeholder]="'Put your text here'"
+            [errorMessages]="errorMessages"
+            [classes]="{
+                input: 'custom-class-input-text-example',
+                errorMessages: { message: 'big-text' },
+            }"
+            [validators]="[Validators.required]" />
+        <standalone-validation-features
+            [components]="[
+                inputtext1,
+                inputtext2,
+                inputtext3,
+                inputtext4,
+                inputtext5,
+                inputtext6,
+                inputtext7,
+                inputtext8,
+                inputtext9,
+            ]" />
+    </div>
+</tab-presentation>

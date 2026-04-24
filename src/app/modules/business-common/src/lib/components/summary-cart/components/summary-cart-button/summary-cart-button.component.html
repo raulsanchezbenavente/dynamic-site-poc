@@ -1,0 +1,13 @@
+@let configData = config();
+@let summaryA11yTitle = summaryA11yTitleText();
+
+<ds-button
+    [config]="configData.toggleButtonConfig"
+    [ariaExpanded]="ariaExpanded ?? false"
+    (buttonClicked)="onClickHandler()">
+    <price-currency
+        [price]="configData.amount"
+        [currency]="configData.currency">
+    </price-currency>
+    <span class="hide-visually">{{ summaryA11yTitle }}</span>
+</ds-button>

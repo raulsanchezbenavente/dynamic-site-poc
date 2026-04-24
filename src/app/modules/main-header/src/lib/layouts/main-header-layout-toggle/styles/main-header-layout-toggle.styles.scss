@@ -1,0 +1,245 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../styles/common/main-header-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    // Use a generic header height variable instead of a component-specific one (e.g. main-header-height),
+    // so this token can be reused by different header implementations (main header, flow header, etc.).
+    --header-height: #{calculateRem(86px)};
+
+    --main-header-menu-trigger-fontsize: #{calculateRem(28px)};
+    --main-header-menu-content-padding-bottom: 0;
+    --main-header-menu-content-bottom-padding-bottom: #{calculateRem(28px)};
+
+    // The menu's padding-left also determines the left position of the navigation item's hover bar.
+    --main-header-menu-padding-left: #{$pad-x-medium};
+    --primary-nav-list-item-hover-bar-left-position: calc(var(--main-header-menu-padding-left) * -1);
+
+    display: block;
+
+    // language selector
+    .secondary-nav ::ng-deep {
+        .#{$ds}dropdown_content {
+            position: relative;
+        }
+    }
+}
+.main-header_container {
+    display: flex;
+    flex-direction: column;
+}
+.main-header {
+    position: relative;
+    width: 100%;
+    user-select: none; // disabled text highlight
+}
+
+// header (logo and triggers)
+.main-header_head {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: $pad-x-medium;
+    background-color: var(--c-white);
+    box-sizing: border-box;
+
+    @include container-wrap;
+}
+
+// head triggers: menu open/close and back arrow
+.main-header_menu_trigger {
+    // by default menu toggle open/close icon is set
+    @include iconfont($icon-menu-justify, before);
+
+    display: flex;
+    font-size: var(--main-header-menu-trigger-fontsize);
+    padding: $pad-small;
+}
+.main-header_logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+.main-header_logo_link {
+    display: inline-block;
+    height: calculateRem(32px);
+    box-sizing: border-box;
+    img {
+        height: 100%;
+    }
+}
+.main-header_menu {
+    flex: 1 1 100%;
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100% - var(--header-height));
+    background-color: var(--c-white);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+        opacity 0.1s ease-out,
+        visibility 0s linear,
+        pointer-events 0s linear;
+}
+.main-header_menu-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.main-header_menu_group--nav {
+    height: calc(100% - var(--bottom-menu-height));
+    opacity: 0;
+    transform: translateX(-100%);
+    transition:
+        transform 0.3s ease-in,
+        opacity 0.3s linear;
+    box-sizing: border-box;
+}
+.main-header_menu_group--bottom {
+    transform: translateY(100%);
+    transition: transform 0.2s ease;
+    transition-delay: 0.3s;
+}
+.main-header_menu_group {
+    ::ng-deep {
+        .primary-nav {
+            height: 100%;
+        }
+        .primary-nav-inner,
+        .primary-nav-submenu-inner,
+        .secondary-nav {
+            padding: $pad-tiny 0 $pad-x-x-large;
+            padding-right: var(--main-header-menu-padding-right, $pad-x-medium);
+            padding-left: var(--main-header-menu-padding-left);
+            height: 100%;
+            box-sizing: border-box;
+        }
+        .secondary-nav {
+            padding: $pad-x-tiny $pad-x-large;
+        }
+        .primary-nav-inner {
+            @include custom-scroll($maxsize: calc(100vh - var(--header-height) - var(--bottom-menu-height)));
+        }
+        .primary-nav_submenu {
+            @include custom-scroll($maxsize: calc(100vh - var(--header-height)));
+        }
+        .primary-nav-submenu-inner {
+            padding-top: 0;
+        }
+    }
+}
+
+// menu opened
+.main-header_menu--open {
+    --header-height: #{calculateRem(74px)};
+
+    z-index: var(--zindex-main-header-toggle);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    .main-header_head {
+        padding: calculateRem(32px) $pad-x-medium $pad-medium;
+    }
+    .main-header_logo {
+        justify-content: flex-start;
+    }
+    .main-header_logo_link {
+        height: calculateRem(30px);
+    }
+    .main-header_menu {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+    }
+    .main-header_menu_group--nav {
+        opacity: 1;
+        transform: translate(0);
+    }
+    .main-header_menu_group--bottom {
+        transform: translateY(0);
+    }
+    .main-header_menu_trigger {
+        --main-header-menu-trigger-fontsize: var(--f-size-x-large);
+
+        padding: 0;
+        &::before {
+            content: $icon-cross;
+        }
+    }
+    .main-header_menu_trigger--back {
+        --main-header-menu-trigger-fontsize: var(--f-size-large);
+        &::before {
+            content: $icon-arrow-thin-left;
+        }
+    }
+    .main-header_container {
+        height: calc(100 * var(--vh));
+    }
+}
+
+// submenu opened
+.main-header_submenu--open {
+    --header-height: #{calculateRem(98px)};
+    .main-header_menu_group--nav {
+        transform: translateX(-100%);
+        transition: transform 0.2s ease-out 0s;
+    }
+    .main-header_head {
+        padding-top: calculateRem(49px);
+        padding-bottom: calculateRem(33px);
+    }
+    ::ng-deep {
+        .primary-nav_submenu {
+            top: 0;
+            left: 100%;
+        }
+        .primary-nav-submenu_nav {
+            padding-right: 0;
+        }
+    }
+    .main-header_menu_group--bottom {
+        transform: translateY(100%);
+        transition: transform 0.2s ease;
+        transition-delay: 0s;
+    }
+}
+
+/**
+ * Locks page vertical scroll when the medium/small screens menu is open by disabling scroll on `.page-wrap`
+ * (main page content container). This directly affects global layout structure.
+ */
+::ng-deep .body--is-toggle-menu-opened {
+    .page-wrap {
+        height: 90vh;
+        overflow: hidden;
+    }
+}
+
+// [RESPONSIVE]
+@media #{$tablet-landscape} {
+    :host {
+        --main-header-menu-padding-left: #{calculateRem(32px)};
+        --main-header-menu-padding-right: #{calculateRem(32px)};
+    }
+    .main-header_menu_group {
+        ::ng-deep {
+            .secondary-nav {
+                padding-left: calculateRem(32px);
+                padding-right: calculateRem(32px);
+            }
+        }
+    }
+    .main-header_menu--open {
+        .main-header_head {
+            padding-left: calculateRem(32px);
+            padding-right: calculateRem(32px);
+        }
+    }
+}

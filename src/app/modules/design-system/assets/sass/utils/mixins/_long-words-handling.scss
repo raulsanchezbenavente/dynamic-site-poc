@@ -1,0 +1,15 @@
+// ********************
+//  Long Words Handling
+//	-------
+//	Handling long words with no space between letters
+// ********************
+
+/* stylelint-disable property-no-vendor-prefix */
+// Keeping vendor prefixes to maintain support for browsers we still need to support.
+@mixin handling-long-words {
+    word-break: break-word;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}

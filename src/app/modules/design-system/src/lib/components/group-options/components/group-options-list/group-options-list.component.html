@@ -1,0 +1,11 @@
+@let options = optionList();
+
+<div [ngClass]="gridClasses()">
+    @for (option of options; track $index) {
+        <div class="group-options-list_item">
+            <ds-group-options-item
+                [data]="option"
+                [buttonStyle]="buttonStyle()" />
+        </div>
+    }
+</div>

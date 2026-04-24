@@ -1,0 +1,84 @@
+@let configData = config();
+@let isModeSelection = mode === 'selection';
+@let isModeMenu = mode === 'menu';
+
+<ul
+    class="ds-options-list_list"
+    tabindex="-1"
+    [attr.role]="listRole"
+    [id]="listId"
+    [attr.aria-label]="configData.ariaAttributes?.ariaLabel ?? null">
+    @for (optionItem of configData.options; track optionItem; let index = $index) {
+        @let isSelected = isModeSelection ? optionItem.isSelected : null;
+
+        <li
+            class="ds-options-list_item"
+            role="none"
+            [class.ds-options-list_item--selected]="isSelected">
+            @if (optionItem.link) {
+                <a
+                    accessibleLink
+                    class="ds-options-list_item_option"
+                    [attr.role]="itemRole"
+                    [link]="{
+                        url: optionItem.link.url,
+                        target: optionItem.link.target,
+                    }"
+                    [attr.title]="optionItem.link.title ?? null"
+                    [attr.id]="'optionId_' + listId + '-' + index"
+                    [attr.aria-disabled]="optionItem.isDisabled ? true : null"
+                    [attr.aria-selected]="isSelected"
+                    [attr.aria-current]="isModeMenu && optionItem.isSelected ? 'page' : null"
+                    [attr.lang]="optionItem.lang">
+                    <ng-container *ngTemplateOutlet="includeOptionContent; context: { $implicit: optionItem }" />
+                </a>
+            } @else {
+                <button
+                    class="ds-options-list_item_option"
+                    [attr.role]="itemRole"
+                    [attr.id]="'optionId_' + listId + '-' + index"
+                    [attr.aria-disabled]="optionItem.isDisabled ? true : null"
+                    [attr.aria-selected]="isSelected"
+                    [attr.lang]="optionItem.lang"
+                    (click)="optionClicked(optionItem)">
+                    <ng-container *ngTemplateOutlet="includeOptionContent; context: { $implicit: optionItem }" />
+                </button>
+            }
+        </li>
+    }
+</ul>
+
+<ng-template
+    #includeOptionContent
+    let-optionItem>
+    @if (optionItem.image || optionItem.icon) {
+        <span class="ds-options-list_item_option_image-wrapper">
+            @if (optionItem.image && optionItem.image.src) {
+                <img
+                    class="ds-options-list_item_option_image"
+                    role="presentation"
+                    [alt]="optionItem.image.altText || ''"
+                    [src]="optionItem.image.src" />
+            } @else if (optionItem.icon) {
+                <icon [config]="optionItem.icon"></icon>
+            }
+        </span>
+    }
+
+    <span class="ds-options-list_item_option_content">
+        <span class="ds-options-list_item_option_content_name">
+            {{ optionItem.name }}
+        </span>
+        @if (optionItem.description) {
+            <span class="ds-options-list_item_option_content_description">
+                {{ optionItem.description }}
+            </span>
+        }
+    </span>
+
+    @if (!isModeMenu && optionItem.isSelected) {
+        <span class="hide-visually">
+            {{ CommonTranslationKeys.Common_A11y_IsSelected | translate }}
+        </span>
+    }
+</ng-template>

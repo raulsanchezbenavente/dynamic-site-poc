@@ -1,0 +1,65 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px);
+}
+.skeleton-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--c-white);
+    box-shadow: var(--#{$ds}box-shadow);
+    border-radius: var(--#{$ds}border-radius-md);
+}
+.skeleton-card_journey-schedule,
+.skeleton-card_action {
+    width: 100%;
+    padding: calculateRem(16px);
+    box-sizing: border-box;
+}
+.skeleton-card_journey-schedule {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(32px);
+    width: 100%;
+    border-right: calculateRem(1px) solid var(--c-border);
+}
+.skeleton-card_header {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.skeleton-card_route {
+    --skeleton-line-width: #{calculateRem(250px)};
+}
+.skeleton-card_date {
+    --skeleton-line-width: #{calculateRem(200px)};
+}
+.skeleton-card_status {
+    --skeleton-line-width: #{calculateRem(150px)};
+}
+.skeleton-card_content {
+    --skeleton-line-height: #{calculateRem(90px)};
+}
+.skeleton-card_action {
+    --skeleton-line-height: #{calculateRem(50px)};
+    --skeleton-line-border-radius: 100vh;
+}
+
+// Responsive
+@media #{$tablet-portrait} {
+    .skeleton-card {
+        flex-direction: row;
+    }
+    .skeleton-card_journey-schedule,
+    .skeleton-card_action {
+        width: auto;
+    }
+    .skeleton-card_action {
+        --skeleton-line-width: #{calculateRem(225px)};
+    }
+    .skeleton-card_journey-schedule {
+        flex: 1;
+    }
+}

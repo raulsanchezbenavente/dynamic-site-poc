@@ -1,0 +1,34 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../summary-renderer.stories';
+
+<Meta of={ComponentStories} />
+
+# Summary Renderer
+
+The **SummaryRenderer** is a utility component that dynamically injects summary data into a DOM-projected structure using configuration. It is designed for displaying label-value pairs in a customizable layout, typically used in summary views or confirmation screens.
+
+## What is it for?
+Used to render summary content (such as key information or review data) where the label and value content must be injected dynamically. It allows flexible control over what is rendered and where, while keeping the layout customizable via `ng-content`.
+
+## How does it work?
+- Accepts a `config` input: a record of keys mapping to `{ label, value }`.
+- On view initialization or config changes, it searches for matching DOM elements using attributes:
+  - `[summary-data-label="yourKey"]` for labels.
+  - `[summary-data-value="yourKey"]` for values.
+- Injects HTML content into the matched elements inside the projected content container.
+- Content is projected using `<ng-content>`, allowing full markup flexibility.
+
+## Example usage (simplified)
+```html
+<ds-summary-renderer [config]="summaryData">
+  <div>
+    <p><strong summary-data-label="email"></strong>: <span summary-data-value="email"></span></p>
+    <p><strong summary-data-label="phone"></strong>: <span summary-data-value="phone"></span></p>
+  </div>
+</ds-summary-renderer>
+```
+
+---
+
+Usefull documentation:

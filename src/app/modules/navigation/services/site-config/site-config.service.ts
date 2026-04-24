@@ -94,8 +94,20 @@ export class SiteConfigService {
     return { pages: mergedPages };
   }
 
-  private getURlFromLangAndContext(lang: AppLang | string): string {
-    return '/assets/config-site/' + lang;
+  private getURlFromLangAndContext(lang: string): string {
+    const cultureLang = {
+      en: 'en-us',
+      es: 'es-es',
+      fr: 'fr-fr',
+      pt: 'pt-br',
+    };
+    // return '/assets/config-site/' + lang;
+    return '/static-config/site/config-site_' + (cultureLang[lang as keyof typeof cultureLang] ?? lang) + '.json';
+    // return (
+    //   'https://av-static-dev3.newshore.es/static-config/site/config-site_' +
+    //   (cultureLang[lang as keyof typeof cultureLang] ?? lang) +
+    //   '.json'
+    // );
   }
 
   public get siteSnapshot(): SiteConfigResponse | null {
@@ -112,7 +124,7 @@ export class SiteConfigService {
     if (!page) {
       return undefined;
     }
-    const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+    const rows = this.getPageRowsForLookups(page);
     for (const row of rows) {
       for (const col of Array.isArray(row?.cols) ? row.cols : []) {
         if (col?.component === componentName) {
@@ -141,7 +153,7 @@ export class SiteConfigService {
       return undefined;
     }
 
-    const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+    const rows = this.getPageRowsForLookups(page);
     const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
     for (const col of cols) {
@@ -155,6 +167,45 @@ export class SiteConfigService {
     return undefined;
   }
 
+  public hydrateResolvedPageLayout(path: string | undefined, layoutRows: SiteLayoutRow[]): void {
+    const normalizedPath = this.normalizePath(path ?? '');
+    if (!normalizedPath) {
+      return;
+    }
+
+    const nextLayout = { rows: layoutRows };
+    let hasUpdates = false;
+
+    const configEntries = Object.entries(this.configSitesByLanguage) as Array<[AppLang, SitePage[] | undefined]>;
+    for (const [lang, pages] of configEntries) {
+      if (!Array.isArray(pages) || !pages.length) {
+        continue;
+      }
+
+      const { nextPages, updated } = this.replacePageLayoutByPath(pages, normalizedPath, nextLayout);
+      if (updated) {
+        this.configSitesByLanguage[lang] = nextPages;
+        hasUpdates = true;
+      }
+    }
+
+    const fullEntries = Object.entries(this.fullConfigSitesByLanguage) as Array<[AppLang, SitePage[] | undefined]>;
+    for (const [lang, pages] of fullEntries) {
+      if (!Array.isArray(pages) || !pages.length) {
+        continue;
+      }
+
+      const { nextPages, updated } = this.replacePageLayoutByPath(pages, normalizedPath, nextLayout);
+      if (updated) {
+        this.fullConfigSitesByLanguage[lang] = nextPages;
+      }
+    }
+
+    if (hasUpdates) {
+      this.persistConfigToSessionStorage();
+    }
+  }
+
   public getTabNamesByTabsId(tabsId: string | number, lang?: AppLang): TabSummary[] {
     const tabsIdStr = String(tabsId);
     const pages = lang ? (this.configSitesByLanguage[lang] ?? []) : Object.values(this.configSitesByLanguage).flat();
@@ -162,7 +213,7 @@ export class SiteConfigService {
     const tabMap = new Map<string, TabSummary>();
 
     for (const page of pages) {
-      const rows: SiteLayoutRow[] = Array.isArray(page.layout) ? page.layout : (page.layout?.rows ?? []);
+      const rows = this.getPageRowsForLookups(page);
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
@@ -310,5 +361,56 @@ export class SiteConfigService {
     }
 
     return decodedPath;
+  }
+
+  private replacePageLayoutByPath(
+    pages: SitePage[],
+    normalizedPath: string,
+    layout: { rows: SiteLayoutRow[] }
+  ): { nextPages: SitePage[]; updated: boolean } {
+    let updated = false;
+
+    const nextPages = pages.map((page) => {
+      const pagePath = this.normalizePath(page?.path ?? '');
+      if (pagePath !== normalizedPath) {
+        return page;
+      }
+
+      updated = true;
+      return {
+        ...page,
+        layout: {
+          rows: layout.rows,
+        },
+      };
+    });
+
+    return { nextPages, updated };
+  }
+
+  private getLayoutRows(layout: SitePage['layout']): SiteLayoutRow[] {
+    if (Array.isArray(layout)) {
+      return layout;
+    }
+
+    if (typeof layout === 'string') {
+      return [];
+    }
+
+    return layout?.rows ?? [];
+  }
+
+  private getPageRowsForLookups(page: SitePage): SiteLayoutRow[] {
+    const rows = this.getLayoutRows(page.layout);
+
+    if (typeof page.layout !== 'string') {
+      return rows;
+    }
+
+    return [...rows, ...this.getSlotsRows(page.slots)];
+  }
+
+  private getSlotsRows(slots: SitePage['slots']): SiteLayoutRow[] {
+    return Object.values(slots ?? {}).flatMap((slotLayout) => this.getLayoutRows(slotLayout));
   }
 }

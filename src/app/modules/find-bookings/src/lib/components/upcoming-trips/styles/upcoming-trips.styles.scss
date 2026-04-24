@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// STYLES
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px);
+    justify-content: center;
+}
+.upcoming-trips_no-results {
+    display: flex;
+    justify-content: left;
+    font-size: var(--f-size-small);
+    font-weight: var(--f-weight-normal);
+}
+
+@media #{$mobile} {
+    .upcoming-trips_no-results {
+        font-size: var(--f-size);
+    }
+}

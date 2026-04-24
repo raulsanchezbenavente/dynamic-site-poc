@@ -1,0 +1,66 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'progress-bar-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}progress-bar_info-content {
+    display: flex;
+    justify-content: space-between;
+    line-height: 1;
+}
+.#{$ds}progress-bar_info {
+    display: flex;
+    flex-direction: column;
+    gap: $progress-bar-info-gap;
+}
+.#{$ds}progress-bar_info_label {
+    font-weight: $progress-bar-info-label-font-weight;
+}
+.#{$ds}progress-bar {
+    width: 100%;
+    border-radius: $progress-bar-border-radius;
+    background-color: $progress-bar-background-color;
+    margin: $progress-bar-margin;
+}
+.#{$ds}progress-bar_progress {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    height: $progress-bar-progress-height;
+    border-radius: $progress-bar-progress-border-radius;
+    background-color: $progress-bar-progress-background-color;
+}
+.#{$ds}progress-bar_current-value {
+    font-size: $progress-bar-current-value-fontsize;
+    position: absolute;
+    top: $progress-bar-current-value-top;
+    transform: translateX(50%);
+    font-weight: normal;
+    text-align: center;
+    &::before {
+        content: '';
+        position: absolute;
+        top: $progress-bar-current-value-arrow-top;
+        left: $progress-bar-current-value-arrow-left;
+        transform: translateX(-50%);
+
+        @include triangle(
+            $direction: 'down',
+            $width: $progress-bar-current-value-arrow-width,
+            $height: $progress-bar-current-value-arrow-height,
+            $color: $progress-bar-current-value-arrow-color
+        );
+    }
+}
+.#{$ds}progress-bar_progress--completed {
+    .#{$ds}progress-bar_current-value {
+        right: $progress-bar-current-value-arrow-completed-right;
+    }
+}
+.#{$ds}progress-bar_progress--start {
+    .#{$ds}progress-bar_current-value {
+        transform: $progress-bar-current-value-arrow-start-transform;
+        left: 50%;
+    }
+}

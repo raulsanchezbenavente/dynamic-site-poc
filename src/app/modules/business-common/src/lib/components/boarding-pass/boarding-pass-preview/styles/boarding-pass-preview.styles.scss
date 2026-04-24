@@ -1,0 +1,161 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+
+// -------
+// CONTAINER
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(24px);
+}
+
+// -------
+// TABS NAVIGATION
+// -------
+.boarding-pass_tabs_wrapper {
+    display: flex;
+    justify-content: center;
+}
+.boarding-pass_tabs_scroll {
+    display: flex;
+    gap: calculateRem(4px);
+    border-radius: var(--#{$ds}btn-border-radius);
+    padding: calculateRem(4px);
+    background: var(--c-white);
+    box-shadow: var(--#{$ds}box-shadow-lg);
+
+    @include custom-scroll($direction: xscroll);
+}
+.boarding-pass_tab {
+    --ds-btn-height: #{calculateRem(30px)};
+    --ds-btn-gap: #{calculateRem(10px)};
+    --ds-btn-padding-top-bottom: #{calculateRem(6px)};
+    --ds-btn-padding-left-right: #{calculateRem(14px)};
+
+    min-width: calculateRem(131px);
+
+    @include button;
+    @include btn-secondary;
+    @include btn-small;
+    @include iconfont($icon-flight-takeoff, before, var(--boarding-pass-tab-icon-color, --c-primary));
+    &::before {
+        font-size: var(--f-size-medium);
+    }
+    &:not(&--active) {
+        --#{$ds}btn-border-color: var(--c-white);
+    }
+    &--active {
+        --boarding-pass-tab-icon-color: var(--c-white);
+
+        @include btn-action;
+    }
+}
+.boarding-pass_tab-route {
+    display: flex;
+    gap: calculateRem(4px);
+    align-items: center;
+}
+
+// -------
+// CONTENT
+// -------
+.boarding-pass_card {
+    position: relative;
+    padding: calculateRem(38px) calculateRem(34px);
+    filter: drop-shadow(0 0.125rem 0.75rem rgba(27, 27, 27, 0.15));
+    &::before {
+        position: absolute;
+        content: '';
+        border-radius: var(--#{$ds}border-radius-lg);
+        background-color: var(--c-white);
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        z-index: -1;
+        mask:
+            radial-gradient(ellipse calculateRem(18px) calculateRem(18px) at left, rgba(0, 0, 0, 0) 95%, #000) bottom
+                left,
+            radial-gradient(ellipse calculateRem(18px) calculateRem(18px) at right, rgba(0, 0, 0, 0) 95%, #000) bottom
+                right;
+        mask-size: 95% 100%;
+        mask-repeat: no-repeat;
+    }
+}
+
+// -------
+// AIRLINE
+// -------
+.boarding-pass_airline {
+    margin-bottom: calculateRem(24px);
+    width: calculateRem(130px);
+    height: calculateRem(31px);
+}
+.boarding-pass_airline-logo {
+    width: 100%;
+}
+
+// -------
+// ROUTE
+// -------
+.boarding-pass_route {
+    display: flex;
+    gap: calculateRem(10px);
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: calculateRem(40px);
+}
+.boarding-pass_route-code {
+    font-size: var(--f-size-x-x-huge);
+    font-weight: var(--f-weight-bold);
+}
+.boarding-pass_route-city {
+    @include hide-visually;
+}
+.boarding-pass_route-icon {
+    @include iconfont($icon-airplane-right, before, var(--c-primary));
+
+    line-height: 0;
+    &::before {
+        font-size: var(--f-iconsize-md);
+    }
+}
+
+// -------
+// DETAILS
+// -------
+.boarding-pass_details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: calculateRem(21px) calculateRem(18px);
+}
+.boarding-pass_detail-item {
+    &:nth-child(5),
+    &:nth-child(6) {
+        grid-column: span 2;
+    }
+}
+.boarding-pass_detail-label {
+    font-size: var(--f-size-x-tiny);
+    margin-bottom: calculateRem(4px);
+    color: var(--c-color2);
+    text-transform: uppercase;
+}
+.boarding-pass_detail-value {
+    font-weight: var(--f-weight-medium);
+}
+
+// -------
+// ACTIONS
+// -------
+.boarding-pass_actions {
+    display: flex;
+    flex-direction: column;
+    gap: calculateRem(23px);
+    margin-top: calculateRem(8px);
+    padding: 0 calculateRem(36px);
+}

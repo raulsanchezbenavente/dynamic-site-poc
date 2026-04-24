@@ -1,0 +1,18 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../styles/stories-styles' as *;
+
+// Styles
+:host ::ng-deep {
+    .custom-field-group {
+        --rf-grid-columns-width: 1fr;
+    }
+    .full-width {
+        grid-template-columns: none !important;
+        grid-column: 1 / -1;
+    }
+    @media #{$mobile} {
+        .custom-field-group {
+            --rf-grid-columns-width: 2fr 1fr;
+        }
+    }
+}

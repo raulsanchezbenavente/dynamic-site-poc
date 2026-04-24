@@ -1,0 +1,465 @@
+{
+  "pages": [
+    {
+      "pageId": "0",
+      "path": "en/home",
+      "name": "Home",
+      "seo": {
+        "title": "Home",
+        "description": "Book flights, discover destinations and manage your travel in one place.",
+        "robots": "index,follow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "SearchComponentBlock_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "AdsComponentBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1",
+      "path": "en/results",
+      "name": "Results",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingHeaderComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "results_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-1",
+      "path": "en/personal-data",
+      "name": "Personal Data",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingHeaderComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "personalData_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingFooterComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-2",
+      "path": "en/extras",
+      "name": "Extras",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingHeaderComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "extra_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingFooterComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-3",
+      "path": "en/payment",
+      "name": "Payment",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingHeaderComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "payment_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "1-4",
+      "path": "en/thanks",
+      "name": "Thank You",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "bookingHeaderComponent_uiplus_EX",
+                "span": 12
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "thankYou_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "2",
+      "path": "en/members",
+      "name": "Members",
+      "seo": {
+        "title": "Members",
+        "description": "Access your loyalty profile, trips and account settings.",
+        "robots": "index,follow"
+      },
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "loyaltyOverviewCard_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "multiTabBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "tabsId": "111",
+                  "tabs": [
+                    {
+                      "tabId": "22",
+                      "name": "Personal data",
+                      "title": "Personal data",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "accountProfile_uiplus_EX",
+                                "span": 12
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "33",
+                      "name": "My trips",
+                      "title": "My trips",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "findBookings_uiplus_EX",
+                                "span": 12
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "44",
+                      "name": "Account settings",
+                      "title": "Account settings",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "accountSettings_uiplus_EX",
+                                "span": 12
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "tabId": "55",
+                      "name": "My elite status",
+                      "title": "My elite status",
+                      "secondaryText": "",
+                      "layout": {
+                        "rows": [
+                          {
+                            "cols": [
+                              {
+                                "component": "eliteStatus_uiplus_EX",
+                                "span": 12
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "3",
+      "path": "en/check-in/dangerous-goods",
+      "name": "Dangerous Goods",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus_EX",
+                "span": 12,
+                "config": {
+                  "url": "/assets/config/loyalty/en"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "htmlContent": "<div class=\"dangerous-good-intro\">\n<h2 class=\"context-h1\">Items allowed and prohibited in your luggage</h2>\n<p class=\"intro\">Restricted items may endanger the health and safety of people, the environment, or aircraft.</p>\n</div>",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 6,
+                "config": {
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cabin/en",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                }
+              },
+              {
+                "component": "rteBlock_uiplus",
+                "span": 6,
+                "config": {
+                  "htmlContentURLs": "/assets/rte-fragments/allowed-cellar/en",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "htmlContentURLs": "/assets/rte-fragments/prohibited-luggage/en",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "htmlContent": "<p>By clicking \u201cContinue,\u201d you indicate that you agree with the <a rel=\"noopener\" href=\"https://ayuda.avianca.com/hc/es/sections/13499643885467\" target=\"_blank\">Airline policies on transporting restricted items</a>.</p>",
+                  "cssURLs": "/assets/rte-fragments/allowed-cabin/dangerous-goods.css"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus_EX",
+                "span": 12
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

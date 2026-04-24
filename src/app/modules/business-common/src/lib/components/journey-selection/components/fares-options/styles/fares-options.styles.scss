@@ -1,0 +1,54 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../../journey-selection/styles/journey-selection-vars.styles.scss' as bp;
+
+// -------
+// VARIABLES
+// -------
+$fare-options-layout-breakpoint: bp.$journey-selection-layout-breakpoint;
+
+// -------
+// COMPONENT STYLE
+// -------
+.fares-options_title {
+    text-align: center;
+    font-size: calculateRem(22px); // TODO: token
+    font-weight: var(--f-weight-bold);
+    margin-bottom: calculateRem(34px);
+}
+.fares-options_items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: calculateRem(34px) calculateRem(40px);
+}
+.fare-option-item {
+    flex: 1 1 100%;
+    width: 96%; // Not 100% to prevent clipping inside overflow-hidden scroll container
+}
+
+@media #{$mobile-sm} {
+    .fare-option-item {
+        max-width: calculateRem(388px);
+    }
+}
+
+@media (min-width: $fare-options-layout-breakpoint) {
+    .fares-options_items {
+        flex-direction: row;
+        align-items: flex-end;
+        justify-content: center;
+    }
+    .fare-option-item {
+        flex: 1 1 100%;
+        max-width: calculateRem(366px);
+    }
+
+    // recommmended fare
+    :host .fares-options_items ::ng-deep {
+        /* stylelint-disable-next-line selector-max-compound-selectors */
+        .fare-option-item--recommended {
+            padding-top: calculateRem(84px);
+        }
+    }
+}

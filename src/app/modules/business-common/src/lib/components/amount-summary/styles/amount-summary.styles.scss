@@ -1,0 +1,100 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+$amount-summary-layout-breakpoint: $bp-tablet-portrait;
+
+// STYLES
+::ng-deep :root {
+    --amount-summary-layout-breakpoint: #{$amount-summary-layout-breakpoint};
+
+    // Default values (mobile-first)
+    --amount-summary-position: fixed;
+    --amount-summary-box-shadow: var(--#{$ds}box-shadow-lg);
+    --amount-summary-padding: #{$pad-large} #{$pad-x-medium};
+    --amount-summay-inner-gap: #{calculateRem(16px)};
+}
+:host {
+    // Price display variables
+    --price-prefix-fontsize: 1em;
+    --price-fontsize: var(--f-size-x-large);
+    --price-fontweight: var(--f-weight-bold);
+
+    z-index: var(--amount-summary-zindex, 2);
+    position: var(--amount-summary-position);
+    bottom: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    box-shadow: var(--amount-summary-box-shadow);
+    padding: var(--amount-summary-padding);
+    box-sizing: border-box;
+    background-color: var(--c-white);
+
+    // price currency
+    ::ng-deep {
+        .#{$ds}price-currency {
+            display: flex;
+            gap: 0 calculateRem(10px);
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+}
+:host-context(.summary-opened) :host {
+    --amount-summary-zindex: var(--zindex-amount-summary-when-cart-opened);
+}
+.amount-summary-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--amount-summay-inner-gap);
+    width: 100%;
+    box-sizing: border-box;
+
+    @include container-wrap;
+}
+.amount-summary_actions {
+    display: flex;
+    gap: calculateRem(14px);
+    justify-content: flex-end;
+}
+.amount-summary_button--secondary,
+.amount-summary_button--navigation-previous {
+    margin-right: auto;
+}
+
+// [Responsive]
+@media (width > #{$amount-summary-layout-breakpoint}) {
+    :host {
+        ::ng-deep {
+            .#{$ds}price-currency {
+                flex-direction: column;
+                align-items: flex-end;
+            }
+        }
+    }
+    .amount-summary-inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    .amount-summary_button--secondary {
+        margin-right: auto;
+    }
+}
+
+@media (width <= #{$amount-summary-layout-breakpoint}) {
+    ::ng-deep :root {
+        --amount-summary-padding: #{calculateRem(18px)} 0;
+        --amount-summay-inner-gap: #{calculateRem(16px)} #{calculateRem(34px)};
+    }
+}
+
+// Single Column on Small Mobile
+@media (width <= #{$bp-mobile-small}) {
+    ::ng-deep :root {
+        --#{$ds}btn-width: 100%;
+    }
+    .amount-summary_actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}

@@ -1,0 +1,305 @@
+<tab-presentation class="stbook-checkbox-form">
+    <div form>
+        <form [formGroup]="myForm">
+            <rf-checkbox-group [legend]="'Checkboxes / AriaLabelledBy '">
+                <rf-checkbox
+                    #checkboxesRf1
+                    formControlName="checkboxes1"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'"
+                    [ariaLabelledBy]="'checkbox-1'" />
+                <rf-checkbox
+                    formControlName="checkboxes1"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [ariaLabelledBy]="'checkbox-2'" />
+                <rf-checkbox
+                    formControlName="checkboxes1"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'"
+                    [ariaLabelledBy]="'checkbox-3'" />
+            </rf-checkbox-group>
+            <div hoverOpacity>
+                <em id="checkbox-1">Select checkbox 1</em>&nbsp; <em id="checkbox-2">Select checkbox 2</em>&nbsp;
+                <em id="checkbox-3">Select checkbox 3</em>
+            </div>
+            <button
+                class="btn-link"
+                (click)="fillCheckboxRf()">
+                Set checkboxes #2 #3
+            </button>
+            <br /><br />
+            <button
+                class="btn-link"
+                (click)="setCheckedRf()">
+                Switch Checkbox 1
+            </button>
+            ( {{ checkboxesRf1?.isChecked }})
+
+            <br /><br />
+            <fieldset class="stbook-checkbox-fieldset">
+                <legend>Checkboxes / Validations max</legend>
+                <div class="stbook-checkbox-form-group">
+                    <rf-checkbox
+                        formControlName="checkboxes2"
+                        [label]="'Checkbox 1'"
+                        [value]="'CHECKBOX_1'"
+                        [errorMessages]="errorCheckbox" />
+                    <rf-checkbox
+                        formControlName="checkboxes2"
+                        [label]="'Checkbox 2'"
+                        [value]="'CHECKBOX_2'"
+                        [checked]="true" />
+                    <rf-checkbox
+                        formControlName="checkboxes2"
+                        [label]="'Checkbox 3'"
+                        [value]="'CHECKBOX_3'" />
+                </div>
+            </fieldset>
+
+            <br /><br />
+            <rf-checkbox-group [legend]="'Checkboxes / Readonly / Hint message / Validation min'">
+                <rf-checkbox
+                    formControlName="checkboxes3"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'"
+                    [errorMessages]="errorCheckbox" />
+                <rf-checkbox
+                    formControlName="checkboxes3"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [readonly]="true" />
+                <rf-checkbox
+                    formControlName="checkboxes3"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'"
+                    [hintMessages]="'Select a checkbox'" />
+            </rf-checkbox-group>
+
+            <br /><br />
+            <fieldset class="stbook-checkbox-fieldset">
+                <legend>Checkboxes / Disabled checkbox</legend>
+                <div class="stbook-checkbox-form-group">
+                    <rf-checkbox
+                        formControlName="checkboxes4"
+                        [label]="'Checkbox 1'"
+                        [value]="'CHECKBOX_1'" />
+                    <rf-checkbox
+                        formControlName="checkboxes4"
+                        [label]="'Checkbox 2'"
+                        [value]="'CHECKBOX_2'"
+                        [disabledCheckbox]="true" />
+                    <rf-checkbox
+                        formControlName="checkboxes4"
+                        [label]="'Checkbox 3'"
+                        [value]="'CHECKBOX_3'" />
+                </div>
+            </fieldset>
+
+            <br /><br />
+            <fieldset class="stbook-checkbox-fieldset">
+                <legend>Checkboxes / Group Disabled</legend>
+                <div class="stbook-checkbox-form-group">
+                    <rf-checkbox
+                        formControlName="checkboxes5"
+                        [label]="'Checkbox 1'"
+                        [value]="'CHECKBOX_1'" />
+                    <rf-checkbox
+                        formControlName="checkboxes5"
+                        [label]="'Checkbox 2'"
+                        [value]="'CHECKBOX_2'"
+                        [disabledCheckbox]="true" />
+                    <rf-checkbox
+                        formControlName="checkboxes5"
+                        [label]="'Checkbox 3'"
+                        [value]="'CHECKBOX_3'" />
+                </div>
+            </fieldset>
+
+            <br /><br />
+            <fieldset class="stbook-checkbox-fieldset">
+                <legend>Checkboxes / Custom classes / Validation</legend>
+                <div class="stbook-checkbox-form-group">
+                    <rf-checkbox
+                        formControlName="checkboxes6"
+                        [label]="'Checkbox 1'"
+                        [value]="'CHECKBOX_1'"
+                        [classes]="checkboxCustomClasses"
+                        [errorMessages]="errorCheckbox" />
+                    <rf-checkbox
+                        formControlName="checkboxes6"
+                        [checked]="true"
+                        [label]="'Checkbox 2'"
+                        [value]="'CHECKBOX_2'"
+                        [classes]="checkboxCustomClasses" />
+                    <rf-checkbox
+                        formControlName="checkboxes6"
+                        [checked]="true"
+                        [label]="'Checkbox 3'"
+                        [value]="'CHECKBOX_3'"
+                        [classes]="checkboxCustomClasses" />
+                </div>
+            </fieldset>
+        </form>
+
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <rf-checkbox-group [legend]="'Checkboxes / AriaLabelledBy'">
+            <rf-checkbox
+                #checkboxes1
+                name="checkboxes1"
+                [label]="'Checkbox 1'"
+                [value]="'CHECKBOX_1'"
+                [checked]="true"
+                [ariaLabelledBy]="'checkbox-1'" />
+            <rf-checkbox
+                name="checkboxes1"
+                [label]="'Checkbox 2'"
+                [value]="'CHECKBOX_2'"
+                [checked]="true"
+                [ariaLabelledBy]="'checkbox-2'" />
+            <rf-checkbox
+                name="checkboxes1"
+                [label]="'Checkbox 3'"
+                [value]="'CHECKBOX_3'"
+                [ariaLabelledBy]="'checkbox-3'" />
+        </rf-checkbox-group>
+        <div hoverOpacity>
+            <em id="checkbox-1">Select checkbox 1</em>&nbsp; <em id="checkbox-2">Select checkbox 2</em>&nbsp;
+            <em id="checkbox-3">Select checkbox 3</em>
+        </div>
+        <button
+            class="btn-link"
+            (click)="fillCheckboxStandalone()">
+            Set checkboxes #2 #3
+        </button>
+        <br /><br />
+        <button
+            class="btn-link"
+            (click)="setCheckedStandalone()">
+            Switch Checkbox 1
+        </button>
+        ({{ checkboxes1?.isChecked }})
+
+        <br /><br />
+        <fieldset class="stbook-checkbox-fieldset">
+            <legend>Checkboxes / Validations max</legend>
+            <div class="stbook-checkbox-form-group">
+                <rf-checkbox
+                    #checkboxes2
+                    name="checkboxes2"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'"
+                    [validators]="[CheckboxGroupValidator({ max: 2 })]"
+                    [errorMessages]="errorCheckbox" />
+                <rf-checkbox
+                    name="checkboxes2"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [checked]="true" />
+                <rf-checkbox
+                    name="checkboxes2"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'" />
+            </div>
+        </fieldset>
+
+        <br /><br />
+        <rf-checkbox-group [legend]="'Checkboxes / Readonly / Validation min'">
+            <rf-checkbox
+                #checkboxes3
+                name="checkboxes3"
+                [label]="'Checkbox 1'"
+                [value]="'CHECKBOX_1'"
+                [validators]="[CheckboxGroupValidator({ min: 2 })]"
+                [errorMessages]="errorCheckbox" />
+            <rf-checkbox
+                name="checkboxes3"
+                [label]="'Checkbox 2'"
+                [value]="'CHECKBOX_2'"
+                [readonly]="true" />
+            <rf-checkbox
+                name="checkboxes3"
+                [label]="'Checkbox 3'"
+                [value]="'CHECKBOX_3'"
+                [hintMessages]="'Select a checkbox'" />
+        </rf-checkbox-group>
+
+        <br /><br />
+        <fieldset class="stbook-checkbox-fieldset">
+            <legend>Checkboxes / Disabled checkbox</legend>
+            <div class="stbook-checkbox-form-group">
+                <rf-checkbox
+                    #checkboxes4
+                    name="checkboxes4"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'" />
+                <rf-checkbox
+                    name="checkboxes4"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [disabledCheckbox]="true" />
+                <rf-checkbox
+                    name="checkboxes4"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'" />
+            </div>
+        </fieldset>
+
+        <br /><br />
+        <fieldset class="stbook-checkbox-fieldset">
+            <legend>Checkboxes / Group Disabled</legend>
+            <div class="stbook-checkbox-form-group">
+                <rf-checkbox
+                    #checkboxes5
+                    name="checkboxes5"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'"
+                    [disabled]="true" />
+                <rf-checkbox
+                    name="checkboxes5"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [disabledCheckbox]="true" />
+                <rf-checkbox
+                    name="checkboxes5"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'"
+                    [checked]="true" />
+            </div>
+        </fieldset>
+
+        <br /><br />
+        <fieldset class="stbook-checkbox-fieldset">
+            <legend>Checkboxes / Custom classes / Validation</legend>
+            <div class="stbook-checkbox-form-group">
+                <rf-checkbox
+                    #checkboxes6
+                    name="checkboxes6"
+                    [label]="'Checkbox 1'"
+                    [value]="'CHECKBOX_1'"
+                    [checked]="true"
+                    [classes]="checkboxCustomClasses"
+                    [validators]="[Validators.required]"
+                    [errorMessages]="errorCheckbox" />
+                <rf-checkbox
+                    name="checkboxes6"
+                    [checked]="true"
+                    [label]="'Checkbox 2'"
+                    [value]="'CHECKBOX_2'"
+                    [classes]="checkboxCustomClasses" />
+                <rf-checkbox
+                    name="checkboxes6"
+                    [checked]="true"
+                    [label]="'Checkbox 3'"
+                    [value]="'CHECKBOX_3'"
+                    [classes]="checkboxCustomClasses" />
+            </div>
+        </fieldset>
+        <br /><br />
+
+        <standalone-validation-features
+            [components]="[checkboxes1, checkboxes2, checkboxes3, checkboxes4, checkboxes5, checkboxes6]" />
+    </div>
+</tab-presentation>

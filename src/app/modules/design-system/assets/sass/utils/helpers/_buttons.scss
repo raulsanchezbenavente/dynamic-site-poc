@@ -1,0 +1,61 @@
+// -------
+// Button helpers classes
+// -------
+
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/utils/mixins/button/buttons-mixin' as *;
+@use 'design-system/assets/sass/utils/mixins/button/buttons-mixin-vars' as *;
+
+// reset button tag
+button {
+    padding: 0;
+    font-family: $button-fontfamily;
+    color: inherit; // reduce css file size
+    font-size: inherit;
+    background: none;
+    border: 0;
+    &:not([disabled], [aria-disabled='true']) {
+        cursor: pointer;
+    }
+}
+a.#{$ds}button {
+    text-decoration: none;
+}
+
+// button class is used in CMS RTE and UI components
+.#{$ds}button {
+    --icon-fontsize: #{$button-icon-fontsize};
+
+    @include button;
+}
+
+// sizes
+.#{$ds}btn-small {
+    @include btn-small;
+}
+.#{$ds}btn-large {
+    @include btn-large;
+}
+
+// styles
+.#{$ds}btn-action {
+    @include btn-action;
+}
+.#{$ds}btn-primary {
+    @include btn-primary;
+}
+.#{$ds}btn-secondary {
+    @include btn-secondary;
+}
+.#{$ds}btn-inverse {
+    @include btn-inverse;
+}
+.#{$ds}btn-light {
+    @include btn-light;
+}
+.#{$ds}btn-link {
+    @include btn-link;
+}
+.#{$ds}btn-loading {
+    @include btn-loader;
+}

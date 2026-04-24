@@ -1,0 +1,8 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.skeleton-banner_item {
+    --skeleton-line-height: #{calculateRem(340px)};
+}

@@ -1,0 +1,912 @@
+{
+  "pages": [
+    {
+      "pageId": "0395d425-ba7b-48aa-a456-9dad5be5b546",
+      "path": "en/members/login",
+      "name": "Login",
+      "seo": {
+        "title": "Login",
+        "description": "Test login",
+        "robots": ""
+      },
+      "layout": {
+        "rows": [
+          {
+            "slotType": "header",
+            "cols": [
+              {
+                "component": "CorporateMainHeaderBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/static-config/components/config_CorporateMainHeaderBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "BreadcrumbBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/static-config/components/config_BreadcrumbBlock_uiplus_A6-90-B9-02-9E-2D-32-05_en-us.json"
+                }
+              }
+            ]
+          },
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "htmlContent": "<center>😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺️<br>😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑<br>😶🫥😶‍🌫️😏😒🙄😬😮‍💨🤥🫨🙂‍↔️🙂‍↕️😌😔😪🤤🤒🤕<br>🤢🤮🤧🥵🥶🥴😵😵‍💫🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁☹️<br>😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫<br>🐦‍⬛🪿🐦‍🔥🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡</center>"
+                }
+              }
+            ]
+          },
+          {
+            "slotType": "footer",
+            "cols": [
+              {
+                "component": "CorporateMainFooterBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "url": "/static-config/components/config_CorporateMainFooterBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "pageId": "ef3834b5-c025-40bb-9008-19718f6f8f13",
+      "path": "en/members/home",
+      "name": "Home",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Home",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "authorizationBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_AuthorizationBlock_uiplus_4C-77-C0-6B-FA-94-11-4F_en-us.json"
+                  }
+                },
+                {
+                  "component": "loyaltyOverviewCardBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_LoyaltyOverviewCardBlock_uiplus_4C-CE-0C-15-FF-94-11-D7_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "multiTabBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_MultiTabBlock_uiplus_7E-52-D3-99-11-A5-87-2C_en-us.json",
+                    "tabsId": "05096978-bf00-4289-a34f-f122694c9c24",
+                    "tabs": [
+                      {
+                        "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
+                        "name": "Personal Data - Tab",
+                        "title": "Personal Data",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "accountProfileBlock_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/static-config/components/config_AccountProfileBlock_uiplus_6C-51-8E-0D-26-51-7A-F1_en-us.json"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
+                        "name": "My trips - Tab",
+                        "title": "My Trips",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "findBookingsBlock_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/static-config/components/config_FindBookingsBlock_uiplus_56-2E-48-29-E2-F7-EE-36_en-us.json"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
+                        "name": "Account Settings - Tab",
+                        "title": "Account Settings",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "rteBlock_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
+                        "name": "My Elite Status - Tab",
+                        "title": "My Elite Status",
+                        "secondaryText": "",
+                        "layout": {
+                          "rows": [
+                            {
+                              "cols": [
+                                {
+                                  "component": "loyaltyStatusOverviewBlock_uiplus",
+                                  "span": 12,
+                                  "config": {
+                                    "url": "/static-config/components/.json"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "aa875e18-ab5f-478d-a3a9-288672abe1f7",
+      "path": "uiplus/en/check-in/login",
+      "name": "Login",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Login",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "bannerBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
+                  }
+                },
+                {
+                  "component": "bookingLoginBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BookingLoginBlock_uiplus_1D-3C-6E-4B-2F-FF-16-70_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "1141d80b-e99b-4aa3-9ea6-72b0c2f904e7",
+      "path": "uiplus/en/check-in/home",
+      "name": "Home",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-In",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_B8-AA-FE-E6-A4-54-FA-F9_en-us.json"
+                  }
+                },
+                {
+                  "component": "CheckInSummaryBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_CheckInSummaryBlock_uiplus_BA-3E-A4-E8-97-0F-37-FD_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "pageActionButtonsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_8E-3C-C1-06-78-40-24-B0_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "ManageCheckInBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_7F-20-01-A6-6E-D1-61-D0_en-us.json"
+                  }
+                },
+                {
+                  "component": "servicesBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ServicesBlock_uiplus_EF-CC-E6-4F-C9-8F-64-98_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "a37066e0-10f5-40b4-9387-4f3d41367101",
+      "path": "uiplus/en/check-in/dangerous-goods",
+      "name": "Dangerous goods",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Dangerous goods",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_D9-9A-65-1C-73-31-F3-15_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                },
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "pageActionButtonsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_BC-EC-2C-92-04-28-C2-E2_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "ada5d0f7-825b-4731-8705-e48ad604d8a5",
+      "path": "uiplus/en/check-in/passengers",
+      "name": "Passengers",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Passengers",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "BookingStepBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BookingStepBlock_uiplus_9F-68-75-B5-2E-E2-A5-C2_en-us.json"
+                  }
+                },
+                {
+                  "component": "passengersBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PassengersBlock_uiplus_F2-D4-0B-38-C0-F5-51-58_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "pageActionButtonsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_D8-9F-34-0A-08-3F-B9-71_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "ea9316c1-f864-4d3d-ad54-e1927570310a",
+      "path": "uiplus/en/check-in/services",
+      "name": "Services",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Services",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "BookingStepBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BookingStepBlock_uiplus_92-A3-5F-CB-B3-1D-3A-C2_en-us.json"
+                  }
+                },
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_30-52-53-E5-BD-81-DA-89_en-us.json"
+                  }
+                },
+                {
+                  "component": "servicesBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ServicesBlock_uiplus_3B-A9-B4-A1-08-A5-80-D7_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "servicesBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ServicesBlock_uiplus_75-9F-2E-97-D6-C2-E2-B9_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "pageActionButtonsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_E6-55-1B-E5-3D-08-23-D7_en-us.json"
+                  }
+                },
+                {
+                  "component": "wciOverbookedManagerBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_WciOverbookedManagerBlock_uiplus_D9-92-50-AB-C1-96-1B-E9_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "0a835375-16df-45ae-8efb-3240dadc2087",
+      "path": "uiplus/en/check-in/seat-map",
+      "name": "Seat Map",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Seat Map",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "BookingStepBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BookingStepBlock_uiplus_64-7B-26-A7-24-E7-83-84_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "SeatMapBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_SeatMapBlock_uiplus_8E-7C-52-91-ED-53-C8-7F_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "summaryBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "037ca597-bc51-4273-bd2a-62c241ddda9b",
+      "path": "uiplus/en/check-in/wait-page-verify-payment",
+      "name": "Wait Page (Verify Payment)",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": null,
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "verifyPaymentBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_VerifyPaymentBlock_uiplus_9C-46-07-7D-65-67-3B-7D_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "37260dc9-caac-4f6c-86d1-85250431c0e7",
+      "path": "uiplus/en/check-in/confirmation",
+      "name": "Confirmation",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Confirmation",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_CB-56-A0-22-B4-FB-3F-2B_en-us.json"
+                  }
+                },
+                {
+                  "component": "CheckInConfirmationBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_CheckInConfirmationBlock_uiplus_12-7F-F7-C1-A1-C2-B1-2E_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "ManageCheckInBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_84-9B-8D-07-9E-E5-AF-59_en-us.json"
+                  }
+                },
+                {
+                  "component": "servicesBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_ServicesBlock_uiplus_DD-8A-BF-6A-C2-23-3B-85_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "pageActionButtonsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_5B-5B-89-85-83-D7-6A-64_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "5c7057b3-1624-412f-9aa4-927d0336318d",
+      "path": "uiplus/en/check-in/login-deprecated",
+      "name": "Login (deprecated)",
+      "layout": "/static-config/layouts/page-layout_en-us.json",
+      "seo": {
+        "title": "Check-in - Login",
+        "description": "",
+        "robots": ""
+      },
+      "slots": {
+        "main": {
+          "rows": [
+            {
+              "cols": [
+                {
+                  "component": "bannerBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "titleHeadingBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
+                  }
+                },
+                {
+                  "component": "bookingLoginBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_BookingLoginBlock_uiplus_2F-61-B7-6E-07-DF-FF-09_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                },
+                {
+                  "component": "groupOptionsBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
+                  }
+                }
+              ]
+            },
+            {
+              "cols": [
+                {
+                  "component": "rteBlock_uiplus",
+                  "span": 12,
+                  "config": {
+                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "pageId": "d1c8e5c3-7c9b-4a0c-9b8e-xxxxxxxxx",
+      "path": "en/page-not-available",
+      "name": "Page not available",
+      "layout": {
+        "rows": [
+          {
+            "cols": [
+              {
+                "component": "rteBlock_uiplus",
+                "span": 12,
+                "config": {
+                  "htmlContentURLs": "/assets/rte-fragments/pages/page-not-available",
+                  "cssURLs": [
+                    "https://av-static-test2.newshore.es/assets/styles/styles.min.css?1001",
+                    "https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "seo": {
+        "title": "Page not available",
+        "description": "",
+        "robots": ""
+      }
+    }
+  ]
+}

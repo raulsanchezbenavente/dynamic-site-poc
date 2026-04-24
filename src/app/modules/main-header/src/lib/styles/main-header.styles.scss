@@ -1,0 +1,33 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'common/main-header-vars.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+::ng-deep :root {
+    --main-header-layout-breakpoint: #{$main-header-layout-breakpoint};
+}
+:host {
+    display: block;
+    user-select: none;
+    ::ng-deep {
+        .main-header_auth {
+            --#{$ds}dropdown-content-position-left: auto;
+            --#{$ds}dropdown-content-position-right: 0;
+
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+// Header got fixed on scrolling
+::ng-deep .body--header-fixed-on-scroll.body--is-header-fixed {
+    .main-header {
+        z-index: var(--zindex-main-header);
+        position: fixed;
+        top: 0;
+        left: 0;
+        box-shadow: 0 8px 10px rgba(var(--c-primary-rgb), 0.3);
+    }
+}

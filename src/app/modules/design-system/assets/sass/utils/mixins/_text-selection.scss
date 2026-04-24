@@ -1,0 +1,12 @@
+// ********************
+//  Text Selection
+//	-------
+//	Applies styles to the part of a document that has been highlighted by the user (such as clicking and dragging the mouse across text).
+// ********************
+
+@mixin selection($color, $background) {
+    ::selection {
+        color: $color;
+        background: $background;
+    }
+}

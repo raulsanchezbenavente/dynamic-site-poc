@@ -1,0 +1,136 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../../../styles/common/main-header-vars.styles' as *;
+@use '../../../styles/common/main-header-mixins.styles' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: block;
+}
+.primary-nav_list {
+    display: flex;
+    flex-direction: column;
+}
+.primary-nav_list_item {
+    flex: 1 1 100%;
+    display: flex;
+    align-items: stretch;
+    &--sc-offer {
+        --primary-nav-list-item-hover-bar-background: var(--c-section-offers);
+        --badge-background: var(--c-section-offers);
+    }
+    &--sc-booking {
+        --primary-nav-list-item-hover-bar-background: var(--c-section-booking);
+        --badge-background: var(--c-section-booking);
+    }
+    &--sc-info {
+        --primary-nav-list-item-hover-bar-background: var(--c-section-info);
+        --badge-background: var(--c-section-info);
+    }
+    &--sc-fare-business {
+        --primary-nav-list-item-hover-bar-background: var(--c-section-fare-business);
+        --badge-background: var(--c-section-fare-business);
+    }
+}
+.primary-nav_list_item_button {
+    --icon-fontsize: #{calculateRem(22px)};
+
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    color: var(--primary-nav-list-item-button-color, var(--c-text));
+    font-size: var(--primary-nav-list-item-button-fontsize, var(--f-size-medium));
+    padding: var(--primary-nav-list-item-button-padding, #{calculateRem(20px)} 0 #{calculateRem(20px)} #{$pad-tiny});
+    text-decoration: none;
+    box-sizing: border-box;
+
+    // button tag
+    .button_label_tag {
+        @include badge;
+
+        margin-left: calculateRem(6px);
+    }
+
+    // hover and active states
+    :where(.primary-nav-inner:not(:hover)) .primary-nav_list_item--active &,
+    :where(.primary-nav_list_item):hover & {
+        font-weight: var(--f-weight-bold);
+
+        // hover left bar indicating link hover
+        &::before {
+            @include menu-indicator-color-bar(vertical);
+        }
+    }
+}
+
+// DO NOT use transition animation on submenu
+.primary-nav_submenu {
+    --banner-html-caption-title-lineheight: var(--f-line-height);
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    display: block;
+    opacity: 1;
+    background-color: var(--c-white);
+    pointer-events: all;
+}
+
+// Responsive
+@media #{$main-header-layout-breakpoint-desktop} {
+    :host {
+        --primary-nav-list-item-button-padding: 0 #{$pad-large};
+        --primary-nav-list-item-button-fontsize: var(--f-size);
+
+        display: flex;
+        padding: 0;
+    }
+    .primary-nav_list {
+        height: 100%;
+        flex-flow: row nowrap;
+        align-items: stretch;
+    }
+    .primary-nav_list_item_button {
+        justify-content: center;
+
+        // hover left bar indicating link hover
+        :where(.primary-nav-inner:not(:hover)) .primary-nav_list_item--active &,
+        :where(.primary-nav_list_item):hover & {
+            &::before {
+                @include menu-indicator-color-bar(horizontal);
+            }
+        }
+        .button_label_tag {
+            margin-left: $spacer-x-small;
+        }
+    }
+}
+
+@media #{$main-header-layout-breakpoint-mobile} {
+    .primary-nav_list_item_button {
+        --arrow-collapse-icon: #{$icon-arrow-single-right};
+
+        // Add links right arrow
+        &:not(a) {
+            @include collapse-trigger-flex(24px, inherit, right);
+            &::after {
+                padding-left: calculateRem(10px);
+            }
+        }
+    }
+    .primary-nav_list_item + .primary-nav_list_item {
+        .primary-nav_list_item_button {
+            border-top: calculateRem(1px) solid var(--c-border);
+        }
+    }
+    .primary-nav_submenu {
+        ::ng-deep .primary-nav-submenu_banner {
+            opacity: 1;
+            transition: opacity 0.2s ease-out 0.34s;
+        }
+    }
+}

@@ -1,0 +1,81 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+::ng-deep :root {
+    --summary-cart-layout-breakpoint: #{$bp-tablet-landscape};
+    --summary-cart-padding: #{$pad-x-large};
+}
+:host {
+    // skeleton button styles
+    --skeleton-line-width: #{calculateRem(207px)};
+    --skeleton-line-height: #{calculateRem(50px)};
+    --skeleton-line-border-radius: 100vh;
+}
+.summary-cart-button {
+    --price-currency-fontsize: var(--f-size);
+    --#{$ds}btn-width: 100%;
+
+    display: inline-flex;
+
+    ::ng-deep .#{$ds}button {
+        @include collapse-trigger-flex(var(--f-size-x-large), inherit, right);
+        &::after {
+            margin: 0;
+        }
+    }
+}
+::ng-deep {
+    .offcanvas.summary-cart-offcanvas {
+        --offcanvas-height: 100%;
+
+        .#{$ds}offcanvas-header_title {
+            text-align: center;
+            font-size: var(--f-size-x-large);
+        }
+    }
+}
+
+// [Desktop]
+@media #{$mobile} {
+    .summary-cart-button {
+        --#{$ds}btn-width: auto;
+    }
+    .summary-cart_detail {
+        z-index: var(--zindex-dropdown);
+        width: calculateRem(500px);
+        background-color: var(--c-white);
+        border-radius: calculateRem(16px);
+        box-shadow: var(--#{$ds}box-shadow-lg);
+        padding: 0;
+        margin: calculateRem(10px) 0 0;
+        position: relative;
+        box-sizing: border-box;
+
+        // top arrow
+        &::before {
+            content: '';
+            height: calculateRem(12px);
+            width: calculateRem(12px);
+            background-color: var(--c-white);
+            position: absolute;
+            top: calculateRem(-6px);
+            right: 14%;
+            transform: translateX(-50%) rotate(45deg);
+        }
+    }
+    .summary-cart_detail_header {
+        padding: var(--summary-cart-padding) var(--summary-cart-padding) $pad-x-x-large;
+    }
+    .summary-cart_detail_title {
+        font-size: var(--f-size-medium);
+        font-weight: var(--f-weight-bold);
+    }
+    .summary-cart_detail_content {
+        @include custom-scroll;
+
+        padding: 0 var(--summary-cart-padding);
+        max-height: 68vh;
+    }
+}

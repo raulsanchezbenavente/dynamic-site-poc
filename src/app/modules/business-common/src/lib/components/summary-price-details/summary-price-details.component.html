@@ -1,0 +1,16 @@
+<section class="summary-price-details">
+    <header class="summary-details_item_header">
+        <h3 class="summary-details_item_title">{{ config.label }}</h3>
+    </header>
+    <div class="summary-details_item_content">
+        <description-list [config]="descriptionListDetails"> </description-list>
+    </div>
+    <div class="summary-details_item_total">
+        <ng-container>
+            <summary-total
+                [config]="summaryTotalConfig"
+                [data]="summaryTotalData">
+            </summary-total>
+        </ng-container>
+    </div>
+</section>

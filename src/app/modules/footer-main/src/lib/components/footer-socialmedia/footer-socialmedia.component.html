@@ -1,0 +1,19 @@
+@let links = socialLinks();
+
+@if (links.items.length) {
+    <span class="socialmedia-title">{{ links.title }}</span>
+    <ul class="socialmedia-list">
+        @for (item of links.items; track item) {
+            @let lowerCaseName = item.name.toLowerCase();
+            @let itemLinkTarget = item.link.target;
+            <li class="socialmedia-list_item">
+                <a
+                    [ngClass]="['socialmedia-list_item_link', 'socialmedia--' + lowerCaseName]"
+                    [href]="item.link.url"
+                    [attr.target]="itemLinkTarget">
+                    <span class="link-label">{{ item.name }}</span>
+                </a>
+            </li>
+        }
+    </ul>
+}

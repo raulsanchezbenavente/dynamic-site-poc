@@ -1,0 +1,27 @@
+<!-- imagen -->
+@if (config.imageMedia) {
+    <picture class="banner-media_image">
+        @if (config.imageMedia.bgL?.url) {
+            <source
+                [srcset]="config.imageMedia.bgL?.url"
+                [attr.alt]="config.imageMedia.text"
+                [attr.media]="
+                    '(min-width: ' + bannerConfig.layout.breakpoints.largeSize + bannerConfig.layout.sizeUnit + ')'
+                " />
+        }
+        @if (config.imageMedia.bgM?.url) {
+            <source
+                [srcset]="config.imageMedia.bgM?.url"
+                [attr.alt]="config.imageMedia.text"
+                [attr.media]="
+                    '(min-width: ' + bannerConfig.layout.breakpoints.mediumSize + bannerConfig.layout.sizeUnit + ')'
+                " />
+        }
+        @if (config.imageMedia.bg.url) {
+            <img
+                loading="lazy"
+                [src]="config.imageMedia.bg.url"
+                [alt]="config.imageMedia.text" />
+        }
+    </picture>
+}

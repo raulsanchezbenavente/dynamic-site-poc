@@ -1,0 +1,83 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/blocks';
+
+<Meta title="Guidelines/4. Shadows (Foundations)" />
+
+# Shadows (Foundations)
+
+## Token Properties
+The following table explains how each part of a shadow token affects its appearance:
+
+<table>
+<tr>
+  <th>Property</th>
+  <th>Description</th>
+</tr>
+<tr>
+  <td>`x` (offset-x)</td>
+  <td>Horizontal displacement of the shadow. Positive moves it right.</td>
+</tr>
+<tr>
+  <td>`y` (offset-y)</td>
+  <td>Vertical displacement of the shadow. Positive moves it down.</td>
+</tr>
+<tr>
+  <td>`blur`</td>
+  <td>Controls how soft or sharp the shadow is. Higher = more blur.</td>
+</tr>
+<tr>
+  <td>`spread`</td>
+  <td>Expands (positive) or contracts (negative) the size of the shadow.</td>
+</tr>
+<tr>
+  <td>`color`</td>
+  <td>The color of the shadow, usually with transparency (e.g. `rgba(...)`).</td>
+</tr>
+</table>
+
+> **Example Token:**
+> ```scss
+> $shadow-sm: 2px 4px 12px 0px rgba(0, 0, 0, 0.1);
+> ```
+
+## ⚠️ **Shadow token structure – Required values**
+>
+> A valid CSS `box-shadow` must always include:
+> - At least `x` and `y` offsets.
+> - Optional: `blur`, `spread`, and `color`.
+>
+> Examples:
+>
+> ✅ Valid:
+> ```css
+> box-shadow: 0px 4px; /* Only x and y */
+> box-shadow: 0px 4px 10px; /* x, y, blur */
+> box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.1); /* Full */
+> ```
+>
+> ❌ Invalid:
+> ```css
+> box-shadow: 0px 4px rgba(0, 0, 0, 0.1); /* Misinterprets color as blur */
+> box-shadow: 6px; /* Missing Y offset */
+> ```
+>
+> ✅ **Best practice:** Always provide 4 values (`x`, `y`, `blur`, `spread`) for clarity and consistency.
+
+---
+
+If you're using `box-shadow` directly in components, make sure to only use the available design tokens to maintain visual consistency.
+
+
+---
+
+## ⚠️ Deprecated Variables
+
+These shadows variables is no longer used.
+They should be removed gradually.
+Use `$shadow-light`, `$shadow-default`, `$shadow-dark` instead.
+
+```scss
+$box-shadow-base-color: var(--c-primary-rgb);
+--#{$ds}box-shadow-lg: 0 2px 12px rgba(#{$box-shadow-base-color}, 0.15);
+--#{$ds}box-shadow-lg-hover: 0 0 20px rgba(#{$box-shadow-base-color}, 0.3);
+--#{$ds}box-shadow: 0 0 6px rgba(#{$box-shadow-base-color}, 0.2);
+```

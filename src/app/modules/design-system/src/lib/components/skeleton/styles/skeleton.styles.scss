@@ -1,0 +1,28 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host ::ng-deep {
+    .skeleton-loader {
+        &.circle {
+            width: var(--skeleton-circle-size, calculateRem(40px));
+            height: var(--skeleton-circle-size, calculateRem(40px));
+            margin: var(--skeleton-circle-margin, calculateRem(8px));
+        }
+        &:not(.circle) {
+            width: var(--skeleton-line-width, 100%);
+            height: var(--skeleton-line-height, calculateRem(24px));
+            border-radius: var(--skeleton-line-border-radius, var(--#{$ds}border-radius-md));
+            margin-bottom: var(--skeleton-line-margin-bottom, calculateRem(8px));
+        }
+    }
+}
+.#{$ds}skeleton_ngx-loader {
+    display: flex;
+    align-items: center;
+    gap: var(--skeleton-gap, 0);
+    ::ng-deep .skeleton-loader {
+        background-color: var(--skeleton-background-color, var(--c-color20));
+    }
+}

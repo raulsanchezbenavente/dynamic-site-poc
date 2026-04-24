@@ -1,0 +1,36 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// socialmedia list
+
+// socialmedia link
+$socialmedia-item-transition: var(--socialmedia-item-transition, 0.13s ease-in-out);
+$socialmedia-item-transform-scale: var(--socialmedia-item-transform-scale, 1.2);
+
+// socialmedia icon
+$socialmedia-item-icon-size: var(--socialmedia-item-icon-size, var(--f-size-x-large));
+
+// socialmedia colors
+$c-facebook: #3b5998;
+$c-twitter: #1da1f3;
+$c-instagram: #7e399d;
+$c-youtube: #ff0000;
+$c-google: #ea4436;
+$c-rss: #e26e2d;
+$c-wechat: #2dc100;
+$c-weibo: #df152c;
+$c-line: #06c152;
+$c-linkedin: #0077b5;
+$c-apple: #0077b5;
+
+// socialmedia type
+$socialmedia-color: var(--socialmedia-color, var(--c-white));
+$socialmedia-color-hover: var(--socialmedia-color-hover, var(--c-white));
+$socialmedia-background: var(--socialmedia-background, transparent);
+
+// socialmedias items
+$socialmedia-items-circle-map:
+    'facebook' $icon-social-facebook-circle $socialmedia-color,
+    'twitter' $icon-social-twitter-circle $socialmedia-color,
+    'instagram' $icon-social-instagram-circle $socialmedia-color,
+    'youtube' $icon-social-youtube-circle $socialmedia-color,
+    'linkedin' $icon-social-linkedin-circle $socialmedia-color;

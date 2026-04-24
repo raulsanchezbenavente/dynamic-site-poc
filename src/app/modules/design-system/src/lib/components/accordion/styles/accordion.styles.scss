@@ -1,0 +1,10 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer-medium;
+}

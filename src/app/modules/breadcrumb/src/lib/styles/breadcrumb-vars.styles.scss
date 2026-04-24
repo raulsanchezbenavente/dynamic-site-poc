@@ -1,0 +1,31 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+$breadcrumb-layout-breakpoint: $tablet-landscape;
+
+$breadcrumb-fontsize: var(--breadcrumb-fontsize, var(--f-size-small));
+$breadcrumb-fontweight: var(--breadcrumb-fontweight, var(--f-weight-light));
+$breadcrumb-desktop-padding-x: var(--breadcrumb-item-padding-bottom, calculateRem(16px));
+
+// item home
+$breadcrumb-home-link-fontsize: var(--breadcrumb-home-link-fontsize, var(--f-size-large));
+$breadcrumb-home-link-color: var(--breadcrumb-home-link-color, var(--c-tertiary));
+$breadcrumb-home-icon-color: var(--breadcrumb-home-icon-color, var(--c-color19));
+
+// item
+$breadcrumb-item-color: var(--breadcrumb-item-color, var(--c-color19));
+$breadcrumb-item-padding-right: var(--breadcrumb-item-padding-right, calculateEm(8px));
+$breadcrumb-item-padding-bottom: var(--breadcrumb-item-padding-bottom, calculateRem(10px));
+
+// link
+$breadcrumb-link-color: var(--breadcrumb-link-color, var(--c-color19));
+$breadcrumb-link-hover-color: var(--breadcrumb-link-hover-color, var(--c-link));
+$breadcrumb-link-hover-fontweight: var(--breadcrumb-link-hover-fontweight, var(--f-weight-bold));
+
+// separator
+$breadcrumb-separator-fontsize: var(--breadcrumb-separator-fontsize, var(--f-size-tiny));
+$breadcrumb-separator-margin-left: var(--breadcrumb-separator-margin-left, calculateRem(8px));
+$breadcrumb-separator-margin-top: var(--breadcrumb-separator-margin-top, calculateRem(4px));
+
+// current
+$breadcrumb-current-color: var(--breadcrumb-current-color, var(--c-text));
+$breadcrumb-current-fontweight: var(--breadcrumb-current-fontweight, var(--f-weight-bold));

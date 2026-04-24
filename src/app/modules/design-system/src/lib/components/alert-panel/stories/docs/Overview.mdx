@@ -1,0 +1,52 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../alert-panel.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Alert Panel
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=10474-93&t=2ZxtqNTQy6zswbDe-1" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/alert-panel" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`alert-panel` surfaces high-priority information inline with surrounding content. Configure the component through a single `config` object to pick the right alert type, layout, accessibility labels, and optional body copy or projected content.
+
+## Basic usage
+
+The component is configured via a `Partial<AlertPanelConfig>`. Titles and descriptions accept HTML strings, while projected content can introduce buttons or links.
+
+```html
+<alert-panel [config]="exampleConfig"></alert-panel>
+```
+
+```ts
+exampleConfig: AlertPanelConfig = {
+	title: 'Check-In Completed',
+	description: 'You can now download your <a href="#">boarding pass</a>.',
+	alertType: AlertPanelType.SUCCESS,
+};
+```
+
+## Variants
+
+### Status types
+
+Alert types communicate semantic meaning. Use `WARNING` for actions required, `ERROR` for blocking issues, `SUCCESS` for completion, `INFO` for neutral updates, and `NEUTRAL` for neutral or inactive states.
+
+<Canvas of={ComponentStories.STATUSES} />
+
+- The last example shows `AlertPanelType.NEUTRAL` which provides a muted, inactive appearance.
+- You can project links or any rich content within the alert to drive inline actions.
+
+### Content variants
+
+The alert panel supports flexible content configurations: title-only, description-only, or both with projected content.
+
+<Canvas of={ComponentStories.CONTENT_VARIANTS} />
+
+## Related components
+- [**Toast**](?path=/docs/atoms-toast-toast--overview): prefer for transient confirmations that auto-dismiss.
+
+## References
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-alertpanel-02-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-alertpanel-changelog--docs) tab for version history.

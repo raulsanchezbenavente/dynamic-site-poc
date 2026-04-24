@@ -1,0 +1,43 @@
+<div class="ds-minus-plus">
+    <button
+        class="ds-minus-plus_button ds-minus-plus_button--minus"
+        [attr.aria-disabled]="!isMinusEnable() ? 'true' : null"
+        [attr.aria-label]="
+            minusPlusVM.minusLabel +
+            ', ' +
+            minusPlusVM.formValidationConfig.formControl.value +
+            ' ' +
+            minusPlusVM.statusLabel
+        "
+        (click)="minus()"></button>
+    @if (formControl) {
+        <span
+            role="status"
+            class="hide-visually"
+            aria-atomic="true">
+            {{ minusPlusVM.formValidationConfig.formControl.value }} {{ minusPlusVM.statusLabel }}
+        </span>
+        <div
+            class="ds-minus-plus_input"
+            aria-hidden="true">
+            <input
+                type="text"
+                readonly="readonly"
+                tabindex="-1"
+                [id]="id"
+                [attr.value]="minusPlusVM.formValidationConfig.formControl.value"
+                [formControl]="$any(formControl)" />
+        </div>
+    }
+    <button
+        class="ds-minus-plus_button ds-minus-plus_button--plus"
+        [attr.aria-disabled]="!isPlusEnable() ? 'true' : null"
+        [attr.aria-label]="
+            minusPlusVM.plusLabel +
+            ', ' +
+            minusPlusVM.formValidationConfig.formControl.value +
+            ' ' +
+            minusPlusVM.statusLabel
+        "
+        (click)="plus()"></button>
+</div>

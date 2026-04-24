@@ -1,0 +1,26 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../layout-swapper.stories';
+
+<Meta of={ComponentStories} />
+
+# Layout Swapper
+
+Documentation: [DS Layout Wrapper - Confluence](https://flyr.atlassian.net/wiki/spaces/DC/pages/5196611654/DS+LayoutWrapper)
+
+## Example usage (simplified)
+```html
+<ds-layout-swapper #layoutSwapper>
+  <ng-template layoutSlot="step1">
+    <step-one-form></step-one-form>
+  </ng-template>
+
+  <ng-template layoutSlot="step2">
+    <step-two-summary></step-two-summary>
+  </ng-template>
+</ds-layout-swapper>
+
+<!-- Activate a specific slot -->
+<button (click)="layoutSwapper.showProjection('step2')">Go to Step 2</button>
+
+```

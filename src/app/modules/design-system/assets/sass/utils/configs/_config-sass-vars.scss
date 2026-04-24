@@ -1,0 +1,28 @@
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+
+$enable-deprecation-messages: true;
+
+// Variables
+// Prefix for components classes
+// DO NOT CHANGE THAT **
+$ds: ds- !default;
+$dcx: dcx- !default;
+
+// Main app content max-width and gutter
+$container-max-width: #{calculateRem(1248px)};
+$app-gutter-sides: #{calculateRem(16px)};
+$app-gutter-sides-large: #{calculateRem(32px)};
+
+$scroll-margin-top-fixed-header: #{calculateRem(96px)} !default;
+$scroll-margin-top-fixed-header-mobile: #{calculateRem(62px)} !default;
+
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+$grid-breakpoints: (
+    xxs: 0,
+    xs: 480px,
+    sm: 640px,
+    md: 768px,
+    lg: 992px,
+    xl: 1248px,
+) !default;

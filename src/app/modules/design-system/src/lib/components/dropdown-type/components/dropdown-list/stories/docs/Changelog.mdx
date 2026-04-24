@@ -1,0 +1,22 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+<Meta title="Molecules/Dropdown/Dropdown List/Changelog" />
+
+## [0.1.0]
+
+### Added
+
+- Added `IconComponent` in DropdownComponent
+- Added `DropdownLayoutType.SQUARE` type and styles
+- Added new property `triggerId` - autogenerate by generatedId pipe
+
+### Changed
+
+- Change value for option selected in dropdown list
+- Renamed property `accessibilityId` to `contentId`
+- Fix disabled attribute
+- Fixed all dropdown.styles so it can be easily customized
+
+### Removed
+
+- Removed property `accessibilityConfig` from `DropdownConfig` - replaced by an autogenerate value using generatedId pipe

@@ -1,0 +1,33 @@
+{
+  "gaGtmColiving": true,
+  "activateCustomPageViewEvent": true,
+  "analyticsConfig": {
+    "analyticsEngines": [
+      {
+        "engine": "GOOGLE_ANALYTICS",
+        "accounts": [
+          "G-R852K86P67",
+          "G-522JDQ9J50"
+        ]
+      },
+      {
+        "engine": "GOOGLE_TAG_MANAGER",
+        "accounts": null
+      }
+    ],
+    "analyticsExceptions": [
+      {
+        "eventName": "purchase",
+        "analyticsEngines": [
+          {
+            "engine": "GOOGLE_ANALYTICS",
+            "accounts": [
+              "G-CONVERSION-ID"
+            ]
+          }
+        ],
+        "includeDefaultEngines": false
+      }
+    ]
+  }
+}

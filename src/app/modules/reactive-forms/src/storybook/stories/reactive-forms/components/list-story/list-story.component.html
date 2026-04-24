@@ -1,0 +1,95 @@
+<tab-presentation>
+    <div form>
+        <form [formGroup]="myForm">
+            <div class="stbook-title">List / AriaLabelledBy</div>
+            <rf-list
+                formControlName="flightClassList"
+                [filter]="{ enabled: true, placeholder: 'Filter by flight class' }"
+                [options]="flightClassOptions"
+                [ariaLabelledBy]="'test-aria-describedby'">
+            </rf-list>
+            <em
+                id="test-aria-describedby"
+                hoverOpacity>
+                This is just a test to read automatically
+            </em>
+
+            <div class="stbook-title">List / Validation Required</div>
+            <rf-list
+                formControlName="listRequired"
+                [hintMessages]="'Select a valid payment method'"
+                [options]="paymentMethodsOptions">
+            </rf-list>
+
+            <div class="stbook-title">List / ReadOnly</div>
+            <rf-list
+                formControlName="readOnlyList"
+                [options]="airlinesOptions"
+                [readonly]="true">
+            </rf-list>
+
+            <div class="stbook-title">List / Disabled</div>
+            <rf-list
+                formControlName="disabledList"
+                [options]="flightClassOptions">
+            </rf-list>
+
+            <div class="stbook-title">List / Custom Class</div>
+            <rf-list
+                formControlName="customClasses"
+                [options]="prefixOptions"
+                [classes]="{ option: 'fs-2 bg-warning' }">
+            </rf-list>
+        </form>
+        <form-validation-features [form]="myForm" />
+    </div>
+    <div standalone>
+        <div class="stbook-title">List / AriaLabelledBy</div>
+        <rf-list
+            #list1
+            [filter]="{ enabled: true, placeholder: 'Filter by flight class' }"
+            [options]="flightClassOptions"
+            [value]="'business'"
+            [ariaLabelledBy]="'test-aria-describedby'">
+        </rf-list>
+        <em
+            id="test-aria-describedby"
+            hoverOpacity
+            >This is just a test to read automatically</em
+        >
+
+        <div class="stbook-title">List / Validation Required</div>
+        <rf-list
+            #list2
+            [options]="paymentMethodsOptions"
+            [validators]="[Validators.required]"
+            [hintMessages]="'Select a valid payment method'">
+        </rf-list>
+
+        <div class="stbook-title">List / Custom Class</div>
+        <rf-list
+            #list3
+            [options]="prefixOptions"
+            [classes]="{ option: 'fs-2 bg-warning' }"
+            [value]="'+33'">
+        </rf-list>
+
+        <div class="stbook-title">List / ReadOnly</div>
+        <rf-list
+            #list4
+            [options]="airlinesOptions"
+            [readonly]="true"
+            [value]="'LH'">
+        </rf-list>
+
+        <div class="stbook-title">List / Disabled</div>
+        <rf-list
+            #list5
+            [options]="flightClassOptions"
+            [value]="'economy'"
+            [disabled]="true">
+        </rf-list>
+
+        <standalone-validation-features [components]="[list1, list2, list3, list4, list5]" />
+    </div>
+</tab-presentation>

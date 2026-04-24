@@ -1,0 +1,22 @@
+@if (prefixText) {
+    <span class="ds-price-currency_prefix text-space-gap">{{ prefixText }} </span>
+}
+<span class="ds-price-currency-container text-space-gap">
+    @if (currency) {
+        <span class="ds-price-currency_currency">{{ currency }}</span>
+    }
+    <span class="ds-price-currency_price">
+        @if (showDecimals) {
+            {{ price | currencyFormat: 'IntegerOnly' : currency : culture }}
+            <span class="ds-price-currency_decimals text-space-gap">
+                {{ price | currencyFormat: 'FractionalOnly' : currency : culture : decimalDigits }}
+            </span>
+        }
+        @if (!showDecimals) {
+            {{ price | currencyFormat: format! : currency : culture : decimalDigits }}
+        }
+    </span>
+</span>
+@if (suffixText) {
+    <span class="ds-price-currency_suffix">{{ suffixText }}</span>
+}

@@ -1,0 +1,72 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from '../toast-container.stories';
+
+<Meta of={ComponentStories} name="01 Overview" />
+
+# Toast Container
+
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/toast-container" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+This guide focuses on how to use `toast-container` with `ToastService` to dynamically display Toast notifications, including how the `data-toast-slot` attribute affects positioning behavior.
+
+## Basic usage
+
+The toast container works together with `ToastService` to display toasts in specific DOM targets. Add a `<toast-container />` in your component template, create a target `div` with an `id`, and call `ToastService.show()` to spawn toasts into that target.
+
+```html
+<div id="myToastTarget" style="position: relative;"></div>
+<toast-container />
+```
+
+```ts
+this.toastService.show(
+  { status: ToastStatus.SUCCESS, message: 'Operation completed!', autohide: true },
+  'myToastTarget'
+);
+```
+
+## Positioning with `data-toast-slot`
+
+### Default (no `data-toast-slot`)
+
+Without the attribute, toasts are positioned with `position: absolute` relative to their container. The toast appears at the top-right corner of the target element.
+
+```html
+<div id="defaultTarget" style="position: relative; min-height: 100px;">
+  <!-- Toast will appear absolutely positioned inside this div -->
+</div>
+```
+
+### Panel slot (`data-toast-slot="panel"`)
+
+When the target container has `data-toast-slot="panel"`, the toast gains **sticky positioning** with a higher `z-index`. This is the recommended pattern for panel-level notifications that should remain visible while the user scrolls.
+
+```html
+<div data-toast-slot="panel" id="panelTarget">
+  <!-- Toast sticks to the top of the viewport while scrolling -->
+</div>
+```
+
+The sticky offset defaults to `0` and automatically adjusts to `48px` on viewports wider than `1210px` (to account for the main header height).
+
+## Variants
+
+### Default vs Panel Slot
+
+<Canvas of={ComponentStories.CONTAINER_SLOTS} />
+
+## How `ToastService` Works
+
+1. **`show(config, containerId)`** — Creates a new toast element inside the `<toast-container>`, then uses `setTimeout` to move it into the DOM element with the matching `id`.
+2. **`hidden(index)`** — Removes the toast DOM node when it auto-hides or the user clicks close.
+3. **Multiple targets** — A single `<toast-container />` instance can serve multiple target containers simultaneously.
+
+## Related components
+
+- [**Toast**](?path=/docs/atoms-toast-toast--01-overview): The individual toast notification component with status, message, and dismiss behavior.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/atoms-toast-toast-container--02-accessibility) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/atoms-toast-toast-container---changelog) tab for version history.

@@ -1,0 +1,101 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as ComponentStories from '../list.stories';
+
+<Meta of={ComponentStories} title="Atoms/List/Overview" />
+
+# List
+
+<a href="https://www.figma.com/design/RQJViheCmmu9SECbNQoQro/AV-%7C-SHIPPED-%7C-Library?node-id=9015-2202" target="_blank" rel="noopener noreferrer">Figma Design</a> |
+<a href="https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/list" target="_blank" rel="noopener noreferrer">GitHub</a>
+
+`ds-list` renders icon-enhanced text rows or simple bullet items with consistent spacing, typography, and accessibility hooks. This guide covers configuration patterns, supported appearances, and when each variant works best.
+
+## Basic usage
+
+Lists are configured through a `config` object with an array of `items`. Each item accepts rich text (sanitized via Angular's `DomSanitizer`), optional icons, and per-row CSS classes.
+
+```html
+<ds-list [config]="travelTips"></ds-list>
+```
+
+```ts
+travelTips = {
+  items: [
+    {
+      icon: { name: 'information' },
+      content: 'Arrive at the airport **90 minutes** before departure.',
+    },
+    {
+      icon: { name: 'shield-check' },
+      content: 'Keep travel documents accessible at security checkpoints.',
+    },
+  ],
+};
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Description</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>config.items</code></td>
+      <td>Array of list rows rendered in order.</td>
+      <td><code>ListItem[]</code></td>
+    </tr>
+    <tr>
+      <td><code>config.ariaAttributes</code></td>
+      <td>Optional ARIA metadata passed to the root <code>ul</code>/<code>ol</code>.</td>
+      <td><code>AriaAttributes</code></td>
+    </tr>
+    <tr>
+      <td><code>appearance</code></td>
+      <td>Visual style (default icons or bullets).</td>
+      <td><code>ListAppearance</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<Source code={`<ds-list [config]="travelTips" />`} dark language="html" />
+
+## Variants
+
+### Default (Icon) list
+
+Shows items with optional icons, disabled state, and custom classes. Use for feature summaries, onboarding steps, or alerts requiring emphasis.
+
+<Canvas of={ComponentStories.DEFAULT_APPEARANCE} />
+
+- Include `icon` per row to align with visual expectations in the design system.
+- Use `isDisabled` to visually mute unavailable entries while keeping them readable.
+- Pass `cssClass` when a row needs bespoke layout tweaks.
+
+### Bullet list
+
+renders a text-only variant with semantic unordered list markers using the `ListAppearance.BULLET` input. Ideal for dense text or when icons add noise.
+
+<Canvas of={ComponentStories.BULLET_APPEARANCE} />
+
+- Content supports inline HTML (`<strong>`, `<em>`, `<a>`). The component sanitizes content before rendering.
+- Mix standard and emphasis text to highlight key phrases without extra markup.
+
+## Accessibility
+
+- Provide `config.ariaAttributes` when the list conveys live regions, navigation landmarks, or labelled sections.
+- `isDisabled` rows remain readable but visually subdued; combine with descriptive text to explain why an item is unavailable.
+- Rich text content is sanitized before insertion, preventing script injection while preserving formatting.
+- Bullet appearance uses semantic list markup so screen readers announce the correct list length and positions.
+
+## Related components
+
+- [**Rich Text**](?path=/docs/atoms-rich-text-overview--docs): For longer formatted content without list semantics.
+- [**Accordion**](?path=/docs/atoms-accordion-overview--docs): Use when list entries need progressive disclosure.
+
+## References
+
+- **Changelog**: See the [Changelog](?path=/docs/atoms-list-changelog--docs) tab for version history.

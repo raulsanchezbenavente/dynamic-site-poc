@@ -1,0 +1,28 @@
+// ********************
+//  UTILS > MIXINS
+//  These mixins are designed to simplify the application of complex styles and patterns,
+//  promoting consistency and efficiency in our styling approach
+// ********************
+
+@forward 'mixins/arrow-collapse/arrow-collapse-mixin';
+@forward 'mixins/button/buttons-mixin';
+@forward 'mixins/container-wrap';
+@forward 'mixins/custom-scroll/custom-scroll-mixin';
+@forward 'mixins/dropdown/dropdown-mixin';
+@forward 'mixins/remove-rte-p-margins/remove-rte-p-margins-mixin';
+
+// todo: need to convert variables to css custom properties
+@forward 'mixins/badge';
+@forward 'mixins/border-selected';
+@forward 'mixins/ellipsis';
+@forward 'mixins/headings';
+@forward 'mixins/hover-only';
+@forward 'mixins/hide-visually';
+@forward 'mixins/icon-font';
+@forward 'mixins/intro';
+@forward 'mixins/long-words-handling';
+@forward 'mixins/outline-accessibility';
+@forward 'mixins/overlay';
+@forward 'mixins/svg-image'; // todo: create a new component for svgImage (using sprite technique)
+@forward 'mixins/text-selection';
+@forward 'mixins/triangle';

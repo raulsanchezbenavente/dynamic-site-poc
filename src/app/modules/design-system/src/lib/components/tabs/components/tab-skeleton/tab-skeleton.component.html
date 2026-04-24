@@ -1,0 +1,17 @@
+@if (isLoadingData()) {
+    <span class="hide-visually">
+        {{ CommonTranslationKeys.Common_Tabs_Loading | translate }}
+    </span>
+    <div class="tab-skeleton_item tab-skeleton_item--1">
+        <ds-skeleton [config]="config"></ds-skeleton>
+    </div>
+    <div class="tab-skeleton_item tab-skeleton_item--2">
+        <ds-skeleton [config]="config"></ds-skeleton>
+    </div>
+    <div class="tab-skeleton_item tab-skeleton_item--3">
+        <ds-skeleton [config]="config"></ds-skeleton>
+    </div>
+    <div class="tab-skeleton_item tab-skeleton_item--4">
+        <ds-skeleton [config]="config"></ds-skeleton>
+    </div>
+}

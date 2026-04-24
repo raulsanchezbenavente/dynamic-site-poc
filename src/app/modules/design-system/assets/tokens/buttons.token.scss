@@ -1,0 +1,166 @@
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use '../tokens/scss/spacing.token' as *;
+
+// Variables
+:root {
+    --#{$ds}btn-height: #{calculateRem(52px)};
+    --#{$ds}btn-fontfamily: var(--f-title);
+    --#{$ds}btn-fontsize: var(--f-size-large);
+    --#{$ds}btn-icon-fontsize: var(--f-size-x-large);
+    --#{$ds}btn-fontweight: var(--f-weight-bold);
+    --#{$ds}btn-border-width: 2px;
+    --#{$ds}btn-border-radius: 100vh;
+    --#{$ds}btn-padding-top-bottom: 0;
+    --#{$ds}btn-padding-left-right: #{$pad-x-large};
+
+    // Sizes
+    // Small
+    --#{$ds}btn-small-height: #{calculateRem(32px)};
+    --#{$ds}btn-small-fontsize: var(--f-size-small);
+    --#{$ds}btn-small-icon-fontsize: var(--f-size);
+    --#{$ds}btn-small-padding-top-bottom: 0;
+    --#{$ds}btn-small-padding-left-right: #{$spacer-medium};
+
+    // Large // AV do not have large button variation yet
+    --#{$ds}btn-large-fontsize: var(--f-size-x-x-large);
+    --#{$ds}btn-large-padding-top-bottom: 0;
+    --#{$ds}btn-large-padding-left-right: #{$spacer-small};
+
+    // Styles
+    // Action button (CTA)
+    // default
+    --#{$ds}btn-action-color: var(--c-white);
+    --#{$ds}btn-action-background: var(--c-primary);
+    --#{$ds}btn-action-bordercolor: var(--c-primary);
+
+    // hover
+    --#{$ds}btn-action-color-hover: var(--c-white);
+    --#{$ds}btn-action-background-hover: var(--c-color21);
+    --#{$ds}btn-action-bordercolor-hover: var(--c-color21);
+
+    // active
+    --#{$ds}btn-action-color-active: var(--c-white);
+    --#{$ds}btn-action-background-active: var(--c-color22);
+    --#{$ds}btn-action-bordercolor-active: var(--c-color22);
+
+    // disabled
+    --#{$ds}btn-action-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-action-background-disabled: var(--c-disable-border);
+    --#{$ds}btn-action-bordercolor-disabled: var(--c-disable-border);
+
+    // -------
+    // Primary button
+    // !NOTE: In AV Primary button has the same styles as Action. Use Action instead of Primary.
+    // default
+    --#{$ds}btn-primary-color: var(--c-white);
+    --#{$ds}btn-primary-background: var(--c-primary);
+    --#{$ds}btn-primary-bordercolor: var(--c-primary);
+
+    // hover
+    --#{$ds}btn-primary-color-hover: var(--c-white);
+    --#{$ds}btn-primary-background-hover: var(--c-color21);
+    --#{$ds}btn-primary-bordercolor-hover: var(--c-color21);
+
+    // active
+    --#{$ds}btn-primary-color-active: var(--c-white);
+    --#{$ds}btn-primary-background-active: var(--c-color22);
+    --#{$ds}btn-primary-bordercolor-active: var(--c-color22);
+
+    // disabled
+    --#{$ds}btn-primary-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-primary-background-disabled: var(--c-disable-border);
+    --#{$ds}btn-primary-bordercolor-disabled: var(--c-disable-border);
+
+    // -------
+    // Secondary button
+    // default
+    --#{$ds}btn-secondary-color: var(--c-primary);
+    --#{$ds}btn-secondary-background: var(--c-white);
+    --#{$ds}btn-secondary-bordercolor: var(--c-primary);
+
+    // hover
+    --#{$ds}btn-secondary-color-hover: var(--c-primary);
+    --#{$ds}btn-secondary-background-hover: var(--c-color20);
+    --#{$ds}btn-secondary-bordercolor-hover: var(--c-color21);
+
+    // active
+    --#{$ds}btn-secondary-color-active: var(--c-primary);
+    --#{$ds}btn-secondary-background-active: var(--c-color3);
+    --#{$ds}btn-secondary-bordercolor-active: var(--c-primary);
+
+    // disabled
+    --#{$ds}btn-secondary-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-secondary-background-disabled: var(--c-disable-border);
+    --#{$ds}btn-secondary-bordercolor-disabled: var(--c-disable-border);
+
+    // -------
+    // Inverse button
+    // default
+    --#{$ds}btn-inverse-color: var(--c-white);
+    --#{$ds}btn-inverse-background: var(--c-secondary);
+    --#{$ds}btn-inverse-bordercolor: var(--c-secondary);
+
+    // hover
+    --#{$ds}btn-inverse-color-hover: var(--c-white);
+    --#{$ds}btn-inverse-background-hover: var(--c-secondary-darker);
+    --#{$ds}btn-inverse-bordercolor-hover: var(--c-secondary-darker);
+
+    // active
+    --#{$ds}btn-inverse-color-active: var(--c-white);
+    --#{$ds}btn-inverse-background-active: var(--c-secondary-darkest);
+    --#{$ds}btn-inverse-bordercolor-active: var(--c-secondary-darkest);
+
+    // disabled
+    --#{$ds}btn-inverse-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-inverse-background-disabled: var(--c-disable-border);
+    --#{$ds}btn-inverse-bordercolor-disabled: var(--c-disable-border);
+
+    // -------
+    // Light button
+    // !NOTE: AV do not has/use this button variation yet.
+    // default
+    --#{$ds}btn-light-color: var(--c-white);
+    --#{$ds}btn-light-background: var(--c-tertiary);
+    --#{$ds}btn-light-bordercolor: var(--c-tertiary);
+
+    // hover
+    --#{$ds}btn-light-color-hover: var(--c-white);
+    --#{$ds}btn-light-background-hover: var(--c-tertiary-darker);
+    --#{$ds}btn-light-bordercolor-hover: var(--c-tertiary-darker);
+
+    // active
+    --#{$ds}btn-light-color-active: var(--c-white);
+    --#{$ds}btn-light-background-active: var(--c-tertiary);
+    --#{$ds}btn-light-bordercolor-active: var(--c-tertiary);
+
+    // disabled
+    --#{$ds}btn-light-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-light-background-disabled: var(--c-disable-border);
+    --#{$ds}btn-light-bordercolor-disabled: var(--c-disable-border);
+
+    // -------
+    // Link button
+    // default
+    --#{$ds}btn-link-color: var(--c-link);
+    --#{$ds}btn-link-background: none;
+    --#{$ds}btn-link-bordercolor: transparent;
+    --#{$ds}btn-link-text-decoration: underline;
+
+    // hover
+    --#{$ds}btn-link-color-hover: var(--c-link-hover);
+    --#{$ds}btn-link-background-hover: none;
+    --#{$ds}btn-link-bordercolor-hover: transparent;
+    --#{$ds}btn-link-text-decoration-hover: underline;
+
+    // active
+    --#{$ds}btn-link-color-active: var(--c-link-active);
+    --#{$ds}btn-link-background-active: none;
+    --#{$ds}btn-link-bordercolor-active: transparent;
+    --#{$ds}btn-link-text-decoration-active: none;
+
+    // disabled
+    --#{$ds}btn-link-color-disabled: var(--c-disable-text);
+    --#{$ds}btn-link-background-disabled: none;
+    --#{$ds}btn-link-bordercolor-disabled: transparent;
+}

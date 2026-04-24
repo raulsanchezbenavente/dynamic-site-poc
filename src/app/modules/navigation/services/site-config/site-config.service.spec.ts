@@ -35,8 +35,8 @@ describe('SiteConfigService', () => {
       resultPages = result.pages;
     });
 
-    const enReq = httpMock.expectOne('/assets/config-site/en');
-    const esReq = httpMock.expectOne('/assets/config-site/es');
+    const enReq = httpMock.expectOne('/static-config/site/config-site_en-us.json');
+    const esReq = httpMock.expectOne('/static-config/site/config-site_es-es.json');
 
     enReq.flush({ pages: [{ pageId: '1', path: '/en/home' }] });
     esReq.flush({ pages: [{ pageId: '1', path: '/es/home' }] });
@@ -45,6 +45,28 @@ describe('SiteConfigService', () => {
     expect(service.getPagesByLang('en').length).toBe(1);
     expect(service.getPagesByLang('es').length).toBe(1);
     expect(service.siteSnapshot?.pages?.length).toBe(2);
+  });
+
+  it('should keep layout URL unresolved when page layout is a string', () => {
+    let loadedPage: any;
+
+    service.loadSite(['es']).subscribe((result) => {
+      loadedPage = result.pages[0];
+    });
+
+    const siteReq = httpMock.expectOne('/static-config/site/config-site_es-es.json');
+    siteReq.flush({
+      pages: [
+        {
+          pageId: '0',
+          path: 'es/inicio',
+          layout: '/assets/config-site/layouts/es/inicio',
+        },
+      ],
+    });
+
+    expect(httpMock.match('/assets/config-site/layouts/es/inicio').length).toBe(0);
+    expect(loadedPage.layout).toBe('/assets/config-site/layouts/es/inicio');
   });
 
   it('should resolve page path by page id and language', () => {
@@ -185,7 +207,7 @@ describe('SiteConfigService', () => {
       resultPages = result.pages;
     });
 
-    const enReq = httpMock.expectOne('/assets/config-site/en');
+    const enReq = httpMock.expectOne('/static-config/site/config-site_en-us.json');
     enReq.flush({
       pages: [
         { pageId: '0', path: 'en/home' },
@@ -203,7 +225,7 @@ describe('SiteConfigService', () => {
       resultPages = result.pages;
     });
 
-    expect(httpMock.match('/assets/config-site/en').length).toBe(0);
+    expect(httpMock.match('/static-config/site/config-site_en-us.json').length).toBe(0);
     expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home', 'en/results']);
     expect(resultPages.some((p) => p.path === 'en/results')).toBeTrue();
   });
@@ -211,7 +233,7 @@ describe('SiteConfigService', () => {
   it('should restore full language routes when loading a pruned language still present in active config', () => {
     service.loadSite(['en']).subscribe();
 
-    const enReq = httpMock.expectOne('/assets/config-site/en');
+    const enReq = httpMock.expectOne('/static-config/site/config-site_en-us.json');
     enReq.flush({
       pages: [
         { pageId: '0', path: 'en/home' },
@@ -226,7 +248,7 @@ describe('SiteConfigService', () => {
 
     service.loadSite(['en']).subscribe();
 
-    expect(httpMock.match('/assets/config-site/en').length).toBe(0);
+    expect(httpMock.match('/static-config/site/config-site_en-us.json').length).toBe(0);
     expect(service.getPagesByLang('en').map((p) => p.path)).toEqual(['en/home', 'en/results']);
   });
 });

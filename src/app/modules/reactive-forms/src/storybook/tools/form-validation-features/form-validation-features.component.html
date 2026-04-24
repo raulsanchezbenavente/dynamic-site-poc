@@ -1,0 +1,133 @@
+<div
+    #container
+    class="container-validation-tool">
+    <span class="fs-2 fw-bold">Form status: </span>
+    <br />
+    <span class="fs-3 fw-bold">
+        {{ _form?.invalid ? '🔴Invalid👎' : '🟢Valid!👍' }}
+    </span>
+    <span
+        class="fs-5 fw-bold pill pill-enabled"
+        [ngClass]="{ 'pill-disabled': _form?.disabled }">
+        {{ _form?.disabled ? 'Disabled' : 'Enabled' }}
+    </span>
+    <span
+        class="fs-5 fw-bold pill"
+        [ngClass]="{ 'pill-disabled': !_form?.touched }">
+        {{ _form?.touched ? 'Touched' : 'Not touched' }}
+    </span>
+    <span
+        class="fs-5 fw-bold pill"
+        [ngClass]="{ 'pill-disabled': !_form?.dirty }">
+        {{ _form?.dirty ? 'Dirty' : 'Pristine' }}
+    </span>
+    <span
+        class="fs-5 fw-bold pill"
+        [ngClass]="{ 'pill-disabled': !_form?.submitted }">
+        {{ _form?.submitted ? 'Submitted' : 'Not submitted' }}
+    </span>
+
+    <div>
+        <span class="title-validation">Validation mode:</span>
+        <select
+            class="form-select form-select-custom mt-2 mb-3 w-auto fw-bold d-inline align-baseline custom-height"
+            (change)="changeDisplayErrorsMode($event)">
+            @for (errorMode of errorDisplayModes; track errorMode) {
+                <option
+                    [selected]="selectedErrorDisplayMode === errorMode"
+                    [value]="errorMode">
+                    {{ errorMode }}
+                </option>
+            }
+        </select>
+    </div>
+
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-dark fs-3"
+        (click)="submitForm()">
+        Submit
+    </button>
+    <span class="submit-explanation">Submit will trigger the form status according the selected validation mode</span>
+    <br />
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-info"
+        (click)="_form?.markAllAsTouched()">
+        Mark all as touched
+    </button>
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-info"
+        (click)="_form?.markAsTouched()">
+        Mark as touched
+    </button>
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-info"
+        (click)="_form?.markAsUntouched()">
+        Mark as untouched
+    </button>
+    <br />
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-warning"
+        (click)="_form?.markAllAsDirty()">
+        Mark all as dirty
+    </button>
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-warning"
+        (click)="_form?.markAsDirty()">
+        Mark as dirty
+    </button>
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-warning"
+        (click)="_form?.markAsPristine()">
+        Mark as pristine
+    </button>
+    <!-- <button
+        type="button"
+        class="stbook-btn stbook-btn-primary"
+        (click)="_form.markControlsWithValueAsTouched()">
+        Mark as touched if control have value
+    </button> -->
+    <br />
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-light"
+        (click)="setSubmitted(true)">
+        Mark as submitted
+    </button>
+    <button
+        type="button"
+        class="stbook-btn stbook-btn-light"
+        (click)="setSubmitted(false)">
+        Reset submitted
+    </button>
+    <br />
+    <button
+        class="stbook-btn stbook-btn-danger"
+        (click)="_form?.disable()">
+        Disable
+    </button>
+    <button
+        class="stbook-btn stbook-btn-success"
+        (click)="_form?.enable()">
+        Enable</button
+    ><br /><br />
+
+    <div class="toggle">
+        <label
+            class="form-check-label"
+            for="debugFormToggle">
+            <input
+                type="checkbox"
+                id="debugFormToggle"
+                (change)="setDebug($event)" />
+            <span class="slider"></span>
+            Debugging enabled
+        </label>
+    </div>
+</div>

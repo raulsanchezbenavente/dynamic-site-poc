@@ -1,0 +1,204 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// VARIABLES
+// -------
+// CTA Button
+$banner-item-action-button-type: 'action'; // action, primary, secondary, light, inverse, link, null
+$banner-item-action-button-margin: var(--banner-item-action-button-margin, calculateRem(24px) 0 0);
+
+// Controls
+$banner-controls-margin: var(--banner-controls-margin, $spacer-large);
+$banner-controls-padding-bottom: var(
+    --banner-controls-padding-bottom,
+    calculateRem(24px)
+); // same variable in banner.styles.scss
+
+// Banner styles
+// Banner style: default
+$banner-default-breakpoint-min: $tablet-portrait;
+$banner-default-breakpoint-max: $until-mobile;
+$banner-default-height: var(--banner-default-height, calculateRem(279px));
+$banner-default-html-left-align-overlay-background-color: var(
+    --banner-default-html-left-align-overlay-background-color,
+    linear-gradient(
+        130deg,
+        rgba(var(--c-primary-rgb), 1) 0%,
+        rgba(var(--c-primary-rgb), 0.64) 43%,
+        rgba(var(--c-primary-rgb), 0) 67%
+    )
+);
+$banner-default-html-center-align-overlay-background-color: var(
+    --banner-default-html-center-align-overlay-background-color,
+    linear-gradient(
+        0deg,
+        rgba(var(--c-primary-rgb), 1) 0%,
+        rgba(var(--c-primary-rgb), 0.64) 43%,
+        rgba(var(--c-primary-rgb), 0) 67%
+    )
+);
+$banner-default-html-right-align-overlay-background-color: var(
+    --banner-default-html-right-align-overlay-background-color,
+    linear-gradient(
+        -130deg,
+        rgba(var(--c-primary-rgb), 1) 0%,
+        rgba(var(--c-primary-rgb), 0.64) 43%,
+        rgba(var(--c-primary-rgb), 0) 67%
+    )
+);
+
+// content
+$banner-default-html-padding-v: var(--banner-default-html-padding-v, calculateRem(38px));
+$banner-default-html-padding-h: var(--banner-default-html-padding-h, calculateRem(16px));
+$banner-default-html-padding: var(
+    --banner-default-html-padding,
+    $banner-default-html-padding-v $banner-default-html-padding-h
+);
+$banner-default-html-link-color: var(--banner-default-html-link-color, var(--c-white));
+$banner-default-html-button-color: var(--banner-default-html-button-color, var(--c-white));
+$banner-default-html-button-focus-color: var(--banner-default-html-button-focus-color, var(--c-white));
+$banner-default-html-button-focus-outline-offset: var(--banner-default-html-button-focus-outline-offset, 2px);
+
+// caption title
+$banner-default-html-caption-title-fontsize: var(--banner-default-html-caption-title-fontsize, var(--f-size-x-x-huge));
+// caption title with tag small inside
+$banner-default-html-caption-title-small-fontsize: var(
+    --banner-default-html-caption-title-small-fontsize,
+    var(--f-size-x-large)
+);
+// caption title small size
+$banner-default-html-caption-title-fontsize-desktop-small: var(
+    --banner-default-html-caption-title-fontsize-desktop-small,
+    calculateRem(40px)
+); // Todo: token
+// caption title medium size
+$banner-default-html-caption-title-fontsize-medium: var(
+    --banner-default-html-caption-title-fontsize-medium,
+    var(--f-size-x-huge)
+);
+// caption title medium size with tag small inside
+$banner-default-html-caption-title-small-fontsize-medium: var(
+    --banner-default-html-caption-title-small-fontsize-medium,
+    calculateRem(30px)
+); // TODO: token
+// caption title large size
+$banner-default-html-caption-title-fontsize-large: var(
+    --banner-default-html-caption-title-fontsize-large,
+    calculateRem(48px)
+); // TODO: token
+$banner-default-html-caption-title-fontweight: var(--banner-html-caption-title-fontweight, var(--f-weight-bold));
+$banner-default-html-caption-title-lineheight: var(--banner-html-caption-title-lineheight, 1.1);
+$banner-default-html-caption-title-color: var(--banner-html-caption-title-color, var(--c-white));
+
+// caption subtitle
+$banner-default-html-caption-subtitle-fontsize: var(
+    --banner-default-html-caption-subtitle-fontsize,
+    var(--f-size-small)
+);
+// caption subtitle small size
+$banner-default-html-caption-subtitle-fontsize-desktop-small: var(
+    --banner-default-html-caption-subtitle-fontsize-desktop-small,
+    calculateRem(26px)
+); // TODO: token
+// caption subtitle medium size
+$banner-default-html-caption-subtitle-fontsize-medium: var(
+    --banner-default-html-caption-subtitle-fontsize-medium,
+    var(--f-size-medium)
+);
+// caption subtitle large size
+$banner-default-html-caption-subtitle-fontsize-large: var(
+    --banner-default-html-caption-subtitle-fontsize-large,
+    var(--f-size-medium)
+);
+$banner-default-html-caption-subtitle-fontweight: var(
+    --banner-html-caption-subtitle-fontweight,
+    var(--f-weight-normal)
+);
+$banner-default-html-caption-subtitle-lineheight: var(--banner-html-caption-subtitle-lineheight, var(--f-line-height));
+$banner-default-html-caption-subtitle-color: var(--banner-html-caption-subtitle-color, var(--c-white));
+$banner-default-html-caption-subtitle-margin: var(--banner-html-caption-subtitle-margin, $spacer-tiny 0 0);
+
+// caption text
+$banner-default-html-caption-text-fontsize: var(--banner-default-html-caption-text-fontsize, var(--f-size-small));
+
+// caption text medium size
+$banner-default-html-caption-text-fontsize-medium: var(
+    --banner-default-html-caption-text-fontsize-medium,
+    calculateRem(48px)
+); // TODO: token
+// caption text medium size with tag small inside
+$banner-default-html-caption-text-small-fontsize-medium: var(
+    --banner-default-html-caption-text-small-fontsize-medium,
+    var(--f-size-small)
+);
+$banner-default-html-caption-text-fontweight: var(--banner-html-caption-text-fontweight, var(--f-weight-normal));
+$banner-default-html-caption-text-lineheight: var(--banner-html-caption-text-lineheight, var(--f-line-height));
+$banner-default-html-caption-text-color: var(--banner-html-caption-text-color, var(--c-white));
+$banner-default-html-caption-text-margin: var(--banner-html-caption-text-margin, $spacer-tiny 0 0);
+
+// caption footnote
+$banner-default-html-caption-footnote-fontsize: var(--banner-html-caption-footnote-fontsize, var(--f-size-x-tiny));
+$banner-default-html-caption-footnote-fontweight: var(
+    --banner-html-caption-footnote-fontweight,
+    var(--f-weight-normal)
+);
+$banner-default-html-caption-footnote-lineheight: var(--banner-html-caption-footnote-lineheight, 1);
+$banner-default-html-caption-footnote-color: var(--banner-html-caption-footnote-color, var(--c-white));
+$banner-default-html-caption-footnote-margin: var(--banner-html-caption-footnote-margin, $spacer-large 0 0);
+
+// caption price
+$banner-default-html-caption-price-fontsize: var(--banner-default-html-caption-price-fontsize, calculateRem(32px));
+$banner-default-html-caption-price-color: var(--banner-default-html-caption-price-color, var(--c-white));
+$banner-default-html-caption-price-margin: var(--banner-default-html-caption-price-margin, calculateRem(24px) 0 0);
+$banner-default-html-caption-price-from-fontsize: var(
+    --banner-default-html-caption-price-from-fontsize,
+    0.56em
+); // always use 'em' unit inside price currency component
+$banner-default-html-caption-price-from-margin: var(
+    --banner-default-html-caption-price-from-margin,
+    calculateRem(8px) 0
+);
+$banner-default-html-caption-price-decimals-fontsize: var(
+    --banner-default-html-caption-price-decimals-fontsize,
+    1em
+); // always use 'em' unit inside price currency component
+
+// Banner style: aside-box
+// breakpoint from vertical to horizontal layout
+$banner-aside-box-breakpoint-min: $mobile;
+$banner-aside-box-breakpoint-max: $until-mobile;
+
+// CTA Button
+$banner-aside-box-item-action-button-type: 'secondary'; // action, primary, secondary, light, inverse, link, null
+$banner-aside-box-html-width: var(--banner-aside-box-html-width, calculateRem(510px));
+$banner-aside-box-html-height: var(--banner-aside-box-html-height, auto);
+$banner-aside-box-html-padding-v: var(--banner-aside-box-html-padding-v, calculateRem(32px));
+$banner-aside-box-html-padding-h: var(--banner-aside-box-html-padding-h, calculateRem(32px));
+$banner-aside-box-html-padding: var(
+    --banner-aside-box-html-padding,
+    calculateRem(24px) calculateRem(24px) calculateRem(32px)
+);
+$banner-aside-box-html-padding-desktop: var(
+    --banner-aside-box-html-padding-desktop,
+    calculateRem(44px) calculateRem(30px) calculateRem(42px) $banner-aside-box-html-padding-h
+);
+$banner-aside-box-html-background-color: var(--banner-aside-box-html-background-color, var(--c-secondary));
+
+// caption price
+$banner-aside-box-html-caption-price-fontsize: var(--banner-aside-box-html-caption-price-fontsize, var(--f-size-huge));
+$banner-aside-box-html-caption-price-color: var(--banner-aside-box-html-caption-price-color, var(--c-white));
+$banner-aside-box-html-caption-price-margin: var(--banner-aside-box-html-caption-price-margin, calculateRem(24px) 0 0);
+$banner-aside-box-html-caption-price-from-fontsize: var(
+    --banner-aside-box-html-caption-price-from-fontsize,
+    0.56em
+); // always use 'em' unit inside price currency component
+$banner-aside-box-html-caption-price-from-margin: var(
+    --banner-aside-box-html-caption-price-from-margin,
+    calculateRem(8px) 0
+);
+$banner-aside-box-html-caption-price-decimals-fontsize: var(
+    --banner-aside-box-html-caption-price-decimals-fontsize,
+    1em
+); // always use 'em' unit inside price currency component
+// Small devices
+$banner-aside-box-html-price-margin: var(--banner-aside-box-html-price-margin, calculateRem(16px) 0 0);

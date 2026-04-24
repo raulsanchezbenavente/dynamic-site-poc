@@ -1,0 +1,49 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+:host {
+    display: flex;
+    align-items: var(--data-not-found-align-items, center);
+    justify-content: var(--data-not-found-halign, center);
+    color: var(--data-not-found-color, var(--c-primary));
+    background-color: var(--data-not-found-background, var(--c-color20));
+    padding: var(--data-not-found-padding, $pad-x-medium);
+    border-radius: var(--data-not-found-border-radius, var(--#{$ds}border-radius-lg));
+}
+.#{$ds}data-not-found-inner {
+    --icon-fontsize: var(--data-not-found-icon-fontsize, var(--f-iconsize));
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacer-x-small;
+}
+.#{$ds}data-not-found_text {
+    font-size: var(--data-not-found-text-fontsize, var(--f-size-medium));
+    font-weight: var(--data-not-found-text-fontweight, var(--f-weight-bold));
+}
+.#{$ds}data-not-found_secondary-text {
+    font-size: var(--data-not-found-secondary-text-fontsize, var(--f-size-small));
+    font-weight: var(--data-not-found-secondary-text-fontweight, var(--f-weight-normal));
+}
+.#{$ds}data-not-found_action {
+    margin-top: var(--data-not-found-action-margin-top, calculateRem(4px));
+    &:empty {
+        display: none;
+    }
+}
+
+@media #{$tablet-landscape} {
+    :host {
+        --data-not-found-padding: #{$pad-x-large};
+        --data-not-found-text-fontsize: var(--f-size-large);
+    }
+}
+
+@media #{$desktop} {
+    :host {
+        --data-not-found-padding: #{$pad-x-x-large};
+    }
+}

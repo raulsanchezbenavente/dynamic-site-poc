@@ -1,0 +1,66 @@
+import { Meta } from '@storybook/blocks';
+
+import * as TierAvatarStories from '../tier-avatar.stories';
+
+<Meta of={TierAvatarStories} name="02 Accessibility" />
+
+# Tier Avatar
+
+## Accessibility
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>icon.ariaAttributes.ariaLabel</code></td>
+      <td>Provides accessible name for the tier icon. Must describe the loyalty program (e.g., "LifeMiles tier status")</td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>tierName</code></td>
+      <td>When provided, the component applies tier-specific gradient styling. Screen readers rely on the icon's ariaLabel to convey tier information</td>
+    </tr>
+  </tbody>
+</table>
+
+### Semantic Markup
+
+The component renders as a `<div>` with:
+- CSS gradient background applied via `--tier-avatar-gradient` custom property
+- Size-specific CSS classes for visual scaling
+- Icon component with proper ARIA labeling
+
+### Screen Reader Support
+
+- The tier icon's `ariaLabel` should communicate the loyalty program name and optionally the tier level
+- Visual gradient styling is decorative and does not need to be announced
+- If tier name is critical information, include it in the icon's `ariaLabel` (e.g., "LifeMiles Gold tier")
+
+### Best Practices
+
+- **Always provide ariaLabel**: Set `icon.ariaAttributes.ariaLabel` to describe the loyalty program and tier level for screen reader users
+- **Pair with text labels**: When displaying tier information, include visible text alongside the avatar for users who may not perceive gradients
+- **Consistent tier names**: Use tier names that match the `ACCOUNT_LOYALTY_CONFIGURATION` keys (e.g., 'gold', 'silver', 'diamond') for proper gradient application
+- **Touch targets**: When the avatar is interactive (wrapped in a button), ensure the parent button meets minimum 44x44px touch target size
+- **Color contrast**: Gradients are decorative; ensure any overlaid text meets WCAG 2.1 AA contrast requirements (4.5:1 for normal text, 3:1 for large text)

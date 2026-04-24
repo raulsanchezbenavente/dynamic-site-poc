@@ -1,0 +1,15 @@
+export enum SegmentStatus {
+  DELAYED = 'Delayed',
+  ON_TIME = 'OnTime',
+  ON_ROUTE = 'OnRoute',
+  LANDED = 'Landed',
+  DIVERTED = 'Diverted',
+  RETURNED = 'Returned',
+  SCHEDULED = 'Scheduled',
+  OPEN = 'Open',
+  CLOSED = 'Closed',
+  CANCELLED = 'Cancelled',
+  BOARDING = 'Boarding',
+  BOARDED = 'Boarded',
+  DEPARTED = 'Departed',
+}

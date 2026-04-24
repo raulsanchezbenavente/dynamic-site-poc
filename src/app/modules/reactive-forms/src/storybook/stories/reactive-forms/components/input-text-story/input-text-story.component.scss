@@ -1,0 +1,22 @@
+@use '../../styles/stories-styles' as *;
+
+// styles
+:host ::ng-deep {
+    input.custom-class-input-text-example {
+        color: #b412ea;
+        border-radius: 100vh;
+        background-color: rgb(236, 233, 39);
+        border: 3px solid blue;
+        text-align: center;
+        font-weight: bolder;
+        font-size: 30px;
+        padding-top: 10px !important;
+    }
+    input.custom-class-input-text-example:hover {
+        border-color: #ea0ff5;
+    }
+    .big-text {
+        font-weight: bolder;
+        font-size: 30px !important;
+    }
+}

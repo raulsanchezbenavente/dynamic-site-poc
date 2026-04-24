@@ -1,0 +1,161 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT VARIABLES
+// -------
+$pos-focus-outline-space: calculateRem(4px);
+$pos-list-item-sides-padding: calculateRem(10px);
+
+// -------
+// COMPONENT STYLE
+// -------
+.point-of-sale-selector_button {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-trigger-gap, calculateRem(4px));
+}
+.point-of-sale-selector_button_icon {
+    display: inline-flex;
+}
+
+// off canvas component
+::ng-deep .points-of-sale-offcanvas {
+    &.offcanvas {
+        --offcanvas-border-radius: 0;
+        --offcanvas-bottom-top-max-height: 100vh;
+        --offcanvas-padding: #{$spacer-huge} #{calculateRem(16px)};
+        --offcanvas-gap: #{calculateRem(32px)};
+        --offcanvas-header-title-margin: 0 0 #{calculateRem(32px)} 0;
+    }
+
+    // Slides in from the bottom on smaller screens for mobile-friendly behavior
+    &.offcanvas-bottom {
+        --offcanvas-height: 100vh;
+    }
+    .#{$ds}off-canvas-header {
+        padding: $pad-small 0;
+    }
+    .#{$ds}offcanvas-header_close {
+        padding: $pad-medium 0;
+        font-size: var(--f-size-x-large);
+    }
+    .#{$ds}offcanvas-header_title {
+        --offcanvas-header-title-margin: 0;
+
+        display: flex;
+    }
+    .#{$ds}off-canvas-body {
+        max-height: calc(100% - #{calculateRem(79px)});
+        overflow: visible;
+    }
+}
+
+// title
+.points-of-sale_header_title {
+    font-size: var(--f-size-medium);
+    padding: 0 0 calculateRem(20px);
+    background-color: var(--c-white);
+}
+.points-of-sale_content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.points-of-sale_body {
+    // Do not remove: required to display focus outline when navigating with keyboard
+    padding: $pos-focus-outline-space;
+    padding-right: calculateRem(16px);
+    flex: 1 1 auto;
+
+    @include custom-scroll;
+}
+.points-of-sale_list_item_button {
+    display: flex;
+    align-items: center;
+    gap: $spacer-x-small;
+    min-height: calculateRem(39px);
+    width: 100%;
+    padding: 0 $pos-list-item-sides-padding;
+    margin-bottom: calculateRem(16px);
+    border-radius: var(--#{$ds}border-radius-md);
+    box-sizing: border-box;
+    line-height: var(--f-line-height);
+
+    // selected
+    &[aria-selected='true'] {
+        border: 1px solid var(--c-primary);
+        font-weight: var(--f-weight-bold);
+    }
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+.points-of-sale_list_item_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacer-x-small;
+    width: 100%;
+    text-align: left;
+}
+.points-of-sale_list_item_icon {
+    display: block;
+    width: calculateRem(21px);
+}
+.points-of-sale_list_item_image {
+    width: calculateRem(21px);
+}
+.points-of-sale_list_item_value {
+    font-weight: var(--f-weight-normal);
+}
+.points-of-sale_footer {
+    padding: calculateRem(20px) 0 0;
+    background-color: var(--c-white);
+}
+.points-of-sale_footer_action {
+    --#{$ds}btn-width: 100%;
+}
+
+// [Responsive]
+// 2 columns
+@media #{$tablet-portrait} {
+    ::ng-deep .points-of-sale-offcanvas {
+        &.offcanvas {
+            --offcanvas-padding: #{$spacer-huge} 0;
+        }
+        .#{$ds}off-canvas-header,
+        .#{$ds}off-canvas-body {
+            @include container-wrap;
+
+            width: calc(100% - #{calculateRem(32px * 2)});
+        }
+        .#{$ds}offcanvas-header_close {
+            right: calculateRem(32px);
+        }
+    }
+    .points-of-sale_list {
+        display: grid;
+        grid-template-columns: repeat(var(--points-of-sales-list-columns, 2), 1fr);
+        gap: 0 var(--points-of-sale-list-columns-gap, #{calculateRem(32px)});
+    }
+    .points-of-sale_footer_action {
+        --#{$ds}btn-width: auto;
+
+        display: flex;
+        justify-content: flex-end;
+    }
+}
+
+// 3 columns
+@media #{$tablet-landscape} {
+    .points-of-sale_list {
+        --points-of-sales-list-columns: 3;
+    }
+}
+
+// 4 columns
+@media #{$desktop} {
+    .points-of-sale_list {
+        --points-of-sales-list-columns: 4;
+    }
+}

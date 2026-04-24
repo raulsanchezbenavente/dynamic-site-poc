@@ -1,0 +1,26 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.footer-partners_list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: calculateRem(4px) calculateRem(20px);
+}
+
+// [Responsive]
+// this breakpoint must be the same as footer main breakpoint
+@media #{$tablet-portrait} {
+    .footer-partners_list {
+        flex-wrap: nowrap;
+    }
+}
+
+@media #{$tablet-landscape} {
+    .footer-partners_list {
+        gap: calculateRem(4px) calculateRem(30px);
+    }
+}

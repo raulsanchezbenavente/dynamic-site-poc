@@ -1,0 +1,39 @@
+//  Selected border style
+//	Generates a selected border style
+
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+
+@mixin border-selected(
+    $size: var(--border-selected-size, 7px),
+    $pos: var(--border-selected-pos, left),
+    $elem: var(--border-selected-elem, before),
+    $radius: var(--border-selected-border-radius, var(--#{$ds}border-radius-lg)),
+    $color: var(--border-selected-color, var(--c-tertiary))
+) {
+    position: relative;
+    &::#{$elem} {
+        position: absolute;
+        content: '';
+        pointer-events: none;
+        border: 0 solid transparent;
+
+        @if $pos == 'bottom' {
+            border-bottom: $size solid $color;
+            border-top-width: calc(#{$radius} - #{$size});
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 0 0 $radius $radius;
+        }
+
+        @if $pos == 'left' {
+            border-left: $size solid $color;
+            border-right-width: calc(#{$radius} - #{$size});
+            left: 0;
+            bottom: 0;
+            top: 0;
+            border-radius: $radius 0 0 $radius;
+        }
+    }
+}

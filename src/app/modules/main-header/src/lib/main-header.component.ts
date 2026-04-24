@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, effect, ElementRef, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, OnDestroy, OnInit, signal, Signal } from '@angular/core';
 import { MODULE_TRANSLATION_MAP, TranslationLoadStatusDirective } from '@dcx/module/translation';
 import {
   BANNER_BREAKPOINT_CONFIG,
@@ -46,10 +46,10 @@ import { MainHeaderConfig } from './models/main-header-config.interface';
   ],
   standalone: true,
 })
-export class CorporateMainHeaderComponent extends DynamicPageReadinessBase implements OnInit, OnDestroy {
-  public isResponsive!: Signal<boolean>;
+export class CorporateMainHeaderComponent extends DynamicPageReadinessBase implements OnDestroy, OnInit {
+  public isResponsive: Signal<boolean> = signal(false);
   public isLoaded = signal(false);
-  public config = input<{ url: string } | null>(null);
+  public baseConfig = input<{ url: string } | null>(null);
 
   public config: MainHeaderConfig = {} as MainHeaderConfig;
   public mainHeaderResponsiveLayout = MainHeaderResponsiveLayout;
@@ -58,62 +58,70 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
   protected resizeObservable$: Observable<Event> = new Observable(); // review
   protected resizeSubscription$: Subscription = new Subscription(); // review
   protected windowWidthSubscription$: Subscription = new Subscription();
+  protected elementRef = inject(ElementRef);
+  protected configService = inject(ConfigService);
+  protected composer = inject(ComposerService);
+  protected logger = inject(LoggerService);
+  protected generateId = inject(GenerateIdPipe);
+
+  private readonly viewportSizeService = inject(ViewportSizeService);
+  private readonly http = inject(HttpClient);
 
   private readonly translationsLoadedSubject = new BehaviorSubject<boolean | null>(null);
   public readonly translationsLoaded$ = this.translationsLoadedSubject
     .asObservable()
     .pipe(filter((value) => value !== null));
 
-  private readonly data: DataModule;
+  private readonly data: DataModule = this.configService.getDataModuleId(this.elementRef);
   private destroyMediaQueryListener: () => void = () => {};
   private hasLoggedBaseConfig = false;
+  private hasInitializedInternalInit = false;
+  private readonly isDynamicTranslationsReady = signal(false);
 
   private readonly CMSKey = 'CorporateMainHeader';
   protected readonly mappedKeys = MODULE_TRANSLATION_MAP[this.CMSKey];
 
-  constructor(
-    protected elementRef: ElementRef,
-    protected configService: ConfigService,
-    protected composer: ComposerService,
-    protected logger: LoggerService,
-    protected generateId: GenerateIdPipe,
-    private readonly viewportSizeService: ViewportSizeService,
-    private readonly http: HttpClient
-  ) {
-    super();
-    this.data = this.configService.getDataModuleId(this.elementRef);
+  private readonly dynamicPageEffect = effect(() => {
+    const baseConfig = this.baseConfig();
+    const translationsReady = this.isDynamicTranslationsReady();
 
-    effect(() => {
-      const config = this.config();
-      if (!this.hasLoggedBaseConfig && config?.url?.trim()) {
-        const url = config.url.trim();
-        console.log('[CorporateMainHeaderComponent] config received:', config);
-        this.hasLoggedBaseConfig = true;
+    if (!this.hasLoggedBaseConfig && translationsReady && baseConfig?.url?.trim()) {
+      const url = baseConfig.url.trim();
+      console.log('[CorporateMainHeaderComponent] baseConfig received:', baseConfig);
+      this.hasLoggedBaseConfig = true;
 
-        this.http.get<MainHeaderConfig>(url).subscribe({
-          next: (response) => {
-            this.config = this.resolveConfig(response);
-            this.isLoaded.set(true);
-            this.emitDynamicPageReady(DynamicPageReadyState.RENDERED);
-          },
-          error: (error) => {
-            this.emitDynamicPageReady(DynamicPageReadyState.ERROR);
-          },
-        });
-      }
-    });
-  }
+      this.http.get<MainHeaderConfig>(url).subscribe({
+        next: (response) => {
+          this.config = this.resolveConfig(response);
+          this.isLoaded.set(true);
+          this.emitDynamicPageReady(
+            this.baseConfig(),
+            'CorporateMainHeaderBlock_uiplus',
+            DynamicPageReadyState.RENDERED
+          );
+        },
+        error: () => {
+          this.emitDynamicPageReady(this.baseConfig(), 'CorporateMainHeaderBlock_uiplus', DynamicPageReadyState.ERROR);
+        },
+      });
+    }
+  });
 
-  private emitDynamicPageReady(state: DynamicPageReadyState): void {
-    this.emitDynamicPageReadyEvent({
-      config: (this.config() ?? null) as Record<string, unknown> | null,
-      fallbackComponent: 'CorporateMainHeaderBlock_uiplus',
-      state,
-    });
-  }
+  private readonly translationsLoadedLogEffect = effect(() => {
+    const loaded = this.dynamicPageTranslationsLoaded();
+    this.isDynamicTranslationsReady.set(loaded);
+
+    if (loaded && !this.hasInitializedInternalInit) {
+      this.hasInitializedInternalInit = true;
+    }
+  });
 
   public ngOnInit(): void {
-    this.internalInit();
+    this.setIsResponsive();
+
+    if (!this.baseConfig()) {
+      this.internalInit();
+    }
   }
 
   public ngOnDestroy(): void {
@@ -124,8 +132,50 @@ export class CorporateMainHeaderComponent extends DynamicPageReadinessBase imple
     this.translationsLoadedSubject.next(true);
   }
 
+  private hideBootLoader(): void {
+    const bootLoader = globalThis.document?.getElementById('boot-loader');
+    if (bootLoader instanceof HTMLElement) {
+      bootLoader.style.display = 'none';
+    }
+  }
+
+  private ensureBootLoaderElement(): Element | null {
+    const existing = globalThis.document?.getElementById('boot-loader');
+    if (existing) {
+      return existing;
+    }
+
+    const doc = globalThis.document;
+    if (!doc?.body) {
+      return null;
+    }
+
+    const loader = doc.createElement('div');
+    loader.id = 'boot-loader';
+    loader.setAttribute('role', 'status');
+    loader.setAttribute('aria-live', 'polite');
+    loader.setAttribute('aria-label', 'Loading page');
+    loader.style.position = 'fixed';
+    loader.style.inset = '0';
+    loader.style.display = 'grid';
+    loader.style.placeItems = 'center';
+    loader.style.background = '#fff';
+    loader.style.zIndex = '9999';
+
+    const image = doc.createElement('img');
+    image.src = '/assets/loader/plane-loader.gif';
+    image.alt = 'Loading';
+    image.width = 180;
+    image.height = 180;
+    image.decoding = 'async';
+    image.setAttribute('fetchpriority', 'high');
+
+    loader.appendChild(image);
+    doc.body.appendChild(loader);
+    return loader;
+  }
+
   protected internalInit(): void {
-    this.setIsResponsive();
     this.translationsLoaded$.subscribe({
       next: () => {
         this.initConfig().subscribe(() => {

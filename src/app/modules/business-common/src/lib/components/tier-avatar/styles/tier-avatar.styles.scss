@@ -1,0 +1,46 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use 'design-system/assets/tokens/scss/lifemiles.token' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.tier-avatar-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: var(--tier-avatar-size, calculateRem(56px));
+    height: var(--tier-avatar-size, calculateRem(56px));
+    border-radius: 50%;
+    background: var(
+        --tier-avatar-gradient,
+        linear-gradient(90deg, $c-lifemiles-tier-1 0%, $c-lifemiles-tier-1-dark 100%)
+    );
+    ::ng-deep .icon {
+        font-size: var(--tier-avatar-icon-fontsize, var(--f-iconsize));
+        color: var(--tier-avatar-icon-color, var(--c-white));
+    }
+}
+
+:host {
+    // sizes variations
+    &.tier-avatar--smallest {
+        --tier-avatar-size: var(--tier-avatar-size-smallest, #{calculateRem(24px)});
+        --tier-avatar-icon-fontsize: var(--tier-avatar-icon-fontsize-smallest, #{calculateRem(6px)});
+    }
+    &.tier-avatar--extra-small {
+        --tier-avatar-size: var(--tier-avatar-size-extra-small, #{calculateRem(28px)});
+        --tier-avatar-icon-fontsize: var(--tier-avatar-icon-fontsize-extra-small, #{calculateRem(7px)});
+    }
+    &.tier-avatar--small {
+        --tier-avatar-size: var(--tier-avatar-size-small, #{calculateRem(34px)});
+        --tier-avatar-icon-fontsize: var(--tier-avatar-icon-fontsize-small, #{calculateRem(8px)});
+    }
+    &.tier-avatar--medium {
+        --tier-avatar-size: var(--tier-avatar-size-medium, #{calculateRem(64px)});
+        --tier-avatar-icon-fontsize: var(--tier-avatar-icon-fontsize-medium, #{calculateRem(18px)});
+    }
+    &.tier-avatar--large {
+        --tier-avatar-size: var(--tier-avatar-size-large, #{calculateRem(152px)});
+        --tier-avatar-icon-fontsize: var(--tier-avatar-icon-fontsize-large, #{calculateRem(42px)});
+    }
+}

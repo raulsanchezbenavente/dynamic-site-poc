@@ -1,0 +1,50 @@
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+
+// Shadow tokens – define consistent shadow styles across the Design System.
+// Each token includes values for X and Y offset (axis), blur radius, and spread radius.
+// Usage: box-shadow: $shadow-token-name;
+
+// Format: X-offset Y-offset Blur-radius Spread-radius Color
+// Example: 4px 4px 10px 0px tgba(0,0,0, .15)
+
+// Effect Axis
+$shadow-axis-none: 0;
+$shadow-axis-medium: 2px;
+$shadow-axis-large: 8px;
+
+// Effect BLur
+$shadow-blur-none: 0;
+$shadow-blur-tiny: 6px;
+$shadow-blur-small: 12px;
+$shadow-blur-medium: 20px;
+$shadow-blur-large: 32px;
+$shadow-blur-huge: 52px;
+
+// Effect Spread
+$shadow-spread-none: 0;
+$shadow-spread-tiny: 4px;
+$shadow-spread-small: 8px;
+
+// Tokens
+$shadow-small: 0 0 6px 0 rgba(var(--c-color2-rgb), 0.15);
+$shadow-medium: 0 2px 20px 2px rgba(var(--c-color21-rgb), 0.25);
+$shadow-large: 0 2px 32px 8px var(--c-primary-alpha);
+
+/// @deprecated
+$box-shadow-base-color: var(--c-primary-rgb);
+
+// css properties
+:root {
+    --#{$ds}shadow-light: #{$shadow-small};
+    --#{$ds}shadow-default: #{$shadow-medium};
+    --#{$ds}shadow-dark: #{$shadow-large};
+
+    // -------------------------------------------------------------------
+    /// @deprecated
+    /// These shadows variables is no longer used.
+    /// They should be removed gradually.
+    /// Use `$shadow-light`, `$shadow-default`, `$shadow-dark` instead.
+    --#{$ds}box-shadow-lg: 0 2px 12px 0 rgba(#{$box-shadow-base-color}, 0.15);
+    --#{$ds}box-shadow-lg-hover: 0 0 20px 0 rgba(#{$box-shadow-base-color}, 0.3);
+    --#{$ds}box-shadow: 0 0 6px 0 rgba(#{$box-shadow-base-color}, 0.2);
+}

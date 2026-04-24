@@ -1,0 +1,35 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Seat Background Colors
+// Defines background colors for different seat tiers and statuses.
+
+// CSS Variables for Global Use
+:root {
+    --c-seat-1: #{$gray-900}; // Economy
+    --c-seat-2: #{$magenta-500}; // Plus
+    --c-seat-3: #{$purple-900}; // Premium
+    --c-seat-4: #{$blue-700}; // Flat Bed
+    --c-seat-5: #{$blue-700}; // Business
+    --c-seat-default: #{$gray-900}; // Default
+    --c-seat-emergency: #{$orange-500}; // Emergency
+    --c-seatmap-services: #{$gray-100}; // Services
+
+    // Status
+    --c-seat-current: #{$green-500}; // Selecting
+    --c-seat-selected: #{$green-500};
+    --c-seat-unavailable: #{$gray-100};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-seat-1: #{$gray-900};
+//     --c-seat-2: #{$magenta-500};
+//     --c-seat-3: #{$purple-900};
+
+//     // Status
+//     --c-seat-selected: #{$green-600};
+//     --c-seat-unavailable: #{$gray-200};
+// }

@@ -1,0 +1,37 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// STYLES
+// -------
+:host {
+    --price-fontweight: var(--f-weight-bold);
+}
+.#{$ds}price-currency-container {
+    position: relative;
+    display: inline-flex;
+    white-space: var(--price-nowrap, nowrap);
+    gap: var(--price-currency-gap, #{calculateRem(4px)});
+    align-items: baseline;
+}
+.#{$ds}price-currency_prefix {
+    color: var(--price-prefix-color, inherit);
+    font-size: var(--price-prefix-fontsize, 0.8em);
+    font-weight: var(--price-prefix-fontweight, var(--f-weight-normal));
+}
+.#{$ds}price-currency_price {
+    display: inline-flex;
+    align-items: baseline;
+    font-size: var(--price-fontsize, 1em);
+    white-space: nowrap;
+    font-weight: var(--price-fontweight);
+}
+.#{$ds}price-currency_decimals {
+    font-size: var(--price-decimals-fontsize, 0.8em);
+    font-weight: var(--price-decimals-fontweight, var(--price-fontweight));
+    vertical-align: var(--price-decimals-vertical-align, baseline);
+}
+.#{$ds}price-currency_currency {
+    font-size: var(--price-currency-fontsize, var(--price-fontsize, 1em));
+    font-weight: var(--price-currency-fontweight, var(--price-fontweight));
+    text-transform: var(--price-currency-text-transform, uppercase);
+}

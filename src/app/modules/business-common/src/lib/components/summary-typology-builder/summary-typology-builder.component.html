@@ -1,0 +1,14 @@
+@switch (summaryTypologyConfig.summaryScopeView) {
+    @case (summaryTypologyTemplate.PER_JOURNEY) {
+        <div class="summary-typology--per-journey">
+            <summary-typology-per-journey [summaryTypologyConfig]="summaryTypologyConfig">
+            </summary-typology-per-journey>
+        </div>
+    }
+    @default {
+        <div class="summary-typology--per-booking">
+            <summary-typology-per-booking [summaryTypologyConfig]="summaryTypologyConfig">
+            </summary-typology-per-booking>
+        </div>
+    }
+}

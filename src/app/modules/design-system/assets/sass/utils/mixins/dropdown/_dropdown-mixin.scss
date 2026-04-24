@@ -1,0 +1,139 @@
+@use 'design-system/assets/sass/utils/configs' as *;
+@use 'design-system/assets/sass/utils/functions' as *;
+@use 'design-system/assets/sass/utils/mixins/custom-scroll/custom-scroll-mixin' as *;
+@use 'design-system/assets/sass/utils/mixins/icon-font' as *;
+@use 'design-system/assets/ui_plus/icons/webfonts/icomoon/variables' as *;
+@use 'design-system/assets/tokens/scss/spacing.token' as *;
+
+@mixin dropdown-content-style {
+    z-index: var(--zindex-dropdown);
+    position: var(--#{$ds}dropdown-content-position, absolute);
+    top: 100%;
+    left: var(--#{$ds}dropdown-content-position-left, 0);
+    right: var(--#{$ds}dropdown-content-position-right, auto);
+    min-width: var(--#{$ds}dropdown-content-minwidth, 100%);
+    width: var(--#{$ds}dropdown-content-width, auto);
+    font-size: var(--#{$ds}dropdown-content-fontsize, var(--f-size));
+    padding: var(--#{$ds}dropdown-content-padding-y) var(--#{$ds}dropdown-content-padding-x);
+    margin-top: var(--#{$ds}dropdown-content-margin-top, $spacer-tiny);
+    border-radius: var(--#{$ds}dropdown-content-border-radius, var(--#{$ds}border-radius-lg));
+    background: var(--#{$ds}dropdown-content-background, var(--c-white));
+    box-shadow: var(--#{$ds}dropdown-content-box-shadow, var(--#{$ds}shadow-default));
+    box-sizing: border-box;
+
+    // This height ensures exactly 4 elements are displayed.
+    @include custom-scroll($maxsize: var(--#{$ds}dropdown-content-maxheight, 100%));
+
+    // negative margin to offset the dropdown's internal padding
+    > li {
+        margin: 0 calc(var(--#{$ds}dropdown-content-padding-x) / -1);
+    }
+}
+
+@mixin dropdown-item-style {
+    --accessibility-outline-offset: -2px;
+
+    position: relative;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    // Prevent touch events from interfering with scroll gestures on mobile
+    touch-action: manipulation;
+    gap: var(--#{$ds}dropdown-item-gap);
+    width: 100%;
+    font-weight: var(--#{$ds}dropdown-item-fontweight, var(--f-weight-normal));
+    color: var(--#{$ds}dropdown-item-color, var(--c-text));
+    line-height: var(--f-line-height-large);
+    text-align: left;
+    text-decoration: none;
+    border: 1px solid var(--#{$ds}dropdown-item-border, transparent);
+    background: var(--#{$ds}dropdown-item-background, inherit);
+    padding: var(--#{$ds}dropdown-item-padding-y) var(--#{$ds}dropdown-item-padding-x);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    // image
+    @include dropdown-item-image-style;
+
+    // selected option
+    &[aria-selected='true'],
+    &[aria-current] {
+        --#{$ds}dropdown-item-fontweight: var(--#{$ds}dropdown-item-fontweight-selected, var(--f-weight-bold));
+
+        cursor: default;
+
+        // check icon
+        @include iconfont(
+            $icon-check,
+            $pos: after,
+            $color: var(--#{$ds}dropdown-item-icon-checked, var(--c-active-dark))
+        );
+        &::after {
+            speak: none; // Prevents screen readers from announcing the pseudo-element
+            font-size: var(--f-size-x-large);
+            margin-left: auto;
+        }
+
+        // left bar
+        &::before {
+            position: absolute;
+            left: -1px;
+            top: 50%;
+            content: '';
+            width: 4px;
+            background: var(--c-active-dark);
+            height: 75%;
+            transform: translateY(-50%);
+        }
+    }
+    &:hover,
+    &.is-focus {
+        --#{$ds}dropdown-item-background: var(--#{$ds}dropdown-item-background-hover, var(--c-color20));
+    }
+
+    // Apply hover/active styles only non-touch devices with fine pointer (mouse/trackpad), avoiding touch devices where hover is not meaningful
+    @media (hover: hover) and (pointer: fine) {
+        &:active:not([aria-disabled='true']) {
+            --#{$ds}dropdown-item-icon-checked: var(--c-white);
+            --#{$ds}dropdown-item-color: var(--c-white);
+            --#{$ds}dropdown-item-description-color: var(--c-white);
+            --#{$ds}dropdown-item-border: transparent;
+            --#{$ds}dropdown-item-background: var(--c-color22);
+        }
+    }
+
+    // For touch devices, disable :active to prevent scroll interference
+    @media (hover: none) and (pointer: coarse) {
+        &:active:not([aria-disabled='true']) {
+            // Reset to inherited values to prevent unwanted activation during scroll
+            --#{$ds}dropdown-item-icon-checked: inherit;
+            --#{$ds}dropdown-item-color: inherit;
+            --#{$ds}dropdown-item-description-color: inherit;
+            --#{$ds}dropdown-item-border: inherit;
+            --#{$ds}dropdown-item-background: inherit;
+        }
+    }
+
+    // readonly and disabled
+    &[aria-disabled='true'],
+    &.is-readonly {
+        --#{$ds}dropdown-item-color: #a5a5a5; // TODO: token
+
+        pointer-events: none; // avoid hover styles
+    }
+}
+
+@mixin dropdown-item-image-style {
+    img {
+        position: relative;
+        top: var(--#{$ds}dropdown-option-image-position-top, 1px);
+        width: var(--#{$ds}dropdown-option-image-width);
+        border-radius: var(--#{$ds}dropdown-option-image-border-radius);
+    }
+}
+
+@mixin dropdown-divisor-line {
+    border-top: 1px solid var(--c-border);
+}

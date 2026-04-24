@@ -1,0 +1,40 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+@use '../group-options-vars' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+
+:host ::ng-deep {
+    .go-style--cover-image {
+        --group-options-item-color: var(--c-white);
+        // button
+        --ds-btn-secondary-bordercolor: var(--c-white);
+        --ds-btn-secondary-bordercolor-hover: var(--ds-btn-secondary-background-hover);
+
+        .group-options-item_figure {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+        .group-options-item_image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .group-options-item_inner {
+            box-shadow: none;
+        }
+        .group-options-item_content {
+            z-index: 1;
+            padding: calculateRem(18px);
+        }
+        .group-options-item_actions {
+            margin-top: auto;
+            padding-top: calculateRem(24px);
+            justify-content: flex-start;
+        }
+    }
+}

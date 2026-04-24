@@ -154,24 +154,6 @@
       "frequentTravelers": [
         {
           "loyaltyId": "",
-          "companionId": "15146881",
-          "name": {
-            "first": "Pedro",
-            "last": "Sanchez"
-          },
-          "address": {
-            "country": "AF"
-          },
-          "documents": [],
-          "personInfo": {
-            "gender": "Female",
-            "weight": "Unknown",
-            "dateOfBirth": "2016-08-25"
-          },
-          "channels": []
-        },
-        {
-          "loyaltyId": "",
           "companionId": "15161361",
           "name": {
             "first": "Padro",
@@ -187,13 +169,31 @@
             "dateOfBirth": "2015-08-25"
           },
           "channels": []
+        },
+        {
+          "loyaltyId": "",
+          "companionId": "15146881",
+          "name": {
+            "first": "Pedro",
+            "last": "Sanchez"
+          },
+          "address": {
+            "country": "AF"
+          },
+          "documents": [],
+          "personInfo": {
+            "gender": "Female",
+            "weight": "Unknown",
+            "dateOfBirth": "2016-08-25"
+          },
+          "channels": []
         }
       ],
       "memberships": {},
       "balance": {
-        "lastUpdate": "2026-03-26T20:21:49.35002Z",
+        "lastUpdate": "2026-04-14T10:12:16.313202Z",
         "lifemiles": {
-          "amount": 100
+          "amount": 0
         },
         "qualifyingMiles": {
           "totalAccrual": 0

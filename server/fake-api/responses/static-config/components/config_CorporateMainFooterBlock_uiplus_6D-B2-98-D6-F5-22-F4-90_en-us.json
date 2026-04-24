@@ -1,0 +1,328 @@
+{
+  "logo": {
+    "link": {
+      "url": "/en/",
+      "title": "Home",
+      "target": "",
+      "newTab": false,
+      "type": "",
+      "icon": ""
+    },
+    "src": "//av-static-test.newshore.es/media/02udd0tw/avianca-logo-white.svg"
+  },
+  "copyright": {
+    "title": "Copyright © Avianca 2026"
+  },
+  "columns": [
+    {
+      "title": "Discover and buy",
+      "items": [
+        {
+          "url": "/es/ofertas-destinos/ofertas-de-vuelos/",
+          "title": "Cheap flights",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://sp.booking.com/dealspage.html",
+          "title": "Hotel booking",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://www.rentalcars.com/",
+          "title": "Car rental",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://avianca.civitatis.com/es/",
+          "title": "Tours and excursions",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://ayuda.avianca.com/hc/es/articles/13523002282651",
+          "title": "Travel assistance",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://connect.avianca.com/es",
+          "title": "avianca connect",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "title": "About us",
+      "items": [
+        {
+          "url": "/es/sobre-nosotros/somos-avianca/",
+          "title": "We are avianca",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://jobs.avianca.com/",
+          "title": "Work with us",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/sobre-nosotros/noticias-corporativas/",
+          "title": "Corporate news",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/sobre-nosotros/alianzas-y-beneficios/",
+          "title": "Partnerships and benefits",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/sobre-nosotros/sostenibilidad/",
+          "title": "Sustainability",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/sobre-nosotros/plan-de-accesibilidad/",
+          "title": "Accessibility",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "title": "Partner portals",
+      "items": [
+        {
+          "url": "https://www.lifemiles.com/",
+          "title": "Lifemiles program",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://empresas.avianca.com/",
+          "title": "avianca empresas",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/portales-aliados/aviancadirect-ndc/",
+          "title": "aviancadirect",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://aviancatrade.zendesk.com/hc/es",
+          "title": "avianca trade",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://www.aviancacargo.com//indexes.aspx",
+          "title": "avianca cargo",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://ir.avianca.com/",
+          "title": "Investor relations",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "title": "Quick links",
+      "items": [
+        {
+          "url": "/es/informacion-legal/informacion-legal/",
+          "title": "Legal information",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/informacion-legal/politica-privacidad/",
+          "title": "Privacy policy",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/informacion-legal/contrato-de-transporte/",
+          "title": "Contract of carriage",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://ayuda.avianca.com/hc/es/sections/13499643885467",
+          "title": "Restricted items",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "/es/informacion-legal/plan-de-contingencia/",
+          "title": "Customer Service Plan and Contingency plan",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        },
+        {
+          "url": "https://ayuda.avianca.com/hc/es/articles/15398664877723",
+          "title": "Electronic invoice",
+          "target": null,
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      ]
+    }
+  ],
+  "socialMedia": {
+    "title": "Follow us!",
+    "items": [
+      {
+        "name": "twitter",
+        "link": {
+          "url": "https://twitter.com/avianca",
+          "title": "Visit Avianca Twitter (X)",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      },
+      {
+        "name": "facebook",
+        "link": {
+          "url": "https://es-la.facebook.com/AviancaGlobal/",
+          "title": "Visit Avianca Facebook",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      },
+      {
+        "name": "youtube",
+        "link": {
+          "url": "https://www.youtube.com/user/aviancachannel",
+          "title": "Visit Avianca You Tube Channel",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      },
+      {
+        "name": "instagram",
+        "link": {
+          "url": "https://www.instagram.com/avianca/?hl=es-la",
+          "title": "Visit Avianca Instagram",
+          "target": "_blank",
+          "newTab": false,
+          "type": "",
+          "icon": ""
+        }
+      }
+    ]
+  },
+  "partners": [
+    {
+      "image": {
+        "src": "//av-static-test2.newshore.es/media/z1vbwqqn/aeronautica-logopng.png",
+        "altText": "Logo Aeronáutica Civil"
+      },
+      "width": 106,
+      "link": {
+        "url": "",
+        "title": "",
+        "target": "_blank",
+        "newTab": false,
+        "type": "",
+        "icon": ""
+      }
+    },
+    {
+      "image": {
+        "src": "//static.avianca.com/media/skdj0adh/logostaralliance-1.png",
+        "altText": "Logo Star Alliance"
+      },
+      "width": 164,
+      "link": {
+        "url": "",
+        "title": "",
+        "target": "_blank",
+        "newTab": false,
+        "type": "",
+        "icon": ""
+      }
+    },
+    {
+      "image": {
+        "src": "//static.avianca.com/media/ssadzxv0/logosupertransporte-1.png",
+        "altText": "Logo Super Transporte"
+      },
+      "width": 106,
+      "link": {
+        "url": "",
+        "title": "",
+        "target": "_blank",
+        "newTab": false,
+        "type": "",
+        "icon": ""
+      }
+    }
+  ],
+  "culture": null,
+  "additionalKey": null
+}

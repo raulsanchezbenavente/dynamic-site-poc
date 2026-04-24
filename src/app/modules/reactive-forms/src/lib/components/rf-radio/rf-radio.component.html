@@ -1,0 +1,70 @@
+<div
+    class="rf-checkbox-radio-inner"
+    [attr.data-radio-group]="radioFormName"
+    (focusout)="handleBlur($event)">
+    <input
+        #input
+        type="radio"
+        class="rf-checkbox-radio_input"
+        [ngClass]="[
+            classes()?.radio || '',
+            errorMessagesShouldBeDisplayed ? 'has-error' : '',
+            disabled() || disabledRadio() ? 'disabled' : '',
+            readonly() ? 'readonly' : '',
+        ]"
+        [attr.data-radio-group]="radioFormName"
+        [attr.formControlName]="formControlName()"
+        [attr.name]="formControlName() || name() || null"
+        [attr.id]="autoId"
+        [attr.data-qe-id]="autoId + '::radio'"
+        [attr.value]="value()"
+        [attr.disabled]="disabledRadio() || control?.disabled ? true : null"
+        [readonly]="readonly()"
+        [attr.aria-describedby]="
+            disabledRadio() || control?.disabled
+                ? null
+                : errorMessagesShouldBeDisplayed || hintMessages()
+                  ? ariaId()
+                  : null
+        "
+        [attr.aria-invalid]="disabledRadio() || control?.disabled ? null : errorMessagesShouldBeDisplayed"
+        [attr.required]="isRequired || null"
+        [attr.checked]="isSelected ? true : null"
+        [attr.aria-labelledby]="ariaLabelledBy()"
+        (keydown)="restrictKeyboardActions($event)"
+        (input)="updateValue($event)" />
+    <label
+        tabindex="-1"
+        class="rf-checkbox-radio_label"
+        [attr.for]="autoId"
+        [attr.data-qe-id]="autoId + '::label'"
+        [ngClass]="[
+            classes()?.label || '',
+            readonly() ? 'readonly' : '',
+            disabledRadio() || control?.disabled ? 'disabled' : '',
+        ]"
+        [attr.data-radio-group]="radioFormName">
+        {{ label() }}
+    </label>
+</div>
+
+<rf-hint-messages
+    [id]="ariaId()"
+    [showHintMessages]="showHintMessages()"
+    [hintMessage]="hintMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.hintMessages || ''" />
+
+<rf-error-messages
+    [id]="ariaId()"
+    [showErrorMessages]="showErrorMessages() && isLastRadioInGroup()"
+    [errorMessages]="errorMessages()"
+    [displayErrorsMode]="displayErrorsMode()"
+    [control]="control"
+    [classes]="classes()?.errorMessages || ''" />
+
+<rf-debug-state
+    [control]="control"
+    [debug]="debug"
+    [displayErrorsMode]="displayErrorsMode()" />

@@ -1,0 +1,45 @@
+@use '../../styles/stories-styles' as *;
+
+// styles
+.stbook-checkbox-fieldset {
+    legend {
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+}
+.stbook-checkbox-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+// custom styles
+:host ::ng-deep {
+    .custom-class-checkbox {
+        .rf-checkbox-radio_input {
+            z-index: 1;
+            position: relative;
+            opacity: 1;
+            cursor: pointer;
+            height: 40px;
+            width: 40px;
+            border-radius: 8px !important;
+            border: 1px solid green;
+            &:hover,
+            &:focus,
+            &:active {
+                border: solid 1px blue;
+            }
+        }
+        .rf-checkbox-radio_label {
+            &::before,
+            &::after {
+                display: none !important;
+            }
+        }
+    }
+    .custom-class-checkbox-label {
+        font-size: 28px !important;
+        padding-left: 8px !important;
+    }
+}

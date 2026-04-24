@@ -1,0 +1,19 @@
+<button
+    class="ds-tooltip_trigger"
+    type="button"
+    [class.ds-tooltip_trigger--icon-only]="config.iconOnly"
+    [ngbTooltip]="tooltipContent"
+    [tooltipClass]="config.styleClass!"
+    [placement]="config.placement!"
+    [container]="config.container!"
+    [triggers]="config.triggerEvent!"
+    [autoClose]="autoClose">
+    <span [ngClass]="config.hiddenTriggerText ? 'hide-visually' : 'ds-tooltip_trigger_text'">
+        {{ config.triggerText }}
+    </span>
+</button>
+<ng-template #tooltipContent>
+    <div
+        class="ds-tooltip_content"
+        [innerHtml]="config.text"></div>
+</ng-template>

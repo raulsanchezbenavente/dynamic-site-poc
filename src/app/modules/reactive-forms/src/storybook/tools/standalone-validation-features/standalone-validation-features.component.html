@@ -1,0 +1,68 @@
+<div class="container-validation-tool">
+    <div>
+        <span class="title-validation">Validation mode:</span>
+        <select
+            class="form-select form-select-custom mt-2 mb-3 w-auto fw-bold d-inline align-baseline custom-height"
+            (change)="changeDisplayErrorsMode($event)">
+            @for (errorMode of errorDisplayModes; track errorMode) {
+                <option
+                    [selected]="selectedErrorDisplayMode === errorMode"
+                    [value]="errorMode">
+                    {{ errorMode }}
+                </option>
+            }
+        </select>
+    </div>
+    <br />
+    <button
+        class="stbook-btn stbook-btn-info"
+        (click)="markAllAsTouched()">
+        Mark all as touched
+    </button>
+    <!-- <button
+        class="stbook-btn stbook-btn-info"
+        (click)="markAsTouched()">
+        Mark as touched
+    </button> -->
+    <button
+        class="stbook-btn stbook-btn-info"
+        (click)="markAsUntouched()">
+        Mark as untouched
+    </button>
+    <br />
+    <button
+        class="stbook-btn stbook-btn-warning"
+        (click)="markAllAsDirty()">
+        Mark all as dirty
+    </button>
+    <button
+        class="stbook-btn stbook-btn-warning"
+        (click)="markAsPristine()">
+        Mark as pristine
+    </button>
+    <br />
+    <button
+        class="stbook-btn stbook-btn-danger"
+        (click)="disable()">
+        Disable
+    </button>
+    <button
+        class="stbook-btn stbook-btn-success"
+        (click)="enable()">
+        Enable
+    </button>
+    <br /><br />
+
+    <div class="toggle">
+        <label
+            class="form-check-label"
+            for="debugStandaloneToggle">
+            <input
+                type="checkbox"
+                id="debugStandaloneToggle"
+                (change)="setDebug($event)" />
+            <span class="slider"></span>
+            Debugging enabled
+        </label>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use '../tokens/scss/spacing.token' as *;
+
+// STYLES
+:root {
+    --#{$ds}dropdown-content-padding-y: #{$pad-small};
+    --#{$ds}dropdown-content-padding-x: #{$pad-x-medium};
+
+    // items
+    --#{$ds}dropdown-item-gap: #{$spacer-medium}; // horizontal gap between img/icon and text
+    --#{$ds}dropdown-item-padding-y: #{$pad-medium};
+    --#{$ds}dropdown-item-padding-x: #{$pad-x-medium};
+
+    // options
+    --#{$ds}dropdown-option-image-width: #{calculateRem(22px)};
+    --#{$ds}dropdown-option-image-border-radius: #{calculateRem(2px)};
+}

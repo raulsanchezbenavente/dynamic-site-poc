@@ -1,0 +1,15 @@
+<label
+    class="rf-animated-label_label"
+    [attr.data-qe-id]="e2eId() + '::label' || null"
+    [attr.id]="id() || null"
+    [attr.for]="for() || null"
+    [attr.role]="!for() ? 'none' : null"
+    [ngClass]="{
+        'rf-animated-label--on-top': floating(),
+        'rf-animated-label--focused': focused(),
+        'rf-animated-label--error': error(),
+        'rf-animated-label--disabled': disabled(),
+        'hide-visually': hide(),
+    }">
+    <ng-content></ng-content>
+</label>

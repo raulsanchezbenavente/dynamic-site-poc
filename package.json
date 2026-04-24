@@ -9,10 +9,13 @@
     "start:proxy": "node --openssl-legacy-provider server/index-proxy.js",
     "start:sso-bypass": "node server/sso-bypass.js",
     "start:serve-proxy": "concurrently \"npm run start:serve\" \"npm run start:proxy\"",
-    "start:serve-proxy-sso-bypass": "concurrently \"npm run start:serve:bypass\" \"npm run start:proxy\" \"npm run start:sso-bypass\"",
+    "start:serve-proxy-sso-bypass": "concurrently \"npm run start:serve:bypass\" \"node --openssl-legacy-provider server/index-proxy.js --sso-bypass-config\" \"npm run start:sso-bypass\"",
     "linux:enable-port-443": "bash ./enable-linux-port-443.sh",
     "build": "ng build",
+    "build:compress": "node compress-dist.js",
+    "build:prod": "ng build && node compress-dist.js",
     "start:backend": "node server/index.js",
+    "start:backend:sso-bypass": "concurrently \"node server/index.js --sso-bypass-config\" \"npm run start:sso-bypass\"",
     "start:api": "node server/api.js",
     "launcher:open": "electron electron-launcher/main.js",
     "launcher:build:win": "electron-builder --win nsis",
@@ -43,7 +46,10 @@
     "start:serve-proxy-sso-bypass": "Runs Angular bypass mode, proxy, and fake SSO together.",
     "linux:enable-port-443": "Enables Linux capability to bind port 443 without running the app as root.",
     "build": "Builds the Angular application for production.",
+    "build:compress": "Pre-compresses the dist output with gzip and brotli (.gz / .br files alongside each original).",
+    "build:prod": "Builds the Angular app for production and then pre-compresses the dist output.",
     "start:backend": "Starts the backend server entrypoint.",
+    "start:backend:sso-bypass": "Runs backend in fake SSO mode together with the local fake SSO server.",
     "start:api": "Starts the booking flow API service on port 3000.",
     "launcher:open": "Opens the Electron launcher in development mode.",
     "launcher:build:win": "Builds the Windows launcher installer (NSIS).",
@@ -63,7 +69,7 @@
   "private": true,
   "build": {
     "appId": "com.flyr.dynamic.site.launcher",
-    "productName": "Dynamic Site Launcher",
+    "productName": "Script launcher application",
     "directories": {
       "output": "dist-electron"
     },
@@ -97,7 +103,7 @@
       ],
       "category": "Development",
       "desktop": {
-        "Name": "Dynamic Site Launcher",
+        "Name": "Script launcher application",
         "StartupWMClass": "dynamic-site-launcher",
         "Icon": "avianca-icon"
       }
@@ -105,6 +111,7 @@
   },
   "dependencies": {
     "@angular/animations": "19.2.14",
+    "@angular/cdk": "19.2.19",
     "@angular/common": "19.2.14",
     "@angular/compiler": "19.2.14",
     "@angular/core": "19.2.14",
@@ -125,6 +132,7 @@
     "bootstrap-icons": "^1.11.3",
     "dayjs": "^1.11.9",
     "flatpickr": "^4.6.13",
+    "compression": "^1.8.1",
     "http-server": "^14.1.1",
     "keycloak-angular": "^16.1.0",
     "keycloak-js": "^25.0.6",

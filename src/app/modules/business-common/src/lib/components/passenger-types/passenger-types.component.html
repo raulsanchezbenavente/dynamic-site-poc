@@ -1,0 +1,20 @@
+<div class="passenger-types">
+    <ul class="passenger-types_list">
+        @for (type of model.config; track type) {
+            @if (type.quantity > 0) {
+                <li class="passenger-types_list_item">
+                    <span class="passenger-types_list_item_quantity text-space-ga">
+                        {{ type.quantity }}
+                    </span>
+                    <span class="passenger-types_list_item_label">
+                        {{
+                            type.quantity > 1
+                                ? (translationKeys.PassengerTypes_Plural_KeyNode + type.code | translate)
+                                : (translationKeys.PassengerTypes_KeyNode + type.code | translate)
+                        }}
+                    </span>
+                </li>
+            }
+        }
+    </ul>
+</div>

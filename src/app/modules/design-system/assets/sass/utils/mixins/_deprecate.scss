@@ -1,0 +1,14 @@
+//	-------
+//  Deprecate mixin
+//	-------
+//  This mixin can be used to deprecate mixins or functions.
+// `$enable-deprecation-messages` is a global variable, `$ignore-warning` is a variable that can be passed to
+// some deprecated mixins to suppress the warning
+
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+
+@mixin deprecate($deprecate-element, $deprecate-version, $deprecate-message, $ignore-warning: true) {
+    @if $enable-deprecation-messages and $ignore-warning == false {
+        @warn "#{$deprecate-element} has been deprecated at version #{$deprecate-version}. #{$deprecate-message}";
+    }
+}

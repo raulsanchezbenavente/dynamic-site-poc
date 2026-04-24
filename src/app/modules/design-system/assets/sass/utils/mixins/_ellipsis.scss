@@ -1,0 +1,22 @@
+@charset 'UTF-8';
+
+// ********************
+//  Ellipsis
+//	-------
+//	Truncates text and adds an ellipsis to represent overflow.
+// ********************
+
+/// @argument {number} $width [100%]
+///   The `max-width` for the string to respect before being truncated.
+///
+/// @argument {string} $display [inline-block]
+///   Sets the display-value of the element.
+
+@mixin ellipsis($display: inline-block, $width: 100%) {
+    display: $display;
+    max-width: $width;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: normal;
+}

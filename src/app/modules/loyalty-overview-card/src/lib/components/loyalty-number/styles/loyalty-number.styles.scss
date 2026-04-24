@@ -1,0 +1,17 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+.loyalty-overview-card_info--number {
+    flex: 0 0 100%;
+    gap: 0;
+    ::ng-deep {
+        .#{$ds}icon-button_button {
+            padding: $pad-tiny;
+        }
+    }
+}
+
+@media #{$tablet-portrait} {
+    .loyalty-overview-card_info--number {
+        flex: auto;
+    }
+}

@@ -1,0 +1,139 @@
+@let segmentId = journeyId();
+@let passengersList = passengers();
+<ul
+    class="wci-pax-list_list"
+    [attr.aria-label]="translateKeys.CheckIn_A11y_PassengerList_AriaLabel | translate">
+    @for (passenger of passengersList; track passenger; let index = $index) {
+        @let checkedInPaxStatus = passenger.status === passengerCheckInStatus.CHECKED_IN;
+        @let notAllowedPaxStatus = passenger.status === passengerCheckInStatus.NOT_ALLOWED;
+        @let allowedPaxStatus = passenger.status === passengerCheckInStatus.ALLOWED;
+        @let passengerNotEligible = isPassengerNonEligibleBoardingPass(passenger.id);
+        @let ocaPaxStatus =
+            passenger.status === passengerCheckInStatus.OVERBOOKED ||
+            passenger.status === passengerCheckInStatus.STAND_BY;
+        <li
+            class="wci-pax-list_item"
+            [class.wci-pax-list_item--no-seat]="!passenger.seats"
+            [ngClass]="'wci-pax-list_item--' + passengerStatus[passenger.id]">
+            <form [formGroup]="checkInForm">
+                <div
+                    class="wci-pax-list_item-inner"
+                    [class.wci-pax-list_item--notallowed]="
+                        hasOverbookedSegment(passenger, segmentIdentifier()) ||
+                        hasStandBySegment(passenger, segmentIdentifier()) ||
+                        passengerNotEligible
+                    ">
+                    <div class="wci-pax-list_item-info-wrapper">
+                        <div class="wci-pax-list_item-info">
+                            <div class="wci-pax-list_item-name">
+                                @if (checkedInPaxStatus) {
+                                    <span class="hide-visually text-space-gap">
+                                        {{ translateKeys.CheckIn_Complete | translate }}
+                                    </span>
+                                }
+                                @if (notAllowedPaxStatus) {
+                                    <span class="hide-visually text-space-gap">
+                                        {{ translateKeys.CheckIn_NotAllowed | translate }}
+                                    </span>
+                                }
+                                @if (allowedPaxStatus) {
+                                    <rf-checkbox
+                                        [formControlName]="segmentId"
+                                        [value]="
+                                            passenger.detail
+                                                ? passenger.id + ' ' + segmentId + ' ' + passenger.detail.split('-')[1]
+                                                : passenger.id + ' ' + segmentId
+                                        "
+                                        [label]="passenger.name" />
+                                }
+
+                                @if (checkedInPaxStatus || notAllowedPaxStatus || ocaPaxStatus) {
+                                    <span class="wci-pax-list_item-pax-name text-space-gap">
+                                        {{ passenger.name }}
+                                    </span>
+                                }
+                            </div>
+
+                            <!-- seats -->
+                            <div class="wci-pax-list_item-seat">
+                                <span class="hide-visually text-space-gap">
+                                    @if (!hasAnySeatAssigned(passenger)) {
+                                        {{ translateKeys.CheckIn_SeatAssigned_None | translate }}
+                                    } @else if (passenger.seats?.length === 1) {
+                                        {{ translateKeys.CheckIn_SeatAssigned_One | translate }}
+                                    } @else {
+                                        {{
+                                            translateKeys.CheckIn_SeatAssigned_Many
+                                                | translate: { count: passenger.seats?.length }
+                                        }}
+                                    }
+                                </span>
+
+                                @if (passenger.seats?.length && hasAnySeatAssigned(passenger)) {
+                                    <span class="wci-pax-list_item-pax-seats">
+                                        {{ passengerSeatsDisplay[passenger.id] }}
+                                    </span>
+                                }
+                            </div>
+                        </div>
+                        @if (
+                            passenger.detail ||
+                            passenger.lifemilesNumber ||
+                            notAllowedPaxStatus ||
+                            shouldFollowOverbookingPath(passenger, segmentIdentifier())
+                        ) {
+                            <div class="wci-pax-list_item-extra-info">
+                                @if (passenger.detail) {
+                                    <div class="wci-pax-list_item-details">
+                                        {{ translateKeys.CheckIn_With_Baby | translate }}
+                                        {{ passenger.detail.split('-')[0] | titlecase }}
+                                    </div>
+                                }
+                                @if (passenger.lifemilesNumber) {
+                                    <div class="wci-pax-list_item-loyalty">
+                                        {{ translateKeys.CheckIn_LifemilesNumber_Label | translate }}
+                                        {{ passenger.lifemilesNumber }}
+                                    </div>
+                                }
+                                @if (shouldFollowOverbookingPath(passenger, segmentIdentifier())) {
+                                    <div class="checkin-confirmation-pax-list_item_overbooked_message">
+                                        {{ translateKeys.CheckIn_StandBy_SubtitleOverbooking | translate }}
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                    @if (passenger.status === passengerCheckInStatus.NOT_ALLOWED) {
+                        <div class="wci-pax-list_item-message">
+                            {{ translateKeys.CheckIn_AirportCounter_SeatAvailability_Info | translate }}
+                        </div>
+                    }
+                    @if (
+                        (checkedInPaxStatus || ocaPaxStatus) &&
+                        passenger.seats &&
+                        !shouldFollowOverbookingPath(passenger, segmentIdentifier()) &&
+                        canDownloadBoardingPass(passenger)
+                    ) {
+                        <div class="wci-pax-list_item-button">
+                            <ds-button
+                                [config]="downloadButtonConfig"
+                                (buttonClicked)="onClickDownload(passenger)" />
+                        </div>
+                    }
+                </div>
+            </form>
+            @if (passengerNotEligible) {
+                <div
+                    class="wci-pax-list_item-message--not-eligible"
+                    [innerHtml]="translateKeys.CheckIn_BoardingPass_Blocked_PassengerMessage | translate">
+                </div>
+            }
+        </li>
+    }
+</ul>
+
+@if (showBoardingPassPreview() && boardingPassOffCanvasData()) {
+    <boarding-pass-off-canvas
+        [data]="boardingPassOffCanvasData()!"
+        (closeOffCanvas)="onCloseOffCanvas()" />
+}

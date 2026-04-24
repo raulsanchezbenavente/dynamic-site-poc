@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateService } from '@ngx-translate/core';
 
 import { DynamicBlocksComponent } from './dynamic-blocks.component';
 
@@ -8,7 +10,17 @@ describe('DynamicBlocksComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicBlocksComponent],
+      imports: [DynamicBlocksComponent, HttpClientTestingModule],
+      providers: [
+        {
+          provide: TranslateService,
+          useValue: jasmine.createSpyObj<TranslateService>('TranslateService', [
+            'setTranslation',
+            'setFallbackLang',
+            'use',
+          ]),
+        },
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicBlocksComponent);

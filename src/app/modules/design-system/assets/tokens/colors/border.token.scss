@@ -1,0 +1,21 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// Border Colors
+// These colors define border styles and states for UI elements.
+
+// CSS Variables for Global Use
+:root {
+    --c-border-darker: #{$gray-1200};
+    --c-border-dark: #{$gray-1000};
+    --c-border: #{$gray-400};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode st yles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-border-darker: #{$gray-300};
+//     --c-border-dark: #{$gray-300};
+//     --c-border: #{$gray-900};
+// }

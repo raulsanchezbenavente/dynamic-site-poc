@@ -1,0 +1,47 @@
+import { Canvas, Meta } from '@storybook/blocks';
+
+import * as ComponentStories from './panel.stories';
+
+<Meta of={ComponentStories} />
+
+# Panel
+
+The **PanelComponent** display a box with rounded edges and shading. It supports content projection, allowing developers to extend its content dynamically. This component can have multiple appearances and configurations to fit various use cases.
+
+## Appearances
+
+The component supports the following appearances:
+
+- Default: Default appearance without any additional styles.
+- Shadow: Adds a shadow effect to the box.
+- Border: Adds a border around the box.
+- Bgfill: Fills the background with a specified color or gradient.
+
+## Usage and Component Structure
+
+- The component has one subcomponent **PanelHeaderComponent** and **7 directives** components that receives content projection content
+- **PanelHeader** is not obligatory, the PanelComponent can be used just to show the core design-system box structure.
+
+### Directives
+
+- As part of `<panel-header>` component there are the following componets directives:
+
+  - `<h2 panelTitle>`: Projects the title of the panel.
+  - `<span panelIcon>`: Projects an optional icon in the header.
+    - **panelIcon** can be either inside or outside panelTitle. The core styles are prepared to have it **inside panelTitle**.
+  - `<div panelDescription>`: Projects a brief description of the panel.
+  - `<div panelHeaderAside>`: Projects additional content in the header aside area shown on the right side of title container.
+
+- `<div panelContent>`: Projects the panel main content.
+- `<div panelFooter>`: Projects content in the footer of the panel - **do not have core styles**
+
+## Accessibility
+### Role Region and Label
+See documentation: [[A11y] Role Region in Panel Component](https://flyr.atlassian.net/wiki/spaces/DC/pages/5289149038/A11y+Role+Region+in+Panel+Component?atlOrigin=eyJpIjoiNDVjZWZhMGEyMjdiNDJkODkwYzNmZGJlMjRiMmIwYjAiLCJwIjoiYyJ9)
+
+---
+
+Usefull documentation:
+
+- [Initial Tech Analysis](https://newshore-product.atlassian.net/wiki/spaces/IBE/pages/4061692020)
+- [[A11y] Role Region in Panel Component](https://flyr.atlassian.net/wiki/spaces/DC/pages/5289149038/A11y+Role+Region+in+Panel+Component?atlOrigin=eyJpIjoiNDVjZWZhMGEyMjdiNDJkODkwYzNmZGJlMjRiMmIwYjAiLCJwIjoiYyJ9)

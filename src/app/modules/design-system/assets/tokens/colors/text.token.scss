@@ -1,0 +1,52 @@
+@use 'design-system/assets/sass/variables/theme-colors' as *;
+
+// CSS Variables for Global Use
+:root {
+    // Normal Text
+    --c-text: #{$gray-1200};
+    --c-text-secondary: #{$gray-900};
+
+    // Light Variants
+    --c-text-light: #{$gray-400};
+    --c-text-lighter: #{$gray-0};
+
+    // Links
+    --c-link: #{$blue-800};
+    --c-link-hover: #{$blue-900};
+    --c-link-active: #{$blue-900};
+    --c-link-visited: #{$purple-800};
+    --link-text-underline-offset: 0.25em; // use 'em' unit to keep underline offset proportional to the current font size
+
+    // Headings
+    --c-title-h1: #{$gray-1200};
+    --c-title-h2: #{$gray-1200};
+    --c-title-h3: #{$gray-1200};
+    --c-title-h4: #{$gray-1200};
+    --c-title-h5: #{$gray-1200};
+}
+
+// Dark Mode
+// THEME-TODO: Enable dark mode styles when design system supports dark mode
+// .dark-mode {
+//     // @media (prefers-color-scheme: dark) {
+//     // :root {
+//     --c-text: #{$gray-100};
+//     --c-text-secondary: #{$gray-400};
+
+//     // Light Variants - Dark Mode
+//     --c-text-light: #{$gray-900};
+//     --c-text-lighter: #{$gray-1200};
+
+//     // Links - Dark Mode
+//     --c-link: #{$blue-700};
+//     --c-link-hover: #{$blue-800};
+//     --c-link-active: #{$blue-800};
+//     --c-link-visited: #{$purple-700};
+
+//     // Headings
+//     --c-title-h1: #{$gray-100};
+//     --c-title-h2: #{$gray-100};
+//     --c-title-h3: #{$gray-100};
+//     --c-title-h4: #{$gray-100};
+//     --c-title-h5: #{$gray-100};
+// }

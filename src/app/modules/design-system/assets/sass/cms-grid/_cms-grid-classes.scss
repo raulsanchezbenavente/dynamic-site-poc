@@ -1,0 +1,179 @@
+@use 'sass:math';
+@use 'sass:map';
+@use 'design-system/assets/sass/utils/functions/units-conversion/units-conversion' as *;
+@use 'design-system/assets/sass/utils/configs/config-sass-vars' as *;
+@use 'design-system/assets/sass/cms-grid/cms-grid-mixins' as *;
+@use './cms-grid-vars' as *;
+
+// CLASSES
+.container-fluid {
+    max-width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: 0;
+    margin-left: 0;
+    > .grid-row {
+        margin-right: 0;
+        margin-left: 0;
+        > .grid-col {
+            &:first-child {
+                padding-left: 0;
+            }
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+    }
+}
+
+// row custom background colors
+@each $id, $color in $gl-background-colors {
+    .#{$gl-gridclass}--bgcolor-#{$id} {
+        background-color: $color;
+    }
+}
+.container-wrap {
+    @include container-wrap;
+
+    // remove inner paddings to allow grid system inside itselfs
+    .container-wrap {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+// GRID
+.#{$gl-gridclass} {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -(math.div($gl-gutter, 2));
+    margin-left: -(math.div($gl-gutter, 2));
+    &.container-wrap {
+        box-sizing: content-box;
+    }
+
+    // double gutter in desktop devices
+    @media (min-width: #{map.get($gl-mq-list, lg)}) {
+        margin-right: -$gl-gutter;
+        margin-left: -$gl-gutter;
+    }
+}
+
+// COLS
+.#{$gl-colclass} {
+    flex: 1 1 0%;
+    max-width: 100%;
+    padding-right: (math.div($gl-gutter, 2));
+    padding-left: (math.div($gl-gutter, 2));
+    padding-bottom: $gl-gutter-vertical;
+    box-sizing: border-box;
+
+    // double gutter on desktop devices
+    @media (min-width: #{map.get($gl-mq-list, lg)}) {
+        padding-right: $gl-gutter;
+        padding-left: $gl-gutter;
+    }
+}
+
+/************************
+    HELPERS SUFFIXES
+*************************/
+// Styles button-like links rendered from CMS RTE content
+.#{$ds}button[data-anchor] {
+    display: inline-flex;
+    width: auto;
+}
+
+// SPACING (ROWS ONLY)
+// -------
+// No spacing between cols
+.#{$gl-gridclass}--no-gutter {
+    margin-right: 0;
+    margin-left: 0;
+    > .#{$gl-colclass} {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
+.#{$gl-gridclass}--no-padding-bottom > .#{$gl-colclass} {
+    padding-bottom: 0;
+}
+.#{$gl-gridclass}--margin-bottom {
+    margin-bottom: $gl-margin-bottom;
+}
+.#{$gl-gridclass}--margin-top {
+    margin-top: $gl-margin-top;
+}
+.#{$gl-gridclass}--padding-bottom {
+    padding-bottom: $gl-padding-bottom;
+}
+.#{$gl-gridclass}--padding-top {
+    padding-top: $gl-padding-top;
+}
+
+// NO WRAPPING
+// -------
+// No Wrapping
+.#{$gl-gridclass}--no-wrap {
+    flex-wrap: nowrap;
+}
+
+// DIRECTION / ORDER (ROWS ONLY)
+// -------
+.#{$gl-gridclass}--reverse {
+    flex-direction: row-reverse;
+}
+.#{$gl-gridclass}--column {
+    flex-direction: column;
+    > .#{$gl-colclass} {
+        flex-basis: auto;
+        max-width: none;
+    }
+    &.#{$gl-gridclass}--reverse {
+        flex-direction: column-reverse;
+    }
+}
+
+// ALIGNMENT
+// -------
+// ROW
+.#{$gl-gridclass}--align-center {
+    align-items: center;
+    &.#{$gl-gridclass}--column {
+        justify-content: center;
+    }
+}
+.#{$gl-gridclass}--align-end {
+    align-items: end;
+    &.#{$gl-gridclass}--column {
+        justify-content: end;
+    }
+}
+
+/************************
+		GRID BY NUMBER
+*************************/
+@include makeGridByNumber(#{$gl-gridclass});
+
+@each $mq-key, $mq-value in $gl-mq-list {
+    @include bp(#{$mq-key}) {
+        @include makeGridByNumber(#{$gl-gridclass}-#{$mq-key});
+    }
+}
+
+/************************
+		COLS SIZES
+*************************/
+@include makeCol(#{$gl-colname});
+@include makeFirstLast;
+
+// ALIGNMENT (COLUMN)
+@include verticalAlign;
+
+@each $mq-key, $mq-value in $gl-mq-list {
+    @include bp(#{$mq-key}) {
+        @include makeCol(#{$gl-colname}-#{$mq-key});
+        @include makeFirstLastResponsive(#{$mq-key});
+    }
+}

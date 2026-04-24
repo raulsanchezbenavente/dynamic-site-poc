@@ -1,0 +1,36 @@
+@use 'design-system/assets/sass/import/import-core' as *;
+
+// -------
+// COMPONENT STYLE
+// -------
+.#{$ds}tag {
+    font-size: var(--tag-fontsize, var(--f-size-tiny));
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--tag-gap, calculateRem(4px));
+    color: var(--tag-color, var(--c-white));
+    font-weight: var(--tag-fontweight, var(--f-weight-bold));
+    line-height: var(--tag-lineheight, 1);
+    border-radius: var(--tag-border-radius, var(--#{$ds}border-radius));
+    padding: var(--tag-padding, #{calculateRem(4px)} #{calculateRem(12px)});
+    background-color: var(--tag-background, var(--c-primary));
+}
+
+// Colors for fare tags
+.#{$ds}tag--fare1 {
+    --tag-background: var(--c-fare-type-1);
+}
+.#{$ds}tag--fare2 {
+    --tag-background: var(--c-fare-type-2);
+}
+.#{$ds}tag--fare3 {
+    --tag-background: var(--c-fare-type-3);
+}
+.#{$ds}tag--fare4 {
+    --tag-background: var(--c-fare-type-4-bg-strong);
+    --tag-color: var(--c-fare-type-4);
+}
+.#{$ds}tag--fare5 {
+    --tag-color: var(--c-fare-type-5);
+}

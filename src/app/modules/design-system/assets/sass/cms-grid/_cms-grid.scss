@@ -1,0 +1,12 @@
+// -------
+// CMS GRID SYSTEM
+// -------
+// This grid is utilized for the CMS.
+// The IBE CMS Grid System employs a structure of containers, rows, and columns for organizing and aligning content.
+// It is constructed with flexbox (https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Basic_Concepts_of_Flexbox).
+// It is entirely responsive and configurable.
+
+@use 'cms-grid-vars';
+@use 'cms-grid-preprocessing';
+@use 'cms-grid-mixins';
+@use 'cms-grid-classes';

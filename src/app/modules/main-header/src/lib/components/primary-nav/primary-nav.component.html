@@ -1,0 +1,79 @@
+@if (mainMenuList && mainMenuList.length) {
+    <nav
+        class="primary-nav-inner"
+        [attr.aria-label]="'Main navigation'">
+        <ul
+            class="primary-nav_list"
+            role="menubar"
+            [clickOutsideListenerIsActive]="clickOutsideIsActive()"
+            (clickOutside)="closeAllSubMenus()">
+            @for (navItem of mainMenuList; track trackByMenuItem($index, navItem); let index = $index) {
+                @let submenuId = 'primaryNavSubMenu_' + index;
+
+                <li
+                    class="primary-nav_list_item"
+                    role="none"
+                    [class.primary-nav_list_item--active]="isExpanded(index) || activeMenuItemIndex === index"
+                    [ngClass]="navItem.sectionColor ? 'primary-nav_list_item--' + navItem.sectionColor : null">
+                    <!-- is a direct link -->
+                    @if (navItem?.link?.url) {
+                        <a
+                            #menuItem
+                            class="primary-nav_list_item_button"
+                            role="menuitem"
+                            [attr.id]="navItem.id"
+                            [attr.href]="navItem?.link?.url"
+                            [attr.target]="navItem.link?.target ?? null"
+                            [attr.tabindex]="getTabIndex(index)"
+                            (keydown)="onKeyDown($event, index)">
+                            @if (navItem.icon?.name) {
+                                <icon [config]="navItem.icon!"></icon>
+                            }
+                            <span class="button_label">{{ navItem?.link?.title }}</span>
+                            @if (navItem.tag) {
+                                <span class="button_label_tag">{{ navItem.tag }}</span>
+                            }
+                        </a>
+                    }
+                    <!-- has submenu -->
+                    @else {
+                        <button
+                            #menuItem
+                            class="primary-nav_list_item_button"
+                            role="menuitem"
+                            [attr.id]="navItem.id"
+                            [attr.aria-haspopup]="true"
+                            [attr.aria-expanded]="isExpanded(index)"
+                            [attr.aria-controls]="isExpanded(index) ? submenuId : null"
+                            [attr.tabindex]="getTabIndex(index)"
+                            (keydown)="onKeyDown($event, index)"
+                            (click)="onToggleClick($event, index)">
+                            @if (navItem.icon?.name) {
+                                <icon [config]="navItem.icon!"></icon>
+                            }
+                            <span class="button_label">{{ navItem.title }}</span>
+                            @if (navItem.tag) {
+                                <span class="button_label_tag">{{ navItem.tag }}</span>
+                            }
+                        </button>
+                    }
+                    <!-- submenu -->
+                    @if (isExpanded(index)) {
+                        <div
+                            #subMenus
+                            class="primary-nav_submenu">
+                            <primary-nav-submenu
+                                [menuItem]="navItem"
+                                [id]="submenuId"
+                                [isResponsive]="isResponsive()"
+                                [focusedSubmenuIndex]="focusedSubmenuIndex"
+                                [sectionColor]="navItem.sectionColor ?? null"
+                                (closeMenuExternal)="onCloseMenu(index)"
+                                (submenuTabOut)="onSubmenuTabOut()" />
+                        </div>
+                    }
+                </li>
+            }
+        </ul>
+    </nav>
+}
