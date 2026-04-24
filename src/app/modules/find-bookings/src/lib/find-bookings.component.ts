@@ -391,14 +391,6 @@ export class FindBookingsComponent extends DynamicPageReadinessBase implements O
         })
       );
     }
-
-    return this.configService.getBusinessModuleConfig<FindBookingsConfig>(this.data().config).pipe(
-      tap((config) => {
-        this.config = config;
-        this.setCarouselConfig();
-        this.logger.info('FindBookingsComponent', 'Business module config', this.config);
-      })
-    );
   }
 
   /**

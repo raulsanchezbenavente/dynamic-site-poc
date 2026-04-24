@@ -1,71 +1,71 @@
 <ng-container
-  translationLoadStatus
-  [moduleKeys]="mappedKeys"
-  (translationsLoaded)="loadTranslations()" />
+    translationLoadStatus
+    [moduleKeys]="mappedKeys"
+    (translationsLoaded)="loadTranslations()" />
 
 @let upcomingTripsData = upcomingTrips();
 @let pastTripsData = pastTrips();
 
 @if (config) {
-  <div class="find-bookings_upcoming-trips">
-    <toast-container />
-    <div
-      data-toast-slot="panel"
-      id="mytripsAddFlightToast_Id"></div>
+    <div class="find-bookings_upcoming-trips">
+        <toast-container />
+        <div
+            data-toast-slot="panel"
+            id="mytripsAddFlightToast_Id"></div>
 
-    <h2 class="find-bookings_title">
-      {{ 'FindBookings.UpcomingTrips.Title' | translate }}
-    </h2>
-    @defer (when (isLoaded() && translationsReady())) {
-      <upcoming-trips
-        #upcomingTripsRef
-        [data]="upcomingTripsData" />
-      @if (totalUpcomingTrips() > 3) {
-        <ds-paginator
-          [config]="{
-            currentPage: currentUpcomingPage(),
-            totalPages: totalUpcomingPages(),
-            pagesToShow: 7,
-          }"
-          (selectPageEmitter)="onUpcomingTripsPageChange($event)" />
-      }
-    } @placeholder {
-      <skeleton-upcoming-trips />
-    }
-  </div>
+        <h2 class="find-bookings_title">
+            {{ 'FindBookings.UpcomingTrips.Title' | translate }}
+        </h2>
+        @defer (when (isLoaded() && translationsReady())) {
+            <upcoming-trips
+                #upcomingTripsRef
+                [data]="upcomingTripsData" />
+            @if (totalUpcomingTrips() > 3) {
+                <ds-paginator
+                    [config]="{
+                        currentPage: currentUpcomingPage(),
+                        totalPages: totalUpcomingPages(),
+                        pagesToShow: 7,
+                    }"
+                    (selectPageEmitter)="onUpcomingTripsPageChange($event)" />
+            }
+        } @placeholder {
+            <skeleton-upcoming-trips />
+        }
+    </div>
 
-  <div class="find-bookings_add-upcoming-trips">
-    @defer (when translationsReady()) {
-      <add-upcoming-trips
-        #addUpcomingTripsRef
-        (submitForm)="onAddBooking($event)" />
-    } @placeholder {
-      <p>{{ 'FindBookings.Loading' | translate }}</p>
-    }
-  </div>
+    <div class="find-bookings_add-upcoming-trips">
+        @defer (when translationsReady()) {
+            <add-upcoming-trips
+                #addUpcomingTripsRef
+                (submitForm)="onAddBooking($event)" />
+        } @placeholder {
+            <p>{{ 'FindBookings.Loading' | translate }}</p>
+        }
+    </div>
 
-  <div class="find-bookings_past-trips">
-    <h2 class="find-bookings_title">
-      {{ 'FindBookings.PastTrips.Title' | translate }}
-    </h2>
-    @defer (when isLoaded()) {
-      @if (pastTripsData.length) {
-        <ds-carousel
-          [config]="pastTripCarouselConfig"
-          [totalCarouselItems]="pastTripsData.length">
-          @for (pastTrip of pastTripsData; track pastTrip) {
-            <div carouselItem>
-              <past-trip-card [data]="pastTrip" />
-            </div>
-          }
-        </ds-carousel>
-      } @else {
-        <div class="find-bookings_past-trips_no-results">
-          <data-not-found [config]="pastTripsNotFoundConfig"></data-not-found>
-        </div>
-      }
-    } @placeholder {
-      <skeleton-past-trips [config]="pastTripCarouselConfig.breakPointConfig" />
-    }
-  </div>
+    <div class="find-bookings_past-trips">
+        <h2 class="find-bookings_title">
+            {{ 'FindBookings.PastTrips.Title' | translate }}
+        </h2>
+        @defer (when isLoaded()) {
+            @if (pastTripsData.length) {
+                <ds-carousel
+                    [config]="pastTripCarouselConfig"
+                    [totalCarouselItems]="pastTripsData.length">
+                    @for (pastTrip of pastTripsData; track pastTrip) {
+                        <div carouselItem>
+                            <past-trip-card [data]="pastTrip" />
+                        </div>
+                    }
+                </ds-carousel>
+            } @else {
+                <div class="find-bookings_past-trips_no-results">
+                    <data-not-found [config]="pastTripsNotFoundConfig"></data-not-found>
+                </div>
+            }
+        } @placeholder {
+            <skeleton-past-trips [config]="pastTripCarouselConfig.breakPointConfig" />
+        }
+    </div>
 }
