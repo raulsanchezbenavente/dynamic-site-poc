@@ -3,8 +3,24 @@ export interface TabLayoutCol {
   span?: number;
 }
 
+export interface TabLayoutRowConfig {
+  fluid?: boolean;
+  column?: boolean;
+  noPaddingBottom?: boolean;
+  marginTop?: boolean;
+  marginBottom?: boolean;
+  paddingTop?: boolean;
+  paddingBottom?: boolean;
+  noGutter?: boolean;
+  reverse?: boolean;
+  alignment?: 'start' | 'center' | 'end';
+  backgroundColor?: string;
+  customClass?: string;
+}
+
 export interface TabLayoutRow {
   cols?: TabLayoutCol[];
+  config?: TabLayoutRowConfig;
 }
 
 export interface TabLayout {

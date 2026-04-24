@@ -17,9 +17,25 @@ export interface SiteLayoutCol {
   span?: number;
 }
 
+export interface SiteRowConfig {
+  fluid?: boolean;
+  column?: boolean;
+  noPaddingBottom?: boolean;
+  marginTop?: boolean;
+  marginBottom?: boolean;
+  paddingTop?: boolean;
+  paddingBottom?: boolean;
+  noGutter?: boolean;
+  reverse?: boolean;
+  alignment?: 'start' | 'center' | 'end';
+  backgroundColor?: string;
+  customClass?: string;
+}
+
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
   slot?: string;
+  config?: SiteRowConfig;
 }
 
 export interface SiteLayout {
