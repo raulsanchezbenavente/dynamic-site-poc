@@ -9,6 +9,8 @@
     "start:backend:sso-bypass",
     "test",
     "test-by-module",
-    "storybook-by-module"
+    "storybook-by-module",
+    "build:prod",
+    "styles:dev:sass"
   ]
 }
