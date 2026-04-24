@@ -46,4 +46,9 @@ contextBridge.exposeInMainWorld('launcherApi', {
     ipcRenderer.on('scripts:status', listener);
     return () => ipcRenderer.removeListener('scripts:status', listener);
   },
+  onResetDefaultsRequested: (handler) => {
+    const listener = () => handler();
+    ipcRenderer.on('app:reset-default-requested', listener);
+    return () => ipcRenderer.removeListener('app:reset-default-requested', listener);
+  },
 });

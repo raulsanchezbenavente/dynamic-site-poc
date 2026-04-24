@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn, spawnSync } = require('child_process');
-const { app, BrowserWindow, dialog, ipcMain, nativeImage, shell } = require('electron');
+const { app, BrowserWindow, Menu, dialog, ipcMain, nativeImage, shell } = require('electron');
 
 const runningScripts = new Map();
 let isShuttingDown = false;
@@ -1614,6 +1614,53 @@ function createWindow(options = null) {
   }
 }
 
+function getMenuResetTargetWindow() {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow && !focusedWindow.isDestroyed()) {
+    return focusedWindow;
+  }
+
+  const [firstWindow] = BrowserWindow.getAllWindows();
+  if (firstWindow && !firstWindow.isDestroyed()) {
+    return firstWindow;
+  }
+
+  return null;
+}
+
+function requestRendererResetDefaults() {
+  const targetWindow = getMenuResetTargetWindow();
+  if (!targetWindow) {
+    return;
+  }
+
+  targetWindow.webContents.send('app:reset-default-requested');
+}
+
+function installNativeApplicationMenu() {
+  const template = [
+    ...(process.platform === 'darwin' ? [{ role: 'appMenu' }] : []),
+    {
+      label: 'Application',
+      submenu: [
+        {
+          label: 'Reset default',
+          click: () => {
+            requestRendererResetDefaults();
+          },
+        },
+      ],
+    },
+    { role: 'fileMenu' },
+    { role: 'editMenu' },
+    { role: 'viewMenu' },
+    { role: 'windowMenu' },
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
+}
+
 function readScripts() {
   const { packageJsonPath } = getProjectContext();
   const raw = fs.readFileSync(packageJsonPath, 'utf8');
@@ -2617,6 +2664,8 @@ app.whenReady().then(() => {
   if (!hasSingleInstanceLock) {
     return;
   }
+
+  installNativeApplicationMenu();
 
   ensureLinuxDevDesktopEntry();
   if (initialModalOnlyMode) {
