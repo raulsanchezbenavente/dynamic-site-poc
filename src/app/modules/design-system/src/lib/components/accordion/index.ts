@@ -4,6 +4,5 @@
 export * from './accordion.component';
 export * from './components/accordion-item/accordion-item.component';
 
-export * from './models/accordion-item.config';
-export * from './models/accordion-items.config';
+// Configs
 export * from './models/accordion.config';

@@ -4,7 +4,7 @@
 // STYLES
 // -------
 :host {
-    --accordion-item-padding-vertical: #{$pad-x-large};
+    --accordion-item-padding-vertical: #{$pad-medium};
     --accordion-item-padding-horizontal: #{$pad-x-medium};
 
     display: block;
@@ -21,25 +21,31 @@
     align-items: center;
     text-align: left;
     padding: var(--accordion-item-padding-vertical) var(--accordion-item-padding-horizontal);
+
+    &:focus-visible {
+        --accessibility-outline-offset: #{calculateRem(-2px)};
+        --accessibility-outline-border-radius: var(--#{$ds}border-radius-lg);
+
+        @include accessibility-outline;
+    }
+
     &::after {
         // arrow
         flex: 0 0 calculateRem(32px);
         padding: $pad-small 0;
         text-align: center;
-        background-color: var(--c-color4);
-        height: calculateRem(32px);
-        width: calculateRem(32px);
-        box-sizing: border-box;
+        font-size: var(--f-size-x-x-large);
         border-radius: 50%;
+        box-sizing: border-box;
     }
 }
 .#{$ds}accordion-item_trigger_title {
     font-size: var(--f-size-medium);
     color: var(--c-text);
-    font-weight: var(--f-weight-light);
+    font-weight: var(--f-weight-bold);
 }
 .#{$ds}accordion-item_body {
-    padding: 0 var(--accordion-item-padding-horizontal) var(--accordion-item-padding-vertical);
+    padding: calculateRem(11px) var(--accordion-item-padding-horizontal) calculateRem(15px);
     line-height: var(--f-line-height-large);
 
     // styles for RTE content
@@ -57,11 +63,5 @@
     ul:last-child,
     ol:last-child {
         margin-bottom: 0;
-    }
-}
-
-@media #{$mobile} {
-    :host {
-        --accordion-item-padding-horizontal: #{$pad-x-large};
     }
 }

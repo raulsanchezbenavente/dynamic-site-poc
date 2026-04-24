@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   CommandResponseOfVoidCommandResponse,
   IPaxRegulatoryDetailsClient,
-  ResponseObjectOfVoidCommandResponse,
   UpdatePaxRegulatoryDetailsCommand,
-  VoidCommandResponse,
 } from '@dcx/module/booking-api-client';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
@@ -38,34 +36,32 @@ export class FakePaxRegulatoryDetailsClient implements IPaxRegulatoryDetailsClie
     command: UpdatePaxRegulatoryDetailsCommand,
     version: string
   ): Observable<CommandResponseOfVoidCommandResponse> {
-    console.log('FakePaxRegulatoryDetailsClient: Processing regulatory details', {
-      command,
-      version,
-      options: this.options,
-    });
-
-    // Simulate different error scenarios
     if (this.options.simulateError) {
       return this.simulateErrorResponse().pipe(delay(this.options.delay || 500));
     }
 
-    // Simulate successful response
-    return this.simulateSuccessResponse().pipe(delay(this.options.delay || 500));
+    return this.simulateSuccessResponse(command).pipe(delay(this.options.delay || 500));
   }
 
-  private simulateSuccessResponse(): Observable<CommandResponseOfVoidCommandResponse> {
+  private simulateSuccessResponse(
+    command: UpdatePaxRegulatoryDetailsCommand
+  ): Observable<CommandResponseOfVoidCommandResponse> {
+    const request = command['request'];
+    const paxId =
+      typeof request === 'object' && request !== null && typeof (request as Record<string, unknown>)['paxId'] === 'string'
+        ? ((request as Record<string, unknown>)['paxId'] as string)
+        : '';
+
     const successResponse: CommandResponseOfVoidCommandResponse = {
-      error: undefined,
       success: true,
       result: {
         result: true,
-        data: {} as VoidCommandResponse,
-      } as ResponseObjectOfVoidCommandResponse,
-      init: () => {},
-      toJSON: () => ({}),
+        data: {
+          paxId,
+        },
+      },
     };
 
-    console.log('FakePaxRegulatoryDetailsClient: Returning success response', successResponse);
     return of(successResponse);
   }
 
@@ -74,7 +70,6 @@ export class FakePaxRegulatoryDetailsClient implements IPaxRegulatoryDetailsClie
 
     switch (errorType) {
       case 'network_error':
-        console.log('FakePaxRegulatoryDetailsClient: Simulating network error');
         return throwError(() => ({
           name: 'NetworkError',
           message: 'Failed to fetch',
@@ -82,7 +77,6 @@ export class FakePaxRegulatoryDetailsClient implements IPaxRegulatoryDetailsClie
         }));
 
       case 'timeout':
-        console.log('FakePaxRegulatoryDetailsClient: Simulating timeout error');
         return throwError(() => ({
           name: 'TimeoutError',
           message: 'Request timeout',
@@ -90,29 +84,21 @@ export class FakePaxRegulatoryDetailsClient implements IPaxRegulatoryDetailsClie
         }));
 
       case 'validation_error':
-        console.log('FakePaxRegulatoryDetailsClient: Simulating validation error');
-        return of({
-          error: {
-            code: 'VALIDATION_ERROR',
-            description: 'Invalid passenger regulatory details',
-            type: 'ValidationError' as any,
-          },
-          success: false,
-          result: undefined,
-        } as CommandResponseOfVoidCommandResponse);
+        return throwError(() => ({
+          name: 'ValidationError',
+          message: 'Invalid passenger regulatory details',
+          status: 400,
+          code: 'VALIDATION_ERROR',
+        }));
 
       case 'api_error':
       default:
-        console.log('FakePaxRegulatoryDetailsClient: Simulating API error');
-        return of({
-          error: {
-            code: 'REGULATORY_DETAILS_ERROR',
-            description: 'Failed to process regulatory details',
-            type: 'ApiError' as any,
-          },
-          success: false,
-          result: undefined,
-        } as CommandResponseOfVoidCommandResponse);
+        return throwError(() => ({
+          name: 'ApiError',
+          message: 'Failed to process regulatory details',
+          status: 500,
+          code: 'REGULATORY_DETAILS_ERROR',
+        }));
     }
   }
 }
