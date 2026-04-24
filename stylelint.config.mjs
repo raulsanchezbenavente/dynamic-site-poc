@@ -4,6 +4,27 @@ import customPlugin_ValidatePrefixInterpolation from './lintrules/stylelint/vali
 
 export default {
   defaultSeverity: 'warning',
+  ignoreFiles: [
+    '**/*.html',
+    '**/*.ts',
+    '**/*.tsx',
+    '**/*.js',
+    '**/*.jsx',
+    '**/*.md',
+    '**/*.mdx',
+    '**/*.mjs',
+    '**/*.cjs',
+    '**/*.json',
+    '**/node_modules/**',
+    '**/dist/**',
+    '**/.angular/**',
+    '**/coverage/**',
+    '**/storybooks/**',
+    '**/.storybook/**/*.ts',
+    '**/.storybook/**/*.js',
+    '**/.copilot/**',
+    '**/scripts/**'
+  ],
   extends: [
     'stylelint-config-standard-scss',
     'stylelint-prettier/recommended'
