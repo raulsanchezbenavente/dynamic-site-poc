@@ -7,10 +7,10 @@
     "build",
     "start:backend",
     "start:backend:sso-bypass",
+    "iis:toggle-https-bindings",
     "test",
     "test-by-module",
     "storybook-by-module",
-    "build:prod",
-    "styles:dev:sass"
+    "build:prod"
   ]
 }

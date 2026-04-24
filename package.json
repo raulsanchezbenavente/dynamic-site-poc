@@ -20,6 +20,7 @@
     "start:backend": "node server/index.js",
     "start:backend:sso-bypass": "concurrently \"node server/index.js --sso-bypass-config\" \"npm run start:sso-bypass\"",
     "start:api": "node server/api.js",
+    "iis:toggle-https-bindings": "powershell -ExecutionPolicy Bypass -File ./toggle-iis-https-bindings.ps1",
     "launcher:open": "electron electron-launcher/main.js",
     "launcher:build:win": "electron-builder --win nsis",
     "launcher:build:mac": "electron-builder --mac dmg zip",
