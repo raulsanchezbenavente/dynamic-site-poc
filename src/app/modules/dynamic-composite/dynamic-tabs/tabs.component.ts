@@ -533,7 +533,7 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
         const trackedCol = col as TrackedTabLayoutCol;
         const batchId = String(trackedCol.__dynamicPageBatchId ?? '').trim();
         const componentId = String(trackedCol.__dynamicPageComponentId ?? '').trim();
-        const component = String(trackedCol.__dynamicPageComponentName ?? trackedCol.component ?? '').trim();
+        const component = this.getTabComponentId(trackedCol, trackedCol.__dynamicPageComponentName);
 
         if (batchId && componentId && component) {
           components.push({ batchId, componentId, component });
@@ -542,6 +542,21 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     return components;
+  }
+
+  private getTabComponentId(col: TabLayoutCol | undefined, trackedName?: string): string {
+    const tracked = String(trackedName ?? '').trim();
+    if (tracked) {
+      return tracked;
+    }
+
+    const component = col?.component;
+    if (!component || typeof component !== 'object') {
+      return '';
+    }
+
+    const componentId = (component as Record<string, unknown>)['id'];
+    return typeof componentId === 'string' || typeof componentId === 'number' ? String(componentId).trim() : '';
   }
 
   private findTabIdByComponentId(componentId: string): string | null {

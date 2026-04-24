@@ -20,6 +20,16 @@ export class DynamicBlocksComponent {
   }
 
   public trackByKey(index: number, block: any): string {
-    return block?.id ?? block?.name ?? `${block?.component ?? 'cmp'}-${index}`;
+    const component = this.getComponentId(block?.component);
+    return block?.id ?? block?.name ?? `${component || 'cmp'}-${index}`;
+  }
+
+  private getComponentId(component: unknown): string {
+    if (!component || typeof component !== 'object') {
+      return '';
+    }
+
+    const componentId = (component as Record<string, unknown>)['id'];
+    return typeof componentId === 'string' || typeof componentId === 'number' ? String(componentId).trim() : '';
   }
 }

@@ -165,7 +165,7 @@ export class RouterInitService {
   private buildTabNamesByRows(rows: SiteLayoutRow[]): Record<string, string> {
     return rows
       .flatMap((row) => row.cols ?? [])
-      .flatMap((col) => (col.config?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
+      .flatMap((col) => (this.getColConfig(col)?.['tabs'] as TabConfigEntry[] | undefined) ?? [])
       .reduce((accumulator: Record<string, string>, tab: TabConfigEntry) => {
         if (tab.pageId) {
           accumulator[tab.pageId] = tab.name ?? '';
@@ -275,6 +275,22 @@ export class RouterInitService {
     }
 
     return layout?.rows ?? [];
+  }
+
+  private getColConfig(col: { component?: unknown } | undefined): Record<string, unknown> | undefined {
+    if (!col) {
+      return undefined;
+    }
+
+    const component = col.component;
+    if (component && typeof component === 'object') {
+      const nestedConfig = (component as Record<string, unknown>)['config'];
+      if (nestedConfig && typeof nestedConfig === 'object') {
+        return nestedConfig as Record<string, unknown>;
+      }
+    }
+
+    return undefined;
   }
 
   private logDirectBrowserEntry(): void {

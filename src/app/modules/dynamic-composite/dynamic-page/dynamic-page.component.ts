@@ -7,9 +7,8 @@ import { SeoService } from '@navigation';
 import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 type PageLayoutCol = {
-  component: string;
+  component: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
   span?: number;
-  config?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -113,10 +112,19 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   }
 
   public getInputs(col: PageLayoutCol): Record<string, unknown> {
-    return Object.fromEntries(Object.entries(col).filter(([key]) => key !== 'component' && key !== 'span')) as Record<
-      string,
-      unknown
-    >;
+    const inputs = Object.fromEntries(
+      Object.entries(col).filter(([key]) => key !== 'component' && key !== 'span' && key !== 'config')
+    ) as Record<string, unknown>;
+
+    const config = this.getColConfig(col);
+    if (!config) {
+      return inputs;
+    }
+
+    return {
+      ...inputs,
+      config,
+    };
   }
 
   private onComponentReady = (event: Event): void => {
@@ -206,21 +214,26 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   }
 
   private attachColTracking(col: PageLayoutCol, batchId: string, nextComponentId: () => string): PageLayoutCol {
-    const componentName = String(col?.component ?? '').trim();
+    const componentName = this.getComponentId(col);
     if (!componentName) {
       return col;
     }
 
     if (componentName === DynamicPageComponent.TABS_COMPONENT) {
-      const tabsConfig = this.resolveTabsConfig(col.config);
-      return {
-        ...col,
-        config: {
-          ...(col.config ?? {}),
-          ...tabsConfig,
-          tabs: this.attachTabsTracking(tabsConfig.tabs, batchId, nextComponentId),
-        },
+      const currentConfig = this.getColConfig(col) ?? {};
+      const tabsConfig = this.resolveTabsConfig(currentConfig);
+      const nextConfig = {
+        ...currentConfig,
+        ...tabsConfig,
+        tabs: this.attachTabsTracking(tabsConfig.tabs, batchId, nextComponentId),
       };
+
+      return this.withColConfig(
+        {
+          ...col,
+        },
+        nextConfig
+      );
     }
 
     return {
@@ -235,7 +248,11 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     tabsId?: string;
     tabs: PageTab[];
   } {
-    const tabsId = String(config?.['tabsId'] ?? '').trim() || undefined;
+    const tabsIdValue = config?.['tabsId'];
+    const tabsId =
+      typeof tabsIdValue === 'string' || typeof tabsIdValue === 'number'
+        ? String(tabsIdValue).trim() || undefined
+        : undefined;
     const tabs = Array.isArray(config?.['tabs']) ? (config?.['tabs'] as PageTab[]) : [];
     return { tabsId, tabs };
   }
@@ -285,8 +302,8 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
           trackedIds.add(componentId);
         }
 
-        const componentName = String(col?.component ?? '').trim();
-        const tabs = this.resolveTabsConfig(col?.config).tabs;
+        const componentName = this.getComponentId(col);
+        const tabs = this.resolveTabsConfig(this.getColConfig(col)).tabs;
         if (componentName !== DynamicPageComponent.TABS_COMPONENT || tabs.length === 0) {
           continue;
         }
@@ -316,11 +333,11 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
       const updatedCols = currentRow.cols.map((currentCol, colIndex) => {
         const nextCol = nextRow.cols[colIndex];
-        if (!nextCol || nextCol.component !== currentCol.component) {
+        if (!nextCol || this.getComponentId(nextCol) !== this.getComponentId(currentCol)) {
           return currentCol;
         }
 
-        if (!DynamicPageComponent.LOCALIZED_COMPONENTS.has(String(nextCol.component ?? ''))) {
+        if (!DynamicPageComponent.LOCALIZED_COMPONENTS.has(this.getComponentId(nextCol))) {
           return currentCol;
         }
 
@@ -340,6 +357,42 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
       this.rows = updatedRows;
     }
   }
+
+  private getComponentId(col: PageLayoutCol | undefined): string {
+    const component = col?.component;
+    if (!component || typeof component !== 'object') {
+      return '';
+    }
+
+    return String(component['id'] ?? '').trim();
+  }
+
+  private getColConfig(col: PageLayoutCol | undefined): Record<string, unknown> | undefined {
+    if (!col) {
+      return undefined;
+    }
+
+    const component = col.component;
+    if (component && typeof component === 'object') {
+      const nestedConfig = component['config'];
+      if (nestedConfig && typeof nestedConfig === 'object') {
+        return nestedConfig;
+      }
+    }
+
+    return undefined;
+  }
+
+  private withColConfig(col: PageLayoutCol, config: Record<string, unknown>): PageLayoutCol {
+    return {
+      ...col,
+      component: {
+        ...col.component,
+        config,
+      },
+    };
+  }
+
   private removeBootLoader(): void {
     requestAnimationFrame(() => {
       const bootLoader = this.document.getElementById('boot-loader');

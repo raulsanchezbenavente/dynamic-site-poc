@@ -12,10 +12,9 @@ export interface SiteSeoConfig {
 }
 
 export interface SiteLayoutCol {
-  component?: string;
+  component?: { id?: string; config?: SiteBlockConfig; [key: string]: unknown };
   slot?: string;
   span?: number;
-  config?: SiteBlockConfig;
 }
 
 export interface SiteLayoutRow {

@@ -127,8 +127,8 @@ export class SiteConfigService {
     const rows = this.getPageRowsForLookups(page);
     for (const row of rows) {
       for (const col of Array.isArray(row?.cols) ? row.cols : []) {
-        if (col?.component === componentName) {
-          return col.config ?? undefined;
+        if (this.getColComponentId(col) === componentName) {
+          return this.getColConfig(col);
         }
       }
     }
@@ -157,7 +157,7 @@ export class SiteConfigService {
     const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
     for (const col of cols) {
-      const tabsConfig = (col?.config ?? null) as { tabsId?: string | number } | null;
+      const tabsConfig = (this.getColConfig(col) ?? null) as { tabsId?: string | number } | null;
       const tabsId = tabsConfig?.tabsId;
       if (tabsId !== undefined && tabsId !== null && String(tabsId).trim().length > 0) {
         return String(tabsId);
@@ -217,7 +217,10 @@ export class SiteConfigService {
       const cols: SiteLayoutCol[] = Array.isArray(rows) ? rows.flatMap((row: SiteLayoutRow) => row?.cols ?? []) : [];
 
       for (const col of cols) {
-        const tabsConfig = (col?.config ?? null) as { tabsId?: string | number; tabs?: TabConfigEntry[] } | null;
+        const tabsConfig = (this.getColConfig(col) ?? null) as {
+          tabsId?: string | number;
+          tabs?: TabConfigEntry[];
+        } | null;
         if (String(tabsConfig?.tabsId ?? '') !== tabsIdStr) continue;
         const tabs = Array.isArray(tabsConfig?.tabs) ? tabsConfig.tabs : [];
         tabs.forEach((tab: TabConfigEntry) => {
@@ -361,6 +364,31 @@ export class SiteConfigService {
     }
 
     return decodedPath;
+  }
+
+  private getColComponentId(col: SiteLayoutCol | undefined): string {
+    const component = col?.component;
+    if (!component || typeof component !== 'object') {
+      return '';
+    }
+
+    return String(component['id'] ?? '').trim();
+  }
+
+  private getColConfig(col: SiteLayoutCol | undefined): SiteBlockConfig | undefined {
+    if (!col) {
+      return undefined;
+    }
+
+    const component = col.component;
+    if (component && typeof component === 'object') {
+      const nestedConfig = component['config'];
+      if (nestedConfig && typeof nestedConfig === 'object') {
+        return nestedConfig;
+      }
+    }
+
+    return undefined;
   }
 
   private replacePageLayoutByPath(

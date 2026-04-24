@@ -34,9 +34,8 @@ const EMPTY_BLOCK_COMPONENT_REGISTRY: BlockComponentRegistry = {
 };
 
 type DynamicBlockInput = {
-  component?: string;
+  component?: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
   span?: number;
-  config?: Record<string, unknown>;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -62,11 +61,11 @@ type ComponentReadyDetail = {
       <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
     } @else if (isLoading()) {
       <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right:auto;margin-left:auto;">
-        Loading component: <b>{{ block()?.component }}</b>
+        Loading component: <b>{{ blockComponentKey() }}</b>
       </div>
     } @else {
       <div style="padding:.5rem;border:1px dashed #bbb;background:#fff;margin-right: auto;margin-left: auto;">
-        Missing component: <b>{{ block()?.component }}</b>
+        Missing component: <b>{{ blockComponentKey() }}</b>
       </div>
     }
   `,
@@ -85,9 +84,11 @@ export class BlockOutletComponent {
   private readonly moduleTranslationMap = inject(MODULE_TRANSLATION_MAP_TOKEN, { optional: true }) ?? {};
   private loadSequence = 0;
 
+  public blockComponentKey = computed(() => this.getBlockComponentKey(this.block()));
+
   @HostBinding('attr.data-dynamic-component-map-name')
   public get dynamicComponentMapName(): string | null {
-    const mapName = this.block()?.component;
+    const mapName = this.blockComponentKey();
     return this.normalizeAttributeValue(mapName);
   }
 
@@ -100,7 +101,7 @@ export class BlockOutletComponent {
   constructor() {
     effect(() => {
       const b = this.block();
-      const key = b?.component;
+      const key = this.getBlockComponentKey(b);
 
       if (!key) {
         this.resolvedComponent.set(null);
@@ -146,7 +147,8 @@ export class BlockOutletComponent {
   public inputs = computed<Record<string, unknown>>(() => {
     const b = this.block();
     if (!b) return {};
-    const componentKey = this.toText(b.component);
+    const componentKey = this.getBlockComponentKey(b);
+    const blockConfig = this.getBlockConfig(b);
 
     const rest: Record<string, unknown> = { ...(b as Record<string, unknown>) };
     const batchId = this.toText(rest['__dynamicPageBatchId']);
@@ -156,9 +158,14 @@ export class BlockOutletComponent {
 
     delete rest['component'];
     delete rest['span'];
+    delete rest['config'];
     delete rest['__dynamicPageBatchId'];
     delete rest['__dynamicPageComponentId'];
     delete rest['__dynamicPageComponentName'];
+
+    if (blockConfig) {
+      rest['config'] = blockConfig;
+    }
 
     if (configInputName !== 'config' && Object.hasOwn(rest, 'config')) {
       if (!Object.hasOwn(rest, configInputName)) {
@@ -215,7 +222,7 @@ export class BlockOutletComponent {
     const block = this.block();
     const batchId = String(block?.['__dynamicPageBatchId'] ?? '').trim();
     const componentId = String(block?.['__dynamicPageComponentId'] ?? '').trim();
-    const component = String(block?.component ?? '').trim();
+    const component = this.getBlockComponentKey(block);
 
     if (!batchId || !componentId || !component) {
       return;
@@ -229,5 +236,30 @@ export class BlockOutletComponent {
     };
 
     this.document.dispatchEvent(new CustomEvent<ComponentReadyDetail>('dynamic-page:component-ready', { detail }));
+  }
+
+  private getBlockComponentKey(block: DynamicBlockInput | null | undefined): string {
+    const component = block?.component;
+    if (!component || typeof component !== 'object') {
+      return '';
+    }
+
+    return String(component['id'] ?? '').trim();
+  }
+
+  private getBlockConfig(block: DynamicBlockInput | null | undefined): Record<string, unknown> | undefined {
+    if (!block) {
+      return undefined;
+    }
+
+    const component = block.component;
+    if (component && typeof component === 'object') {
+      const nested = component['config'];
+      if (nested && typeof nested === 'object') {
+        return nested;
+      }
+    }
+
+    return undefined;
   }
 }

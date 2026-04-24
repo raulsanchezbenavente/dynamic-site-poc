@@ -14,51 +14,61 @@
           {
             "cols": [
               {
-                "component": "CorporateMainHeaderBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "url": "/static-config/components/config_CorporateMainHeaderBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
-                }
+                "component": {
+                  "id": "CorporateMainHeaderBlock_uiplus",
+                  "config": {
+                    "url": "/static-config/components/config_CorporateMainHeaderBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
+                  }
+                },
+                "span": 12
               }
             ]
           },
           {
             "cols": [
               {
-                "component": "BreadcrumbBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "url": "/static-config/components/config_BreadcrumbBlock_uiplus_A6-90-B9-02-9E-2D-32-05_en-us.json"
-                }
+                "component": {
+                  "id": "BreadcrumbBlock_uiplus",
+                  "config": {
+                    "url": "/static-config/components/config_BreadcrumbBlock_uiplus_A6-90-B9-02-9E-2D-32-05_en-us.json"
+                  }
+                },
+                "span": 12
               }
             ]
           },
           {
             "cols": [
               {
-                "component": "rteBlock_uiplus",
-                "span": 6,
-                "config": {
-                  "htmlContent": "<center>😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺️<br>😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑<br>😶🫥😶‍🌫️😏😒🙄😬😮‍💨🤥🫨🙂‍↔️🙂‍↕️😌😔😪🤤🤒🤕<br>🤢🤮🤧🥵🥶🥴😵😵‍💫🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁☹️<br>😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫<br>🐦‍⬛🪿🐦‍🔥🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡</center>"
-                }
+                "component": {
+                  "id": "rteBlock_uiplus",
+                  "config": {
+                    "htmlContent": "<center>😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺️<br>😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑<br>😶🫥😶‍🌫️😏😒🙄😬😮‍💨🤥🫨🙂‍↔️🙂‍↕️😌😔😪🤤🤒🤕<br>🤢🤮🤧🥵🥶🥴😵😵‍💫🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁☹️<br>😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫<br>🐦‍⬛🪿🐦‍🔥🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡</center>"
+                  }
+                },
+                "span": 6
               },
               {
-                "component": "rteBlock_uiplus",
-                "span": 6,
-                "config": {
-                  "htmlContent": "<center>😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺️<br>😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑<br>😶🫥😶‍🌫️😏😒🙄😬😮‍💨🤥🫨🙂‍↔️🙂‍↕️😌😔😪🤤🤒🤕<br>🤢🤮🤧🥵🥶🥴😵😵‍💫🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁☹️<br>😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫<br>🐦‍⬛🪿🐦‍🔥🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡</center>"
-                }
+                "component": {
+                  "id": "rteBlock_uiplus",
+                  "config": {
+                    "htmlContent": "<center>😀😃😄😁😆😅🤣😂🙂🙃🫠😉😊😇🥰😍🤩😘😗☺️<br>😚😙🥲😋😛😜🤪😝🤑🤗🤭🫢🫣🤫🤔🫡🤐🤨😐😑<br>😶🫥😶‍🌫️😏😒🙄😬😮‍💨🤥🫨🙂‍↔️🙂‍↕️😌😔😪🤤🤒🤕<br>🤢🤮🤧🥵🥶🥴😵😵‍💫🤯🤠🥳🥸😎🤓🧐😕🫤😟🙁☹️<br>😮😯😲😳🥺🥹😦😧😨😰😥😢😭😱😖😣😞😓😩😫<br>🐦‍⬛🪿🐦‍🔥🐸🐊🐢🦎🐍🐲🐉🦕🦖🐳🐋🐬🦭🐟🐠🐡</center>"
+                  }
+                },
+                "span": 6
               }
             ]
           },
           {
             "cols": [
               {
-                "component": "CorporateMainFooterBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "url": "/static-config/components/config_CorporateMainFooterBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
-                }
+                "component": {
+                  "id": "CorporateMainFooterBlock_uiplus",
+                  "config": {
+                    "url": "/static-config/components/config_CorporateMainFooterBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
+                  }
+                },
+                "span": 12
               }
             ]
           }
@@ -81,116 +91,130 @@
             {
               "cols": [
                 {
-                  "component": "authorizationBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_AuthorizationBlock_uiplus_4C-77-C0-6B-FA-94-11-4F_en-us.json"
-                  }
+                  "component": {
+                    "id": "authorizationBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_AuthorizationBlock_uiplus_4C-77-C0-6B-FA-94-11-4F_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "loyaltyOverviewCardBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_LoyaltyOverviewCardBlock_uiplus_4C-CE-0C-15-FF-94-11-D7_en-us.json"
-                  }
+                  "component": {
+                    "id": "loyaltyOverviewCardBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_LoyaltyOverviewCardBlock_uiplus_4C-CE-0C-15-FF-94-11-D7_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "multiTabBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_MultiTabBlock_uiplus_7E-52-D3-99-11-A5-87-2C_en-us.json",
-                    "tabsId": "05096978-bf00-4289-a34f-f122694c9c24",
-                    "tabs": [
-                      {
-                        "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
-                        "name": "Personal Data - Tab",
-                        "title": "Personal Data",
-                        "secondaryText": "",
-                        "layout": {
-                          "rows": [
-                            {
-                              "cols": [
-                                {
-                                  "component": "accountProfileBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "/static-config/components/config_AccountProfileBlock_uiplus_6C-51-8E-0D-26-51-7A-F1_en-us.json"
+                  "component": {
+                    "id": "multiTabBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_MultiTabBlock_uiplus_7E-52-D3-99-11-A5-87-2C_en-us.json",
+                      "tabsId": "05096978-bf00-4289-a34f-f122694c9c24",
+                      "tabs": [
+                        {
+                          "tabId": "d36005d6-daf1-495b-a80d-ea06b7b69e46",
+                          "name": "Personal Data - Tab",
+                          "title": "Personal Data",
+                          "secondaryText": "",
+                          "layout": {
+                            "rows": [
+                              {
+                                "cols": [
+                                  {
+                                    "component": {
+                                      "id": "accountProfileBlock_uiplus",
+                                      "config": {
+                                        "url": "/static-config/components/config_AccountProfileBlock_uiplus_6C-51-8E-0D-26-51-7A-F1_en-us.json"
+                                      }
+                                    },
+                                    "span": 12
                                   }
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
-                        "name": "My trips - Tab",
-                        "title": "My Trips",
-                        "secondaryText": "",
-                        "layout": {
-                          "rows": [
-                            {
-                              "cols": [
-                                {
-                                  "component": "findBookingsBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "/static-config/components/config_FindBookingsBlock_uiplus_56-2E-48-29-E2-F7-EE-36_en-us.json"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "tabId": "bfc3e995-1892-412f-9753-0445d72c16af",
+                          "name": "My trips - Tab",
+                          "title": "My Trips",
+                          "secondaryText": "",
+                          "layout": {
+                            "rows": [
+                              {
+                                "cols": [
+                                  {
+                                    "component": {
+                                      "id": "findBookingsBlock_uiplus",
+                                      "config": {
+                                        "url": "/static-config/components/config_FindBookingsBlock_uiplus_56-2E-48-29-E2-F7-EE-36_en-us.json"
+                                      }
+                                    },
+                                    "span": 12
                                   }
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
-                        "name": "Account Settings - Tab",
-                        "title": "Account Settings",
-                        "secondaryText": "",
-                        "layout": {
-                          "rows": [
-                            {
-                              "cols": [
-                                {
-                                  "component": "rteBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "tabId": "5e03dac7-07db-40fa-9e3a-fb3ec33ee8f5",
+                          "name": "Account Settings - Tab",
+                          "title": "Account Settings",
+                          "secondaryText": "",
+                          "layout": {
+                            "rows": [
+                              {
+                                "cols": [
+                                  {
+                                    "component": {
+                                      "id": "rteBlock_uiplus",
+                                      "config": {
+                                        "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                                      }
+                                    },
+                                    "span": 12
                                   }
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      },
-                      {
-                        "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
-                        "name": "My Elite Status - Tab",
-                        "title": "My Elite Status",
-                        "secondaryText": "",
-                        "layout": {
-                          "rows": [
-                            {
-                              "cols": [
-                                {
-                                  "component": "loyaltyStatusOverviewBlock_uiplus",
-                                  "span": 12,
-                                  "config": {
-                                    "url": "/static-config/components/.json"
+                                ]
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "tabId": "f6f35a66-e836-480e-88f9-4abc9e28d793",
+                          "name": "My Elite Status - Tab",
+                          "title": "My Elite Status",
+                          "secondaryText": "",
+                          "layout": {
+                            "rows": [
+                              {
+                                "cols": [
+                                  {
+                                    "component": {
+                                      "id": "loyaltyStatusOverviewBlock_uiplus",
+                                      "config": {
+                                        "url": "/static-config/components/.json"
+                                      }
+                                    },
+                                    "span": 12
                                   }
-                                }
-                              ]
-                            }
-                          ]
+                                ]
+                              }
+                            ]
+                          }
                         }
-                      }
-                    ]
-                  }
+                      ]
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -214,120 +238,144 @@
             {
               "cols": [
                 {
-                  "component": "bannerBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
-                  }
+                  "component": {
+                    "id": "bannerBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "bookingLoginBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BookingLoginBlock_uiplus_1D-3C-6E-4B-2F-FF-16-70_en-us.json"
-                  }
+                  "component": {
+                    "id": "bookingLoginBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BookingLoginBlock_uiplus_1D-3C-6E-4B-2F-FF-16-70_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -351,54 +399,66 @@
             {
               "cols": [
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_B8-AA-FE-E6-A4-54-FA-F9_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_B8-AA-FE-E6-A4-54-FA-F9_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "CheckInSummaryBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_CheckInSummaryBlock_uiplus_BA-3E-A4-E8-97-0F-37-FD_en-us.json"
-                  }
+                  "component": {
+                    "id": "CheckInSummaryBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_CheckInSummaryBlock_uiplus_BA-3E-A4-E8-97-0F-37-FD_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "pageActionButtonsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_8E-3C-C1-06-78-40-24-B0_en-us.json"
-                  }
+                  "component": {
+                    "id": "pageActionButtonsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_8E-3C-C1-06-78-40-24-B0_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "ManageCheckInBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
-                  }
+                  "component": {
+                    "id": "ManageCheckInBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_7F-20-01-A6-6E-D1-61-D0_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_7F-20-01-A6-6E-D1-61-D0_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "servicesBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ServicesBlock_uiplus_EF-CC-E6-4F-C9-8F-64-98_en-us.json"
-                  }
+                  "component": {
+                    "id": "servicesBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ServicesBlock_uiplus_EF-CC-E6-4F-C9-8F-64-98_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -422,62 +482,74 @@
             {
               "cols": [
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_D9-9A-65-1C-73-31-F3-15_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_D9-9A-65-1C-73-31-F3-15_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "pageActionButtonsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_BC-EC-2C-92-04-28-C2-E2_en-us.json"
-                  }
+                  "component": {
+                    "id": "pageActionButtonsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_BC-EC-2C-92-04-28-C2-E2_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -501,29 +573,35 @@
             {
               "cols": [
                 {
-                  "component": "BookingStepBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BookingStepBlock_uiplus_9F-68-75-B5-2E-E2-A5-C2_en-us.json"
-                  }
+                  "component": {
+                    "id": "BookingStepBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BookingStepBlock_uiplus_9F-68-75-B5-2E-E2-A5-C2_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "passengersBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PassengersBlock_uiplus_F2-D4-0B-38-C0-F5-51-58_en-us.json"
-                  }
+                  "component": {
+                    "id": "passengersBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PassengersBlock_uiplus_F2-D4-0B-38-C0-F5-51-58_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "pageActionButtonsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_D8-9F-34-0A-08-3F-B9-71_en-us.json"
-                  }
+                  "component": {
+                    "id": "pageActionButtonsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_D8-9F-34-0A-08-3F-B9-71_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -547,54 +625,66 @@
             {
               "cols": [
                 {
-                  "component": "BookingStepBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BookingStepBlock_uiplus_92-A3-5F-CB-B3-1D-3A-C2_en-us.json"
-                  }
+                  "component": {
+                    "id": "BookingStepBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BookingStepBlock_uiplus_92-A3-5F-CB-B3-1D-3A-C2_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_30-52-53-E5-BD-81-DA-89_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_30-52-53-E5-BD-81-DA-89_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "servicesBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ServicesBlock_uiplus_3B-A9-B4-A1-08-A5-80-D7_en-us.json"
-                  }
+                  "component": {
+                    "id": "servicesBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ServicesBlock_uiplus_3B-A9-B4-A1-08-A5-80-D7_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "servicesBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ServicesBlock_uiplus_75-9F-2E-97-D6-C2-E2-B9_en-us.json"
-                  }
+                  "component": {
+                    "id": "servicesBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ServicesBlock_uiplus_75-9F-2E-97-D6-C2-E2-B9_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "pageActionButtonsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_E6-55-1B-E5-3D-08-23-D7_en-us.json"
-                  }
+                  "component": {
+                    "id": "pageActionButtonsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_E6-55-1B-E5-3D-08-23-D7_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "wciOverbookedManagerBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_WciOverbookedManagerBlock_uiplus_D9-92-50-AB-C1-96-1B-E9_en-us.json"
-                  }
+                  "component": {
+                    "id": "wciOverbookedManagerBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_WciOverbookedManagerBlock_uiplus_D9-92-50-AB-C1-96-1B-E9_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -618,33 +708,39 @@
             {
               "cols": [
                 {
-                  "component": "BookingStepBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BookingStepBlock_uiplus_64-7B-26-A7-24-E7-83-84_en-us.json"
-                  }
+                  "component": {
+                    "id": "BookingStepBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BookingStepBlock_uiplus_64-7B-26-A7-24-E7-83-84_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "SeatMapBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_SeatMapBlock_uiplus_8E-7C-52-91-ED-53-C8-7F_en-us.json"
-                  }
+                  "component": {
+                    "id": "SeatMapBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_SeatMapBlock_uiplus_8E-7C-52-91-ED-53-C8-7F_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "summaryBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/.json"
-                  }
+                  "component": {
+                    "id": "summaryBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -664,11 +760,13 @@
             {
               "cols": [
                 {
-                  "component": "verifyPaymentBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_VerifyPaymentBlock_uiplus_9C-46-07-7D-65-67-3B-7D_en-us.json"
-                  }
+                  "component": {
+                    "id": "verifyPaymentBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_VerifyPaymentBlock_uiplus_9C-46-07-7D-65-67-3B-7D_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -692,54 +790,66 @@
             {
               "cols": [
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_CB-56-A0-22-B4-FB-3F-2B_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_CB-56-A0-22-B4-FB-3F-2B_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "CheckInConfirmationBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_CheckInConfirmationBlock_uiplus_12-7F-F7-C1-A1-C2-B1-2E_en-us.json"
-                  }
+                  "component": {
+                    "id": "CheckInConfirmationBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_CheckInConfirmationBlock_uiplus_12-7F-F7-C1-A1-C2-B1-2E_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "ManageCheckInBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
-                  }
+                  "component": {
+                    "id": "ManageCheckInBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ManageCheckInBlock_uiplus_63-37-F4-69-02-7C-B2-B2_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_84-9B-8D-07-9E-E5-AF-59_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_84-9B-8D-07-9E-E5-AF-59_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "servicesBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_ServicesBlock_uiplus_DD-8A-BF-6A-C2-23-3B-85_en-us.json"
-                  }
+                  "component": {
+                    "id": "servicesBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_ServicesBlock_uiplus_DD-8A-BF-6A-C2-23-3B-85_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "pageActionButtonsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_5B-5B-89-85-83-D7-6A-64_en-us.json"
-                  }
+                  "component": {
+                    "id": "pageActionButtonsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_PageActionButtonsBlock_uiplus_5B-5B-89-85-83-D7-6A-64_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -763,120 +873,144 @@
             {
               "cols": [
                 {
-                  "component": "bannerBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
-                  }
+                  "component": {
+                    "id": "bannerBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BannerBlock_uiplus_79-5A-42-DE-53-06-DD-75_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "titleHeadingBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
-                  }
+                  "component": {
+                    "id": "titleHeadingBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_TitleHeadingBlock_uiplus_FF-86-50-8F-F5-91-D3-1C_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "bookingLoginBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_BookingLoginBlock_uiplus_2F-61-B7-6E-07-DF-FF-09_en-us.json"
-                  }
+                  "component": {
+                    "id": "bookingLoginBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_BookingLoginBlock_uiplus_2F-61-B7-6E-07-DF-FF-09_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_4A-03-AA-CF-62-40-DB-16_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_51-B3-78-3B-F7-53-A7-03_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 },
                 {
-                  "component": "groupOptionsBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
-                  }
+                  "component": {
+                    "id": "groupOptionsBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_GroupOptionsBlock_uiplus_3B-1F-09-38-89-D6-28-C9_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             },
             {
               "cols": [
                 {
-                  "component": "rteBlock_uiplus",
-                  "span": 12,
-                  "config": {
-                    "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
-                  }
+                  "component": {
+                    "id": "rteBlock_uiplus",
+                    "config": {
+                      "url": "/static-config/components/config_RteBlock_uiplus_69-92-EE-D6-63-30-5A-35_en-us.json"
+                    }
+                  },
+                  "span": 12
                 }
               ]
             }
@@ -893,15 +1027,17 @@
           {
             "cols": [
               {
-                "component": "rteBlock_uiplus",
-                "span": 12,
-                "config": {
-                  "htmlContentURLs": "/assets/rte-fragments/pages/page-not-available",
-                  "cssURLs": [
-                    "https://av-static-test2.newshore.es/assets/styles/styles.min.css?1001",
-                    "https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap"
-                  ]
-                }
+                "component": {
+                  "id": "rteBlock_uiplus",
+                  "config": {
+                    "htmlContentURLs": "/assets/rte-fragments/pages/page-not-available",
+                    "cssURLs": [
+                      "https://av-static-test2.newshore.es/assets/styles/styles.min.css?1001",
+                      "https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap"
+                    ]
+                  }
+                },
+                "span": 12
               }
             ]
           }

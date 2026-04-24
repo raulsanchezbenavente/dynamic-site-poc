@@ -153,8 +153,14 @@ const collectComponentKeys = (value: unknown, result: Set<string>): void => {
 
   const record = value as Record<string, unknown>;
   const component = record['component'];
-  if (typeof component === 'string' && component.trim()) {
-    result.add(component);
+  if (component && typeof component === 'object') {
+    const componentId = (component as Record<string, unknown>)['id'];
+    if (typeof componentId === 'string' || typeof componentId === 'number') {
+      const normalizedId = String(componentId).trim();
+      if (normalizedId) {
+        result.add(normalizedId);
+      }
+    }
   }
 
   collectComponentKeys(record['rows'], result);

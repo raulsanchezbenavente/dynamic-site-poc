@@ -1,5 +1,5 @@
 export interface TabLayoutCol {
-  component?: string;
+  component?: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
   span?: number;
 }
 

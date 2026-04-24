@@ -1,5 +1,5 @@
 export interface PageLayoutCol {
-  component: string;
+  component: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
   span?: number; // 1..12 (default 12)
 }
 
