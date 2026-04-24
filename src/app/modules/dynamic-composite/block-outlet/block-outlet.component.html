@@ -1,0 +1,11 @@
+@if (cmp(); as c) {
+  <ng-container *ngComponentOutlet="c; inputs: inputs()"></ng-container>
+} @else if (isLoading()) {
+  <div style="padding: 0.5rem; border: 1px dashed #bbb; background: #fff; margin-right: auto; margin-left: auto">
+    Loading component: <b>{{ blockComponentKey() }}</b>
+  </div>
+} @else {
+  <div style="padding: 0.5rem; border: 1px dashed #bbb; background: #fff; margin-right: auto; margin-left: auto">
+    Missing component: <b>{{ blockComponentKey() }}</b>
+  </div>
+}
