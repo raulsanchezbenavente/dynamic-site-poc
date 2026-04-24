@@ -26,11 +26,12 @@
                         You can't access this section of the portal.<br />Please make sure you're logged into your
                         account to view this page.
                       </p>
-                      <div
+                      <a
                         id="login-button"
-                        class="button btn-primary">
+                        class="button btn-primary"
+                        href="/en/members/login">
                         Log in
-                      </div>
+                      </a>
                     </div>
                   </div>
                 </div>
