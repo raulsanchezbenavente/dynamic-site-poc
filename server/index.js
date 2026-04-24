@@ -6,6 +6,7 @@ const https = require('https');
 const path = require('path');
 const { createRenderIndexHtml } = require('./index-rendering/render-context');
 const { mountSharedRoutes } = require('./shared/app-common');
+const { createUmbracoProxyMiddleware } = require('./shared/umbraco-proxy-middleware');
 const {
   checkPortInUse,
   checkPublicHostReachability,
@@ -18,6 +19,8 @@ app.use(compression());
 const httpPort = Number(process.env.BACKEND_HTTP_PORT || 4400);
 const httpsPort = Number(process.env.BACKEND_HTTPS_PORT || 443);
 const publicHost = process.env.PUBLIC_HOST || 'av-booking-local.newshore.es';
+const umbracoTargetHost = process.env.UMBRACO_TARGET_HOST || publicHost;
+const umbracoTargetPort = Number(process.env.UMBRACO_TARGET_PORT || 80);
 const healthCheckPath = '/__backend-health';
 const enableFakeApi = process.env.ENABLE_FAKE_API !== 'false';
 const ssoBypassKeycloak = process.argv.includes('--sso-bypass-config');
@@ -84,6 +87,14 @@ mountSharedRoutes(app, {
   ssoBypassKeycloak,
   fakeApiLogLabel: '[Fake API] Enabled without prefix (backend)',
 });
+
+app.use(
+  createUmbracoProxyMiddleware({
+    targetHost: umbracoTargetHost,
+    targetPort: umbracoTargetPort,
+    preserveHostHeader: true,
+  })
+);
 
 app.use(express.static(distDir));
 
