@@ -1,3 +1,5 @@
+import { PageLayoutAlignment, PageLayoutBreakpointSize, PageLayoutOrderValue } from '../enums/page-layout.enums';
+
 export interface PageLayoutRowConfig {
   fluid?: boolean;
   column?: boolean;
@@ -8,19 +10,19 @@ export interface PageLayoutRowConfig {
   paddingBottom?: boolean;
   noGutter?: boolean;
   reverse?: boolean;
-  alignment?: 'start' | 'center' | 'end';
+  alignment?: PageLayoutAlignment;
   backgroundColor?: string;
   customClass?: string;
 }
 
 export interface PageLayoutColBreakpoint {
-  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  size: PageLayoutBreakpointSize;
   columns: number;
 }
 
 export interface PageLayoutColOrder {
-  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  value: '' | 'first' | 'last';
+  size: PageLayoutBreakpointSize;
+  value: PageLayoutOrderValue;
 }
 
 export interface PageLayoutColConfig {
