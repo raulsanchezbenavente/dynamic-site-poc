@@ -38,11 +38,9 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "node_modules/flatpickr/dist/flatpickr.min.css",
-              "src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css",
-              "src/styles.scss"
+              "./src/app/modules/design-system/assets/styles/core-theme.css",
+              "./src/app/modules/design-system/assets/styles/common.css",
+              "./src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css"
             ],
             "scripts": []
           },
@@ -121,11 +119,9 @@
               }
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "node_modules/bootstrap-icons/font/bootstrap-icons.css",
-              "node_modules/flatpickr/dist/flatpickr.min.css",
-              "src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css",
-              "src/styles.scss"
+              "./src/app/modules/design-system/assets/styles/core-theme.css",
+              "./src/app/modules/design-system/assets/styles/common.css",
+              "./src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css"
             ],
             "scripts": []
           }

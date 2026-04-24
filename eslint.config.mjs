@@ -1,10 +1,9 @@
 import { FlatCompat } from '@eslint/eslintrc';
-import js from '@eslint/js';
-import tsParser from '@typescript-eslint/parser';
-import eslintPluginImport from 'eslint-plugin-import';
-import perfectionist from 'eslint-plugin-perfectionist';
-import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import js from '@eslint/js';
+import path from 'node:path';
+import perfectionist from 'eslint-plugin-perfectionist';
+import eslintPluginImport from 'eslint-plugin-import';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,7 +15,15 @@ const compat = new FlatCompat({
 
 export default [
   {
-    ignores: ['**/node_modules', '**/dist', '**/**.spec.ts', '**/**.d.ts', '**/**.css'],
+    ignores: [
+      '**/node_modules',
+      '**/dist',
+      '**/**.spec.ts',
+      '**/**.d.ts',
+      '**/**.css',
+      '**/icomoon/**',
+      '**/webfonts/**/demo.html',
+    ],
   },
   // -------------------
   // .TS CONFIG
@@ -38,9 +45,8 @@ export default [
     languageOptions: {
       ecmaVersion: 2021,
       sourceType: 'module',
-      parser: tsParser,
       parserOptions: {
-        project: ['tsconfig.json', './tsconfig.app.json', './tsconfig.spec.json'],
+        project: ['tsconfig.json', './tsconfig.spec.json'],
         createDefaultProgram: true,
       },
     },
@@ -140,6 +146,36 @@ export default [
       'perfectionist/sort-named-imports': ['error'],
       'perfectionist/sort-exports': ['error'],
       'perfectionist/sort-named-exports': ['error'],
+
+      // Prevent cross-module relative imports - use @dcx/* aliases instead
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['../../**/src/**', '../../../**/src/**', '../../../../**/src/**'],
+              message:
+                'Do not use relative imports to other modules. Use TypeScript path aliases instead (e.g., @dcx/ui/design-system)',
+            },
+          ],
+        },
+      ],
+
+      // Warn when UI components import from api-clients or api-layer
+      // This is a code smell - UI should use view models, not API models directly
+      'import/no-restricted-paths': [
+        'warn',
+        {
+          zones: [
+            {
+              target: './projects/!(api-clients|api-layer|*-api-client)/**/*',
+              from: './projects/{api-clients,api-layer,*-api-client}/**/*',
+              message:
+                'Warning: Importing API models directly in UI components. Consider creating view models or DTOs in the UI module instead. This is not blocked but should be reviewed.',
+            },
+          ],
+        },
+      ],
     },
   },
 
@@ -152,7 +188,12 @@ export default [
       ...config,
       files: ['**/*.html'],
       rules: {
-        'prettier/prettier': 'off',
+        'prettier/prettier': [
+          'error',
+          {
+            parser: 'angular',
+          },
+        ],
         // Plugin rules: https://www.npmjs.com/package/@angular-eslint/eslint-plugin-template
         '@angular-eslint/template/alt-text': ['error'],
         '@angular-eslint/template/banana-in-box': ['error'],
@@ -166,7 +207,6 @@ export default [
         '@angular-eslint/template/use-track-by-function': ['error'],
         '@angular-eslint/template/valid-aria': ['error'],
         '@angular-eslint/template/attributes-order': ['error'],
-        '@angular-eslint/template/indent': 'off',
       },
     })),
 
@@ -190,8 +230,8 @@ export default [
           modifiers: ['const'],
           format: ['camelCase', 'UPPER_CASE'],
           leadingUnderscore: 'forbid',
-          trailingUnderscore: 'forbid',
-        },
+          trailingUnderscore: 'forbid'
+        }
       ],
       // Prevents spacing before the optional chaining operator (?.) for example
       'no-whitespace-before-property': 'error',
@@ -220,22 +260,17 @@ export default [
   {
     files: ['**/*.ts'],
     plugins: {
-      import: eslintPluginImport,
+      import: eslintPluginImport
     },
     settings: {
       'import/resolver': {
         typescript: {
-          project: ['./tsconfig.json', './tsconfig.app.json'],
+          project: ['./tsconfig.json'],
         },
       },
     },
     rules: {
-      'import/no-unresolved': [
-        'error',
-        {
-          ignore: ['^@navigation$', '^@navigation/'],
-        },
-      ],
+      'import/no-unresolved': 'error',
       'import/named': 'error',
       'import/order': 'off',
     },

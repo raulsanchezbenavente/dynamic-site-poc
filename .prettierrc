@@ -13,7 +13,7 @@
     {
       "files": ["*.html", "*.css", "*.scss"],
       "options": {
-        "tabWidth": 2
+        "tabWidth": 4
       }
     }
   ]
