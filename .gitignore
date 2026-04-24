@@ -66,3 +66,11 @@ _migration/
 
 # legacy-peer-deps=true
 .npmrc
+
+# Generated Sass outputs (design-system)
+src/app/modules/design-system/assets/styles/common.css
+src/app/modules/design-system/assets/styles/common.css.map
+src/app/modules/design-system/assets/styles/core-theme.css
+src/app/modules/design-system/assets/styles/core-theme.css.map
+src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css
+src/app/modules/design-system/assets/ui_plus/icons/webfonts/iconfonts-styles.css.map
