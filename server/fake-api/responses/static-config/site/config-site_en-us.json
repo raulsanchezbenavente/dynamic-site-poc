@@ -892,7 +892,7 @@
                   "htmlContentURLs": "/assets/rte-fragments/pages/page-not-available",
                   "cssURLs": [
                     "https://av-static-test2.newshore.es/assets/styles/styles.min.css?1001",
-                    "https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&display=swap"
+                    "https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap"
                   ]
                 }
               }
