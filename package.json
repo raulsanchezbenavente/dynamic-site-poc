@@ -4,9 +4,9 @@
   "main": "electron-launcher/main.js",
   "scripts": {
     "ng": "ng",
-      "prestart:serve": "npm run styles:dev:sass",
+    "prestart:serve": "npm run styles:dev:sass",
     "start:serve": "ng serve",
-      "prestart:serve:bypass": "npm run styles:dev:sass",
+    "prestart:serve:bypass": "npm run styles:dev:sass",
     "start:serve:bypass": "ng serve --configuration bypass",
     "start:proxy": "node --openssl-legacy-provider server/index-proxy.js",
     "start:sso-bypass": "node server/sso-bypass.js",
