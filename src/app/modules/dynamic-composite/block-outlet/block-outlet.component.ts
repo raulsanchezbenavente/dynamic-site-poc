@@ -35,7 +35,7 @@ const EMPTY_BLOCK_COMPONENT_REGISTRY: BlockComponentRegistry = {
 
 type DynamicBlockInput = {
   component?: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
-  span?: number;
+  config?: unknown;
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -157,7 +157,6 @@ export class BlockOutletComponent {
     const configInputName = this.getConfigInputName(componentKey);
 
     delete rest['component'];
-    delete rest['span'];
     delete rest['config'];
     delete rest['__dynamicPageBatchId'];
     delete rest['__dynamicPageComponentId'];

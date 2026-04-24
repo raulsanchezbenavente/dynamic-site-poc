@@ -4,7 +4,7 @@
       @for (col of row.cols; track col) {
         <div
           class="col"
-          [style.gridColumn]="'span ' + (col.span ?? 12)">
+          [style.gridColumn]="'span ' + getColColumns(col)">
           <block-outlet [block]="col"></block-outlet>
         </div>
       }

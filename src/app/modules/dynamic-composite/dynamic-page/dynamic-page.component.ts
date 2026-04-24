@@ -8,7 +8,11 @@ import { BlockOutletComponent } from '../block-outlet/block-outlet.component';
 
 type PageLayoutCol = {
   component: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
-  span?: number;
+  config?: {
+    columns?: number;
+    breakpoints?: Array<{ size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'; columns: number }>;
+    order?: Array<{ size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'; value: '' | 'first' | 'last' }>;
+  };
   __dynamicPageBatchId?: string;
   __dynamicPageComponentId?: string;
   __dynamicPageComponentName?: string;
@@ -113,7 +117,7 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
 
   public getInputs(col: PageLayoutCol): Record<string, unknown> {
     const inputs = Object.fromEntries(
-      Object.entries(col).filter(([key]) => key !== 'component' && key !== 'span' && key !== 'config')
+      Object.entries(col).filter(([key]) => key !== 'component' && key !== 'config')
     ) as Record<string, unknown>;
 
     const config = this.getColConfig(col);
@@ -400,5 +404,14 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
         bootLoader.style.display = 'none';
       }
     });
+  }
+
+  public getColColumns(col: PageLayoutCol): number {
+    const candidate = Number(col?.config?.columns ?? 12);
+    if (!Number.isFinite(candidate)) {
+      return 12;
+    }
+
+    return Math.min(12, Math.max(1, Math.trunc(candidate)));
   }
 }

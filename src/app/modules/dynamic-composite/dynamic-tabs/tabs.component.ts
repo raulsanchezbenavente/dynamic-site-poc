@@ -144,6 +144,15 @@ export class DsTabsComponent implements OnInit, OnDestroy, AfterViewInit {
     return layout?.rows ?? [];
   }
 
+  public getColColumns(col: TabLayoutCol): number {
+    const candidate = Number(col?.config?.columns ?? 12);
+    if (!Number.isFinite(candidate)) {
+      return 12;
+    }
+
+    return Math.min(12, Math.max(1, Math.trunc(candidate)));
+  }
+
   // public activeTab = computed(() => {
   //   const tabs = this.viewTabs();
   //   const tabId = this.activeId();

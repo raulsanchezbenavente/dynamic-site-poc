@@ -14,7 +14,23 @@ export interface SiteSeoConfig {
 export interface SiteLayoutCol {
   component?: { id?: string; config?: SiteBlockConfig; [key: string]: unknown };
   slot?: string;
-  span?: number;
+  config?: SiteColConfig;
+}
+
+export interface SiteColBreakpoint {
+  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  columns: number;
+}
+
+export interface SiteColOrder {
+  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  value: '' | 'first' | 'last';
+}
+
+export interface SiteColConfig {
+  columns?: number; // 1..12 (default 12)
+  breakpoints?: SiteColBreakpoint[];
+  order?: SiteColOrder[];
 }
 
 export interface SiteRowConfig {

@@ -42,7 +42,16 @@ describe('DynamicPageComponent', () => {
   });
 
   it('should map rows and apply title/seo for matching route path', () => {
-    const rows = [{ cols: [{ component: 'header', span: 12 }] }];
+    const rows = [
+      {
+        cols: [
+          {
+            component: { id: 'header' },
+            config: { columns: 12, breakpoints: [], order: [] },
+          },
+        ],
+      },
+    ];
 
     fixture.detectChanges();
     routeDataSubject.next({
@@ -55,7 +64,7 @@ describe('DynamicPageComponent', () => {
 
     expect(component.rows.length).toBe(1);
     expect(component.rows[0]?.cols.length).toBe(1);
-    expect(component.rows[0]?.cols[0]?.['component']).toBe('header');
+    expect((component.rows[0]?.cols[0]?.['component'] as { id?: string })?.id).toBe('header');
     expect(titleSpy.setTitle).toHaveBeenCalledWith('Home');
     expect(seoSpy.applyPageSeo).toHaveBeenCalledWith('en/home', 'Home', { title: 'SEO Home' }, '0');
   });
@@ -67,8 +76,8 @@ describe('DynamicPageComponent', () => {
     expect(component.rows).toEqual([]);
   });
 
-  it('should strip component and span from block inputs', () => {
-    const result = component.getInputs({ component: 'header', span: 6, title: 't' });
+  it('should strip component and config from block inputs', () => {
+    const result = component.getInputs({ component: { id: 'header' }, config: { columns: 6 }, title: 't' });
     expect(result).toEqual({ title: 't' });
   });
 

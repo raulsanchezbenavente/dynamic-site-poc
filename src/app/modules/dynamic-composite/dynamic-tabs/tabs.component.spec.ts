@@ -138,7 +138,7 @@ describe('DsTabsComponent', () => {
     expect(renderedBlock).toBeTruthy();
   });
 
-  it('should preserve span values when rendering tab layout columns', () => {
+  it('should preserve config.columns values when rendering tab layout columns', () => {
     fixture.componentRef.setInput('config', {
       tabs: [
         {
@@ -149,8 +149,8 @@ describe('DsTabsComponent', () => {
             rows: [
               {
                 cols: [
-                  { component: 'header', span: 7 },
-                  { component: 'footer', span: 5 },
+                  { component: { id: 'header' }, config: { columns: 7, breakpoints: [], order: [] } },
+                  { component: { id: 'footer' }, config: { columns: 5, breakpoints: [], order: [] } },
                 ],
               },
             ],

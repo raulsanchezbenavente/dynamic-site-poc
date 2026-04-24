@@ -15,7 +15,7 @@ export class DynamicBlocksComponent {
 
   public getInputs(block: any): Record<string, any> {
     if (!block) return {};
-    const { component, span, ...inputs } = block;
+    const { component, config, ...inputs } = block;
     return inputs;
   }
 

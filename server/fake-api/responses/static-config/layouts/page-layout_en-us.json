@@ -9,7 +9,11 @@
               "url": "/static-config/components/config_CorporateMainHeaderBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
             }
           },
-          "span": 12
+          "config": {
+            "columns": 12,
+            "breakpoints": [],
+            "order": []
+          }
         }
       ],
       "config": {
@@ -39,7 +43,11 @@
               "url": "/static-config/components/config_CorporateMainFooterBlock_uiplus_6D-B2-98-D6-F5-22-F4-90_en-us.json"
             }
           },
-          "span": 12
+          "config": {
+            "columns": 12,
+            "breakpoints": [],
+            "order": []
+          }
         }
       ],
       "config": {

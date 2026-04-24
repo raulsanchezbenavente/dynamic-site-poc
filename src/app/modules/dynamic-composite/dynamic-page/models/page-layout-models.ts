@@ -13,9 +13,25 @@ export interface PageLayoutRowConfig {
   customClass?: string;
 }
 
+export interface PageLayoutColBreakpoint {
+  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  columns: number;
+}
+
+export interface PageLayoutColOrder {
+  size: '' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  value: '' | 'first' | 'last';
+}
+
+export interface PageLayoutColConfig {
+  columns?: number; // 1..12 (default 12)
+  breakpoints?: PageLayoutColBreakpoint[];
+  order?: PageLayoutColOrder[];
+}
+
 export interface PageLayoutCol {
   component: { id?: string; config?: Record<string, unknown>; [key: string]: unknown };
-  span?: number; // 1..12 (default 12)
+  config?: PageLayoutColConfig;
 }
 
 export interface PageLayoutRow {
