@@ -55,6 +55,7 @@
     "start:backend": "Starts the backend server entrypoint.",
     "start:backend:sso-bypass": "Runs backend in fake SSO mode together with the local fake SSO server.",
     "start:api": "Starts the booking flow API service on port 3000.",
+    "iis:toggle-https-bindings": "Toggles IIS HTTPS bindings for av-booking-local.newshore.es and av-static-local.newshore.es between ports 443 and 4433.",
     "launcher:open": "Opens the Electron launcher in development mode.",
     "launcher:build:win": "Builds the Windows launcher installer (NSIS).",
     "launcher:build:mac": "Builds the macOS launcher artifacts (DMG and ZIP).",
