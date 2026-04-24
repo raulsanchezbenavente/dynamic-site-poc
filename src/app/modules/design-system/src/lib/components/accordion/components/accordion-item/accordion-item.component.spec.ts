@@ -1,29 +1,15 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { AccordionItemComponent } from './accordion-item.component';
-import { GenerateIdPipe } from '@dcx/ui/libs';
-
-import { AccordionItemConfig } from '../../models/accordion-item.config';
 
 describe('AccordionItemComponent', () => {
   let fixture: ComponentFixture<AccordionItemComponent>;
   let component: AccordionItemComponent;
 
-  const generateIdPipeMock = {
-    transform: jasmine.createSpy('transform').and.returnValue('generatedId'),
-  };
-
-  const baseConfig: AccordionItemConfig = {
-    title: 'Accordion Title',
-    itemContent: 'Accordion content',
-    startOpen: false,
-  };
-
   beforeEach(fakeAsync(() => {
-    generateIdPipeMock.transform.calls.reset();
-
     TestBed.configureTestingModule({
       imports: [AccordionItemComponent],
-      providers: [{ provide: GenerateIdPipe, useValue: generateIdPipeMock }],
+      providers: [provideNoopAnimations()],
     });
 
     TestBed.overrideTemplate(AccordionItemComponent, '<div></div>');
@@ -33,82 +19,176 @@ describe('AccordionItemComponent', () => {
   }));
 
   it('should create (with required input provided)', fakeAsync(() => {
-    fixture.componentRef.setInput('config', { ...baseConfig });
+    fixture.componentRef.setInput('title', 'Accordion Title');
     fixture.detectChanges();
     tick();
     expect(component).toBeTruthy();
   }));
 
   describe('initialization', () => {
-    it('should collapse when startOpen=false and generate id when not defined', fakeAsync(() => {
-      fixture.componentRef.setInput('config', { ...baseConfig }); // no id
+    it('should collapse when isInitiallyExpanded=false and generate id when not defined', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
       fixture.detectChanges();
       tick();
 
-      expect(component.collapsed()).toBeTrue();
-      expect(component.config().id).toBe('generatedId');
-      expect(generateIdPipeMock.transform).toHaveBeenCalledWith('accordionItemId_');
+      expect(component.isCollapsed()).toBeTrue();
+      expect(component.internalId()).toMatch(/^accordionItem_/);
     }));
 
-    it('should not collapse when startOpen=true and should use provided id', fakeAsync(() => {
-      fixture.componentRef.setInput('config', {
-        ...baseConfig,
-        startOpen: true,
-        id: 'existingId',
-      });
+    it('should not collapse when isInitiallyExpanded=true and should use provided id', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('isInitiallyExpanded', true);
+      fixture.componentRef.setInput('id', 'existingId');
       fixture.detectChanges();
       tick();
 
-      expect(component.collapsed()).toBeFalse();
-      expect(component.config().id).toBe('existingId');
-      expect(generateIdPipeMock.transform).not.toHaveBeenCalled();
+      expect(component.isCollapsed()).toBeFalse();
+      expect(component.internalId()).toBe('existingId');
     }));
 
-    it('should use provided id when id is defined (even if startOpen=false)', fakeAsync(() => {
-      fixture.componentRef.setInput('config', {
-        ...baseConfig,
-        id: 'presetId',
-      });
+    it('should use provided id when id is defined (even if isInitiallyExpanded=false)', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('id', 'presetId');
       fixture.detectChanges();
       tick();
 
-      expect(component.collapsed()).toBeTrue();
-      expect(generateIdPipeMock.transform).not.toHaveBeenCalled();
-      expect(component.config().id).toBe('presetId');
+      expect(component.isCollapsed()).toBeTrue();
+      expect(component.internalId()).toBe('presetId');
     }));
 
-    it('should throw an error when required @Input config is missing', fakeAsync(() => {
-      expect(() => {
-        fixture.detectChanges();
-        tick();
-      }).toThrow();
+    it('should set triggerId and contentId based on internalId', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('id', 'myId');
+      fixture.detectChanges();
+      tick();
+
+      expect(component.triggerId()).toBe('myId-trigger');
+      expect(component.contentId()).toBe('myId-content');
     }));
   });
 
-  describe('toggleCollapse', () => {
+  describe('onToggleRequest', () => {
     beforeEach(fakeAsync(() => {
-      fixture.componentRef.setInput('config', { ...baseConfig });
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.detectChanges();
+      tick();
+    }));
+
+    it('should toggle isCollapsed when called', fakeAsync(() => {
+      const initial = component.isCollapsed();
+      component.toggleRequested.subscribe(() => component.toggle());
+      component.onToggleRequest();
+      tick();
+      expect(component.isCollapsed()).toBe(!initial);
+    }));
+
+    it('should not toggle when isDisabled is true', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('isDisabled', true);
+      fixture.detectChanges();
+      tick();
+
+      const initial = component.isCollapsed();
+      component.onToggleRequest();
+      expect(component.isCollapsed()).toBe(initial);
+    }));
+  });
+
+  describe('toggle', () => {
+    beforeEach(fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
       fixture.detectChanges();
       tick();
     }));
 
     it('should toggle collapsed state', fakeAsync(() => {
-      const initial = component.collapsed();
-      component.toggleCollapse();
+      const initial = component.isCollapsed();
+      component.toggle();
       tick();
-      expect(component.collapsed()).toBe(!initial);
+      expect(component.isCollapsed()).toBe(!initial);
     }));
 
     it('should toggle collapsed state multiple times', fakeAsync(() => {
-      expect(component.collapsed()).toBeTrue(); // starts collapsed (startOpen=false)
-      
-      component.toggleCollapse();
+      expect(component.isCollapsed()).toBeTrue();
+
+      component.toggle();
       tick();
-      expect(component.collapsed()).toBeFalse();
-      
-      component.toggleCollapse();
+      expect(component.isCollapsed()).toBeFalse();
+
+      component.toggle();
       tick();
-      expect(component.collapsed()).toBeTrue();
+      expect(component.isCollapsed()).toBeTrue();
+    }));
+
+    it('should not toggle when isDisabled is true', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('isDisabled', true);
+      fixture.detectChanges();
+      tick();
+
+      const initial = component.isCollapsed();
+      component.onToggleRequest();
+      expect(component.isCollapsed()).toBe(initial);
+    }));
+  });
+
+  describe('accessibility', () => {
+    it('should default headingLevel to 3', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.detectChanges();
+      tick();
+
+      expect(component.headingLevel()).toBe(3);
+    }));
+
+    it('should accept a custom headingLevel', fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.componentRef.setInput('headingLevel', 2);
+      fixture.detectChanges();
+      tick();
+
+      expect(component.headingLevel()).toBe(2);
+    }));
+  });
+
+  describe('onKeydown', () => {
+    beforeEach(fakeAsync(() => {
+      fixture.componentRef.setInput('title', 'Accordion Title');
+      fixture.detectChanges();
+      tick();
+    }));
+
+    it('should emit keydown event for ArrowDown', fakeAsync(() => {
+      const spy = jasmine.createSpy('keydownSpy');
+      component.navigationKeydown.subscribe(spy);
+
+      const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+      component.onKeydown(event);
+      tick();
+
+      expect(spy).toHaveBeenCalledWith(event);
+    }));
+
+    it('should emit keydown event for ArrowUp', fakeAsync(() => {
+      const spy = jasmine.createSpy('keydownSpy');
+      component.navigationKeydown.subscribe(spy);
+
+      const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+      component.onKeydown(event);
+      tick();
+
+      expect(spy).toHaveBeenCalledWith(event);
+    }));
+
+    it('should not emit keydown event for unhandled keys', fakeAsync(() => {
+      const spy = jasmine.createSpy('keydownSpy');
+      component.navigationKeydown.subscribe(spy);
+
+      const event = new KeyboardEvent('keydown', { key: 'Tab' });
+      component.onKeydown(event);
+      tick();
+
+      expect(spy).not.toHaveBeenCalled();
     }));
   });
 });

@@ -1,7 +1,1 @@
-@if (isLoaded()) {
-    @for (config of groupConfig(); track config.id || $index) {
-        <accordion-item [config]="config" />
-    }
-} @else {
-    <p>Loading...</p>
-}
+<ng-content />

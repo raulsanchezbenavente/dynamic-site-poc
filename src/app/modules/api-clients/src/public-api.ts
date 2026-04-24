@@ -29,3 +29,4 @@ export { provideApiClients } from './lib/provide-api-clients';
 export { ResourcesClient } from './lib/resources-api';
 export { SegmentsStatusClient } from './lib/segmentsStatus-api';
 export { ServicesClient } from './lib/services-api';
+export * as RegulatoryDetailsModels from './lib/models/regulatoryDetails';

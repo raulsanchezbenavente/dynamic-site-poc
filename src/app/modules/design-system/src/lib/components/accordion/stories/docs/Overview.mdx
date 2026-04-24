@@ -1,0 +1,126 @@
+import { Canvas, Meta, Source } from '@storybook/blocks';
+
+import * as AccordionStories from '../accordion.stories';
+
+<Meta of={AccordionStories} name="01 Overview" />
+
+# Accordion
+
+[Figma Design](FIGMA_LINK_HERE) |
+[GitHub](https://github.com/FlyrInc/dcx-ui-av/tree/main/projects/design-system/src/lib/components/accordion)
+
+`ds-accordion` is a disclosure component that shows and hides sections of content. It supports two modes: single expand (default) and multiple expand via `allowMultipleExpanded`. Items are always composed using content projection with `ds-accordion-item`.
+
+## Basic usage
+
+The accordion is composed by wrapping `ds-accordion-item` elements inside `ds-accordion`. Each item receives its configuration via direct inputs.
+
+```html
+<ds-accordion [config]="accordionConfig">
+  <ds-accordion-item title="First section" [isInitiallyExpanded]="true">
+    <p>Content for the first section.</p>
+  </ds-accordion-item>
+  <ds-accordion-item title="Second section">
+    <p>Content for the second section.</p>
+  </ds-accordion-item>
+</ds-accordion>
+```
+
+```ts
+accordionConfig: AccordionConfig = {
+  allowMultipleExpanded: false,
+};
+```
+
+<table>
+  <thead>
+    <tr>
+      <th>Input (ds-accordion)</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>config.allowMultipleExpanded</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Allow multiple items to be expanded simultaneously.</td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th>Input (ds-accordion-item)</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>title</code></td>
+      <td><code>string</code></td>
+      <td>required</td>
+      <td>Label displayed in the trigger button.</td>
+    </tr>
+    <tr>
+      <td><code>id</code></td>
+      <td><code>string</code></td>
+      <td><code>auto-generated</code></td>
+      <td>Optional custom ID used to generate <code>aria-controls</code> and <code>aria-labelledby</code> references.</td>
+    </tr>
+    <tr>
+      <td><code>isInitiallyExpanded</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>When true, the item renders in the expanded state on first render.</td>
+    </tr>
+    <tr>
+      <td><code>isDisabled</code></td>
+      <td><code>boolean</code></td>
+      <td><code>false</code></td>
+      <td>Prevents the user from toggling the item. The trigger remains in the tab order with <code>aria-disabled="true"</code>.</td>
+    </tr>
+  </tbody>
+</table>
+
+## Variants
+
+### Behaviors
+
+Use `allowMultipleExpanded: false` (default) when only one section should be visible at a time — for example, FAQ lists or settings panels where context from one section supersedes another. Use `allowMultipleExpanded: true` when users benefit from comparing multiple open sections simultaneously.
+
+<Canvas of={AccordionStories.BEHAVIORS} />
+
+- **Single expand** — opening a new item collapses the previously active one.
+- **Multiple expand** — all items can be open at the same time.
+
+### States
+
+Items support four states. Disabled items keep the trigger in the tab order and expose `aria-disabled="true"` to assistive technologies, so users understand why the item is unavailable.
+
+<Canvas of={AccordionStories.STATES} />
+
+- **Active — expanded**: item is interactive and currently open.
+- **Active — collapsed**: item is interactive and currently closed.
+- **Disabled — collapsed**: item cannot be toggled; content is not accessible.
+- **Disabled — expanded**: item was opened on initialisation but cannot be collapsed by the user.
+
+### Content types
+
+Any Angular template can be projected inside a `ds-accordion-item`: plain text, rich HTML, or complex component trees.
+
+<Canvas of={AccordionStories.CONTENT_TYPES} />
+
+## Related components
+
+- [**AccordionGroup**](?path=/docs/molecules-accordion-group--overview): Wraps multiple independent accordions with shared styling and spacing.
+
+## References
+
+- **Accessibility**: See the [Accessibility](?path=/docs/molecules-accordion-accessibility--docs) tab for accessibility guidelines.
+- **Changelog**: See the [Changelog](?path=/docs/molecules-accordion-changelog--docs) tab for version history.

@@ -1,25 +1,33 @@
 <div
     class="ds-accordion-item_header"
-    [id]="config().id">
+    role="heading"
+    [attr.aria-level]="headingLevel()">
     <button
+        #triggerButton
         class="ds-accordion-item_trigger"
-        [attr.aria-expanded]="!collapsed()"
-        [attr.aria-controls]="config().id"
-        (click)="toggleCollapse()">
+        [id]="triggerId()"
+        [attr.aria-expanded]="!isCollapsed()"
+        [attr.aria-controls]="contentId()"
+        [attr.aria-disabled]="isDisabled()"
+        (click)="onToggleRequest()"
+        (keydown)="onKeydown($event)">
         <span class="ds-accordion-item_trigger_title">
-            {{ config().title }}
+            {{ title() }}
         </span>
     </button>
 </div>
-@if (!collapsed()) {
+
+@if (!isCollapsed()) {
     <div
+        class="ds-accordion-item_content"
         role="region"
-        [id]="config().id"
-        [@collapseAnimation]="collapsed()">
+        [id]="contentId()"
+        [attr.aria-labelledby]="triggerId()"
+        [@collapseAnimation]="isCollapsed()">
         <div class="ds-accordion-item_body">
-            <div
-                class="ds-accordion-item_body_content"
-                [innerHtml]="config().itemContent"></div>
+            <div class="ds-accordion-item_body_content">
+                <ng-content></ng-content>
+            </div>
         </div>
     </div>
 }

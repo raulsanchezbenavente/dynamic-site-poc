@@ -1,6 +1,7 @@
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { setCompodocJson } from '@storybook/addon-docs/angular';
 import docJson from '../documentation.json';
-import { type Preview } from '@storybook/angular';
+import { applicationConfig, type Preview } from '@storybook/angular';
 import { themes } from '@storybook/theming';
 
 import '@angular/localize/init';
@@ -15,6 +16,9 @@ const preview: Preview = {
   // Add design-system specific decorator
   decorators: [
     ...(Array.isArray(sharedPreviewConfig.decorators) ? sharedPreviewConfig.decorators : []),
+    applicationConfig({
+      providers: [provideAnimations()],
+    }),
     withI18nAutoHost,
   ],
   // Extend shared parameters with design-system specific config

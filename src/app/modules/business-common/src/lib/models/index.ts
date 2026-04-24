@@ -7,4 +7,5 @@ export * from './loyalty/loyalty-account-data.model';
 export * from './loyalty/loyalty-program-tier.model';
 export * from './loyalty/loyalty-programs.model';
 export * from './modals/session-modals.enum';
+export * from './regulatory/pax-regulatory-details-vm.model';
 export * from './segments-status/check-in-segments-status-by-journey.model';

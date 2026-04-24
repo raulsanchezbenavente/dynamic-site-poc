@@ -36,6 +36,7 @@ export * from './ngb-bootstrap-enums/';
 export * from './operating-system-type.enum';
 export * from './pax-type-code.enum';
 export * from './profile-display-mode.enum';
+export * from './regulatory-pax-details-category.enum';
 export * from './section-colors.enum';
 export * from './skeleton';
 export * from './summary-typology';

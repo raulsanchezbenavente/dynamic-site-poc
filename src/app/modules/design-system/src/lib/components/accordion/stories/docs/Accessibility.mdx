@@ -1,0 +1,115 @@
+import { Meta } from '@storybook/blocks';
+
+import * as AccordionStories from '../accordion.stories.ts';
+
+<Meta of={AccordionStories} name="02 Accessibility" />
+
+# Accordion
+
+## Accessibility
+
+### ARIA Attributes
+
+#### Required Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>title</code> (input)</td>
+      <td>
+        Provides the accessible name for the trigger button. It must clearly describe the section content so screen reader users can decide whether to expand it.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+#### Optional State Attributes
+
+<table>
+  <thead>
+    <tr>
+      <th>Attribute</th>
+      <th>Usage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>ariaExpanded</code> (auto)</td>
+      <td>
+        Set automatically on the trigger button based on <code>isCollapsed</code> state (<code>true</code> when expanded, <code>false</code> when collapsed).<br />
+        Paired with <code>aria-controls</code> to reference the content panel ID.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaControls</code> (auto)</td>
+      <td>
+        Set automatically on the trigger button. References the ID of the content panel managed by the trigger. Generated from the item's <code>id</code> input or an auto-generated UUID.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaLabelledby</code> (auto)</td>
+      <td>
+        Set automatically on the content panel (<code>role="region"</code>). References the trigger button ID, linking the region to its controlling header for screen readers.
+      </td>
+    </tr>
+    <tr>
+      <td><code>ariaDisabled</code> (auto)</td>
+      <td>
+        Set automatically on the trigger button when <code>isDisabled="true"</code>. Uses <code>aria-disabled</code> instead of the native <code>disabled</code> attribute so the trigger stays focusable and in the tab order, allowing users to discover the section without being able to activate it.
+      </td>
+    </tr>
+    <tr>
+      <td><code>id</code> (input)</td>
+      <td>
+        Optional custom base ID. Used to generate stable, predictable IDs for the trigger (<code>{id}-trigger</code>) and content panel (<code>{id}-content</code>). Useful when the accordion must be referenced by external elements or when ID stability across renders is required.
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Keyboard Navigation
+
+<table>
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><kbd>Tab</kbd></td>
+      <td>Move focus to the next accordion trigger (or next focusable element on the page).</td>
+    </tr>
+    <tr>
+      <td><kbd>Shift + Tab</kbd></td>
+      <td>Move focus to the previous accordion trigger (or previous focusable element on the page).</td>
+    </tr>
+    <tr>
+      <td><kbd>Enter</kbd> / <kbd>Space</kbd></td>
+      <td>Toggle the focused accordion item. Has no effect when the item is disabled (<code>isDisabled="true"</code>).</td>
+    </tr>
+  </tbody>
+</table>
+
+### Screen Reader Support
+
+- Each trigger button exposes its expanded/collapsed state through `aria-expanded`.
+- The content panel uses `role="region"` and `aria-labelledby` referencing the trigger, so screen readers announce the region with its header label when the user navigates to it.
+- Disabled items keep the trigger focusable (`aria-disabled="true"`) so screen readers can still announce the item title and its unavailability.
+- The accordion wrapper (`ds-accordion`) renders as a plain element with `class="ds-accordion"` and does not add an ARIA role of its own; the semantic structure comes from the individual item trigger/region pairs.
+
+### Best Practices
+
+- Always provide a meaningful `title` input on every `ds-accordion-item`. It becomes the text of the trigger button and the accessible name announced by screen readers.
+- Provide a custom `id` input when the accordion renders server-side or when tests need stable, predictable element IDs. Without it, IDs are regenerated on each render.
+- Use `isDisabled="true"` (not native `disabled`) so that users with screen readers can still focus the trigger and understand that the section exists but is currently unavailable.
+- Use `allowMultipleExpanded: true` when content in different sections is complementary and users may need to read them together; use the default single-expand when sections are mutually exclusive and seeing one makes others irrelevant.
+- Ensure the minimum touch target for each trigger is at least 44 × 44 px on touch devices.
+- Avoid nesting interactive elements (links, buttons, form controls) directly inside the trigger title — use content projection inside the item body for interactive content.
