@@ -119,10 +119,6 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
     >;
   }
 
-  public hasRteInjector(row: PageLayoutRow): boolean {
-    return (row?.cols ?? []).some((col) => col?.component === 'rteBlock_uiplus');
-  }
-
   private onComponentReady = (event: Event): void => {
     const detail = (event as CustomEvent<ComponentReadyDetail>).detail;
     if (!detail || detail.batchId !== this.currentBatchId) {
