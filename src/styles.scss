@@ -12,12 +12,12 @@
   grid-template-columns: repeat(12, 1fr);
   gap: 0;
   margin-bottom: 0;
-  // Remove when grid is clarified and finalized
-  border: 1px dashed red;
 }
 
 .col {
   min-width: 0;
+  // Remove when grid is clarified and finalized
+  border: 1px dashed red;
 }
 
 @media (max-width: 766px) {
