@@ -123,6 +123,8 @@ export class RouterInitService {
       data: {
         path: page.path,
         components: this.getPageComponents(page),
+        headerComponents: this.getPageHeaderComponents(page),
+        footerComponents: this.getPageFooterComponents(page),
         pageId: page.pageId,
         pageName: page.name,
         seo: page.seo,
@@ -130,6 +132,8 @@ export class RouterInitService {
       },
       resolve: {
         components: () => this.resolvePageComponents(page),
+        headerComponents: () => this.resolvePageHeaderComponents(page),
+        footerComponents: () => this.resolvePageFooterComponents(page),
         tabNamesById: () => this.resolveTabNamesById(page),
       },
       canActivate: index > 0 ? [ProgressAsynGuard, RouteAssetsPreloadGuard] : [RouteAssetsPreloadGuard],
@@ -137,7 +141,21 @@ export class RouterInitService {
   }
 
   private resolvePageComponents(page: SitePage): Observable<SiteLayoutRow[]> {
-    return this.resolveLayoutRows(page);
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => !this.getSlotTypeFromRow(row)))
+    );
+  }
+
+  private resolvePageHeaderComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => this.getSlotTypeFromRow(row) === 'header'))
+    );
+  }
+
+  private resolvePageFooterComponents(page: SitePage): Observable<SiteLayoutRow[]> {
+    return this.resolveLayoutRows(page).pipe(
+      map((rows) => rows.filter((row) => this.getSlotTypeFromRow(row) === 'footer'))
+    );
   }
 
   private resolveTabNamesById(page: SitePage): Observable<Record<string, string>> {
@@ -145,13 +163,15 @@ export class RouterInitService {
   }
 
   private getPageComponents(page: SitePage): SiteLayoutRow[] {
-    const { layout } = page;
+    return this.getLayoutRows(page.layout).filter((row) => !this.getSlotTypeFromRow(row));
+  }
 
-    if (Array.isArray(layout)) {
-      return layout;
-    }
+  private getPageHeaderComponents(page: SitePage): SiteLayoutRow[] {
+    return this.getLayoutRows(page.layout).filter((row) => this.getSlotTypeFromRow(row) === 'header');
+  }
 
-    return this.getLayoutRows(layout);
+  private getPageFooterComponents(page: SitePage): SiteLayoutRow[] {
+    return this.getLayoutRows(page.layout).filter((row) => this.getSlotTypeFromRow(row) === 'footer');
   }
 
   private buildTabNamesById(page: SitePage): Record<string, string> {
@@ -263,6 +283,10 @@ export class RouterInitService {
 
   private getSlotNameFromRow(row: SiteLayoutRow): string {
     return String(row?.slot ?? '').trim();
+  }
+
+  private getSlotTypeFromRow(row: SiteLayoutRow): string {
+    return String(row?.slotType ?? '').trim();
   }
 
   private getLayoutRows(layout: SiteLayout | SiteLayoutRow[] | string | undefined): SiteLayoutRow[] {

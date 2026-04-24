@@ -12,6 +12,7 @@
       "layout": {
         "rows": [
           {
+            "slotType": "header",
             "cols": [
               {
                 "component": "CorporateMainHeaderBlock_uiplus",
@@ -45,6 +46,7 @@
             ]
           },
           {
+            "slotType": "footer",
             "cols": [
               {
                 "component": "CorporateMainFooterBlock_uiplus",

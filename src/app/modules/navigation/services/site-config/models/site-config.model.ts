@@ -21,6 +21,7 @@ export interface SiteLayoutCol {
 export interface SiteLayoutRow {
   cols?: SiteLayoutCol[];
   slot?: string;
+  slotType?: string;
 }
 
 export interface SiteLayout {

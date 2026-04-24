@@ -1,6 +1,7 @@
 {
   "rows": [
     {
+      "slotType": "header",
       "cols": [
         {
           "component": "CorporateMainHeaderBlock_uiplus",
@@ -15,6 +16,7 @@
       "slot": "main"
     },
     {
+      "slotType": "footer",
       "cols": [
         {
           "component": "CorporateMainFooterBlock_uiplus",

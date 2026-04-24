@@ -28,6 +28,8 @@ type SeoConfig = {
 };
 type DynamicPageRouteData = {
   components?: PageLayoutRow[];
+  headerComponents?: PageLayoutRow[];
+  footerComponents?: PageLayoutRow[];
   path?: string;
   pageName?: string;
   pageId?: string;
@@ -56,6 +58,8 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
   private static readonly TABS_COMPONENT = 'multiTabBlock_uiplus';
 
   public rows: PageLayoutRow[] = [];
+  public headerRows: PageLayoutRow[] = [];
+  public footerRows: PageLayoutRow[] = [];
 
   private document = inject(DOCUMENT);
   private route = inject(ActivatedRoute);
@@ -79,23 +83,33 @@ export class DynamicPageComponent implements OnInit, OnDestroy {
       const routeData = data as DynamicPageRouteData;
       const pageId = String(routeData.pageId ?? '');
       const sourceRows = Array.isArray(routeData.components) ? routeData.components : [];
+      const sourceHeaderRows = Array.isArray(routeData.headerComponents) ? routeData.headerComponents : [];
+      const sourceFooterRows = Array.isArray(routeData.footerComponents) ? routeData.footerComponents : [];
       const isSamePage = this.currentPageId === routeData.pageId;
 
       if (isSamePage) {
         // Same pageId reuses block-outlet instances, so no new readiness events are emitted.
         // Keep the existing component tree and ensure the boot loader is hidden.
-        const trackedRowsForRefresh = this.attachComponentTracking(
-          sourceRows,
+        const allSourceRows = [...sourceHeaderRows, ...sourceRows, ...sourceFooterRows];
+        const allTracked = this.attachComponentTracking(
+          allSourceRows,
           this.currentBatchId || this.createBatchId(pageId)
         );
-        this.refreshLocalizedBlocks(trackedRowsForRefresh);
+        const hLen = sourceHeaderRows.length;
+        const mLen = sourceRows.length;
+        this.refreshLocalizedBlocks(allTracked.slice(hLen, hLen + mLen));
         this.removeBootLoader();
       } else {
         const nextBatchId = this.createBatchId(pageId);
-        const trackedRows = this.attachComponentTracking(sourceRows, nextBatchId);
-        this.resetBatchTracking(nextBatchId, pageId, trackedRows);
+        const allSourceRows = [...sourceHeaderRows, ...sourceRows, ...sourceFooterRows];
+        const allTrackedRows = this.attachComponentTracking(allSourceRows, nextBatchId);
+        const hLen = sourceHeaderRows.length;
+        const mLen = sourceRows.length;
+        this.resetBatchTracking(nextBatchId, pageId, allTrackedRows);
         this.currentPageId = routeData.pageId;
-        this.rows = trackedRows;
+        this.headerRows = allTrackedRows.slice(0, hLen);
+        this.rows = allTrackedRows.slice(hLen, hLen + mLen);
+        this.footerRows = allTrackedRows.slice(hLen + mLen);
       }
 
       // When the router reuses this component across a language switch (same pageId,

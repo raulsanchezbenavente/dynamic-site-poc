@@ -166,15 +166,9 @@ body:not(.keyboard-focus-mode) {
 
 // Template
 .page-wrap {
-    position: relative;
-    display: flex;
-    flex-direction: column; // the flex column is needed to keep footer at page bottom
-    height: 100vh;
-    padding-top: 0;
-}
-#maincontent {
-    // to sticky footer at bottom page
-    flex: 1 0 auto; // set `flex-shrink` to `0` to prevent Chrome, Opera, and Safari from letting these items shrink to smaller than their content's default minimum size.
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
 }
 .content-wrap {
     position: relative;
