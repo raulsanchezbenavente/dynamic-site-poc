@@ -95,29 +95,6 @@ electron-launcher/
 │   └── default-favorite-scripts.json
 └── assets/
   ├── launcher/              # Launcher app icons (mac/linux/windows)
-  │   ├── mac/
-  │   ├── linux/
-  │   └── windows/
-  └── by-module-modal/       # Standalone by-module modal icons
-    ├── mac/
-    ├── linux/
-    └── windows/
-src/
-├── app/
-│   ├── app.component.ts
-│   ├── app.config.ts
-│   ├── app.routes.ts
-│   ├── component-map.ts       # Maps block names to lazy component loaders
-│   ├── same-page-id-reuse.strategy.ts
-│   ├── router-init/
-│   │   └── router-init.service.ts # Centralized router initialization orchestration
-│   ├── guards/
-│   │   └── route-assets-preload.guard.ts
-│   └── modules/               # All feature and shared modules
-│       ├── dynamic-composite/ # (@dynamic-composite) Dynamic page/block/tabs infrastructure
-│       │   ├── block-outlet/
-│       │   ├── dynamic-page-readiness/
-│       │   │   └── models/
 │       │   ├── dynamic-blocks/
 │       │   ├── dynamic-page/
 │       │   └── dynamic-tabs/
@@ -176,12 +153,11 @@ src/
 
 ### Module Aliases (tsconfig `paths`)
 
-| Alias                  | Module                              |
-| ---------------------- | ----------------------------------- |
-| `@navigation`          | `modules/navigation` (all services) |
-| `@dynamic-composite`   | `modules/dynamic-composite`         |
-| `@fake-blocks-avianca` | `modules/fake-blocks-avianca`       |
-| `@games`               | `modules/games`                     |
+| Alias                | Module                              |
+| -------------------- | ----------------------------------- |
+| `@navigation`        | `modules/navigation` (all services) |
+| `@dynamic-composite` | `modules/dynamic-composite`         |
+| `@games`             | `modules/games`                     |
 
 > **Note:** Dynamic `import()` paths in `component-map.ts` always use direct relative paths (not aliases) to ensure Webpack creates separate lazy chunks per component.
 

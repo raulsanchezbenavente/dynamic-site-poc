@@ -35,7 +35,6 @@
       "@dcx/module/group-options": ["./src/modules/group-options/src/public-api.ts"],
 
       "@dcx/module/find-bookings": ["./src/modules/find-bookings/src/public-api.ts"],
-      "@fake-blocks-avianca": ["./src/app/modules/fake-blocks-avianca/index.ts"],
       "@games": ["./src/app/modules/games/index.ts"]
     },
     "strict": true,

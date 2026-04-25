@@ -30,69 +30,59 @@ export const componentMap: Record<string, BlockComponentLoader> = {
 
   // Avianca Fake
   loyaltyOverviewCard_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/loyalty-card/loyalty-card.component').then(
+    import('./modules/loyalty-overview-card/src/lib/loyalty-overview-card.component').then(
       (m) => m.LoyaltyOverviewCardComponent
     ),
   CorporateMainHeaderBlock_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
+    import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
   accountProfile_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/account-profile/account-profile.component').then(
-      (m) => m.AccountProfileComponent
-    ),
+    import('./modules/account-profile/src/lib/account-profile.component').then((m) => m.AccountProfileComponent),
   accountSettings_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/account-settings/account-settings.component').then(
-      (m) => m.AccountSettingsComponent
-    ),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   personalData_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/personal-data/personal-data.component').then((m) => m.PersonalDataComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   findBookings_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/find-bookings/find-bookings.component').then((m) => m.FindBookingsComponent),
+    import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
   eliteStatus_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/elite-status/elite-status.component').then((m) => m.EliteStatusComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   CorporateMainFooterBlock_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
+    import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
   SearchComponentBlock_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
+    import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
   AdsComponentBlock_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
+    import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
   bookingHeaderComponent_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/booking-header/booking-header.component').then(
-      (m) => m.BookingHeaderComponent
-    ),
+    import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
   bookingFooterComponent_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/booking-footer/booking-footer.component').then(
-      (m) => m.BookingFooterComponent
-    ),
+    import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
   results_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
-  extra_uiplus_EX: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
+    import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
+  extra_uiplus_EX: () =>
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   payment_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   thankYou_uiplus_EX: () =>
-    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
 
   // Legacy test keys (kept for old config compatibility)
   login: () => import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   header: () =>
-    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
-  banner: () => import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
-  search: () => import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
+    import('./modules/main-header/src/lib/main-header.component').then((m) => m.CorporateMainHeaderComponent),
+  banner: () => import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
+  search: () => import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
   footer: () =>
-    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
-  results: () => import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
+    import('./modules/footer-main/src/lib/footer-main.component').then((m) => m.CorporateFooterMainComponent),
+  results: () => import('./modules/find-bookings/src/lib/find-bookings.component').then((m) => m.FindBookingsComponent),
   'baggage-selection': () =>
-    import('./modules/fake-blocks-avianca/baggage-selection/baggage-selection.component').then(
-      (m) => m.BaggageSelectionComponent
-    ),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   seatmap: () =>
-    import('./modules/fake-blocks-avianca/seat-selection/seat-selection.component').then(
-      (m) => m.SeatSelectionComponent
-    ),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   'payment-methods': () =>
-    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
   'payment-success': () =>
-    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
-  explanation: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
+  explanation: () =>
+    import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
 
   // Games
   'icon-hunter_uiplus_EX': () =>
@@ -101,8 +91,8 @@ export const componentMap: Record<string, BlockComponentLoader> = {
 };
 
 export const configInputAliases: Record<string, string> = {
-  loyaltyOverviewCard_uiplus_EX: 'colorConfig',
-  CorporateMainHeaderBlock_uiplus_EX: 'colorConfig',
+  loyaltyOverviewCard_uiplus_EX: 'baseConfig',
+  CorporateMainHeaderBlock_uiplus_EX: 'baseConfig',
 
   authorizationBlock_uiplus: 'baseConfig',
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
