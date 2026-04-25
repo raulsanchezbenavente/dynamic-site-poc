@@ -45,7 +45,6 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🛡️ Loyalty card and main header no longer apply a default accent/gradient fallback color when no valid tone is provided
 - 🧱 `rte-injector` keeps the last rendered HTML and reuses cached remote fragment content/stylesheet URLs across language switches to reduce flicker and duplicate requests
 - 🧩 `rte-injector` config contract supports `string | string[]` for all entries and uses renamed keys in `config-site`: `htmlContent`, `htmlContentURLs`, `styles`, `cssURLs`
-- 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
 - 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
 - 🧱 RTE layout rules in Dynamic Composite: proportional `max-width` by `span` using a 1200px base, mirrored left/right alignment on desktop rows, and full-width centered RTE on mobile
 - 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
@@ -133,10 +132,6 @@ electron-launcher/
 │       │   ├── sports-selection/
 │       │   ├── thank-you/
 │       │   └── index.ts
-│       └── games/             # (@games) Mini-games
-│           ├── icon-hunter/   # Tap-to-catch icon game with combo scoring
-│           ├── tetris/        # Classic falling-block puzzle
-│           └── index.ts
 ├── environments/
 │   ├── environment.bypass.ts  # Bypass/fake SSO environment config
 │   ├── environment.ts         # Development config (boot loader min: 0ms)
@@ -157,7 +152,6 @@ electron-launcher/
 | -------------------- | ----------------------------------- |
 | `@navigation`        | `modules/navigation` (all services) |
 | `@dynamic-composite` | `modules/dynamic-composite`         |
-| `@games`             | `modules/games`                     |
 
 > **Note:** Dynamic `import()` paths in `component-map.ts` always use direct relative paths (not aliases) to ensure Webpack creates separate lazy chunks per component.
 

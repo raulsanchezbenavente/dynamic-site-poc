@@ -84,15 +84,18 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   explanation: () =>
     import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
 
-  // Games
+  // Legacy games keys (kept for old config compatibility)
   'icon-hunter_uiplus_EX': () =>
-    import('./modules/games/icon-hunter/icon-hunter.component').then((m) => m.IconHunterUiplusComponent),
-  tetris_uiplus_EX: () => import('./modules/games/tetris/tetris.component').then((m) => m.TetrisUiplusComponent),
+    import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
+  tetris_uiplus_EX: () =>
+    import('./modules/breadcrumb/src/lib/breadcrumb.component').then((m) => m.BreadcrumbComponent),
 };
 
 export const configInputAliases: Record<string, string> = {
   loyaltyOverviewCard_uiplus_EX: 'baseConfig',
   CorporateMainHeaderBlock_uiplus_EX: 'baseConfig',
+  'icon-hunter_uiplus_EX': 'baseConfig',
+  tetris_uiplus_EX: 'baseConfig',
 
   authorizationBlock_uiplus: 'baseConfig',
   CorporateMainHeaderBlock_uiplus: 'baseConfig',
