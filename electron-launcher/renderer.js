@@ -674,155 +674,17 @@ function getThemeAwareAnsiBasePalette() {
   ];
 
   const palettesByTheme = {
-    ocean: [
-      '#0b1321',
-      '#db3b50',
-      '#2ec27e',
-      '#d38f20',
-      '#3f8cff',
-      '#c061cb',
-      '#2db8b8',
-      '#d8e2f0',
-      '#3e4f66',
-      '#ff6b81',
-      '#51e59a',
-      '#f2b84a',
-      '#78abff',
-      '#e19be7',
-      '#59d9d9',
-      '#f3f7ff',
-    ],
-    dark: [
-      '#11161f',
-      '#e75b66',
-      '#33c36e',
-      '#d9a036',
-      '#5a9bff',
-      '#d17ae8',
-      '#43c9cf',
-      '#dbe6f5',
-      '#3a475a',
-      '#ff7f8e',
-      '#54de8c',
-      '#efbc58',
-      '#82b5ff',
-      '#e4a2f4',
-      '#6edee2',
-      '#f6faff',
-    ],
-    'solarized-dark': [
-      '#073642',
-      '#dc322f',
-      '#859900',
-      '#b58900',
-      '#268bd2',
-      '#d33682',
-      '#2aa198',
-      '#93a1a1',
-      '#586e75',
-      '#ff5f56',
-      '#a3be3b',
-      '#d7b45a',
-      '#5ca9df',
-      '#e56ea7',
-      '#52c6be',
-      '#dce6e8',
-    ],
-    'kimbie-dark': [
-      '#1f1a14',
-      '#f26a6a',
-      '#9bcf6d',
-      '#d9b35f',
-      '#7aa6ff',
-      '#d48be6',
-      '#66c2b3',
-      '#dbc7a8',
-      '#5a4b37',
-      '#ff8d8d',
-      '#b4df88',
-      '#e9c37b',
-      '#9bc0ff',
-      '#e4a6f0',
-      '#83d4c7',
-      '#f2e2cb',
-    ],
-    light: [
-      '#2f3742',
-      '#c92f3d',
-      '#1e7f3f',
-      '#946300',
-      '#1767cc',
-      '#7a4dcf',
-      '#1a7c83',
-      '#4f5f72',
-      '#6a7380',
-      '#ab1f2e',
-      '#166431',
-      '#7f5500',
-      '#0f57ad',
-      '#6841ba',
-      '#12666b',
-      '#232a33',
-    ],
-    'solarized-light': [
-      '#586e75',
-      '#dc322f',
-      '#859900',
-      '#b58900',
-      '#268bd2',
-      '#d33682',
-      '#2aa198',
-      '#657b83',
-      '#93a1a1',
-      '#cb4b16',
-      '#6c8f0f',
-      '#9a7b16',
-      '#1f76b4',
-      '#b84f8f',
-      '#279489',
-      '#3f5058',
-    ],
-    'tokion-night-light': [
-      '#404a63',
-      '#c14a6b',
-      '#2a8a60',
-      '#9b730e',
-      '#3f6fca',
-      '#7c5bc1',
-      '#2a8191',
-      '#58627a',
-      '#737c97',
-      '#a53c59',
-      '#1f7550',
-      '#87620f',
-      '#325dae',
-      '#6a48a7',
-      '#226f7d',
-      '#3b445a',
-    ],
-    red: [
-      '#2e0f12',
-      '#ff8c8c',
-      '#ffd69a',
-      '#ffe28f',
-      '#ffb3c6',
-      '#f0a7ff',
-      '#ffb89e',
-      '#ffe9e9',
-      '#6b2a2a',
-      '#ffacac',
-      '#ffe4b8',
-      '#ffeeb0',
-      '#ffc8d6',
-      '#f5bcff',
-      '#ffd0b6',
-      '#fff6f6',
-    ],
+    ocean: ['#0b1321', '#db3b50', '#2ec27e', '#d38f20', '#3f8cff', '#c061cb', '#2db8b8', '#d8e2f0', '#3e4f66', '#ff6b81', '#51e59a', '#f2b84a', '#78abff', '#e19be7', '#59d9d9', '#f3f7ff'],
+    dark: ['#11161f', '#e75b66', '#33c36e', '#d9a036', '#5a9bff', '#d17ae8', '#43c9cf', '#dbe6f5', '#3a475a', '#ff7f8e', '#54de8c', '#efbc58', '#82b5ff', '#e4a2f4', '#6edee2', '#f6faff'],
+    'solarized-dark': ['#073642', '#dc322f', '#859900', '#b58900', '#268bd2', '#d33682', '#2aa198', '#93a1a1', '#586e75', '#ff5f56', '#a3be3b', '#d7b45a', '#5ca9df', '#e56ea7', '#52c6be', '#dce6e8'],
+    'kimbie-dark': ['#1f1a14', '#f26a6a', '#9bcf6d', '#d9b35f', '#7aa6ff', '#d48be6', '#66c2b3', '#dbc7a8', '#5a4b37', '#ff8d8d', '#b4df88', '#e9c37b', '#9bc0ff', '#e4a6f0', '#83d4c7', '#f2e2cb'],
+    light: ['#2f3742', '#c92f3d', '#1e7f3f', '#946300', '#1767cc', '#7a4dcf', '#1a7c83', '#4f5f72', '#6a7380', '#ab1f2e', '#166431', '#7f5500', '#0f57ad', '#6841ba', '#12666b', '#232a33'],
+    'solarized-light': ['#586e75', '#dc322f', '#859900', '#b58900', '#268bd2', '#d33682', '#2aa198', '#657b83', '#93a1a1', '#cb4b16', '#6c8f0f', '#9a7b16', '#1f76b4', '#b84f8f', '#279489', '#3f5058'],
+    'tokion-night-light': ['#404a63', '#c14a6b', '#2a8a60', '#9b730e', '#3f6fca', '#7c5bc1', '#2a8191', '#58627a', '#737c97', '#a53c59', '#1f7550', '#87620f', '#325dae', '#6a48a7', '#226f7d', '#3b445a'],
+    red: ['#2e0f12', '#ff8c8c', '#ffd69a', '#ffe28f', '#ffb3c6', '#f0a7ff', '#ffb89e', '#ffe9e9', '#6b2a2a', '#ffacac', '#ffe4b8', '#ffeeb0', '#ffc8d6', '#f5bcff', '#ffd0b6', '#fff6f6'],
   };
 
-  const themeName = String(document.body.dataset.terminalTheme || 'ocean')
-    .trim()
-    .toLowerCase();
+  const themeName = String(document.body.dataset.terminalTheme || 'ocean').trim().toLowerCase();
   const themePalette = palettesByTheme[themeName] || palettesByTheme[themeName === 'kdark' ? 'kimbie-dark' : ''];
   if (Array.isArray(themePalette) && themePalette.length === 16) {
     return themePalette;
@@ -2118,9 +1980,7 @@ function setByModuleStatus(message, isError = false) {
 }
 
 function readByModulePrefs(mode) {
-  const normalizedMode = String(mode || '')
-    .trim()
-    .toLowerCase();
+  const normalizedMode = String(mode || '').trim().toLowerCase();
 
   try {
     const raw = window.localStorage.getItem(BY_MODULE_PREFS_STORAGE_KEY);
@@ -2153,9 +2013,7 @@ function readByModulePrefs(mode) {
 }
 
 function saveByModulePrefs(mode, prefs) {
-  const normalizedMode = String(mode || '')
-    .trim()
-    .toLowerCase();
+  const normalizedMode = String(mode || '').trim().toLowerCase();
   if (!normalizedMode) {
     return;
   }
@@ -2318,9 +2176,7 @@ function renderByModuleOptions(modeConfig, modules) {
   if (available.length === 0) {
     setByModuleStatus(modeConfig.emptyLabel, true);
   } else {
-    setByModuleStatus(
-      `Ready. ${available.length} modules with ${modeConfig.modeLabel || 'support'} and ${unavailable.length} without ${modeConfig.modeLabel || 'support'}.`
-    );
+    setByModuleStatus(`Ready. ${available.length} modules with ${modeConfig.modeLabel || 'support'} and ${unavailable.length} without ${modeConfig.modeLabel || 'support'}.`);
   }
 }
 
@@ -2417,9 +2273,7 @@ async function runByModuleFromDialog() {
 }
 
 async function openByModuleDialog(mode) {
-  const normalizedMode = String(mode || '')
-    .trim()
-    .toLowerCase();
+  const normalizedMode = String(mode || '').trim().toLowerCase();
   const modeConfig = BY_MODULE_MODES[normalizedMode];
   if (!modeConfig || !byModuleOverlay) {
     return;
@@ -3722,7 +3576,12 @@ function renderScripts() {
     const startBtn = createScriptActionButton('start', 'Start', () => runScript(script.name), isRunning);
     bindScriptActionTooltip(startBtn, isRunning ? 'Script is running' : 'Start script');
 
-    const restartBtn = createScriptActionButton('restart', 'Restart', () => restartScript(script.name), !isRunning);
+    const restartBtn = createScriptActionButton(
+      'restart',
+      'Restart',
+      () => restartScript(script.name),
+      !isRunning
+    );
     bindScriptActionTooltip(restartBtn, 'Restart script');
 
     const stopBtn = createScriptActionButton('stop', 'Stop', () => stopScript(script.name), !isRunning);
@@ -3741,12 +3600,11 @@ function renderScripts() {
     commandLine.append(commandText);
 
     if (script.description) {
-      const infoIconSvg =
-        '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">' +
-        '<circle cx="50" cy="50" r="50" fill="#0000e0"/>' +
-        '<circle cx="50" cy="28" r="9" fill="#fff"/>' +
-        '<rect x="39" y="42" width="22" height="36" rx="5" ry="5" fill="#fff"/>' +
-        '</svg>';
+      const infoIconSvg = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">'
+        + '<circle cx="50" cy="50" r="50" fill="#0000e0"/>'
+        + '<circle cx="50" cy="28" r="9" fill="#fff"/>'
+        + '<rect x="39" y="42" width="22" height="36" rx="5" ry="5" fill="#fff"/>'
+        + '</svg>';
       const infoIcon = document.createElement('div');
       infoIcon.className = 'script-description-info';
       infoIcon.setAttribute('role', 'button');
@@ -4115,20 +3973,6 @@ function hasSelectedTextForCopyShortcut() {
   const selection = window.getSelection ? window.getSelection() : null;
   return Boolean(selection && !selection.isCollapsed && String(selection).trim());
 }
-
-function resetLauncherDefaultsAndReload() {
-  try {
-    window.localStorage.clear();
-  } catch {
-    // Ignore storage failures and still force a refresh.
-  }
-
-  window.location.reload();
-}
-
-window.launcherApi.onResetDefaultsRequested?.(() => {
-  resetLauncherDefaultsAndReload();
-});
 
 document.addEventListener('keydown', (event) => {
   if (isAboutDialogOpen()) {
