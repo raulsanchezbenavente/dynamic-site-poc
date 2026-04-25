@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { PageNavigationService } from '@navigation';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
-import { GenericTabsComponent, type TabDefinition } from '../../../modules/fake-libs';
+import { GenericTabsComponent, type TabDefinition } from './generic-tabs.component';
 
 @Component({
   selector: 'personal-data',

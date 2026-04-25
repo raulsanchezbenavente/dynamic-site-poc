@@ -46,7 +46,6 @@ Proof of concept for a **dynamic flight booking website** built with **Angular**
 - 🧱 `rte-injector` keeps the last rendered HTML and reuses cached remote fragment content/stylesheet URLs across language switches to reduce flicker and duplicate requests
 - 🧩 `rte-injector` config contract supports `string | string[]` for all entries and uses renamed keys in `config-site`: `htmlContent`, `htmlContentURLs`, `styles`, `cssURLs`
 - 🎮 Mini-games module: **Icon Hunter** (tap-to-catch with combo scoring) and **Tetris** (classic falling-block puzzle)
-- 🧩 Shared `GenericTabsComponent` in `fake-libs` module for reusable tab UIs
 - 📐 Dynamic Composite responsive stacking: at `<= 766px` each grid cell expands to full width (rows with multiple columns are stacked)
 - 🧱 RTE layout rules in Dynamic Composite: proportional `max-width` by `span` using a 1200px base, mirrored left/right alignment on desktop rows, and full-width centered RTE on mobile
 - 🧾 Per-component config contracts moved to dedicated `models` files (e.g., `main-header`, `loyalty-card`, `rte-injector`)
@@ -133,9 +132,6 @@ src/
 │       │       ├── router-helper/
 │       │       ├── seo/
 │       │       └── site-config/
-│       ├── fake-libs/         # (fake-libs) Shared reusable UI components
-│       │   ├── generic-tabs.component.ts
-│       │   └── index.ts
 │       ├── fake-blocks-avianca/ # (@fake-blocks-avianca) Avianca CMS block components
 │       │   ├── account-profile/
 │       │   ├── account-settings/
@@ -200,7 +196,6 @@ src/
 | `@fake-blocks-avianca` | `modules/fake-blocks-avianca`       |
 | `@fake-blocks-test`    | `modules/fake-blocks-test`          |
 | `@games`               | `modules/games`                     |
-| `fake-libs`            | `modules/fake-libs`                 |
 
 > **Note:** Dynamic `import()` paths in `component-map.ts` always use direct relative paths (not aliases) to ensure Webpack creates separate lazy chunks per component.
 
