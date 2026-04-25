@@ -17,6 +17,7 @@ const DEFAULT_WINDOW_STATE = {
   minWidth: 960,
   minHeight: 640,
 };
+const MIN_APP_QUIT_DELAY_MS = 1000;
 const DEFAULT_FAVORITE_SCRIPTS_CONFIG_PATH = path.join(__dirname, 'config', 'default-favorite-scripts.json');
 const BY_MODULES_ROOT = path.resolve(__dirname, '..', 'src', 'app', 'modules');
 const BY_ANGULAR_JSON_PATH = path.resolve(__dirname, '..', 'angular.json');
@@ -237,6 +238,12 @@ function quoteDesktopExecArg(arg) {
   }
 
   return `"${value.replace(/(["\\$`])/g, '\\$1')}"`;
+}
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, Math.max(0, Number(ms) || 0));
+  });
 }
 
 function ensureLinuxDevDesktopEntry() {
@@ -2557,6 +2564,7 @@ ipcMain.handle('logs:export', async (event, payload) => {
 });
 
 ipcMain.handle('app:quit', async () => {
+  await wait(MIN_APP_QUIT_DELAY_MS);
   app.quit();
   return { ok: true };
 });
