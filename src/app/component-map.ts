@@ -71,21 +71,28 @@ export const componentMap: Record<string, BlockComponentLoader> = {
   thankYou_uiplus_EX: () =>
     import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
 
-  // Test examples
-  login: () => import('./modules/fake-blocks-test/customer-login').then((m) => m.CustomerLoginComponent),
-  header: () => import('./modules/fake-blocks-test/header.component').then((m) => m.HeaderComponent),
-  banner: () => import('./modules/fake-blocks-test/banner.component').then((m) => m.BannerComponent),
-  search: () => import('./modules/fake-blocks-test/search.component').then((m) => m.SearchComponent),
-  footer: () => import('./modules/fake-blocks-test/footer.component').then((m) => m.FooterComponent),
-  results: () => import('./modules/fake-blocks-test/results.component').then((m) => m.ResultsComponent),
+  // Legacy test keys (kept for old config compatibility)
+  login: () => import('./modules/authorization/src/lib/authorization.component').then((m) => m.AuthorizationComponent),
+  header: () =>
+    import('./modules/fake-blocks-avianca/main-header/main-header.component').then((m) => m.MainHeaderComponent),
+  banner: () => import('./modules/fake-blocks-avianca/ads/ads.component').then((m) => m.AdsComponent),
+  search: () => import('./modules/fake-blocks-avianca/search/search.component').then((m) => m.SearchComponent),
+  footer: () =>
+    import('./modules/fake-blocks-avianca/main-footer/main-footer.component').then((m) => m.MainFooterComponent),
+  results: () => import('./modules/fake-blocks-avianca/results/results.component').then((m) => m.ResultsComponent),
   'baggage-selection': () =>
-    import('./modules/fake-blocks-test/baggage-selection').then((m) => m.BaggageSelectionComponent),
-  seatmap: () => import('./modules/fake-blocks-test/seatmap.component').then((m) => m.SeatmapComponent),
+    import('./modules/fake-blocks-avianca/baggage-selection/baggage-selection.component').then(
+      (m) => m.BaggageSelectionComponent
+    ),
+  seatmap: () =>
+    import('./modules/fake-blocks-avianca/seat-selection/seat-selection.component').then(
+      (m) => m.SeatSelectionComponent
+    ),
   'payment-methods': () =>
-    import('./modules/fake-blocks-test/payment-methods.component').then((m) => m.PaymentMethodsComponent),
+    import('./modules/fake-blocks-avianca/payment/payment.component').then((m) => m.PaymentComponent),
   'payment-success': () =>
-    import('./modules/fake-blocks-test/payment-success.component').then((m) => m.PaymentSuccessComponent),
-  explanation: () => import('./modules/fake-blocks-test/explanation.component').then((m) => m.ExplanationComponent),
+    import('./modules/fake-blocks-avianca/thank-you/thank-you.component').then((m) => m.ThankYouComponent),
+  explanation: () => import('./modules/fake-blocks-avianca/extra/extra.component').then((m) => m.ExtraComponent),
 
   // Games
   'icon-hunter_uiplus_EX': () =>

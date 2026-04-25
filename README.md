@@ -156,19 +156,6 @@ src/
 │       │   ├── sports-selection/
 │       │   ├── thank-you/
 │       │   └── index.ts
-│       ├── fake-blocks-test/  # (@fake-blocks-test) Generic demo block components
-│       │   ├── banner.component.ts
-│       │   ├── baggage-selection/
-│       │   ├── customer-login/
-│       │   ├── explanation.component.ts
-│       │   ├── footer.component.ts
-│       │   ├── header.component.ts
-│       │   ├── payment-methods.component.ts
-│       │   ├── payment-success.component.ts
-│       │   ├── results.component.ts
-│       │   ├── search.component.ts
-│       │   ├── seatmap.component.ts
-│       │   └── index.ts
 │       └── games/             # (@games) Mini-games
 │           ├── icon-hunter/   # Tap-to-catch icon game with combo scoring
 │           ├── tetris/        # Classic falling-block puzzle
@@ -194,7 +181,6 @@ src/
 | `@navigation`          | `modules/navigation` (all services) |
 | `@dynamic-composite`   | `modules/dynamic-composite`         |
 | `@fake-blocks-avianca` | `modules/fake-blocks-avianca`       |
-| `@fake-blocks-test`    | `modules/fake-blocks-test`          |
 | `@games`               | `modules/games`                     |
 
 > **Note:** Dynamic `import()` paths in `component-map.ts` always use direct relative paths (not aliases) to ensure Webpack creates separate lazy chunks per component.
@@ -320,33 +306,33 @@ Each script includes a short description in `package.json` under `scriptDescript
 The Electron launcher shows these descriptions via a blue info icon (ⓘ) at the bottom-left of each script card.
 Hovering or focusing the icon shows a custom tooltip with the full description text.
 
-| Script                         | Description                                                                         |
-| ------------------------------ | ----------------------------------------------------------------------------------- |
-| `ng`                           | Executes Angular CLI directly.                                                      |
-| `start:serve`                  | Starts Angular dev server with the default environment.                             |
-| `start:serve:bypass`           | Starts Angular dev server using the bypass environment (fake SSO setup).            |
-| `start:proxy`                  | Starts the local index/SEO proxy server on port 4300.                               |
-| `start:sso-bypass`             | Starts the fake local SSO/OIDC server on port 4500.                                 |
-| `start:serve-proxy`            | Runs Angular dev server and proxy together.                                         |
-| `start:serve-proxy-sso-bypass` | Runs Angular bypass mode, proxy, and fake SSO together.                             |
-| `linux:enable-port-443`        | Enables Linux capability to bind port 443 without running the app as root.          |
-| `build`                        | Builds the Angular application for production.                                      |
-| `start:backend`                | Starts the backend server entrypoint.                                               |
-| `start:api`                    | Starts the booking flow API service on port 3000.                                   |
-| `launcher:open`                | Opens the Electron launcher in development mode.                                    |
-| `launcher:build:win`           | Builds the Windows launcher installer (NSIS).                                       |
-| `launcher:build:mac`           | Builds the macOS launcher artifacts (DMG and ZIP).                                  |
-| `launcher:build:linux`         | Builds Linux launcher artifacts (AppImage and DEB).                                 |
-| `launcher:build:all`           | Builds launcher artifacts for Windows, macOS, and Linux.                            |
-| `launcher:build:run`           | Builds (or reuses) the launcher artifact for the current OS and runs it.            |
-| `watch`                        | Builds Angular in watch mode using the development configuration.                   |
-| `test`                         | Runs unit tests once in headless Chrome.                                            |
-| `test-by-module`               | Opens standalone by-module modal and runs unit tests for the selected module.       |
-| `storybook-by-module`          | Opens standalone by-module modal and runs Storybook for the selected module.        |
-| `test:watch`                   | Runs unit tests in watch mode using headless Chrome.                                |
-| `lint`                         | Runs ESLint on TypeScript and Angular HTML templates.                               |
-| `lint:styles`                  | Runs Stylelint on SCSS and CSS source files.                                        |
-| `format`                       | Formats source files with Prettier.                                                 |
+| Script                         | Description                                                                   |
+| ------------------------------ | ----------------------------------------------------------------------------- |
+| `ng`                           | Executes Angular CLI directly.                                                |
+| `start:serve`                  | Starts Angular dev server with the default environment.                       |
+| `start:serve:bypass`           | Starts Angular dev server using the bypass environment (fake SSO setup).      |
+| `start:proxy`                  | Starts the local index/SEO proxy server on port 4300.                         |
+| `start:sso-bypass`             | Starts the fake local SSO/OIDC server on port 4500.                           |
+| `start:serve-proxy`            | Runs Angular dev server and proxy together.                                   |
+| `start:serve-proxy-sso-bypass` | Runs Angular bypass mode, proxy, and fake SSO together.                       |
+| `linux:enable-port-443`        | Enables Linux capability to bind port 443 without running the app as root.    |
+| `build`                        | Builds the Angular application for production.                                |
+| `start:backend`                | Starts the backend server entrypoint.                                         |
+| `start:api`                    | Starts the booking flow API service on port 3000.                             |
+| `launcher:open`                | Opens the Electron launcher in development mode.                              |
+| `launcher:build:win`           | Builds the Windows launcher installer (NSIS).                                 |
+| `launcher:build:mac`           | Builds the macOS launcher artifacts (DMG and ZIP).                            |
+| `launcher:build:linux`         | Builds Linux launcher artifacts (AppImage and DEB).                           |
+| `launcher:build:all`           | Builds launcher artifacts for Windows, macOS, and Linux.                      |
+| `launcher:build:run`           | Builds (or reuses) the launcher artifact for the current OS and runs it.      |
+| `watch`                        | Builds Angular in watch mode using the development configuration.             |
+| `test`                         | Runs unit tests once in headless Chrome.                                      |
+| `test-by-module`               | Opens standalone by-module modal and runs unit tests for the selected module. |
+| `storybook-by-module`          | Opens standalone by-module modal and runs Storybook for the selected module.  |
+| `test:watch`                   | Runs unit tests in watch mode using headless Chrome.                          |
+| `lint`                         | Runs ESLint on TypeScript and Angular HTML templates.                         |
+| `lint:styles`                  | Runs Stylelint on SCSS and CSS source files.                                  |
+| `format`                       | Formats source files with Prettier.                                           |
 
 ### Launcher Scripts
 
