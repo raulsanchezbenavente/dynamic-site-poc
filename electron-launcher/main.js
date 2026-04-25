@@ -1635,6 +1635,51 @@ function getMenuResetTargetWindow() {
   return null;
 }
 
+function getMenuTargetWindow() {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow && !focusedWindow.isDestroyed()) {
+    return focusedWindow;
+  }
+
+  const [firstWindow] = BrowserWindow.getAllWindows();
+  if (firstWindow && !firstWindow.isDestroyed()) {
+    return firstWindow;
+  }
+
+  return null;
+}
+
+function openAboutDialogFromMenu() {
+  const targetWindow = getMenuTargetWindow();
+  if (!targetWindow) {
+    return;
+  }
+
+  targetWindow.webContents.send('app:open-about-dialog');
+}
+
+function ensureHelpMenuHasAbout(currentMenu) {
+  const helpMenuItem = currentMenu.items.find(
+    (item) => item?.role === 'help' || String(item?.label || '').toLowerCase() === 'help'
+  );
+
+  if (!helpMenuItem || !helpMenuItem.submenu) {
+    const helpMenu = new MenuItem({
+      role: 'help',
+      submenu: [{ label: 'About', click: () => openAboutDialogFromMenu() }],
+    });
+    currentMenu.append(helpMenu);
+    return;
+  }
+
+  const hasAboutEntry = helpMenuItem.submenu.items.some((item) => String(item?.label || '').toLowerCase() === 'about');
+  if (hasAboutEntry) {
+    return;
+  }
+
+  helpMenuItem.submenu.append(new MenuItem({ label: 'About', click: () => openAboutDialogFromMenu() }));
+}
+
 function resetApplicationConfiguration() {
   const targetWindow = getMenuResetTargetWindow();
   if (!targetWindow) {
@@ -1654,6 +1699,8 @@ function installApplicationMenuExtension() {
   if (currentMenu) {
     const alreadyExists = currentMenu.items.some((item) => item?.label === 'Application');
     if (alreadyExists) {
+      ensureHelpMenuHasAbout(currentMenu);
+      Menu.setApplicationMenu(currentMenu);
       return;
     }
 
@@ -1668,6 +1715,7 @@ function installApplicationMenuExtension() {
     const insertionIndex = fileMenuIndex >= 0 ? fileMenuIndex : currentMenu.items.length;
 
     currentMenu.insert(insertionIndex, menuItem);
+    ensureHelpMenuHasAbout(currentMenu);
     Menu.setApplicationMenu(currentMenu);
     return;
   }
@@ -1682,7 +1730,10 @@ function installApplicationMenuExtension() {
     { role: 'editMenu' },
     { role: 'viewMenu' },
     { role: 'windowMenu' },
-    { role: 'help' },
+    {
+      role: 'help',
+      submenu: [{ label: 'About', click: () => openAboutDialogFromMenu() }],
+    },
   ];
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(fallbackTemplate));

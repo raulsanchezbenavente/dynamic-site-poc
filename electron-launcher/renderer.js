@@ -3723,6 +3723,10 @@ aboutOverlay?.addEventListener('click', (event) => {
   }
 });
 
+window.launcherApi.onOpenAboutDialog?.(() => {
+  openAboutDialog();
+});
+
 refreshButton.addEventListener('click', refreshScripts);
 quitButton.addEventListener('click', async () => {
   if (isQuitInProgress) {

@@ -46,4 +46,9 @@ contextBridge.exposeInMainWorld('launcherApi', {
     ipcRenderer.on('scripts:status', listener);
     return () => ipcRenderer.removeListener('scripts:status', listener);
   },
+  onOpenAboutDialog: (handler) => {
+    const listener = () => handler();
+    ipcRenderer.on('app:open-about-dialog', listener);
+    return () => ipcRenderer.removeListener('app:open-about-dialog', listener);
+  },
 });
