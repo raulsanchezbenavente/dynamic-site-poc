@@ -1,12 +1,11 @@
-const compression = require('compression');
 const express = require('express');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
 const path = require('path');
-const zlib = require('zlib');
 const { createRenderIndexHtml } = require('./index-rendering/render-context');
 const { mountSharedRoutes } = require('./shared/app-common');
+const { createCompressionMiddleware } = require('./shared/compression-middleware');
 const { createUmbracoProxyMiddleware } = require('./shared/umbraco-proxy-middleware');
 const {
   checkPortInUse,
@@ -16,19 +15,7 @@ const {
 } = require('./shared/runtime-utils');
 
 const app = express();
-app.use(
-  compression({
-    // Prefer Brotli when available, fallback to gzip/deflate by negotiation.
-    brotli: {
-      enabled: true,
-      zlib: {
-        params: {
-          [zlib.constants.BROTLI_PARAM_QUALITY]: 4,
-        },
-      },
-    },
-  })
-);
+app.use(createCompressionMiddleware());
 const httpPort = Number(process.env.BACKEND_HTTP_PORT || 4400);
 const httpsPort = Number(process.env.BACKEND_HTTPS_PORT || 443);
 const publicHost = process.env.PUBLIC_HOST || 'av-booking-local.newshore.es';
