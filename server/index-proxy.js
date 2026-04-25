@@ -7,6 +7,7 @@ const express = require('express');
 const { createIndexProxyMiddleware } = require('./index-rendering/proxy-middleware');
 const { createRenderIndexHtml } = require('./index-rendering/render-context');
 const { mountSharedRoutes } = require('./shared/app-common');
+const { createCompressionMiddleware } = require('./shared/compression-middleware');
 const {
   checkPortInUse,
   checkPublicHostReachability,
@@ -15,6 +16,7 @@ const {
 } = require('./shared/runtime-utils');
 
 const app = express();
+app.use(createCompressionMiddleware());
 const httpPort = 4300;
 const httpsPort = 443;
 const publicHost = 'av-booking-local.newshore.es';

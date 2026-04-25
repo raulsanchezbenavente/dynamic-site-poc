@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { spawn, spawnSync } = require('child_process');
-const { app, BrowserWindow, dialog, ipcMain, nativeImage, shell } = require('electron');
+const { app, BrowserWindow, Menu, MenuItem, dialog, ipcMain, nativeImage, shell } = require('electron');
 
 const runningScripts = new Map();
 let isShuttingDown = false;
@@ -1614,6 +1614,73 @@ function createWindow(options = null) {
   }
 }
 
+function getMenuResetTargetWindow() {
+  const focusedWindow = BrowserWindow.getFocusedWindow();
+  if (focusedWindow && !focusedWindow.isDestroyed()) {
+    return focusedWindow;
+  }
+
+  const [firstWindow] = BrowserWindow.getAllWindows();
+  if (firstWindow && !firstWindow.isDestroyed()) {
+    return firstWindow;
+  }
+
+  return null;
+}
+
+function resetApplicationConfiguration() {
+  const targetWindow = getMenuResetTargetWindow();
+  if (!targetWindow) {
+    return;
+  }
+
+  targetWindow.webContents
+    .executeJavaScript('window.localStorage.clear(); window.location.reload();', true)
+    .catch(() => {
+      // Ignore failures if the window is navigating or destroyed.
+    });
+}
+
+function installApplicationMenuExtension() {
+  const currentMenu = Menu.getApplicationMenu();
+
+  if (currentMenu) {
+    const alreadyExists = currentMenu.items.some((item) => item?.label === 'Application');
+    if (alreadyExists) {
+      return;
+    }
+
+    const menuItem = new MenuItem({
+      label: 'Application',
+      submenu: [{ label: 'Reset configuration', click: () => resetApplicationConfiguration() }],
+    });
+
+    const fileMenuIndex = currentMenu.items.findIndex(
+      (item) => item?.role === 'filemenu' || String(item?.label || '').toLowerCase() === 'file'
+    );
+    const insertionIndex = fileMenuIndex >= 0 ? fileMenuIndex : currentMenu.items.length;
+
+    currentMenu.insert(insertionIndex, menuItem);
+    Menu.setApplicationMenu(currentMenu);
+    return;
+  }
+
+  const fallbackTemplate = [
+    ...(process.platform === 'darwin' ? [{ role: 'appMenu' }] : []),
+    {
+      label: 'Application',
+      submenu: [{ label: 'Reset configuration', click: () => resetApplicationConfiguration() }],
+    },
+    { role: 'fileMenu' },
+    { role: 'editMenu' },
+    { role: 'viewMenu' },
+    { role: 'windowMenu' },
+    { role: 'help' },
+  ];
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(fallbackTemplate));
+}
+
 function readScripts() {
   const { packageJsonPath } = getProjectContext();
   const raw = fs.readFileSync(packageJsonPath, 'utf8');
@@ -2628,6 +2695,7 @@ app.whenReady().then(() => {
     openByModuleMode: initialByModuleLaunchMode,
     modalOnly: initialModalOnlyMode,
   });
+  installApplicationMenuExtension();
 
   if (initialModalOnlyMode) {
     // Re-apply icon after window creation to avoid default Electron icon flashes on macOS.
