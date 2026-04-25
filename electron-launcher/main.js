@@ -1614,7 +1614,7 @@ function createWindow(options = null) {
   }
 }
 
-function getMenuAlertTargetWindow() {
+function getMenuResetTargetWindow() {
   const focusedWindow = BrowserWindow.getFocusedWindow();
   if (focusedWindow && !focusedWindow.isDestroyed()) {
     return focusedWindow;
@@ -1628,15 +1628,17 @@ function getMenuAlertTargetWindow() {
   return null;
 }
 
-function showApplicationMenuAlert() {
-  const targetWindow = getMenuAlertTargetWindow();
+function resetApplicationConfiguration() {
+  const targetWindow = getMenuResetTargetWindow();
   if (!targetWindow) {
     return;
   }
 
-  targetWindow.webContents.executeJavaScript("window.alert('Application menu action')", true).catch(() => {
-    // Ignore failures if the window is navigating or destroyed.
-  });
+  targetWindow.webContents
+    .executeJavaScript('window.localStorage.clear(); window.location.reload();', true)
+    .catch(() => {
+      // Ignore failures if the window is navigating or destroyed.
+    });
 }
 
 function installApplicationMenuExtension() {
@@ -1650,7 +1652,7 @@ function installApplicationMenuExtension() {
 
     const menuItem = new MenuItem({
       label: 'Application',
-      submenu: [{ label: 'Show alert', click: () => showApplicationMenuAlert() }],
+      submenu: [{ label: 'Reset configuration', click: () => resetApplicationConfiguration() }],
     });
 
     const fileMenuIndex = currentMenu.items.findIndex(
@@ -1667,7 +1669,7 @@ function installApplicationMenuExtension() {
     ...(process.platform === 'darwin' ? [{ role: 'appMenu' }] : []),
     {
       label: 'Application',
-      submenu: [{ label: 'Show alert', click: () => showApplicationMenuAlert() }],
+      submenu: [{ label: 'Reset configuration', click: () => resetApplicationConfiguration() }],
     },
     { role: 'fileMenu' },
     { role: 'editMenu' },
