@@ -19,12 +19,37 @@ function normalizePath(rawPath) {
 
 function createSeoRenderer(options) {
   const { configDir, siteName, supportedLangs, localeByLang, baseUrl, fallbackPath = '/es/inicio' } = options;
+  const warnedConfigPaths = new Set();
+
+  function warnOnce(key, message, error) {
+    if (warnedConfigPaths.has(key)) {
+      return;
+    }
+
+    warnedConfigPaths.add(key);
+    if (error) {
+      console.warn(message, error);
+      return;
+    }
+
+    console.warn(message);
+  }
 
   function readSiteConfig(lang) {
     const filePath = path.join(configDir, lang);
-    const raw = fs.readFileSync(filePath, 'utf8');
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed?.pages) ? parsed.pages : [];
+    if (!fs.existsSync(filePath)) {
+      warnOnce(filePath, `[SEO] Missing site config file: ${filePath}`);
+      return [];
+    }
+
+    try {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed?.pages) ? parsed.pages : [];
+    } catch (error) {
+      warnOnce(filePath, `[SEO] Failed to read or parse site config: ${filePath}`, error);
+      return [];
+    }
   }
 
   function buildConfigSnapshot() {

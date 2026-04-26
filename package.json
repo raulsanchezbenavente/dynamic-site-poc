@@ -15,6 +15,8 @@
     "linux:enable-port-443": "bash ./enable-linux-port-443.sh",
     "prebuild": "npm run styles:dev:sass",
     "build": "ng build",
+    "bundle:single": "node scripts/bundle-single-dist.mjs",
+    "bundle:single:apply": "node scripts/bundle-single-dist.mjs --update-index",
     "build:compress": "node compress-dist.js",
     "build:prod": "npm run build && node compress-dist.js",
     "start:backend": "node server/index.js",
